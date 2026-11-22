@@ -1,0 +1,67 @@
+{
+  "description": "The converter drops HTTP 202 response bodies: NotificationMessagesOperations_Send answers 202 with the spec's SendMessageResult (`receipts[].messageId`, `receipts[].to`).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_messages#MessageReceipt",
+      "value": {
+        "type": "structure",
+        "members": {
+          "messageId": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The message id.",
+              "smithy.api#required": {}
+            }
+          },
+          "to": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The native external platform user identifier of the recipient.",
+              "smithy.api#required": {}
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "Receipt of the sending one message."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_messages#MessageReceiptList",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "com.azure.communication_messages#MessageReceipt"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_messages#SendMessageResult",
+      "value": {
+        "type": "structure",
+        "members": {
+          "receipts": {
+            "target": "com.azure.communication_messages#MessageReceiptList",
+            "traits": {
+              "smithy.api#documentation": "Receipts of the send message operation.",
+              "smithy.api#required": {}
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "Result of the send message operation."
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.communication_messages#NotificationMessagesOperationsSend/output",
+      "value": {
+        "target": "com.azure.communication_messages#SendMessageResult"
+      }
+    }
+  ]
+}

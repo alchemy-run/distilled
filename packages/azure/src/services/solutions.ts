@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { AzureServiceErrors } from "../errors.ts";
+import { UnknownAzureError } from "../errors.ts";
 import { AzureProtocol, type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -989,6 +989,8 @@ export interface ListApplicationByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags */
 export type ApplicationTagsMap = { [key: string]: string | undefined };
@@ -1047,19 +1049,23 @@ export type ApplicationListResultValueList = Array<Application>;
 /** List of managed applications. */
 export interface ApplicationListResult {
   /** The array of managed applications. */
-  value?: ApplicationListResultValueList | undefined;
+  value: ApplicationListResultValueList;
   /** The URL to use for getting the next set of results. */
   nextLink?: string | undefined;
 }
 export interface ListApplicationBySubscriptionRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListApplicationDefinitionByResourceGroupRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags */
 export type ApplicationDefinitionTagsMap = { [key: string]: string | undefined };
@@ -1116,13 +1122,15 @@ export type ApplicationDefinitionListResultValueList = Array<ApplicationDefiniti
 /** List of managed application definitions. */
 export interface ApplicationDefinitionListResult {
   /** The array of managed application definitions. */
-  value?: ApplicationDefinitionListResultValueList | undefined;
+  value: ApplicationDefinitionListResultValueList;
   /** The URL to use for getting the next set of results. */
   nextLink?: string | undefined;
 }
 export interface ListApplicationDefinitionBySubscriptionRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The user assigned identities. */
 export type ListApplicationTokensRequestUserAssignedIdentitiesList = Array<string>;
@@ -1227,7 +1235,10 @@ export interface ListJitRequestBySubscriptionRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
@@ -1260,7 +1271,7 @@ export interface Operation {
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList | undefined;
+  value: ListOperationsResponseValueList;
   /** URL to get the next set of operation list results (if there are any). */
   nextLink?: string | undefined;
 }
@@ -1604,8 +1615,7 @@ export const ApplicationDefinitionsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<ApplicationDefinitionsCreateOrUpdateRequest>,
   output: __S(73, __c4, 9) as any as S.Schema<ApplicationDefinitionsCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1622,8 +1632,7 @@ export const ApplicationsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c5, 0) as any as S.Schema<ApplicationsCreateOrUpdateRequest>,
   output: __S(160, __c10, 0) as any as S.Schema<ApplicationsCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1640,8 +1649,7 @@ export const ApplicationsCreateOrUpdateById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c26, 0) as any as S.Schema<ApplicationsCreateOrUpdateByIdRequest>,
   output: __S(160, __c10, 0) as any as S.Schema<ApplicationsCreateOrUpdateByIdResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1661,8 +1669,7 @@ export const DeleteApplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(560, __c35, 0) as any as S.Schema<DeleteApplicationRequest>,
   output: __S(112, __c7, 0) as any as S.Schema<DeleteApplicationResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1679,8 +1686,7 @@ export const DeleteApplicationById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c36, 0) as any as S.Schema<DeleteApplicationByIdRequest>,
   output: __S(112, __c7, 0) as any as S.Schema<DeleteApplicationByIdResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1700,8 +1706,7 @@ export const DeleteApplicationDefinition: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(592, __c37, 0) as any as S.Schema<DeleteApplicationDefinitionRequest>,
   output: __S(112, __c7, 0) as any as S.Schema<DeleteApplicationDefinitionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1718,8 +1723,7 @@ export const DeleteJitRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c38, 0) as any as S.Schema<DeleteJitRequestRequest>,
   output: __S(112, __c7, 0) as any as S.Schema<DeleteJitRequestResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1736,8 +1740,7 @@ export const GetApplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(624, __c39, 0) as any as S.Schema<GetApplicationRequest>,
   output: __S(160, __c10, 0) as any as S.Schema<GetApplicationResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1754,8 +1757,7 @@ export const GetApplicationById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c40, 0) as any as S.Schema<GetApplicationByIdRequest>,
   output: __S(160, __c10, 0) as any as S.Schema<GetApplicationByIdResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1775,8 +1777,7 @@ export const GetApplicationDefinition: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(656, __c41, 0) as any as S.Schema<GetApplicationDefinitionRequest>,
   output: __S(73, __c4, 9) as any as S.Schema<GetApplicationDefinitionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1793,8 +1794,7 @@ export const GetJitRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c12, 0) as any as S.Schema<GetJitRequestRequest>,
   output: __S(210, __c13, 2) as any as S.Schema<GetJitRequestResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1811,8 +1811,7 @@ export const JitRequestsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(225, __c14, 1) as any as S.Schema<JitRequestsCreateOrUpdateRequest>,
   output: __S(210, __c13, 2) as any as S.Schema<JitRequestsCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1829,8 +1828,7 @@ export const ListApplicationAllowedUpgradePlans: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(240, __c15, 0) as any as S.Schema<ListApplicationAllowedUpgradePlansRequest>,
   output: __S(242, __c15, 2) as any as S.Schema<AllowedUpgradePlansResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1839,75 +1837,99 @@ export const ListApplicationAllowedUpgradePlans: API.OperationMethod<
 
 export type ListApplicationByResourceGroupError = AzureOpError;
 /** Lists all the applications within a resource group. */
-export const ListApplicationByResourceGroup: API.OperationMethod<
+export const ListApplicationByResourceGroup: API.PaginatedOperationMethod<
   ListApplicationByResourceGroupRequest,
   ApplicationListResult,
   ListApplicationByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Application
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(256, __c16, 0) as any as S.Schema<ListApplicationByResourceGroupRequest>,
   output: __S(273, __c17, 1) as any as S.Schema<ApplicationListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListApplicationByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListApplicationBySubscriptionError = AzureOpError;
 /** Lists all the applications within a subscription. */
-export const ListApplicationBySubscription: API.OperationMethod<
+export const ListApplicationBySubscription: API.PaginatedOperationMethod<
   ListApplicationBySubscriptionRequest,
   ApplicationListResult,
   ListApplicationBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Application
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(288, __c18, 0) as any as S.Schema<ListApplicationBySubscriptionRequest>,
   output: __S(273, __c17, 1) as any as S.Schema<ApplicationListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListApplicationBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListApplicationDefinitionByResourceGroupError = AzureOpError;
 /** Lists the managed application definitions in a resource group. */
-export const ListApplicationDefinitionByResourceGroup: API.OperationMethod<
+export const ListApplicationDefinitionByResourceGroup: API.PaginatedOperationMethod<
   ListApplicationDefinitionByResourceGroupRequest,
   ApplicationDefinitionListResult,
   ListApplicationDefinitionByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ApplicationDefinition
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(304, __c19, 0) as any as S.Schema<ListApplicationDefinitionByResourceGroupRequest>,
   output: __S(321, __c20, 1) as any as S.Schema<ApplicationDefinitionListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListApplicationDefinitionByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListApplicationDefinitionBySubscriptionError = AzureOpError;
 /** Lists all the application definitions within a subscription. */
-export const ListApplicationDefinitionBySubscription: API.OperationMethod<
+export const ListApplicationDefinitionBySubscription: API.PaginatedOperationMethod<
   ListApplicationDefinitionBySubscriptionRequest,
   ApplicationDefinitionListResult,
   ListApplicationDefinitionBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ApplicationDefinition
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(336, __c21, 0) as any as S.Schema<ListApplicationDefinitionBySubscriptionRequest>,
   output: __S(321, __c20, 1) as any as S.Schema<ApplicationDefinitionListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListApplicationDefinitionBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListApplicationTokensError = AzureOpError;
 /** List tokens for application. */
@@ -1919,8 +1941,7 @@ export const ListApplicationTokens: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c22, 0) as any as S.Schema<ListApplicationTokensRequest>,
   output: __S(355, __c22, 3) as any as S.Schema<ManagedIdentityTokenResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1937,8 +1958,7 @@ export const ListJitRequestByResourceGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(368, __c23, 0) as any as S.Schema<ListJitRequestByResourceGroupRequest>,
   output: __S(385, __c24, 1) as any as S.Schema<JitRequestDefinitionListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1955,8 +1975,7 @@ export const ListJitRequestBySubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(400, __c25, 0) as any as S.Schema<ListJitRequestBySubscriptionRequest>,
   output: __S(385, __c24, 1) as any as S.Schema<JitRequestDefinitionListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1965,21 +1984,27 @@ export const ListJitRequestBySubscription: API.OperationMethod<
 
 export type ListOperationsError = AzureOpError;
 /** Lists all of the available Microsoft.Solutions REST API operations. */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   ListOperationsResponse,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(432, __c27, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(436, __c27, 4) as any as S.Schema<ListOperationsResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type RefreshApplicationPermissionsError = AzureOpError;
 /** Refresh Permissions for application. */
@@ -1991,8 +2016,7 @@ export const RefreshApplicationPermissions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c28, 0) as any as S.Schema<RefreshApplicationPermissionsRequest>,
   output: __S(112, __c7, 0) as any as S.Schema<RefreshApplicationPermissionsResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2009,8 +2033,7 @@ export const UpdateApplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(464, __c29, 0) as any as S.Schema<UpdateApplicationRequest>,
   output: __S(481, __c30, 1) as any as S.Schema<UpdateApplicationResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2027,8 +2050,7 @@ export const UpdateApplicationAccess: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(497, __c31, 1) as any as S.Schema<UpdateApplicationAccessRequest>,
   output: __S(112, __c7, 0) as any as S.Schema<UpdateApplicationAccessResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2045,8 +2067,7 @@ export const UpdateApplicationById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c32, 0) as any as S.Schema<UpdateApplicationByIdRequest>,
   output: __S(481, __c30, 1) as any as S.Schema<UpdateApplicationByIdResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2066,8 +2087,7 @@ export const UpdateApplicationDefinition: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(528, __c33, 0) as any as S.Schema<UpdateApplicationDefinitionRequest>,
   output: __S(73, __c4, 9) as any as S.Schema<UpdateApplicationDefinitionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2084,8 +2104,7 @@ export const UpdateJitRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c34, 0) as any as S.Schema<UpdateJitRequestRequest>,
   output: __S(210, __c13, 2) as any as S.Schema<UpdateJitRequestResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2561,12 +2580,14 @@ function __c16(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Solutions/applications",
             code: 200,
             apiVersion: "2021-07-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListApplicationByResourceGroupRequest" });
@@ -2579,7 +2600,7 @@ function __c17(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(272, __c17, 0)),
+          value: __S(272, __c17, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ApplicationListResult" });
@@ -2591,12 +2612,14 @@ function __c18(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Solutions/applications",
             code: 200,
             apiVersion: "2021-07-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListApplicationBySubscriptionRequest" });
@@ -2609,12 +2632,14 @@ function __c19(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Solutions/applicationDefinitions",
             code: 200,
             apiVersion: "2021-07-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListApplicationDefinitionByResourceGroupRequest" });
@@ -2627,7 +2652,7 @@ function __c20(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(320, __c20, 0)),
+          value: __S(320, __c20, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ApplicationDefinitionListResult" });
@@ -2639,12 +2664,14 @@ function __c21(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Solutions/applicationDefinitions",
             code: 200,
             apiVersion: "2021-07-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListApplicationDefinitionBySubscriptionRequest" });
@@ -2763,12 +2790,15 @@ function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Solutions/operations",
             code: 200,
             apiVersion: "2021-07-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -2796,7 +2826,7 @@ function __c27(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(435, __c27, 3)),
+          value: __S(435, __c27, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });

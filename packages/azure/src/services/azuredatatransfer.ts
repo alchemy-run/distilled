@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { AzureServiceErrors } from "../errors.ts";
+import { UnknownAzureError } from "../errors.ts";
 import { AzureProtocol, type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -1134,6 +1134,8 @@ export interface ListConnectionByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ConnectionTagsMap = { [key: string]: string | undefined };
@@ -1170,6 +1172,8 @@ export interface ConnectionListResult {
 export interface ListConnectionBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListFlowByConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1178,6 +1182,8 @@ export interface ListFlowByConnectionRequest {
   resourceGroupName: string;
   /** The name for the connection to perform the operation on. */
   connectionName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type FlowTagsMap = { [key: string]: string | undefined };
@@ -1250,6 +1256,8 @@ export interface ListListPendingConnectionsRequest {
   resourceGroupName: string;
   /** The name for the connection to perform the operation on. */
   connectionName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Force disablement status of the current connection */
 export type PendingConnectionForceDisabledStatusList = Array<ForceDisabledStatus>;
@@ -1365,6 +1373,8 @@ export interface ListListPendingFlowsRequest {
   resourceGroupName: string;
   /** The name for the connection to perform the operation on. */
   connectionName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Force disablement status of the current flow */
 export type PendingFlowForceDisabledStatusList = Array<ForceDisabledStatus>;
@@ -1509,7 +1519,10 @@ export interface ListListSchemasRequest {
   /** The Schema Type */
   schemaType?: SchemaType | (string & {}) | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
@@ -1542,7 +1555,7 @@ export interface Operation {
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList | undefined;
+  value: ListOperationsResponseValueList;
   /** URL to get the next set of operation list results (if there are any). */
   nextLink?: string | undefined;
 }
@@ -1551,6 +1564,8 @@ export interface ListPipelineByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type PipelineTagsMap = { [key: string]: string | undefined };
@@ -1587,6 +1602,8 @@ export interface PipelineListResult {
 export interface ListPipelineBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type PipelinesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -2054,8 +2071,7 @@ export const ApprovePipelineConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<ApprovePipelineConnectionRequest>,
   output: __S(56, __c7, 0) as any as S.Schema<ApprovePipelineConnectionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2072,8 +2088,7 @@ export const ConnectionsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(65, __c8, 1) as any as S.Schema<ConnectionsCreateOrUpdateRequest>,
   output: __S(66, __c8, 2) as any as S.Schema<ConnectionsCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2090,8 +2105,7 @@ export const ConnectionsLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c24, 0) as any as S.Schema<ConnectionsLinkRequest>,
   output: __S(56, __c7, 0) as any as S.Schema<ConnectionsLinkResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2108,8 +2122,7 @@ export const DeleteConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(304, __c38, 0) as any as S.Schema<DeleteConnectionRequest>,
   output: __S(312, __c39, 0) as any as S.Schema<DeleteConnectionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2126,8 +2139,7 @@ export const DeleteFlow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(400, __c50, 0) as any as S.Schema<DeleteFlowRequest>,
   output: __S(312, __c39, 0) as any as S.Schema<DeleteFlowResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2144,8 +2156,7 @@ export const DeletePipeline: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(408, __c51, 0) as any as S.Schema<DeletePipelineRequest>,
   output: __S(312, __c39, 0) as any as S.Schema<DeletePipelineResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2162,8 +2173,7 @@ export const DisableFlow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c52, 0) as any as S.Schema<DisableFlowRequest>,
   output: __S(424, __c53, 0) as any as S.Schema<DisableFlowResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2180,8 +2190,7 @@ export const EnableFlow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(464, __c58, 0) as any as S.Schema<EnableFlowRequest>,
   output: __S(424, __c53, 0) as any as S.Schema<EnableFlowResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2198,8 +2207,7 @@ export const ExecutePipelineAction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(472, __c59, 0) as any as S.Schema<ExecutePipelineActionRequest>,
   output: __S(488, __c61, 0) as any as S.Schema<ExecutePipelineActionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2216,8 +2224,7 @@ export const FlowsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(497, __c62, 1) as any as S.Schema<FlowsCreateOrUpdateRequest>,
   output: __S(498, __c62, 2) as any as S.Schema<FlowsCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2234,8 +2241,7 @@ export const FlowsLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c10, 0) as any as S.Schema<FlowsLinkRequest>,
   output: __S(424, __c53, 0) as any as S.Schema<FlowsLinkResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2252,8 +2258,7 @@ export const GenerateFlowPassphrase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(88, __c11, 0) as any as S.Schema<GenerateFlowPassphraseRequest>,
   output: __S(424, __c53, 0) as any as S.Schema<GenerateFlowPassphraseResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2270,8 +2275,7 @@ export const GetConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c12, 0) as any as S.Schema<GetConnectionRequest>,
   output: __S(104, __c13, 0) as any as S.Schema<GetConnectionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2288,8 +2292,7 @@ export const GetFlow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c14, 0) as any as S.Schema<GetFlowRequest>,
   output: __S(120, __c15, 0) as any as S.Schema<GetFlowResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2306,8 +2309,7 @@ export const GetFlowDestinationEndpointPorts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c16, 0) as any as S.Schema<GetFlowDestinationEndpointPortsRequest>,
   output: __S(129, __c16, 1) as any as S.Schema<GetDestinationEndpointPortsResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2324,8 +2326,7 @@ export const GetFlowDestinationEndpoints: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(136, __c17, 0) as any as S.Schema<GetFlowDestinationEndpointsRequest>,
   output: __S(137, __c17, 1) as any as S.Schema<GetDestinationEndpointsResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2342,8 +2343,7 @@ export const GetFlowSourceAddresses: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c18, 0) as any as S.Schema<GetFlowSourceAddressesRequest>,
   output: __S(440, __c55, 0) as any as S.Schema<StreamSourceAddresses>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2360,8 +2360,7 @@ export const GetFlowStreamConnectionString: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(152, __c19, 0) as any as S.Schema<GetFlowStreamConnectionStringRequest>,
   output: __S(153, __c19, 1) as any as S.Schema<GetStreamConnectionStringResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2378,8 +2377,7 @@ export const GetPipeline: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c20, 0) as any as S.Schema<GetPipelineRequest>,
   output: __S(168, __c21, 0) as any as S.Schema<GetPipelineResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2396,8 +2394,7 @@ export const ListAzureDataTransferApprovedSchemas: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c22, 0) as any as S.Schema<ListAzureDataTransferApprovedSchemasRequest>,
   output: __S(184, __c23, 0) as any as S.Schema<SchemasListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2406,57 +2403,75 @@ export const ListAzureDataTransferApprovedSchemas: API.OperationMethod<
 
 export type ListConnectionByResourceGroupError = AzureOpError;
 /** Gets connections in a resource group. */
-export const ListConnectionByResourceGroup: API.OperationMethod<
+export const ListConnectionByResourceGroup: API.PaginatedOperationMethod<
   ListConnectionByResourceGroupRequest,
   ConnectionListResult,
   ListConnectionByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Connection
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(200, __c25, 0) as any as S.Schema<ListConnectionByResourceGroupRequest>,
   output: __S(209, __c26, 1) as any as S.Schema<ConnectionListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListConnectionByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListConnectionBySubscriptionError = AzureOpError;
 /** Gets connections in a subscription. */
-export const ListConnectionBySubscription: API.OperationMethod<
+export const ListConnectionBySubscription: API.PaginatedOperationMethod<
   ListConnectionBySubscriptionRequest,
   ConnectionListResult,
   ListConnectionBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Connection
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(216, __c27, 0) as any as S.Schema<ListConnectionBySubscriptionRequest>,
   output: __S(209, __c26, 1) as any as S.Schema<ConnectionListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListConnectionBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListFlowByConnectionError = AzureOpError;
 /** Gets flows in a connection. */
-export const ListFlowByConnection: API.OperationMethod<
+export const ListFlowByConnection: API.PaginatedOperationMethod<
   ListFlowByConnectionRequest,
   FlowListResult,
   ListFlowByConnectionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Flow
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(224, __c28, 0) as any as S.Schema<ListFlowByConnectionRequest>,
   output: __S(225, __c28, 1) as any as S.Schema<FlowListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListFlowByConnection",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListListFlowsByPipelineError = AzureOpError;
 /** Lists all Flows associated with the specified Pipeline. */
@@ -2468,8 +2483,7 @@ export const ListListFlowsByPipeline: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(240, __c30, 0) as any as S.Schema<ListListFlowsByPipelineRequest>,
   output: __S(243, __c30, 3) as any as S.Schema<ListFlowsByPipelineResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2478,39 +2492,51 @@ export const ListListFlowsByPipeline: API.OperationMethod<
 
 export type ListListPendingConnectionsError = AzureOpError;
 /** Lists all pending remote connections that are linkable to this connection. */
-export const ListListPendingConnections: API.OperationMethod<
+export const ListListPendingConnections: API.PaginatedOperationMethod<
   ListListPendingConnectionsRequest,
   PendingConnectionListResult,
   ListListPendingConnectionsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PendingConnection
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(248, __c31, 0) as any as S.Schema<ListListPendingConnectionsRequest>,
   output: __S(251, __c31, 3) as any as S.Schema<PendingConnectionListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListListPendingConnections",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListListPendingFlowsError = AzureOpError;
 /** Lists all remote flows that have not yet been linked to local flows */
-export const ListListPendingFlows: API.OperationMethod<
+export const ListListPendingFlows: API.PaginatedOperationMethod<
   ListListPendingFlowsRequest,
   PendingFlowListResult,
   ListListPendingFlowsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PendingFlow
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(256, __c32, 0) as any as S.Schema<ListListPendingFlowsRequest>,
   output: __S(259, __c32, 3) as any as S.Schema<PendingFlowListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListListPendingFlows",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListListSchemasError = AzureOpError;
 /** Lists the schemas associated with a specific connection in the Pipeline. This operation has reached end of life support starting version 2025-05-30-preview. For schema support please create and use a FlowProfile resource. */
@@ -2522,8 +2548,7 @@ export const ListListSchemas: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(264, __c33, 0) as any as S.Schema<ListListSchemasRequest>,
   output: __S(184, __c23, 0) as any as S.Schema<SchemasListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2532,57 +2557,75 @@ export const ListListSchemas: API.OperationMethod<
 
 export type ListOperationsError = AzureOpError;
 /** List the operations for the provider */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   ListOperationsResponse,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(272, __c34, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(276, __c34, 4) as any as S.Schema<ListOperationsResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPipelineByResourceGroupError = AzureOpError;
 /** Lists all Pipeline resources within the specified resource group. */
-export const ListPipelineByResourceGroup: API.OperationMethod<
+export const ListPipelineByResourceGroup: API.PaginatedOperationMethod<
   ListPipelineByResourceGroupRequest,
   PipelineListResult,
   ListPipelineByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Pipeline
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(280, __c35, 0) as any as S.Schema<ListPipelineByResourceGroupRequest>,
   output: __S(289, __c36, 1) as any as S.Schema<PipelineListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPipelineByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPipelineBySubscriptionError = AzureOpError;
 /** Lists all Pipeline resources within the current subscription. */
-export const ListPipelineBySubscription: API.OperationMethod<
+export const ListPipelineBySubscription: API.PaginatedOperationMethod<
   ListPipelineBySubscriptionRequest,
   PipelineListResult,
   ListPipelineBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Pipeline
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(296, __c37, 0) as any as S.Schema<ListPipelineBySubscriptionRequest>,
   output: __S(289, __c36, 1) as any as S.Schema<PipelineListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPipelineBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type PipelinesCreateOrUpdateError = AzureOpError;
 /** Creates a new Pipeline resource or updates an existing one. This operation is asynchronous and returns the resulting Pipeline. */
@@ -2594,8 +2637,7 @@ export const PipelinesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(321, __c40, 1) as any as S.Schema<PipelinesCreateOrUpdateRequest>,
   output: __S(322, __c40, 2) as any as S.Schema<PipelinesCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2612,8 +2654,7 @@ export const RejectPipelineConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(328, __c41, 0) as any as S.Schema<RejectPipelineConnectionRequest>,
   output: __S(56, __c7, 0) as any as S.Schema<RejectPipelineConnectionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2630,8 +2671,7 @@ export const SetFlowDestinationEndpointPorts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(336, __c42, 0) as any as S.Schema<SetFlowDestinationEndpointPortsRequest>,
   output: __S(424, __c53, 0) as any as S.Schema<SetFlowDestinationEndpointPortsResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2648,8 +2688,7 @@ export const SetFlowDestinationEndpoints: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(344, __c43, 0) as any as S.Schema<SetFlowDestinationEndpointsRequest>,
   output: __S(424, __c53, 0) as any as S.Schema<SetFlowDestinationEndpointsResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2666,8 +2705,7 @@ export const SetFlowPassphrase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c44, 0) as any as S.Schema<SetFlowPassphraseRequest>,
   output: __S(424, __c53, 0) as any as S.Schema<SetFlowPassphraseResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2684,8 +2722,7 @@ export const SetFlowSourceAddresses: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(360, __c45, 0) as any as S.Schema<SetFlowSourceAddressesRequest>,
   output: __S(424, __c53, 0) as any as S.Schema<SetFlowSourceAddressesResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2702,8 +2739,7 @@ export const UpdateConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(368, __c46, 0) as any as S.Schema<UpdateConnectionRequest>,
   output: __S(56, __c7, 0) as any as S.Schema<UpdateConnectionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2720,8 +2756,7 @@ export const UpdateFlow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(376, __c47, 0) as any as S.Schema<UpdateFlowRequest>,
   output: __S(424, __c53, 0) as any as S.Schema<UpdateFlowResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2738,8 +2773,7 @@ export const UpdatePipeline: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(385, __c48, 1) as any as S.Schema<UpdatePipelineRequest>,
   output: __S(488, __c61, 0) as any as S.Schema<UpdatePipelineResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2756,8 +2790,7 @@ export const ValidateAzureDataTransferSchema: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(392, __c49, 0) as any as S.Schema<ValidateAzureDataTransferSchemaRequest>,
   output: __S(393, __c49, 1) as any as S.Schema<ValidateSchemaResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3280,12 +3313,14 @@ function __c25(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureDataTransfer/connections",
             code: 200,
             apiVersion: "2025-05-21",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListConnectionByResourceGroupRequest" });
@@ -3310,12 +3345,14 @@ function __c27(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AzureDataTransfer/connections",
             code: 200,
             apiVersion: "2025-05-21",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListConnectionBySubscriptionRequest" });
@@ -3329,12 +3366,14 @@ function __c28(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           connectionName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureDataTransfer/connections/{connectionName}/flows",
             code: 200,
             apiVersion: "2025-05-21",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListFlowByConnectionRequest" });
@@ -3396,12 +3435,14 @@ function __c31(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           connectionName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureDataTransfer/connections/{connectionName}/listPendingConnections",
             code: 200,
             apiVersion: "2025-05-21",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListListPendingConnectionsRequest" });
@@ -3456,12 +3497,14 @@ function __c32(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           connectionName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureDataTransfer/connections/{connectionName}/listPendingFlows",
             code: 200,
             apiVersion: "2025-05-21",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListListPendingFlowsRequest" });
@@ -3549,12 +3592,15 @@ function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.AzureDataTransfer/operations",
             code: 200,
             apiVersion: "2025-05-21",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -3582,7 +3628,7 @@ function __c34(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(275, __c34, 3)),
+          value: __S(275, __c34, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
@@ -3595,12 +3641,14 @@ function __c35(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureDataTransfer/pipelines",
             code: 200,
             apiVersion: "2025-05-21",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPipelineByResourceGroupRequest" });
@@ -3625,12 +3673,14 @@ function __c37(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AzureDataTransfer/pipelines",
             code: 200,
             apiVersion: "2025-05-21",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPipelineBySubscriptionRequest" });

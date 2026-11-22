@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { AzureServiceErrors } from "../errors.ts";
+import { UnknownAzureError } from "../errors.ts";
 import { AzureProtocol, type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -742,6 +742,8 @@ export interface ListAccountByResourceGroupRequest {
   _orderby?: string | undefined;
   /** The Boolean value of true or false to request a count of the matching resources included with the resources in the response, e.g. Categories?$count=true. Optional. */
   _count?: boolean | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The resource tags. */
 export type DataLakeAnalyticsAccountBasicTagsMap = { [key: string]: string | undefined };
@@ -795,7 +797,7 @@ export type DataLakeAnalyticsAccountListResultValueList = Array<DataLakeAnalytic
 /** Data Lake Analytics account list information. */
 export interface DataLakeAnalyticsAccountListResult {
   /** The results of the list operation. */
-  value?: DataLakeAnalyticsAccountListResultValueList | undefined;
+  value: DataLakeAnalyticsAccountListResultValueList;
   /** The current number of data lake analytics accounts under this subscription. */
   count?: number | undefined;
   /** The link (url) to the next page of results. */
@@ -816,6 +818,8 @@ export interface ListAccountsRequest {
   _orderby?: string | undefined;
   /** The Boolean value of true or false to request a count of the matching resources included with the resources in the response, e.g. Categories?$count=true. Optional. */
   _count?: boolean | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListComputePolicyByAccountRequest {
   /** Get subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -824,13 +828,15 @@ export interface ListComputePolicyByAccountRequest {
   resourceGroupName: string;
   /** The name of the Data Lake Analytics account. */
   accountName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The results of the list operation. */
 export type ComputePolicyListResultValueList = Array<ComputePolicy>;
 /** The list of compute policies in the account. */
 export interface ComputePolicyListResult {
   /** The results of the list operation. */
-  value?: ComputePolicyListResultValueList | undefined;
+  value: ComputePolicyListResultValueList;
   /** The link (url) to the next page of results. */
   nextLink?: string | undefined;
 }
@@ -853,6 +859,8 @@ export interface ListDataLakeStoreAccountByAccountRequest {
   _orderby?: string | undefined;
   /** The Boolean value of true or false to request a count of the matching resources included with the resources in the response, e.g. Categories?$count=true. Optional. */
   _count?: boolean | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The results of the list operation. */
 export type DataLakeStoreAccountInformationListResultValueList =
@@ -860,7 +868,7 @@ export type DataLakeStoreAccountInformationListResultValueList =
 /** Data Lake Store account list information. */
 export interface DataLakeStoreAccountInformationListResult {
   /** The results of the list operation. */
-  value?: DataLakeStoreAccountInformationListResultValueList | undefined;
+  value: DataLakeStoreAccountInformationListResultValueList;
   /** The link (url) to the next page of results. */
   nextLink?: string | undefined;
 }
@@ -871,13 +879,15 @@ export interface ListFirewallRuleByAccountRequest {
   resourceGroupName: string;
   /** The name of the Data Lake Analytics account. */
   accountName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The results of the list operation. */
 export type FirewallRuleListResultValueList = Array<FirewallRule>;
 /** Data Lake Analytics firewall rule list information. */
 export interface FirewallRuleListResult {
   /** The results of the list operation. */
-  value?: FirewallRuleListResultValueList | undefined;
+  value: FirewallRuleListResultValueList;
   /** The link (url) to the next page of results. */
   nextLink?: string | undefined;
 }
@@ -981,13 +991,15 @@ export interface ListStorageAccountByAccountRequest {
   _orderby?: string | undefined;
   /** The Boolean value of true or false to request a count of the matching resources included with the resources in the response, e.g. Categories?$count=true. Optional. */
   _count?: boolean | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The results of the list operation. */
 export type StorageAccountInformationListResultValueList = Array<StorageAccountInformation>;
 /** Azure Storage account list information. */
 export interface StorageAccountInformationListResult {
   /** The results of the list operation. */
-  value?: StorageAccountInformationListResultValueList | undefined;
+  value: StorageAccountInformationListResultValueList;
   /** The link (url) to the next page of results. */
   nextLink?: string | undefined;
 }
@@ -1002,6 +1014,8 @@ export interface ListStorageAccountSasTokensRequest {
   storageAccountName: string;
   /** The name of the Azure storage container for which the SAS token is being requested. */
   containerName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** SAS token information. */
 export interface SasTokenInformation {
@@ -1013,7 +1027,7 @@ export type SasTokenInformationListResultValueList = Array<SasTokenInformation>;
 /** The SAS response that contains the storage account, container and associated SAS token for connection use. */
 export interface SasTokenInformationListResult {
   /** The results of the list operation. */
-  value?: SasTokenInformationListResultValueList | undefined;
+  value: SasTokenInformationListResultValueList;
   /** The link (url) to the next page of results. */
   nextLink?: string | undefined;
 }
@@ -1026,6 +1040,8 @@ export interface ListStorageAccountStorageContainersRequest {
   accountName: string;
   /** The name of the Azure storage account from which to list blob containers. */
   storageAccountName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Azure Storage blob container information. */
 export interface StorageContainer {
@@ -1043,7 +1059,7 @@ export type StorageContainerListResultValueList = Array<StorageContainer>;
 /** The list of blob containers associated with the storage account attached to the Data Lake Analytics account. */
 export interface StorageContainerListResult {
   /** The results of the list operation. */
-  value?: StorageContainerListResultValueList | undefined;
+  value: StorageContainerListResultValueList;
   /** The link (url) to the next page of results. */
   nextLink?: string | undefined;
 }
@@ -1255,8 +1271,7 @@ export const AddDataLakeStoreAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<AddDataLakeStoreAccountRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<AddDataLakeStoreAccountResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1273,8 +1288,7 @@ export const AddStorageAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c3, 0) as any as S.Schema<AddStorageAccountRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<AddStorageAccountResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1291,8 +1305,7 @@ export const CheckAccountNameAvailability: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(272, __c17, 0) as any as S.Schema<CheckAccountNameAvailabilityRequest>,
   output: __S(273, __c17, 1) as any as S.Schema<NameAvailabilityInformation>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1309,8 +1322,7 @@ export const ComputePoliciesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c30, 0) as any as S.Schema<ComputePoliciesCreateOrUpdateRequest>,
   output: __S(513, __c32, 1) as any as S.Schema<ComputePoliciesCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1327,8 +1339,7 @@ export const CreateAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(551, __c34, 7) as any as S.Schema<CreateAccountRequest>,
   output: __S(679, __c42, 7) as any as S.Schema<CreateAccountResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1345,8 +1356,7 @@ export const DeleteAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c44, 0) as any as S.Schema<DeleteAccountRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteAccountResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1363,8 +1373,7 @@ export const DeleteComputePolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(720, __c45, 0) as any as S.Schema<DeleteComputePolicyRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteComputePolicyResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1381,8 +1390,7 @@ export const DeleteDataLakeStoreAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c46, 0) as any as S.Schema<DeleteDataLakeStoreAccountRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteDataLakeStoreAccountResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1399,8 +1407,7 @@ export const DeleteFirewallRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(752, __c47, 0) as any as S.Schema<DeleteFirewallRuleRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteFirewallRuleResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1417,8 +1424,7 @@ export const DeleteStorageAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c48, 0) as any as S.Schema<DeleteStorageAccountRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteStorageAccountResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1435,8 +1441,7 @@ export const FirewallRulesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c5, 0) as any as S.Schema<FirewallRulesCreateOrUpdateRequest>,
   output: __S(577, __c36, 1) as any as S.Schema<FirewallRulesCreateOrUpdateResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1453,8 +1458,7 @@ export const GetAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c6, 0) as any as S.Schema<GetAccountRequest>,
   output: __S(679, __c42, 7) as any as S.Schema<GetAccountResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1471,8 +1475,7 @@ export const GetComputePolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c7, 0) as any as S.Schema<GetComputePolicyRequest>,
   output: __S(513, __c32, 1) as any as S.Schema<GetComputePolicyResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1489,8 +1492,7 @@ export const GetDataLakeStoreAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c8, 0) as any as S.Schema<GetDataLakeStoreAccountRequest>,
   output: __S(592, __c37, 0) as any as S.Schema<GetDataLakeStoreAccountResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1507,8 +1509,7 @@ export const GetFirewallRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c9, 0) as any as S.Schema<GetFirewallRuleRequest>,
   output: __S(577, __c36, 1) as any as S.Schema<GetFirewallRuleResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1525,8 +1526,7 @@ export const GetLocationCapability: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c10, 0) as any as S.Schema<GetLocationCapabilityRequest>,
   output: __S(161, __c10, 1) as any as S.Schema<CapabilityInformation>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1543,8 +1543,7 @@ export const GetStorageAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c11, 0) as any as S.Schema<GetStorageAccountRequest>,
   output: __S(592, __c37, 0) as any as S.Schema<GetStorageAccountResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1561,8 +1560,7 @@ export const GetStorageAccountStorageContainer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c12, 0) as any as S.Schema<GetStorageAccountStorageContainerRequest>,
   output: __S(209, __c13, 1) as any as S.Schema<GetStorageAccountStorageContainerResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1571,93 +1569,123 @@ export const GetStorageAccountStorageContainer: API.OperationMethod<
 
 export type ListAccountByResourceGroupError = AzureOpError;
 /** Gets the first page of Data Lake Analytics accounts, if any, within a specific resource group. This includes a link to the next page, if any. */
-export const ListAccountByResourceGroup: API.OperationMethod<
+export const ListAccountByResourceGroup: API.PaginatedOperationMethod<
   ListAccountByResourceGroupRequest,
   DataLakeAnalyticsAccountListResult,
   ListAccountByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DataLakeAnalyticsAccountBasic
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(224, __c14, 0) as any as S.Schema<ListAccountByResourceGroupRequest>,
   output: __S(243, __c15, 3) as any as S.Schema<DataLakeAnalyticsAccountListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAccountByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListAccountsError = AzureOpError;
 /** Gets the first page of Data Lake Analytics accounts, if any, within the current subscription. This includes a link to the next page, if any. */
-export const ListAccounts: API.OperationMethod<
+export const ListAccounts: API.PaginatedOperationMethod<
   ListAccountsRequest,
   DataLakeAnalyticsAccountListResult,
   ListAccountsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DataLakeAnalyticsAccountBasic
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(256, __c16, 0) as any as S.Schema<ListAccountsRequest>,
   output: __S(243, __c15, 3) as any as S.Schema<DataLakeAnalyticsAccountListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAccounts",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListComputePolicyByAccountError = AzureOpError;
 /** Lists the Data Lake Analytics compute policies within the specified Data Lake Analytics account. An account supports, at most, 50 policies */
-export const ListComputePolicyByAccount: API.OperationMethod<
+export const ListComputePolicyByAccount: API.PaginatedOperationMethod<
   ListComputePolicyByAccountRequest,
   ComputePolicyListResult,
   ListComputePolicyByAccountError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ComputePolicy
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(288, __c18, 0) as any as S.Schema<ListComputePolicyByAccountRequest>,
   output: __S(289, __c18, 1) as any as S.Schema<ComputePolicyListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListComputePolicyByAccount",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDataLakeStoreAccountByAccountError = AzureOpError;
 /** Gets the first page of Data Lake Store accounts linked to the specified Data Lake Analytics account. The response includes a link to the next page, if any. */
-export const ListDataLakeStoreAccountByAccount: API.OperationMethod<
+export const ListDataLakeStoreAccountByAccount: API.PaginatedOperationMethod<
   ListDataLakeStoreAccountByAccountRequest,
   DataLakeStoreAccountInformationListResult,
   ListDataLakeStoreAccountByAccountError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DataLakeStoreAccountInformation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(304, __c19, 0) as any as S.Schema<ListDataLakeStoreAccountByAccountRequest>,
   output: __S(320, __c20, 0) as any as S.Schema<DataLakeStoreAccountInformationListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDataLakeStoreAccountByAccount",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListFirewallRuleByAccountError = AzureOpError;
 /** Lists the Data Lake Analytics firewall rules within the specified Data Lake Analytics account. */
-export const ListFirewallRuleByAccount: API.OperationMethod<
+export const ListFirewallRuleByAccount: API.PaginatedOperationMethod<
   ListFirewallRuleByAccountRequest,
   FirewallRuleListResult,
   ListFirewallRuleByAccountError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  FirewallRule
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(336, __c21, 0) as any as S.Schema<ListFirewallRuleByAccountRequest>,
   output: __S(337, __c21, 1) as any as S.Schema<FirewallRuleListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListFirewallRuleByAccount",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** Lists all of the available Data Lake Analytics REST API operations. */
@@ -1669,8 +1697,7 @@ export const ListOperations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c22, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(364, __c22, 12) as any as S.Schema<OperationListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1679,57 +1706,75 @@ export const ListOperations: API.OperationMethod<
 
 export type ListStorageAccountByAccountError = AzureOpError;
 /** Gets the first page of Azure Storage accounts, if any, linked to the specified Data Lake Analytics account. The response includes a link to the next page, if any. */
-export const ListStorageAccountByAccount: API.OperationMethod<
+export const ListStorageAccountByAccount: API.PaginatedOperationMethod<
   ListStorageAccountByAccountRequest,
   StorageAccountInformationListResult,
   ListStorageAccountByAccountError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  StorageAccountInformation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(368, __c23, 0) as any as S.Schema<ListStorageAccountByAccountRequest>,
   output: __S(320, __c20, 0) as any as S.Schema<StorageAccountInformationListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListStorageAccountByAccount",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListStorageAccountSasTokensError = AzureOpError;
 /** Gets the SAS token associated with the specified Data Lake Analytics and Azure Storage account and container combination. */
-export const ListStorageAccountSasTokens: API.OperationMethod<
+export const ListStorageAccountSasTokens: API.PaginatedOperationMethod<
   ListStorageAccountSasTokensRequest,
   SasTokenInformationListResult,
   ListStorageAccountSasTokensError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SasTokenInformation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(384, __c24, 0) as any as S.Schema<ListStorageAccountSasTokensRequest>,
   output: __S(387, __c24, 3) as any as S.Schema<SasTokenInformationListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListStorageAccountSasTokens",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListStorageAccountStorageContainersError = AzureOpError;
 /** Lists the Azure Storage containers, if any, associated with the specified Data Lake Analytics and Azure Storage account combination. The response includes a link to the next page of results, if any. */
-export const ListStorageAccountStorageContainers: API.OperationMethod<
+export const ListStorageAccountStorageContainers: API.PaginatedOperationMethod<
   ListStorageAccountStorageContainersRequest,
   StorageContainerListResult,
   ListStorageAccountStorageContainersError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  StorageContainer
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(400, __c25, 0) as any as S.Schema<ListStorageAccountStorageContainersRequest>,
   output: __S(402, __c25, 2) as any as S.Schema<StorageContainerListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListStorageAccountStorageContainers",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type UpdateAccountError = AzureOpError;
 /** Updates the Data Lake Analytics account object specified by the accountName with the contents of the account object. */
@@ -1741,8 +1786,7 @@ export const UpdateAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(423, __c26, 7) as any as S.Schema<UpdateAccountRequest>,
   output: __S(679, __c42, 7) as any as S.Schema<UpdateAccountResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1759,8 +1803,7 @@ export const UpdateComputePolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c28, 0) as any as S.Schema<UpdateComputePolicyRequest>,
   output: __S(513, __c32, 1) as any as S.Schema<UpdateComputePolicyResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1777,8 +1820,7 @@ export const UpdateFirewallRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(464, __c29, 0) as any as S.Schema<UpdateFirewallRuleRequest>,
   output: __S(577, __c36, 1) as any as S.Schema<UpdateFirewallRuleResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1795,8 +1837,7 @@ export const UpdateStorageAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(528, __c33, 0) as any as S.Schema<UpdateStorageAccountRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<UpdateStorageAccountResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2076,12 +2117,14 @@ function __c14(j: number): any {
           _select: S.optional(S.String.pipe(T.Query("$select"))),
           _orderby: S.optional(S.String.pipe(T.Query("$orderby"))),
           _count: S.optional(S.Boolean.pipe(T.Query("$count"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataLakeAnalytics/accounts",
             code: 200,
             apiVersion: "2016-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListAccountByResourceGroupRequest" });
@@ -2116,7 +2159,7 @@ function __c15(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(242, __c15, 2)),
+          value: __S(242, __c15, 2),
           count: S.optional(S.Number),
           nextLink: S.optional(S.String),
         }),
@@ -2135,12 +2178,14 @@ function __c16(j: number): any {
           _select: S.optional(S.String.pipe(T.Query("$select"))),
           _orderby: S.optional(S.String.pipe(T.Query("$orderby"))),
           _count: S.optional(S.Boolean.pipe(T.Query("$count"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DataLakeAnalytics/accounts",
             code: 200,
             apiVersion: "2016-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListAccountsRequest" });
@@ -2182,19 +2227,21 @@ function __c18(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           accountName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataLakeAnalytics/accounts/{accountName}/computePolicies",
             code: 200,
             apiVersion: "2016-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListComputePolicyByAccountRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(624, __c39, 0)),
+          value: __S(624, __c39, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ComputePolicyListResult" });
@@ -2214,12 +2261,14 @@ function __c19(j: number): any {
           _select: S.optional(S.String.pipe(T.Query("$select"))),
           _orderby: S.optional(S.String.pipe(T.Query("$orderby"))),
           _count: S.optional(S.Boolean.pipe(T.Query("$count"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataLakeAnalytics/accounts/{accountName}/dataLakeStoreAccounts",
             code: 200,
             apiVersion: "2016-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDataLakeStoreAccountByAccountRequest" });
@@ -2230,7 +2279,7 @@ function __c20(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(640, __c40, 0)),
+          value: __S(640, __c40, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "DataLakeStoreAccountInformationListResult" });
@@ -2244,19 +2293,21 @@ function __c21(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           accountName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataLakeAnalytics/accounts/{accountName}/firewallRules",
             code: 200,
             apiVersion: "2016-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListFirewallRuleByAccountRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(656, __c41, 0)),
+          value: __S(656, __c41, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "FirewallRuleListResult" });
@@ -2363,12 +2414,14 @@ function __c23(j: number): any {
           _select: S.optional(S.String.pipe(T.Query("$select"))),
           _orderby: S.optional(S.String.pipe(T.Query("$orderby"))),
           _count: S.optional(S.Boolean.pipe(T.Query("$count"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataLakeAnalytics/accounts/{accountName}/storageAccounts",
             code: 200,
             apiVersion: "2016-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListStorageAccountByAccountRequest" });
@@ -2384,12 +2437,14 @@ function __c24(j: number): any {
           accountName: S.String.pipe(T.Label()),
           storageAccountName: S.String.pipe(T.Label()),
           containerName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataLakeAnalytics/accounts/{accountName}/storageAccounts/{storageAccountName}/containers/{containerName}/listSasTokens",
             code: 200,
             apiVersion: "2016-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListStorageAccountSasTokensRequest" });
@@ -2404,7 +2459,7 @@ function __c24(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(386, __c24, 2)),
+          value: __S(386, __c24, 2),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "SasTokenInformationListResult" });
@@ -2419,12 +2474,14 @@ function __c25(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           accountName: S.String.pipe(T.Label()),
           storageAccountName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataLakeAnalytics/accounts/{accountName}/storageAccounts/{storageAccountName}/containers",
             code: 200,
             apiVersion: "2016-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListStorageAccountStorageContainersRequest" });
@@ -2433,7 +2490,7 @@ function __c25(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(401, __c25, 1)),
+          value: __S(401, __c25, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "StorageContainerListResult" });

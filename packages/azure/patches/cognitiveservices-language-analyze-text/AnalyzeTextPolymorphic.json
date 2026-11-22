@@ -1,0 +1,56 @@
+{
+  "description": "The analyze-text task, its long-running tasks, and their results are polymorphic on `kind`; the converted model keeps only the base members, so the request drops `analysisInput`/`parameters` on encode and the responses drop `results` on decode. Add them (the input documents typed, the kind-specific parameters and results as untyped documents).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cognitiveservices_language_analyze_text#AnalyzeTextRequest/members/analysisInput",
+      "value": {
+        "target": "com.azure.cognitiveservices_language_analyze_text#MultiLanguageAnalysisInput",
+        "traits": {
+          "smithy.api#documentation": "The input documents to analyze.",
+          "smithy.api#required": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cognitiveservices_language_analyze_text#AnalyzeTextRequest/members/parameters",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Task parameters for `kind` (e.g. `{ modelVersion, opinionMining }` for SentimentAnalysis, `{ piiCategories, domain }` for PiiEntityRecognition)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cognitiveservices_language_analyze_text#AnalyzeTextTaskResult/members/results",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Results for `kind`: `{ documents, errors, modelVersion, statistics? }`; each document's shape depends on the task (e.g. `sentiment` + `confidenceScores`, `entities`, `keyPhrases`, `detectedLanguage`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cognitiveservices_language_analyze_text#AnalyzeTextLROTask/members/parameters",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Task parameters for `kind` (e.g. `{ sentenceCount }` for ExtractiveSummarization)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cognitiveservices_language_analyze_text#AnalyzeTextLROResult/members/results",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Results of the task: `{ documents, errors, modelVersion }`; each document's shape depends on `kind`."
+        }
+      }
+    }
+  ]
+}

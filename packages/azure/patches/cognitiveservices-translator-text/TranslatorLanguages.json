@@ -1,0 +1,56 @@
+{
+  "description": "Languages answers maps keyed by language code ({ translation: { af: { name, nativeName, dir } } }); the swagger models each scope as one struct with a literal `languageCode` member, so every language decoded away.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cognitiveservices_translator_text#LanguagesResultTranslationMap",
+      "value": {
+        "type": "map",
+        "key": { "target": "smithy.api#String" },
+        "value": {
+          "target": "com.azure.cognitiveservices_translator_text#LanguagesResultTranslationLanguageCode"
+        },
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cognitiveservices_translator_text#LanguagesResultTransliterationMap",
+      "value": {
+        "type": "map",
+        "key": { "target": "smithy.api#String" },
+        "value": {
+          "target": "com.azure.cognitiveservices_translator_text#LanguagesResultTransliterationLanguageCode"
+        },
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cognitiveservices_translator_text#LanguagesResultDictionaryMap",
+      "value": {
+        "type": "map",
+        "key": { "target": "smithy.api#String" },
+        "value": {
+          "target": "com.azure.cognitiveservices_translator_text#LanguagesResultDictionaryLanguageCode"
+        },
+        "traits": {}
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.cognitiveservices_translator_text#LanguagesResult/members/translation/target",
+      "value": "com.azure.cognitiveservices_translator_text#LanguagesResultTranslationMap"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.cognitiveservices_translator_text#LanguagesResult/members/transliteration/target",
+      "value": "com.azure.cognitiveservices_translator_text#LanguagesResultTransliterationMap"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.cognitiveservices_translator_text#LanguagesResult/members/dictionary/target",
+      "value": "com.azure.cognitiveservices_translator_text#LanguagesResultDictionaryMap"
+    }
+  ]
+}

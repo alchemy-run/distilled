@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { AzureServiceErrors } from "../errors.ts";
+import { UnknownAzureError } from "../errors.ts";
 import { AzureProtocol, type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -948,6 +948,8 @@ export interface GetPrivateLinkResourceResponse {
 export interface ListDashboardBySubscriptionRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ManagedDashboardTagsMap = { [key: string]: string | undefined };
@@ -982,10 +984,14 @@ export interface ListDashboardsRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListGrafanaRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ManagedGrafanaTagsMap = { [key: string]: string | undefined };
@@ -1026,6 +1032,8 @@ export interface ListGrafanaByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListIntegrationFabricsRequest {
   /** The ID of the target subscription. */
@@ -1034,6 +1042,8 @@ export interface ListIntegrationFabricsRequest {
   resourceGroupName: string;
   /** The workspace name of Azure Managed Grafana. */
   workspaceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type IntegrationFabricTagsMap = { [key: string]: string | undefined };
@@ -1069,6 +1079,8 @@ export interface ListManagedPrivateEndpointsRequest {
   resourceGroupName: string;
   /** The workspace name of Azure Managed Grafana. */
   workspaceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ManagedPrivateEndpointModelTagsMap = { [key: string]: string | undefined };
@@ -1098,7 +1110,10 @@ export interface ManagedPrivateEndpointModelListResponse {
   /** The link to the next page of items */
   nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
@@ -1131,7 +1146,7 @@ export interface Operation {
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList | undefined;
+  value: ListOperationsResponseValueList;
   /** URL to get the next set of operation list results (if there are any). */
   nextLink?: string | undefined;
 }
@@ -1142,6 +1157,8 @@ export interface ListPrivateEndpointConnectionsRequest {
   resourceGroupName: string;
   /** The workspace name of Azure Managed Grafana. */
   workspaceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The PrivateEndpointConnection items on this page */
 export type PrivateEndpointConnectionListResultValueList = Array<PrivateEndpointConnection>;
@@ -1159,6 +1176,8 @@ export interface ListPrivateLinkResourcesRequest {
   resourceGroupName: string;
   /** The workspace name of Azure Managed Grafana. */
   workspaceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** A private link resource */
 export interface PrivateLinkResource {
@@ -1412,8 +1431,7 @@ export const ApprovePrivateEndpointConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1, __c0, 1) as any as S.Schema<ApprovePrivateEndpointConnectionRequest>,
   output: __S(2, __c0, 2) as any as S.Schema<ApprovePrivateEndpointConnectionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1430,8 +1448,7 @@ export const CheckGrafanaEnterpriseDetails: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c5, 0) as any as S.Schema<CheckGrafanaEnterpriseDetailsRequest>,
   output: __S(164, __c5, 4) as any as S.Schema<EnterpriseDetails>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1448,8 +1465,7 @@ export const CreateGrafana: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(705, __c22, 1) as any as S.Schema<CreateGrafanaRequest>,
   output: __S(834, __c26, 2) as any as S.Schema<CreateGrafanaResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1466,8 +1482,7 @@ export const CreateIntegrationFabric: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1249, __c39, 1) as any as S.Schema<CreateIntegrationFabricRequest>,
   output: __S(1250, __c39, 2) as any as S.Schema<CreateIntegrationFabricResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1484,8 +1499,7 @@ export const CreateManagedDashboard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1376, __c43, 0) as any as S.Schema<CreateManagedDashboardRequest>,
   output: __S(1377, __c43, 1) as any as S.Schema<CreateManagedDashboardResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1502,8 +1516,7 @@ export const CreateManagedPrivateEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1441, __c45, 1) as any as S.Schema<CreateManagedPrivateEndpointRequest>,
   output: __S(1504, __c47, 0) as any as S.Schema<CreateManagedPrivateEndpointResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1520,8 +1533,7 @@ export const DeleteGrafana: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1536, __c48, 0) as any as S.Schema<DeleteGrafanaRequest>,
   output: __S(1568, __c49, 0) as any as S.Schema<DeleteGrafanaResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1538,8 +1550,7 @@ export const DeleteIntegrationFabric: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1600, __c50, 0) as any as S.Schema<DeleteIntegrationFabricRequest>,
   output: __S(1601, __c50, 1) as any as S.Schema<DeleteIntegrationFabricResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1556,8 +1567,7 @@ export const DeleteManagedDashboard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1632, __c51, 0) as any as S.Schema<DeleteManagedDashboardRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<DeleteManagedDashboardResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1574,8 +1584,7 @@ export const DeleteManagedPrivateEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1664, __c52, 0) as any as S.Schema<DeleteManagedPrivateEndpointRequest>,
   output: __S(1568, __c49, 0) as any as S.Schema<DeleteManagedPrivateEndpointResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1592,8 +1601,7 @@ export const DeletePrivateEndpointConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c6, 0) as any as S.Schema<DeletePrivateEndpointConnectionRequest>,
   output: __S(1568, __c49, 0) as any as S.Schema<DeletePrivateEndpointConnectionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1610,8 +1618,7 @@ export const FetchGrafanaAvailablePlugins: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c7, 0) as any as S.Schema<FetchGrafanaAvailablePluginsRequest>,
   output: __S(227, __c7, 3) as any as S.Schema<GrafanaAvailablePluginListResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1628,8 +1635,7 @@ export const GetDashboard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c8, 0) as any as S.Schema<GetDashboardRequest>,
   output: __S(288, __c9, 0) as any as S.Schema<GetDashboardResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1646,8 +1652,7 @@ export const GetGrafana: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c10, 0) as any as S.Schema<GetGrafanaRequest>,
   output: __S(352, __c11, 0) as any as S.Schema<GetGrafanaResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1664,8 +1669,7 @@ export const GetIntegrationFabric: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c12, 0) as any as S.Schema<GetIntegrationFabricRequest>,
   output: __S(416, __c13, 0) as any as S.Schema<GetIntegrationFabricResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1682,8 +1686,7 @@ export const GetManagedPrivateEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c14, 0) as any as S.Schema<GetManagedPrivateEndpointRequest>,
   output: __S(480, __c15, 0) as any as S.Schema<GetManagedPrivateEndpointResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1700,8 +1703,7 @@ export const GetPrivateEndpointConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c16, 0) as any as S.Schema<GetPrivateEndpointConnectionRequest>,
   output: __S(736, __c23, 0) as any as S.Schema<GetPrivateEndpointConnectionResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1718,8 +1720,7 @@ export const GetPrivateLinkResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c17, 0) as any as S.Schema<GetPrivateLinkResourceRequest>,
   output: __S(577, __c18, 1) as any as S.Schema<GetPrivateLinkResourceResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1728,165 +1729,219 @@ export const GetPrivateLinkResource: API.OperationMethod<
 
 export type ListDashboardBySubscriptionError = AzureOpError;
 /** List all resources of dashboards under the specified subscription. */
-export const ListDashboardBySubscription: API.OperationMethod<
+export const ListDashboardBySubscription: API.PaginatedOperationMethod<
   ListDashboardBySubscriptionRequest,
   ManagedDashboardListResponse,
   ListDashboardBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ManagedDashboard
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(608, __c19, 0) as any as S.Schema<ListDashboardBySubscriptionRequest>,
   output: __S(641, __c20, 1) as any as S.Schema<ManagedDashboardListResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDashboardBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDashboardsError = AzureOpError;
 /** List all resources of dashboards under the specified resource group. */
-export const ListDashboards: API.OperationMethod<
+export const ListDashboards: API.PaginatedOperationMethod<
   ListDashboardsRequest,
   ManagedDashboardListResponse,
   ListDashboardsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ManagedDashboard
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(672, __c21, 0) as any as S.Schema<ListDashboardsRequest>,
   output: __S(641, __c20, 1) as any as S.Schema<ManagedDashboardListResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDashboards",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListGrafanaError = AzureOpError;
 /** List all resources of workspaces for Grafana under the specified subscription. */
-export const ListGrafana: API.OperationMethod<
+export const ListGrafana: API.PaginatedOperationMethod<
   ListGrafanaRequest,
   ManagedGrafanaListResponse,
   ListGrafanaError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ManagedGrafana
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(896, __c28, 0) as any as S.Schema<ListGrafanaRequest>,
   output: __S(929, __c29, 1) as any as S.Schema<ManagedGrafanaListResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListGrafana",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListGrafanaByResourceGroupError = AzureOpError;
 /** List all resources of workspaces for Grafana under the specified resource group. */
-export const ListGrafanaByResourceGroup: API.OperationMethod<
+export const ListGrafanaByResourceGroup: API.PaginatedOperationMethod<
   ListGrafanaByResourceGroupRequest,
   ManagedGrafanaListResponse,
   ListGrafanaByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ManagedGrafana
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(960, __c30, 0) as any as S.Schema<ListGrafanaByResourceGroupRequest>,
   output: __S(929, __c29, 1) as any as S.Schema<ManagedGrafanaListResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListGrafanaByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListIntegrationFabricsError = AzureOpError;
 /** List IntegrationFabric resources by ManagedGrafana */
-export const ListIntegrationFabrics: API.OperationMethod<
+export const ListIntegrationFabrics: API.PaginatedOperationMethod<
   ListIntegrationFabricsRequest,
   IntegrationFabricListResponse,
   ListIntegrationFabricsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  IntegrationFabric
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(992, __c31, 0) as any as S.Schema<ListIntegrationFabricsRequest>,
   output: __S(994, __c31, 2) as any as S.Schema<IntegrationFabricListResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListIntegrationFabrics",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListManagedPrivateEndpointsError = AzureOpError;
 /** List all managed private endpoints of a grafana resource. */
-export const ListManagedPrivateEndpoints: API.OperationMethod<
+export const ListManagedPrivateEndpoints: API.PaginatedOperationMethod<
   ListManagedPrivateEndpointsRequest,
   ManagedPrivateEndpointModelListResponse,
   ListManagedPrivateEndpointsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ManagedPrivateEndpointModel
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1024, __c32, 0) as any as S.Schema<ListManagedPrivateEndpointsRequest>,
   output: __S(1026, __c32, 2) as any as S.Schema<ManagedPrivateEndpointModelListResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListManagedPrivateEndpoints",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** List the operations for the provider */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   ListOperationsResponse,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1056, __c33, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(1060, __c33, 4) as any as S.Schema<ListOperationsResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPrivateEndpointConnectionsError = AzureOpError;
 /** Get private endpoint connection */
-export const ListPrivateEndpointConnections: API.OperationMethod<
+export const ListPrivateEndpointConnections: API.PaginatedOperationMethod<
   ListPrivateEndpointConnectionsRequest,
   PrivateEndpointConnectionListResult,
   ListPrivateEndpointConnectionsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PrivateEndpointConnection
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1088, __c34, 0) as any as S.Schema<ListPrivateEndpointConnectionsRequest>,
   output: __S(1089, __c34, 1) as any as S.Schema<PrivateEndpointConnectionListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPrivateEndpointConnections",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPrivateLinkResourcesError = AzureOpError;
 /** List all private link resources information for this grafana resource */
-export const ListPrivateLinkResources: API.OperationMethod<
+export const ListPrivateLinkResources: API.PaginatedOperationMethod<
   ListPrivateLinkResourcesRequest,
   PrivateLinkResourceListResult,
   ListPrivateLinkResourcesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PrivateLinkResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1120, __c35, 0) as any as S.Schema<ListPrivateLinkResourcesRequest>,
   output: __S(1122, __c35, 2) as any as S.Schema<PrivateLinkResourceListResult>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPrivateLinkResources",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type RefreshManagedPrivateEndpointError = AzureOpError;
 /** Refresh and sync managed private endpoints of a grafana resource to latest state. */
@@ -1898,8 +1953,7 @@ export const RefreshManagedPrivateEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c36, 0) as any as S.Schema<RefreshManagedPrivateEndpointRequest>,
   output: __S(1568, __c49, 0) as any as S.Schema<RefreshManagedPrivateEndpointResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1916,8 +1970,7 @@ export const UpdateGrafana: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1185, __c37, 1) as any as S.Schema<UpdateGrafanaRequest>,
   output: __S(834, __c26, 2) as any as S.Schema<UpdateGrafanaResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1934,8 +1987,7 @@ export const UpdateIntegrationFabric: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1217, __c38, 1) as any as S.Schema<UpdateIntegrationFabricRequest>,
   output: __S(1218, __c38, 2) as any as S.Schema<UpdateIntegrationFabricResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1952,8 +2004,7 @@ export const UpdateManagedDashboard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1312, __c41, 0) as any as S.Schema<UpdateManagedDashboardRequest>,
   output: __S(288, __c9, 0) as any as S.Schema<UpdateManagedDashboardResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1970,8 +2021,7 @@ export const UpdateManagedPrivateEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1344, __c42, 0) as any as S.Schema<UpdateManagedPrivateEndpointRequest>,
   output: __S(1504, __c47, 0) as any as S.Schema<UpdateManagedPrivateEndpointResponse>,
-  errors: [],
-  serviceErrors: AzureServiceErrors,
+  errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2400,12 +2450,14 @@ function __c19(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Dashboard/dashboards",
             code: 200,
             apiVersion: "2025-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDashboardBySubscriptionRequest" });
@@ -2431,12 +2483,14 @@ function __c21(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/dashboards",
             code: 200,
             apiVersion: "2025-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDashboardsRequest" });
@@ -2670,12 +2724,14 @@ function __c28(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Dashboard/grafana",
             code: 200,
             apiVersion: "2025-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListGrafanaRequest" });
@@ -2701,12 +2757,14 @@ function __c30(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana",
             code: 200,
             apiVersion: "2025-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListGrafanaByResourceGroupRequest" });
@@ -2720,12 +2778,14 @@ function __c31(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}/integrationFabrics",
             code: 200,
             apiVersion: "2025-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListIntegrationFabricsRequest" });
@@ -2748,12 +2808,14 @@ function __c32(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}/managedPrivateEndpoints",
             code: 200,
             apiVersion: "2025-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListManagedPrivateEndpointsRequest" });
@@ -2772,12 +2834,15 @@ function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Dashboard/operations",
             code: 200,
             apiVersion: "2025-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -2805,7 +2870,7 @@ function __c33(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1059, __c33, 3)),
+          value: __S(1059, __c33, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
@@ -2819,12 +2884,14 @@ function __c34(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}/privateEndpointConnections",
             code: 200,
             apiVersion: "2025-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPrivateEndpointConnectionsRequest" });
@@ -2845,12 +2912,14 @@ function __c35(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}/privateLinkResources",
             code: 200,
             apiVersion: "2025-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPrivateLinkResourcesRequest" });

@@ -1,0 +1,15 @@
+{
+  "description": "The phone number PATCH operations consume `application/merge-patch+json` (the spec's consumes).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_phone_numbers#PhoneNumbersCreateOrUpdateReservation/traits/smithy.api#http/jsonContentType",
+      "value": "application/merge-patch+json"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_phone_numbers#PhoneNumbersUpdateCapabilities/traits/smithy.api#http/jsonContentType",
+      "value": "application/merge-patch+json"
+    }
+  ]
+}
