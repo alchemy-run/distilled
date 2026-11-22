@@ -1,0 +1,13 @@
+{
+  "description": "`GET /system/v1/whoami` returns a top-level `total_row_count` the spec's `WhoAmIResponse` does not declare, and it is `null`. Live call on 2026-11-17 against a development environment: HTTP 200, body `{\"total_row_count\":null,\"data\":{\"permissions\":[…],\"organization_name\":…,\"environment_type\":\"development\",…}}`. Without the member, `ResponseValidation.strict` fails the call with `MuxParseError` (unmodeled key). Adds `total_row_count` as an optional, nullable integer.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.mux.system#WhoAmIResponse/members/total_row_count",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": { "com.distilled.openapi#nullable": {} }
+      }
+    }
+  ]
+}

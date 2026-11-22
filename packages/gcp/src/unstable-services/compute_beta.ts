@@ -34650,29 +34650,23 @@ export interface PatchOrganizationSnapshotRecycleBinPolicyRequest extends Snapsh
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
 }
-export interface PatchPacketMirroringRuleFirewallPoliciesRequest extends Omit<
-  FirewallPolicyRule,
-  "priority"
-> {
-  /** The priority of the rule to patch. */
-  priority?: number | undefined;
+export interface PatchPacketMirroringRuleFirewallPoliciesRequest extends FirewallPolicyRule {
   /** Name of the firewall policy to update. */
   firewallPolicy: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-}
-export interface PatchPacketMirroringRuleNetworkFirewallPoliciesRequest extends Omit<
-  FirewallPolicyRule,
-  "priority"
-> {
   /** The priority of the rule to patch. */
-  priority?: number | undefined;
+  rulePriority: number;
+}
+export interface PatchPacketMirroringRuleNetworkFirewallPoliciesRequest extends FirewallPolicyRule {
   /** Name of the firewall policy to update. */
   firewallPolicy: string;
   /** Project ID for this request. */
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
+  /** The priority of the rule to patch. */
+  rulePriority: number;
 }
 export interface PatchPacketMirroringsRequest extends Omit<PacketMirroring, "region"> {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -34953,44 +34947,35 @@ export interface PatchRoutersRequest extends Omit<Router, "region"> {
   /** Project ID for this request. */
   project: string;
 }
-export interface PatchRuleFirewallPoliciesRequest extends Omit<FirewallPolicyRule, "priority"> {
-  /** The priority of the rule to patch. */
-  priority?: number | undefined;
+export interface PatchRuleFirewallPoliciesRequest extends FirewallPolicyRule {
   /** Name of the firewall policy to update. */
   firewallPolicy: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
+  /** The priority of the rule to patch. */
+  rulePriority: number;
 }
-export interface PatchRuleNetworkFirewallPoliciesRequest extends Omit<
-  FirewallPolicyRule,
-  "priority"
-> {
+export interface PatchRuleNetworkFirewallPoliciesRequest extends FirewallPolicyRule {
   /** Project ID for this request. */
   project: string;
-  /** The priority of the rule to patch. */
-  priority?: number | undefined;
   /** Name of the firewall policy to update. */
   firewallPolicy: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
+  /** The priority of the rule to patch. */
+  rulePriority: number;
 }
-export interface PatchRuleOrganizationSecurityPoliciesRequest extends Omit<
-  SecurityPolicyRule,
-  "priority"
-> {
+export interface PatchRuleOrganizationSecurityPoliciesRequest extends SecurityPolicyRule {
   /** Indicates fields to be cleared as part of this request. */
   updateMask?: string | undefined;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** The priority of the rule to patch. */
-  priority?: number | undefined;
   /** Name of the security policy to update. */
   securityPolicy: string;
+  /** The priority of the rule to patch. */
+  rulePriority: number;
 }
-export interface PatchRuleRegionNetworkFirewallPoliciesRequest extends Omit<
-  FirewallPolicyRule,
-  "priority"
-> {
+export interface PatchRuleRegionNetworkFirewallPoliciesRequest extends FirewallPolicyRule {
   /** Name of the region scoping this request. */
   region: string;
   /** Project ID for this request. */
@@ -35000,12 +34985,9 @@ export interface PatchRuleRegionNetworkFirewallPoliciesRequest extends Omit<
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** The priority of the rule to patch. */
-  priority?: number | undefined;
+  rulePriority: number;
 }
-export interface PatchRuleRegionSecurityPoliciesRequest extends Omit<
-  SecurityPolicyRule,
-  "priority"
-> {
+export interface PatchRuleRegionSecurityPoliciesRequest extends SecurityPolicyRule {
   /** Name of the region scoping this request. */
   region: string;
   /** If true, the request will not be committed. */
@@ -35017,19 +34999,19 @@ export interface PatchRuleRegionSecurityPoliciesRequest extends Omit<
   /** Name of the security policy to update. */
   securityPolicy: string;
   /** The priority of the rule to patch. */
-  priority?: number | undefined;
+  rulePriority: number;
 }
-export interface PatchRuleSecurityPoliciesRequest extends Omit<SecurityPolicyRule, "priority"> {
+export interface PatchRuleSecurityPoliciesRequest extends SecurityPolicyRule {
   /** If true, the request will not be committed. */
   validateOnly?: boolean | undefined;
-  /** The priority of the rule to patch. */
-  priority?: number | undefined;
   /** Indicates fields to be cleared as part of this request. */
   updateMask?: string | undefined;
   /** Project ID for this request. */
   project: string;
   /** Name of the security policy to update. */
   securityPolicy: string;
+  /** The priority of the rule to patch. */
+  rulePriority: number;
 }
 export interface PatchSecurityPoliciesRequest extends SecurityPolicy {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -35109,10 +35091,7 @@ export interface PatchTargetHttpsProxiesRequest extends TargetHttpsProxy {
   /** Project ID for this request. */
   project: string;
 }
-export interface PatchTrafficClassificationRuleRegionNetworkPoliciesRequest extends Omit<
-  NetworkPolicyTrafficClassificationRule,
-  "priority"
-> {
+export interface PatchTrafficClassificationRuleRegionNetworkPoliciesRequest extends NetworkPolicyTrafficClassificationRule {
   /** Name of the region of this request. */
   region: string;
   /** Name of the network policy resource to update. */
@@ -35122,7 +35101,7 @@ export interface PatchTrafficClassificationRuleRegionNetworkPoliciesRequest exte
   /** Project ID for this request. */
   project: string;
   /** The priority of the traffic classification rule to patch. Only rules with a priority value between 1 and 2147482647 (inclusive) can be patched. */
-  priority?: number | undefined;
+  rulePriority: number;
 }
 export interface PatchUrlMapsRequest extends UrlMap {
   /** Name of the UrlMap resource to patch. */
@@ -91275,9 +91254,9 @@ function __c1166(j: number): any {
         S.Extend(
           __S(7235, __c226, 3),
           S.Struct({
-            priority: S.optional(S.Number.pipe(T.Query())),
             firewallPolicy: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
+            rulePriority: S.Number.pipe(T.Query("priority")),
           }),
         ).pipe(
           T.Http({
@@ -91296,10 +91275,10 @@ function __c1167(j: number): any {
         S.Extend(
           __S(7235, __c226, 3),
           S.Struct({
-            priority: S.optional(S.Number.pipe(T.Query())),
             firewallPolicy: S.String.pipe(T.Label()),
             project: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
+            rulePriority: S.Number.pipe(T.Query("priority")),
           }),
         ).pipe(
           T.Http({
@@ -92248,9 +92227,9 @@ function __c1205(j: number): any {
         S.Extend(
           __S(7235, __c226, 3),
           S.Struct({
-            priority: S.optional(S.Number.pipe(T.Query())),
             firewallPolicy: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
+            rulePriority: S.Number.pipe(T.Query("priority")),
           }),
         ).pipe(
           T.Http({
@@ -92270,9 +92249,9 @@ function __c1206(j: number): any {
           __S(7235, __c226, 3),
           S.Struct({
             project: S.String.pipe(T.Label()),
-            priority: S.optional(S.Number.pipe(T.Query())),
             firewallPolicy: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
+            rulePriority: S.Number.pipe(T.Query("priority")),
           }),
         ).pipe(
           T.Http({
@@ -92293,8 +92272,8 @@ function __c1207(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
-            priority: S.optional(S.Number.pipe(T.Query())),
             securityPolicy: S.String.pipe(T.Label()),
+            rulePriority: S.Number.pipe(T.Query("priority")),
           }),
         ).pipe(
           T.Http({
@@ -92317,7 +92296,7 @@ function __c1208(j: number): any {
             project: S.String.pipe(T.Label()),
             firewallPolicy: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
-            priority: S.optional(S.Number.pipe(T.Query())),
+            rulePriority: S.Number.pipe(T.Query("priority")),
           }),
         ).pipe(
           T.Http({
@@ -92341,7 +92320,7 @@ function __c1209(j: number): any {
             project: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
             securityPolicy: S.String.pipe(T.Label()),
-            priority: S.optional(S.Number.pipe(T.Query())),
+            rulePriority: S.Number.pipe(T.Query("priority")),
           }),
         ).pipe(
           T.Http({
@@ -92361,10 +92340,10 @@ function __c1210(j: number): any {
           __S(10356, __c323, 20),
           S.Struct({
             validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-            priority: S.optional(S.Number.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
             project: S.String.pipe(T.Label()),
             securityPolicy: S.String.pipe(T.Label()),
+            rulePriority: S.Number.pipe(T.Query("priority")),
           }),
         ).pipe(
           T.Http({
@@ -92650,7 +92629,7 @@ function __c1223(j: number): any {
             networkPolicy: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
             project: S.String.pipe(T.Label()),
-            priority: S.optional(S.Number.pipe(T.Query())),
+            rulePriority: S.Number.pipe(T.Query("priority")),
           }),
         ).pipe(
           T.Http({

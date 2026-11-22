@@ -173,7 +173,7 @@ export type AccessorNetworkType =
   | "POLYGON_MUMBAI"
   | (string & {});
 export interface CreateAccessorInput {
-  ClientRequestToken: string;
+  ClientRequestToken?: string | undefined;
   AccessorType: AccessorType;
   Tags?: { [key: string]: string | undefined } | undefined;
   NetworkType?: AccessorNetworkType | undefined;
@@ -219,7 +219,7 @@ export interface MemberConfiguration {
   KmsKeyArn?: string | undefined;
 }
 export interface CreateMemberInput {
-  ClientRequestToken: string;
+  ClientRequestToken?: string | undefined;
   InvitationId: string;
   NetworkId: string;
   MemberConfiguration: MemberConfiguration;
@@ -249,7 +249,7 @@ export interface VotingPolicy {
   ApprovalThresholdPolicy?: ApprovalThresholdPolicy | undefined;
 }
 export interface CreateNetworkInput {
-  ClientRequestToken: string;
+  ClientRequestToken?: string | undefined;
   Name: string;
   Description?: string | undefined;
   Framework: Framework;
@@ -280,7 +280,7 @@ export interface NodeConfiguration {
   StateDB?: StateDBType | undefined;
 }
 export interface CreateNodeInput {
-  ClientRequestToken: string;
+  ClientRequestToken?: string | undefined;
   NetworkId: string;
   MemberId?: string | undefined;
   NodeConfiguration: NodeConfiguration;
@@ -303,7 +303,7 @@ export interface ProposalActions {
   Removals?: RemoveAction[] | undefined;
 }
 export interface CreateProposalInput {
-  ClientRequestToken: string;
+  ClientRequestToken?: string | undefined;
   NetworkId: string;
   MemberId: string;
   Actions: ProposalActions;
@@ -1685,7 +1685,7 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          ClientRequestToken: S.String.pipe(T.IdempotencyToken()),
+          ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           AccessorType: S.String,
           Tags: S.optional(__S(8, __c1, 0)),
           NetworkType: S.optional(S.String),
@@ -1712,7 +1712,7 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          ClientRequestToken: S.String.pipe(T.IdempotencyToken()),
+          ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           InvitationId: S.String,
           NetworkId: S.String.pipe(T.HttpLabel("NetworkId")),
           MemberConfiguration: __S(26, __c3, 2),
@@ -1793,7 +1793,7 @@ function __c6(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          ClientRequestToken: S.String.pipe(T.IdempotencyToken()),
+          ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           Name: S.String,
           Description: S.optional(S.String),
           Framework: S.String,
@@ -1840,7 +1840,7 @@ function __c8(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          ClientRequestToken: S.String.pipe(T.IdempotencyToken()),
+          ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           NetworkId: S.String.pipe(T.HttpLabel("NetworkId")),
           MemberId: S.optional(S.String),
           NodeConfiguration: __S(64, __c8, 0),
@@ -1882,7 +1882,7 @@ function __c10(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          ClientRequestToken: S.String.pipe(T.IdempotencyToken()),
+          ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           NetworkId: S.String.pipe(T.HttpLabel("NetworkId")),
           MemberId: S.String,
           Actions: __S(92, __c11, 4),

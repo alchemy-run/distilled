@@ -902,7 +902,9 @@ function __c2(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/bounties/{id}/cancel", code: 200 })),
       ).annotate({ identifier: "CancelBountyRequest" });
   }
@@ -1079,7 +1081,9 @@ function __c6(j: number): any {
           publish_at: S.optional(S.NullOr(S.String)),
           publish_at_timezone: S.optional(S.NullOr(S.String)),
           title: S.String,
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/bounties", code: 200 })),
       ).annotate({ identifier: "CreateBountyRequest" });
   }

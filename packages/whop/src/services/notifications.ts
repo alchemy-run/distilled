@@ -628,7 +628,9 @@ function __c9(j: number): any {
         S.Struct({
           all: S.optional(S.Boolean),
           experience_id: S.optional(S.String),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/notifications/mark_read", code: 200 })),
       ).annotate({ identifier: "ReadMarkNotificationRequest" });
   }
@@ -646,7 +648,9 @@ function __c10(j: number): any {
           subtitle: S.optional(S.NullOr(S.String)),
           title: S.String,
           user_ids: S.optional(__S(40, __c5, 0)),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/notifications", code: 200 })),
       ).annotate({ identifier: "SendNotificationRequest" });
     case 1:

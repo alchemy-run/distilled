@@ -38,7 +38,7 @@ import type {
   NotFound as CoreNotFound,
   UnprocessableEntity as CoreUnprocessableEntity,
 } from "@distilled.cloud/core/errors";
-import { UnknownErrorFields } from "@distilled.cloud/core/errors";
+import { ResponseErrorFields, UnknownErrorFields } from "@distilled.cloud/core/errors";
 import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
 /**
@@ -59,8 +59,23 @@ export class RivetParseError
     cause: Schema.Unknown,
   }).pipe(Category.withParseError) {}
 
+/**
+ * The endpoint answered, but not the engine: a 404 without `x-rivet-ray-id`,
+ * which the engine stamps on every response it sends
+ * (https://rivet.dev/docs/api/errors#ray-ids), including its own 404 for a
+ * path it does not serve. A platform's router answers like this while the
+ * engine behind it is starting or restarting (Railway's "Application not
+ * found"), and for a host that serves no engine at all. It never means the
+ * requested pool or namespace is missing.
+ */
+export class EngineNotReady
+  extends /*@__PURE__*/ Schema.TaggedError<EngineNotReady>()("EngineNotReady", {
+    message: Schema.String,
+    ...ResponseErrorFields,
+  }).pipe(Category.withServerError, /*@__PURE__*/ Category.withRetryable()) {}
+
 /** Errors any Rivet operation may surface beyond the core HTTP defaults. */
-export type ClientErrors = UnknownRivetError | RivetParseError;
+export type ClientErrors = UnknownRivetError | RivetParseError | EngineNotReady;
 
 /**
  * Default Rivet operation errors: the shared HTTP status errors from core

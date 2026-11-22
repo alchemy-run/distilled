@@ -1,0 +1,40 @@
+{
+  "description": "POST /v0/analyze takes a local file as the multipart part `file` (`-F \"file=@path_to_local_file\"`) or a remote one as the `url` query parameter (`-G --data-urlencode \"url=...\"`) (https://www.tinybird.co/docs/api-reference/analyze-api); its section has no parameter table.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.tinybird.analyze#PostV0AnalyzeRequest",
+      "value": {
+        "type": "structure",
+        "members": {
+          "file": {
+            "target": "smithy.api#Blob",
+            "traits": {
+              "smithy.api#documentation": "A sample of a local CSV, NDJSON or Parquet file (multipart part `file`)."
+            }
+          },
+          "url": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#httpQuery": "url",
+              "smithy.api#documentation": "URL of a remote file to analyze."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#input": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tinybird.analyze#PostV0Analyze/input/target",
+      "value": "com.tinybird.analyze#PostV0AnalyzeRequest"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tinybird.analyze#PostV0Analyze/traits/smithy.api#http/contentType",
+      "value": "multipart"
+    }
+  ]
+}

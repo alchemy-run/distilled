@@ -97,7 +97,7 @@ export interface CancelTradeRequest {
   /** Free-form string-to-string annotations stored on the trade. */
   metadata?: CancelTradeRequestMetadataMap | null | undefined;
   /** Required. Reuse the same key when retrying, including after a `submission_unknown` outcome; a new key submits a new trade. */
-  idempotency_key: string;
+  idempotency_key?: string | undefined;
 }
 /** `canceled` when the provider canceled the order; `rejected` when it refused, for example because the order had already filled. */
 export type TradeCancellationResultStatus = "canceled" | "rejected";
@@ -308,7 +308,7 @@ export interface CreateTradeRequest {
   /** Default slippage cap in basis points for market orders and market-triggered take-profit and stop-loss. */
   slippage_bps?: number | null | undefined;
   /** Required. Reuse the same key when retrying, including after a `submission_unknown` outcome; a new key submits a new trade. */
-  idempotency_key: string;
+  idempotency_key?: string | undefined;
 }
 export interface GetTradeRequest {
   /** Trade ID, prefixed `trop_`. */
@@ -372,7 +372,7 @@ export interface UpdateTradeLeverageRequest {
   metadata?: UpdateTradeLeverageRequestMetadataMap | null | undefined;
   provider: UpdateTradeLeverageRequestProvider | (string & {});
   /** Required. Reuse the same key when retrying, including after a `submission_unknown` outcome; a new key submits a new trade. */
-  idempotency_key: string;
+  idempotency_key?: string | undefined;
 }
 export interface V1ErrorResponseError {
   /** Machine-readable reason for this specific refusal, such as `bank_warning_not_acknowledged`. Only present when the error carries one. */
@@ -504,7 +504,9 @@ function __c1(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           metadata: S.optional(S.NullOr(__S(48, __c3, 0))),
-          idempotency_key: S.String.pipe(T.Header("Idempotency-Key")),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/trades/{id}/cancel", code: 200 })),
       ).annotate({ identifier: "CancelTradeRequest" });
   }
@@ -656,7 +658,9 @@ function __c4(j: number): any {
           orders: __S(66, __c4, 2),
           provider: S.String,
           slippage_bps: S.optional(S.NullOr(S.Number)),
-          idempotency_key: S.String.pipe(T.Header("Idempotency-Key")),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/trades", code: 200 })),
       ).annotate({ identifier: "CreateTradeRequest" });
   }
@@ -718,7 +722,9 @@ function __c7(j: number): any {
           market: S.String,
           metadata: S.optional(S.NullOr(__S(48, __c3, 0))),
           provider: S.String,
-          idempotency_key: S.String.pipe(T.Header("Idempotency-Key")),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/trades/leverage", code: 200 })),
       ).annotate({ identifier: "UpdateTradeLeverageRequest" });
   }

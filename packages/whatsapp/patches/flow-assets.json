@@ -1,0 +1,19 @@
+{
+  "description": "Flow asset operations. GET /{Flow-ID}/assets declares a `multipart/form-data` request body with no fields, so the operation is generated as a multipart call and a GET with a form body fails in the HTTP client before it is sent (live, 2026-11-18: `TypeError: Request with GET/HEAD method cannot have body`); a plain GET returns the asset list. Its `contentType` is removed. POST /{Flow-ID}/assets uploads the Flow JSON as a multipart file part, but the spec types `file` as a string: live on 2026-11-18 (v23.0) a multipart request with `file` as a `File` (`flow.json`, `application/json`), `name: flow.json` and `asset_type: FLOW_JSON` returned `{ success: true, validation_errors: [] }`. `file` becomes binary.",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.meta.whatsapp#ListAssetsGetFlowJsonUrl/traits/smithy.api#http/contentType"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.meta.whatsapp#UpdateFlowJsonRequest/members/file",
+      "value": {
+        "target": "smithy.api#Blob",
+        "traits": {
+          "smithy.api#documentation": "The Flow JSON file. A `File` keeps its name; a `Blob` or bytes are sent under the part name."
+        }
+      }
+    }
+  ]
+}

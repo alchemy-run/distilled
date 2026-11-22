@@ -631,7 +631,9 @@ function __c1(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           account_id: S.optional(S.String),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/social_accounts/{id}/refresh", code: 200 })),
       ).annotate({ identifier: "RefreshSocialAccountRequest" });
   }
@@ -645,7 +647,9 @@ function __c2(j: number): any {
           platform: S.String,
           redirect_url: S.String,
           scopes: S.optional(__S(48, __c3, 0)),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/social_accounts/connect", code: 200 })),
       ).annotate({ identifier: "ConnectSocialAccountRequest" });
     case 1:
@@ -669,7 +673,9 @@ function __c4(j: number): any {
         S.Struct({
           account_id: S.optional(S.String),
           platform: S.String,
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/social_accounts", code: 200 })),
       ).annotate({ identifier: "CreateSocialAccountRequest" });
   }
