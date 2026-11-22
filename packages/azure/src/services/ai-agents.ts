@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import { AzureDataPlaneProtocol } from "../data-plane-protocol.ts";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -1869,7 +1869,8 @@ export const CancelRunRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CancelRunRunRequest>,
   output: __S(357, __c11, 5) as any as S.Schema<ThreadRun>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1890,7 +1891,8 @@ export const CancelVectorStoreFileBatchVectorStoreFileBatch: API.OperationMethod
     0,
   ) as any as S.Schema<CancelVectorStoreFileBatchVectorStoreFileBatchRequest>,
   output: __S(416, __c13, 0) as any as S.Schema<VectorStoreFileBatch>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1907,7 +1909,8 @@ export const CreateAgent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c27, 0) as any as S.Schema<CreateAgentRequest>,
   output: __S(896, __c28, 0) as any as S.Schema<Agent>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1924,7 +1927,8 @@ export const CreateMessageMessage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1312, __c41, 0) as any as S.Schema<CreateMessageMessageRequest>,
   output: __S(1381, __c43, 5) as any as S.Schema<ThreadMessage>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1941,7 +1945,8 @@ export const CreateRunRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1792, __c56, 0) as any as S.Schema<CreateRunRunRequest>,
   output: __S(357, __c11, 5) as any as S.Schema<ThreadRun>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1958,7 +1963,8 @@ export const CreateThreadAndRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1921, __c60, 1) as any as S.Schema<CreateThreadAndRunRequest>,
   output: __S(357, __c11, 5) as any as S.Schema<ThreadRun>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1975,7 +1981,8 @@ export const CreateThreadThread: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1952, __c61, 0) as any as S.Schema<CreateThreadThreadRequest>,
   output: __S(1984, __c62, 0) as any as S.Schema<AgentThread>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1996,7 +2003,8 @@ export const CreateVectorStoreFileBatchVectorStoreFileBatch: API.OperationMethod
     0,
   ) as any as S.Schema<CreateVectorStoreFileBatchVectorStoreFileBatchRequest>,
   output: __S(416, __c13, 0) as any as S.Schema<VectorStoreFileBatch>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2013,7 +2021,8 @@ export const CreateVectorStoreFileVectorStoreFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2080, __c65, 0) as any as S.Schema<CreateVectorStoreFileVectorStoreFileRequest>,
   output: __S(2144, __c67, 0) as any as S.Schema<VectorStoreFile>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2030,7 +2039,8 @@ export const CreateVectorStoreVectorStore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2176, __c68, 0) as any as S.Schema<CreateVectorStoreVectorStoreRequest>,
   output: __S(2209, __c69, 1) as any as S.Schema<VectorStore>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2047,7 +2057,8 @@ export const DeleteAgent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c15, 0) as any as S.Schema<DeleteAgentRequest>,
   output: __S(512, __c16, 0) as any as S.Schema<AgentDeletionStatus>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2064,7 +2075,8 @@ export const DeleteFileFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c17, 0) as any as S.Schema<DeleteFileFileRequest>,
   output: __S(512, __c16, 0) as any as S.Schema<FileDeletionStatus>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2081,7 +2093,8 @@ export const DeleteThreadThread: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c18, 0) as any as S.Schema<DeleteThreadThreadRequest>,
   output: __S(512, __c16, 0) as any as S.Schema<ThreadDeletionStatus>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2098,7 +2111,8 @@ export const DeleteVectorStoreFileVectorStoreFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c19, 0) as any as S.Schema<DeleteVectorStoreFileVectorStoreFileRequest>,
   output: __S(512, __c16, 0) as any as S.Schema<VectorStoreFileDeletionStatus>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2115,7 +2129,8 @@ export const DeleteVectorStoreVectorStore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c20, 0) as any as S.Schema<DeleteVectorStoreVectorStoreRequest>,
   output: __S(512, __c16, 0) as any as S.Schema<VectorStoreDeletionStatus>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2128,7 +2143,8 @@ export const GetAgent: API.OperationMethod<GetAgentRequest, Agent, GetAgentError
   /*@__PURE__*/ API.make(() => ({
     input: __S(672, __c21, 0) as any as S.Schema<GetAgentRequest>,
     output: __S(896, __c28, 0) as any as S.Schema<Agent>,
-    errors: [UnknownAzureError],
+    errors: [],
+    serviceErrors: AzureServiceErrors,
     protocol: AzureDataPlaneProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2145,7 +2161,8 @@ export const GetFileFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c22, 0) as any as S.Schema<GetFileFileRequest>,
   output: __S(736, __c23, 0) as any as S.Schema<FileInfo>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2162,7 +2179,8 @@ export const GetFileFileContent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c24, 0) as any as S.Schema<GetFileFileContentRequest>,
   output: __S(769, __c24, 1) as any as S.Schema<GetFileFileContentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2179,7 +2197,8 @@ export const GetMessageMessage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c25, 0) as any as S.Schema<GetMessageMessageRequest>,
   output: __S(1381, __c43, 5) as any as S.Schema<ThreadMessage>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2196,7 +2215,8 @@ export const GetRunRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c26, 0) as any as S.Schema<GetRunRunRequest>,
   output: __S(357, __c11, 5) as any as S.Schema<ThreadRun>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2213,7 +2233,8 @@ export const GetRunStepRunStep: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c30, 0) as any as S.Schema<GetRunStepRunStepRequest>,
   output: __S(1013, __c31, 21) as any as S.Schema<RunStep>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2230,7 +2251,8 @@ export const GetThreadThread: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c32, 0) as any as S.Schema<GetThreadThreadRequest>,
   output: __S(1984, __c62, 0) as any as S.Schema<AgentThread>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2247,7 +2269,8 @@ export const GetVectorStoreFileBatchVectorStoreFileBatch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c33, 0) as any as S.Schema<GetVectorStoreFileBatchVectorStoreFileBatchRequest>,
   output: __S(416, __c13, 0) as any as S.Schema<VectorStoreFileBatch>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2264,7 +2287,8 @@ export const GetVectorStoreFileVectorStoreFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c34, 0) as any as S.Schema<GetVectorStoreFileVectorStoreFileRequest>,
   output: __S(2144, __c67, 0) as any as S.Schema<VectorStoreFile>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2281,7 +2305,8 @@ export const GetVectorStoreVectorStore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c35, 0) as any as S.Schema<GetVectorStoreVectorStoreRequest>,
   output: __S(2209, __c69, 1) as any as S.Schema<VectorStore>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2298,7 +2323,8 @@ export const ListAgents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c36, 0) as any as S.Schema<ListAgentsRequest>,
   output: __S(1154, __c36, 2) as any as S.Schema<ListAgentsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2315,7 +2341,8 @@ export const ListFileFiles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c37, 0) as any as S.Schema<ListFileFilesRequest>,
   output: __S(1186, __c37, 2) as any as S.Schema<FileListResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2332,7 +2359,8 @@ export const ListMessageMessages: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c38, 0) as any as S.Schema<ListMessageMessagesRequest>,
   output: __S(1218, __c38, 2) as any as S.Schema<ListMessageMessagesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2349,7 +2377,8 @@ export const ListRunRuns: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c39, 0) as any as S.Schema<ListRunRunsRequest>,
   output: __S(1250, __c39, 2) as any as S.Schema<ListRunRunsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2366,7 +2395,8 @@ export const ListRunStepRunSteps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1280, __c40, 0) as any as S.Schema<ListRunStepRunStepsRequest>,
   output: __S(1282, __c40, 2) as any as S.Schema<ListRunStepRunStepsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2383,7 +2413,8 @@ export const ListThreadThreads: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c45, 0) as any as S.Schema<ListThreadThreadsRequest>,
   output: __S(1442, __c45, 2) as any as S.Schema<ListThreadThreadsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2408,7 +2439,8 @@ export const ListVectorStoreFileBatchVectorStoreFileBatchFiles: API.OperationMet
     __c47,
     1,
   ) as any as S.Schema<ListVectorStoreFileBatchVectorStoreFileBatchFilesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2425,7 +2457,8 @@ export const ListVectorStoreFileVectorStoreFiles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1536, __c48, 0) as any as S.Schema<ListVectorStoreFileVectorStoreFilesRequest>,
   output: __S(1505, __c47, 1) as any as S.Schema<ListVectorStoreFileVectorStoreFilesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2442,7 +2475,8 @@ export const ListVectorStoreVectorStores: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1568, __c49, 0) as any as S.Schema<ListVectorStoreVectorStoresRequest>,
   output: __S(1570, __c49, 2) as any as S.Schema<ListVectorStoreVectorStoresResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2459,7 +2493,8 @@ export const ModifyVectorStoreVectorStore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1600, __c50, 0) as any as S.Schema<ModifyVectorStoreVectorStoreRequest>,
   output: __S(2209, __c69, 1) as any as S.Schema<VectorStore>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2476,7 +2511,8 @@ export const SubmitRunToolOutputsToRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1634, __c51, 2) as any as S.Schema<SubmitRunToolOutputsToRunRequest>,
   output: __S(357, __c11, 5) as any as S.Schema<ThreadRun>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2493,7 +2529,8 @@ export const UpdateAgent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1664, __c52, 0) as any as S.Schema<UpdateAgentRequest>,
   output: __S(896, __c28, 0) as any as S.Schema<Agent>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2510,7 +2547,8 @@ export const UpdateMessageMessage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1696, __c53, 0) as any as S.Schema<UpdateMessageMessageRequest>,
   output: __S(1381, __c43, 5) as any as S.Schema<ThreadMessage>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2527,7 +2565,8 @@ export const UpdateRunRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1728, __c54, 0) as any as S.Schema<UpdateRunRunRequest>,
   output: __S(357, __c11, 5) as any as S.Schema<ThreadRun>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2544,7 +2583,8 @@ export const UpdateThreadThread: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1760, __c55, 0) as any as S.Schema<UpdateThreadThreadRequest>,
   output: __S(1984, __c62, 0) as any as S.Schema<AgentThread>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2561,7 +2601,8 @@ export const UploadFileFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1888, __c59, 0) as any as S.Schema<UploadFileFileRequest>,
   output: __S(736, __c23, 0) as any as S.Schema<FileInfo>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

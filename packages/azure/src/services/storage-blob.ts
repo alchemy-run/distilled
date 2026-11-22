@@ -4,7 +4,7 @@ import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
 import { AzureDataPlaneProtocol } from "../data-plane-protocol.ts";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -4283,7 +4283,8 @@ export const AppendBlobAppendBlockFromUrl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<AppendBlobAppendBlockFromUrlRequest>,
   output: __S(1, __c0, 1) as any as S.Schema<AppendBlobAppendBlockFromUrlResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4300,7 +4301,8 @@ export const BlobAbortCopyFromURL: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c1, 0) as any as S.Schema<BlobAbortCopyFromURLRequest>,
   output: __S(32, __c2, 0) as any as S.Schema<BlobAbortCopyFromURLResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4317,7 +4319,8 @@ export const BlobAcquireLease: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(272, __c17, 0) as any as S.Schema<BlobAcquireLeaseRequest>,
   output: __S(288, __c18, 0) as any as S.Schema<BlobAcquireLeaseResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4334,7 +4337,8 @@ export const BlobBreakLease: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(496, __c31, 0) as any as S.Schema<BlobBreakLeaseRequest>,
   output: __S(512, __c32, 0) as any as S.Schema<BlobBreakLeaseResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4351,7 +4355,8 @@ export const BlobChangeLease: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c46, 0) as any as S.Schema<BlobChangeLeaseRequest>,
   output: __S(737, __c46, 1) as any as S.Schema<BlobChangeLeaseResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4368,7 +4373,8 @@ export const BlobQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(967, __c60, 7) as any as S.Schema<BlobQueryRequest>,
   output: __S(968, __c60, 8) as any as S.Schema<BlobQueryResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4385,7 +4391,8 @@ export const BlobReleaseLease: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1168, __c73, 0) as any as S.Schema<BlobReleaseLeaseRequest>,
   output: __S(1184, __c74, 0) as any as S.Schema<BlobReleaseLeaseResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4402,7 +4409,8 @@ export const BlobStartCopyFromURL: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1392, __c87, 0) as any as S.Schema<BlobStartCopyFromURLRequest>,
   output: __S(1393, __c87, 1) as any as S.Schema<BlobStartCopyFromURLResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4419,7 +4427,8 @@ export const BlockAppendBlobAppend: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1456, __c91, 0) as any as S.Schema<BlockAppendBlobAppendRequest>,
   output: __S(1457, __c91, 1) as any as S.Schema<BlockAppendBlobAppendResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4436,7 +4445,8 @@ export const BlockBlobGetBlockList: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1472, __c92, 0) as any as S.Schema<BlockBlobGetBlockListRequest>,
   output: __S(1475, __c92, 3) as any as S.Schema<BlockBlobGetBlockListResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4453,7 +4463,8 @@ export const BlockBlobStageBlock: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c3, 0) as any as S.Schema<BlockBlobStageBlockRequest>,
   output: __S(49, __c3, 1) as any as S.Schema<BlockBlobStageBlockResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4470,7 +4481,8 @@ export const BlockBlobStageBlockFromURL: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c4, 0) as any as S.Schema<BlockBlobStageBlockFromURLRequest>,
   output: __S(65, __c4, 1) as any as S.Schema<BlockBlobStageBlockFromURLResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4487,7 +4499,8 @@ export const ClearPageBlobPages: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c5, 0) as any as S.Schema<ClearPageBlobPagesRequest>,
   output: __S(81, __c5, 1) as any as S.Schema<ClearPageBlobPagesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4504,7 +4517,8 @@ export const ContainerAcquireLease: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c6, 0) as any as S.Schema<ContainerAcquireLeaseRequest>,
   output: __S(288, __c18, 0) as any as S.Schema<ContainerAcquireLeaseResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4521,7 +4535,8 @@ export const ContainerBreakLease: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c7, 0) as any as S.Schema<ContainerBreakLeaseRequest>,
   output: __S(512, __c32, 0) as any as S.Schema<ContainerBreakLeaseResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4538,7 +4553,8 @@ export const ContainerChangeLease: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c8, 0) as any as S.Schema<ContainerChangeLeaseRequest>,
   output: __S(288, __c18, 0) as any as S.Schema<ContainerChangeLeaseResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4555,7 +4571,8 @@ export const ContainerFilterBlobs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c9, 0) as any as S.Schema<ContainerFilterBlobsRequest>,
   output: __S(210, __c13, 2) as any as S.Schema<ContainerFilterBlobsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4572,7 +4589,8 @@ export const ContainerReleaseLease: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c14, 0) as any as S.Schema<ContainerReleaseLeaseRequest>,
   output: __S(1184, __c74, 0) as any as S.Schema<ContainerReleaseLeaseResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4589,7 +4607,8 @@ export const CopyBlobFromURL: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(240, __c15, 0) as any as S.Schema<CopyBlobFromURLRequest>,
   output: __S(241, __c15, 1) as any as S.Schema<CopyBlobFromURLResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4606,7 +4625,8 @@ export const CopyPageBlobIncremental: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c16, 0) as any as S.Schema<CopyPageBlobIncrementalRequest>,
   output: __S(257, __c16, 1) as any as S.Schema<CopyPageBlobIncrementalResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4623,7 +4643,8 @@ export const CreateAppendBlob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(304, __c19, 0) as any as S.Schema<CreateAppendBlobRequest>,
   output: __S(320, __c20, 0) as any as S.Schema<CreateAppendBlobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4640,7 +4661,8 @@ export const CreateBlobSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(336, __c21, 0) as any as S.Schema<CreateBlobSnapshotRequest>,
   output: __S(337, __c21, 1) as any as S.Schema<CreateBlobSnapshotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4657,7 +4679,8 @@ export const CreateContainer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c22, 0) as any as S.Schema<CreateContainerRequest>,
   output: __S(1184, __c74, 0) as any as S.Schema<CreateContainerResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4674,7 +4697,8 @@ export const CreateContainerSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(368, __c23, 0) as any as S.Schema<CreateContainerSessionRequest>,
   output: __S(370, __c23, 2) as any as S.Schema<CreateSessionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4691,7 +4715,8 @@ export const CreatePageBlob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c24, 0) as any as S.Schema<CreatePageBlobRequest>,
   output: __S(320, __c20, 0) as any as S.Schema<CreatePageBlobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4708,7 +4733,8 @@ export const DeleteBlob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(400, __c25, 0) as any as S.Schema<DeleteBlobRequest>,
   output: __S(32, __c2, 0) as any as S.Schema<DeleteBlobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4725,7 +4751,8 @@ export const DeleteBlobImmutabilityPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c26, 0) as any as S.Schema<DeleteBlobImmutabilityPolicyRequest>,
   output: __S(32, __c2, 0) as any as S.Schema<DeleteBlobImmutabilityPolicyResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4742,7 +4769,8 @@ export const DeleteContainer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(432, __c27, 0) as any as S.Schema<DeleteContainerRequest>,
   output: __S(32, __c2, 0) as any as S.Schema<DeleteContainerResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4759,7 +4787,8 @@ export const DownloadBlob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c28, 0) as any as S.Schema<DownloadBlobRequest>,
   output: __S(449, __c28, 1) as any as S.Schema<DownloadBlobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4776,7 +4805,8 @@ export const GetBlobAccountInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(464, __c29, 0) as any as S.Schema<GetBlobAccountInfoRequest>,
   output: __S(480, __c30, 0) as any as S.Schema<GetBlobAccountInfoResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4793,7 +4823,8 @@ export const GetBlobLayout: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(528, __c33, 0) as any as S.Schema<GetBlobLayoutRequest>,
   output: __S(535, __c33, 7) as any as S.Schema<GetBlobLayoutResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4810,7 +4841,8 @@ export const GetBlobProperties: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c34, 0) as any as S.Schema<GetBlobPropertiesRequest>,
   output: __S(545, __c34, 1) as any as S.Schema<GetBlobPropertiesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4827,7 +4859,8 @@ export const GetBlobTags: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(560, __c35, 0) as any as S.Schema<GetBlobTagsRequest>,
   output: __S(561, __c35, 1) as any as S.Schema<GetBlobTagsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4844,7 +4877,8 @@ export const GetContainerAccessPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c36, 0) as any as S.Schema<GetContainerAccessPolicyRequest>,
   output: __S(577, __c36, 1) as any as S.Schema<GetContainerAccessPolicyResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4861,7 +4895,8 @@ export const GetContainerAccountInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c38, 0) as any as S.Schema<GetContainerAccountInfoRequest>,
   output: __S(480, __c30, 0) as any as S.Schema<GetContainerAccountInfoResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4878,7 +4913,8 @@ export const GetContainerProperties: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(624, __c39, 0) as any as S.Schema<GetContainerPropertiesRequest>,
   output: __S(625, __c39, 1) as any as S.Schema<GetContainerPropertiesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4896,7 +4932,8 @@ export const GetPageBlobPageRanges: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(640, __c40, 0) as any as S.Schema<GetPageBlobPageRangesRequest>,
   output: __S(658, __c41, 2) as any as S.Schema<GetPageBlobPageRangesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4920,7 +4957,8 @@ export const GetPageBlobPageRangesDiff: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(672, __c42, 0) as any as S.Schema<GetPageBlobPageRangesDiffRequest>,
   output: __S(658, __c41, 2) as any as S.Schema<GetPageBlobPageRangesDiffResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4943,7 +4981,8 @@ export const GetServiceAccountInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(688, __c43, 0) as any as S.Schema<GetServiceAccountInfoRequest>,
   output: __S(480, __c30, 0) as any as S.Schema<GetServiceAccountInfoResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4960,7 +4999,8 @@ export const GetServiceProperties: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c44, 0) as any as S.Schema<GetServicePropertiesRequest>,
   output: __S(705, __c44, 1) as any as S.Schema<GetServicePropertiesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4977,7 +5017,8 @@ export const GetServiceStatistics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(752, __c47, 0) as any as S.Schema<GetServiceStatisticsRequest>,
   output: __S(754, __c47, 2) as any as S.Schema<GetServiceStatisticsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4994,7 +5035,8 @@ export const GetServiceUserDelegationKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c48, 0) as any as S.Schema<GetServiceUserDelegationKeyRequest>,
   output: __S(769, __c48, 1) as any as S.Schema<GetServiceUserDelegationKeyResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5011,7 +5053,8 @@ export const ListBlockBlobCommitBlock: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(785, __c49, 1) as any as S.Schema<ListBlockBlobCommitBlockRequest>,
   output: __S(800, __c50, 0) as any as S.Schema<ListBlockBlobCommitBlockResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5029,7 +5072,8 @@ export const ListContainerBlobFlatSegment: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(816, __c51, 0) as any as S.Schema<ListContainerBlobFlatSegmentRequest>,
   output: __S(818, __c51, 2) as any as S.Schema<ListContainerBlobFlatSegmentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5052,7 +5096,8 @@ export const ListContainerBlobFlatSegmentApacheArrow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(848, __c53, 0) as any as S.Schema<ListContainerBlobFlatSegmentApacheArrowRequest>,
   output: __S(864, __c54, 0) as any as S.Schema<ListContainerBlobFlatSegmentApacheArrowResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5070,7 +5115,8 @@ export const ListContainerBlobHierarchySegment: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(880, __c55, 0) as any as S.Schema<ListContainerBlobHierarchySegmentRequest>,
   output: __S(884, __c55, 4) as any as S.Schema<ListContainerBlobHierarchySegmentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5097,7 +5143,8 @@ export const ListContainerBlobHierarchySegmentApacheArrow: API.OperationMethod<
     __c54,
     0,
   ) as any as S.Schema<ListContainerBlobHierarchySegmentApacheArrowResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5115,7 +5162,8 @@ export const ListServiceContainersSegment: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(912, __c57, 0) as any as S.Schema<ListServiceContainersSegmentRequest>,
   output: __S(916, __c57, 4) as any as S.Schema<ListServiceContainersSegmentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5138,7 +5186,8 @@ export const PutBlockBlobBlobFromUrl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c58, 0) as any as S.Schema<PutBlockBlobBlobFromUrlRequest>,
   output: __S(800, __c50, 0) as any as S.Schema<PutBlockBlobBlobFromUrlResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5155,7 +5204,8 @@ export const RenameContainer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(944, __c59, 0) as any as S.Schema<RenameContainerRequest>,
   output: __S(32, __c2, 0) as any as S.Schema<RenameContainerResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5172,7 +5222,8 @@ export const RenewBlobLease: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c62, 0) as any as S.Schema<RenewBlobLeaseRequest>,
   output: __S(288, __c18, 0) as any as S.Schema<RenewBlobLeaseResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5189,7 +5240,8 @@ export const RenewContainerLease: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1008, __c63, 0) as any as S.Schema<RenewContainerLeaseRequest>,
   output: __S(288, __c18, 0) as any as S.Schema<RenewContainerLeaseResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5206,7 +5258,8 @@ export const ResizePageBlob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c64, 0) as any as S.Schema<ResizePageBlobRequest>,
   output: __S(1040, __c65, 0) as any as S.Schema<ResizePageBlobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5223,7 +5276,8 @@ export const RestoreContainer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c66, 0) as any as S.Schema<RestoreContainerRequest>,
   output: __S(32, __c2, 0) as any as S.Schema<RestoreContainerResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5240,7 +5294,8 @@ export const SealAppendBlob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1072, __c67, 0) as any as S.Schema<SealAppendBlobRequest>,
   output: __S(1073, __c67, 1) as any as S.Schema<SealAppendBlobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5257,7 +5312,8 @@ export const ServiceFilterBlobs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c68, 0) as any as S.Schema<ServiceFilterBlobsRequest>,
   output: __S(210, __c13, 2) as any as S.Schema<ServiceFilterBlobsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5274,7 +5330,8 @@ export const SetBlobExpiry: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1104, __c69, 0) as any as S.Schema<SetBlobExpiryRequest>,
   output: __S(1184, __c74, 0) as any as S.Schema<SetBlobExpiryResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5291,7 +5348,8 @@ export const SetBlobHTTPHeaders: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c70, 0) as any as S.Schema<SetBlobHTTPHeadersRequest>,
   output: __S(1040, __c65, 0) as any as S.Schema<SetBlobHTTPHeadersResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5308,7 +5366,8 @@ export const SetBlobImmutabilityPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1136, __c71, 0) as any as S.Schema<SetBlobImmutabilityPolicyRequest>,
   output: __S(1137, __c71, 1) as any as S.Schema<SetBlobImmutabilityPolicyResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5325,7 +5384,8 @@ export const SetBlobLegalHold: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c72, 0) as any as S.Schema<SetBlobLegalHoldRequest>,
   output: __S(1153, __c72, 1) as any as S.Schema<SetBlobLegalHoldResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5342,7 +5402,8 @@ export const SetBlobMetadata: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1200, __c75, 0) as any as S.Schema<SetBlobMetadataRequest>,
   output: __S(1201, __c75, 1) as any as S.Schema<SetBlobMetadataResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5359,7 +5420,8 @@ export const SetBlobTags: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c76, 0) as any as S.Schema<SetBlobTagsRequest>,
   output: __S(32, __c2, 0) as any as S.Schema<SetBlobTagsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5376,7 +5438,8 @@ export const SetBlobTier: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1232, __c77, 0) as any as S.Schema<SetBlobTierRequest>,
   output: __S(1248, __c78, 0) as any as S.Schema<SetBlobTierResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5393,7 +5456,8 @@ export const SetContainerAccessPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1264, __c79, 0) as any as S.Schema<SetContainerAccessPolicyRequest>,
   output: __S(1184, __c74, 0) as any as S.Schema<SetContainerAccessPolicyResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5410,7 +5474,8 @@ export const SetContainerMetadata: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1280, __c80, 0) as any as S.Schema<SetContainerMetadataRequest>,
   output: __S(1184, __c74, 0) as any as S.Schema<SetContainerMetadataResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5427,7 +5492,8 @@ export const SetServiceProperties: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1296, __c81, 0) as any as S.Schema<SetServicePropertiesRequest>,
   output: __S(1248, __c78, 0) as any as S.Schema<SetServicePropertiesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5444,7 +5510,8 @@ export const SubmitContainerBatch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1312, __c82, 0) as any as S.Schema<SubmitContainerBatchRequest>,
   output: __S(1328, __c83, 0) as any as S.Schema<SubmitContainerBatchResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5461,7 +5528,8 @@ export const SubmitServiceBatch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1344, __c84, 0) as any as S.Schema<SubmitServiceBatchRequest>,
   output: __S(1328, __c83, 0) as any as S.Schema<SubmitServiceBatchResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5478,7 +5546,8 @@ export const UndeleteBlob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1360, __c85, 0) as any as S.Schema<UndeleteBlobRequest>,
   output: __S(32, __c2, 0) as any as S.Schema<UndeleteBlobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5495,7 +5564,8 @@ export const UpdatePageBlobSequenceNumber: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1376, __c86, 0) as any as S.Schema<UpdatePageBlobSequenceNumberRequest>,
   output: __S(1040, __c65, 0) as any as S.Schema<UpdatePageBlobSequenceNumberResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5512,7 +5582,8 @@ export const UploadBlockBlob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c88, 0) as any as S.Schema<UploadBlockBlobRequest>,
   output: __S(1409, __c88, 1) as any as S.Schema<UploadBlockBlobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5529,7 +5600,8 @@ export const UploadPageBlobPages: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1424, __c89, 0) as any as S.Schema<UploadPageBlobPagesRequest>,
   output: __S(1425, __c89, 1) as any as S.Schema<UploadPageBlobPagesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5546,7 +5618,8 @@ export const UploadPageBlobPagesFromURL: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c90, 0) as any as S.Schema<UploadPageBlobPagesFromURLRequest>,
   output: __S(1441, __c90, 1) as any as S.Schema<UploadPageBlobPagesFromURLResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import { AzureDataPlaneProtocol } from "../data-plane-protocol.ts";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -2950,7 +2950,8 @@ export const CopyFileAbort: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CopyFileAbortRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<CopyFileAbortResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2967,7 +2968,8 @@ export const CreateDirectory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c2, 0) as any as S.Schema<CreateDirectoryRequest>,
   output: __S(33, __c2, 1) as any as S.Schema<CreateDirectoryResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2984,7 +2986,8 @@ export const CreateFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(304, __c19, 0) as any as S.Schema<CreateFileRequest>,
   output: __S(305, __c19, 1) as any as S.Schema<CreateFileResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3001,7 +3004,8 @@ export const CreateFileHardLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c34, 0) as any as S.Schema<CreateFileHardLinkRequest>,
   output: __S(545, __c34, 1) as any as S.Schema<CreateFileHardLinkResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3018,7 +3022,8 @@ export const CreateFileSymbolicLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(752, __c47, 0) as any as S.Schema<CreateFileSymbolicLinkRequest>,
   output: __S(753, __c47, 1) as any as S.Schema<CreateFileSymbolicLinkResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3035,7 +3040,8 @@ export const CreateShare: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c60, 0) as any as S.Schema<CreateShareRequest>,
   output: __S(961, __c60, 1) as any as S.Schema<CreateShareResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3052,7 +3058,8 @@ export const CreateSharePermission: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1041, __c65, 1) as any as S.Schema<CreateSharePermissionRequest>,
   output: __S(1042, __c65, 2) as any as S.Schema<CreateSharePermissionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3069,7 +3076,8 @@ export const CreateShareSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c66, 0) as any as S.Schema<CreateShareSnapshotRequest>,
   output: __S(1057, __c66, 1) as any as S.Schema<CreateShareSnapshotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3086,7 +3094,8 @@ export const DeleteDirectory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1072, __c67, 0) as any as S.Schema<DeleteDirectoryRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteDirectoryResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3103,7 +3112,8 @@ export const DeleteFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c68, 0) as any as S.Schema<DeleteFileRequest>,
   output: __S(1089, __c68, 1) as any as S.Schema<DeleteFileResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3120,7 +3130,8 @@ export const DeleteShare: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c4, 0) as any as S.Schema<DeleteShareRequest>,
   output: __S(65, __c4, 1) as any as S.Schema<DeleteShareResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3137,7 +3148,8 @@ export const DirectoryForceCloseHandles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c5, 0) as any as S.Schema<DirectoryForceCloseHandlesRequest>,
   output: __S(96, __c6, 0) as any as S.Schema<DirectoryForceCloseHandlesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3155,7 +3167,8 @@ export const DirectoryListFilesAndDirectoriesSegment: API.PaginatedOperationMeth
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(112, __c7, 0) as any as S.Schema<DirectoryListFilesAndDirectoriesSegmentRequest>,
   output: __S(119, __c7, 7) as any as S.Schema<DirectoryListFilesAndDirectoriesSegmentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3178,7 +3191,8 @@ export const DownloadFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c10, 0) as any as S.Schema<DownloadFileRequest>,
   output: __S(161, __c10, 1) as any as S.Schema<DownloadFileResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3195,7 +3209,8 @@ export const FileAcquireLease: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c11, 0) as any as S.Schema<FileAcquireLeaseRequest>,
   output: __S(192, __c12, 0) as any as S.Schema<FileAcquireLeaseResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3212,7 +3227,8 @@ export const FileBreakLease: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c13, 0) as any as S.Schema<FileBreakLeaseRequest>,
   output: __S(192, __c12, 0) as any as S.Schema<FileBreakLeaseResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3229,7 +3245,8 @@ export const FileChangeLease: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c14, 0) as any as S.Schema<FileChangeLeaseRequest>,
   output: __S(192, __c12, 0) as any as S.Schema<FileChangeLeaseResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3246,7 +3263,8 @@ export const FileForceCloseHandles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(240, __c15, 0) as any as S.Schema<FileForceCloseHandlesRequest>,
   output: __S(96, __c6, 0) as any as S.Schema<FileForceCloseHandlesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3264,7 +3282,8 @@ export const FileGetRangeList: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(256, __c16, 0) as any as S.Schema<FileGetRangeListRequest>,
   output: __S(259, __c16, 3) as any as S.Schema<FileGetRangeListResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3287,7 +3306,8 @@ export const FileReleaseLease: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(272, __c17, 0) as any as S.Schema<FileReleaseLeaseRequest>,
   output: __S(288, __c18, 0) as any as S.Schema<FileReleaseLeaseResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3304,7 +3324,8 @@ export const FileStartCopy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c20, 0) as any as S.Schema<FileStartCopyRequest>,
   output: __S(321, __c20, 1) as any as S.Schema<FileStartCopyResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3321,7 +3342,8 @@ export const GetDirectoryProperties: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(336, __c21, 0) as any as S.Schema<GetDirectoryPropertiesRequest>,
   output: __S(352, __c22, 0) as any as S.Schema<GetDirectoryPropertiesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3338,7 +3360,8 @@ export const GetDirectoryPropertiesByFileId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(368, __c23, 0) as any as S.Schema<GetDirectoryPropertiesByFileIdRequest>,
   output: __S(352, __c22, 0) as any as S.Schema<GetDirectoryPropertiesByFileIdResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3355,7 +3378,8 @@ export const GetFileHardLinks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c24, 0) as any as S.Schema<GetFileHardLinksRequest>,
   output: __S(387, __c24, 3) as any as S.Schema<GetFileHardLinksResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3372,7 +3396,8 @@ export const GetFileProperties: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(400, __c25, 0) as any as S.Schema<GetFilePropertiesRequest>,
   output: __S(416, __c26, 0) as any as S.Schema<GetFilePropertiesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3389,7 +3414,8 @@ export const GetFilePropertiesByFileId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(432, __c27, 0) as any as S.Schema<GetFilePropertiesByFileIdRequest>,
   output: __S(416, __c26, 0) as any as S.Schema<GetFilePropertiesByFileIdResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3405,7 +3431,8 @@ export const GetFileSymbolicLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c28, 0) as any as S.Schema<GetFileSymbolicLinkRequest>,
   output: __S(449, __c28, 1) as any as S.Schema<GetFileSymbolicLinkResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3422,7 +3449,8 @@ export const GetServiceProperties: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(464, __c29, 0) as any as S.Schema<GetServicePropertiesRequest>,
   output: __S(465, __c29, 1) as any as S.Schema<GetServicePropertiesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3439,7 +3467,8 @@ export const GetServiceUserDelegationKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(496, __c31, 0) as any as S.Schema<GetServiceUserDelegationKeyRequest>,
   output: __S(497, __c31, 1) as any as S.Schema<GetServiceUserDelegationKeyResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3456,7 +3485,8 @@ export const GetShareAccessPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c32, 0) as any as S.Schema<GetShareAccessPolicyRequest>,
   output: __S(513, __c32, 1) as any as S.Schema<GetShareAccessPolicyResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3473,7 +3503,8 @@ export const GetSharePermission: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(560, __c35, 0) as any as S.Schema<GetSharePermissionRequest>,
   output: __S(561, __c35, 1) as any as S.Schema<GetSharePermissionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3490,7 +3521,8 @@ export const GetShareProperties: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c36, 0) as any as S.Schema<GetSharePropertiesRequest>,
   output: __S(577, __c36, 1) as any as S.Schema<GetSharePropertiesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3507,7 +3539,8 @@ export const GetShareStatistics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(592, __c37, 0) as any as S.Schema<GetShareStatisticsRequest>,
   output: __S(593, __c37, 1) as any as S.Schema<GetShareStatisticsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3524,7 +3557,8 @@ export const ListDirectoryHandles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c38, 0) as any as S.Schema<ListDirectoryHandlesRequest>,
   output: __S(626, __c39, 2) as any as S.Schema<ListDirectoryHandlesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3541,7 +3575,8 @@ export const ListFileHandles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c40, 0) as any as S.Schema<ListFileHandlesRequest>,
   output: __S(626, __c39, 2) as any as S.Schema<ListFileHandlesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3559,7 +3594,8 @@ export const ListServiceSharesSegment: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(656, __c41, 0) as any as S.Schema<ListServiceSharesSegmentRequest>,
   output: __S(660, __c41, 4) as any as S.Schema<ListServiceSharesSegmentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3582,7 +3618,8 @@ export const RenameDirectory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c42, 0) as any as S.Schema<RenameDirectoryRequest>,
   output: __S(688, __c43, 0) as any as S.Schema<RenameDirectoryResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3599,7 +3636,8 @@ export const RenameFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c44, 0) as any as S.Schema<RenameFileRequest>,
   output: __S(688, __c43, 0) as any as S.Schema<RenameFileResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3616,7 +3654,8 @@ export const RenewShareLease: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(720, __c45, 0) as any as S.Schema<RenewShareLeaseRequest>,
   output: __S(192, __c12, 0) as any as S.Schema<RenewShareLeaseResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3633,7 +3672,8 @@ export const RestoreShare: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c46, 0) as any as S.Schema<RestoreShareRequest>,
   output: __S(737, __c46, 1) as any as S.Schema<RestoreShareResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3650,7 +3690,8 @@ export const SetDirectoryMetadata: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c48, 0) as any as S.Schema<SetDirectoryMetadataRequest>,
   output: __S(784, __c49, 0) as any as S.Schema<SetDirectoryMetadataResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3667,7 +3708,8 @@ export const SetDirectoryProperties: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c50, 0) as any as S.Schema<SetDirectoryPropertiesRequest>,
   output: __S(801, __c50, 1) as any as S.Schema<SetDirectoryPropertiesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3684,7 +3726,8 @@ export const SetFileHTTPHeaders: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(816, __c51, 0) as any as S.Schema<SetFileHTTPHeadersRequest>,
   output: __S(817, __c51, 1) as any as S.Schema<SetFileHTTPHeadersResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3701,7 +3744,8 @@ export const SetFileMetadata: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c52, 0) as any as S.Schema<SetFileMetadataRequest>,
   output: __S(784, __c49, 0) as any as S.Schema<SetFileMetadataResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3718,7 +3762,8 @@ export const SetServiceProperties: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(848, __c53, 0) as any as S.Schema<SetServicePropertiesRequest>,
   output: __S(849, __c53, 1) as any as S.Schema<SetServicePropertiesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3735,7 +3780,8 @@ export const SetShareAccessPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c54, 0) as any as S.Schema<SetShareAccessPolicyRequest>,
   output: __S(880, __c55, 0) as any as S.Schema<SetShareAccessPolicyResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3752,7 +3798,8 @@ export const SetShareMetadata: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(896, __c56, 0) as any as S.Schema<SetShareMetadataRequest>,
   output: __S(880, __c55, 0) as any as S.Schema<SetShareMetadataResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3769,7 +3816,8 @@ export const SetShareProperties: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(912, __c57, 0) as any as S.Schema<SetSharePropertiesRequest>,
   output: __S(913, __c57, 1) as any as S.Schema<SetSharePropertiesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3786,7 +3834,8 @@ export const ShareAcquireLease: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c58, 0) as any as S.Schema<ShareAcquireLeaseRequest>,
   output: __S(192, __c12, 0) as any as S.Schema<ShareAcquireLeaseResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3803,7 +3852,8 @@ export const ShareBreakLease: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(944, __c59, 0) as any as S.Schema<ShareBreakLeaseRequest>,
   output: __S(945, __c59, 1) as any as S.Schema<ShareBreakLeaseResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3820,7 +3870,8 @@ export const ShareChangeLease: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(976, __c61, 0) as any as S.Schema<ShareChangeLeaseRequest>,
   output: __S(192, __c12, 0) as any as S.Schema<ShareChangeLeaseResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3837,7 +3888,8 @@ export const ShareReleaseLease: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c62, 0) as any as S.Schema<ShareReleaseLeaseRequest>,
   output: __S(288, __c18, 0) as any as S.Schema<ShareReleaseLeaseResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3854,7 +3906,8 @@ export const UploadFileRange: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1008, __c63, 0) as any as S.Schema<UploadFileRangeRequest>,
   output: __S(1009, __c63, 1) as any as S.Schema<UploadFileRangeResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3871,7 +3924,8 @@ export const UploadFileRangeFromURL: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c64, 0) as any as S.Schema<UploadFileRangeFromURLRequest>,
   output: __S(1025, __c64, 1) as any as S.Schema<UploadFileRangeFromURLResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

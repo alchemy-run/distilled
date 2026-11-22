@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import { AzureDataPlaneProtocol } from "../data-plane-protocol.ts";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -535,7 +535,8 @@ export const ClearMessage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<ClearMessageRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<ClearMessageResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -552,7 +553,8 @@ export const CreateQueue: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c2, 0) as any as S.Schema<CreateQueueRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<CreateQueueResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -569,7 +571,8 @@ export const DeleteMessageId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(88, __c11, 0) as any as S.Schema<DeleteMessageIdRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<DeleteMessageIdResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -586,7 +589,8 @@ export const DeleteQueue: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c12, 0) as any as S.Schema<DeleteQueueRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<DeleteQueueResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -603,7 +607,8 @@ export const GetQueueAccessPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(104, __c13, 0) as any as S.Schema<GetQueueAccessPolicyRequest>,
   output: __S(105, __c13, 1) as any as S.Schema<GetQueueAccessPolicyResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -620,7 +625,8 @@ export const GetQueueProperties: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(120, __c15, 0) as any as S.Schema<GetQueuePropertiesRequest>,
   output: __S(121, __c15, 1) as any as S.Schema<GetQueuePropertiesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -637,7 +643,8 @@ export const GetServiceProperties: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c16, 0) as any as S.Schema<GetServicePropertiesRequest>,
   output: __S(129, __c16, 1) as any as S.Schema<GetServicePropertiesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -654,7 +661,8 @@ export const GetServiceStatistics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c18, 0) as any as S.Schema<GetServiceStatisticsRequest>,
   output: __S(146, __c18, 2) as any as S.Schema<GetServiceStatisticsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -671,7 +679,8 @@ export const GetServiceUserDelegationKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(152, __c19, 0) as any as S.Schema<GetServiceUserDelegationKeyRequest>,
   output: __S(153, __c19, 1) as any as S.Schema<GetServiceUserDelegationKeyResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -689,7 +698,8 @@ export const ListServiceQueuesSegment: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(161, __c20, 1) as any as S.Schema<ListServiceQueuesSegmentRequest>,
   output: __S(164, __c20, 4) as any as S.Schema<ListServiceQueuesSegmentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -712,7 +722,8 @@ export const MessagesDequeue: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c4, 0) as any as S.Schema<MessagesDequeueRequest>,
   output: __S(35, __c4, 3) as any as S.Schema<MessagesDequeueResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -729,7 +740,8 @@ export const MessagesEnqueue: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c5, 0) as any as S.Schema<MessagesEnqueueRequest>,
   output: __S(43, __c5, 3) as any as S.Schema<MessagesEnqueueResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -746,7 +758,8 @@ export const MessagesPeek: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c6, 0) as any as S.Schema<MessagesPeekRequest>,
   output: __S(51, __c6, 3) as any as S.Schema<MessagesPeekResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -763,7 +776,8 @@ export const SetQueueAccessPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56, __c7, 0) as any as S.Schema<SetQueueAccessPolicyRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<SetQueueAccessPolicyResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -780,7 +794,8 @@ export const SetQueueMetadata: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c8, 0) as any as S.Schema<SetQueueMetadataRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<SetQueueMetadataResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -797,7 +812,8 @@ export const SetServiceProperties: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(72, __c9, 0) as any as S.Schema<SetServicePropertiesRequest>,
   output: __S(73, __c9, 1) as any as S.Schema<SetServicePropertiesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -814,7 +830,8 @@ export const UpdateMessageId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c10, 0) as any as S.Schema<UpdateMessageIdRequest>,
   output: __S(81, __c10, 1) as any as S.Schema<UpdateMessageIdResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

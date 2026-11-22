@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import { AzureDataPlaneProtocol } from "../data-plane-protocol.ts";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -686,7 +686,8 @@ export const BackupCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<BackupCertificateRequest>,
   output: __S(1, __c0, 1) as any as S.Schema<BackupCertificateResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -703,7 +704,8 @@ export const CreateCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c1, 0) as any as S.Schema<CreateCertificateRequest>,
   output: __S(113, __c7, 1) as any as S.Schema<CertificateOperation>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -720,7 +722,8 @@ export const DeleteCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(304, __c19, 0) as any as S.Schema<DeleteCertificateRequest>,
   output: __S(320, __c20, 0) as any as S.Schema<DeletedCertificateBundle>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -737,7 +740,8 @@ export const DeleteCertificateContacts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(496, __c31, 0) as any as S.Schema<DeleteCertificateContactsRequest>,
   output: __S(514, __c32, 2) as any as S.Schema<Contacts>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -754,7 +758,8 @@ export const DeleteCertificateIssuer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(528, __c33, 0) as any as S.Schema<DeleteCertificateIssuerRequest>,
   output: __S(549, __c34, 5) as any as S.Schema<IssuerBundle>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -771,7 +776,8 @@ export const DeleteCertificateOperation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(560, __c35, 0) as any as S.Schema<DeleteCertificateOperationRequest>,
   output: __S(113, __c7, 1) as any as S.Schema<CertificateOperation>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -788,7 +794,8 @@ export const GetCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c36, 0) as any as S.Schema<GetCertificateRequest>,
   output: __S(592, __c37, 0) as any as S.Schema<CertificateBundle>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -805,7 +812,8 @@ export const GetCertificateContacts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c38, 0) as any as S.Schema<GetCertificateContactsRequest>,
   output: __S(514, __c32, 2) as any as S.Schema<Contacts>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -822,7 +830,8 @@ export const GetCertificateIssuer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(624, __c39, 0) as any as S.Schema<GetCertificateIssuerRequest>,
   output: __S(549, __c34, 5) as any as S.Schema<IssuerBundle>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -840,7 +849,8 @@ export const GetCertificateIssuers: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(640, __c40, 0) as any as S.Schema<GetCertificateIssuersRequest>,
   output: __S(643, __c40, 3) as any as S.Schema<CertificateIssuerListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -863,7 +873,8 @@ export const GetCertificateOperation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c8, 0) as any as S.Schema<GetCertificateOperationRequest>,
   output: __S(113, __c7, 1) as any as S.Schema<CertificateOperation>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -880,7 +891,8 @@ export const GetCertificatePolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c9, 0) as any as S.Schema<GetCertificatePolicyRequest>,
   output: __S(352, __c22, 0) as any as S.Schema<CertificatePolicy>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -898,7 +910,8 @@ export const GetCertificates: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(160, __c10, 0) as any as S.Schema<GetCertificatesRequest>,
   output: __S(178, __c11, 2) as any as S.Schema<CertificateListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -922,7 +935,8 @@ export const GetCertificateVersions: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(192, __c12, 0) as any as S.Schema<GetCertificateVersionsRequest>,
   output: __S(178, __c11, 2) as any as S.Schema<CertificateListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -945,7 +959,8 @@ export const GetDeletedCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c13, 0) as any as S.Schema<GetDeletedCertificateRequest>,
   output: __S(320, __c20, 0) as any as S.Schema<DeletedCertificateBundle>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -963,7 +978,8 @@ export const GetDeletedCertificates: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(224, __c14, 0) as any as S.Schema<GetDeletedCertificatesRequest>,
   output: __S(227, __c14, 3) as any as S.Schema<DeletedCertificateListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -986,7 +1002,8 @@ export const ImportCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(240, __c15, 0) as any as S.Schema<ImportCertificateRequest>,
   output: __S(592, __c37, 0) as any as S.Schema<CertificateBundle>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1003,7 +1020,8 @@ export const MergeCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c16, 0) as any as S.Schema<MergeCertificateRequest>,
   output: __S(592, __c37, 0) as any as S.Schema<CertificateBundle>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1020,7 +1038,8 @@ export const PurgeDeletedCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(272, __c17, 0) as any as S.Schema<PurgeDeletedCertificateRequest>,
   output: __S(273, __c17, 1) as any as S.Schema<PurgeDeletedCertificateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1037,7 +1056,8 @@ export const RecoverDeletedCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c18, 0) as any as S.Schema<RecoverDeletedCertificateRequest>,
   output: __S(592, __c37, 0) as any as S.Schema<CertificateBundle>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1054,7 +1074,8 @@ export const RestoreCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(368, __c23, 0) as any as S.Schema<RestoreCertificateRequest>,
   output: __S(592, __c37, 0) as any as S.Schema<CertificateBundle>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1071,7 +1092,8 @@ export const SetCertificateContacts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c24, 0) as any as S.Schema<SetCertificateContactsRequest>,
   output: __S(514, __c32, 2) as any as S.Schema<Contacts>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1088,7 +1110,8 @@ export const SetCertificateIssuer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(400, __c25, 0) as any as S.Schema<SetCertificateIssuerRequest>,
   output: __S(549, __c34, 5) as any as S.Schema<IssuerBundle>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1105,7 +1128,8 @@ export const UpdateCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(432, __c27, 0) as any as S.Schema<UpdateCertificateRequest>,
   output: __S(592, __c37, 0) as any as S.Schema<CertificateBundle>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1122,7 +1146,8 @@ export const UpdateCertificateIssuer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c28, 0) as any as S.Schema<UpdateCertificateIssuerRequest>,
   output: __S(549, __c34, 5) as any as S.Schema<IssuerBundle>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1139,7 +1164,8 @@ export const UpdateCertificateOperation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(464, __c29, 0) as any as S.Schema<UpdateCertificateOperationRequest>,
   output: __S(113, __c7, 1) as any as S.Schema<CertificateOperation>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1156,7 +1182,8 @@ export const UpdateCertificatePolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c30, 0) as any as S.Schema<UpdateCertificatePolicyRequest>,
   output: __S(352, __c22, 0) as any as S.Schema<CertificatePolicy>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

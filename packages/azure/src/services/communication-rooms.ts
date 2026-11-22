@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import { AzureDataPlaneProtocol } from "../data-plane-protocol.ts";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -153,7 +153,8 @@ export const CreateRoom: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateRoomRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<RoomModel>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -170,7 +171,8 @@ export const DeleteRoom: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12, __c3, 0) as any as S.Schema<DeleteRoomRequest>,
   output: __S(13, __c3, 1) as any as S.Schema<DeleteRoomResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -183,7 +185,8 @@ export const GetRoom: API.OperationMethod<GetRoomRequest, RoomModel, GetRoomErro
   /*@__PURE__*/ API.make(() => ({
     input: __S(16, __c4, 0) as any as S.Schema<GetRoomRequest>,
     output: __S(4, __c1, 0) as any as S.Schema<RoomModel>,
-    errors: [UnknownAzureError],
+    errors: [],
+    serviceErrors: AzureServiceErrors,
     protocol: AzureDataPlaneProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -201,7 +204,8 @@ export const ListParticipants: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(20, __c5, 0) as any as S.Schema<ListParticipantsRequest>,
   output: __S(23, __c5, 3) as any as S.Schema<ParticipantsCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -225,7 +229,8 @@ export const ListRooms: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(24, __c6, 0) as any as S.Schema<ListRoomsRequest>,
   output: __S(26, __c6, 2) as any as S.Schema<RoomsCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -248,7 +253,8 @@ export const UpdateParticipant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28, __c7, 0) as any as S.Schema<UpdateParticipantRequest>,
   output: __S(29, __c7, 1) as any as S.Schema<UpdateParticipantResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -265,7 +271,8 @@ export const UpdateRoom: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c8, 0) as any as S.Schema<UpdateRoomRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<RoomModel>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

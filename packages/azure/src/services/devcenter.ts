@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { AzureProtocol, type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -4618,7 +4618,8 @@ export const AttachedNetworksCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1, __c0, 1) as any as S.Schema<AttachedNetworksCreateOrUpdateRequest>,
   output: __S(33, __c2, 1) as any as S.Schema<AttachedNetworksCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4635,7 +4636,8 @@ export const CancelProjectCatalogImageDefinitionBuild: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c3, 0) as any as S.Schema<CancelProjectCatalogImageDefinitionBuildRequest>,
   output: __S(64, __c4, 0) as any as S.Schema<CancelProjectCatalogImageDefinitionBuildResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4652,7 +4654,8 @@ export const CatalogsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c46, 0) as any as S.Schema<CatalogsCreateOrUpdateRequest>,
   output: __S(800, __c50, 0) as any as S.Schema<CatalogsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4669,7 +4672,8 @@ export const ConnectCatalog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c70, 0) as any as S.Schema<ConnectCatalogRequest>,
   output: __S(1136, __c71, 0) as any as S.Schema<ConnectCatalogResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4686,7 +4690,8 @@ export const ConnectProjectCatalog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1344, __c84, 0) as any as S.Schema<ConnectProjectCatalogRequest>,
   output: __S(1136, __c71, 0) as any as S.Schema<ConnectProjectCatalogResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4703,7 +4708,8 @@ export const DeleteAttachedNetwork: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1680, __c105, 0) as any as S.Schema<DeleteAttachedNetworkRequest>,
   output: __S(1136, __c71, 0) as any as S.Schema<DeleteAttachedNetworkResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4720,7 +4726,8 @@ export const DeleteCatalog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1984, __c124, 0) as any as S.Schema<DeleteCatalogRequest>,
   output: __S(1136, __c71, 0) as any as S.Schema<DeleteCatalogResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4737,7 +4744,8 @@ export const DeleteDevBoxDefinition: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2224, __c139, 0) as any as S.Schema<DeleteDevBoxDefinitionRequest>,
   output: __S(1136, __c71, 0) as any as S.Schema<DeleteDevBoxDefinitionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4754,7 +4762,8 @@ export const DeleteDevCenter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2448, __c153, 0) as any as S.Schema<DeleteDevCenterRequest>,
   output: __S(1136, __c71, 0) as any as S.Schema<DeleteDevCenterResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4771,7 +4780,8 @@ export const DeleteEnvironmentType: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2640, __c165, 0) as any as S.Schema<DeleteEnvironmentTypeRequest>,
   output: __S(2656, __c166, 0) as any as S.Schema<DeleteEnvironmentTypeResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4788,7 +4798,8 @@ export const DeleteGallery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c5, 0) as any as S.Schema<DeleteGalleryRequest>,
   output: __S(1136, __c71, 0) as any as S.Schema<DeleteGalleryResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4805,7 +4816,8 @@ export const DeleteNetworkConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c18, 0) as any as S.Schema<DeleteNetworkConnectionRequest>,
   output: __S(1136, __c71, 0) as any as S.Schema<DeleteNetworkConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4822,7 +4834,8 @@ export const DeletePool: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c26, 0) as any as S.Schema<DeletePoolRequest>,
   output: __S(1136, __c71, 0) as any as S.Schema<DeletePoolResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4839,7 +4852,8 @@ export const DeleteProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(432, __c27, 0) as any as S.Schema<DeleteProjectRequest>,
   output: __S(1136, __c71, 0) as any as S.Schema<DeleteProjectResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4856,7 +4870,8 @@ export const DeleteProjectCatalog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c28, 0) as any as S.Schema<DeleteProjectCatalogRequest>,
   output: __S(1136, __c71, 0) as any as S.Schema<DeleteProjectCatalogResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4873,7 +4888,8 @@ export const DeleteProjectEnvironmentType: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(464, __c29, 0) as any as S.Schema<DeleteProjectEnvironmentTypeRequest>,
   output: __S(2656, __c166, 0) as any as S.Schema<DeleteProjectEnvironmentTypeResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4890,7 +4906,8 @@ export const DeleteProjectPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c30, 0) as any as S.Schema<DeleteProjectPolicyRequest>,
   output: __S(1136, __c71, 0) as any as S.Schema<DeleteProjectPolicyResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4907,7 +4924,8 @@ export const DeleteSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(496, __c31, 0) as any as S.Schema<DeleteScheduleRequest>,
   output: __S(1136, __c71, 0) as any as S.Schema<DeleteScheduleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4924,7 +4942,8 @@ export const DevBoxDefinitionsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(513, __c32, 1) as any as S.Schema<DevBoxDefinitionsCreateOrUpdateRequest>,
   output: __S(576, __c36, 0) as any as S.Schema<DevBoxDefinitionsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4941,7 +4960,8 @@ export const DevCentersCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(624, __c39, 0) as any as S.Schema<DevCentersCreateOrUpdateRequest>,
   output: __S(688, __c43, 0) as any as S.Schema<DevCentersCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4958,7 +4978,8 @@ export const EnvironmentTypesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c52, 0) as any as S.Schema<EnvironmentTypesCreateOrUpdateRequest>,
   output: __S(865, __c54, 1) as any as S.Schema<EnvironmentTypesCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4975,7 +4996,8 @@ export const ExecuteCheckNameAvailability: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(880, __c55, 0) as any as S.Schema<ExecuteCheckNameAvailabilityRequest>,
   output: __S(896, __c56, 0) as any as S.Schema<ExecuteCheckNameAvailabilityResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4992,7 +5014,8 @@ export const ExecuteCheckScopedNameAvailability: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(912, __c57, 0) as any as S.Schema<ExecuteCheckScopedNameAvailabilityRequest>,
   output: __S(896, __c56, 0) as any as S.Schema<ExecuteCheckScopedNameAvailabilityResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5009,7 +5032,8 @@ export const GalleriesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(929, __c58, 1) as any as S.Schema<GalleriesCreateOrUpdateRequest>,
   output: __S(945, __c59, 1) as any as S.Schema<GalleriesCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5026,7 +5050,8 @@ export const GetAttachedNetworkByDevCenter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c60, 0) as any as S.Schema<GetAttachedNetworkByDevCenterRequest>,
   output: __S(33, __c2, 1) as any as S.Schema<GetAttachedNetworkByDevCenterResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5043,7 +5068,8 @@ export const GetAttachedNetworkByProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(976, __c61, 0) as any as S.Schema<GetAttachedNetworkByProjectRequest>,
   output: __S(33, __c2, 1) as any as S.Schema<GetAttachedNetworkByProjectResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5060,7 +5086,8 @@ export const GetCatalog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c62, 0) as any as S.Schema<GetCatalogRequest>,
   output: __S(800, __c50, 0) as any as S.Schema<GetCatalogResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5077,7 +5104,8 @@ export const GetCatalogSyncErrorDetails: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1008, __c63, 0) as any as S.Schema<GetCatalogSyncErrorDetailsRequest>,
   output: __S(1044, __c65, 4) as any as S.Schema<SyncErrorDetails>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5094,7 +5122,8 @@ export const GetCustomizationTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c66, 0) as any as S.Schema<GetCustomizationTaskRequest>,
   output: __S(1075, __c67, 3) as any as S.Schema<GetCustomizationTaskResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5111,7 +5140,8 @@ export const GetCustomizationTaskErrorDetails: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c68, 0) as any as S.Schema<GetCustomizationTaskErrorDetailsRequest>,
   output: __S(1104, __c69, 0) as any as S.Schema<GetCustomizationTaskErrorDetailsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5128,7 +5158,8 @@ export const GetDevBoxDefinition: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c72, 0) as any as S.Schema<GetDevBoxDefinitionRequest>,
   output: __S(576, __c36, 0) as any as S.Schema<GetDevBoxDefinitionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5145,7 +5176,8 @@ export const GetDevBoxDefinitionByProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1168, __c73, 0) as any as S.Schema<GetDevBoxDefinitionByProjectRequest>,
   output: __S(576, __c36, 0) as any as S.Schema<GetDevBoxDefinitionByProjectResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5162,7 +5194,8 @@ export const GetDevCenter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c74, 0) as any as S.Schema<GetDevCenterRequest>,
   output: __S(688, __c43, 0) as any as S.Schema<GetDevCenterResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5179,7 +5212,8 @@ export const GetEnvironmentDefinition: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1200, __c75, 0) as any as S.Schema<GetEnvironmentDefinitionRequest>,
   output: __S(1219, __c76, 3) as any as S.Schema<GetEnvironmentDefinitionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5196,7 +5230,8 @@ export const GetEnvironmentDefinitionByProjectCatalog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1232, __c77, 0) as any as S.Schema<GetEnvironmentDefinitionByProjectCatalogRequest>,
   output: __S(1219, __c76, 3) as any as S.Schema<GetEnvironmentDefinitionByProjectCatalogResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5213,7 +5248,8 @@ export const GetEnvironmentDefinitionErrorDetails: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c78, 0) as any as S.Schema<GetEnvironmentDefinitionErrorDetailsRequest>,
   output: __S(1104, __c69, 0) as any as S.Schema<GetEnvironmentDefinitionErrorDetailsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5230,7 +5266,8 @@ export const GetEnvironmentType: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1264, __c79, 0) as any as S.Schema<GetEnvironmentTypeRequest>,
   output: __S(865, __c54, 1) as any as S.Schema<GetEnvironmentTypeResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5247,7 +5284,8 @@ export const GetGallery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1280, __c80, 0) as any as S.Schema<GetGalleryRequest>,
   output: __S(945, __c59, 1) as any as S.Schema<GetGalleryResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5264,7 +5302,8 @@ export const GetImage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1296, __c81, 0) as any as S.Schema<GetImageRequest>,
   output: __S(1315, __c82, 3) as any as S.Schema<GetImageResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5281,7 +5320,8 @@ export const GetImageByProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1328, __c83, 0) as any as S.Schema<GetImageByProjectRequest>,
   output: __S(1315, __c82, 3) as any as S.Schema<GetImageByProjectResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5298,7 +5338,8 @@ export const GetImageVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1360, __c85, 0) as any as S.Schema<GetImageVersionRequest>,
   output: __S(1377, __c86, 1) as any as S.Schema<GetImageVersionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5315,7 +5356,8 @@ export const GetImageVersionByProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1392, __c87, 0) as any as S.Schema<GetImageVersionByProjectRequest>,
   output: __S(1377, __c86, 1) as any as S.Schema<GetImageVersionByProjectResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5332,7 +5374,8 @@ export const GetNetworkConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c88, 0) as any as S.Schema<GetNetworkConnectionRequest>,
   output: __S(1424, __c89, 0) as any as S.Schema<GetNetworkConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5349,7 +5392,8 @@ export const GetNetworkConnectionHealthDetails: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1456, __c91, 0) as any as S.Schema<GetNetworkConnectionHealthDetailsRequest>,
   output: __S(1475, __c92, 3) as any as S.Schema<GetNetworkConnectionHealthDetailsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5366,7 +5410,8 @@ export const GetOperationStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1488, __c93, 0) as any as S.Schema<GetOperationStatusRequest>,
   output: __S(1496, __c93, 8) as any as S.Schema<GetOperationStatusResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5383,7 +5428,8 @@ export const GetPool: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1504, __c94, 0) as any as S.Schema<GetPoolRequest>,
   output: __S(1536, __c96, 0) as any as S.Schema<GetPoolResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5400,7 +5446,8 @@ export const GetProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1568, __c98, 0) as any as S.Schema<GetProjectRequest>,
   output: __S(1584, __c99, 0) as any as S.Schema<GetProjectResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5417,7 +5464,8 @@ export const GetProjectAllowedEnvironmentType: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1616, __c101, 0) as any as S.Schema<GetProjectAllowedEnvironmentTypeRequest>,
   output: __S(1633, __c102, 1) as any as S.Schema<GetProjectAllowedEnvironmentTypeResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5434,7 +5482,8 @@ export const GetProjectCatalog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1648, __c103, 0) as any as S.Schema<GetProjectCatalogRequest>,
   output: __S(800, __c50, 0) as any as S.Schema<GetProjectCatalogResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5459,7 +5508,8 @@ export const GetProjectCatalogEnvironmentDefinitionErrorDetails: API.OperationMe
     __c69,
     0,
   ) as any as S.Schema<GetProjectCatalogEnvironmentDefinitionErrorDetailsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5476,7 +5526,8 @@ export const GetProjectCatalogImageDefinitionBuild: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1696, __c106, 0) as any as S.Schema<GetProjectCatalogImageDefinitionBuildRequest>,
   output: __S(1713, __c107, 1) as any as S.Schema<GetProjectCatalogImageDefinitionBuildResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5501,7 +5552,8 @@ export const GetProjectCatalogImageDefinitionBuildBuildDetails: API.OperationMet
     __c108,
     7,
   ) as any as S.Schema<GetProjectCatalogImageDefinitionBuildBuildDetailsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5526,7 +5578,8 @@ export const GetProjectCatalogImageDefinitionByProjectCatalog: API.OperationMeth
     __c110,
     2,
   ) as any as S.Schema<GetProjectCatalogImageDefinitionByProjectCatalogResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5551,7 +5604,8 @@ export const GetProjectCatalogImageDefinitionErrorDetails: API.OperationMethod<
     __c69,
     0,
   ) as any as S.Schema<GetProjectCatalogImageDefinitionErrorDetailsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5568,7 +5622,8 @@ export const GetProjectCatalogSyncErrorDetails: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1792, __c112, 0) as any as S.Schema<GetProjectCatalogSyncErrorDetailsRequest>,
   output: __S(1044, __c65, 4) as any as S.Schema<SyncErrorDetails>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5585,7 +5640,8 @@ export const GetProjectEnvironmentType: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1808, __c113, 0) as any as S.Schema<GetProjectEnvironmentTypeRequest>,
   output: __S(1829, __c114, 5) as any as S.Schema<GetProjectEnvironmentTypeResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5602,7 +5658,8 @@ export const GetProjectInheritedSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1840, __c115, 0) as any as S.Schema<GetProjectInheritedSettingsRequest>,
   output: __S(1841, __c115, 1) as any as S.Schema<InheritedSettingsForProject>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5619,7 +5676,8 @@ export const GetProjectPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1856, __c116, 0) as any as S.Schema<GetProjectPolicyRequest>,
   output: __S(1872, __c117, 0) as any as S.Schema<GetProjectPolicyResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5636,7 +5694,8 @@ export const GetSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1904, __c119, 0) as any as S.Schema<GetScheduleRequest>,
   output: __S(1920, __c120, 0) as any as S.Schema<GetScheduleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5654,7 +5713,8 @@ export const ListAttachedNetworkByDevCenter: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1952, __c122, 0) as any as S.Schema<ListAttachedNetworkByDevCenterRequest>,
   output: __S(1969, __c123, 1) as any as S.Schema<AttachedNetworkListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5678,7 +5738,8 @@ export const ListAttachedNetworkByProject: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2000, __c125, 0) as any as S.Schema<ListAttachedNetworkByProjectRequest>,
   output: __S(1969, __c123, 1) as any as S.Schema<AttachedNetworkListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5702,7 +5763,8 @@ export const ListCatalogByDevCenter: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2016, __c126, 0) as any as S.Schema<ListCatalogByDevCenterRequest>,
   output: __S(2033, __c127, 1) as any as S.Schema<CatalogListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5726,7 +5788,8 @@ export const ListCustomizationTaskByCatalog: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2048, __c128, 0) as any as S.Schema<ListCustomizationTaskByCatalogRequest>,
   output: __S(2050, __c128, 2) as any as S.Schema<CustomizationTaskListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5750,7 +5813,8 @@ export const ListDevBoxDefinitionByDevCenter: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2064, __c129, 0) as any as S.Schema<ListDevBoxDefinitionByDevCenterRequest>,
   output: __S(2081, __c130, 1) as any as S.Schema<DevBoxDefinitionListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5774,7 +5838,8 @@ export const ListDevBoxDefinitionByProject: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2096, __c131, 0) as any as S.Schema<ListDevBoxDefinitionByProjectRequest>,
   output: __S(2081, __c130, 1) as any as S.Schema<DevBoxDefinitionListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5798,7 +5863,8 @@ export const ListDevCenterByResourceGroup: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2112, __c132, 0) as any as S.Schema<ListDevCenterByResourceGroupRequest>,
   output: __S(2129, __c133, 1) as any as S.Schema<DevCenterListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5822,7 +5888,8 @@ export const ListDevCenterBySubscription: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2144, __c134, 0) as any as S.Schema<ListDevCenterBySubscriptionRequest>,
   output: __S(2129, __c133, 1) as any as S.Schema<DevCenterListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5846,7 +5913,8 @@ export const ListEnvironmentDefinitionByCatalog: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2160, __c135, 0) as any as S.Schema<ListEnvironmentDefinitionByCatalogRequest>,
   output: __S(2177, __c136, 1) as any as S.Schema<EnvironmentDefinitionListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5870,7 +5938,8 @@ export const ListEnvironmentDefinitionByProjectCatalog: API.PaginatedOperationMe
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2192, __c137, 0) as any as S.Schema<ListEnvironmentDefinitionByProjectCatalogRequest>,
   output: __S(2177, __c136, 1) as any as S.Schema<EnvironmentDefinitionListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5894,7 +5963,8 @@ export const ListEnvironmentTypeByDevCenter: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2208, __c138, 0) as any as S.Schema<ListEnvironmentTypeByDevCenterRequest>,
   output: __S(2210, __c138, 2) as any as S.Schema<EnvironmentTypeListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5918,7 +5988,8 @@ export const ListGalleryByDevCenter: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2240, __c140, 0) as any as S.Schema<ListGalleryByDevCenterRequest>,
   output: __S(2242, __c140, 2) as any as S.Schema<GalleryListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5942,7 +6013,8 @@ export const ListImageByDevCenter: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2256, __c141, 0) as any as S.Schema<ListImageByDevCenterRequest>,
   output: __S(2273, __c142, 1) as any as S.Schema<ImageListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5966,7 +6038,8 @@ export const ListImageByGallery: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2288, __c143, 0) as any as S.Schema<ListImageByGalleryRequest>,
   output: __S(2273, __c142, 1) as any as S.Schema<ImageListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5990,7 +6063,8 @@ export const ListImageByProject: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2304, __c144, 0) as any as S.Schema<ListImageByProjectRequest>,
   output: __S(2273, __c142, 1) as any as S.Schema<ImageListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6014,7 +6088,8 @@ export const ListImageVersionByImage: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2320, __c145, 0) as any as S.Schema<ListImageVersionByImageRequest>,
   output: __S(2337, __c146, 1) as any as S.Schema<ImageVersionListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6038,7 +6113,8 @@ export const ListImageVersionByProject: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2352, __c147, 0) as any as S.Schema<ListImageVersionByProjectRequest>,
   output: __S(2337, __c146, 1) as any as S.Schema<ImageVersionListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6062,7 +6138,8 @@ export const ListNetworkConnectionByResourceGroup: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2368, __c148, 0) as any as S.Schema<ListNetworkConnectionByResourceGroupRequest>,
   output: __S(2385, __c149, 1) as any as S.Schema<NetworkConnectionListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6086,7 +6163,8 @@ export const ListNetworkConnectionBySubscription: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2400, __c150, 0) as any as S.Schema<ListNetworkConnectionBySubscriptionRequest>,
   output: __S(2385, __c149, 1) as any as S.Schema<NetworkConnectionListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6110,7 +6188,8 @@ export const ListNetworkConnectionHealthDetails: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2416, __c151, 0) as any as S.Schema<ListNetworkConnectionHealthDetailsRequest>,
   output: __S(2418, __c151, 2) as any as S.Schema<HealthCheckStatusDetailsListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6133,7 +6212,8 @@ export const ListNetworkConnectionOutboundNetworkDependenciesEndpoints: API.Pagi
     0,
   ) as any as S.Schema<ListNetworkConnectionOutboundNetworkDependenciesEndpointsRequest>,
   output: __S(2439, __c152, 7) as any as S.Schema<OutboundEnvironmentEndpointCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6157,7 +6237,8 @@ export const ListOperations: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2464, __c154, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(2468, __c154, 4) as any as S.Schema<ListOperationsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6181,7 +6262,8 @@ export const ListPoolByProject: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2480, __c155, 0) as any as S.Schema<ListPoolByProjectRequest>,
   output: __S(2482, __c155, 2) as any as S.Schema<PoolListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6205,7 +6287,8 @@ export const ListProjectAllowedEnvironmentTypes: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2496, __c156, 0) as any as S.Schema<ListProjectAllowedEnvironmentTypesRequest>,
   output: __S(2498, __c156, 2) as any as S.Schema<AllowedEnvironmentTypeListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6229,7 +6312,8 @@ export const ListProjectByResourceGroup: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2512, __c157, 0) as any as S.Schema<ListProjectByResourceGroupRequest>,
   output: __S(2529, __c158, 1) as any as S.Schema<ProjectListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6253,7 +6337,8 @@ export const ListProjectBySubscription: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2544, __c159, 0) as any as S.Schema<ListProjectBySubscriptionRequest>,
   output: __S(2529, __c158, 1) as any as S.Schema<ProjectListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6281,7 +6366,8 @@ export const ListProjectCatalogImageDefinitionBuildByImageDefinition: API.Pagina
     0,
   ) as any as S.Schema<ListProjectCatalogImageDefinitionBuildByImageDefinitionRequest>,
   output: __S(2562, __c160, 2) as any as S.Schema<ImageDefinitionBuildListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6309,7 +6395,8 @@ export const ListProjectCatalogImageDefinitionByProjectCatalog: API.PaginatedOpe
     0,
   ) as any as S.Schema<ListProjectCatalogImageDefinitionByProjectCatalogRequest>,
   output: __S(2578, __c161, 2) as any as S.Schema<ImageDefinitionListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6333,7 +6420,8 @@ export const ListProjectCatalogs: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2592, __c162, 0) as any as S.Schema<ListProjectCatalogsRequest>,
   output: __S(2033, __c127, 1) as any as S.Schema<CatalogListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6357,7 +6445,8 @@ export const ListProjectEnvironmentTypes: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2608, __c163, 0) as any as S.Schema<ListProjectEnvironmentTypesRequest>,
   output: __S(2610, __c163, 2) as any as S.Schema<ProjectEnvironmentTypeListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6381,7 +6470,8 @@ export const ListProjectPolicyByDevCenter: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2624, __c164, 0) as any as S.Schema<ListProjectPolicyByDevCenterRequest>,
   output: __S(2626, __c164, 2) as any as S.Schema<ProjectPolicyListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6405,7 +6495,8 @@ export const ListScheduleByPool: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2672, __c167, 0) as any as S.Schema<ListScheduleByPoolRequest>,
   output: __S(2674, __c167, 2) as any as S.Schema<ScheduleListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6429,7 +6520,8 @@ export const ListSkusByProject: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2688, __c168, 0) as any as S.Schema<ListSkusByProjectRequest>,
   output: __S(2708, __c169, 4) as any as S.Schema<ListSkusByProjectResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6453,7 +6545,8 @@ export const ListSkusBySubscription: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2720, __c170, 0) as any as S.Schema<ListSkusBySubscriptionRequest>,
   output: __S(2708, __c169, 4) as any as S.Schema<SkuListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6477,7 +6570,8 @@ export const ListUsageByLocation: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2736, __c171, 0) as any as S.Schema<ListUsageByLocationRequest>,
   output: __S(2740, __c171, 4) as any as S.Schema<ListUsagesResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6500,7 +6594,8 @@ export const NetworkConnectionsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2753, __c172, 1) as any as S.Schema<NetworkConnectionsCreateOrUpdateRequest>,
   output: __S(1424, __c89, 0) as any as S.Schema<NetworkConnectionsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6517,7 +6612,8 @@ export const PatchProjectCatalog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2768, __c173, 0) as any as S.Schema<PatchProjectCatalogRequest>,
   output: __S(2784, __c174, 0) as any as S.Schema<PatchProjectCatalogResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6534,7 +6630,8 @@ export const PoolsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2801, __c175, 1) as any as S.Schema<PoolsCreateOrUpdateRequest>,
   output: __S(1536, __c96, 0) as any as S.Schema<PoolsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6551,7 +6648,8 @@ export const ProjectCatalogImageDefinitionsBuildImage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2832, __c177, 0) as any as S.Schema<ProjectCatalogImageDefinitionsBuildImageRequest>,
   output: __S(64, __c4, 0) as any as S.Schema<ProjectCatalogImageDefinitionsBuildImageResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6568,7 +6666,8 @@ export const ProjectCatalogsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2848, __c178, 0) as any as S.Schema<ProjectCatalogsCreateOrUpdateRequest>,
   output: __S(800, __c50, 0) as any as S.Schema<ProjectCatalogsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6585,7 +6684,8 @@ export const ProjectEnvironmentTypesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2864, __c179, 0) as any as S.Schema<ProjectEnvironmentTypesCreateOrUpdateRequest>,
   output: __S(1829, __c114, 5) as any as S.Schema<ProjectEnvironmentTypesCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6602,7 +6702,8 @@ export const ProjectPoliciesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c6, 0) as any as S.Schema<ProjectPoliciesCreateOrUpdateRequest>,
   output: __S(1872, __c117, 0) as any as S.Schema<ProjectPoliciesCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6619,7 +6720,8 @@ export const ProjectsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c8, 0) as any as S.Schema<ProjectsCreateOrUpdateRequest>,
   output: __S(1584, __c99, 0) as any as S.Schema<ProjectsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6636,7 +6738,8 @@ export const RunNetworkConnectionHealthChecks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c10, 0) as any as S.Schema<RunNetworkConnectionHealthChecksRequest>,
   output: __S(1136, __c71, 0) as any as S.Schema<RunNetworkConnectionHealthChecksResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6653,7 +6756,8 @@ export const RunPoolHealthChecks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c11, 0) as any as S.Schema<RunPoolHealthChecksRequest>,
   output: __S(1136, __c71, 0) as any as S.Schema<RunPoolHealthChecksResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6670,7 +6774,8 @@ export const SchedulesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(193, __c12, 1) as any as S.Schema<SchedulesCreateOrUpdateRequest>,
   output: __S(1920, __c120, 0) as any as S.Schema<SchedulesCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6687,7 +6792,8 @@ export const SyncCatalog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c13, 0) as any as S.Schema<SyncCatalogRequest>,
   output: __S(1136, __c71, 0) as any as S.Schema<SyncCatalogResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6704,7 +6810,8 @@ export const SyncProjectCatalog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c14, 0) as any as S.Schema<SyncProjectCatalogRequest>,
   output: __S(1136, __c71, 0) as any as S.Schema<SyncProjectCatalogResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6721,7 +6828,8 @@ export const UpdateCatalog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(240, __c15, 0) as any as S.Schema<UpdateCatalogRequest>,
   output: __S(2784, __c174, 0) as any as S.Schema<UpdateCatalogResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6738,7 +6846,8 @@ export const UpdateDevBoxDefinition: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(257, __c16, 1) as any as S.Schema<UpdateDevBoxDefinitionRequest>,
   output: __S(258, __c16, 2) as any as S.Schema<UpdateDevBoxDefinitionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6755,7 +6864,8 @@ export const UpdateDevCenter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(272, __c17, 0) as any as S.Schema<UpdateDevCenterRequest>,
   output: __S(273, __c17, 1) as any as S.Schema<UpdateDevCenterResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6772,7 +6882,8 @@ export const UpdateEnvironmentType: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(304, __c19, 0) as any as S.Schema<UpdateEnvironmentTypeRequest>,
   output: __S(865, __c54, 1) as any as S.Schema<UpdateEnvironmentTypeResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6789,7 +6900,8 @@ export const UpdateNetworkConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(321, __c20, 1) as any as S.Schema<UpdateNetworkConnectionRequest>,
   output: __S(322, __c20, 2) as any as S.Schema<UpdateNetworkConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6806,7 +6918,8 @@ export const UpdatePool: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(337, __c21, 1) as any as S.Schema<UpdatePoolRequest>,
   output: __S(338, __c21, 2) as any as S.Schema<UpdatePoolResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6823,7 +6936,8 @@ export const UpdateProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c22, 0) as any as S.Schema<UpdateProjectRequest>,
   output: __S(353, __c22, 1) as any as S.Schema<UpdateProjectResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6840,7 +6954,8 @@ export const UpdateProjectEnvironmentType: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(368, __c23, 0) as any as S.Schema<UpdateProjectEnvironmentTypeRequest>,
   output: __S(1829, __c114, 5) as any as S.Schema<UpdateProjectEnvironmentTypeResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6857,7 +6972,8 @@ export const UpdateProjectPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c24, 0) as any as S.Schema<UpdateProjectPolicyRequest>,
   output: __S(385, __c24, 1) as any as S.Schema<UpdateProjectPolicyResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6874,7 +6990,8 @@ export const UpdateSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(401, __c25, 1) as any as S.Schema<UpdateScheduleRequest>,
   output: __S(402, __c25, 2) as any as S.Schema<UpdateScheduleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

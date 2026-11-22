@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import { AzureDataPlaneProtocol } from "../data-plane-protocol.ts";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -495,7 +495,8 @@ export const AddChatThreadChatParticipants: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<AddChatThreadChatParticipantsRequest>,
   output: __S(1, __c0, 1) as any as S.Schema<AddChatParticipantsResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -513,7 +514,8 @@ export const ChatThreadListChatReadReceipts: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(28, __c7, 0) as any as S.Schema<ChatThreadListChatReadReceiptsRequest>,
   output: __S(31, __c7, 3) as any as S.Schema<ChatMessageReadReceiptsCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -536,7 +538,8 @@ export const ChatThreadSendChatReadReceipt: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56, __c14, 0) as any as S.Schema<ChatThreadSendChatReadReceiptRequest>,
   output: __S(60, __c15, 0) as any as S.Schema<ChatThreadSendChatReadReceiptResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -553,7 +556,8 @@ export const CreateChatChatThread: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c16, 0) as any as S.Schema<CreateChatChatThreadRequest>,
   output: __S(65, __c16, 1) as any as S.Schema<CreateChatThreadResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -570,7 +574,8 @@ export const DeleteChatChatThread: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(76, __c19, 0) as any as S.Schema<DeleteChatChatThreadRequest>,
   output: __S(60, __c15, 0) as any as S.Schema<DeleteChatChatThreadResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -587,7 +592,8 @@ export const DeleteChatThreadChatMessage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c20, 0) as any as S.Schema<DeleteChatThreadChatMessageRequest>,
   output: __S(60, __c15, 0) as any as S.Schema<DeleteChatThreadChatMessageResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -604,7 +610,8 @@ export const GetChatThreadChatMessage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(84, __c21, 0) as any as S.Schema<GetChatThreadChatMessageRequest>,
   output: __S(91, __c22, 3) as any as S.Schema<ChatMessage>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -621,7 +628,8 @@ export const GetChatThreadChatThreadProperties: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(92, __c23, 0) as any as S.Schema<GetChatThreadChatThreadPropertiesRequest>,
   output: __S(68, __c17, 0) as any as S.Schema<ChatThreadProperties>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -639,7 +647,8 @@ export const ListChatChatThreads: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(96, __c24, 0) as any as S.Schema<ListChatChatThreadsRequest>,
   output: __S(99, __c24, 3) as any as S.Schema<ChatThreadsItemCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -663,7 +672,8 @@ export const ListChatThreadChatMessages: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(100, __c25, 0) as any as S.Schema<ListChatThreadChatMessagesRequest>,
   output: __S(102, __c25, 2) as any as S.Schema<ChatMessagesCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -687,7 +697,8 @@ export const ListChatThreadChatParticipants: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(32, __c8, 0) as any as S.Schema<ListChatThreadChatParticipantsRequest>,
   output: __S(33, __c8, 1) as any as S.Schema<ChatParticipantsCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -710,7 +721,8 @@ export const RemoveChatThreadChatParticipant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(36, __c9, 0) as any as S.Schema<RemoveChatThreadChatParticipantRequest>,
   output: __S(60, __c15, 0) as any as S.Schema<RemoveChatThreadChatParticipantResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -727,7 +739,8 @@ export const SendChatThreadChatMessage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c10, 0) as any as S.Schema<SendChatThreadChatMessageRequest>,
   output: __S(12, __c3, 0) as any as S.Schema<SendChatMessageResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -744,7 +757,8 @@ export const SendChatThreadTypingNotification: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(44, __c11, 0) as any as S.Schema<SendChatThreadTypingNotificationRequest>,
   output: __S(60, __c15, 0) as any as S.Schema<SendChatThreadTypingNotificationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -761,7 +775,8 @@ export const UpdateChatThreadChatMessage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c12, 0) as any as S.Schema<UpdateChatThreadChatMessageRequest>,
   output: __S(60, __c15, 0) as any as S.Schema<UpdateChatThreadChatMessageResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -778,7 +793,8 @@ export const UpdateChatThreadChatThreadProperties: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(52, __c13, 0) as any as S.Schema<UpdateChatThreadChatThreadPropertiesRequest>,
   output: __S(60, __c15, 0) as any as S.Schema<UpdateChatThreadChatThreadPropertiesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

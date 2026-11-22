@@ -4,7 +4,7 @@ import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
 import { AzureDataPlaneProtocol } from "../data-plane-protocol.ts";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -5021,7 +5021,8 @@ export const CreateJobJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateJobJobRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateJobJobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5038,7 +5039,8 @@ export const CreateJobScheduleJobSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c20, 0) as any as S.Schema<CreateJobScheduleJobScheduleRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateJobScheduleJobScheduleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5055,7 +5057,8 @@ export const CreateNodeNodeUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c33, 0) as any as S.Schema<CreateNodeNodeUserRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateNodeNodeUserResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5072,7 +5075,8 @@ export const CreatePoolPool: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1792, __c56, 0) as any as S.Schema<CreatePoolPoolRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreatePoolPoolResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5089,7 +5093,8 @@ export const CreateTaskTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2336, __c73, 0) as any as S.Schema<CreateTaskTaskRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateTaskTaskResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5106,7 +5111,8 @@ export const CreateTaskTaskCollection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2754, __c86, 2) as any as S.Schema<CreateTaskTaskCollectionRequest>,
   output: __S(2761, __c86, 9) as any as S.Schema<BatchCreateTaskCollectionResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5123,7 +5129,8 @@ export const DeleteJobJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3104, __c97, 0) as any as S.Schema<DeleteJobJobRequest>,
   output: __S(3136, __c98, 0) as any as S.Schema<DeleteJobJobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5140,7 +5147,8 @@ export const DeleteJobScheduleJobSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3552, __c111, 0) as any as S.Schema<DeleteJobScheduleJobScheduleRequest>,
   output: __S(3136, __c98, 0) as any as S.Schema<DeleteJobScheduleJobScheduleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5157,7 +5165,8 @@ export const DeleteNodeNodeFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3616, __c113, 0) as any as S.Schema<DeleteNodeNodeFileRequest>,
   output: __S(3136, __c98, 0) as any as S.Schema<DeleteNodeNodeFileResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5174,7 +5183,8 @@ export const DeleteNodeNodeUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3648, __c114, 0) as any as S.Schema<DeleteNodeNodeUserRequest>,
   output: __S(3136, __c98, 0) as any as S.Schema<DeleteNodeNodeUserResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5191,7 +5201,8 @@ export const DeletePoolPool: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c23, 0) as any as S.Schema<DeletePoolPoolRequest>,
   output: __S(3136, __c98, 0) as any as S.Schema<DeletePoolPoolResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5208,7 +5219,8 @@ export const DeleteTaskTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c24, 0) as any as S.Schema<DeleteTaskTaskRequest>,
   output: __S(3136, __c98, 0) as any as S.Schema<DeleteTaskTaskResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5225,7 +5237,8 @@ export const DeleteTaskTaskFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c25, 0) as any as S.Schema<DeleteTaskTaskFileRequest>,
   output: __S(3136, __c98, 0) as any as S.Schema<DeleteTaskTaskFileResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5242,7 +5255,8 @@ export const DisableJobJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c26, 0) as any as S.Schema<DisableJobJobRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DisableJobJobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5259,7 +5273,8 @@ export const DisableJobScheduleJobSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c27, 0) as any as S.Schema<DisableJobScheduleJobScheduleRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DisableJobScheduleJobScheduleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5276,7 +5291,8 @@ export const DisableNodeNodeScheduling: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(896, __c28, 0) as any as S.Schema<DisableNodeNodeSchedulingRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DisableNodeNodeSchedulingResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5293,7 +5309,8 @@ export const DisablePoolPoolAutoScale: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c29, 0) as any as S.Schema<DisablePoolPoolAutoScaleRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DisablePoolPoolAutoScaleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5310,7 +5327,8 @@ export const EnableJobJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c30, 0) as any as S.Schema<EnableJobJobRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<EnableJobJobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5327,7 +5345,8 @@ export const EnableJobScheduleJobSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c31, 0) as any as S.Schema<EnableJobScheduleJobScheduleRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<EnableJobScheduleJobScheduleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5344,7 +5363,8 @@ export const EnableNodeNodeScheduling: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c32, 0) as any as S.Schema<EnableNodeNodeSchedulingRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<EnableNodeNodeSchedulingResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5361,7 +5381,8 @@ export const EnablePoolPoolAutoScale: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c34, 0) as any as S.Schema<EnablePoolPoolAutoScaleRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<EnablePoolPoolAutoScaleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5378,7 +5399,8 @@ export const GetApplicationApplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c35, 0) as any as S.Schema<GetApplicationApplicationRequest>,
   output: __S(1121, __c35, 1) as any as S.Schema<GetApplicationApplicationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5395,7 +5417,8 @@ export const GetJobJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c36, 0) as any as S.Schema<GetJobJobRequest>,
   output: __S(1153, __c36, 1) as any as S.Schema<GetJobJobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5412,7 +5435,8 @@ export const GetJobJobTaskCounts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1376, __c43, 0) as any as S.Schema<GetJobJobTaskCountsRequest>,
   output: __S(1378, __c43, 2) as any as S.Schema<BatchTaskCountsResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5429,7 +5453,8 @@ export const GetJobScheduleJobSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c44, 0) as any as S.Schema<GetJobScheduleJobScheduleRequest>,
   output: __S(1409, __c44, 1) as any as S.Schema<GetJobScheduleJobScheduleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5446,7 +5471,8 @@ export const GetNodeNode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1472, __c46, 0) as any as S.Schema<GetNodeNodeRequest>,
   output: __S(1473, __c46, 1) as any as S.Schema<GetNodeNodeResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5463,7 +5489,8 @@ export const GetNodeNodeExtension: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1600, __c50, 0) as any as S.Schema<GetNodeNodeExtensionRequest>,
   output: __S(1601, __c50, 1) as any as S.Schema<GetNodeNodeExtensionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5480,7 +5507,8 @@ export const GetNodeNodeFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1664, __c52, 0) as any as S.Schema<GetNodeNodeFileRequest>,
   output: __S(1696, __c53, 0) as any as S.Schema<GetNodeNodeFileResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5497,7 +5525,8 @@ export const GetNodeNodeFileProperties: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1728, __c54, 0) as any as S.Schema<GetNodeNodeFilePropertiesRequest>,
   output: __S(3136, __c98, 0) as any as S.Schema<GetNodeNodeFilePropertiesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5514,7 +5543,8 @@ export const GetNodeNodeRemoteLoginSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1760, __c55, 0) as any as S.Schema<GetNodeNodeRemoteLoginSettingsRequest>,
   output: __S(1761, __c55, 1) as any as S.Schema<BatchNodeRemoteLoginSettings>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5531,7 +5561,8 @@ export const GetPoolPool: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1856, __c58, 0) as any as S.Schema<GetPoolPoolRequest>,
   output: __S(1857, __c58, 1) as any as S.Schema<GetPoolPoolResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5548,7 +5579,8 @@ export const GetTaskTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1952, __c61, 0) as any as S.Schema<GetTaskTaskRequest>,
   output: __S(1953, __c61, 1) as any as S.Schema<GetTaskTaskResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5565,7 +5597,8 @@ export const GetTaskTaskFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2048, __c64, 0) as any as S.Schema<GetTaskTaskFileRequest>,
   output: __S(1696, __c53, 0) as any as S.Schema<GetTaskTaskFileResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5582,7 +5615,8 @@ export const GetTaskTaskFileProperties: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2080, __c65, 0) as any as S.Schema<GetTaskTaskFilePropertiesRequest>,
   output: __S(3136, __c98, 0) as any as S.Schema<GetTaskTaskFilePropertiesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5599,7 +5633,8 @@ export const JobSchedulesJobScheduleExists: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2112, __c66, 0) as any as S.Schema<JobSchedulesJobScheduleExistsRequest>,
   output: __S(3136, __c98, 0) as any as S.Schema<JobSchedulesJobScheduleExistsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5617,7 +5652,8 @@ export const JobsListJobPreparationAndReleaseTaskStatus: API.PaginatedOperationM
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2144, __c67, 0) as any as S.Schema<JobsListJobPreparationAndReleaseTaskStatusRequest>,
   output: __S(2149, __c67, 5) as any as S.Schema<BatchJobPreparationAndReleaseTaskStatusListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5641,7 +5677,8 @@ export const ListApplicationApplications: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2176, __c68, 0) as any as S.Schema<ListApplicationApplicationsRequest>,
   output: __S(2179, __c68, 3) as any as S.Schema<BatchApplicationListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5665,7 +5702,8 @@ export const ListJobJobs: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2208, __c69, 0) as any as S.Schema<ListJobJobsRequest>,
   output: __S(2242, __c70, 2) as any as S.Schema<BatchJobListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5689,7 +5727,8 @@ export const ListJobJobsFromSchedule: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2272, __c71, 0) as any as S.Schema<ListJobJobsFromScheduleRequest>,
   output: __S(2242, __c70, 2) as any as S.Schema<BatchJobListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5713,7 +5752,8 @@ export const ListJobScheduleJobSchedules: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2304, __c72, 0) as any as S.Schema<ListJobScheduleJobSchedulesRequest>,
   output: __S(2307, __c72, 3) as any as S.Schema<BatchJobScheduleListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5737,7 +5777,8 @@ export const ListNodeNodeExtensions: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2400, __c75, 0) as any as S.Schema<ListNodeNodeExtensionsRequest>,
   output: __S(2403, __c75, 3) as any as S.Schema<BatchNodeVMExtensionListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5761,7 +5802,8 @@ export const ListNodeNodeFiles: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2432, __c76, 0) as any as S.Schema<ListNodeNodeFilesRequest>,
   output: __S(2467, __c77, 3) as any as S.Schema<BatchNodeFileListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5785,7 +5827,8 @@ export const ListNodeNodes: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2496, __c78, 0) as any as S.Schema<ListNodeNodesRequest>,
   output: __S(2499, __c78, 3) as any as S.Schema<BatchNodeListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5809,7 +5852,8 @@ export const ListPoolPoolNodeCounts: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2528, __c79, 0) as any as S.Schema<ListPoolPoolNodeCountsRequest>,
   output: __S(2532, __c79, 4) as any as S.Schema<BatchPoolNodeCountsListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5833,7 +5877,8 @@ export const ListPoolPools: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2560, __c80, 0) as any as S.Schema<ListPoolPoolsRequest>,
   output: __S(2563, __c80, 3) as any as S.Schema<BatchPoolListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5857,7 +5902,8 @@ export const ListPoolSupportedImages: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2592, __c81, 0) as any as S.Schema<ListPoolSupportedImagesRequest>,
   output: __S(2595, __c81, 3) as any as S.Schema<BatchAccountListSupportedImagesResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5881,7 +5927,8 @@ export const ListTaskSubTasks: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2624, __c82, 0) as any as S.Schema<ListTaskSubTasksRequest>,
   output: __S(2627, __c82, 3) as any as S.Schema<BatchTaskListSubtasksResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5905,7 +5952,8 @@ export const ListTaskTaskFiles: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2656, __c83, 0) as any as S.Schema<ListTaskTaskFilesRequest>,
   output: __S(2467, __c77, 3) as any as S.Schema<BatchNodeFileListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5929,7 +5977,8 @@ export const ListTaskTasks: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2688, __c84, 0) as any as S.Schema<ListTaskTasksRequest>,
   output: __S(2691, __c84, 3) as any as S.Schema<BatchTaskListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5952,7 +6001,8 @@ export const NodesDeallocateNode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2720, __c85, 0) as any as S.Schema<NodesDeallocateNodeRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<NodesDeallocateNodeResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5969,7 +6019,8 @@ export const NodesReimageNode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2784, __c87, 0) as any as S.Schema<NodesReimageNodeRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<NodesReimageNodeResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5986,7 +6037,8 @@ export const PoolsPoolExists: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2816, __c88, 0) as any as S.Schema<PoolsPoolExistsRequest>,
   output: __S(3136, __c98, 0) as any as S.Schema<PoolsPoolExistsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6003,7 +6055,8 @@ export const PoolsStopPoolResize: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2848, __c89, 0) as any as S.Schema<PoolsStopPoolResizeRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PoolsStopPoolResizeResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6020,7 +6073,8 @@ export const RebootNodeNode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2880, __c90, 0) as any as S.Schema<RebootNodeNodeRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<RebootNodeNodeResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6037,7 +6091,8 @@ export const RemovePoolNodes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2912, __c91, 0) as any as S.Schema<RemovePoolNodesRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<RemovePoolNodesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6054,7 +6109,8 @@ export const ReplaceJobJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2944, __c92, 0) as any as S.Schema<ReplaceJobJobRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<ReplaceJobJobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6071,7 +6127,8 @@ export const ReplaceJobScheduleJobSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2976, __c93, 0) as any as S.Schema<ReplaceJobScheduleJobScheduleRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<ReplaceJobScheduleJobScheduleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6088,7 +6145,8 @@ export const ReplaceNodeNodeUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3008, __c94, 0) as any as S.Schema<ReplaceNodeNodeUserRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<ReplaceNodeNodeUserResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6105,7 +6163,8 @@ export const ReplacePoolPoolProperties: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3040, __c95, 0) as any as S.Schema<ReplacePoolPoolPropertiesRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<ReplacePoolPoolPropertiesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6122,7 +6181,8 @@ export const ReplaceTaskTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3072, __c96, 0) as any as S.Schema<ReplaceTaskTaskRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<ReplaceTaskTaskResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6139,7 +6199,8 @@ export const ResizePoolPool: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3168, __c99, 0) as any as S.Schema<ResizePoolPoolRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<ResizePoolPoolResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6156,7 +6217,8 @@ export const ScalePoolsEvaluatePoolAuto: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3200, __c100, 0) as any as S.Schema<ScalePoolsEvaluatePoolAutoRequest>,
   output: __S(3201, __c100, 1) as any as S.Schema<ScalePoolsEvaluatePoolAutoResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6173,7 +6235,8 @@ export const StartNodeNode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3232, __c101, 0) as any as S.Schema<StartNodeNodeRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<StartNodeNodeResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6190,7 +6253,8 @@ export const TasksReactivateTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3264, __c102, 0) as any as S.Schema<TasksReactivateTaskRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<TasksReactivateTaskResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6207,7 +6271,8 @@ export const TerminateJobJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3296, __c103, 0) as any as S.Schema<TerminateJobJobRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<TerminateJobJobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6224,7 +6289,8 @@ export const TerminateJobScheduleJobSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3328, __c104, 0) as any as S.Schema<TerminateJobScheduleJobScheduleRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<TerminateJobScheduleJobScheduleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6241,7 +6307,8 @@ export const TerminateTaskTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3360, __c105, 0) as any as S.Schema<TerminateTaskTaskRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<TerminateTaskTaskResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6258,7 +6325,8 @@ export const UpdateJobJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3392, __c106, 0) as any as S.Schema<UpdateJobJobRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<UpdateJobJobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6275,7 +6343,8 @@ export const UpdateJobScheduleJobSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3492, __c109, 4) as any as S.Schema<UpdateJobScheduleJobScheduleRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<UpdateJobScheduleJobScheduleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6292,7 +6361,8 @@ export const UpdatePoolPool: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3520, __c110, 0) as any as S.Schema<UpdatePoolPoolRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<UpdatePoolPoolResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6309,7 +6379,8 @@ export const UploadNodeNodeLogs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3584, __c112, 0) as any as S.Schema<UploadNodeNodeLogsRequest>,
   output: __S(3585, __c112, 1) as any as S.Schema<UploadBatchServiceLogsResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

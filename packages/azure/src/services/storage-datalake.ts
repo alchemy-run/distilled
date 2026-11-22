@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import { AzureDataPlaneProtocol } from "../data-plane-protocol.ts";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -1109,7 +1109,8 @@ export const CreateFileSystem: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateFileSystemRequest>,
   output: __S(1, __c0, 1) as any as S.Schema<CreateFileSystemResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1126,7 +1127,8 @@ export const CreatePath: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c1, 0) as any as S.Schema<CreatePathRequest>,
   output: __S(17, __c1, 1) as any as S.Schema<CreatePathResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1143,7 +1145,8 @@ export const DeleteFileSystem: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c12, 0) as any as S.Schema<DeleteFileSystemRequest>,
   output: __S(193, __c12, 1) as any as S.Schema<DeleteFileSystemResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1160,7 +1163,8 @@ export const DeletePath: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c13, 0) as any as S.Schema<DeletePathRequest>,
   output: __S(209, __c13, 1) as any as S.Schema<DeletePathResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1177,7 +1181,8 @@ export const FlushPathData: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c14, 0) as any as S.Schema<FlushPathDataRequest>,
   output: __S(225, __c14, 1) as any as S.Schema<FlushPathDataResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1194,7 +1199,8 @@ export const GetFileSystemProperties: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(240, __c15, 0) as any as S.Schema<GetFileSystemPropertiesRequest>,
   output: __S(241, __c15, 1) as any as S.Schema<GetFileSystemPropertiesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1211,7 +1217,8 @@ export const GetPathProperties: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c16, 0) as any as S.Schema<GetPathPropertiesRequest>,
   output: __S(257, __c16, 1) as any as S.Schema<GetPathPropertiesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1229,7 +1236,8 @@ export const ListFileSystemBlobHierarchySegment: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(273, __c17, 1) as any as S.Schema<ListFileSystemBlobHierarchySegmentRequest>,
   output: __S(280, __c17, 8) as any as S.Schema<ListFileSystemBlobHierarchySegmentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1253,7 +1261,8 @@ export const ListFileSystemPaths: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(288, __c18, 0) as any as S.Schema<ListFileSystemPathsRequest>,
   output: __S(291, __c18, 3) as any as S.Schema<ListFileSystemPathsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1272,7 +1281,8 @@ export const ListServiceFileSystems: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(304, __c19, 0) as any as S.Schema<ListServiceFileSystemsRequest>,
   output: __S(307, __c19, 3) as any as S.Schema<ListServiceFileSystemsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1290,7 +1300,8 @@ export const PathAppendData: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c2, 0) as any as S.Schema<PathAppendDataRequest>,
   output: __S(33, __c2, 1) as any as S.Schema<PathAppendDataResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1307,7 +1318,8 @@ export const PathLease: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c3, 0) as any as S.Schema<PathLeaseRequest>,
   output: __S(49, __c3, 1) as any as S.Schema<PathLeaseResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1324,7 +1336,8 @@ export const ReadPath: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c4, 0) as any as S.Schema<ReadPathRequest>,
   output: __S(65, __c4, 1) as any as S.Schema<ReadPathResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1341,7 +1354,8 @@ export const SetFileSystemProperties: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c5, 0) as any as S.Schema<SetFileSystemPropertiesRequest>,
   output: __S(81, __c5, 1) as any as S.Schema<SetFileSystemPropertiesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1358,7 +1372,8 @@ export const SetPathAccessControl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c6, 0) as any as S.Schema<SetPathAccessControlRequest>,
   output: __S(97, __c6, 1) as any as S.Schema<SetPathAccessControlResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1375,7 +1390,8 @@ export const SetPathAccessControlRecursive: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c7, 0) as any as S.Schema<SetPathAccessControlRecursiveRequest>,
   output: __S(113, __c7, 1) as any as S.Schema<SetPathAccessControlRecursiveResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1392,7 +1408,8 @@ export const SetPathExpiry: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c9, 0) as any as S.Schema<SetPathExpiryRequest>,
   output: __S(145, __c9, 1) as any as S.Schema<SetPathExpiryResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1409,7 +1426,8 @@ export const UndeletePath: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c10, 0) as any as S.Schema<UndeletePathRequest>,
   output: __S(161, __c10, 1) as any as S.Schema<UndeletePathResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1426,7 +1444,8 @@ export const UpdatePath: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c11, 0) as any as S.Schema<UpdatePathRequest>,
   output: __S(177, __c11, 1) as any as S.Schema<UpdatePathResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

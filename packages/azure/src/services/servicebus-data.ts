@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import { AzureDataPlaneProtocol } from "../data-plane-protocol.ts";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -217,7 +217,8 @@ export const DeleteEntity: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<DeleteEntityRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<DeleteEntityResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -234,7 +235,8 @@ export const DeleteRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c2, 0) as any as S.Schema<DeleteRuleRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<DeleteRuleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -251,7 +253,8 @@ export const DeleteSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c6, 0) as any as S.Schema<DeleteSubscriptionRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<DeleteSubscriptionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -268,7 +271,8 @@ export const GetEntity: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56, __c7, 0) as any as S.Schema<GetEntityRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<GetEntityResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -285,7 +289,8 @@ export const GetNamespace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c8, 0) as any as S.Schema<GetNamespaceRequest>,
   output: __S(69, __c8, 5) as any as S.Schema<NamespacePropertiesEntry>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -302,7 +307,8 @@ export const GetRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(72, __c9, 0) as any as S.Schema<GetRuleRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<GetRuleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -319,7 +325,8 @@ export const GetSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c10, 0) as any as S.Schema<GetSubscriptionRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<GetSubscriptionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -336,7 +343,8 @@ export const ListEntities: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(88, __c11, 0) as any as S.Schema<ListEntitiesRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<ListEntitiesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -353,7 +361,8 @@ export const ListRules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c12, 0) as any as S.Schema<ListRulesRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<ListRulesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -370,7 +379,8 @@ export const ListSubscriptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(104, __c13, 0) as any as S.Schema<ListSubscriptionsRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<ListSubscriptionsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -387,7 +397,8 @@ export const PutEntity: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c3, 0) as any as S.Schema<PutEntityRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<PutEntityResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -404,7 +415,8 @@ export const PutRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c4, 0) as any as S.Schema<PutRuleRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<PutRuleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -421,7 +433,8 @@ export const PutSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c5, 0) as any as S.Schema<PutSubscriptionRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<PutSubscriptionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

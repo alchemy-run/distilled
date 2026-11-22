@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { AzureProtocol, type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -633,7 +633,8 @@ export const DeleteJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<DeleteJobRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteJobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -650,7 +651,8 @@ export const DeleteJobCollection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c2, 0) as any as S.Schema<DeleteJobCollectionRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteJobCollectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -667,7 +669,8 @@ export const DisableJobCollection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c8, 0) as any as S.Schema<DisableJobCollectionRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DisableJobCollectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -684,7 +687,8 @@ export const EnableJobCollection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c9, 0) as any as S.Schema<EnableJobCollectionRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<EnableJobCollectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -701,7 +705,8 @@ export const GetJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c10, 0) as any as S.Schema<GetJobRequest>,
   output: __S(405, __c12, 21) as any as S.Schema<JobDefinition>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -718,7 +723,8 @@ export const GetJobCollection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c13, 0) as any as S.Schema<GetJobCollectionRequest>,
   output: __S(452, __c14, 4) as any as S.Schema<JobCollectionDefinition>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -735,7 +741,8 @@ export const JobCollectionsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c15, 0) as any as S.Schema<JobCollectionsCreateOrUpdateRequest>,
   output: __S(452, __c14, 4) as any as S.Schema<JobCollectionDefinition>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -752,7 +759,8 @@ export const JobsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c16, 0) as any as S.Schema<JobsCreateOrUpdateRequest>,
   output: __S(405, __c12, 21) as any as S.Schema<JobDefinition>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -770,7 +778,8 @@ export const ListJobCollectionByResourceGroup: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(576, __c18, 0) as any as S.Schema<ListJobCollectionByResourceGroupRequest>,
   output: __S(609, __c19, 1) as any as S.Schema<JobCollectionListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -794,7 +803,8 @@ export const ListJobCollectionBySubscription: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(640, __c20, 0) as any as S.Schema<ListJobCollectionBySubscriptionRequest>,
   output: __S(609, __c19, 1) as any as S.Schema<JobCollectionListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -818,7 +828,8 @@ export const ListJobJobHistory: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(96, __c3, 0) as any as S.Schema<ListJobJobHistoryRequest>,
   output: __S(100, __c3, 4) as any as S.Schema<JobHistoryListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -842,7 +853,8 @@ export const ListJobs: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(128, __c4, 0) as any as S.Schema<ListJobsRequest>,
   output: __S(130, __c4, 2) as any as S.Schema<JobListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -865,7 +877,8 @@ export const PatchJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c5, 0) as any as S.Schema<PatchJobRequest>,
   output: __S(405, __c12, 21) as any as S.Schema<JobDefinition>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -882,7 +895,8 @@ export const PatchJobCollection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c6, 0) as any as S.Schema<PatchJobCollectionRequest>,
   output: __S(452, __c14, 4) as any as S.Schema<JobCollectionDefinition>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -899,7 +913,8 @@ export const RunJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c7, 0) as any as S.Schema<RunJobRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<RunJobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

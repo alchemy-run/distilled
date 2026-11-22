@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { AzureProtocol, type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -2534,7 +2534,8 @@ export const ActivateApplicationPackage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<ActivateApplicationPackageRequest>,
   output: __S(97, __c3, 1) as any as S.Schema<ActivateApplicationPackageResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2551,7 +2552,8 @@ export const BatchAccountSynchronizeAutoStorageKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c4, 0) as any as S.Schema<BatchAccountSynchronizeAutoStorageKeysRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<BatchAccountSynchronizeAutoStorageKeysResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2568,7 +2570,8 @@ export const CheckLocationNameAvailability: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c20, 0) as any as S.Schema<CheckLocationNameAvailabilityRequest>,
   output: __S(641, __c20, 1) as any as S.Schema<CheckNameAvailabilityResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2585,7 +2588,8 @@ export const CreateApplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c33, 0) as any as S.Schema<CreateApplicationRequest>,
   output: __S(1089, __c34, 1) as any as S.Schema<CreateApplicationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2602,7 +2606,8 @@ export const CreateApplicationPackage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c45, 0) as any as S.Schema<CreateApplicationPackageRequest>,
   output: __S(97, __c3, 1) as any as S.Schema<CreateApplicationPackageResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2619,7 +2624,8 @@ export const CreateBatchAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1537, __c48, 1) as any as S.Schema<CreateBatchAccountRequest>,
   output: __S(1538, __c48, 2) as any as S.Schema<CreateBatchAccountResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2636,7 +2642,8 @@ export const CreatePool: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1856, __c58, 0) as any as S.Schema<CreatePoolRequest>,
   output: __S(1960, __c61, 8) as any as S.Schema<CreatePoolResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2653,7 +2660,8 @@ export const DeleteApplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2016, __c63, 0) as any as S.Schema<DeleteApplicationRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<DeleteApplicationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2670,7 +2678,8 @@ export const DeleteApplicationPackage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2048, __c64, 0) as any as S.Schema<DeleteApplicationPackageRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<DeleteApplicationPackageResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2687,7 +2696,8 @@ export const DeleteBatchAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2080, __c65, 0) as any as S.Schema<DeleteBatchAccountRequest>,
   output: __S(2112, __c66, 0) as any as S.Schema<DeleteBatchAccountResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2704,7 +2714,8 @@ export const DeletePool: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c6, 0) as any as S.Schema<DeletePoolRequest>,
   output: __S(2112, __c66, 0) as any as S.Schema<DeletePoolResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2721,7 +2732,8 @@ export const DeletePrivateEndpointConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c7, 0) as any as S.Schema<DeletePrivateEndpointConnectionRequest>,
   output: __S(225, __c7, 1) as any as S.Schema<DeletePrivateEndpointConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2738,7 +2750,8 @@ export const DisablePoolAutoScale: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c8, 0) as any as S.Schema<DisablePoolAutoScaleRequest>,
   output: __S(1960, __c61, 8) as any as S.Schema<DisablePoolAutoScaleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2755,7 +2768,8 @@ export const GetApplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c9, 0) as any as S.Schema<GetApplicationRequest>,
   output: __S(1089, __c34, 1) as any as S.Schema<GetApplicationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2772,7 +2786,8 @@ export const GetApplicationPackage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c10, 0) as any as S.Schema<GetApplicationPackageRequest>,
   output: __S(97, __c3, 1) as any as S.Schema<GetApplicationPackageResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2789,7 +2804,8 @@ export const GetBatchAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c11, 0) as any as S.Schema<GetBatchAccountRequest>,
   output: __S(384, __c12, 0) as any as S.Schema<GetBatchAccountResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2806,7 +2822,8 @@ export const GetBatchAccountDetector: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c13, 0) as any as S.Schema<GetBatchAccountDetectorRequest>,
   output: __S(449, __c14, 1) as any as S.Schema<GetBatchAccountDetectorResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2823,7 +2840,8 @@ export const GetBatchAccountKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c15, 0) as any as S.Schema<GetBatchAccountKeysRequest>,
   output: __S(512, __c16, 0) as any as S.Schema<BatchAccountKeys>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2840,7 +2858,8 @@ export const GetLocationQuotas: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c17, 0) as any as S.Schema<GetLocationQuotasRequest>,
   output: __S(545, __c17, 1) as any as S.Schema<BatchLocationQuota>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2857,7 +2876,8 @@ export const GetNetworkSecurityPerimeterConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c18, 0) as any as S.Schema<GetNetworkSecurityPerimeterConfigurationRequest>,
   output: __S(620, __c19, 12) as any as S.Schema<GetNetworkSecurityPerimeterConfigurationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2874,7 +2894,8 @@ export const GetPool: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c21, 0) as any as S.Schema<GetPoolRequest>,
   output: __S(1960, __c61, 8) as any as S.Schema<GetPoolResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2891,7 +2912,8 @@ export const GetPrivateEndpointConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c22, 0) as any as S.Schema<GetPrivateEndpointConnectionRequest>,
   output: __S(1600, __c50, 0) as any as S.Schema<GetPrivateEndpointConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2908,7 +2930,8 @@ export const GetPrivateLinkResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c23, 0) as any as S.Schema<GetPrivateLinkResourceRequest>,
   output: __S(769, __c24, 1) as any as S.Schema<GetPrivateLinkResourceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2926,7 +2949,8 @@ export const ListApplication: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(800, __c25, 0) as any as S.Schema<ListApplicationRequest>,
   output: __S(802, __c25, 2) as any as S.Schema<ListApplicationsResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2950,7 +2974,8 @@ export const ListApplicationPackage: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(832, __c26, 0) as any as S.Schema<ListApplicationPackageRequest>,
   output: __S(834, __c26, 2) as any as S.Schema<ListApplicationPackagesResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2974,7 +2999,8 @@ export const ListBatchAccount: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(864, __c27, 0) as any as S.Schema<ListBatchAccountRequest>,
   output: __S(897, __c28, 1) as any as S.Schema<BatchAccountListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2998,7 +3024,8 @@ export const ListBatchAccountByResourceGroup: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(928, __c29, 0) as any as S.Schema<ListBatchAccountByResourceGroupRequest>,
   output: __S(897, __c28, 1) as any as S.Schema<BatchAccountListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3022,7 +3049,8 @@ export const ListBatchAccountDetectors: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(960, __c30, 0) as any as S.Schema<ListBatchAccountDetectorsRequest>,
   output: __S(962, __c30, 2) as any as S.Schema<DetectorListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3050,7 +3078,8 @@ export const ListBatchAccountOutboundNetworkDependenciesEndpoints: API.Paginated
     0,
   ) as any as S.Schema<ListBatchAccountOutboundNetworkDependenciesEndpointsRequest>,
   output: __S(999, __c31, 7) as any as S.Schema<OutboundEnvironmentEndpointCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3074,7 +3103,8 @@ export const ListLocationSupportedVirtualMachineSkus: API.PaginatedOperationMeth
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1024, __c32, 0) as any as S.Schema<ListLocationSupportedVirtualMachineSkusRequest>,
   output: __S(1029, __c32, 5) as any as S.Schema<SupportedSkusResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3098,7 +3128,8 @@ export const ListNetworkSecurityPerimeterConfigurations: API.PaginatedOperationM
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1120, __c35, 0) as any as S.Schema<ListNetworkSecurityPerimeterConfigurationsRequest>,
   output: __S(1122, __c35, 2) as any as S.Schema<NetworkSecurityPerimeterConfigurationListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3122,7 +3153,8 @@ export const ListOperations: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1152, __c36, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(1156, __c36, 4) as any as S.Schema<OperationListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3146,7 +3178,8 @@ export const ListPoolByBatchAccount: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1184, __c37, 0) as any as S.Schema<ListPoolByBatchAccountRequest>,
   output: __S(1186, __c37, 2) as any as S.Schema<ListPoolsResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3170,7 +3203,8 @@ export const ListPrivateEndpointConnectionByBatchAccount: API.PaginatedOperation
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1216, __c38, 0) as any as S.Schema<ListPrivateEndpointConnectionByBatchAccountRequest>,
   output: __S(1217, __c38, 1) as any as S.Schema<ListPrivateEndpointConnectionsResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3194,7 +3228,8 @@ export const ListPrivateLinkResourceByBatchAccount: API.PaginatedOperationMethod
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1248, __c39, 0) as any as S.Schema<ListPrivateLinkResourceByBatchAccountRequest>,
   output: __S(1250, __c39, 2) as any as S.Schema<ListPrivateLinkResourcesResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3225,7 +3260,8 @@ export const NetworkSecurityPerimeterReconcileConfiguration: API.OperationMethod
     __c66,
     0,
   ) as any as S.Schema<NetworkSecurityPerimeterReconcileConfigurationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3242,7 +3278,8 @@ export const PoolStopResize: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1312, __c41, 0) as any as S.Schema<PoolStopResizeRequest>,
   output: __S(1960, __c61, 8) as any as S.Schema<PoolStopResizeResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3259,7 +3296,8 @@ export const RegenerateBatchAccountKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1344, __c42, 0) as any as S.Schema<RegenerateBatchAccountKeyRequest>,
   output: __S(512, __c16, 0) as any as S.Schema<BatchAccountKeys>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3276,7 +3314,8 @@ export const UpdateApplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1376, __c43, 0) as any as S.Schema<UpdateApplicationRequest>,
   output: __S(1089, __c34, 1) as any as S.Schema<UpdateApplicationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3293,7 +3332,8 @@ export const UpdateBatchAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1409, __c44, 1) as any as S.Schema<UpdateBatchAccountRequest>,
   output: __S(384, __c12, 0) as any as S.Schema<UpdateBatchAccountResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3310,7 +3350,8 @@ export const UpdatePool: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1472, __c46, 0) as any as S.Schema<UpdatePoolRequest>,
   output: __S(1960, __c61, 8) as any as S.Schema<UpdatePoolResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3327,7 +3368,8 @@ export const UpdatePrivateEndpointConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1506, __c47, 2) as any as S.Schema<UpdatePrivateEndpointConnectionRequest>,
   output: __S(1507, __c47, 3) as any as S.Schema<UpdatePrivateEndpointConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import { AzureDataPlaneProtocol } from "../data-plane-protocol.ts";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -1861,7 +1861,8 @@ export const CloneLoadTestAdministrationTest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CloneLoadTestAdministrationTestRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<CloneLoadTestAdministrationTestResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1878,7 +1879,8 @@ export const DeleteLoadTestAdministrationTest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c2, 0) as any as S.Schema<DeleteLoadTestAdministrationTestRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<DeleteLoadTestAdministrationTestResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1895,7 +1897,8 @@ export const DeleteLoadTestAdministrationTestFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(336, __c21, 0) as any as S.Schema<DeleteLoadTestAdministrationTestFileRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<DeleteLoadTestAdministrationTestFileResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1912,7 +1915,8 @@ export const DeleteLoadTestRunTestRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c36, 0) as any as S.Schema<DeleteLoadTestRunTestRunRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<DeleteLoadTestRunTestRunResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1937,7 +1941,8 @@ export const DeleteNotificationRuleAdministrationNotificationRule: API.Operation
     __c3,
     0,
   ) as any as S.Schema<DeleteNotificationRuleAdministrationNotificationRuleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1962,7 +1967,8 @@ export const GenerateLoadTestAdministrationTestPlanRecommendations: API.Operatio
     __c1,
     0,
   ) as any as S.Schema<GenerateLoadTestAdministrationTestPlanRecommendationsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1979,7 +1985,8 @@ export const GenerateLoadTestRunInsights: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c50, 0) as any as S.Schema<GenerateLoadTestRunInsightsRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<GenerateLoadTestRunInsightsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1996,7 +2003,8 @@ export const GetLoadTestAdministrationAppComponents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(816, __c51, 0) as any as S.Schema<GetLoadTestAdministrationAppComponentsRequest>,
   output: __S(848, __c53, 0) as any as S.Schema<TestAppComponents>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2013,7 +2021,8 @@ export const GetLoadTestAdministrationServerMetricsConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c54, 0) as any as S.Schema<GetLoadTestAdministrationServerMetricsConfigRequest>,
   output: __S(896, __c56, 0) as any as S.Schema<TestServerMetricsConfiguration>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2030,7 +2039,8 @@ export const GetLoadTestAdministrationTest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(912, __c57, 0) as any as S.Schema<GetLoadTestAdministrationTestRequest>,
   output: __S(1009, __c63, 1) as any as S.Schema<Test>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2047,7 +2057,8 @@ export const GetLoadTestAdministrationTestFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c4, 0) as any as S.Schema<GetLoadTestAdministrationTestFileRequest>,
   output: __S(928, __c58, 0) as any as S.Schema<TestFileInfo>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2064,7 +2075,8 @@ export const GetLoadTestRunAppComponents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c5, 0) as any as S.Schema<GetLoadTestRunAppComponentsRequest>,
   output: __S(96, __c6, 0) as any as S.Schema<TestRunAppComponents>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2081,7 +2093,8 @@ export const GetLoadTestRunLatestInsights: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c7, 0) as any as S.Schema<GetLoadTestRunLatestInsightsRequest>,
   output: __S(131, __c8, 3) as any as S.Schema<TestRunInsights>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2098,7 +2111,8 @@ export const GetLoadTestRunServerMetricsConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c9, 0) as any as S.Schema<GetLoadTestRunServerMetricsConfigRequest>,
   output: __S(160, __c10, 0) as any as S.Schema<TestRunServerMetricsConfiguration>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2115,7 +2129,8 @@ export const GetLoadTestRunTestRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c11, 0) as any as S.Schema<GetLoadTestRunTestRunRequest>,
   output: __S(200, __c12, 8) as any as S.Schema<TestRun>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2132,7 +2147,8 @@ export const GetLoadTestRunTestRunFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c13, 0) as any as S.Schema<GetLoadTestRunTestRunFileRequest>,
   output: __S(928, __c58, 0) as any as S.Schema<TestRunFileInfo>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2157,7 +2173,8 @@ export const GetNotificationRuleAdministrationNotificationRule: API.OperationMet
     __c17,
     0,
   ) as any as S.Schema<GetNotificationRuleAdministrationNotificationRuleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2174,7 +2191,8 @@ export const GetOperationStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c18, 0) as any as S.Schema<GetOperationStatusRequest>,
   output: __S(292, __c18, 4) as any as S.Schema<OperationStatus>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2192,7 +2210,8 @@ export const ListLoadTestAdministrationTestFiles: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(304, __c19, 0) as any as S.Schema<ListLoadTestAdministrationTestFilesRequest>,
   output: __S(305, __c19, 1) as any as S.Schema<PagedTestFileInfo>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2216,7 +2235,8 @@ export const ListLoadTestAdministrationTests: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(320, __c20, 0) as any as S.Schema<ListLoadTestAdministrationTestsRequest>,
   output: __S(322, __c20, 2) as any as S.Schema<PagedTest>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2239,7 +2259,8 @@ export const ListLoadTestRunMetricDefinitions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c22, 0) as any as S.Schema<ListLoadTestRunMetricDefinitionsRequest>,
   output: __S(357, __c22, 5) as any as S.Schema<MetricDefinitionCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2257,7 +2278,8 @@ export const ListLoadTestRunMetricDimensionValues: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(384, __c24, 0) as any as S.Schema<ListLoadTestRunMetricDimensionValuesRequest>,
   output: __S(385, __c24, 1) as any as S.Schema<DimensionValueList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2280,7 +2302,8 @@ export const ListLoadTestRunMetricNamespaces: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(400, __c25, 0) as any as S.Schema<ListLoadTestRunMetricNamespacesRequest>,
   output: __S(401, __c25, 1) as any as S.Schema<MetricNamespaceCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2298,7 +2321,8 @@ export const ListLoadTestRunMetrics: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(418, __c26, 2) as any as S.Schema<ListLoadTestRunMetricsRequest>,
   output: __S(425, __c26, 9) as any as S.Schema<Metrics>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2322,7 +2346,8 @@ export const ListLoadTestRunTestRuns: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(432, __c27, 0) as any as S.Schema<ListLoadTestRunTestRunsRequest>,
   output: __S(434, __c27, 2) as any as S.Schema<PagedTestRun>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2350,7 +2375,8 @@ export const ListNotificationRuleAdministrationNotificationRules: API.PaginatedO
     0,
   ) as any as S.Schema<ListNotificationRuleAdministrationNotificationRulesRequest>,
   output: __S(450, __c28, 2) as any as S.Schema<PagedNotificationRule>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2374,7 +2400,8 @@ export const ListTriggerAdministrationTriggers: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(464, __c29, 0) as any as S.Schema<ListTriggerAdministrationTriggersRequest>,
   output: __S(466, __c29, 2) as any as S.Schema<PagedTrigger>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2401,7 +2428,8 @@ export const LoadTestAdministrationCreateOrUpdateAppComponents: API.OperationMet
     0,
   ) as any as S.Schema<LoadTestAdministrationCreateOrUpdateAppComponentsRequest>,
   output: __S(848, __c53, 0) as any as S.Schema<TestAppComponents>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2422,7 +2450,8 @@ export const LoadTestAdministrationCreateOrUpdateServerMetricsConfig: API.Operat
     2,
   ) as any as S.Schema<LoadTestAdministrationCreateOrUpdateServerMetricsConfigRequest>,
   output: __S(896, __c56, 0) as any as S.Schema<TestServerMetricsConfiguration>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2439,7 +2468,8 @@ export const LoadTestAdministrationCreateOrUpdateTest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c34, 0) as any as S.Schema<LoadTestAdministrationCreateOrUpdateTestRequest>,
   output: __S(1009, __c63, 1) as any as S.Schema<Test>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2456,7 +2486,8 @@ export const LoadTestRunCreateOrUpdateAppComponents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(592, __c37, 0) as any as S.Schema<LoadTestRunCreateOrUpdateAppComponentsRequest>,
   output: __S(96, __c6, 0) as any as S.Schema<TestRunAppComponents>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2473,7 +2504,8 @@ export const LoadTestRunCreateOrUpdateServerMetricsConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(610, __c38, 2) as any as S.Schema<LoadTestRunCreateOrUpdateServerMetricsConfigRequest>,
   output: __S(160, __c10, 0) as any as S.Schema<TestRunServerMetricsConfiguration>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2490,7 +2522,8 @@ export const LoadTestRunCreateOrUpdateTestRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(624, __c39, 0) as any as S.Schema<LoadTestRunCreateOrUpdateTestRunRequest>,
   output: __S(200, __c12, 8) as any as S.Schema<TestRun>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2515,7 +2548,8 @@ export const NotificationRuleAdministrationCreateOrUpdateNotificationRule: API.O
     __c17,
     0,
   ) as any as S.Schema<NotificationRuleAdministrationCreateOrUpdateNotificationRuleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2532,7 +2566,8 @@ export const StopLoadTestRunTestRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(656, __c41, 0) as any as S.Schema<StopLoadTestRunTestRunRequest>,
   output: __S(200, __c12, 8) as any as S.Schema<TestRun>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2549,7 +2584,8 @@ export const TriggerAdministrationCreateOrUpdateTrigger: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(677, __c42, 5) as any as S.Schema<TriggerAdministrationCreateOrUpdateTriggerRequest>,
   output: __S(688, __c43, 0) as any as S.Schema<TriggerAdministrationCreateOrUpdateTriggerResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2566,7 +2602,8 @@ export const TriggerAdministrationDeleteTrigger: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c44, 0) as any as S.Schema<TriggerAdministrationDeleteTriggerRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<TriggerAdministrationDeleteTriggerResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2583,7 +2620,8 @@ export const TriggerAdministrationGetTrigger: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(720, __c45, 0) as any as S.Schema<TriggerAdministrationGetTriggerRequest>,
   output: __S(688, __c43, 0) as any as S.Schema<TriggerAdministrationGetTriggerResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2600,7 +2638,8 @@ export const UpdateLoadTestRunLatestInsights: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c46, 0) as any as S.Schema<UpdateLoadTestRunLatestInsightsRequest>,
   output: __S(131, __c8, 3) as any as S.Schema<TestRunInsights>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2617,7 +2656,8 @@ export const UploadLoadTestAdministrationTestFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(752, __c47, 0) as any as S.Schema<UploadLoadTestAdministrationTestFileRequest>,
   output: __S(928, __c58, 0) as any as S.Schema<TestFileInfo>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

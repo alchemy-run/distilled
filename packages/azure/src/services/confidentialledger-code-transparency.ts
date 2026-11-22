@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import { AzureDataPlaneProtocol } from "../data-plane-protocol.ts";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -109,7 +109,8 @@ export const CreateEntry: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateEntryRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<CreateEntryResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -126,7 +127,8 @@ export const GetEntry: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c2, 0) as any as S.Schema<GetEntryRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<GetEntryResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -143,7 +145,8 @@ export const GetEntryStatement: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c3, 0) as any as S.Schema<GetEntryStatementRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<GetEntryStatementResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -160,7 +163,8 @@ export const GetPublicKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c4, 0) as any as S.Schema<GetPublicKeysRequest>,
   output: __S(36, __c4, 4) as any as S.Schema<JsonWebKeySet>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -177,7 +181,8 @@ export const GetScittKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c5, 0) as any as S.Schema<GetScittKeyRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<GetScittKeyResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -194,7 +199,8 @@ export const GetTransparencyConfigCbor: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c6, 0) as any as S.Schema<GetTransparencyConfigCborRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<GetTransparencyConfigCborResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -211,7 +217,8 @@ export const ListScittKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56, __c7, 0) as any as S.Schema<ListScittKeysRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<ListScittKeysResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

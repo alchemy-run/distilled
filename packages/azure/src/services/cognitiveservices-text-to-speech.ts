@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import { AzureDataPlaneProtocol } from "../data-plane-protocol.ts";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -944,7 +944,8 @@ export const CreateConsent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateConsentRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<CreateConsentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -961,7 +962,8 @@ export const CreateConsentFromAudioFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c3, 0) as any as S.Schema<CreateConsentFromAudioFileRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<CreateConsentFromAudioFileResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -978,7 +980,8 @@ export const CreateEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c18, 0) as any as S.Schema<CreateEndpointRequest>,
   output: __S(145, __c18, 1) as any as S.Schema<CreateEndpointResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -995,7 +998,8 @@ export const CreateModel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(250, __c31, 2) as any as S.Schema<CreateModelRequest>,
   output: __S(251, __c31, 3) as any as S.Schema<CreateModelResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1012,7 +1016,8 @@ export const CreatePersonalVoice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(296, __c37, 0) as any as S.Schema<CreatePersonalVoiceRequest>,
   output: __S(304, __c38, 0) as any as S.Schema<CreatePersonalVoiceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1029,7 +1034,8 @@ export const CreatePersonalVoiceFromAudioFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c40, 0) as any as S.Schema<CreatePersonalVoiceFromAudioFileRequest>,
   output: __S(304, __c38, 0) as any as S.Schema<CreatePersonalVoiceFromAudioFileResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1046,7 +1052,8 @@ export const CreateProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(328, __c41, 0) as any as S.Schema<CreateProjectRequest>,
   output: __S(336, __c42, 0) as any as S.Schema<Project>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1063,7 +1070,8 @@ export const CreateTrainingSet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(344, __c43, 0) as any as S.Schema<CreateTrainingSetRequest>,
   output: __S(353, __c44, 1) as any as S.Schema<TrainingSet>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1080,7 +1088,8 @@ export const DeleteConsent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(360, __c45, 0) as any as S.Schema<DeleteConsentRequest>,
   output: __S(368, __c46, 0) as any as S.Schema<DeleteConsentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1097,7 +1106,8 @@ export const DeleteEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(376, __c47, 0) as any as S.Schema<DeleteEndpointRequest>,
   output: __S(368, __c46, 0) as any as S.Schema<DeleteEndpointResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1114,7 +1124,8 @@ export const DeleteModel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c4, 0) as any as S.Schema<DeleteModelRequest>,
   output: __S(368, __c46, 0) as any as S.Schema<DeleteModelResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1131,7 +1142,8 @@ export const DeletePersonalVoice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c5, 0) as any as S.Schema<DeletePersonalVoiceRequest>,
   output: __S(368, __c46, 0) as any as S.Schema<DeletePersonalVoiceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1148,7 +1160,8 @@ export const DeleteProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c6, 0) as any as S.Schema<DeleteProjectRequest>,
   output: __S(368, __c46, 0) as any as S.Schema<DeleteProjectResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1165,7 +1178,8 @@ export const DeleteTrainingSet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56, __c7, 0) as any as S.Schema<DeleteTrainingSetRequest>,
   output: __S(368, __c46, 0) as any as S.Schema<DeleteTrainingSetResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1182,7 +1196,8 @@ export const GetConsent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c8, 0) as any as S.Schema<GetConsentRequest>,
   output: __S(72, __c9, 0) as any as S.Schema<Consent>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1199,7 +1214,8 @@ export const GetEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c10, 0) as any as S.Schema<GetEndpointRequest>,
   output: __S(88, __c11, 0) as any as S.Schema<Endpoint>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1212,7 +1228,8 @@ export const GetModel: API.OperationMethod<GetModelRequest, Model, GetModelError
   /*@__PURE__*/ API.make(() => ({
     input: __S(96, __c12, 0) as any as S.Schema<GetModelRequest>,
     output: __S(104, __c13, 0) as any as S.Schema<Model>,
-    errors: [UnknownAzureError],
+    errors: [],
+    serviceErrors: AzureServiceErrors,
     protocol: AzureDataPlaneProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -1229,7 +1246,8 @@ export const GetOperation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c14, 0) as any as S.Schema<GetOperationRequest>,
   output: __S(113, __c14, 1) as any as S.Schema<Operation>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1246,7 +1264,8 @@ export const GetPersonalVoice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(120, __c15, 0) as any as S.Schema<GetPersonalVoiceRequest>,
   output: __S(128, __c16, 0) as any as S.Schema<PersonalVoice>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1263,7 +1282,8 @@ export const GetProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(136, __c17, 0) as any as S.Schema<GetProjectRequest>,
   output: __S(336, __c42, 0) as any as S.Schema<Project>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1280,7 +1300,8 @@ export const GetTrainingSet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c20, 0) as any as S.Schema<GetTrainingSetRequest>,
   output: __S(353, __c44, 1) as any as S.Schema<TrainingSet>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1298,7 +1319,8 @@ export const ListBaseModels: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(168, __c21, 0) as any as S.Schema<ListBaseModelsRequest>,
   output: __S(172, __c21, 4) as any as S.Schema<PagedBaseModel>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1322,7 +1344,8 @@ export const ListConsents: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(176, __c22, 0) as any as S.Schema<ListConsentsRequest>,
   output: __S(178, __c22, 2) as any as S.Schema<PagedConsent>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1346,7 +1369,8 @@ export const ListEndpoints: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(184, __c23, 0) as any as S.Schema<ListEndpointsRequest>,
   output: __S(186, __c23, 2) as any as S.Schema<PagedEndpoint>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1370,7 +1394,8 @@ export const ListModelRecipes: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(192, __c24, 0) as any as S.Schema<ListModelRecipesRequest>,
   output: __S(194, __c24, 2) as any as S.Schema<PagedRecipe>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1394,7 +1419,8 @@ export const ListModels: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(200, __c25, 0) as any as S.Schema<ListModelsRequest>,
   output: __S(202, __c25, 2) as any as S.Schema<PagedModel>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1418,7 +1444,8 @@ export const ListPersonalVoices: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(208, __c26, 0) as any as S.Schema<ListPersonalVoicesRequest>,
   output: __S(210, __c26, 2) as any as S.Schema<PagedPersonalVoice>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1442,7 +1469,8 @@ export const ListProjects: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(216, __c27, 0) as any as S.Schema<ListProjectsRequest>,
   output: __S(218, __c27, 2) as any as S.Schema<PagedProject>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1466,7 +1494,8 @@ export const ListTrainingSets: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(224, __c28, 0) as any as S.Schema<ListTrainingSetsRequest>,
   output: __S(226, __c28, 2) as any as S.Schema<PagedTrainingSet>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1489,7 +1518,8 @@ export const ResumeEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(232, __c29, 0) as any as S.Schema<ResumeEndpointRequest>,
   output: __S(240, __c30, 0) as any as S.Schema<ResumeEndpointResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1506,7 +1536,8 @@ export const SuspendEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(280, __c35, 0) as any as S.Schema<SuspendEndpointRequest>,
   output: __S(240, __c30, 0) as any as S.Schema<SuspendEndpointResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1523,7 +1554,8 @@ export const UploadTrainingSetData: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c36, 0) as any as S.Schema<UploadTrainingSetDataRequest>,
   output: __S(240, __c30, 0) as any as S.Schema<UploadTrainingSetDataResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

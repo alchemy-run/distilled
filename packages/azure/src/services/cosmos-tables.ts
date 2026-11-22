@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import { AzureDataPlaneProtocol } from "../data-plane-protocol.ts";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -423,7 +423,8 @@ export const CreateTable: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateTableRequest>,
   output: __S(1, __c0, 1) as any as S.Schema<TableResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -440,7 +441,8 @@ export const DeleteTable: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c1, 0) as any as S.Schema<DeleteTableRequest>,
   output: __S(16, __c2, 0) as any as S.Schema<DeleteTableResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -457,7 +459,8 @@ export const DeleteTableEntity: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56, __c7, 0) as any as S.Schema<DeleteTableEntityRequest>,
   output: __S(16, __c2, 0) as any as S.Schema<DeleteTableEntityResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -474,7 +477,8 @@ export const GetServiceProperties: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c8, 0) as any as S.Schema<GetServicePropertiesRequest>,
   output: __S(65, __c8, 1) as any as S.Schema<TableServiceProperties>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -491,7 +495,8 @@ export const GetServiceStatistics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c10, 0) as any as S.Schema<GetServiceStatisticsRequest>,
   output: __S(82, __c10, 2) as any as S.Schema<TableServiceStats>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -508,7 +513,8 @@ export const GetTableAccessPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(88, __c11, 0) as any as S.Schema<GetTableAccessPolicyRequest>,
   output: __S(89, __c11, 1) as any as S.Schema<SignedIdentifiers>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -525,7 +531,8 @@ export const InsertTableEntity: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(104, __c13, 0) as any as S.Schema<InsertTableEntityRequest>,
   output: __S(112, __c14, 0) as any as S.Schema<InsertTableEntityResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -542,7 +549,8 @@ export const MergeTableEntity: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c16, 0) as any as S.Schema<MergeTableEntityRequest>,
   output: __S(136, __c17, 0) as any as S.Schema<MergeTableEntityResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -559,7 +567,8 @@ export const SetServiceProperties: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c18, 0) as any as S.Schema<SetServicePropertiesRequest>,
   output: __S(16, __c2, 0) as any as S.Schema<SetServicePropertiesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -576,7 +585,8 @@ export const SetTableAccessPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(152, __c19, 0) as any as S.Schema<SetTableAccessPolicyRequest>,
   output: __S(16, __c2, 0) as any as S.Schema<SetTableAccessPolicyResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -593,7 +603,8 @@ export const TableQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c3, 0) as any as S.Schema<TableQueryRequest>,
   output: __S(27, __c3, 3) as any as S.Schema<TableQueryResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -610,7 +621,8 @@ export const TableQueryEntities: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c4, 0) as any as S.Schema<TableQueryEntitiesRequest>,
   output: __S(34, __c4, 2) as any as S.Schema<TableEntityQueryResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -627,7 +639,8 @@ export const TableQueryEntityWithPartitionAndRowKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c5, 0) as any as S.Schema<TableQueryEntityWithPartitionAndRowKeyRequest>,
   output: __S(112, __c14, 0) as any as S.Schema<TableQueryEntityWithPartitionAndRowKeyResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -644,7 +657,8 @@ export const UpdateTableEntity: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c6, 0) as any as S.Schema<UpdateTableEntityRequest>,
   output: __S(136, __c17, 0) as any as S.Schema<UpdateTableEntityResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

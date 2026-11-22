@@ -7,18 +7,37 @@
  * ARM-only program never loads the data-plane code (Storage XML, the
  * Container Registry token exchange).
  */
-import { HTTP_STATUS_MAP, InternalServerError } from "@distilled.cloud/core/errors";
+import { InternalServerError } from "@distilled.cloud/core/errors";
+import type { DeclaredErrorClass } from "@distilled.cloud/core/protocol";
 import { matchTypedError } from "@distilled.cloud/core/protocol-http";
+import { declaredStatusClass } from "@distilled.cloud/core/protocol-rest";
 import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
 import * as Effect from "effect/Effect";
 import { AZURE_ERROR_CODE_MAP, matchAzureErrorMessage, UnknownAzureError } from "./errors.ts";
 import type { HttpTrait } from "./traits.ts";
 
-// Bridge: Protocol.decode is typed as Effect<unknown> (no error channel),
-// but Azure failures are real typed errors surfaced through AzureOpError.
-// Fail with the instance and erase the type here; the generated operation
-// annotations reintroduce it for callers.
-export const fail = (e: unknown): Effect.Effect<never> => Effect.fail(e) as Effect.Effect<never>;
+/**
+ * The class an Azure error code maps to. Only the map's own keys count: a
+ * code named like a member of `Object.prototype` (`constructor`, `toString`)
+ * maps to nothing.
+ */
+export const classForCode = (code: string | undefined) =>
+  code !== undefined && Object.hasOwn(AZURE_ERROR_CODE_MAP, code)
+    ? AZURE_ERROR_CODE_MAP[code]
+    : undefined;
+
+/**
+ * `cls`, a class of the service's errors, as the operation declares it:
+ * `undefined` when `cls` is `undefined` or the operation does not list it
+ * (every generated operation lists `AzureServiceErrors`).
+ */
+const declaredClass = (
+  errors: ReadonlyArray<DeclaredErrorClass>,
+  cls: (new (props: any) => unknown) | undefined,
+): DeclaredErrorClass | undefined => {
+  const known: unknown = cls;
+  return known === undefined ? undefined : errors.find((declared) => declared === known);
+};
 
 // ---------------------------------------------------------------------------
 // Error-body parsing
@@ -107,7 +126,9 @@ export const parseBody = (text: string): ReadBody => {
  * The typed error for a failed response, in order: the operation's own
  * typed errors (wire matchers in the model), the Azure error code, a mapped
  * `details[].code`, the HTTP status, a retryable 5xx, else
- * `UnknownAzureError`.
+ * `UnknownAzureError`. The classes of a code and of a status are the
+ * service's errors (`AzureServiceErrors`): this builds one only from the
+ * classes in `errors`, the operation's and then its service's.
  */
 export const failResponse = ({
   status,
@@ -120,8 +141,8 @@ export const failResponse = ({
   readonly headers: Record<string, string | undefined>;
   readonly read: ReadBody;
   readonly arm: ArmError | undefined;
-  readonly errors: ReadonlyArray<unknown>;
-}): Effect.Effect<never> =>
+  readonly errors: ReadonlyArray<DeclaredErrorClass>;
+}) =>
   Effect.gen(function* () {
     const body = nonJson ? text : json;
 
@@ -139,14 +160,15 @@ export const failResponse = ({
       ],
       { body, headers },
     );
-    if (typed !== undefined) return yield* fail(typed);
+    if (typed !== undefined) return yield* Effect.fail(typed);
 
     // 1. Match by Azure error code first for richer typed errors.
-    const AzureErrorClass =
-      (arm !== undefined ? matchAzureErrorMessage(arm) : undefined) ??
-      (arm?.code !== undefined ? AZURE_ERROR_CODE_MAP[arm.code] : undefined);
+    const AzureErrorClass = declaredClass(
+      errors,
+      (arm !== undefined ? matchAzureErrorMessage(arm) : undefined) ?? classForCode(arm?.code),
+    );
     if (AzureErrorClass) {
-      return yield* fail(
+      return yield* Effect.fail(
         new AzureErrorClass({
           message: arm!.message,
           code: arm!.code,
@@ -157,10 +179,10 @@ export const failResponse = ({
 
     // 1b. A generic top-level code (e.g. `ValidationError`) whose nested
     //     `details[].code` is mapped.
-    const detail = arm?.details?.find((d) => d.code !== undefined && AZURE_ERROR_CODE_MAP[d.code]);
-    if (detail !== undefined) {
-      const DetailErrorClass = AZURE_ERROR_CODE_MAP[detail.code!]!;
-      return yield* fail(
+    for (const detail of arm?.details ?? []) {
+      const DetailErrorClass = declaredClass(errors, classForCode(detail.code));
+      if (DetailErrorClass === undefined) continue;
+      return yield* Effect.fail(
         new DetailErrorClass({
           message: detail.message ?? arm!.message,
           code: detail.code,
@@ -169,21 +191,21 @@ export const failResponse = ({
       );
     }
 
-    // 2. Fall back to standard HTTP status errors (Retry-After honored on
-    //    retryable statuses).
-    const StatusErrorClass = HTTP_STATUS_MAP[status as keyof typeof HTTP_STATUS_MAP];
+    // 2. Fall back to core's class for the status, which the service
+    //    declares (Retry-After honored on retryable statuses).
+    const StatusErrorClass = declaredStatusClass(status, errors);
     if (StatusErrorClass) {
-      return yield* fail(
+      return yield* Effect.fail(
         new StatusErrorClass({
           message: arm?.message ?? (nonJson && text.trim() ? text.trim() : ""),
           retryAfter: parseRetryAfterForStatus(status, headers),
-        } as any),
+        }),
       );
     }
 
-    // 3. Unmapped 5xx -> retryable server error.
+    // 3. Any other 5xx -> retryable server error.
     if (status >= 500) {
-      return yield* fail(
+      return yield* Effect.fail(
         new InternalServerError({
           message: arm?.message ?? `HTTP ${status}`,
           retryAfter: parseRetryAfterForStatus(status, headers),
@@ -192,7 +214,7 @@ export const failResponse = ({
     }
 
     // 4. Unknown Azure error.
-    return yield* fail(
+    return yield* Effect.fail(
       new UnknownAzureError({
         status,
         code: arm?.code,

@@ -4,7 +4,7 @@ import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
 import { AzureDataPlaneProtocol } from "../data-plane-protocol.ts";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -636,7 +636,8 @@ export const AuthenticationExchangeAadAccessTokenForAcrRefreshToken: API.Operati
     0,
   ) as any as S.Schema<AuthenticationExchangeAadAccessTokenForAcrRefreshTokenRequest>,
   output: __S(1, __c0, 1) as any as S.Schema<AcrRefreshToken>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -657,7 +658,8 @@ export const AuthenticationExchangeAcrRefreshTokenForAcrAccessToken: API.Operati
     0,
   ) as any as S.Schema<AuthenticationExchangeAcrRefreshTokenForAcrAccessTokenRequest>,
   output: __S(32, __c2, 0) as any as S.Schema<AcrAccessToken>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -674,7 +676,8 @@ export const CheckContainerRegistryBlobBlobExists: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(272, __c17, 0) as any as S.Schema<CheckContainerRegistryBlobBlobExistsRequest>,
   output: __S(288, __c18, 0) as any as S.Schema<CheckContainerRegistryBlobBlobExistsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -691,7 +694,8 @@ export const CheckContainerRegistryBlobChunkExists: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(496, __c31, 0) as any as S.Schema<CheckContainerRegistryBlobChunkExistsRequest>,
   output: __S(288, __c18, 0) as any as S.Schema<CheckContainerRegistryBlobChunkExistsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -708,7 +712,8 @@ export const CheckContainerRegistryDockerV2Support: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c32, 0) as any as S.Schema<CheckContainerRegistryDockerV2SupportRequest>,
   output: __S(288, __c18, 0) as any as S.Schema<CheckContainerRegistryDockerV2SupportResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -725,7 +730,8 @@ export const ContainerRegistryBlobCancelUpload: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(528, __c33, 0) as any as S.Schema<ContainerRegistryBlobCancelUploadRequest>,
   output: __S(288, __c18, 0) as any as S.Schema<ContainerRegistryBlobCancelUploadResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -742,7 +748,8 @@ export const ContainerRegistryBlobGetUploadStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c34, 0) as any as S.Schema<ContainerRegistryBlobGetUploadStatusRequest>,
   output: __S(288, __c18, 0) as any as S.Schema<ContainerRegistryBlobGetUploadStatusResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -759,7 +766,8 @@ export const ContainerRegistryBlobMountBlob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(560, __c35, 0) as any as S.Schema<ContainerRegistryBlobMountBlobRequest>,
   output: __S(576, __c36, 0) as any as S.Schema<ContainerRegistryBlobMountBlobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -776,7 +784,8 @@ export const ContainerRegistryBlobStartUpload: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(592, __c37, 0) as any as S.Schema<ContainerRegistryBlobStartUploadRequest>,
   output: __S(576, __c36, 0) as any as S.Schema<ContainerRegistryBlobStartUploadResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -793,7 +802,8 @@ export const CreateContainerRegistryManifest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c38, 0) as any as S.Schema<CreateContainerRegistryManifestRequest>,
   output: __S(624, __c39, 0) as any as S.Schema<CreateContainerRegistryManifestResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -810,7 +820,8 @@ export const DeleteContainerRegistryBlobBlob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c3, 0) as any as S.Schema<DeleteContainerRegistryBlobBlobRequest>,
   output: __S(288, __c18, 0) as any as S.Schema<DeleteContainerRegistryBlobBlobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -827,7 +838,8 @@ export const DeleteContainerRegistryManifest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c4, 0) as any as S.Schema<DeleteContainerRegistryManifestRequest>,
   output: __S(288, __c18, 0) as any as S.Schema<DeleteContainerRegistryManifestResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -844,7 +856,8 @@ export const DeleteContainerRegistryRepository: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c5, 0) as any as S.Schema<DeleteContainerRegistryRepositoryRequest>,
   output: __S(288, __c18, 0) as any as S.Schema<DeleteContainerRegistryRepositoryResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -861,7 +874,8 @@ export const DeleteContainerRegistryTag: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c6, 0) as any as S.Schema<DeleteContainerRegistryTagRequest>,
   output: __S(288, __c18, 0) as any as S.Schema<DeleteContainerRegistryTagResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -878,7 +892,8 @@ export const GetAuthenticationAcrAccessTokenFromLogin: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c7, 0) as any as S.Schema<GetAuthenticationAcrAccessTokenFromLoginRequest>,
   output: __S(32, __c2, 0) as any as S.Schema<AcrAccessToken>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -895,7 +910,8 @@ export const GetContainerRegistryBlobBlob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c8, 0) as any as S.Schema<GetContainerRegistryBlobBlobRequest>,
   output: __S(129, __c8, 1) as any as S.Schema<GetContainerRegistryBlobBlobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -912,7 +928,8 @@ export const GetContainerRegistryBlobChunk: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c9, 0) as any as S.Schema<GetContainerRegistryBlobChunkRequest>,
   output: __S(288, __c18, 0) as any as S.Schema<GetContainerRegistryBlobChunkResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -929,7 +946,8 @@ export const GetContainerRegistryManifest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c10, 0) as any as S.Schema<GetContainerRegistryManifestRequest>,
   output: __S(175, __c10, 15) as any as S.Schema<GetContainerRegistryManifestResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -946,7 +964,8 @@ export const GetContainerRegistryManifestProperties: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c12, 0) as any as S.Schema<GetContainerRegistryManifestPropertiesRequest>,
   output: __S(240, __c15, 0) as any as S.Schema<ArtifactManifestProperties>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -963,7 +982,8 @@ export const GetContainerRegistryManifests: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c16, 0) as any as S.Schema<GetContainerRegistryManifestsRequest>,
   output: __S(258, __c16, 2) as any as S.Schema<AcrManifests>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -980,7 +1000,8 @@ export const GetContainerRegistryProperties: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(304, __c19, 0) as any as S.Schema<GetContainerRegistryPropertiesRequest>,
   output: __S(320, __c20, 0) as any as S.Schema<ContainerRepositoryProperties>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -998,7 +1019,8 @@ export const GetContainerRegistryRepositories: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(336, __c21, 0) as any as S.Schema<GetContainerRegistryRepositoriesRequest>,
   output: __S(337, __c21, 1) as any as S.Schema<Repositories>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1021,7 +1043,8 @@ export const GetContainerRegistryTagProperties: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c22, 0) as any as S.Schema<GetContainerRegistryTagPropertiesRequest>,
   output: __S(384, __c24, 0) as any as S.Schema<ArtifactTagProperties>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1038,7 +1061,8 @@ export const GetContainerRegistryTags: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(400, __c25, 0) as any as S.Schema<GetContainerRegistryTagsRequest>,
   output: __S(402, __c25, 2) as any as S.Schema<TagList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1055,7 +1079,8 @@ export const UpdateContainerRegistryManifestProperties: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c26, 0) as any as S.Schema<UpdateContainerRegistryManifestPropertiesRequest>,
   output: __S(240, __c15, 0) as any as S.Schema<ArtifactManifestProperties>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1072,7 +1097,8 @@ export const UpdateContainerRegistryProperties: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(432, __c27, 0) as any as S.Schema<UpdateContainerRegistryPropertiesRequest>,
   output: __S(320, __c20, 0) as any as S.Schema<ContainerRepositoryProperties>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1089,7 +1115,8 @@ export const UpdateContainerRegistryTagAttributes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c28, 0) as any as S.Schema<UpdateContainerRegistryTagAttributesRequest>,
   output: __S(384, __c24, 0) as any as S.Schema<ArtifactTagProperties>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1106,7 +1133,8 @@ export const UploadContainerRegistryBlobChunk: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(464, __c29, 0) as any as S.Schema<UploadContainerRegistryBlobChunkRequest>,
   output: __S(576, __c36, 0) as any as S.Schema<UploadContainerRegistryBlobChunkResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1123,7 +1151,8 @@ export const UploadContainerRegistryBlobComplete: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c30, 0) as any as S.Schema<UploadContainerRegistryBlobCompleteRequest>,
   output: __S(624, __c39, 0) as any as S.Schema<UploadContainerRegistryBlobCompleteResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

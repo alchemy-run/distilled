@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import { AzureDataPlaneProtocol } from "../data-plane-protocol.ts";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -664,7 +664,8 @@ export const AddDeleteJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<AddDeleteJobRequest>,
   output: __S(1, __c0, 1) as any as S.Schema<AddDeleteJobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -681,7 +682,8 @@ export const AddDigitalTwin: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4, __c1, 0) as any as S.Schema<AddDigitalTwinRequest>,
   output: __S(8, __c2, 0) as any as S.Schema<AddDigitalTwinResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -698,7 +700,8 @@ export const AddDigitalTwinModel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c16, 0) as any as S.Schema<AddDigitalTwinModelRequest>,
   output: __S(65, __c16, 1) as any as S.Schema<AddDigitalTwinModelResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -715,7 +718,8 @@ export const AddDigitalTwinRelationship: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(124, __c31, 0) as any as S.Schema<AddDigitalTwinRelationshipRequest>,
   output: __S(8, __c2, 0) as any as S.Schema<AddDigitalTwinRelationshipResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -732,7 +736,8 @@ export const AddEventRoute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(136, __c34, 0) as any as S.Schema<AddEventRouteRequest>,
   output: __S(140, __c35, 0) as any as S.Schema<AddEventRouteResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -749,7 +754,8 @@ export const AddImportJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(145, __c36, 1) as any as S.Schema<AddImportJobRequest>,
   output: __S(152, __c38, 0) as any as S.Schema<ImportJob>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -766,7 +772,8 @@ export const CancelImportJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(156, __c39, 0) as any as S.Schema<CancelImportJobRequest>,
   output: __S(152, __c38, 0) as any as S.Schema<ImportJob>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -783,7 +790,8 @@ export const DeleteDigitalTwin: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c40, 0) as any as S.Schema<DeleteDigitalTwinRequest>,
   output: __S(140, __c35, 0) as any as S.Schema<DeleteDigitalTwinResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -800,7 +808,8 @@ export const DeleteDigitalTwinModel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(164, __c41, 0) as any as S.Schema<DeleteDigitalTwinModelRequest>,
   output: __S(140, __c35, 0) as any as S.Schema<DeleteDigitalTwinModelResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -817,7 +826,8 @@ export const DeleteDigitalTwinRelationship: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(168, __c42, 0) as any as S.Schema<DeleteDigitalTwinRelationshipRequest>,
   output: __S(140, __c35, 0) as any as S.Schema<DeleteDigitalTwinRelationshipResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -834,7 +844,8 @@ export const DeleteEventRoute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c4, 0) as any as S.Schema<DeleteEventRouteRequest>,
   output: __S(140, __c35, 0) as any as S.Schema<DeleteEventRouteResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -851,7 +862,8 @@ export const DeleteImportJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20, __c5, 0) as any as S.Schema<DeleteImportJobRequest>,
   output: __S(140, __c35, 0) as any as S.Schema<DeleteImportJobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -868,7 +880,8 @@ export const GetDeleteJobById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c6, 0) as any as S.Schema<GetDeleteJobByIdRequest>,
   output: __S(28, __c7, 0) as any as S.Schema<DeleteJob>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -885,7 +898,8 @@ export const GetDigitalTwinById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c8, 0) as any as S.Schema<GetDigitalTwinByIdRequest>,
   output: __S(8, __c2, 0) as any as S.Schema<GetDigitalTwinByIdResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -902,7 +916,8 @@ export const GetDigitalTwinComponent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(36, __c9, 0) as any as S.Schema<GetDigitalTwinComponentRequest>,
   output: __S(8, __c2, 0) as any as S.Schema<GetDigitalTwinComponentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -919,7 +934,8 @@ export const GetDigitalTwinModelById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c10, 0) as any as S.Schema<GetDigitalTwinModelByIdRequest>,
   output: __S(69, __c17, 1) as any as S.Schema<DigitalTwinsModelData>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -936,7 +952,8 @@ export const GetDigitalTwinRelationshipById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(44, __c11, 0) as any as S.Schema<GetDigitalTwinRelationshipByIdRequest>,
   output: __S(8, __c2, 0) as any as S.Schema<GetDigitalTwinRelationshipByIdResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -953,7 +970,8 @@ export const GetEventRouteById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c12, 0) as any as S.Schema<GetEventRouteByIdRequest>,
   output: __S(52, __c13, 0) as any as S.Schema<EventRoute>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -970,7 +988,8 @@ export const GetImportJobById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56, __c14, 0) as any as S.Schema<GetImportJobByIdRequest>,
   output: __S(152, __c38, 0) as any as S.Schema<ImportJob>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -988,7 +1007,8 @@ export const ListDeleteJobs: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(60, __c15, 0) as any as S.Schema<ListDeleteJobsRequest>,
   output: __S(62, __c15, 2) as any as S.Schema<DeleteJobCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1012,7 +1032,8 @@ export const ListDigitalTwinIncomingRelationships: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(80, __c20, 0) as any as S.Schema<ListDigitalTwinIncomingRelationshipsRequest>,
   output: __S(83, __c20, 3) as any as S.Schema<IncomingRelationshipCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1036,7 +1057,8 @@ export const ListDigitalTwinModels: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(85, __c21, 1) as any as S.Schema<ListDigitalTwinModelsRequest>,
   output: __S(86, __c21, 2) as any as S.Schema<PagedDigitalTwinsModelDataCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1060,7 +1082,8 @@ export const ListDigitalTwinRelationships: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(88, __c22, 0) as any as S.Schema<ListDigitalTwinRelationshipsRequest>,
   output: __S(89, __c22, 1) as any as S.Schema<RelationshipCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1084,7 +1107,8 @@ export const ListEventRoutes: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(92, __c23, 0) as any as S.Schema<ListEventRoutesRequest>,
   output: __S(94, __c23, 2) as any as S.Schema<EventRouteCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1108,7 +1132,8 @@ export const ListImportJobs: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(96, __c24, 0) as any as S.Schema<ListImportJobsRequest>,
   output: __S(98, __c24, 2) as any as S.Schema<ImportJobCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1131,7 +1156,8 @@ export const QueryQueryTwins: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(100, __c25, 0) as any as S.Schema<QueryQueryTwinsRequest>,
   output: __S(101, __c25, 1) as any as S.Schema<QueryResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1148,7 +1174,8 @@ export const SendDigitalTwinComponentTelemetry: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(104, __c26, 0) as any as S.Schema<SendDigitalTwinComponentTelemetryRequest>,
   output: __S(140, __c35, 0) as any as S.Schema<SendDigitalTwinComponentTelemetryResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1165,7 +1192,8 @@ export const SendDigitalTwinTelemetry: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(108, __c27, 0) as any as S.Schema<SendDigitalTwinTelemetryRequest>,
   output: __S(140, __c35, 0) as any as S.Schema<SendDigitalTwinTelemetryResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1182,7 +1210,8 @@ export const UpdateDigitalTwin: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c28, 0) as any as S.Schema<UpdateDigitalTwinRequest>,
   output: __S(116, __c29, 0) as any as S.Schema<UpdateDigitalTwinResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1199,7 +1228,8 @@ export const UpdateDigitalTwinComponent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(120, __c30, 0) as any as S.Schema<UpdateDigitalTwinComponentRequest>,
   output: __S(116, __c29, 0) as any as S.Schema<UpdateDigitalTwinComponentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1216,7 +1246,8 @@ export const UpdateDigitalTwinModel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c32, 0) as any as S.Schema<UpdateDigitalTwinModelRequest>,
   output: __S(140, __c35, 0) as any as S.Schema<UpdateDigitalTwinModelResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1233,7 +1264,8 @@ export const UpdateDigitalTwinRelationship: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(132, __c33, 0) as any as S.Schema<UpdateDigitalTwinRelationshipRequest>,
   output: __S(116, __c29, 0) as any as S.Schema<UpdateDigitalTwinRelationshipResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

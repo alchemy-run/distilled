@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import { AzureDataPlaneProtocol } from "../data-plane-protocol.ts";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -184,7 +184,8 @@ export const AddOptOut: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<AddOptOutRequest>,
   output: __S(12, __c1, 4) as any as S.Schema<OptOutResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -201,7 +202,8 @@ export const CheckOptOut: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c2, 0) as any as S.Schema<CheckOptOutRequest>,
   output: __S(12, __c1, 4) as any as S.Schema<OptOutResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -218,7 +220,8 @@ export const GetDeliveryReport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c3, 0) as any as S.Schema<GetDeliveryReportRequest>,
   output: __S(27, __c3, 3) as any as S.Schema<DeliveryReport>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -235,7 +238,8 @@ export const RemoveOptOut: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c4, 0) as any as S.Schema<RemoveOptOutRequest>,
   output: __S(12, __c1, 4) as any as S.Schema<OptOutResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -252,7 +256,8 @@ export const SendSms: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(44, __c5, 4) as any as S.Schema<SendSmsRequest>,
   output: __S(47, __c5, 7) as any as S.Schema<SmsSendResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import { AzureDataPlaneProtocol } from "../data-plane-protocol.ts";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -2734,7 +2734,8 @@ export const AnalyzeText: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10, __c0, 10) as any as S.Schema<AnalyzeTextRequest>,
   output: __S(22, __c0, 22) as any as S.Schema<AnalyzeTextResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2751,7 +2752,8 @@ export const AnalyzeTextCancelJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c5, 0) as any as S.Schema<AnalyzeTextCancelJobRequest>,
   output: __S(192, __c6, 0) as any as S.Schema<AnalyzeTextCancelJobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2768,7 +2770,8 @@ export const AnalyzeTextJobStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c7, 0) as any as S.Schema<AnalyzeTextJobStatusRequest>,
   output: __S(274, __c8, 18) as any as S.Schema<AnalyzeTextJobState>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2785,7 +2788,8 @@ export const AnalyzeTextSubmitJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(305, __c9, 17) as any as S.Schema<AnalyzeTextSubmitJobRequest>,
   output: __S(192, __c6, 0) as any as S.Schema<AnalyzeTextSubmitJobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

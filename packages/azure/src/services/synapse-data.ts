@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import { AzureDataPlaneProtocol } from "../data-plane-protocol.ts";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -487,7 +487,8 @@ export const CreateRoleAssignment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateRoleAssignmentRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<RoleAssignmentDetails>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -504,7 +505,8 @@ export const DeleteArtifactForDB: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c2, 0) as any as S.Schema<DeleteArtifactForDBRequest>,
   output: __S(12, __c3, 0) as any as S.Schema<DeleteArtifactForDBResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -521,7 +523,8 @@ export const DeleteArtifactFromSchema: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(60, __c15, 0) as any as S.Schema<DeleteArtifactFromSchemaRequest>,
   output: __S(12, __c3, 0) as any as S.Schema<DeleteArtifactFromSchemaResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -538,7 +541,8 @@ export const DeleteDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(76, __c19, 0) as any as S.Schema<DeleteDatabaseRequest>,
   output: __S(12, __c3, 0) as any as S.Schema<DeleteDatabaseResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -555,7 +559,8 @@ export const DeleteRoleAssignmentById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c20, 0) as any as S.Schema<DeleteRoleAssignmentByIdRequest>,
   output: __S(12, __c3, 0) as any as S.Schema<DeleteRoleAssignmentByIdResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -572,7 +577,8 @@ export const ExecuteChange: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(84, __c21, 0) as any as S.Schema<ExecuteChangeRequest>,
   output: __S(86, __c21, 2) as any as S.Schema<SyMSAPIDDLResponses>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -589,7 +595,8 @@ export const ExecuteChangeWithValidation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c24, 0) as any as S.Schema<ExecuteChangeWithValidationRequest>,
   output: __S(12, __c3, 0) as any as S.Schema<ExecuteChangeWithValidationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -606,7 +613,8 @@ export const GetArtifactFromDB: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(100, __c25, 0) as any as S.Schema<GetArtifactFromDBRequest>,
   output: __S(104, __c26, 0) as any as S.Schema<MDEntity>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -623,7 +631,8 @@ export const GetArtifactFromSchema: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(108, __c27, 0) as any as S.Schema<GetArtifactFromSchemaRequest>,
   output: __S(104, __c26, 0) as any as S.Schema<MDEntity>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -640,7 +649,8 @@ export const GetDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c28, 0) as any as S.Schema<GetDatabaseRequest>,
   output: __S(114, __c28, 2) as any as S.Schema<GetDatabaseResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -657,7 +667,8 @@ export const GetRoleAssignmentById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c4, 0) as any as S.Schema<GetRoleAssignmentByIdRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<RoleAssignmentDetails>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -674,7 +685,8 @@ export const GetSyMSOperationStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20, __c5, 0) as any as S.Schema<GetSyMSOperationStatusRequest>,
   output: __S(25, __c6, 1) as any as S.Schema<QueryArtifactsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -691,7 +703,8 @@ export const ListArtifacts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28, __c7, 0) as any as S.Schema<ListArtifactsRequest>,
   output: __S(25, __c6, 1) as any as S.Schema<QueryArtifactsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -708,7 +721,8 @@ export const ListArtifactsInSchemaByType: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c8, 0) as any as S.Schema<ListArtifactsInSchemaByTypeRequest>,
   output: __S(25, __c6, 1) as any as S.Schema<QueryArtifactsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -725,7 +739,8 @@ export const ListDatabases: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(36, __c9, 0) as any as S.Schema<ListDatabasesRequest>,
   output: __S(25, __c6, 1) as any as S.Schema<QueryArtifactsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -742,7 +757,8 @@ export const ListPartitionInfosForSchemaAndTable: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c10, 0) as any as S.Schema<ListPartitionInfosForSchemaAndTableRequest>,
   output: __S(25, __c6, 1) as any as S.Schema<QueryArtifactsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -759,7 +775,8 @@ export const ListPartitionInfosForSchemaAndView: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(44, __c11, 0) as any as S.Schema<ListPartitionInfosForSchemaAndViewRequest>,
   output: __S(25, __c6, 1) as any as S.Schema<QueryArtifactsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -776,7 +793,8 @@ export const ListPartitionInfosForTable: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c12, 0) as any as S.Schema<ListPartitionInfosForTableRequest>,
   output: __S(25, __c6, 1) as any as S.Schema<QueryArtifactsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -793,7 +811,8 @@ export const ListPartitionInfosForView: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(52, __c13, 0) as any as S.Schema<ListPartitionInfosForViewRequest>,
   output: __S(25, __c6, 1) as any as S.Schema<QueryArtifactsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -810,7 +829,8 @@ export const ListRoleAssignments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56, __c14, 0) as any as S.Schema<ListRoleAssignmentsRequest>,
   output: __S(58, __c14, 2) as any as S.Schema<RoleAssignmentDetailsListResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -827,7 +847,8 @@ export const PutArtifactInDB: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c16, 0) as any as S.Schema<PutArtifactInDBRequest>,
   output: __S(88, __c22, 0) as any as S.Schema<SyMSAPIDDLResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -844,7 +865,8 @@ export const PutArtifactInSchema: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(68, __c17, 0) as any as S.Schema<PutArtifactInSchemaRequest>,
   output: __S(88, __c22, 0) as any as S.Schema<SyMSAPIDDLResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -861,7 +883,8 @@ export const PutDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(73, __c18, 1) as any as S.Schema<PutDatabaseRequest>,
   output: __S(88, __c22, 0) as any as S.Schema<SyMSAPIDDLResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

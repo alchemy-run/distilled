@@ -1,5 +1,5 @@
-import * as API from "@distilled.cloud/core/api";
 import { ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
+import type { DecodeArgs, EncodeArgs, Protocol, ProtocolOf } from "@distilled.cloud/core/protocol";
 import {
   buildRequest,
   getAnn,
@@ -48,26 +48,18 @@ import * as Effect from "effect/Effect";
 import * as HttpBody from "effect/http/HttpBody";
 import * as HttpClient from "effect/http/HttpClient";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
-import type * as HttpClientResponse from "effect/http/HttpClientResponse";
-import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import * as Schedule from "effect/Schedule";
-import type * as AST from "effect/SchemaAST";
 import {
-  type Config,
   Credentials,
   DEFAULT_API_BASE_URL,
   MissingTokenAudience,
   armScopeFor,
 } from "./credentials-service.ts";
-import {
-  AZURE_ERROR_CODE_MAP,
-  AzureParseError,
-  ContainerRegistryTokenExchangeFailed,
-} from "./errors.ts";
+import { AzureParseError, ContainerRegistryTokenExchangeFailed } from "./errors.ts";
 import {
   type ArmError,
-  fail,
+  classForCode,
   failResponse,
   nextLinkOf,
   parseArmError,
@@ -95,14 +87,12 @@ import type { HttpTrait } from "./traits.ts";
 // Encode
 // ---------------------------------------------------------------------------
 
-// The protocol layer is memoized per process by `API.make`, so the build
+// The protocol is one module-level value shared by every operation, so it
 // must not capture credentials -- `encode` resolves Credentials from the
-// calling fiber's context on every request instead. Its ConfigError channel
-// is erased at this boundary (Protocol effects carry none) and reintroduced
-// for callers by the generated AzureOpError annotations.
-const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAst: AST.AST }) =>
+// calling fiber's context on every request.
+const encode = ({ input, inputAst }: EncodeArgs) =>
   Effect.gen(function* () {
-    const resolveCredentials: Effect.Effect<Config> = (yield* Credentials) as Effect.Effect<Config>;
+    const resolveCredentials = yield* Credentials;
     const http = getAnn(inputAst, httpSymbol) as HttpTrait | undefined;
     let unwrapped = unwrapRedactedDeep(input);
     // Storage / Tables: an endpoint URL that already carries a SAS query
@@ -132,7 +122,7 @@ const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAs
     let fields = unwrapped;
     if (http?.host !== undefined) {
       const host = buildHost(http, unwrapped);
-      if (typeof host !== "string") return yield* fail(host);
+      if (typeof host !== "string") return yield* Effect.fail(host);
       baseUrl = host;
       fields = withoutHostMembers(http.host, unwrapped);
     }
@@ -142,7 +132,7 @@ const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAs
     if (http?.nextLink !== undefined) fields = withoutMember(fields, http.nextLink);
     const nextUrl = nextLink !== undefined ? resolveNextLink(nextLink, baseUrl) : undefined;
     if (nextLink !== undefined && nextUrl === undefined) {
-      return yield* fail(
+      return yield* Effect.fail(
         new InvalidInput({
           member: http!.nextLink!,
           message: `${http!.nextLink} must be a page link on ${baseUrl}; the credentials are only sent there`,
@@ -165,7 +155,7 @@ const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAs
       if (http?.host === undefined) {
         token = yield* creds.token(armScopeFor(creds.apiBaseUrl));
       } else if (http.audience === undefined) {
-        return yield* fail(
+        return yield* Effect.fail(
           new MissingTokenAudience({
             message: `no token audience is known for the data-plane operation ${http.uri}`,
             uri: http.uri,
@@ -277,7 +267,7 @@ const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAs
     let url = request.url;
     if (url.includes("{subscriptionId}")) {
       if (!creds?.subscriptionId) {
-        return yield* fail(
+        return yield* Effect.fail(
           new ConfigError({
             message: `${http?.uri ?? "this operation"} needs a subscriptionId: pass it or configure one on the credentials`,
           }),
@@ -465,11 +455,13 @@ const acrTokenRequest = (
       if (typeof value === "string" && value !== "") return Redacted.make(value);
     }
     const arm = parseArmError(json ?? text);
-    const Mapped = arm?.code !== undefined ? AZURE_ERROR_CODE_MAP[arm.code] : undefined;
+    // The token server's answer is not an operation's response, so there are
+    // no declared classes to match it against: the class comes from the map.
+    const Mapped = classForCode(arm?.code);
     if (Mapped !== undefined) {
-      return yield* fail(new Mapped({ message: arm!.message, code: arm!.code }));
+      return yield* Effect.fail(new Mapped({ message: arm!.message, code: arm!.code }));
     }
-    return yield* fail(
+    return yield* Effect.fail(
       new ContainerRegistryTokenExchangeFailed({
         message: `${path} answered ${response.status}${arm?.message ? `: ${arm.message}` : ""}`,
         code: arm?.code,
@@ -479,9 +471,9 @@ const acrTokenRequest = (
   });
 
 /** A cached registry token, or a fresh one from `mint`. */
-const cachedAcrToken = (
+const cachedAcrToken = <E>(
   key: string,
-  mint: Effect.Effect<Redacted.Redacted<string>, unknown, HttpClient.HttpClient>,
+  mint: Effect.Effect<Redacted.Redacted<string>, E, HttpClient.HttpClient>,
   cacheable: (token: string) => boolean = () => true,
 ) =>
   Effect.gen(function* () {
@@ -513,7 +505,7 @@ const acrAccessToken = (
   Effect.gen(function* () {
     const service = parseUrl(baseUrl)?.host;
     if (service === undefined) {
-      return yield* fail(
+      return yield* Effect.fail(
         new InvalidInput({ member: "endpoint", message: `${baseUrl} is not a registry URL` }),
       );
     }
@@ -589,15 +581,7 @@ const withoutHostMembers = (template: string, input: unknown): unknown => {
 // Decode
 // ---------------------------------------------------------------------------
 
-const decode = ({
-  response,
-  outputAst,
-  errors,
-}: {
-  readonly response: HttpClientResponse.HttpClientResponse;
-  readonly outputAst: AST.AST;
-  readonly errors: ReadonlyArray<unknown>;
-}) =>
+const decode = ({ response, outputAst, errors }: DecodeArgs) =>
   Effect.gen(function* () {
     const status = response.status;
     const headers = response.headers as Record<string, string | undefined>;
@@ -606,7 +590,7 @@ const decode = ({
     // are headers. A 204 has no body at all.
     const bytesMember = status < 400 ? binaryBodyMember(outputAst) : undefined;
     if (bytesMember !== undefined) {
-      const buffer = yield* response.arrayBuffer.pipe(Effect.catch(fail));
+      const buffer = yield* response.arrayBuffer;
       return yield* validateSuccess(
         outputAst,
         {
@@ -618,11 +602,13 @@ const decode = ({
           nonJson: false,
         },
         (info) => new AzureParseError(info),
-      ).pipe(Effect.catch(fail));
+      );
     }
 
     // Read as text and parse tolerantly -- error pages are often non-JSON.
-    const read = parseBody((yield* response.text.pipe(Effect.catch(fail))) ?? "");
+    // A body read that fails (reset or abort mid-body) fails the call with
+    // its `HttpClientError`.
+    const read = parseBody((yield* response.text) ?? "");
     const { text, json, nonJson } = read;
 
     if (status >= 400) {
@@ -664,7 +650,7 @@ const decode = ({
       const xml = yield* Effect.try({
         try: () => decodeXmlBody(outputAst, text),
         catch: (cause) => new AzureParseError({ body: text, cause }),
-      }).pipe(Effect.catch(fail));
+      });
       body = xml;
     } else {
       body = mapKeys(outputAst, body, "decode");
@@ -680,15 +666,13 @@ const decode = ({
       outputAst,
       { value: withHeaders, body: nonJson ? text : json, nonJson },
       (info) => new AzureParseError(info),
-    ).pipe(Effect.catch(fail));
+    );
   });
 
-export const AzureDataPlaneProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer.succeed(
-  API.Protocol,
-  /*@__PURE__*/ API.Protocol.of({
-    // Erase encode's Credentials requirement (resolved on the calling
-    // fiber; see the note above `encode`).
-    encode: (args) => encode(args) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
-    decode,
-  }),
-);
+const azureDataPlaneProtocolMethods = {
+  encode,
+  decode,
+} satisfies Protocol<unknown, unknown>;
+
+export const AzureDataPlaneProtocol: ProtocolOf<typeof azureDataPlaneProtocolMethods> =
+  azureDataPlaneProtocolMethods;

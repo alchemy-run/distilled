@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import { AzureDataPlaneProtocol } from "../data-plane-protocol.ts";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -170,7 +170,8 @@ export const CreateIdentityOperation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateIdentityOperationRequest>,
   output: __S(7, __c3, 1) as any as S.Schema<CommunicationIdentityAccessTokenResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -187,7 +188,8 @@ export const DeleteIdentityOperation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c4, 0) as any as S.Schema<DeleteIdentityOperationRequest>,
   output: __S(10, __c5, 0) as any as S.Schema<DeleteIdentityOperationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -204,7 +206,8 @@ export const DeleteTeamsExtensionOperationAssignment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12, __c6, 0) as any as S.Schema<DeleteTeamsExtensionOperationAssignmentRequest>,
   output: __S(10, __c5, 0) as any as S.Schema<DeleteTeamsExtensionOperationAssignmentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -221,7 +224,8 @@ export const GetTeamsExtensionOperationAssignment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14, __c7, 0) as any as S.Schema<GetTeamsExtensionOperationAssignmentRequest>,
   output: __S(17, __c8, 1) as any as S.Schema<TeamsExtensionAssignmentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -238,7 +242,8 @@ export const IdentityOperationsIssueAccessToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18, __c9, 0) as any as S.Schema<IdentityOperationsIssueAccessTokenRequest>,
   output: __S(4, __c2, 0) as any as S.Schema<CommunicationIdentityAccessToken>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -255,7 +260,8 @@ export const RevokeIdentityOperationAccessTokens: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20, __c10, 0) as any as S.Schema<RevokeIdentityOperationAccessTokensRequest>,
   output: __S(10, __c5, 0) as any as S.Schema<RevokeIdentityOperationAccessTokensResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -272,7 +278,8 @@ export const TeamsExtensionOperationsExchangeToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23, __c11, 1) as any as S.Schema<TeamsExtensionOperationsExchangeTokenRequest>,
   output: __S(7, __c3, 1) as any as S.Schema<CommunicationIdentityAccessTokenResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -293,7 +300,8 @@ export const TeamsUserOperationsExchangeTeamsUserAccessToken: API.OperationMetho
     0,
   ) as any as S.Schema<TeamsUserOperationsExchangeTeamsUserAccessTokenRequest>,
   output: __S(4, __c2, 0) as any as S.Schema<CommunicationIdentityAccessToken>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -310,7 +318,8 @@ export const UpsertTeamsExtensionOperationAssignment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26, __c13, 0) as any as S.Schema<UpsertTeamsExtensionOperationAssignmentRequest>,
   output: __S(17, __c8, 1) as any as S.Schema<TeamsExtensionAssignmentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

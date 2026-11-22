@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import { AzureDataPlaneProtocol } from "../data-plane-protocol.ts";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -1214,7 +1214,8 @@ export const CreateRadiologyInsightJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateRadiologyInsightJobRequest>,
   output: __S(118, __c3, 22) as any as S.Schema<RadiologyInsightsJob>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1231,7 +1232,8 @@ export const GetRadiologyInsightJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c4, 0) as any as S.Schema<GetRadiologyInsightJobRequest>,
   output: __S(118, __c3, 22) as any as S.Schema<RadiologyInsightsJob>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

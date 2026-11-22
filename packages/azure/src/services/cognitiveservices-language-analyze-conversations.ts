@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import { AzureDataPlaneProtocol } from "../data-plane-protocol.ts";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -1396,7 +1396,8 @@ export const AnalyzeConversations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18, __c0, 18) as any as S.Schema<AnalyzeConversationsRequest>,
   output: __S(57, __c1, 25) as any as S.Schema<AnalyzeConversationsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1413,7 +1414,8 @@ export const AnalyzeConversationsCancelJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c4, 0) as any as S.Schema<AnalyzeConversationsCancelJobRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<AnalyzeConversationsCancelJobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1430,7 +1432,8 @@ export const AnalyzeConversationsJobStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c6, 0) as any as S.Schema<AnalyzeConversationsJobStatusRequest>,
   output: __S(225, __c7, 1) as any as S.Schema<AnalyzeConversationJobState>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1447,7 +1450,8 @@ export const AnalyzeConversationsSubmitJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(305, __c9, 17) as any as S.Schema<AnalyzeConversationsSubmitJobRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<AnalyzeConversationsSubmitJobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

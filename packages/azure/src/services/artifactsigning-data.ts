@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import { AzureDataPlaneProtocol } from "../data-plane-protocol.ts";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -187,7 +187,8 @@ export const CertificateProfileOperationsGetSignCertificateChain: API.OperationM
     __c1,
     0,
   ) as any as S.Schema<CertificateProfileOperationsGetSignCertificateChainResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -212,7 +213,8 @@ export const CertificateProfileOperationsGetSignRootCertificate: API.OperationMe
     __c1,
     0,
   ) as any as S.Schema<CertificateProfileOperationsGetSignRootCertificateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -229,7 +231,8 @@ export const GetCertificateProfileOperationSigningStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c3, 0) as any as S.Schema<GetCertificateProfileOperationSigningStatusRequest>,
   output: __S(29, __c3, 5) as any as S.Schema<GetCertificateProfileOperationSigningStatusResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -251,7 +254,8 @@ export const ListCertificateProfileOperationExtendedKeyUsages: API.PaginatedOper
     0,
   ) as any as S.Schema<ListCertificateProfileOperationExtendedKeyUsagesRequest>,
   output: __S(35, __c4, 3) as any as S.Schema<PagedExtendedKeyUsage>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -274,7 +278,8 @@ export const SignCertificateProfileOperation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(41, __c5, 1) as any as S.Schema<SignCertificateProfileOperationRequest>,
   output: __S(42, __c5, 2) as any as S.Schema<SignCertificateProfileOperationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

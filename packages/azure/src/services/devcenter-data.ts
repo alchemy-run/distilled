@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import { AzureDataPlaneProtocol } from "../data-plane-protocol.ts";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -1805,7 +1805,8 @@ export const CaptureDevBoxSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CaptureDevBoxSnapshotRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<CaptureDevBoxSnapshotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1822,7 +1823,8 @@ export const CreateDevBoxCustomizationGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c2, 0) as any as S.Schema<CreateDevBoxCustomizationGroupRequest>,
   output: __S(26, __c3, 2) as any as S.Schema<CustomizationGroup>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1839,7 +1841,8 @@ export const CreateDevBoxDevBox: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(184, __c23, 0) as any as S.Schema<CreateDevBoxDevBoxRequest>,
   output: __S(185, __c23, 1) as any as S.Schema<CreateDevBoxDevBoxResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1856,7 +1859,8 @@ export const DeleteDevBoxDevBox: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(344, __c43, 0) as any as S.Schema<DeleteDevBoxDevBoxRequest>,
   output: __S(352, __c44, 0) as any as S.Schema<DeleteDevBoxDevBoxResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1873,7 +1877,8 @@ export const DeleteEnvironmentEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(464, __c58, 0) as any as S.Schema<DeleteEnvironmentEnvironmentRequest>,
   output: __S(352, __c44, 0) as any as S.Schema<DeleteEnvironmentEnvironmentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1890,7 +1895,8 @@ export const DevBoxesDelayAction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(568, __c71, 0) as any as S.Schema<DevBoxesDelayActionRequest>,
   output: __S(577, __c72, 1) as any as S.Schema<DevBoxAction>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1908,7 +1914,8 @@ export const DevBoxesDelayActions: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(672, __c84, 0) as any as S.Schema<DevBoxesDelayActionsRequest>,
   output: __S(675, __c84, 3) as any as S.Schema<PagedDevBoxActionDelayResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1931,7 +1938,8 @@ export const DevBoxesRepairDevBox: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(688, __c86, 0) as any as S.Schema<DevBoxesRepairDevBoxRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<DevBoxesRepairDevBoxResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1948,7 +1956,8 @@ export const DevBoxesSkipAction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(696, __c87, 0) as any as S.Schema<DevBoxesSkipActionRequest>,
   output: __S(704, __c88, 0) as any as S.Schema<DevBoxesSkipActionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1965,7 +1974,8 @@ export const EnvironmentsCreateOrReplaceEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(712, __c89, 0) as any as S.Schema<EnvironmentsCreateOrReplaceEnvironmentRequest>,
   output: __S(713, __c89, 1) as any as S.Schema<EnvironmentsCreateOrReplaceEnvironmentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1982,7 +1992,8 @@ export const EnvironmentsDelayAction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c6, 0) as any as S.Schema<EnvironmentsDelayActionRequest>,
   output: __S(57, __c7, 1) as any as S.Schema<EnvironmentAction>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1999,7 +2010,8 @@ export const EnvironmentsSkipAction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c8, 0) as any as S.Schema<EnvironmentsSkipActionRequest>,
   output: __S(704, __c88, 0) as any as S.Schema<EnvironmentsSkipActionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2016,7 +2028,8 @@ export const GetDevBoxAction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(72, __c9, 0) as any as S.Schema<GetDevBoxActionRequest>,
   output: __S(577, __c72, 1) as any as S.Schema<DevBoxAction>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2033,7 +2046,8 @@ export const GetDevBoxCustomizationGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c10, 0) as any as S.Schema<GetDevBoxCustomizationGroupRequest>,
   output: __S(26, __c3, 2) as any as S.Schema<CustomizationGroup>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2050,7 +2064,8 @@ export const GetDevBoxCustomizationTaskDefinitions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(88, __c11, 0) as any as S.Schema<GetDevBoxCustomizationTaskDefinitionsRequest>,
   output: __S(106, __c13, 2) as any as S.Schema<CustomizationTaskDefinition>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2067,7 +2082,8 @@ export const GetDevBoxCustomizationTaskLog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c14, 0) as any as S.Schema<GetDevBoxCustomizationTaskLogRequest>,
   output: __S(120, __c15, 0) as any as S.Schema<GetDevBoxCustomizationTaskLogResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2084,7 +2100,8 @@ export const GetDevBoxDevBoxByUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c16, 0) as any as S.Schema<GetDevBoxDevBoxByUserRequest>,
   output: __S(136, __c17, 0) as any as S.Schema<DevBox>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2101,7 +2118,8 @@ export const GetDevBoxImagingTaskLog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c18, 0) as any as S.Schema<GetDevBoxImagingTaskLogRequest>,
   output: __S(120, __c15, 0) as any as S.Schema<GetDevBoxImagingTaskLogResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2118,7 +2136,8 @@ export const GetDevBoxOperation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(152, __c19, 0) as any as S.Schema<GetDevBoxOperationRequest>,
   output: __S(153, __c19, 1) as any as S.Schema<GetDevBoxOperationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2135,7 +2154,8 @@ export const GetDevBoxPool: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(168, __c21, 0) as any as S.Schema<GetDevBoxPoolRequest>,
   output: __S(177, __c22, 1) as any as S.Schema<Pool>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2152,7 +2172,8 @@ export const GetDevBoxRemoteConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c26, 0) as any as S.Schema<GetDevBoxRemoteConnectionRequest>,
   output: __S(209, __c26, 1) as any as S.Schema<RemoteConnection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2169,7 +2190,8 @@ export const GetDevBoxScheduleByPool: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(216, __c27, 0) as any as S.Schema<GetDevBoxScheduleByPoolRequest>,
   output: __S(224, __c28, 0) as any as S.Schema<Schedule>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2186,7 +2208,8 @@ export const GetDevBoxSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(232, __c29, 0) as any as S.Schema<GetDevBoxSnapshotRequest>,
   output: __S(240, __c30, 0) as any as S.Schema<DevBoxSnapshot>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2203,7 +2226,8 @@ export const GetDevCenterProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(248, __c31, 0) as any as S.Schema<GetDevCenterProjectRequest>,
   output: __S(256, __c32, 0) as any as S.Schema<Project>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2220,7 +2244,8 @@ export const GetDevCenterProjectAbilities: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(264, __c33, 0) as any as S.Schema<GetDevCenterProjectAbilitiesRequest>,
   output: __S(273, __c34, 1) as any as S.Schema<ProjectAbilities>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2237,7 +2262,8 @@ export const GetEnvironmentAction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(280, __c35, 0) as any as S.Schema<GetEnvironmentActionRequest>,
   output: __S(57, __c7, 1) as any as S.Schema<EnvironmentAction>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2254,7 +2280,8 @@ export const GetEnvironmentCatalog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c36, 0) as any as S.Schema<GetEnvironmentCatalogRequest>,
   output: __S(296, __c37, 0) as any as S.Schema<Catalog>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2271,7 +2298,8 @@ export const GetEnvironmentEnvironmentByUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(304, __c38, 0) as any as S.Schema<GetEnvironmentEnvironmentByUserRequest>,
   output: __S(312, __c39, 0) as any as S.Schema<Environment>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2288,7 +2316,8 @@ export const GetEnvironmentEnvironmentDefinition: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c40, 0) as any as S.Schema<GetEnvironmentEnvironmentDefinitionRequest>,
   output: __S(330, __c41, 2) as any as S.Schema<EnvironmentDefinition>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2305,7 +2334,8 @@ export const GetEnvironmentEnvironmentTypeAbilities: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(336, __c42, 0) as any as S.Schema<GetEnvironmentEnvironmentTypeAbilitiesRequest>,
   output: __S(273, __c34, 1) as any as S.Schema<EnvironmentTypeAbilities>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2322,7 +2352,8 @@ export const GetEnvironmentEnvironmentTypes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(360, __c45, 0) as any as S.Schema<GetEnvironmentEnvironmentTypesRequest>,
   output: __S(368, __c46, 0) as any as S.Schema<EnvironmentType>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2339,7 +2370,8 @@ export const GetEnvironmentLogsByOperation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(376, __c47, 0) as any as S.Schema<GetEnvironmentLogsByOperationRequest>,
   output: __S(120, __c15, 0) as any as S.Schema<GetEnvironmentLogsByOperationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2356,7 +2388,8 @@ export const GetEnvironmentOperation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c48, 0) as any as S.Schema<GetEnvironmentOperationRequest>,
   output: __S(385, __c48, 1) as any as S.Schema<GetEnvironmentOperationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2373,7 +2406,8 @@ export const GetEnvironmentOutputs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(400, __c50, 0) as any as S.Schema<GetEnvironmentOutputsRequest>,
   output: __S(403, __c50, 3) as any as S.Schema<EnvironmentOutputs>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2390,7 +2424,8 @@ export const GetOperationStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(408, __c51, 0) as any as S.Schema<GetOperationStatusRequest>,
   output: __S(409, __c51, 1) as any as S.Schema<OperationStatus>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2408,7 +2443,8 @@ export const ListDevBoxActions: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(416, __c52, 0) as any as S.Schema<ListDevBoxActionsRequest>,
   output: __S(418, __c52, 2) as any as S.Schema<PagedDevBoxAction>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2432,7 +2468,8 @@ export const ListDevBoxAllDevBoxes: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(424, __c53, 0) as any as S.Schema<ListDevBoxAllDevBoxesRequest>,
   output: __S(433, __c54, 1) as any as S.Schema<PagedDevBox>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2456,7 +2493,8 @@ export const ListDevBoxAllDevBoxesByUser: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(440, __c55, 0) as any as S.Schema<ListDevBoxAllDevBoxesByUserRequest>,
   output: __S(433, __c54, 1) as any as S.Schema<PagedDevBox>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2480,7 +2518,8 @@ export const ListDevBoxCustomizationGroups: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(448, __c56, 0) as any as S.Schema<ListDevBoxCustomizationGroupsRequest>,
   output: __S(450, __c56, 2) as any as S.Schema<PagedCustomizationGroup>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2508,7 +2547,8 @@ export const ListDevBoxCustomizationTaskDefinitionsByProject: API.PaginatedOpera
     0,
   ) as any as S.Schema<ListDevBoxCustomizationTaskDefinitionsByProjectRequest>,
   output: __S(458, __c57, 2) as any as S.Schema<PagedCustomizationTaskDefinition>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2532,7 +2572,8 @@ export const ListDevBoxDevBoxesByUser: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(472, __c59, 0) as any as S.Schema<ListDevBoxDevBoxesByUserRequest>,
   output: __S(433, __c54, 1) as any as S.Schema<PagedDevBox>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2556,7 +2597,8 @@ export const ListDevBoxOperations: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(480, __c60, 0) as any as S.Schema<ListDevBoxOperationsRequest>,
   output: __S(482, __c60, 2) as any as S.Schema<PagedDevBoxOperation>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2580,7 +2622,8 @@ export const ListDevBoxPools: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(488, __c61, 0) as any as S.Schema<ListDevBoxPoolsRequest>,
   output: __S(490, __c61, 2) as any as S.Schema<PagedPool>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2604,7 +2647,8 @@ export const ListDevBoxSchedulesByPool: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(496, __c62, 0) as any as S.Schema<ListDevBoxSchedulesByPoolRequest>,
   output: __S(505, __c63, 1) as any as S.Schema<PagedSchedule>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2628,7 +2672,8 @@ export const ListDevBoxSchedulesByProject: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(512, __c64, 0) as any as S.Schema<ListDevBoxSchedulesByProjectRequest>,
   output: __S(505, __c63, 1) as any as S.Schema<PagedSchedule>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2652,7 +2697,8 @@ export const ListDevBoxSnapshots: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(520, __c65, 0) as any as S.Schema<ListDevBoxSnapshotsRequest>,
   output: __S(522, __c65, 2) as any as S.Schema<PagedDevBoxSnapshot>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2676,7 +2722,8 @@ export const ListDevCenterProjects: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(528, __c66, 0) as any as S.Schema<ListDevCenterProjectsRequest>,
   output: __S(530, __c66, 2) as any as S.Schema<PagedProject>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2700,7 +2747,8 @@ export const ListEnvironmentActions: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(536, __c67, 0) as any as S.Schema<ListEnvironmentActionsRequest>,
   output: __S(538, __c67, 2) as any as S.Schema<PagedEnvironmentAction>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2724,7 +2772,8 @@ export const ListEnvironmentCatalogsByProject: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(544, __c68, 0) as any as S.Schema<ListEnvironmentCatalogsByProjectRequest>,
   output: __S(546, __c68, 2) as any as S.Schema<PagedCatalog>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2752,7 +2801,8 @@ export const ListEnvironmentEnvironmentDefinitionsByCatalog: API.PaginatedOperat
     0,
   ) as any as S.Schema<ListEnvironmentEnvironmentDefinitionsByCatalogRequest>,
   output: __S(561, __c70, 1) as any as S.Schema<PagedEnvironmentDefinition>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2780,7 +2830,8 @@ export const ListEnvironmentEnvironmentDefinitionsByProject: API.PaginatedOperat
     0,
   ) as any as S.Schema<ListEnvironmentEnvironmentDefinitionsByProjectRequest>,
   output: __S(561, __c70, 1) as any as S.Schema<PagedEnvironmentDefinition>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2804,7 +2855,8 @@ export const ListEnvironmentEnvironments: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(592, __c74, 0) as any as S.Schema<ListEnvironmentEnvironmentsRequest>,
   output: __S(601, __c75, 1) as any as S.Schema<PagedEnvironment>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2828,7 +2880,8 @@ export const ListEnvironmentEnvironmentsByUser: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(608, __c76, 0) as any as S.Schema<ListEnvironmentEnvironmentsByUserRequest>,
   output: __S(601, __c75, 1) as any as S.Schema<PagedEnvironment>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2852,7 +2905,8 @@ export const ListEnvironmentEnvironmentTypes: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(616, __c77, 0) as any as S.Schema<ListEnvironmentEnvironmentTypesRequest>,
   output: __S(618, __c77, 2) as any as S.Schema<PagedEnvironmentType>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2876,7 +2930,8 @@ export const ListEnvironmentOperations: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(624, __c78, 0) as any as S.Schema<ListEnvironmentOperationsRequest>,
   output: __S(626, __c78, 2) as any as S.Schema<PagedEnvironmentOperation>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2899,7 +2954,8 @@ export const PatchEnvironmentEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(632, __c79, 0) as any as S.Schema<PatchEnvironmentEnvironmentRequest>,
   output: __S(312, __c39, 0) as any as S.Schema<Environment>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2916,7 +2972,8 @@ export const RestartDevBoxDevBox: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c80, 0) as any as S.Schema<RestartDevBoxDevBoxRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<RestartDevBoxDevBoxResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2933,7 +2990,8 @@ export const RestoreDevBoxSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(648, __c81, 0) as any as S.Schema<RestoreDevBoxSnapshotRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<RestoreDevBoxSnapshotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2950,7 +3008,8 @@ export const StartDevBoxDevBox: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(656, __c82, 0) as any as S.Schema<StartDevBoxDevBoxRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<StartDevBoxDevBoxResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2967,7 +3026,8 @@ export const StopDevBoxDevBox: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(664, __c83, 0) as any as S.Schema<StopDevBoxDevBoxRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<StopDevBoxDevBoxResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2984,7 +3044,8 @@ export const ValidateDevBoxCustomizationTasksAction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(680, __c85, 0) as any as S.Schema<ValidateDevBoxCustomizationTasksActionRequest>,
   output: __S(352, __c44, 0) as any as S.Schema<ValidateDevBoxCustomizationTasksActionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
