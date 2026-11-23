@@ -108,7 +108,9 @@ regional host: `*.1password.ca`, `*.1password.eu` or `*.ent.1password.com`.
 
 The Users credentials exchange the OAuth application's client ID and secret
 for a 15-minute access token at `POST /v1/oauth/token`, through the `HttpClient`
-the layer is built with, cache it, and request a new one shortly before it expires. To pass values directly, use `connectCredentials({ token })`,
+the layer is built with, cache it, and request a new one shortly before it expires. A failed
+token request fails the call with `TokenRequestFailed`, which carries the token endpoint's
+`status`. To pass values directly, use `connectCredentials({ token })`,
 `eventsCredentials({ token })`, `usersCredentials({ clientId, clientSecret })`,
 `usersCredentialsFromAccessToken({ accessToken })`, `oauthCredentials(...)` or
 `partnershipCredentials({ token })`; secrets are `Redacted<string>`.

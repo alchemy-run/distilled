@@ -10,6 +10,7 @@ import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
 import * as Schema from "effect/Schema";
+import { TokenRequestFailed } from "./errors.ts";
 
 export const DEFAULT_API_BASE_URL = "https://api.tailscale.com/api/v2";
 
@@ -23,12 +24,13 @@ export interface Config {
 /**
  * Resolves the current credentials on every request. `CredentialsFromEnv`
  * reads and checks the environment when it is built, so the effect fails
- * with `ConfigError` only when the OAuth token exchange it makes at run time
- * fails.
+ * only when the OAuth token exchange it makes at run time fails, with
+ * {@link TokenRequestFailed}.
  */
-export class Credentials extends Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
-  "TailscaleCredentials",
-) {}
+export class Credentials extends Context.Service<
+  Credentials,
+  Effect.Effect<Config, TokenRequestFailed>
+>()("TailscaleCredentials") {}
 
 export const fromApiKey = (config: {
   readonly apiKey: Redacted.Redacted<string>;
@@ -64,6 +66,9 @@ const TokenResponse = Schema.Struct({
   expires_in: Schema.Number,
 });
 
+const exchangeFailed = (reason: string, status: number | undefined) =>
+  new TokenRequestFailed({ message: `OAuth token exchange failed: ${reason}`, status });
+
 interface CachedToken {
   readonly config: Config;
   readonly refreshAt: number;
@@ -73,11 +78,12 @@ interface CachedToken {
  * Builds the OAuth client-credentials token cache. The returned effect posts
  * the exchange through the captured `HttpClient`, reuses the token until
  * 60 seconds before `expires_in`, and concurrent resolutions of a cold or
- * stale token share one exchange (core `refreshing`).
+ * stale token share one exchange (core `refreshing`). A failed exchange
+ * fails the returned effect with {@link TokenRequestFailed}.
  */
 export const makeClientCredentials = (
   config: ClientCredentialsConfig,
-): Effect.Effect<Effect.Effect<Config, ConfigError>, never, HttpClient.HttpClient> =>
+): Effect.Effect<Effect.Effect<Config, TokenRequestFailed>, never, HttpClient.HttpClient> =>
   Effect.gen(function* () {
     const client = yield* HttpClient.HttpClient;
     const apiBaseUrl = config.apiBaseUrl ?? DEFAULT_API_BASE_URL;
@@ -95,12 +101,11 @@ export const makeClientCredentials = (
       )
       .pipe(
         Effect.flatMap(HttpClientResponse.filterStatusOk),
-        Effect.flatMap(HttpClientResponse.schemaBodyJson(TokenResponse)),
-        Effect.mapError(
-          (cause) =>
-            new ConfigError({
-              message: `OAuth token exchange failed: ${cause.message}`,
-            }),
+        Effect.mapError((cause) => exchangeFailed(cause.message, cause.response?.status)),
+        Effect.flatMap((response) =>
+          HttpClientResponse.schemaBodyJson(TokenResponse)(response).pipe(
+            Effect.mapError((cause) => exchangeFailed(cause.message, response.status)),
+          ),
         ),
       );
     const mint = Effect.map(exchange, (token): CachedToken => ({
@@ -112,7 +117,7 @@ export const makeClientCredentials = (
     }));
     return refreshing(mint, (cached) => cached.refreshAt, {
       onTimeout: (timeoutMs) =>
-        new ConfigError({
+        new TokenRequestFailed({
           message: `Tailscale OAuth token exchange timed out after ${timeoutMs / 1000} s`,
         }),
     }).pipe(Effect.map((cached) => cached.config));

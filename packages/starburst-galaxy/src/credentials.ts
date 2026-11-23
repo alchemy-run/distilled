@@ -24,7 +24,8 @@ import { refreshing } from "@distilled.cloud/core/token-cache";
  * A layer here reads and checks its configuration when it is built: a
  * missing variable or a domain that is not an HTTPS host is a `ConfigError`
  * at setup, and no call fails for it. The service's effect can still fail
- * with `ConfigError` when the token request it makes at run time fails.
+ * with {@link TokenRequestFailed} when the token request it makes at run
+ * time fails.
  */
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
@@ -34,6 +35,7 @@ import * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Layer from "effect/Layer";
 import type * as Redacted from "effect/Redacted";
 import * as Schema from "effect/Schema";
+import { TokenRequestFailed } from "./errors.ts";
 
 /** The token endpoint, relative to the account's origin. */
 const TOKEN_PATH = "/oauth/v2/token";
@@ -49,7 +51,7 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, TokenRequestFailed>>()(
     "StarburstGalaxyCredentials",
   ) {}
 
@@ -107,11 +109,16 @@ const reuseFor = (expiresInSeconds: number): number => {
  */
 export const makeClientCredentials = (
   config: ClientCredentials,
-): Effect.Effect<Effect.Effect<Config, ConfigError>, ConfigError, HttpClient.HttpClient> =>
+): Effect.Effect<Effect.Effect<Config, TokenRequestFailed>, ConfigError, HttpClient.HttpClient> =>
   Effect.gen(function* () {
     const client = yield* HttpClient.HttpClient;
     const apiBaseUrl = yield* apiBaseUrlFor(config.domain);
     const url = `${apiBaseUrl}${TOKEN_PATH}`;
+    const requestFailed = (reason: string, status: number | undefined) =>
+      new TokenRequestFailed({
+        message: `Starburst Galaxy token request to ${url} failed: ${reason}`,
+        status,
+      });
     const exchange = Effect.gen(function* () {
       const token = yield* client
         .execute(
@@ -123,12 +130,11 @@ export const makeClientCredentials = (
         )
         .pipe(
           Effect.flatMap(HttpClientResponse.filterStatusOk),
-          Effect.flatMap(HttpClientResponse.schemaBodyJson(TokenResponse)),
-          Effect.mapError(
-            (cause) =>
-              new ConfigError({
-                message: `Starburst Galaxy token request to ${url} failed: ${cause.message}`,
-              }),
+          Effect.mapError((cause) => requestFailed(cause.message, cause.response?.status)),
+          Effect.flatMap((response) =>
+            HttpClientResponse.schemaBodyJson(TokenResponse)(response).pipe(
+              Effect.mapError((cause) => requestFailed(cause.message, response.status)),
+            ),
           ),
         );
       return {
@@ -138,7 +144,7 @@ export const makeClientCredentials = (
     });
     return refreshing(exchange, (token) => token.refreshAt, {
       onTimeout: (timeoutMs) =>
-        new ConfigError({
+        new TokenRequestFailed({
           message: `Starburst Galaxy token exchange timed out after ${timeoutMs / 1000} s`,
         }),
     }).pipe(Effect.map((token) => token.config));
