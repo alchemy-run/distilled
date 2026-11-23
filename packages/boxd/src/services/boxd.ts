@@ -1058,7 +1058,7 @@ export interface OrgMemberInfo {
 }
 export type OrgMemberInfoList = Array<OrgMemberInfo>;
 export interface OrgInviteInfo {
-  token: string;
+  token: string | Redacted.Redacted<string>;
   email: string;
   acceptUrl: string;
   /** unix epoch seconds */
@@ -1322,7 +1322,7 @@ export interface InviteOrgMemberRequest {
   role?: string | undefined;
 }
 export interface InviteOrgMemberResponse {
-  token: string;
+  token: string | Redacted.Redacted<string>;
   acceptUrl: string;
   /** unix epoch seconds */
   expiresAt: string;
@@ -1811,7 +1811,7 @@ export interface ResumeVmResponse {
   resumeUs: string;
 }
 export interface RevokeOrgInviteRequest {
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
 }
 export interface RevokeOrgInviteResponse {}
 export interface RevokeTokenRequest {
@@ -6425,7 +6425,7 @@ function __c100(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           email: S.String,
           acceptUrl: S.String,
           createdAt: S.String,
@@ -6653,7 +6653,7 @@ function __c111(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           acceptUrl: S.String,
           expiresAt: S.String,
           createdAt: S.String,
@@ -7510,7 +7510,7 @@ function __c154(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }).pipe(T.Http({ method: "POST", uri: "/boxd.api.v1.BoxdApi/RevokeOrgInvite", code: 200 })),
       ).annotate({ identifier: "RevokeOrgInviteRequest" });
   }

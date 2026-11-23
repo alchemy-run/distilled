@@ -73,11 +73,15 @@ export const withAuthToken: Layer.Layer<Credentials, never, Credentials | HttpCl
           // No retries here: the call that needs the token retries itself, and
           // nesting this fetch's retries inside each of its attempts would
           // multiply the wait.
-          const { token } = yield* getAuthToken({}).pipe(
+          const response = yield* getAuthToken({}).pipe(
             Retry.none,
             Effect.provideService(Credentials, Effect.succeed(identity.config)),
             Effect.provideService(HttpClient.HttpClient, http),
           );
+          // The token arrives as Redacted; the expiry is read from its JWT.
+          const token = Redacted.isRedacted(response.token)
+            ? Redacted.value(response.token)
+            : response.token;
           if (!token) return yield* Effect.fail(new Error("Modal returned an empty auth token"));
           const now = Date.now();
           const expiresAt = (expiryOf(token) ?? now / 1000 + FALLBACK_LIFETIME_SECONDS) * 1000;

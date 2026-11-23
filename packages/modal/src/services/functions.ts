@@ -857,7 +857,7 @@ export interface FunctionGetFlashAuthTokenRequest {
   functionId?: string | undefined;
 }
 export interface FunctionGetFlashAuthTokenResponse {
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 export interface FunctionGetMetricsRequest {
   functionId?: string | undefined;
@@ -2064,7 +2064,7 @@ function __c8(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "FunctionGetFlashAuthTokenResponse" });
   }
