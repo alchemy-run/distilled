@@ -11,6 +11,7 @@ import { Credentials, fromAccessToken } from "../src/credentials.ts";
 import {
   MongodbAtlasParseError,
   PaymentRequired,
+  TokenRequestFailed,
   UnknownMongodbAtlasError,
 } from "../src/errors.ts";
 import * as Retry from "../src/retry.ts";
@@ -126,7 +127,7 @@ describe("request encoding", () => {
     const { calls, layer } = fakeAtlas();
     const failing = Layer.succeed(
       Credentials,
-      Effect.fail(new CoreErrors.ConfigError({ message: "token exchange failed" })),
+      Effect.fail(new TokenRequestFailed({ message: "token exchange failed" })),
     );
     const error = await Effect.runPromise(
       getGroup({ groupId }).pipe(
@@ -136,7 +137,7 @@ describe("request encoding", () => {
         Effect.flip,
       ),
     );
-    expect(error).toBeInstanceOf(CoreErrors.ConfigError);
+    expect(error).toBeInstanceOf(TokenRequestFailed);
     expect(calls).toHaveLength(0);
   });
 

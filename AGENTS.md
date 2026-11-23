@@ -125,9 +125,11 @@ number.
     and the `Credentials` service holds that. A call fails with
     `ConfigError` only when the configuration lacks a value that this one
     operation needs. A request the credentials make at run time (a token
-    exchange) fails with the SDK's own error class. Example:
+    exchange) fails with the SDK's own error class, named
+    `TokenRequestFailed` unless the provider has a better name. Example:
     `S2.credentials({ basin: "a/b" })` fails when the layer is built; a
-    stream operation without a basin fails on the call.
+    stream operation without a basin fails on the call; a Tailscale token
+    exchange that gets a 503 fails the call with `TokenRequestFailed`.
 
 ## Getting the repo
 

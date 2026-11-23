@@ -207,7 +207,10 @@ An operation's errors are declared in three places:
 
 `ConfigError` is a setup error, not a runtime credentials error: a layer
 raises it when it is built, and a call only for a value that one operation
-needs and the configuration lacks (`AGENTS.md` rule 18).
+needs and the configuration lacks (`AGENTS.md` rule 18). A token request the
+credentials make at run time fails with the SDK's own class in `src/errors.ts`
+(`TokenRequestFailed` in `packages/tailscale`: `message` and the token
+endpoint's `status`).
 
 Copy the three files of `packages/neon` that hold this:
 
