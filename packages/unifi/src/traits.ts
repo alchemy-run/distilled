@@ -3,7 +3,7 @@
  *
  * Re-exports the generic protocol traits from core (so generated operations
  * import everything from one place). UniFi has no envelope of its
- * own; the REST-protocol traits (SensitiveValue / RawResponse) come from
+ * own; the REST-protocol traits (SensitiveValue / RawResponse / BinaryResponse) come from
  * `core/protocol-rest`.
  */
 export {
@@ -40,7 +40,9 @@ export {
   SensitiveValue,
   RawResponse,
   RawResponseRoot,
+  BinaryResponse,
   sensitiveValueSymbol,
   rawResponseSymbol,
   rawResponseRootSymbol,
+  binaryResponseSymbol,
 } from "@distilled.cloud/core/protocol-rest";

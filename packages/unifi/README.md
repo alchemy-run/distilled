@@ -130,9 +130,19 @@ environment once, when the layer is built:
   path segment fails the layer with `ConfigError`. With neither variable set the layer still
   builds, and only a Network, Protect or InnerSpace call fails with `ConfigError`.
 
+## Images
+
+Protect's `getCameraSnapshot` and InnerSpace's `getAsset` (a floor-plan image) return
+`{ body, contentType }`: the image as a `Uint8Array` and its `Content-Type` (`image/jpeg` or
+`image/png`).
+
+```ts
+import * as Protect from "@distilled.cloud/unifi/protect";
+
+const { body, contentType } = yield* Protect.getCameraSnapshot({ id: cameraId });
+```
+
 ## Not covered
 
 - **Protect's `/v1/subscribe/*`** are WebSocket subscriptions, not REST calls, so no
   operation is generated for them.
-- **Binary bodies.** Protect's camera snapshot and InnerSpace's floor-plan assets answer
-  `image/*`, which the generator cannot model, so those two operations are not generated.
