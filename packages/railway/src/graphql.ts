@@ -1128,7 +1128,7 @@ export interface CloudAgentTaskDispatchInput {
   readonly sessionId?: string | null | undefined;
   readonly source?: CloudAgentSourceInput | null | undefined;
   readonly webhookProgress?: boolean | null | undefined;
-  readonly webhookSecret?: string | null | undefined;
+  readonly webhookSecret?: string | Redacted.Redacted<string> | null | undefined;
   readonly webhookUrl?: string | null | undefined;
 }
 
@@ -1307,7 +1307,7 @@ export interface EnvironmentClearanceDefaultUpdateInput {
 
 export interface EnvironmentConfigPlanCommentUpsertInput {
   readonly environmentId: string;
-  readonly githubOidcToken: string;
+  readonly githubOidcToken: string | Redacted.Redacted<string>;
   readonly plan: unknown;
   readonly prNumber: number;
 }
@@ -1529,7 +1529,7 @@ export interface PreferencesUpdateData {
   readonly marketingEmail?: boolean | null | undefined;
   readonly subprocessorUpdatesEmail?: boolean | null | undefined;
   readonly templateQueueEmail?: boolean | null | undefined;
-  readonly token?: string | null | undefined;
+  readonly token?: string | Redacted.Redacted<string> | null | undefined;
   readonly usageEmail?: boolean | null | undefined;
 }
 
@@ -1719,7 +1719,7 @@ export interface ReferralInfoUpdateInput {
 
 /** Private Docker registry credentials. Only available for Pro plan deployments. */
 export interface RegistryCredentialsInput {
-  readonly password: string;
+  readonly password: string | Redacted.Redacted<string>;
   readonly username: string;
 }
 
@@ -2043,11 +2043,11 @@ export interface TemplateServiceSourceEjectInput {
 }
 
 export interface TwoFactorInfoCreateInput {
-  readonly token: string;
+  readonly token: string | Redacted.Redacted<string>;
 }
 
 export interface TwoFactorInfoValidateInput {
-  readonly token: string;
+  readonly token: string | Redacted.Redacted<string>;
   readonly twoFactorLinkingKey?: string | null | undefined;
 }
 
@@ -12960,7 +12960,7 @@ export const Railway = {
       globalErrors,
     ),
   preferences: (args?: {
-    readonly token?: string | null | undefined;
+    readonly token?: string | Redacted.Redacted<string> | null | undefined;
   }): Query<Preferences, RailwayGlobalError> =>
     root("query", "preferences", Preferences, args, { token: "String" }, globalErrors),
   privateNetworkEndpoint: (args: {
