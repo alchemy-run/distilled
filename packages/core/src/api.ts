@@ -702,6 +702,23 @@ const makeOperation = (state: OperationState, proto: object): any => {
   return Object.setPrototypeOf(fn, proto);
 };
 
+/**
+ * What an operation `make` builds can fail with: its own errors, its
+ * service's, its protocol's, the HTTP client's, and {@link SdkError}, which
+ * `make` itself fails with when the operation's config can't be loaded or
+ * its protocol can't stream.
+ */
+export type MadeError<
+  E extends readonly ApiErrorClass[],
+  SE extends readonly ApiErrorClass[],
+  PE,
+> =
+  | InstanceType<E[number]>
+  | InstanceType<SE[number]>
+  | PE
+  | HttpClientError.HttpClientError
+  | SdkError;
+
 export function make<
   I extends S.Top,
   O extends S.Top,
@@ -714,7 +731,7 @@ export function make<
 ): OperationMethod<
   S.Schema.Type<I>,
   S.Schema.Type<O>,
-  InstanceType<E[number]> | InstanceType<SE[number]> | PE | HttpClientError.HttpClientError,
+  MadeError<E, SE, PE>,
   PR | HttpClient.HttpClient
 > {
   return makeOperation({ configFn }, OperationProto);
@@ -864,7 +881,7 @@ export function makePaginated<
 ): PaginatedOperationMethod<
   S.Schema.Type<I>,
   S.Schema.Type<O>,
-  InstanceType<E[number]> | InstanceType<SE[number]> | PE | HttpClientError.HttpClientError,
+  MadeError<E, SE, PE>,
   PR | HttpClient.HttpClient
 > {
   return makeOperation(strategy ? { configFn, strategy } : { configFn }, PaginatedOperationProto);
@@ -981,7 +998,7 @@ export function makeStreaming<
 ): StreamingOperationMethod<
   S.Schema.Type<I>,
   S.Schema.Type<O>,
-  InstanceType<E[number]> | InstanceType<SE[number]> | PE | HttpClientError.HttpClientError,
+  MadeError<E, SE, PE>,
   PR | HttpClient.HttpClient
 > {
   return makeOperation({ configFn }, StreamingOperationProto);
