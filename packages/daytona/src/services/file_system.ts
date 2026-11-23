@@ -41,7 +41,11 @@ export interface DownloadFileRequest {
   /** File path to download */
   path: string;
 }
-export type DownloadFileResponse = Uint8Array;
+export interface DownloadFileResponse {
+  body: Uint8Array;
+  /** Media type of the body, from the response's `Content-Type` header (e.g. `image/jpeg`). */
+  contentType?: string | undefined;
+}
 export interface FindInFilesRequest {
   /** Directory path to search in */
   path: string;
@@ -178,7 +182,7 @@ export const downloadFile: API.OperationMethod<
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c4, 0) as any as S.Schema<DownloadFileRequest>,
-  output: __S(17, __c4, 1) as any as S.Codec<DownloadFileResponse>,
+  output: __S(17, __c4, 1) as any as S.Schema<DownloadFileResponse>,
   errors: [],
   serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
@@ -395,7 +399,12 @@ function __c4(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/files/download", code: 200 })),
       ).annotate({ identifier: "DownloadFileRequest" });
     case 1:
-      return S.instanceOf(Uint8Array).pipe(/*@__PURE__*/ T.BinaryResponse());
+      return S.suspend(() =>
+        S.Struct({
+          body: S.instanceOf(Uint8Array).pipe(T.RawResponse(), T.BinaryResponse()),
+          contentType: S.optional(S.String.pipe(T.Header("Content-Type"))),
+        }),
+      ).annotate({ identifier: "DownloadFileResponse" });
   }
 }
 function __c5(j: number): any {

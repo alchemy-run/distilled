@@ -218,7 +218,11 @@ export interface DownloadDeploymentCertificateAuthorityRawRequest {
   region?: DownloadDeploymentCertificateAuthorityRequestRegion | (string & {}) | undefined;
   deployment_id: string;
 }
-export type DownloadDeploymentCertificateAuthorityRawResponse = Uint8Array;
+export interface DownloadDeploymentCertificateAuthorityRawResponse {
+  body: Uint8Array;
+  /** Media type of the body, from the response's `Content-Type` header (e.g. `image/jpeg`). */
+  contentType?: string | undefined;
+}
 export type GetDeploymentRequestRegion = "fr-par";
 export interface GetDeploymentRequest {
   /** The region you want to target */
@@ -1203,7 +1207,12 @@ function __c18(j: number): any {
         ),
       ).annotate({ identifier: "DownloadDeploymentCertificateAuthorityRawRequest" });
     case 1:
-      return S.instanceOf(Uint8Array).pipe(/*@__PURE__*/ T.BinaryResponse());
+      return S.suspend(() =>
+        S.Struct({
+          body: S.instanceOf(Uint8Array).pipe(T.RawResponse(), T.BinaryResponse()),
+          contentType: S.optional(S.String.pipe(T.Header("Content-Type"))),
+        }),
+      ).annotate({ identifier: "DownloadDeploymentCertificateAuthorityRawResponse" });
   }
 }
 function __c19(j: number): any {

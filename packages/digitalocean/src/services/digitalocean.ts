@@ -7687,7 +7687,11 @@ export interface CreateInferenceSpeechRequest {
   /** Optional style or delivery instructions for the synthesizer. */
   instructions?: string | undefined;
 }
-export type InferenceCreateSpeechAudio = Uint8Array;
+export interface InferenceCreateSpeechAudio {
+  body?: Uint8Array | undefined;
+  /** Media type of the body, from the response's `Content-Type` header (e.g. `image/jpeg`). */
+  contentType?: string | undefined;
+}
 /** Question discriminator. Use `noul` for a boolean-like true/false check, `choice` to select one option from a fixed set, and `score` to rate against an ordered rubric. */
 export type SystemoneQuestionType = "noul" | "choice" | "score";
 export type SystemoneQuestionCriteriaCase0Map = { [key: string]: string | undefined };
@@ -44144,7 +44148,12 @@ function __c27(j: number): any {
         ),
       ).annotate({ identifier: "CreateInferenceSpeechRequest" });
     case 1:
-      return S.instanceOf(Uint8Array).pipe(/*@__PURE__*/ T.BinaryResponse());
+      return S.suspend(() =>
+        S.Struct({
+          body: S.optional(S.instanceOf(Uint8Array).pipe(T.RawResponse(), T.BinaryResponse())),
+          contentType: S.optional(S.String.pipe(T.Header("Content-Type"))),
+        }),
+      ).annotate({ identifier: "InferenceCreateSpeechAudio" });
   }
 }
 function __c28(j: number): any {

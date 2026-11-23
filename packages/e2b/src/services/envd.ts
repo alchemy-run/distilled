@@ -209,7 +209,11 @@ export interface ReadFileRequest {
   /** Unix timestamp (seconds) after which the signature expires. Only used with the signature parameter. */
   signature_expiration?: number | undefined;
 }
-export type ReadFileResponse = Uint8Array;
+export interface ReadFileResponse {
+  body?: Uint8Array | undefined;
+  /** Media type of the body, from the response's `Content-Type` header (e.g. `image/jpeg`). */
+  contentType?: string | undefined;
+}
 export interface UnfreezeEnvdRequest {}
 export interface UnfreezeEnvdResponse {}
 export interface WriteFilesRequest {
@@ -396,7 +400,7 @@ export const readFile: API.OperationMethod<
   EnvdOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4, __c1, 0) as any as S.Schema<ReadFileRequest>,
-  output: __S(5, __c1, 1) as any as S.Codec<ReadFileResponse>,
+  output: __S(5, __c1, 1) as any as S.Schema<ReadFileResponse>,
   errors: [SandboxNotRunning],
   serviceErrors: E2BServiceErrors,
   protocol: EnvdProtocol,
@@ -473,7 +477,12 @@ function __c1(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/files", code: 200 })),
       ).annotate({ identifier: "ReadFileRequest" });
     case 1:
-      return S.instanceOf(Uint8Array).pipe(/*@__PURE__*/ T.BinaryResponse());
+      return S.suspend(() =>
+        S.Struct({
+          body: S.optional(S.instanceOf(Uint8Array).pipe(T.RawResponse(), T.BinaryResponse())),
+          contentType: S.optional(S.String.pipe(T.Header("Content-Type"))),
+        }),
+      ).annotate({ identifier: "ReadFileResponse" });
   }
 }
 function __c2(j: number): any {

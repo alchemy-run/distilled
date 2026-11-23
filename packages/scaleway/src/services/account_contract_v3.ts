@@ -109,7 +109,11 @@ export interface DownloadContractSignatureRawRequest {
   /** The locale requested for the content of the contract. */
   locale?: ScalewayStdLanguageCode | (string & {}) | undefined;
 }
-export type DownloadContractSignatureRawResponse = Uint8Array;
+export interface DownloadContractSignatureRawResponse {
+  body: Uint8Array;
+  /** Media type of the body, from the response's `Content-Type` header (e.g. `image/jpeg`). */
+  contentType?: string | undefined;
+}
 export type ListContractSignaturesRequestOrderBy =
   | "signed_at_asc"
   | "signed_at_desc"
@@ -376,7 +380,12 @@ function __c4(j: number): any {
         ),
       ).annotate({ identifier: "DownloadContractSignatureRawRequest" });
     case 1:
-      return S.instanceOf(Uint8Array).pipe(/*@__PURE__*/ T.BinaryResponse());
+      return S.suspend(() =>
+        S.Struct({
+          body: S.instanceOf(Uint8Array).pipe(T.RawResponse(), T.BinaryResponse()),
+          contentType: S.optional(S.String.pipe(T.Header("Content-Type"))),
+        }),
+      ).annotate({ identifier: "DownloadContractSignatureRawResponse" });
   }
 }
 function __c5(j: number): any {
