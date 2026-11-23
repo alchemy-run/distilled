@@ -3198,7 +3198,7 @@ export interface ManagedClusterAADProfile {
   /** (DEPRECATED) The server AAD application ID. Learn more at https://aka.ms/aks/aad-legacy. */
   serverAppID?: string | undefined;
   /** (DEPRECATED) The server AAD application secret. Learn more at https://aka.ms/aks/aad-legacy. */
-  serverAppSecret?: string | undefined;
+  serverAppSecret?: string | Redacted.Redacted<string> | undefined;
   /** The AAD tenant ID to use for authentication. If not specified, will use the tenant of the deployment subscription. */
   tenantID?: string | undefined;
 }
@@ -4759,7 +4759,7 @@ export interface FleetCredentialResult {
   /** The name of the credential. */
   name?: string | undefined;
   /** Base64-encoded Kubernetes configuration file. */
-  value?: string | undefined;
+  value?: string | Redacted.Redacted<string> | undefined;
 }
 /** Array of base64-encoded Kubernetes configuration files. */
 export type FleetCredentialResultsKubeconfigsList = Array<FleetCredentialResult>;
@@ -6209,7 +6209,7 @@ export interface RunManagedClusterCommandRequest {
   /** A base64 encoded zip file containing the files required by the command. */
   context?: string | undefined;
   /** AuthToken issued for AKS AAD Server App. */
-  clusterToken?: string | undefined;
+  clusterToken?: string | Redacted.Redacted<string> | undefined;
 }
 /** Resource tags. */
 export type SnapshotsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -12128,7 +12128,7 @@ function __c94(j: number): any {
           adminGroupObjectIDs: S.optional(__S(1056, __c33, 0)),
           clientAppID: S.optional(S.String),
           serverAppID: S.optional(S.String),
-          serverAppSecret: S.optional(S.String),
+          serverAppSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           tenantID: S.optional(S.String),
         }),
       ).annotate({ identifier: "ManagedClusterAADProfile" });
@@ -13485,7 +13485,7 @@ function __c129(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          value: S.optional(S.String),
+          value: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "FleetCredentialResult" });
     case 1:
@@ -14891,7 +14891,7 @@ function __c171(j: number): any {
           resourceName: S.String.pipe(T.Label()),
           command: S.String,
           context: S.optional(S.String),
-          clusterToken: S.optional(S.String),
+          clusterToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }).pipe(
           T.Http({
             method: "POST",

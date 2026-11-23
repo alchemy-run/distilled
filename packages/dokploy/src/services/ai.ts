@@ -125,7 +125,7 @@ export interface GetAiEnabledProvidersRequest {}
 export type GetAiEnabledProvidersResponse = unknown;
 export interface GetAiModelsRequest {
   apiUrl: string;
-  apiKey: string;
+  apiKey: string | Redacted.Redacted<string>;
   aiId?: string | undefined;
 }
 export type GetAiModelsResponse = unknown;
@@ -446,7 +446,7 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           apiUrl: S.String.pipe(T.Query()),
-          apiKey: S.String.pipe(T.Query()),
+          apiKey: S.String.pipe(T.Query(), T.SensitiveValue({})),
           aiId: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/ai.getModels", code: 200 })),
       ).annotate({ identifier: "GetAiModelsRequest" });

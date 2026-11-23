@@ -37,5 +37,7 @@ await runOpenApiConvert({
     skipDeprecated: true,
     // Global error model (v0's includeOperationErrors: false).
     statusToErrorClass: {},
+    // `token` is a crypto asset here, never a credential.
+    notSecretNouns: ["token"],
   },
 });

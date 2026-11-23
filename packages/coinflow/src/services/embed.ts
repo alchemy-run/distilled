@@ -76,7 +76,7 @@ export interface EmbedSessionInfo {
   /** Unix seconds at which the presented token expires. */
   expiresAt: number;
   /** Short-lived token for `GET /embed/session/csp`. */
-  originCheckToken: string;
+  originCheckToken: string | Redacted.Redacted<string>;
   branding?: EmbedBranding | undefined;
 }
 export interface RefreshEmbedSessionRequest {
@@ -200,7 +200,7 @@ function __c2(j: number): any {
           parentOrigin: S.optional(S.String),
           returnUrl: S.optional(S.String),
           expiresAt: S.Number,
-          originCheckToken: S.String,
+          originCheckToken: S.String.pipe(T.SensitiveValue({})),
           branding: S.optional(__S(10, __c2, 2)),
         }),
       ).annotate({ identifier: "EmbedSessionInfo" });

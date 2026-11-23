@@ -552,7 +552,7 @@ export interface EnvironmentSecret {
   /** Last update timestamp of this registry entry. */
   updatedAt?: string | undefined;
   /** Secret value. Omit or set to null to keep the existing value unchanged. */
-  value?: string | undefined;
+  value?: string | Redacted.Redacted<string> | undefined;
 }
 /** The collection of configured secrets. */
 export type EnvironmentSecretsVaultSecretsList = Array<EnvironmentSecret>;
@@ -613,7 +613,7 @@ export interface EnvironmentSecretInput {
   /** Secret key. */
   key: string;
   /** Secret value. Omit or set to null to keep the existing value unchanged. */
-  value?: string | undefined;
+  value?: string | Redacted.Redacted<string> | undefined;
 }
 /** The collection of configured secrets. */
 export type UpdateEnvironmentSecretsRequestSecretsList = Array<EnvironmentSecretInput>;
@@ -1129,7 +1129,7 @@ function __c9(j: number): any {
           region: S.optional(S.String),
           status: S.optional(__S(162, __c5, 2)),
           updatedAt: S.optional(S.String),
-          value: S.optional(S.String),
+          value: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "EnvironmentSecret" });
     case 1:
@@ -1221,7 +1221,7 @@ function __c13(j: number): any {
       return S.suspend(() =>
         S.Struct({
           key: S.String,
-          value: S.optional(S.String),
+          value: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "EnvironmentSecretInput" });
     case 1:

@@ -6606,7 +6606,7 @@ export interface SharedDashboard {
   /** Title of the shared dashboard. */
   title?: string | undefined;
   /** A unique token assigned to the shared dashboard. */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   viewing_preferences?: ViewingPreferences | undefined;
 }
 /** Configuration options for what is shown in an alert event message. */
@@ -9636,7 +9636,7 @@ export interface SharedDashboardInvitesDataObjectAttributes {
   /** When the invited user's session expires. null if the invitation has no associated session. */
   session_expiry?: string | null | undefined;
   /** The unique token of the shared dashboard that was (or is to be) shared. */
-  share_token?: string | undefined;
+  share_token?: string | Redacted.Redacted<string> | undefined;
 }
 /** Object containing the information for an invitation to a shared dashboard. */
 export interface SharedDashboardInvitesDataObject {
@@ -18107,7 +18107,7 @@ function __c122(j: number): any {
           share_type: S.optional(S.NullOr(S.String)),
           status: S.optional(S.String),
           title: S.optional(S.String),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           viewing_preferences: S.optional(__S(3907, __c122, 3)),
         }),
       ).annotate({ identifier: "SharedDashboard" });

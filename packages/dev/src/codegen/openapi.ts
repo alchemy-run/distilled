@@ -122,6 +122,194 @@ export const SENSITIVE_FIELD_PATTERNS: readonly RegExp[] = [
 ];
 
 // ============================================================================
+// Sensitive names by head noun
+// ============================================================================
+
+/** `X-Api-Key` → x api key; `primaryConnectionString` → primary connection string. */
+export const nameWords = (name: string): string[] =>
+  name
+    .replace(/([a-z0-9])([A-Z])/g, "$1 $2")
+    .replace(/([A-Z]+)([A-Z][a-z])/g, "$1 $2")
+    .split(/[^A-Za-z0-9]+/)
+    .filter(Boolean)
+    .map((w) => w.toLowerCase());
+
+/** Words that only say how a value is carried; the word before them is the noun. */
+const CARRIER_WORDS = new Set([
+  "value",
+  "string",
+  "data",
+  "text",
+  "plaintext",
+  "raw",
+  "b64",
+  "base64",
+  "encoded",
+  "json",
+]);
+/** One-word nouns that name a secret. */
+const SECRET_NOUNS = new Set([
+  "password",
+  "passwd",
+  "passphrase",
+  "secret",
+  "token",
+  "credential",
+  "credentials",
+  "kubeconfig",
+  "otp",
+]);
+/** Nouns that name a secret only with the words before them. */
+const SECRET_PHRASES = [
+  "api key",
+  "apikey",
+  "private key",
+  "secret key",
+  "signing key",
+  "encryption key",
+  "master key",
+  "account key",
+  "storage key",
+  "shared key",
+  "auth key",
+  "license key",
+  "connection string",
+  "connection uri",
+  "connection url",
+  "account access key",
+  "storage access key",
+  "secret access key",
+].map((p) => p.split(" "));
+/** A `token` after one of these is a cursor, a version or a request id. */
+const NOT_SECRET_TOKEN = new Set([
+  "next",
+  "page",
+  "pagination",
+  "continuation",
+  "idempotency",
+  "client",
+  "sync",
+  "cursor",
+  "resume",
+  "start",
+  "end",
+  "marker",
+  "request",
+  "prev",
+  "previous",
+  "last",
+  "skip",
+  "take",
+  "change",
+  "batch",
+  "result",
+  "results",
+  "commit",
+  "conflict",
+  "poll",
+  "creation",
+  "operation",
+  "lock",
+  "version",
+  "state",
+  "etag",
+  "color",
+  "from",
+  "to",
+]);
+
+/** Forms of a secret that are safe to show: `masked_api_key`, `hashed_token`, `publicKey`. */
+const NOT_SECRET_FORMS = new Set([
+  "masked",
+  "hashed",
+  "redacted",
+  "obfuscated",
+  "public",
+  "publishable",
+]);
+
+const endsWithPhrase = (ws: readonly string[], end: number): boolean =>
+  SECRET_PHRASES.some(
+    (p) => p.length <= end + 1 && p.every((w, k) => ws[end - p.length + 1 + k] === w),
+  );
+
+/**
+ * Whether `name` names a secret by its head noun: the last word, after
+ * carrier words such as `value` or `string`. `primaryConnectionString`,
+ * `webhookSecret`, `X-Api-Key` and `secretValue` match; `tokenType`,
+ * `secretName`, `nextToken` and `passwordPolicy` do not. A name made only
+ * of carrier words (`value`, `data`) matches nothing here: see
+ * {@link isSecretParentName}. Header names also match `auth`,
+ * `authorization` and `cookie`.
+ */
+export const isSecretName = (
+  name: string,
+  where: "body" | "query" | "header" = "body",
+  notSecret: ReadonlySet<string> = new Set(),
+): boolean => {
+  const ws = nameWords(name);
+  // `connection string` is a phrase before `string` is a carrier word.
+  if (endsWithPhrase(ws, ws.length - 1) && !ws.some((w) => NOT_SECRET_FORMS.has(w))) return true;
+  let end = ws.length - 1;
+  while (end >= 0 && CARRIER_WORDS.has(ws[end]!)) end--;
+  if (end < 0) return false;
+  const noun = ws[end]!;
+  if (notSecret.has(noun)) return false;
+  if (noun === "token" && end > 0 && NOT_SECRET_TOKEN.has(ws[end - 1]!)) return false;
+  if (ws.slice(0, end).some((w) => NOT_SECRET_FORMS.has(w))) return false;
+  if (SECRET_NOUNS.has(noun) || endsWithPhrase(ws, end)) return true;
+  return where === "header" && (noun === "auth" || noun === "authorization" || noun === "cookie");
+};
+
+/** Words a generated or component shape name carries besides its noun. */
+const PARENT_NOISE_WORDS = new Set([
+  "response",
+  "request",
+  "item",
+  "items",
+  "body",
+  "input",
+  "output",
+  "model",
+  "dto",
+  "result",
+  "entry",
+  "data",
+  "info",
+  "details",
+  "object",
+  "resource",
+  "list",
+  "properties",
+  "props",
+  "spec",
+  "payload",
+]);
+
+/**
+ * Whether an object named `parent` is itself a secret, so its bare
+ * `value` / `data` member holds it: `Secret`, `StorageAccountKey`,
+ * `CreateSecretRequest`, Kubernetes `IoK8sApiCoreV1Secret`.
+ */
+export const isSecretParentName = (
+  parent: string,
+  notSecret: ReadonlySet<string> = new Set(),
+): boolean => {
+  const ws = nameWords(parent).filter((w) => !PARENT_NOISE_WORDS.has(w) && !/^v?\d+$/.test(w));
+  const last = ws.length - 1;
+  if (last < 0) return false;
+  const noun = ws[last]!.replace(/s$/, "");
+  if (notSecret.has(noun)) return false;
+  return (
+    noun === "secret" ||
+    noun === "token" ||
+    noun === "password" ||
+    noun === "credential" ||
+    endsWithPhrase(ws, last)
+  );
+};
+
+// ============================================================================
 // Options
 // ============================================================================
 
@@ -230,6 +418,12 @@ export interface OpenApiConvertOptions {
    * detection (explicit `x-sensitive: true` still applies).
    */
   readonly sensitivePatterns?: readonly RegExp[];
+  /**
+   * Head nouns this API uses for things that are not secrets, so
+   * {@link isSecretName} skips them. Coinbase's `token` is a crypto asset:
+   * `["token"]`.
+   */
+  readonly notSecretNouns?: readonly string[];
   /**
    * Optional full shape-definition overrides for emitted error classes
    * (keyed by class name) — e.g. custom members. The converter's default is
@@ -363,7 +557,16 @@ interface Ctx {
    */
   readonly dirSensitiveRefs: Map<Dir, ReadonlySet<string>>;
   readonly sensitivePatterns: readonly RegExp[];
+  readonly notSecretNouns: ReadonlySet<string>;
   readonly binaryTypes: boolean;
+  /**
+   * The operation being converted, by its final and its upstream name. Shapes
+   * inline in the operation are named from the final one, which
+   * `deferNaming` changes, so the sensitive check reads the upstream one.
+   */
+  opNames?: { final: string; upstream: string };
+  /** How many component `$ref`s deep the conversion is (0: inline in an operation). */
+  refDepth: number;
 }
 
 interface Converted {
@@ -897,7 +1100,7 @@ const convertSchema = (
       // Scalars and aliases can't cycle — convert inline and cache.
       const entry: Converted = { target: PRELUDE.Document, nullable: false };
       ctx.refs.set(cacheKey, entry);
-      const r = convertSchema(ctx, resolved, pascal(refName), depth + 1, dir);
+      const r = inRef(ctx, () => convertSchema(ctx, resolved, pascal(refName), depth + 1, dir));
       entry.target = r.target;
       entry.nullable = r.nullable;
       return inline(r.target, r.nullable || siteNullable);
@@ -909,7 +1112,7 @@ const convertSchema = (
       // target finishes, so cache it only once resolved. The name is still
       // taken, as it always was, so the names of other shapes do not move.
       uniqueName(ctx, refName);
-      const r = convertSchema(ctx, resolved, pascal(refName), depth + 1, dir);
+      const r = inRef(ctx, () => convertSchema(ctx, resolved, pascal(refName), depth + 1, dir));
       ctx.refs.set(cacheKey, { target: r.target, nullable: r.nullable });
       return inline(r.target, r.nullable || siteNullable);
     }
@@ -918,7 +1121,7 @@ const convertSchema = (
     const entry: Converted = { target: id, nullable: false };
     ctx.refs.set(cacheKey, entry);
     ctx.shapes[id] = { type: "structure", members: {} }; // placeholder
-    const r = convertSchema(ctx, resolved, pascal(refName), depth + 1, dir, id);
+    const r = inRef(ctx, () => convertSchema(ctx, resolved, pascal(refName), depth + 1, dir, id));
     entry.target = r.target;
     entry.nullable = r.nullable;
     return inline(r.target, r.nullable || siteNullable);
@@ -1146,14 +1349,92 @@ const structTraits = (docTraits: Record<string, unknown>, ap: unknown): Record<s
     ? { ...docTraits, [ADDITIONAL_PROPERTIES_TRAIT]: {} }
     : docTraits;
 
-/** Whether a property is a sensitive string (x-sensitive or name pattern). */
-const isSensitiveProperty = (ctx: Ctx, name: string, def: any): boolean => {
-  const r = deref(ctx, def);
-  if (!r || typeof r !== "object") return false;
-  const isString = typeOf(r) === "string" && !Array.isArray(r.enum);
-  if (!isString) return false;
-  if (r["x-sensitive"] === true || def?.["x-sensitive"] === true) return true;
-  return ctx.sensitivePatterns.some((p) => p.test(name));
+/** Run `f` one component `$ref` deeper (see `Ctx.refDepth`). */
+const inRef = <A>(ctx: Ctx, f: () => A): A => {
+  ctx.refDepth++;
+  try {
+    return f();
+  } finally {
+    ctx.refDepth--;
+  }
+};
+
+/**
+ * Whether the spec itself marks `def` secret (`x-sensitive`, Azure's
+ * `x-ms-secret`, `format: password`), through `$ref` and single-schema
+ * `allOf` / `anyOf` / `oneOf` wrappers.
+ */
+const specMarksSecret = (ctx: Ctx, def: any, depth = 0): boolean => {
+  if (!def || typeof def !== "object" || depth > 8) return false;
+  if (def["x-sensitive"] === true || def["x-ms-secret"] === true || def.format === "password") {
+    return true;
+  }
+  if (typeof def.$ref === "string") {
+    return specMarksSecret(ctx, resolvePointer(ctx.spec, def.$ref), depth + 1);
+  }
+  return ["allOf", "anyOf", "oneOf"].some(
+    (k) => Array.isArray(def[k]) && def[k].some((s: any) => specMarksSecret(ctx, s, depth + 1)),
+  );
+};
+
+/**
+ * What a converted member target holds that a sensitive mark can cover: a
+ * string, or a map of strings (the mark goes on the map's value).
+ */
+const secretCarrier = (ctx: Ctx, target: string, def?: any): "string" | "map" | undefined => {
+  if (target === PRELUDE.String) return "string";
+  // A `type: string` schema the converter could not narrow (`allOf` of
+  // patterns) becomes a Document; it still holds a string.
+  if (target === PRELUDE.Document) {
+    const r = deref(ctx, def);
+    return r && typeOf(r) === "string" && !Array.isArray(r.enum) ? "string" : undefined;
+  }
+  const shape = ctx.shapes[target];
+  if (shape?.type === "string") return "string";
+  if (shape?.type === "map" && secretCarrier(ctx, shape.value?.target) === "string") return "map";
+  return undefined;
+};
+
+/**
+ * Mark a member sensitive when the spec says so or its name names a secret
+ * (see {@link isSecretName}; a bare `value` / `data` member counts inside an
+ * object {@link isSecretParentName} names a secret). A string member gets
+ * `smithy.api#sensitive`; a map of strings gets it on its value.
+ */
+const markIfSensitive = (
+  ctx: Ctx,
+  traits: Record<string, any>,
+  member: {
+    name: string;
+    def: any;
+    target: string;
+    parent: string;
+    where: "body" | "query" | "header";
+  },
+): void => {
+  const carrier = secretCarrier(ctx, member.target, member.def);
+  if (carrier === undefined) return;
+  // Inline shapes carry the operation's final name; read its upstream one,
+  // so both `deferNaming` runs decide alike.
+  const ops = ctx.opNames;
+  const parent =
+    ctx.refDepth === 0 && ops !== undefined && member.parent.startsWith(ops.final)
+      ? ops.upstream + member.parent.slice(ops.final.length)
+      : member.parent;
+  const byName =
+    ctx.sensitivePatterns.length > 0 &&
+    (ctx.sensitivePatterns.some((p) => p.test(member.name)) ||
+      isSecretName(member.name, member.where, ctx.notSecretNouns) ||
+      (member.where === "body" &&
+        nameWords(member.name).every((w) => CARRIER_WORDS.has(w)) &&
+        isSecretParentName(parent, ctx.notSecretNouns)));
+  if (!byName && !specMarksSecret(ctx, member.def)) return;
+  if (carrier === "string") {
+    traits["smithy.api#sensitive"] = {};
+  } else {
+    const map = ctx.shapes[member.target];
+    map.value = { ...map.value, traits: { ...map.value.traits, "smithy.api#sensitive": {} } };
+  }
 };
 
 /**
@@ -1185,9 +1466,13 @@ const buildMembers = (
     if (required.has(name)) traits["smithy.api#required"] = {};
     if (mn !== name) traits["smithy.api#jsonName"] = name;
     if (conv.nullable) traits[NULLABLE_TRAIT] = {};
-    if (isSensitiveProperty(ctx, name, prop)) {
-      traits["smithy.api#sensitive"] = {};
-    }
+    markIfSensitive(ctx, traits, {
+      name,
+      def: prop,
+      target: conv.target,
+      parent: hint,
+      where: "body",
+    });
     members[mn] = {
       target: conv.target,
       ...(Object.keys(traits).length ? { traits } : {}),
@@ -1593,7 +1878,9 @@ const convertOnce = (spec: unknown, options: OpenApiConvertOptions): SmithyModel
     refs: new Map(),
     dirSensitiveRefs: new Map(),
     sensitivePatterns: options.sensitivePatterns ?? SENSITIVE_FIELD_PATTERNS,
+    notSecretNouns: new Set(options.notSecretNouns ?? []),
     binaryTypes: options.binaryTypes ?? false,
+    refDepth: 0,
   };
   const statusToErrorClass = options.statusToErrorClass ?? DEFAULT_STATUS_TO_ERROR_CLASS;
   const defaultErrorStatuses = new Set(options.defaultErrorStatuses ?? DEFAULT_ERROR_STATUSES);
@@ -1713,6 +2000,7 @@ const convertOnce = (spec: unknown, options: OpenApiConvertOptions): SmithyModel
         if (lastParam) resolved = `${resolved}By${pascal(lastParam)}`;
       }
       const opName = pascal(resolved);
+      ctx.opNames = { final: opName, upstream: pascal(rawOperationId) };
 
       const params = collectParams(ctx, pathItem, op);
 
@@ -1748,14 +2036,19 @@ const convertOnce = (spec: unknown, options: OpenApiConvertOptions): SmithyModel
         }
         const san = memberIdent(p.name);
         const conv = convertSchema(ctx, p.schema, `${opName}Request${pascal(p.name)}`, 0, "in");
-        addMember(san, {
+        const traits: Record<string, any> = {
+          "smithy.api#httpQuery": p.name,
+          ...(p.required ? { "smithy.api#required": {} } : {}),
+          ...(p.description ? { "smithy.api#documentation": p.description } : {}),
+        };
+        markIfSensitive(ctx, traits, {
+          name: p.name,
+          def: p.schema,
           target: conv.target,
-          traits: {
-            "smithy.api#httpQuery": p.name,
-            ...(p.required ? { "smithy.api#required": {} } : {}),
-            ...(p.description ? { "smithy.api#documentation": p.description } : {}),
-          },
+          parent: `${opName}Request`,
+          where: "query",
         });
+        addMember(san, { target: conv.target, traits });
       }
 
       // ---- Header params (opt-in) ----
@@ -1763,16 +2056,21 @@ const convertOnce = (spec: unknown, options: OpenApiConvertOptions): SmithyModel
         for (const p of params) {
           if (p.in !== "header") continue;
           const conv = convertSchema(ctx, p.schema, `${opName}Request${pascal(p.name)}`, 0, "in");
-          addMember(headerMemberName(p.name), {
+          const traits: Record<string, any> = {
+            // The wire name rides on the trait, so the member is free to be
+            // a normal identifier.
+            "smithy.api#httpHeader": p.name,
+            ...(p.required ? { "smithy.api#required": {} } : {}),
+            ...(p.description ? { "smithy.api#documentation": p.description } : {}),
+          };
+          markIfSensitive(ctx, traits, {
+            name: p.name,
+            def: p.schema,
             target: conv.target,
-            traits: {
-              // The wire name rides on the trait, so the member is free to be
-              // a normal identifier.
-              "smithy.api#httpHeader": p.name,
-              ...(p.required ? { "smithy.api#required": {} } : {}),
-              ...(p.description ? { "smithy.api#documentation": p.description } : {}),
-            },
+            parent: `${opName}Request`,
+            where: "header",
           });
+          addMember(headerMemberName(p.name), { target: conv.target, traits });
         }
       }
 

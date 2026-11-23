@@ -192,7 +192,7 @@ export type OperationStatusProvisionILRExtendedInfoObjectType =
 /** Client script details for file / folder restore. */
 export interface ClientScriptForConnect {
   /** File content of the client script for file / folder restore. */
-  scriptContent?: string | undefined;
+  scriptContent?: string | Redacted.Redacted<string> | undefined;
   /** File extension of the client script for file / folder restore - .ps1 , .sh , etc. */
   scriptExtension?: string | undefined;
   /** OS type - Windows, Linux etc. for which this file / folder restore client script works. */
@@ -4337,7 +4337,7 @@ export interface BEKDetails {
   /** ID of the Key Vault where this Secret is stored. */
   secretVaultId?: string | undefined;
   /** BEK data. */
-  secretData?: string | undefined;
+  secretData?: string | Redacted.Redacted<string> | undefined;
 }
 /** BEK is bitlocker key. KEK is encryption key for BEK If the VM was encrypted then we will store following details : 1. Secret(BEK) - Url + Backup Data + vaultId. 2. Key(KEK) - Url + Backup Data + vaultId. 3. EncryptionMechanism BEK and KEK can potentially have different vault ids. */
 export interface KeyAndSecretDetails {
@@ -4680,7 +4680,7 @@ export interface GetSecurityPINRequest {
 /** The token information details. */
 export interface TokenInformation {
   /** Token value. */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   /** Expiry time of token. */
   expiryTimeInUtcTicks?: number | undefined;
   /** Security PIN */
@@ -12618,7 +12618,7 @@ function __c54(j: number): any {
         S.Struct({
           secretUrl: S.optional(S.String),
           secretVaultId: S.optional(S.String),
-          secretData: S.optional(S.String),
+          secretData: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "BEKDetails" });
     case 26:
@@ -12916,7 +12916,7 @@ function __c63(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           expiryTimeInUtcTicks: S.optional(S.Number),
           securityPIN: S.optional(S.String),
         }),
@@ -13897,7 +13897,7 @@ function __c93(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          scriptContent: S.optional(S.String),
+          scriptContent: S.optional(S.String.pipe(T.SensitiveValue({}))),
           scriptExtension: S.optional(S.String),
           osType: S.optional(S.String),
           url: S.optional(S.String),

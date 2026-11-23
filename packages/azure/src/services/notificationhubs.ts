@@ -263,11 +263,11 @@ export interface NetworkAcls {
 /** Description of a NotificationHub AdmCredential. */
 export interface AdmCredentialProperties {
   /** Gets or sets the client identifier. */
-  clientId: string;
+  clientId: string | Redacted.Redacted<string>;
   /** Gets or sets the credential secret access key. */
   clientSecret: string | Redacted.Redacted<string>;
   /** Gets or sets the URL of the authorization token. */
-  authTokenUrl: string;
+  authTokenUrl: string | Redacted.Redacted<string>;
 }
 /** Description of a NotificationHub AdmCredential. */
 export interface AdmCredential {
@@ -276,21 +276,21 @@ export interface AdmCredential {
 /** Description of a NotificationHub ApnsCredential. */
 export interface ApnsCredentialProperties {
   /** Gets or sets the APNS certificate. */
-  apnsCertificate?: string | undefined;
+  apnsCertificate?: string | Redacted.Redacted<string> | undefined;
   /** Gets or sets the certificate key. */
-  certificateKey?: string | undefined;
+  certificateKey?: string | Redacted.Redacted<string> | undefined;
   /** Gets or sets the endpoint of this credential. */
-  endpoint: string;
+  endpoint: string | Redacted.Redacted<string>;
   /** Gets or sets the APNS certificate Thumbprint */
-  thumbprint?: string | undefined;
+  thumbprint?: string | Redacted.Redacted<string> | undefined;
   /** Gets or sets a 10-character key identifier (kid) key, obtained from your developer account */
-  keyId?: string | undefined;
+  keyId?: string | Redacted.Redacted<string> | undefined;
   /** Gets or sets the name of the application */
-  appName?: string | undefined;
+  appName?: string | Redacted.Redacted<string> | undefined;
   /** Gets or sets the issuer (iss) registered claim key, whose value is your 10-character Team ID, obtained from your developer account */
-  appId?: string | undefined;
+  appId?: string | Redacted.Redacted<string> | undefined;
   /** Gets or sets provider Authentication Token, obtained through your developer account */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
 }
 /** Description of a NotificationHub ApnsCredential. */
 export interface ApnsCredential {
@@ -299,9 +299,9 @@ export interface ApnsCredential {
 /** Description of a NotificationHub BaiduCredential. */
 export interface BaiduCredentialProperties {
   /** Gets or sets baidu Api Key. */
-  baiduApiKey: string;
+  baiduApiKey: string | Redacted.Redacted<string>;
   /** Gets or sets baidu Endpoint. */
-  baiduEndPoint: string;
+  baiduEndPoint: string | Redacted.Redacted<string>;
   /** Gets or sets baidu Secret Key */
   baiduSecretKey: string | Redacted.Redacted<string>;
 }
@@ -312,11 +312,11 @@ export interface BaiduCredential {
 /** Description of a NotificationHub BrowserCredential. */
 export interface BrowserCredentialProperties {
   /** Gets or sets web push subject. */
-  subject: string;
+  subject: string | Redacted.Redacted<string>;
   /** Gets or sets VAPID private key. */
-  vapidPrivateKey: string;
+  vapidPrivateKey: string | Redacted.Redacted<string>;
   /** Gets or sets VAPID public key. */
-  vapidPublicKey: string;
+  vapidPublicKey: string | Redacted.Redacted<string>;
 }
 /** Description of a NotificationHub BrowserCredential. */
 export interface BrowserCredential {
@@ -325,9 +325,9 @@ export interface BrowserCredential {
 /** Description of a NotificationHub GcmCredential. */
 export interface GcmCredentialProperties {
   /** Gets or sets the GCM endpoint. */
-  gcmEndpoint?: string | undefined;
+  gcmEndpoint?: string | Redacted.Redacted<string> | undefined;
   /** Gets or sets the Google API key. */
-  googleApiKey: string;
+  googleApiKey: string | Redacted.Redacted<string>;
 }
 /** Description of a NotificationHub GcmCredential. */
 export interface GcmCredential {
@@ -336,11 +336,11 @@ export interface GcmCredential {
 /** Description of a NotificationHub MpnsCredential. */
 export interface MpnsCredentialProperties {
   /** Gets or sets the MPNS certificate. */
-  mpnsCertificate: string;
+  mpnsCertificate: string | Redacted.Redacted<string>;
   /** Gets or sets the certificate key for this credential. */
-  certificateKey: string;
+  certificateKey: string | Redacted.Redacted<string>;
   /** Gets or sets the MPNS certificate Thumbprint */
-  thumbprint: string;
+  thumbprint: string | Redacted.Redacted<string>;
 }
 /** Description of a NotificationHub MpnsCredential. */
 export interface MpnsCredential {
@@ -349,15 +349,15 @@ export interface MpnsCredential {
 /** Description of a NotificationHub WnsCredential. */
 export interface WnsCredentialProperties {
   /** Gets or sets the package ID for this credential. */
-  packageSid?: string | undefined;
+  packageSid?: string | Redacted.Redacted<string> | undefined;
   /** Gets or sets the secret key. */
   secretKey?: string | Redacted.Redacted<string> | undefined;
   /** Gets or sets the Windows Live endpoint. */
-  windowsLiveEndpoint?: string | undefined;
+  windowsLiveEndpoint?: string | Redacted.Redacted<string> | undefined;
   /** Ges or sets the WNS Certificate Key. */
-  certificateKey?: string | undefined;
+  certificateKey?: string | Redacted.Redacted<string> | undefined;
   /** Gets or sets the WNS Certificate. */
-  wnsCertificate?: string | undefined;
+  wnsCertificate?: string | Redacted.Redacted<string> | undefined;
 }
 /** Description of a NotificationHub WnsCredential. */
 export interface WnsCredential {
@@ -366,9 +366,9 @@ export interface WnsCredential {
 /** Description of a NotificationHub XiaomiCredentialProperties. */
 export interface XiaomiCredentialProperties {
   /** Gets or sets app secret. */
-  appSecret?: string | undefined;
+  appSecret?: string | Redacted.Redacted<string> | undefined;
   /** Gets or sets xiaomi service endpoint. */
-  endpoint?: string | undefined;
+  endpoint?: string | Redacted.Redacted<string> | undefined;
 }
 /** Description of a NotificationHub XiaomiCredential. */
 export interface XiaomiCredential {
@@ -505,9 +505,9 @@ export interface SharedAccessAuthorizationRuleProperties {
   /** Gets or sets the rights associated with the rule. */
   rights: SharedAccessAuthorizationRulePropertiesRightsList;
   /** Gets a base64-encoded 256-bit primary key for signing and validating the SAS token. */
-  primaryKey?: string | undefined;
+  primaryKey?: string | Redacted.Redacted<string> | undefined;
   /** Gets a base64-encoded 256-bit primary key for signing and validating the SAS token. */
-  secondaryKey?: string | undefined;
+  secondaryKey?: string | Redacted.Redacted<string> | undefined;
   /** Gets a string that describes the authorization rule. */
   keyName?: string | undefined;
   /** Gets the last modified time for this rule */
@@ -814,13 +814,13 @@ export interface ListNamespaceKeysRequest {
 /** Response for the POST request that returns Namespace or NotificationHub access keys (connection strings). */
 export interface ResourceListKeys {
   /** Gets or sets primaryConnectionString of the AuthorizationRule. */
-  primaryConnectionString?: string | undefined;
+  primaryConnectionString?: string | Redacted.Redacted<string> | undefined;
   /** Gets or sets secondaryConnectionString of the created AuthorizationRule */
-  secondaryConnectionString?: string | undefined;
+  secondaryConnectionString?: string | Redacted.Redacted<string> | undefined;
   /** Gets or sets primaryKey of the created AuthorizationRule. */
-  primaryKey?: string | undefined;
+  primaryKey?: string | Redacted.Redacted<string> | undefined;
   /** Gets or sets secondaryKey of the created AuthorizationRule */
-  secondaryKey?: string | undefined;
+  secondaryKey?: string | Redacted.Redacted<string> | undefined;
   /** Gets or sets keyName of the created AuthorizationRule */
   keyName?: string | undefined;
 }
@@ -1092,9 +1092,9 @@ export interface SharedAccessAuthorizationRulePropertiesInput {
   /** Gets or sets the rights associated with the rule. */
   rights: SharedAccessAuthorizationRulePropertiesInputRightsList;
   /** Gets a base64-encoded 256-bit primary key for signing and validating the SAS token. */
-  primaryKey?: string | undefined;
+  primaryKey?: string | Redacted.Redacted<string> | undefined;
   /** Gets a base64-encoded 256-bit primary key for signing and validating the SAS token. */
-  secondaryKey?: string | undefined;
+  secondaryKey?: string | Redacted.Redacted<string> | undefined;
 }
 /** Deprecated - only for compatibility. */
 export type NamespacesCreateOrUpdateAuthorizationRuleRequestTagsMap = {
@@ -2439,10 +2439,10 @@ function __c18(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          primaryConnectionString: S.optional(S.String),
-          secondaryConnectionString: S.optional(S.String),
-          primaryKey: S.optional(S.String),
-          secondaryKey: S.optional(S.String),
+          primaryConnectionString: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          secondaryConnectionString: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          primaryKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          secondaryKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           keyName: S.optional(S.String),
         }),
       ).annotate({ identifier: "ResourceListKeys" });
@@ -2787,8 +2787,8 @@ function __c31(j: number): any {
       return S.suspend(() =>
         S.Struct({
           rights: __S(800, __c50, 0),
-          primaryKey: S.optional(S.String),
-          secondaryKey: S.optional(S.String),
+          primaryKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          secondaryKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "SharedAccessAuthorizationRulePropertiesInput" });
   }
@@ -3264,9 +3264,9 @@ function __c51(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          clientId: S.String,
+          clientId: S.String.pipe(T.SensitiveValue({})),
           clientSecret: S.String.pipe(T.SensitiveValue({})),
-          authTokenUrl: S.String,
+          authTokenUrl: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "AdmCredentialProperties" });
     case 1:
@@ -3278,14 +3278,14 @@ function __c51(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          apnsCertificate: S.optional(S.String),
-          certificateKey: S.optional(S.String),
-          endpoint: S.String,
-          thumbprint: S.optional(S.String),
-          keyId: S.optional(S.String),
-          appName: S.optional(S.String),
-          appId: S.optional(S.String),
-          token: S.optional(S.String),
+          apnsCertificate: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          certificateKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          endpoint: S.String.pipe(T.SensitiveValue({})),
+          thumbprint: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          keyId: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          appName: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          appId: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "ApnsCredentialProperties" });
     case 3:
@@ -3297,8 +3297,8 @@ function __c51(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          baiduApiKey: S.String,
-          baiduEndPoint: S.String,
+          baiduApiKey: S.String.pipe(T.SensitiveValue({})),
+          baiduEndPoint: S.String.pipe(T.SensitiveValue({})),
           baiduSecretKey: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "BaiduCredentialProperties" });
@@ -3311,9 +3311,9 @@ function __c51(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          subject: S.String,
-          vapidPrivateKey: S.String,
-          vapidPublicKey: S.String,
+          subject: S.String.pipe(T.SensitiveValue({})),
+          vapidPrivateKey: S.String.pipe(T.SensitiveValue({})),
+          vapidPublicKey: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "BrowserCredentialProperties" });
     case 7:
@@ -3325,8 +3325,8 @@ function __c51(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
-          gcmEndpoint: S.optional(S.String),
-          googleApiKey: S.String,
+          gcmEndpoint: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          googleApiKey: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "GcmCredentialProperties" });
     case 9:
@@ -3338,9 +3338,9 @@ function __c51(j: number): any {
     case 10:
       return S.suspend(() =>
         S.Struct({
-          mpnsCertificate: S.String,
-          certificateKey: S.String,
-          thumbprint: S.String,
+          mpnsCertificate: S.String.pipe(T.SensitiveValue({})),
+          certificateKey: S.String.pipe(T.SensitiveValue({})),
+          thumbprint: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "MpnsCredentialProperties" });
     case 11:
@@ -3352,11 +3352,11 @@ function __c51(j: number): any {
     case 12:
       return S.suspend(() =>
         S.Struct({
-          packageSid: S.optional(S.String),
+          packageSid: S.optional(S.String.pipe(T.SensitiveValue({}))),
           secretKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          windowsLiveEndpoint: S.optional(S.String),
-          certificateKey: S.optional(S.String),
-          wnsCertificate: S.optional(S.String),
+          windowsLiveEndpoint: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          certificateKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          wnsCertificate: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "WnsCredentialProperties" });
     case 13:
@@ -3368,8 +3368,8 @@ function __c51(j: number): any {
     case 14:
       return S.suspend(() =>
         S.Struct({
-          appSecret: S.optional(S.String),
-          endpoint: S.optional(S.String),
+          appSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          endpoint: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "XiaomiCredentialProperties" });
     case 15:
@@ -3423,8 +3423,8 @@ function __c54(j: number): any {
       return S.suspend(() =>
         S.Struct({
           rights: __S(800, __c50, 0),
-          primaryKey: S.optional(S.String),
-          secondaryKey: S.optional(S.String),
+          primaryKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          secondaryKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           keyName: S.optional(S.String),
           modifiedTime: S.optional(S.String),
           createdTime: S.optional(S.String),

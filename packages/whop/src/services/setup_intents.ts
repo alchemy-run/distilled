@@ -99,7 +99,7 @@ export interface CreateSetupIntentRequest {
   /** The account to save the payment method for, prefixed `biz_`. */
   account_id: string;
   /** A confirmation token describing a payment method the buyer just supplied, collected by the payment elements in setup mode. Provide this or `payment_method_id`, not both. The buyer is resolved from the token's billing email, or from `email`, and may still have a step to complete -- poll Retrieve setup status for what to do next. */
-  confirmation_token?: string | null | undefined;
+  confirmation_token?: string | Redacted.Redacted<string> | null | undefined;
   /** The currency the saved payment method will be used with, as a lowercase ISO 4217 code. Controls which currency-specific payment methods are available. Defaults to `usd`. */
   currency?: string | null | undefined;
   /** Overrides the buyer email carried on the confirmation token, resolving or creating the user the method belongs to. Ignored unless `confirmation_token` is provided, and when the token was created by a signed-in buyer or the caller is the buyer. */
@@ -724,7 +724,7 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           account_id: S.String,
-          confirmation_token: S.optional(S.NullOr(S.String)),
+          confirmation_token: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           currency: S.optional(S.NullOr(S.String)),
           email: S.optional(S.NullOr(S.String)),
           metadata: S.optional(S.NullOr(__S(8, __c1, 0))),

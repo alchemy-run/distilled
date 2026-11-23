@@ -685,7 +685,7 @@ export interface AzureBlobInput {
   /** Resource Id of the storage account where backups are stored. */
   storageAccountResourceId?: string | undefined;
   /** Storage Account Key. */
-  accountKey?: string | undefined;
+  accountKey?: string | Redacted.Redacted<string> | undefined;
   /** Blob container name where backups are stored. */
   blobContainerName?: string | undefined;
 }
@@ -701,7 +701,7 @@ export interface TargetLocation {
   /** Resource Id of the storage account copying backups. */
   storageAccountResourceId?: string | undefined;
   /** Storage Account Key. */
-  accountKey?: string | undefined;
+  accountKey?: string | Redacted.Redacted<string> | undefined;
 }
 /** Backup Configuration */
 export interface BackupConfigurationInput {
@@ -865,7 +865,7 @@ export interface AzureBlob {
   /** Resource Id of the storage account where backups are stored. */
   storageAccountResourceId?: string | undefined;
   /** Storage Account Key. */
-  accountKey?: string | undefined;
+  accountKey?: string | Redacted.Redacted<string> | undefined;
   /** Blob container name where backups are stored. */
   blobContainerName?: string | undefined;
 }
@@ -2164,9 +2164,9 @@ export interface ListSqlMigrationServiceAuthKeysRequest {
 /** An authentication key. */
 export interface AuthenticationKeys {
   /** The first authentication key. */
-  authKey1?: string | undefined;
+  authKey1?: string | Redacted.Redacted<string> | undefined;
   /** The second authentication key. */
-  authKey2?: string | undefined;
+  authKey2?: string | Redacted.Redacted<string> | undefined;
 }
 export interface ListSqlMigrationServiceByResourceGroupRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -2480,18 +2480,18 @@ export interface RegenerateSqlMigrationServiceAuthKeysRequest {
   /** The name of authentication key to generate. */
   keyName?: string | undefined;
   /** The first authentication key. */
-  authKey1?: string | undefined;
+  authKey1?: string | Redacted.Redacted<string> | undefined;
   /** The second authentication key. */
-  authKey2?: string | undefined;
+  authKey2?: string | Redacted.Redacted<string> | undefined;
 }
 /** An authentication key to regenerate. */
 export interface RegenAuthKeys {
   /** The name of authentication key to generate. */
   keyName?: string | undefined;
   /** The first authentication key. */
-  authKey1?: string | undefined;
+  authKey1?: string | Redacted.Redacted<string> | undefined;
   /** The second authentication key. */
-  authKey2?: string | undefined;
+  authKey2?: string | Redacted.Redacted<string> | undefined;
 }
 export interface RetryDatabaseMigrationsSqlDbRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -4856,7 +4856,7 @@ function __c8(j: number): any {
           authType: S.optional(S.String),
           identity: S.optional(__S(129, __c8, 1)),
           storageAccountResourceId: S.optional(S.String),
-          accountKey: S.optional(S.String),
+          accountKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           blobContainerName: S.optional(S.String),
         }),
       ).annotate({ identifier: "AzureBlobInput" });
@@ -4919,7 +4919,7 @@ function __c10(j: number): any {
       return S.suspend(() =>
         S.Struct({
           storageAccountResourceId: S.optional(S.String),
-          accountKey: S.optional(S.String),
+          accountKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "TargetLocation" });
     case 2:
@@ -5004,7 +5004,7 @@ function __c10(j: number): any {
           authType: S.optional(S.String),
           identity: S.optional(__S(170, __c10, 10)),
           storageAccountResourceId: S.optional(S.String),
-          accountKey: S.optional(S.String),
+          accountKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           blobContainerName: S.optional(S.String),
         }),
       ).annotate({ identifier: "AzureBlob" });
@@ -6533,8 +6533,8 @@ function __c76(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          authKey1: S.optional(S.String),
-          authKey2: S.optional(S.String),
+          authKey1: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          authKey2: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "AuthenticationKeys" });
   }
@@ -6887,8 +6887,8 @@ function __c91(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           sqlMigrationServiceName: S.String.pipe(T.Label()),
           keyName: S.optional(S.String),
-          authKey1: S.optional(S.String),
-          authKey2: S.optional(S.String),
+          authKey1: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          authKey2: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6902,8 +6902,8 @@ function __c91(j: number): any {
       return S.suspend(() =>
         S.Struct({
           keyName: S.optional(S.String),
-          authKey1: S.optional(S.String),
-          authKey2: S.optional(S.String),
+          authKey1: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          authKey2: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "RegenAuthKeys" });
   }

@@ -239,7 +239,7 @@ export class UnprocessableEntity
 
 export interface CreateAuthGithubActionsTokenRequest {
   /** The GitHub Actions OIDC token with audience `prisma-cloud`. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** Requested token lifetime in seconds. Defaults to 1800 (30 min); capped at 3600 (60 min). */
   expiresInSeconds?: number | undefined;
 }
@@ -248,7 +248,7 @@ export interface CreateAuthGithubActionsTokenResponseData {
   id: string;
   type: string;
   /** The minted integration token. Returned once -- copy it immediately. */
-  value: string;
+  value: string | Redacted.Redacted<string>;
   /** ISO 8601 instant after which the token is invalid. */
   expiresAt: string;
   /** Prefixed workspace ID the token is scoped to. */
@@ -1095,7 +1095,7 @@ export interface CreateProjectDatabaseResponse {
 }
 export interface CreateProjectTransferRequest {
   id: string;
-  recipientAccessToken: string;
+  recipientAccessToken: string | Redacted.Redacted<string>;
 }
 export interface CreateProjectTransferResponse {}
 export type CreateScmInstallationsInstallIntentRequestProvider = "github";
@@ -1572,7 +1572,7 @@ export interface CreateWorkspaceServiceTokenResponseData {
   valueHint: string;
   createdAt: string;
   expiresAt?: string | null | undefined;
-  value: string;
+  value: string | Redacted.Redacted<string>;
 }
 export interface CreateWorkspaceServiceTokenResponse {
   data: CreateWorkspaceServiceTokenResponseData;
@@ -6920,7 +6920,7 @@ function __c25(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           expiresInSeconds: S.optional(S.Number),
         }).pipe(T.Http({ method: "POST", uri: "/v1/auth/github-actions/token", code: 200 })),
       ).annotate({ identifier: "CreateAuthGithubActionsTokenRequest" });
@@ -6929,7 +6929,7 @@ function __c25(j: number): any {
         S.Struct({
           id: S.String,
           type: S.String,
-          value: S.String,
+          value: S.String.pipe(T.SensitiveValue({})),
           expiresAt: S.String,
           workspaceId: S.String,
         }),
@@ -7981,7 +7981,7 @@ function __c79(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          recipientAccessToken: S.String,
+          recipientAccessToken: S.String.pipe(T.SensitiveValue({})),
         }).pipe(T.Http({ method: "POST", uri: "/v1/projects/{id}/transfer", code: 200 })),
       ).annotate({ identifier: "CreateProjectTransferRequest" });
   }
@@ -8403,7 +8403,7 @@ function __c100(j: number): any {
           valueHint: S.String,
           createdAt: S.String,
           expiresAt: S.optional(S.NullOr(S.String)),
-          value: S.String,
+          value: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "CreateWorkspaceServiceTokenResponseData" });
     case 2:

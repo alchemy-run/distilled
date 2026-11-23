@@ -179,7 +179,7 @@ export interface AzureActiveDirectoryApplicationCredentials {
   /** An AAD Application ID that was granted the required access permissions to the Azure Key Vault that is to be used when encrypting your data at rest. The Application ID should not be confused with the Object ID for your AAD Application. */
   applicationId: string;
   /** The authentication key of the specified AAD application. */
-  applicationSecret?: string | undefined;
+  applicationSecret?: string | Redacted.Redacted<string> | undefined;
 }
 /** A customer-managed encryption key in Azure Key Vault. Keys that you create and manage can be used to encrypt or decrypt data-at-rest, such as indexes and synonym maps. */
 export interface SearchResourceEncryptionKey {
@@ -1244,7 +1244,7 @@ export interface ShingleTokenFilter {
   /** The string to use when joining adjacent tokens to form a shingle. Default is a single space (" "). */
   tokenSeparator?: string | undefined;
   /** The string to insert for each position at which there is no token. Default is an underscore ("_"). */
-  filterToken?: string | undefined;
+  filterToken?: string | Redacted.Redacted<string> | undefined;
 }
 /** The discriminator for derived types. */
 export type SnowballTokenFilterOdataType = "#Microsoft.Azure.Search.SnowballTokenFilter";
@@ -3887,7 +3887,7 @@ export type SearchIndexerKnowledgeStoreProjectionsList =
 /** Definition of additional projections to azure blob, table, or files, of enriched data. */
 export interface SearchIndexerKnowledgeStore {
   /** The connection string to the storage account projections will be stored in. */
-  storageConnectionString: string;
+  storageConnectionString: string | Redacted.Redacted<string>;
   /** A list of additional projections to perform during indexing. */
   projections: SearchIndexerKnowledgeStoreProjectionsList;
   /** The user-assigned managed identity used for connections to Azure Storage when writing knowledge store projections. If the connection string indicates an identity (ResourceId) and it's not specified, the system-assigned managed identity is used. On updates to the indexer, if the identity is unspecified, the value remains unchanged. If set to "none", the value of this property is cleared. */
@@ -4248,7 +4248,7 @@ export interface DocumentsSearchGetRequest {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   xMsClientRequestId?: string | undefined;
   /** Token identifying the user for which the query is being executed. This token is used to enforce security restrictions on documents. */
-  xMsQuerySourceAuthorization?: string | undefined;
+  xMsQuerySourceAuthorization?: string | Redacted.Redacted<string> | undefined;
   /** A value that enables elevated read that bypass document level permission checks for the query operation. */
   xMsEnableElevatedRead?: boolean | undefined;
 }
@@ -4517,7 +4517,7 @@ export interface DocumentsSearchPostRequest {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   xMsClientRequestId?: string | undefined;
   /** Token identifying the user for which the query is being executed. This token is used to enforce security restrictions on documents. */
-  xMsQuerySourceAuthorization?: string | undefined;
+  xMsQuerySourceAuthorization?: string | Redacted.Redacted<string> | undefined;
   /** A value that enables elevated read that bypass document level permission checks for the query operation. */
   xMsEnableElevatedRead?: boolean | undefined;
   /** A value that specifies whether to fetch the total count of results. Default is false. Setting this value to true may have a performance impact. Note that the count returned is an approximation. */
@@ -4608,7 +4608,7 @@ export interface GetDocumentRequest {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   xMsClientRequestId?: string | undefined;
   /** Token identifying the user for which the query is being executed. This token is used to enforce security restrictions on documents. */
-  xMsQuerySourceAuthorization?: string | undefined;
+  xMsQuerySourceAuthorization?: string | Redacted.Redacted<string> | undefined;
   /** A value that enables elevated read that bypass document level permission checks for the query operation. */
   xMsEnableElevatedRead?: boolean | undefined;
 }
@@ -5115,7 +5115,7 @@ export interface GetKnowledgeRetrievalRequest {
   /** The name of the knowledge base. */
   knowledgeBaseName: string;
   /** Token identifying the user for which the query is being executed. This token is used to enforce security restrictions on documents. */
-  xMsQuerySourceAuthorization?: string | undefined;
+  xMsQuerySourceAuthorization?: string | Redacted.Redacted<string> | undefined;
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   xMsClientRequestId?: string | undefined;
   /** A list of chat message style input. */
@@ -5713,7 +5713,7 @@ export interface GetKnowledgeRetrievalStreamRequest {
   /** The name of the knowledge base. */
   knowledgeBaseName: string;
   /** Token identifying the user for which the query is being executed. This token is used to enforce security restrictions on documents. */
-  xMsQuerySourceAuthorization?: string | undefined;
+  xMsQuerySourceAuthorization?: string | Redacted.Redacted<string> | undefined;
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   xMsClientRequestId?: string | undefined;
   /** A list of chat message style input. */
@@ -6009,7 +6009,7 @@ export interface IndexesAnalyzeRequest {
 /** Information about a token returned by an analyzer. */
 export interface AnalyzedTokenInfo {
   /** The token returned by the analyzer. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The index of the first character of the token in the input text. */
   startOffset: number;
   /** The index of the last character of the token in the input text. */
@@ -8304,7 +8304,7 @@ function __c16(j: number): any {
       return S.suspend(() =>
         S.Struct({
           applicationId: S.String,
-          applicationSecret: S.optional(S.String),
+          applicationSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "AzureActiveDirectoryApplicationCredentials" });
     case 4:
@@ -8413,7 +8413,7 @@ function __c19(j: number): any {
           debug: S.optional(S.String.pipe(T.Query())),
           xMsClientRequestId: S.optional(S.String.pipe(T.Header("x-ms-client-request-id"))),
           xMsQuerySourceAuthorization: S.optional(
-            S.String.pipe(T.Header("x-ms-query-source-authorization")),
+            S.String.pipe(T.Header("x-ms-query-source-authorization"), T.SensitiveValue({})),
           ),
           xMsEnableElevatedRead: S.optional(S.Boolean.pipe(T.Header("x-ms-enable-elevated-read"))),
         }).pipe(
@@ -8629,7 +8629,7 @@ function __c21(j: number): any {
           indexName: S.String.pipe(T.Label()),
           xMsClientRequestId: S.optional(S.String.pipe(T.Header("x-ms-client-request-id"))),
           xMsQuerySourceAuthorization: S.optional(
-            S.String.pipe(T.Header("x-ms-query-source-authorization")),
+            S.String.pipe(T.Header("x-ms-query-source-authorization"), T.SensitiveValue({})),
           ),
           xMsEnableElevatedRead: S.optional(S.Boolean.pipe(T.Header("x-ms-enable-elevated-read"))),
           count: S.optional(S.Boolean),
@@ -8730,7 +8730,7 @@ function __c24(j: number): any {
           _select: S.optional(__S(64, __c2, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
           xMsClientRequestId: S.optional(S.String.pipe(T.Header("x-ms-client-request-id"))),
           xMsQuerySourceAuthorization: S.optional(
-            S.String.pipe(T.Header("x-ms-query-source-authorization")),
+            S.String.pipe(T.Header("x-ms-query-source-authorization"), T.SensitiveValue({})),
           ),
           xMsEnableElevatedRead: S.optional(S.Boolean.pipe(T.Header("x-ms-enable-elevated-read"))),
         }).pipe(
@@ -9468,7 +9468,7 @@ function __c36(j: number): any {
           outputUnigrams: S.optional(S.Boolean),
           outputUnigramsIfNoShingles: S.optional(S.Boolean),
           tokenSeparator: S.optional(S.String),
-          filterToken: S.optional(S.String),
+          filterToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "ShingleTokenFilter" });
     case 16:
@@ -9905,7 +9905,7 @@ function __c43(j: number): any {
           endpoint: S.String.pipe(T.HostLabel()),
           knowledgeBaseName: S.String.pipe(T.Label()),
           xMsQuerySourceAuthorization: S.optional(
-            S.String.pipe(T.Header("x-ms-query-source-authorization")),
+            S.String.pipe(T.Header("x-ms-query-source-authorization"), T.SensitiveValue({})),
           ),
           xMsClientRequestId: S.optional(S.String.pipe(T.Header("x-ms-client-request-id"))),
           messages: S.optional(__S(1414, __c44, 6)),
@@ -10331,7 +10331,7 @@ function __c45(j: number): any {
           endpoint: S.String.pipe(T.HostLabel()),
           knowledgeBaseName: S.String.pipe(T.Label()),
           xMsQuerySourceAuthorization: S.optional(
-            S.String.pipe(T.Header("x-ms-query-source-authorization")),
+            S.String.pipe(T.Header("x-ms-query-source-authorization"), T.SensitiveValue({})),
           ),
           xMsClientRequestId: S.optional(S.String.pipe(T.Header("x-ms-client-request-id"))),
           messages: S.optional(__S(1414, __c44, 6)),
@@ -10785,7 +10785,7 @@ function __c57(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           startOffset: S.Number,
           endOffset: S.Number,
           position: S.Number,
@@ -12451,7 +12451,7 @@ function __c91(j: number): any {
     case 15:
       return S.suspend(() =>
         S.Struct({
-          storageConnectionString: S.String,
+          storageConnectionString: S.String.pipe(T.SensitiveValue({})),
           projections: __S(2926, __c91, 14),
           identity: S.optional(S.NullOr(__S(514, __c16, 2))),
         }),

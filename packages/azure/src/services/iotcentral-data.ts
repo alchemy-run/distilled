@@ -61,7 +61,7 @@ export interface CreateApiTokenResponse {
   /** Unique ID of the API token. */
   id?: string | undefined;
   /** Value of the API token. */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   /** String-formatted date representing the time when the token expires. */
   expiry?: string | undefined;
 }
@@ -809,7 +809,7 @@ export interface GetApiTokenResponse {
   /** Unique ID of the API token. */
   id?: string | undefined;
   /** Value of the API token. */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   /** String-formatted date representing the time when the token expires. */
   expiry?: string | undefined;
 }
@@ -1201,7 +1201,7 @@ export interface ApiToken {
   /** Unique ID of the API token. */
   id?: string | undefined;
   /** Value of the API token. */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   /** String-formatted date representing the time when the token expires. */
   expiry?: string | undefined;
 }
@@ -3704,7 +3704,7 @@ function __c2(j: number): any {
         S.Struct({
           roles: __S(9, __c1, 1),
           id: S.optional(S.String),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           expiry: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateApiTokenResponse" });

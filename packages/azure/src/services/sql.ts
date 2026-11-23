@@ -521,7 +521,7 @@ export interface DatabaseBlobAuditingPolicyProperties {
   /** Specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). If state is Enabled, storageEndpoint or isAzureMonitorTargetEnabled is required. */
   storageEndpoint?: string | undefined;
   /** Specifies the identifier key of the auditing storage account. If state is Enabled and storageEndpoint is specified, not specifying the storageAccountAccessKey will use SQL server system-assigned managed identity to access the storage. Prerequisites for using managed identity authentication: 1. Assign SQL Server a system-assigned managed identity in Azure Active Directory (AAD). 2. Grant SQL Server identity access to the storage account by adding 'Storage Blob Data Contributor' RBAC role to the server identity. For more information, see [Auditing to storage using Managed Identity authentication](https://go.microsoft.com/fwlink/?linkid=2114355) */
-  storageAccountAccessKey?: string | undefined;
+  storageAccountAccessKey?: string | Redacted.Redacted<string> | undefined;
   /** Universally Unique Identifier */
   storageAccountSubscriptionId?: string | undefined;
 }
@@ -618,7 +618,7 @@ export interface DatabaseExtensionsProperties {
   /** Storage key type: StorageAccessKey, SharedAccessKey or ManagedIdentity. */
   storageKeyType: DatabaseExtensionsPropertiesStorageKeyType | (string & {});
   /** Storage key for the storage account. If StorageKeyType is ManagedIdentity, this field should specify the Managed Identity's resource ID. */
-  storageKey: string;
+  storageKey: string | Redacted.Redacted<string>;
   /** Storage Uri for the storage account. */
   storageUri: string;
   /** Administrator login name. If AuthenticationType is ManagedIdentity, this field should specify the Managed Identity's resource ID. */
@@ -1171,7 +1171,7 @@ export interface DatabaseSecurityAlertPoliciesCreateOrUpdateRequestProperties {
   /** Specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). This blob storage will hold all Threat Detection audit logs. */
   storageEndpoint?: string | undefined;
   /** Specifies the identifier key of the Threat Detection audit storage account. */
-  storageAccountAccessKey?: string | undefined;
+  storageAccountAccessKey?: string | Redacted.Redacted<string> | undefined;
   /** Specifies the number of days to keep in the Threat Detection audit logs. */
   retentionDays?: number | undefined;
 }
@@ -1214,7 +1214,7 @@ export interface DatabaseSecurityAlertPoliciesCreateOrUpdateResponseProperties {
   /** Specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). This blob storage will hold all Threat Detection audit logs. */
   storageEndpoint?: string | undefined;
   /** Specifies the identifier key of the Threat Detection audit storage account. */
-  storageAccountAccessKey?: string | undefined;
+  storageAccountAccessKey?: string | Redacted.Redacted<string> | undefined;
   /** Specifies the number of days to keep in the Threat Detection audit logs. */
   retentionDays?: number | undefined;
   /** Specifies the UTC creation time of the policy. */
@@ -1490,7 +1490,7 @@ export interface DatabaseVulnerabilityAssessmentProperties {
   /** A shared access signature (SAS Key) that has write access to the blob container specified in 'storageContainerPath' parameter. If 'storageAccountAccessKey' isn't specified, StorageContainerSasKey is required. Applies only if the storage account is not behind a Vnet or a firewall */
   storageContainerSasKey?: string | undefined;
   /** Specifies the identifier key of the storage account for vulnerability assessment scan results. If 'StorageContainerSasKey' isn't specified, storageAccountAccessKey is required. Applies only if the storage account is not behind a Vnet or a firewall */
-  storageAccountAccessKey?: string | undefined;
+  storageAccountAccessKey?: string | Redacted.Redacted<string> | undefined;
   /** The recurring scans settings */
   recurringScans?: VulnerabilityAssessmentRecurringScansProperties | undefined;
 }
@@ -3335,7 +3335,7 @@ export interface ExportDatabaseRequest {
   /** Storage key type: StorageAccessKey, SharedAccessKey or ManagedIdentity. */
   storageKeyType: ExportDatabaseRequestStorageKeyType | (string & {});
   /** Storage key for the storage account. If StorageKeyType is ManagedIdentity, this field should specify the Managed Identity's resource ID. */
-  storageKey: string;
+  storageKey: string | Redacted.Redacted<string>;
   /** Storage Uri. */
   storageUri: string;
   /** Administrator login name. If AuthenticationType is ManagedIdentity, this field should specify the Managed Identity's resource ID. */
@@ -3487,7 +3487,7 @@ export interface ExtendedDatabaseBlobAuditingPolicyProperties {
   /** Specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). If state is Enabled, storageEndpoint or isAzureMonitorTargetEnabled is required. */
   storageEndpoint?: string | undefined;
   /** Specifies the identifier key of the auditing storage account. If state is Enabled and storageEndpoint is specified, not specifying the storageAccountAccessKey will use SQL server system-assigned managed identity to access the storage. Prerequisites for using managed identity authentication: 1. Assign SQL Server a system-assigned managed identity in Azure Active Directory (AAD). 2. Grant SQL Server identity access to the storage account by adding 'Storage Blob Data Contributor' RBAC role to the server identity. For more information, see [Auditing to storage using Managed Identity authentication](https://go.microsoft.com/fwlink/?linkid=2114355) */
-  storageAccountAccessKey?: string | undefined;
+  storageAccountAccessKey?: string | Redacted.Redacted<string> | undefined;
   /** Universally Unique Identifier */
   storageAccountSubscriptionId?: string | undefined;
 }
@@ -3550,7 +3550,7 @@ export interface ExtendedServerBlobAuditingPolicyProperties {
   /** Specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). If state is Enabled, storageEndpoint or isAzureMonitorTargetEnabled is required. */
   storageEndpoint?: string | undefined;
   /** Specifies the identifier key of the auditing storage account. If state is Enabled and storageEndpoint is specified, not specifying the storageAccountAccessKey will use SQL server system-assigned managed identity to access the storage. Prerequisites for using managed identity authentication: 1. Assign SQL Server a system-assigned managed identity in Azure Active Directory (AAD). 2. Grant SQL Server identity access to the storage account by adding 'Storage Blob Data Contributor' RBAC role to the server identity. For more information, see [Auditing to storage using Managed Identity authentication](https://go.microsoft.com/fwlink/?linkid=2114355) */
-  storageAccountAccessKey?: string | undefined;
+  storageAccountAccessKey?: string | Redacted.Redacted<string> | undefined;
   /** Universally Unique Identifier */
   storageAccountSubscriptionId?: string | undefined;
 }
@@ -4478,7 +4478,7 @@ export interface GetDatabaseSecurityAlertPolicyResponseProperties {
   /** Specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). This blob storage will hold all Threat Detection audit logs. */
   storageEndpoint?: string | undefined;
   /** Specifies the identifier key of the Threat Detection audit storage account. */
-  storageAccountAccessKey?: string | undefined;
+  storageAccountAccessKey?: string | Redacted.Redacted<string> | undefined;
   /** Specifies the number of days to keep in the Threat Detection audit logs. */
   retentionDays?: number | undefined;
   /** Specifies the UTC creation time of the policy. */
@@ -5758,7 +5758,7 @@ export interface JobStepOutput {
   /** The output destination table. */
   tableName: string;
   /** The resource ID of the credential to use to connect to the output destination. */
-  credential?: string | undefined;
+  credential?: string | Redacted.Redacted<string> | undefined;
 }
 /** The execution options of a job step. */
 export interface JobStepExecutionOptions {
@@ -5780,7 +5780,7 @@ export interface JobStepProperties {
   /** The resource ID of the target group that the job step will be executed on. */
   targetGroup: string;
   /** The resource ID of the job credential that will be used to connect to the targets. */
-  credential?: string | undefined;
+  credential?: string | Redacted.Redacted<string> | undefined;
   /** The action payload of the job step. */
   action: JobStepAction;
   /** Output destination properties of the job step. */
@@ -5915,7 +5915,7 @@ export interface JobTarget {
   /** The target shard map. */
   shardMapName?: string | undefined;
   /** The resource ID of the credential that is used during job execution to connect to the target and determine the list of databases inside the target. */
-  refreshCredential?: string | undefined;
+  refreshCredential?: string | Redacted.Redacted<string> | undefined;
 }
 /** Members of the target group. */
 export type JobTargetGroupPropertiesMembersList = Array<JobTarget>;
@@ -6437,7 +6437,7 @@ export interface ManagedDatabaseProperties {
   /** Conditional. If createMode is RestoreExternalBackup, this value is used. Specifies the identity used for storage container authentication. Can be 'SharedAccessSignature' or 'ManagedIdentity'; if not specified 'SharedAccessSignature' is assumed. */
   storageContainerIdentity?: string | undefined;
   /** Conditional. If createMode is RestoreExternalBackup and storageContainerIdentity is not ManagedIdentity, this value is required. Specifies the storage container sas token. */
-  storageContainerSasToken?: string | undefined;
+  storageContainerSasToken?: string | Redacted.Redacted<string> | undefined;
   /** Instance Failover Group resource identifier that this managed database belongs to. */
   failoverGroupId?: string | undefined;
   /** The resource identifier of the recoverable database associated with create operation of this database. */
@@ -6785,7 +6785,7 @@ export interface SecurityAlertPolicyProperties {
   /** Specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). This blob storage will hold all Threat Detection audit logs. */
   storageEndpoint?: string | undefined;
   /** Specifies the identifier key of the Threat Detection audit storage account. */
-  storageAccountAccessKey?: string | undefined;
+  storageAccountAccessKey?: string | Redacted.Redacted<string> | undefined;
   /** Specifies the number of days to keep in the Threat Detection audit logs. */
   retentionDays?: number | undefined;
   /** Specifies the UTC creation time of the policy. */
@@ -7751,7 +7751,7 @@ export interface ManagedInstanceVulnerabilityAssessmentProperties {
   /** A shared access signature (SAS Key) that has write access to the blob container specified in 'storageContainerPath' parameter. If 'storageAccountAccessKey' isn't specified, StorageContainerSasKey is required. Applies only if the storage account is not behind a Vnet or a firewall */
   storageContainerSasKey?: string | undefined;
   /** Specifies the identifier key of the storage account for vulnerability assessment scan results. If 'StorageContainerSasKey' isn't specified, storageAccountAccessKey is required. Applies only if the storage account is not behind a Vnet or a firewall */
-  storageAccountAccessKey?: string | undefined;
+  storageAccountAccessKey?: string | Redacted.Redacted<string> | undefined;
   /** Properties of a Vulnerability Assessment recurring scans. */
   recurringScans?: ManagedInstanceVulnerabilityAssessmentPropertiesRecurringScans | undefined;
 }
@@ -7880,7 +7880,7 @@ export interface GetManagedServerSecurityAlertPolicyResponseProperties {
   /** Specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). This blob storage will hold all Threat Detection audit logs. */
   storageEndpoint?: string | undefined;
   /** Specifies the identifier key of the Threat Detection audit storage account. */
-  storageAccountAccessKey?: string | undefined;
+  storageAccountAccessKey?: string | Redacted.Redacted<string> | undefined;
   /** Specifies the number of days to keep in the Threat Detection audit logs. */
   retentionDays?: number | undefined;
   /** Specifies the UTC creation time of the policy. */
@@ -8746,7 +8746,7 @@ export interface ServerBlobAuditingPolicyProperties {
   /** Specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). If state is Enabled, storageEndpoint or isAzureMonitorTargetEnabled is required. */
   storageEndpoint?: string | undefined;
   /** Specifies the identifier key of the auditing storage account. If state is Enabled and storageEndpoint is specified, not specifying the storageAccountAccessKey will use SQL server system-assigned managed identity to access the storage. Prerequisites for using managed identity authentication: 1. Assign SQL Server a system-assigned managed identity in Azure Active Directory (AAD). 2. Grant SQL Server identity access to the storage account by adding 'Storage Blob Data Contributor' RBAC role to the server identity. For more information, see [Auditing to storage using Managed Identity authentication](https://go.microsoft.com/fwlink/?linkid=2114355) */
-  storageAccountAccessKey?: string | undefined;
+  storageAccountAccessKey?: string | Redacted.Redacted<string> | undefined;
   /** Universally Unique Identifier */
   storageAccountSubscriptionId?: string | undefined;
 }
@@ -8864,7 +8864,7 @@ export interface ServerDevOpsAuditSettingsProperties {
   /** Specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). If state is Enabled, storageEndpoint or isAzureMonitorTargetEnabled is required. */
   storageEndpoint?: string | undefined;
   /** Specifies the identifier key of the auditing storage account. If state is Enabled and storageEndpoint is specified, not specifying the storageAccountAccessKey will use SQL server system-assigned managed identity to access the storage. Prerequisites for using managed identity authentication: 1. Assign SQL Server a system-assigned managed identity in Azure Active Directory (AAD). 2. Grant SQL Server identity access to the storage account by adding 'Storage Blob Data Contributor' RBAC role to the server identity. For more information, see [Auditing to storage using Managed Identity authentication](https://go.microsoft.com/fwlink/?linkid=2114355) */
-  storageAccountAccessKey?: string | undefined;
+  storageAccountAccessKey?: string | Redacted.Redacted<string> | undefined;
   /** Universally Unique Identifier */
   storageAccountSubscriptionId?: string | undefined;
 }
@@ -8982,7 +8982,7 @@ export interface GetServerSecurityAlertPolicyResponseProperties {
   /** Specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). This blob storage will hold all Threat Detection audit logs. */
   storageEndpoint?: string | undefined;
   /** Specifies the identifier key of the Threat Detection audit storage account. */
-  storageAccountAccessKey?: string | undefined;
+  storageAccountAccessKey?: string | Redacted.Redacted<string> | undefined;
   /** Specifies the number of days to keep in the Threat Detection audit logs. */
   retentionDays?: number | undefined;
   /** Specifies the UTC creation time of the policy. */
@@ -9103,7 +9103,7 @@ export interface ServerVulnerabilityAssessmentProperties {
   /** A shared access signature (SAS Key) that has write access to the blob container specified in 'storageContainerPath' parameter. If 'storageAccountAccessKey' isn't specified, StorageContainerSasKey is required. Applies only if the storage account is not behind a Vnet or a firewall */
   storageContainerSasKey?: string | undefined;
   /** Specifies the identifier key of the storage account for vulnerability assessment scan results. If 'StorageContainerSasKey' isn't specified, storageAccountAccessKey is required. Applies only if the storage account is not behind a Vnet or a firewall */
-  storageAccountAccessKey?: string | undefined;
+  storageAccountAccessKey?: string | Redacted.Redacted<string> | undefined;
   /** Properties of a Vulnerability Assessment recurring scans. */
   recurringScans?: ServerVulnerabilityAssessmentPropertiesRecurringScans | undefined;
 }
@@ -9856,7 +9856,7 @@ export interface ImportDatabaseRequest {
   /** Storage key type: StorageAccessKey, SharedAccessKey or ManagedIdentity. */
   storageKeyType: ImportDatabaseRequestStorageKeyType | (string & {});
   /** Storage key for the storage account. If StorageKeyType is ManagedIdentity, this field should specify the Managed Identity's resource ID. */
-  storageKey: string;
+  storageKey: string | Redacted.Redacted<string>;
   /** Storage Uri. */
   storageUri: string;
   /** Administrator login name. If AuthenticationType is ManagedIdentity, this field should specify the Managed Identity's resource ID. */
@@ -9910,7 +9910,7 @@ export interface ImportServerDatabaseRequest {
   /** Storage key type: StorageAccessKey, SharedAccessKey or ManagedIdentity. */
   storageKeyType: ImportServerDatabaseRequestStorageKeyType | (string & {});
   /** Storage key for the storage account. If StorageKeyType is ManagedIdentity, this field should specify the Managed Identity's resource ID. */
-  storageKey: string;
+  storageKey: string | Redacted.Redacted<string>;
   /** Storage Uri. */
   storageUri: string;
   /** Administrator login name. If AuthenticationType is ManagedIdentity, this field should specify the Managed Identity's resource ID. */
@@ -11611,7 +11611,7 @@ export interface DatabaseSecurityAlertPolicyProperties {
   /** Specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). This blob storage will hold all Threat Detection audit logs. */
   storageEndpoint?: string | undefined;
   /** Specifies the identifier key of the Threat Detection audit storage account. */
-  storageAccountAccessKey?: string | undefined;
+  storageAccountAccessKey?: string | Redacted.Redacted<string> | undefined;
   /** Specifies the number of days to keep in the Threat Detection audit logs. */
   retentionDays?: number | undefined;
   /** Specifies the UTC creation time of the policy. */
@@ -14911,7 +14911,7 @@ export interface ManagedServerSecurityAlertPolicyProperties {
   /** Specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). This blob storage will hold all Threat Detection audit logs. */
   storageEndpoint?: string | undefined;
   /** Specifies the identifier key of the Threat Detection audit storage account. */
-  storageAccountAccessKey?: string | undefined;
+  storageAccountAccessKey?: string | Redacted.Redacted<string> | undefined;
   /** Specifies the number of days to keep in the Threat Detection audit logs. */
   retentionDays?: number | undefined;
   /** Specifies the UTC creation time of the policy. */
@@ -15864,7 +15864,7 @@ export interface ServerSecurityAlertPolicyProperties {
   /** Specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). This blob storage will hold all Threat Detection audit logs. */
   storageEndpoint?: string | undefined;
   /** Specifies the identifier key of the Threat Detection audit storage account. */
-  storageAccountAccessKey?: string | undefined;
+  storageAccountAccessKey?: string | Redacted.Redacted<string> | undefined;
   /** Specifies the number of days to keep in the Threat Detection audit logs. */
   retentionDays?: number | undefined;
   /** Specifies the UTC creation time of the policy. */
@@ -17151,7 +17151,7 @@ export interface ManagedDatabasePropertiesInput {
   /** Conditional. If createMode is RestoreExternalBackup, this value is used. Specifies the identity used for storage container authentication. Can be 'SharedAccessSignature' or 'ManagedIdentity'; if not specified 'SharedAccessSignature' is assumed. */
   storageContainerIdentity?: string | undefined;
   /** Conditional. If createMode is RestoreExternalBackup and storageContainerIdentity is not ManagedIdentity, this value is required. Specifies the storage container sas token. */
-  storageContainerSasToken?: string | undefined;
+  storageContainerSasToken?: string | Redacted.Redacted<string> | undefined;
   /** The resource identifier of the recoverable database associated with create operation of this database. */
   recoverableDatabaseId?: string | undefined;
   /** The name of the Long Term Retention backup to be used for restore of this managed database. */
@@ -17224,7 +17224,7 @@ export interface SecurityAlertPolicyPropertiesInput {
   /** Specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). This blob storage will hold all Threat Detection audit logs. */
   storageEndpoint?: string | undefined;
   /** Specifies the identifier key of the Threat Detection audit storage account. */
-  storageAccountAccessKey?: string | undefined;
+  storageAccountAccessKey?: string | Redacted.Redacted<string> | undefined;
   /** Specifies the number of days to keep in the Threat Detection audit logs. */
   retentionDays?: number | undefined;
 }
@@ -18255,7 +18255,7 @@ export interface ManagedServerSecurityAlertPoliciesCreateOrUpdateRequestProperti
   /** Specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). This blob storage will hold all Threat Detection audit logs. */
   storageEndpoint?: string | undefined;
   /** Specifies the identifier key of the Threat Detection audit storage account. */
-  storageAccountAccessKey?: string | undefined;
+  storageAccountAccessKey?: string | Redacted.Redacted<string> | undefined;
   /** Specifies the number of days to keep in the Threat Detection audit logs. */
   retentionDays?: number | undefined;
 }
@@ -18296,7 +18296,7 @@ export interface ManagedServerSecurityAlertPoliciesCreateOrUpdateResponsePropert
   /** Specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). This blob storage will hold all Threat Detection audit logs. */
   storageEndpoint?: string | undefined;
   /** Specifies the identifier key of the Threat Detection audit storage account. */
-  storageAccountAccessKey?: string | undefined;
+  storageAccountAccessKey?: string | Redacted.Redacted<string> | undefined;
   /** Specifies the number of days to keep in the Threat Detection audit logs. */
   retentionDays?: number | undefined;
   /** Specifies the UTC creation time of the policy. */
@@ -19468,7 +19468,7 @@ export interface ServerSecurityAlertPoliciesCreateOrUpdateRequestProperties {
   /** Specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). This blob storage will hold all Threat Detection audit logs. */
   storageEndpoint?: string | undefined;
   /** Specifies the identifier key of the Threat Detection audit storage account. */
-  storageAccountAccessKey?: string | undefined;
+  storageAccountAccessKey?: string | Redacted.Redacted<string> | undefined;
   /** Specifies the number of days to keep in the Threat Detection audit logs. */
   retentionDays?: number | undefined;
 }
@@ -19509,7 +19509,7 @@ export interface ServerSecurityAlertPoliciesCreateOrUpdateResponseProperties {
   /** Specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). This blob storage will hold all Threat Detection audit logs. */
   storageEndpoint?: string | undefined;
   /** Specifies the identifier key of the Threat Detection audit storage account. */
-  storageAccountAccessKey?: string | undefined;
+  storageAccountAccessKey?: string | Redacted.Redacted<string> | undefined;
   /** Specifies the number of days to keep in the Threat Detection audit logs. */
   retentionDays?: number | undefined;
   /** Specifies the UTC creation time of the policy. */
@@ -34082,7 +34082,7 @@ function __c13(j: number): any {
           isManagedIdentityInUse: S.optional(S.Boolean),
           state: S.String,
           storageEndpoint: S.optional(S.String),
-          storageAccountAccessKey: S.optional(S.String),
+          storageAccountAccessKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           storageAccountSubscriptionId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ExtendedDatabaseBlobAuditingPolicyProperties" });
@@ -34146,7 +34146,7 @@ function __c15(j: number): any {
           isManagedIdentityInUse: S.optional(S.Boolean),
           state: S.String,
           storageEndpoint: S.optional(S.String),
-          storageAccountAccessKey: S.optional(S.String),
+          storageAccountAccessKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           storageAccountSubscriptionId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ExtendedServerBlobAuditingPolicyProperties" });
@@ -35769,7 +35769,7 @@ function __c89(j: number): any {
           isManagedIdentityInUse: S.optional(S.Boolean),
           state: S.String,
           storageEndpoint: S.optional(S.String),
-          storageAccountAccessKey: S.optional(S.String),
+          storageAccountAccessKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           storageAccountSubscriptionId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DatabaseBlobAuditingPolicyProperties" });
@@ -36382,7 +36382,7 @@ function __c119(j: number): any {
           databaseName: S.String,
           schemaName: S.optional(S.String),
           tableName: S.String,
-          credential: S.optional(S.String),
+          credential: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "JobStepOutput" });
     case 2:
@@ -36400,7 +36400,7 @@ function __c119(j: number): any {
         S.Struct({
           stepId: S.optional(S.Number),
           targetGroup: S.String,
-          credential: S.optional(S.String),
+          credential: S.optional(S.String.pipe(T.SensitiveValue({}))),
           action: __S(3808, __c119, 0),
           output: S.optional(__S(3809, __c119, 1)),
           executionOptions: S.optional(__S(3810, __c119, 2)),
@@ -36520,7 +36520,7 @@ function __c124(j: number): any {
           databaseName: S.optional(S.String),
           elasticPoolName: S.optional(S.String),
           shardMapName: S.optional(S.String),
-          refreshCredential: S.optional(S.String),
+          refreshCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "JobTarget" });
     case 1:
@@ -37027,7 +37027,7 @@ function __c148(j: number): any {
           restorableDroppedDatabaseId: S.optional(S.String),
           crossSubscriptionRestorableDroppedDatabaseId: S.optional(S.String),
           storageContainerIdentity: S.optional(S.String),
-          storageContainerSasToken: S.optional(S.String),
+          storageContainerSasToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           failoverGroupId: S.optional(S.String),
           recoverableDatabaseId: S.optional(S.String),
           longTermRetentionBackupResourceId: S.optional(S.String),
@@ -37091,7 +37091,7 @@ function __c151(j: number): any {
         S.Struct({
           operationMode: S.String,
           storageKeyType: S.String,
-          storageKey: S.String,
+          storageKey: S.String.pipe(T.SensitiveValue({})),
           storageUri: S.String,
           administratorLogin: S.optional(S.String),
           administratorLoginPassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
@@ -38385,7 +38385,7 @@ function __c204(j: number): any {
           emailAddresses: S.optional(__S(2880, __c90, 0)),
           emailAccountAdmins: S.optional(S.Boolean),
           storageEndpoint: S.optional(S.String),
-          storageAccountAccessKey: S.optional(S.String),
+          storageAccountAccessKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           retentionDays: S.optional(S.Number),
           creationTime: S.optional(S.String),
         }),
@@ -38402,7 +38402,7 @@ function __c205(j: number): any {
           emailAddresses: S.optional(__S(2880, __c90, 0)),
           emailAccountAdmins: S.optional(S.Boolean),
           storageEndpoint: S.optional(S.String),
-          storageAccountAccessKey: S.optional(S.String),
+          storageAccountAccessKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           retentionDays: S.optional(S.Number),
         }),
       ).annotate({ identifier: "DatabaseSecurityAlertPoliciesCreateOrUpdateRequestProperties" });
@@ -38511,7 +38511,7 @@ function __c211(j: number): any {
         S.Struct({
           storageContainerPath: S.String,
           storageContainerSasKey: S.optional(S.String),
-          storageAccountAccessKey: S.optional(S.String),
+          storageAccountAccessKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           recurringScans: S.optional(__S(11296, __c353, 0)),
         }),
       ).annotate({ identifier: "ManagedInstanceVulnerabilityAssessmentProperties" });
@@ -39520,7 +39520,7 @@ function __c260(j: number): any {
           isManagedIdentityInUse: S.optional(S.Boolean),
           state: S.String,
           storageEndpoint: S.optional(S.String),
-          storageAccountAccessKey: S.optional(S.String),
+          storageAccountAccessKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           storageAccountSubscriptionId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ServerBlobAuditingPolicyProperties" });
@@ -39660,7 +39660,7 @@ function __c269(j: number): any {
           isManagedIdentityInUse: S.optional(S.Boolean),
           state: S.String,
           storageEndpoint: S.optional(S.String),
-          storageAccountAccessKey: S.optional(S.String),
+          storageAccountAccessKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           storageAccountSubscriptionId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ServerDevOpsAuditSettingsProperties" });
@@ -40744,7 +40744,7 @@ function __c326(j: number): any {
           serverName: S.String.pipe(T.Label()),
           databaseName: S.String.pipe(T.Label()),
           storageKeyType: S.String,
-          storageKey: S.String,
+          storageKey: S.String.pipe(T.SensitiveValue({})),
           storageUri: S.String,
           administratorLogin: S.String,
           administratorLoginPassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
@@ -40774,7 +40774,7 @@ function __c327(j: number): any {
           serviceObjectiveName: S.optional(S.String),
           maxSizeBytes: S.optional(S.String),
           storageKeyType: S.String,
-          storageKey: S.String,
+          storageKey: S.String.pipe(T.SensitiveValue({})),
           storageUri: S.String,
           administratorLogin: S.String,
           administratorLoginPassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
@@ -41731,7 +41731,7 @@ function __c354(j: number): any {
         S.Struct({
           storageContainerPath: S.optional(S.String),
           storageContainerSasKey: S.optional(S.String),
-          storageAccountAccessKey: S.optional(S.String),
+          storageAccountAccessKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           recurringScans: S.optional(__S(11296, __c353, 0)),
         }),
       ).annotate({ identifier: "DatabaseVulnerabilityAssessmentProperties" });
@@ -47735,7 +47735,7 @@ function __c586(j: number): any {
           restorableDroppedDatabaseId: S.optional(S.String),
           crossSubscriptionRestorableDroppedDatabaseId: S.optional(S.String),
           storageContainerIdentity: S.optional(S.String),
-          storageContainerSasToken: S.optional(S.String),
+          storageContainerSasToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           recoverableDatabaseId: S.optional(S.String),
           longTermRetentionBackupResourceId: S.optional(S.String),
           autoCompleteRestore: S.optional(S.Boolean),
@@ -52812,7 +52812,7 @@ function __c796(j: number): any {
           serverName: S.String.pipe(T.Label()),
           databaseName: S.String.pipe(T.Label()),
           storageKeyType: S.String,
-          storageKey: S.String,
+          storageKey: S.String.pipe(T.SensitiveValue({})),
           storageUri: S.String,
           administratorLogin: S.String,
           administratorLoginPassword: S.optional(S.String.pipe(T.SensitiveValue({}))),

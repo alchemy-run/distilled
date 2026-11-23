@@ -1,5 +1,5 @@
 import { ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { encodeLabel } from "@distilled.cloud/core/protocol-http";
+import { encodeLabel, originFromConfig } from "@distilled.cloud/core/protocol-http";
 /**
  * UniFi credentials -- hand-written.
  *
@@ -59,16 +59,18 @@ export interface CloudConfig {
 
 /**
  * Base URL (everything before `/v1/...`) of one application on a console.
- * Returns a {@link ConfigError} for a console ID that can't be a path segment
- * (`.`, `..`, a lone UTF-16 surrogate); the protocol fails the call with it.
+ * Returns a {@link ConfigError} for a local host that is more than a host or
+ * origin (core `originFromConfig`), or a console ID that can't be a path
+ * segment (`.`, `..`, a lone UTF-16 surrogate); the protocol fails the call
+ * with it.
  */
 export const consoleBaseUrl = (
   location: ConsoleLocation,
   app: ConsoleApp,
 ): string | ConfigError => {
   if (location._tag === "Local") {
-    const origin = location.host.includes("://") ? location.host : `https://${location.host}`;
-    return `${origin.replace(/\/+$/, "")}/proxy/${app}/integration`;
+    const origin = originFromConfig("UniFi console host", location.host);
+    return origin instanceof ConfigError ? origin : `${origin}/proxy/${app}/integration`;
   }
   const origin = (location.apiBaseUrl ?? DEFAULT_CLOUD_BASE_URL).replace(/\/+$/, "");
   const encoded = encodeLabel("consoleId", location.consoleId);

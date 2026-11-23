@@ -83,7 +83,7 @@ export interface EnvironmentVariable {
   /** The value of the environment variable. */
   value?: string | undefined;
   /** The value of the secure environment variable. */
-  secureValue?: string | undefined;
+  secureValue?: string | Redacted.Redacted<string> | undefined;
   /** The reference of the secure environment variable. */
   secureValueReference?: string | undefined;
 }
@@ -362,14 +362,14 @@ export interface AzureFileVolume {
   /** The name of the storage account that contains the Azure File share. */
   storageAccountName: string;
   /** The storage account access key used to access the Azure File share. */
-  storageAccountKey?: string | undefined;
+  storageAccountKey?: string | Redacted.Redacted<string> | undefined;
   /** The reference to the storage account access key used to access the Azure File share. */
   storageAccountKeyReference?: string | undefined;
   /** The client id of the user-assigned managed identity that has access to the Azure File share. */
   userManagedIdentityClientId?: string | undefined;
 }
 /** Defines files for a secret volume. Dictionary keys are file names and values are Base64-encoded secret data used as file contents. The values are sensitive, and the service does not return the contents of this property in GET responses. */
-export type VolumeSecretMap = { [key: string]: string | undefined };
+export type VolumeSecretMap = { [key: string]: string | Redacted.Redacted<string> | undefined };
 /** Defines files for a secret reference volume. Dictionary keys are file names and values identify entries in the container group's secretReferences collection. This property contains reference names rather than secret values. */
 export type VolumeSecretReferenceMap = { [key: string]: string | undefined };
 /** Represents a volume that is populated with the contents of a git repository */
@@ -407,13 +407,13 @@ export interface LogAnalytics {
   /** The workspace id for log analytics */
   workspaceId: string;
   /** The workspace key for log analytics */
-  workspaceKey: string;
+  workspaceKey: string | Redacted.Redacted<string>;
   /** The log type to be used. */
   logType?: LogAnalyticsLogType | (string & {}) | undefined;
   /** Metadata for log analytics. */
   metadata?: LogAnalyticsMetadataMap | undefined;
   /** The workspace resource id for log analytics */
-  workspaceResourceId?: string | undefined;
+  workspaceResourceId?: string | Redacted.Redacted<string> | undefined;
 }
 /** Container group diagnostic information. */
 export interface ContainerGroupDiagnostics {
@@ -3239,10 +3239,10 @@ function __c2(j: number): any {
           ipAddress: S.optional(__S(134, __c4, 6)),
           timeToLive: S.optional(S.String),
           osType: S.String,
-          volumes: S.optional(__S(312, __c9, 24)),
-          diagnostics: S.optional(__S(314, __c9, 26)),
+          volumes: S.optional(__S(313, __c9, 25)),
+          diagnostics: S.optional(__S(315, __c9, 27)),
           priority: S.optional(S.String),
-          confidentialComputeProperties: S.optional(__S(315, __c9, 27)),
+          confidentialComputeProperties: S.optional(__S(316, __c9, 28)),
           securityContext: S.optional(__S(303, __c9, 15)),
           useKrypton: S.optional(S.Boolean),
         }),
@@ -3277,19 +3277,19 @@ function __c3(j: number): any {
         S.Struct({
           sku: S.optional(S.String),
           encryptionProperties: S.optional(__S(288, __c9, 0)),
-          containers: __S(322, __c10, 2),
-          initContainers: S.optional(__S(325, __c10, 5)),
+          containers: __S(323, __c10, 3),
+          initContainers: S.optional(__S(326, __c10, 6)),
           extensions: S.optional(__S(307, __c9, 19)),
           imageRegistryCredentials: S.optional(__S(309, __c9, 21)),
           restartPolicy: S.optional(S.String),
           shutdownGracePeriod: S.optional(S.String),
-          ipAddress: S.optional(__S(326, __c10, 6)),
+          ipAddress: S.optional(__S(327, __c10, 7)),
           timeToLive: S.optional(S.String),
           osType: S.String,
-          volumes: S.optional(__S(312, __c9, 24)),
-          diagnostics: S.optional(__S(314, __c9, 26)),
+          volumes: S.optional(__S(313, __c9, 25)),
+          diagnostics: S.optional(__S(315, __c9, 27)),
           priority: S.optional(S.String),
-          confidentialComputeProperties: S.optional(__S(315, __c9, 27)),
+          confidentialComputeProperties: S.optional(__S(316, __c9, 28)),
           securityContext: S.optional(__S(303, __c9, 15)),
           revision: S.optional(S.Number),
           registeredRevisions: S.optional(__S(96, __c3, 0)),
@@ -3413,7 +3413,7 @@ function __c8(j: number): any {
           shareName: S.String,
           readOnly: S.optional(S.Boolean),
           storageAccountName: S.String,
-          storageAccountKey: S.optional(S.String),
+          storageAccountKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           storageAccountKeyReference: S.optional(S.String),
           userManagedIdentityClientId: S.optional(S.String),
         }),
@@ -3445,7 +3445,7 @@ function __c9(j: number): any {
         S.Struct({
           name: S.String,
           value: S.optional(S.String),
-          secureValue: S.optional(S.String),
+          secureValue: S.optional(S.String.pipe(T.SensitiveValue({}))),
           secureValueReference: S.optional(S.String),
         }),
       ).annotate({ identifier: "EnvironmentVariable" });
@@ -3573,6 +3573,8 @@ function __c9(j: number): any {
     case 21:
       return S.Array(__S(308, __c9, 20));
     case 22:
+      return S.Record(S.String, /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.SensitiveValue({})));
+    case 23:
       return S.suspend(() =>
         S.Struct({
           directory: S.optional(S.String),
@@ -3580,42 +3582,42 @@ function __c9(j: number): any {
           revision: S.optional(S.String),
         }),
       ).annotate({ identifier: "GitRepoVolume" });
-    case 23:
+    case 24:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           azureFile: S.optional(__S(258, __c8, 2)),
           emptyDir: S.optional(S.Unknown),
-          secret: S.optional(__S(192, __c6, 0)),
+          secret: S.optional(__S(310, __c9, 22)),
           secretReference: S.optional(__S(192, __c6, 0)),
-          gitRepo: S.optional(__S(310, __c9, 22)),
+          gitRepo: S.optional(__S(311, __c9, 23)),
         }),
       ).annotate({ identifier: "Volume" });
-    case 24:
-      return S.Array(__S(311, __c9, 23));
     case 25:
-      return S.suspend(() =>
-        S.Struct({
-          workspaceId: S.String,
-          workspaceKey: S.String,
-          logType: S.optional(S.String),
-          metadata: S.optional(__S(192, __c6, 0)),
-          workspaceResourceId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "LogAnalytics" });
+      return S.Array(__S(312, __c9, 24));
     case 26:
       return S.suspend(() =>
         S.Struct({
-          logAnalytics: S.optional(__S(313, __c9, 25)),
+          workspaceId: S.String,
+          workspaceKey: S.String.pipe(T.SensitiveValue({})),
+          logType: S.optional(S.String),
+          metadata: S.optional(__S(192, __c6, 0)),
+          workspaceResourceId: S.optional(S.String.pipe(T.SensitiveValue({}))),
+        }),
+      ).annotate({ identifier: "LogAnalytics" });
+    case 27:
+      return S.suspend(() =>
+        S.Struct({
+          logAnalytics: S.optional(__S(314, __c9, 26)),
         }),
       ).annotate({ identifier: "ContainerGroupDiagnostics" });
-    case 27:
+    case 28:
       return S.suspend(() =>
         S.Struct({
           ccePolicy: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConfidentialComputeProperties" });
-    case 28:
+    case 29:
       return S.suspend(() =>
         S.Struct({
           state: S.optional(S.String),
@@ -3625,7 +3627,7 @@ function __c9(j: number): any {
           detailStatus: S.optional(S.String),
         }),
       ).annotate({ identifier: "ContainerState" });
-    case 29:
+    case 30:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
@@ -3636,17 +3638,8 @@ function __c9(j: number): any {
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "Event" });
-    case 30:
-      return S.Array(__S(317, __c9, 29));
     case 31:
-      return S.suspend(() =>
-        S.Struct({
-          restartCount: S.optional(S.Number),
-          currentState: S.optional(__S(316, __c9, 28)),
-          previousState: S.optional(__S(316, __c9, 28)),
-          events: S.optional(__S(318, __c9, 30)),
-        }),
-      ).annotate({ identifier: "ContainerPropertiesInstanceView" });
+      return S.Array(__S(318, __c9, 30));
   }
 }
 function __c10(j: number): any {
@@ -3654,11 +3647,20 @@ function __c10(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          restartCount: S.optional(S.Number),
+          currentState: S.optional(__S(317, __c9, 29)),
+          previousState: S.optional(__S(317, __c9, 29)),
+          events: S.optional(__S(319, __c9, 31)),
+        }),
+      ).annotate({ identifier: "ContainerPropertiesInstanceView" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
           image: S.optional(S.String),
           command: S.optional(__S(160, __c5, 0)),
           ports: S.optional(__S(290, __c9, 2)),
           environmentVariables: S.optional(__S(292, __c9, 4)),
-          instanceView: S.optional(__S(319, __c9, 31)),
+          instanceView: S.optional(__S(320, __c10, 0)),
           resources: S.optional(__S(296, __c9, 8)),
           volumeMounts: S.optional(__S(257, __c8, 1)),
           livenessProbe: S.optional(__S(301, __c9, 13)),
@@ -3667,36 +3669,36 @@ function __c10(j: number): any {
           configMap: S.optional(__S(304, __c9, 16)),
         }),
       ).annotate({ identifier: "ContainerProperties" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          properties: __S(320, __c10, 0),
+          properties: __S(321, __c10, 1),
         }),
       ).annotate({ identifier: "Container" });
-    case 2:
-      return S.Array(__S(321, __c10, 1));
     case 3:
+      return S.Array(__S(322, __c10, 2));
+    case 4:
       return S.suspend(() =>
         S.Struct({
           image: S.optional(S.String),
           command: S.optional(__S(160, __c5, 0)),
           environmentVariables: S.optional(__S(292, __c9, 4)),
-          instanceView: S.optional(__S(319, __c9, 31)),
+          instanceView: S.optional(__S(320, __c10, 0)),
           volumeMounts: S.optional(__S(257, __c8, 1)),
           securityContext: S.optional(__S(303, __c9, 15)),
         }),
       ).annotate({ identifier: "InitContainerPropertiesDefinition" });
-    case 4:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          properties: __S(323, __c10, 3),
+          properties: __S(324, __c10, 4),
         }),
       ).annotate({ identifier: "InitContainerDefinition" });
-    case 5:
-      return S.Array(__S(324, __c10, 4));
     case 6:
+      return S.Array(__S(325, __c10, 5));
+    case 7:
       return S.suspend(() =>
         S.Struct({
           ports: __S(290, __c9, 2),
@@ -4174,20 +4176,20 @@ function __c27(j: number): any {
         S.Struct({
           provisioningState: S.optional(S.String),
           secretReferences: S.optional(__S(1505, __c47, 1)),
-          containers: __S(322, __c10, 2),
+          containers: __S(323, __c10, 3),
           imageRegistryCredentials: S.optional(__S(309, __c9, 21)),
           restartPolicy: S.optional(S.String),
-          ipAddress: S.optional(__S(326, __c10, 6)),
+          ipAddress: S.optional(__S(327, __c10, 7)),
           osType: S.String,
-          volumes: S.optional(__S(312, __c9, 24)),
-          diagnostics: S.optional(__S(314, __c9, 26)),
+          volumes: S.optional(__S(313, __c9, 25)),
+          diagnostics: S.optional(__S(315, __c9, 27)),
           subnetIds: S.optional(__S(1473, __c46, 1)),
           dnsConfig: S.optional(__S(1506, __c47, 2)),
           sku: S.optional(S.String),
           encryptionProperties: S.optional(__S(288, __c9, 0)),
-          initContainers: S.optional(__S(325, __c10, 5)),
+          initContainers: S.optional(__S(326, __c10, 6)),
           extensions: S.optional(__S(307, __c9, 19)),
-          confidentialComputeProperties: S.optional(__S(315, __c9, 27)),
+          confidentialComputeProperties: S.optional(__S(316, __c9, 28)),
           priority: S.optional(S.String),
           identityAcls: S.optional(__S(1509, __c47, 5)),
           containerGroupProfile: S.optional(__S(1510, __c47, 6)),
@@ -4583,15 +4585,15 @@ function __c41(j: number): any {
           restartPolicy: S.optional(S.String),
           ipAddress: S.optional(__S(134, __c4, 6)),
           osType: S.optional(S.String),
-          volumes: S.optional(__S(312, __c9, 24)),
-          diagnostics: S.optional(__S(314, __c9, 26)),
+          volumes: S.optional(__S(313, __c9, 25)),
+          diagnostics: S.optional(__S(315, __c9, 27)),
           subnetIds: S.optional(__S(1473, __c46, 1)),
           dnsConfig: S.optional(__S(1506, __c47, 2)),
           sku: S.optional(S.String),
           encryptionProperties: S.optional(__S(288, __c9, 0)),
           initContainers: S.optional(__S(133, __c4, 5)),
           extensions: S.optional(__S(307, __c9, 19)),
-          confidentialComputeProperties: S.optional(__S(315, __c9, 27)),
+          confidentialComputeProperties: S.optional(__S(316, __c9, 28)),
           priority: S.optional(S.String),
           identityAcls: S.optional(__S(1509, __c47, 5)),
           containerGroupProfile: S.optional(__S(1510, __c47, 6)),
@@ -4751,7 +4753,7 @@ function __c48(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          events: S.optional(__S(318, __c9, 30)),
+          events: S.optional(__S(319, __c9, 31)),
           state: S.optional(S.String),
         }),
       ).annotate({ identifier: "ContainerGroupPropertiesPropertiesInstanceView" });
@@ -4760,21 +4762,21 @@ function __c48(j: number): any {
         S.Struct({
           provisioningState: S.optional(S.String),
           secretReferences: S.optional(__S(1505, __c47, 1)),
-          containers: __S(322, __c10, 2),
+          containers: __S(323, __c10, 3),
           imageRegistryCredentials: S.optional(__S(309, __c9, 21)),
           restartPolicy: S.optional(S.String),
-          ipAddress: S.optional(__S(326, __c10, 6)),
+          ipAddress: S.optional(__S(327, __c10, 7)),
           osType: S.optional(S.String),
-          volumes: S.optional(__S(312, __c9, 24)),
+          volumes: S.optional(__S(313, __c9, 25)),
           instanceView: S.optional(__S(1536, __c48, 0)),
-          diagnostics: S.optional(__S(314, __c9, 26)),
+          diagnostics: S.optional(__S(315, __c9, 27)),
           subnetIds: S.optional(__S(1473, __c46, 1)),
           dnsConfig: S.optional(__S(1506, __c47, 2)),
           sku: S.optional(S.String),
           encryptionProperties: S.optional(__S(288, __c9, 0)),
-          initContainers: S.optional(__S(325, __c10, 5)),
+          initContainers: S.optional(__S(326, __c10, 6)),
           extensions: S.optional(__S(307, __c9, 19)),
-          confidentialComputeProperties: S.optional(__S(315, __c9, 27)),
+          confidentialComputeProperties: S.optional(__S(316, __c9, 28)),
           priority: S.optional(S.String),
           identityAcls: S.optional(__S(1509, __c47, 5)),
           containerGroupProfile: S.optional(__S(1510, __c47, 6)),

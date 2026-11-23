@@ -175,7 +175,7 @@ export interface APIKey {
 }
 export interface CreateApiKeysResponse {
   /** The API key's actual value. This value is only provided in this response, and can never be retrieved again in the future. Be sure to save it somewhere safe! */
-  apiKeyString: string;
+  apiKeyString: string | Redacted.Redacted<string>;
   apiKey: APIKey;
 }
 export interface CreateAuthTokenRequest {
@@ -289,7 +289,7 @@ export interface AuthToken {
 }
 export interface CreateAuthTokenResponse {
   /** The authentication token's actual value. This token is only provided in this response, and can never be retrieved again in the future. Be sure to save it somewhere safe! */
-  bearerToken: string;
+  bearerToken: string | Redacted.Redacted<string>;
   token: AuthToken;
 }
 /** Identifies an explicit logout for the deletion event. Only applies when tokenId is current. */
@@ -345,14 +345,14 @@ export interface ExchangeSsoTokenRequest {
 export interface ExchangeSsoTokenResponseBodyCase0 {
   access_token: string | Redacted.Redacted<string> | null;
   expires_in?: number | undefined;
-  id_token: string;
+  id_token: string | Redacted.Redacted<string>;
   refresh_token?: string | Redacted.Redacted<string> | undefined;
   token_type: string | null;
 }
 export interface ExchangeSsoTokenResponseBodyCase1 {
   access_token: string | Redacted.Redacted<string>;
   expires_in: number;
-  id_token: string;
+  id_token: string | Redacted.Redacted<string>;
   refresh_token: string | Redacted.Redacted<string>;
   token_type: string;
 }
@@ -595,7 +595,7 @@ function __c1(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          apiKeyString: S.String,
+          apiKeyString: S.String.pipe(T.SensitiveValue({})),
           apiKey: __S(14, __c1, 6),
         }),
       ).annotate({ identifier: "CreateApiKeysResponse" });
@@ -616,7 +616,7 @@ function __c2(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          bearerToken: S.String,
+          bearerToken: S.String.pipe(T.SensitiveValue({})),
           token: __S(25, __c3, 1),
         }),
       ).annotate({ identifier: "CreateAuthTokenResponse" });

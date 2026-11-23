@@ -3493,7 +3493,7 @@ export interface CheckoutPublicConfirmed {
   discount: CheckoutPublicConfirmedDiscount | null;
   organization: CheckoutOrganization;
   attached_custom_fields: CheckoutPublicConfirmedAttachedCustomFieldsList | null;
-  customer_session_token: string | null;
+  customer_session_token: string | Redacted.Redacted<string> | null;
 }
 /** Schema to manually grant credits on a customer meter using Polar IDs. */
 export interface CustomerMeterCreditsIDCreate {
@@ -5693,14 +5693,14 @@ export interface CustomerSeatsAssignSeatRequest {
 }
 export interface CustomerSeatsClaimSeatRequest {
   /** Invitation token to claim the seat */
-  invitation_token: string;
+  invitation_token: string | Redacted.Redacted<string>;
 }
 /** Response after successfully claiming a seat. */
 export interface CustomerSeatClaimResponse {
   /** The claimed seat */
   seat: CustomerSeat;
   /** Session token for immediate customer portal access */
-  customer_session_token: string;
+  customer_session_token: string | Redacted.Redacted<string>;
 }
 export interface CustomerSeatsListSeatsRequest {
   subscription_id?: string | undefined;
@@ -5748,7 +5748,7 @@ export interface CustomerSession {
   modified_at: string | null;
   /** The ID of the object. */
   id: string;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   expires_at: string;
   return_url: string | null;
   customer_portal_url: string;
@@ -11411,7 +11411,7 @@ export interface Oauth2ClientsOauth2UpdateClientRequest {
 export type Oauth2ClientsOauth2UpdateClientResponse = unknown;
 export type Oauth2IntrospectTokenRequestTokenTypeHint = "access_token" | "refresh_token";
 export interface Oauth2IntrospectTokenRequest {
-  token: string;
+  token: string | Redacted.Redacted<string>;
   token_type_hint?: Oauth2IntrospectTokenRequestTokenTypeHint | (string & {}) | null | undefined;
   client_id: string;
   client_secret: string | Redacted.Redacted<string>;
@@ -11465,13 +11465,13 @@ export interface TokenResponse {
   access_token: string | Redacted.Redacted<string>;
   token_type: string;
   expires_in: number;
-  refresh_token?: string | null | undefined;
+  refresh_token?: string | Redacted.Redacted<string> | null | undefined;
   scope: string;
-  id_token?: string | null | undefined;
+  id_token?: string | Redacted.Redacted<string> | null | undefined;
 }
 export type Oauth2RevokeTokenRequestTokenTypeHint = "access_token" | "refresh_token";
 export interface Oauth2RevokeTokenRequest {
-  token: string;
+  token: string | Redacted.Redacted<string>;
   token_type_hint?: Oauth2RevokeTokenRequestTokenTypeHint | (string & {}) | null | undefined;
   client_id: string;
   client_secret: string | Redacted.Redacted<string>;
@@ -13577,7 +13577,7 @@ export interface CustomerOrderPaymentConfirmation {
   /** Payment status after confirmation. */
   status: string;
   /** Client secret for handling additional actions. */
-  client_secret?: string | null | undefined;
+  client_secret?: string | Redacted.Redacted<string> | null | undefined;
   /** Error message if confirmation failed. */
   error?: string | null | undefined;
 }
@@ -14048,7 +14048,7 @@ export interface UpdateCheckoutsClientRequest {
   allow_trial?: boolean | null | undefined;
 }
 export interface UpdateCustomerPortalCustomersCheckEmailRequest {
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 export interface UpdateCustomerPortalCustomersCheckEmailResponse {}
 export interface UpdateCustomerPortalCustomersRequestEmailRequest {
@@ -14056,10 +14056,10 @@ export interface UpdateCustomerPortalCustomersRequestEmailRequest {
 }
 export interface UpdateCustomerPortalCustomersRequestEmailResponse {}
 export interface UpdateCustomerPortalCustomersVerifyEmailRequest {
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 export interface CustomerEmailUpdateVerifyResponse {
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 /** The API version that'll be used in event payloads. */
 export type WebhooksCreateWebhookEndpointRequestApiVersion = "2026-04" | "2026-10" | "2027-01";
@@ -19983,7 +19983,7 @@ function __c73(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           token_type_hint: S.optional(S.NullOr(S.String)),
           client_id: S.String,
           client_secret: S.String.pipe(T.SensitiveValue({})),
@@ -20021,9 +20021,9 @@ function __c74(j: number): any {
           access_token: S.String.pipe(T.SensitiveValue({})),
           token_type: S.String,
           expires_in: S.Number,
-          refresh_token: S.optional(S.NullOr(S.String)),
+          refresh_token: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           scope: S.String,
-          id_token: S.optional(S.NullOr(S.String)),
+          id_token: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "TokenResponse" });
   }
@@ -20033,7 +20033,7 @@ function __c75(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           token_type_hint: S.optional(S.NullOr(S.String)),
           client_id: S.String,
           client_secret: S.String.pipe(T.SensitiveValue({})),
@@ -20856,7 +20856,7 @@ function __c107(j: number): any {
       return S.suspend(() =>
         S.Struct({
           status: S.String,
-          client_secret: S.optional(S.NullOr(S.String)),
+          client_secret: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           error: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "CustomerOrderPaymentConfirmation" });
@@ -21221,7 +21221,7 @@ function __c122(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          token: S.String.pipe(T.Query()),
+          token: S.String.pipe(T.Query(), T.SensitiveValue({})),
         }).pipe(
           T.Http({
             method: "GET",
@@ -21253,7 +21253,7 @@ function __c124(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
         }).pipe(
           T.Http({
             method: "POST",
@@ -21265,7 +21265,7 @@ function __c124(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "CustomerEmailUpdateVerifyResponse" });
   }
@@ -21634,7 +21634,7 @@ function __c139(j: number): any {
           discount: S.NullOr(S.Unknown),
           organization: __S(1120, __c140, 0),
           attached_custom_fields: S.NullOr(__S(881, __c110, 1)),
-          customer_session_token: S.NullOr(S.String),
+          customer_session_token: S.NullOr(S.String).pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "CheckoutPublicConfirmed" });
   }
@@ -23415,14 +23415,14 @@ function __c234(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          invitation_token: S.String,
+          invitation_token: S.String.pipe(T.SensitiveValue({})),
         }).pipe(T.Http({ method: "POST", uri: "/v1/customer-seats/claim", code: 200 })),
       ).annotate({ identifier: "CustomerSeatsClaimSeatRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           seat: __S(1689, __c211, 1),
-          customer_session_token: S.String,
+          customer_session_token: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "CustomerSeatClaimResponse" });
   }
@@ -23472,7 +23472,7 @@ function __c238(j: number): any {
           created_at: S.String,
           modified_at: S.NullOr(S.String),
           id: S.String,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           expires_at: S.String,
           return_url: S.NullOr(S.String),
           customer_portal_url: S.String,

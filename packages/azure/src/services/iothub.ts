@@ -444,9 +444,9 @@ export interface RoutingCosmosDBSqlApiProperties {
   /** Managed identity properties of routing cosmos DB container endpoint. */
   identity?: ManagedIdentity | undefined;
   /** The primary key of the cosmos DB account. */
-  primaryKey?: string | undefined;
+  primaryKey?: string | Redacted.Redacted<string> | undefined;
   /** The secondary key of the cosmos DB account. */
-  secondaryKey?: string | undefined;
+  secondaryKey?: string | Redacted.Redacted<string> | undefined;
   /** The name of the cosmos DB database in the cosmos DB account. */
   databaseName: string;
   /** The name of the cosmos DB sql container in the cosmos DB database. */
@@ -1356,9 +1356,9 @@ export interface RoutingCosmosDBSqlApiPropertiesInput {
   /** Managed identity properties of routing cosmos DB container endpoint. */
   identity?: ManagedIdentity | undefined;
   /** The primary key of the cosmos DB account. */
-  primaryKey?: string | undefined;
+  primaryKey?: string | Redacted.Redacted<string> | undefined;
   /** The secondary key of the cosmos DB account. */
-  secondaryKey?: string | undefined;
+  secondaryKey?: string | Redacted.Redacted<string> | undefined;
   /** The name of the cosmos DB database in the cosmos DB account. */
   databaseName: string;
   /** The name of the cosmos DB sql container in the cosmos DB database. */
@@ -3287,8 +3287,8 @@ function __c22(j: number): any {
           endpointUri: S.String,
           authenticationType: S.optional(S.String),
           identity: S.optional(__S(1728, __c54, 0)),
-          primaryKey: S.optional(S.String),
-          secondaryKey: S.optional(S.String),
+          primaryKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          secondaryKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           databaseName: S.String,
           containerName: S.String,
           partitionKeyName: S.optional(S.String),
@@ -4081,8 +4081,8 @@ function __c50(j: number): any {
           endpointUri: S.String,
           authenticationType: S.optional(S.String),
           identity: S.optional(__S(1728, __c54, 0)),
-          primaryKey: S.optional(S.String),
-          secondaryKey: S.optional(S.String),
+          primaryKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          secondaryKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           databaseName: S.String,
           containerName: S.String,
           partitionKeyName: S.optional(S.String),

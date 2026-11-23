@@ -489,7 +489,7 @@ export interface FullAPIKey {
   /** Timestamp of the last time the key was used (null if never) */
   last_used: string | null;
   /** The actual API key token */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** ID of the user that created this API key */
   created_by?: string | null | undefined;
   /** ID of the API key that created this API key */
@@ -1522,7 +1522,7 @@ export interface Secret {
   /** Environment variable name. */
   name: string;
   /** Default value, used when no per-environment override applies. */
-  value: string;
+  value: string | Redacted.Redacted<string>;
   /** Per-environment values that override value for that Vercel environment. */
   environmentOverrides?: SecretEnvironmentOverrides | undefined;
 }
@@ -3633,7 +3633,7 @@ function __c9(j: number): any {
           created_at: S.String,
           expiry: S.NullOr(S.String),
           last_used: S.NullOr(S.String),
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           created_by: S.optional(S.NullOr(S.String)),
           created_by_key: S.optional(S.NullOr(S.String)),
         }),
@@ -5169,7 +5169,7 @@ function __c73(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          value: S.String,
+          value: S.String.pipe(T.SensitiveValue({})),
           environmentOverrides: S.optional(__S(1169, __c73, 1)),
         }),
       ).annotate({ identifier: "Secret" });

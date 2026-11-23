@@ -49,7 +49,7 @@ export interface IntrospectAccessTokenRequest {
   /** The client secret of the OAuth application. Use together with `client_id` as an alternative to HTTP Basic authentication. */
   client_secret?: string | Redacted.Redacted<string> | undefined;
   /** The access token to introspect. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** A hint about the type of token. Optional; only access tokens are issued. */
   token_type_hint?: IntrospectAccessTokenRequestTokenTypeHint | (string & {}) | undefined;
 }
@@ -97,7 +97,7 @@ export interface RevokeAccessTokenRequest {
   /** The client secret of the OAuth application. Use together with `client_id` as an alternative to HTTP Basic authentication. */
   client_secret?: string | Redacted.Redacted<string> | undefined;
   /** The access token to revoke. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** A hint about the type of token being revoked. Optional; only access tokens are issued. */
   token_type_hint?: RevokeAccessTokenRequestTokenTypeHint | (string & {}) | undefined;
 }
@@ -191,7 +191,7 @@ function __c1(j: number): any {
         S.Struct({
           client_id: S.optional(S.String),
           client_secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           token_type_hint: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -251,7 +251,7 @@ function __c3(j: number): any {
         S.Struct({
           client_id: S.optional(S.String),
           client_secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           token_type_hint: S.optional(S.String),
         }).pipe(
           T.Http({

@@ -558,7 +558,7 @@ export interface ImportResourceRequestSecretsItemEnvironmentOverrides {
 }
 export interface ImportResourceRequestSecretsItem {
   name: string;
-  value: string;
+  value: string | Redacted.Redacted<string>;
   prefix?: string | undefined;
   /** A map of environments to override values for the secret, used for setting different values across deployments in production, preview, and development environments. Note: the same value will be used for all deployments in the given environment. */
   environmentOverrides?: ImportResourceRequestSecretsItemEnvironmentOverrides | undefined;
@@ -645,7 +645,7 @@ export interface ReplaceInstallationsByIntegrationConfigurationIdResourcesByReso
 }
 export interface RevokeInstallationCredentialRequest {
   integrationConfigurationId: string;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   client_secret: string | Redacted.Redacted<string>;
   client_id?: string | undefined;
 }
@@ -967,8 +967,14 @@ export type UpdateResourceRequestExtrasMap = { [key: string]: unknown | undefine
 /** A map of environments to override values for the secret, used for setting different values across deployments in production, preview, and development environments. Note: the same value will be used for all deployments in the given environment. */
 export type UpdateResourceRequestSecretsCase0ItemEnvironmentOverrides =
   ImportResourceRequestSecretsItemEnvironmentOverrides;
-export type UpdateResourceRequestSecretsCase0Item = ImportResourceRequestSecretsItem;
-export type UpdateResourceRequestSecretsCase0List = Array<ImportResourceRequestSecretsItem>;
+export interface UpdateResourceRequestSecretsCase0Item {
+  name: string;
+  value: string;
+  prefix?: string | undefined;
+  /** A map of environments to override values for the secret, used for setting different values across deployments in production, preview, and development environments. Note: the same value will be used for all deployments in the given environment. */
+  environmentOverrides?: ImportResourceRequestSecretsItemEnvironmentOverrides | undefined;
+}
+export type UpdateResourceRequestSecretsCase0List = Array<UpdateResourceRequestSecretsCase0Item>;
 /** A map of environments to override values for the secret, used for setting different values across deployments in production, preview, and development environments. Note: the same value will be used for all deployments in the given environment. */
 export type UpdateResourceRequestSecretsCase1SecretsItemEnvironmentOverrides =
   ImportResourceRequestSecretsItemEnvironmentOverrides;
@@ -2028,7 +2034,7 @@ function __c13(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          value: S.String,
+          value: S.String.pipe(T.SensitiveValue({})),
           prefix: S.optional(S.String),
           environmentOverrides: S.optional(__S(208, __c13, 0)),
         }),
@@ -2064,7 +2070,7 @@ function __c15(j: number): any {
       return S.suspend(() =>
         S.Struct({
           integrationConfigurationId: S.String.pipe(T.Label()),
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           client_secret: S.String.pipe(T.SensitiveValue({})),
           client_id: S.optional(S.String),
         }).pipe(

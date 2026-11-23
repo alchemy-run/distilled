@@ -217,7 +217,7 @@ export interface RepositoryWebhooksTemplateRepository {
   permissions?: RepositoryWebhooksTemplateRepositoryPermissions | undefined;
   allow_rebase_merge?: boolean | undefined;
   /** When present and non-empty, a temporary credential for read-only Git access to this repository. It expires five minutes after generation and cannot be used to push changes. Treat this value as sensitive and avoid recording it in logs. */
-  temp_clone_token?: string | undefined;
+  temp_clone_token?: string | Redacted.Redacted<string> | undefined;
   allow_squash_merge?: boolean | undefined;
   allow_auto_merge?: boolean | undefined;
   delete_branch_on_merge?: boolean | undefined;
@@ -350,7 +350,7 @@ export interface RepositoryWebhooks {
   allow_rebase_merge?: boolean | undefined;
   template_repository?: RepositoryWebhooksTemplateRepository | null | undefined;
   /** When present and non-empty, a temporary credential for read-only Git access to this repository. It expires five minutes after generation and cannot be used to push changes. Treat this value as sensitive and avoid recording it in logs. */
-  temp_clone_token?: string | undefined;
+  temp_clone_token?: string | Redacted.Redacted<string> | undefined;
   /** Whether to allow squash merges for pull requests. */
   allow_squash_merge?: boolean | undefined;
   /** Whether to allow Auto-merge to be used on pull requests. */
@@ -808,7 +808,7 @@ export interface MinimalRepository {
   permissions?: RepositoryWebhooksTemplateRepositoryPermissions | undefined;
   role_name?: string | undefined;
   /** When present and non-empty, a temporary credential for read-only Git access to this repository. It expires five minutes after generation and cannot be used to push changes. Treat this value as sensitive and avoid recording it in logs. */
-  temp_clone_token?: string | undefined;
+  temp_clone_token?: string | Redacted.Redacted<string> | undefined;
   delete_branch_on_merge?: boolean | undefined;
   subscribers_count?: number | undefined;
   network_count?: number | undefined;
@@ -3877,7 +3877,7 @@ export interface Repository {
   /** Whether to allow rebase merges for pull requests. */
   allow_rebase_merge?: boolean | undefined;
   /** When present and non-empty, a temporary credential for read-only Git access to this repository. It expires five minutes after generation and cannot be used to push changes. Treat this value as sensitive and avoid recording it in logs. */
-  temp_clone_token?: string | undefined;
+  temp_clone_token?: string | Redacted.Redacted<string> | undefined;
   /** Whether to allow squash merges for pull requests. */
   allow_squash_merge?: boolean | undefined;
   /** Whether to allow Auto-merge to be used on pull requests. */
@@ -17022,7 +17022,7 @@ export interface NullableRepositoryWebhooksTemplateRepository {
   permissions?: RepositoryWebhooksTemplateRepositoryPermissions | undefined;
   allow_rebase_merge?: boolean | undefined;
   /** When present and non-empty, a temporary credential for read-only Git access to this repository. It expires five minutes after generation and cannot be used to push changes. Treat this value as sensitive and avoid recording it in logs. */
-  temp_clone_token?: string | undefined;
+  temp_clone_token?: string | Redacted.Redacted<string> | undefined;
   allow_squash_merge?: boolean | undefined;
   allow_auto_merge?: boolean | undefined;
   delete_branch_on_merge?: boolean | undefined;
@@ -17158,7 +17158,7 @@ export interface NullableRepositoryWebhooks {
   allow_rebase_merge?: boolean | undefined;
   template_repository?: NullableRepositoryWebhooksTemplateRepository | null | undefined;
   /** When present and non-empty, a temporary credential for read-only Git access to this repository. It expires five minutes after generation and cannot be used to push changes. Treat this value as sensitive and avoid recording it in logs. */
-  temp_clone_token?: string | undefined;
+  temp_clone_token?: string | Redacted.Redacted<string> | undefined;
   /** Whether to allow squash merges for pull requests. */
   allow_squash_merge?: boolean | undefined;
   /** Whether to allow Auto-merge to be used on pull requests. */
@@ -44511,7 +44511,7 @@ export interface NullableRepository {
   /** Whether to allow rebase merges for pull requests. */
   allow_rebase_merge?: boolean | undefined;
   /** When present and non-empty, a temporary credential for read-only Git access to this repository. It expires five minutes after generation and cannot be used to push changes. Treat this value as sensitive and avoid recording it in logs. */
-  temp_clone_token?: string | undefined;
+  temp_clone_token?: string | Redacted.Redacted<string> | undefined;
   /** Whether to allow squash merges for pull requests. */
   allow_squash_merge?: boolean | undefined;
   /** Whether to allow Auto-merge to be used on pull requests. */
@@ -44647,7 +44647,7 @@ export interface FullRepository {
   allow_rebase_merge?: boolean | undefined;
   template_repository?: NullableRepository | null | undefined;
   /** When present and non-empty, a temporary credential for read-only Git access to this repository. It expires five minutes after generation and cannot be used to push changes. Treat this value as sensitive and avoid recording it in logs. */
-  temp_clone_token?: string | null | undefined;
+  temp_clone_token?: string | Redacted.Redacted<string> | null | undefined;
   allow_squash_merge?: boolean | undefined;
   allow_auto_merge?: boolean | undefined;
   delete_branch_on_merge?: boolean | undefined;

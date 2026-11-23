@@ -463,7 +463,7 @@ export interface CloudProjectCertificateImport {
   /** Optional PEM encoded certificate chain */
   chain?: string | null | undefined;
   /** PEM encoded certificate private key */
-  key: string;
+  key: string | Redacted.Redacted<string>;
 }
 export interface AddCertificateRequest {
   /** Service name */
@@ -1438,7 +1438,7 @@ export interface ConfirmCloudProjectTerminationRequest {
   /** Reason of your termination request */
   reason?: ServiceTerminationReasonEnum | (string & {}) | undefined;
   /** The termination token sent by email to the admin contact */
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 export type ConfirmCloudProjectTerminationResponse = string;
 /** Storage class */
@@ -2884,7 +2884,7 @@ export interface CloudProjectAiTokenTokenSpec {
 /** AI Solutions Application Token Status Object */
 export interface CloudProjectAiTokenTokenStatus {
   /** Application token value to use as a Bearer */
-  value?: string | null | undefined;
+  value?: string | Redacted.Redacted<string> | null | undefined;
   /** Application token version */
   version?: number | undefined;
 }
@@ -5811,7 +5811,7 @@ export interface CreateCloudProjectKubeKubeconfigRequest {
 /** Kubeconfig description */
 export interface CloudKubeKubeconfig {
   /** kubeconfig file */
-  content?: string | undefined;
+  content?: string | Redacted.Redacted<string> | undefined;
 }
 export interface CreateCloudProjectKubeLogSubscriptionRequest {
   /** Service name */
@@ -6630,15 +6630,15 @@ export interface CreateCloudProjectRegionKeymanagerCertificateRequest {
   /** Region name */
   regionName: string;
   /** Content of the certificate */
-  certificate: string;
+  certificate: string | Redacted.Redacted<string>;
   /** Content of the intermediates certificates if any */
-  intermediates?: string | undefined;
+  intermediates?: string | Redacted.Redacted<string> | undefined;
   /** Name of the certificate */
   name: string;
   /** Private key */
   privateKey: string | Redacted.Redacted<string>;
   /** Private key passphrase if any */
-  privateKeyPassphrase?: string | undefined;
+  privateKeyPassphrase?: string | Redacted.Redacted<string> | undefined;
 }
 /** Secret reference */
 export interface CloudKeymanagerSecretRef {
@@ -7721,7 +7721,7 @@ export interface CloudStorageContainerAccess {
   /** Storage access endpoints */
   endpoints?: CloudStorageContainerAccessEndpointsList | undefined;
   /** Storage access token */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
 }
 export interface CreateCloudProjectStorageCorsRequest {
   /** Service name */
@@ -7950,7 +7950,7 @@ export interface CloudAuthenticationOpenstackToken {
 }
 /** Token */
 export interface CloudAuthenticationToken {
-  X_Auth_Token?: string | undefined;
+  X_Auth_Token?: string | Redacted.Redacted<string> | undefined;
   token?: CloudAuthenticationOpenstackToken | undefined;
 }
 export interface CreateCloudProjectVolumeRequest {
@@ -10402,7 +10402,7 @@ export interface CloudProjectAiDataStoreAuth {
   /** Secret key to the datastore */
   secretKey?: string | Redacted.Redacted<string> | null | undefined;
   /** Swift (or S3(TM) compatible) Auth token */
-  token?: string | null | undefined;
+  token?: string | Redacted.Redacted<string> | null | undefined;
   /** Swift storage URL */
   url?: string | null | undefined;
 }
@@ -11414,7 +11414,7 @@ export interface CloudProjectDatabaseKafkaUserAccess {
   /** User cert */
   cert?: string | undefined;
   /** User key for the cert */
-  key?: string | undefined;
+  key?: string | Redacted.Redacted<string> | undefined;
 }
 export interface GetCloudProjectDatabaseM3aggregatorRequest {
   /** Service name */
@@ -14632,7 +14632,7 @@ export interface CloudProjectProductAgreements {
 }
 export interface ListCloudEligibilityRequest {
   /** Voucher code */
-  voucher?: string | undefined;
+  voucher?: string | Redacted.Redacted<string> | undefined;
 }
 /** Possible eligibility actions */
 export type CloudProjectEligibilityAction =
@@ -21020,8 +21020,8 @@ export const abortSnapshotOnRegion: API.OperationMethod<
   AbortSnapshotOnRegionError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17632, __c551, 0) as any as S.Schema<AbortSnapshotOnRegionRequest>,
-  output: __S(17666, __c552, 2) as any as S.Schema<CloudOperation>,
+  input: __S(17600, __c550, 0) as any as S.Schema<AbortSnapshotOnRegionRequest>,
+  output: __S(17634, __c551, 2) as any as S.Schema<CloudOperation>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -21038,8 +21038,8 @@ export const activateCloudProjectMonthlyBilling: API.OperationMethod<
   ActivateCloudProjectMonthlyBillingError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22178, __c693, 2) as any as S.Schema<ActivateCloudProjectMonthlyBillingRequest>,
-  output: __S(22337, __c698, 1) as any as S.Schema<ActivateCloudProjectMonthlyBillingResponse>,
+  input: __S(22146, __c692, 2) as any as S.Schema<ActivateCloudProjectMonthlyBillingRequest>,
+  output: __S(22305, __c697, 1) as any as S.Schema<ActivateCloudProjectMonthlyBillingResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -21056,8 +21056,8 @@ export const addAlerting: API.OperationMethod<
   AddAlertingError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26368, __c824, 0) as any as S.Schema<AddAlertingRequest>,
-  output: __S(26400, __c825, 0) as any as S.Schema<CloudAlertingAlerting>,
+  input: __S(26336, __c823, 0) as any as S.Schema<AddAlertingRequest>,
+  output: __S(26368, __c824, 0) as any as S.Schema<CloudAlertingAlerting>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -21296,7 +21296,7 @@ export const applyCloudProjectDatabaseM3dbMaintenance: API.OperationMethod<
   ApplyCloudProjectDatabaseM3dbMaintenanceError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7104, __c222, 0) as any as S.Schema<ApplyCloudProjectDatabaseM3dbMaintenanceRequest>,
+  input: __S(7072, __c221, 0) as any as S.Schema<ApplyCloudProjectDatabaseM3dbMaintenanceRequest>,
   output: __S(38912, __c1216, 0) as any as S.Schema<CloudProjectDatabaseServiceMaintenance>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
@@ -21319,8 +21319,8 @@ export const applyCloudProjectDatabaseMongodbMaintenance: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    7680,
-    __c240,
+    7648,
+    __c239,
     0,
   ) as any as S.Schema<ApplyCloudProjectDatabaseMongodbMaintenanceRequest>,
   output: __S(38912, __c1216, 0) as any as S.Schema<CloudProjectDatabaseServiceMaintenance>,
@@ -21344,7 +21344,7 @@ export const applyCloudProjectDatabaseMysqlMaintenance: API.OperationMethod<
   ApplyCloudProjectDatabaseMysqlMaintenanceError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8352, __c261, 0) as any as S.Schema<ApplyCloudProjectDatabaseMysqlMaintenanceRequest>,
+  input: __S(8320, __c260, 0) as any as S.Schema<ApplyCloudProjectDatabaseMysqlMaintenanceRequest>,
   output: __S(38912, __c1216, 0) as any as S.Schema<CloudProjectDatabaseServiceMaintenance>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
@@ -21367,8 +21367,8 @@ export const applyCloudProjectDatabaseOpensearchMaintenance: API.OperationMethod
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    8896,
-    __c278,
+    8864,
+    __c277,
     0,
   ) as any as S.Schema<ApplyCloudProjectDatabaseOpensearchMaintenanceRequest>,
   output: __S(38912, __c1216, 0) as any as S.Schema<CloudProjectDatabaseServiceMaintenance>,
@@ -21393,8 +21393,8 @@ export const applyCloudProjectDatabasePostgresqlMaintenance: API.OperationMethod
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    9344,
-    __c292,
+    9312,
+    __c291,
     0,
   ) as any as S.Schema<ApplyCloudProjectDatabasePostgresqlMaintenanceRequest>,
   output: __S(38912, __c1216, 0) as any as S.Schema<CloudProjectDatabaseServiceMaintenance>,
@@ -21418,7 +21418,7 @@ export const applyCloudProjectDatabaseRedisMaintenance: API.OperationMethod<
   ApplyCloudProjectDatabaseRedisMaintenanceError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9792, __c306, 0) as any as S.Schema<ApplyCloudProjectDatabaseRedisMaintenanceRequest>,
+  input: __S(9760, __c305, 0) as any as S.Schema<ApplyCloudProjectDatabaseRedisMaintenanceRequest>,
   output: __S(38912, __c1216, 0) as any as S.Schema<CloudProjectDatabaseServiceMaintenance>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
@@ -21441,8 +21441,8 @@ export const applyCloudProjectDatabaseValkeyMaintenance: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    10432,
-    __c326,
+    10400,
+    __c325,
     0,
   ) as any as S.Schema<ApplyCloudProjectDatabaseValkeyMaintenanceRequest>,
   output: __S(38912, __c1216, 0) as any as S.Schema<CloudProjectDatabaseServiceMaintenance>,
@@ -21462,8 +21462,8 @@ export const applyLoadBalancerConfiguration: API.OperationMethod<
   ApplyLoadBalancerConfigurationError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10880, __c340, 0) as any as S.Schema<ApplyLoadBalancerConfigurationRequest>,
-  output: __S(10916, __c341, 4) as any as S.Schema<CloudProjectLoadbalancerConfiguration>,
+  input: __S(10848, __c339, 0) as any as S.Schema<ApplyLoadBalancerConfigurationRequest>,
+  output: __S(10884, __c340, 4) as any as S.Schema<CloudProjectLoadbalancerConfiguration>,
   errors: [BadRequest, Forbidden],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -21480,8 +21480,8 @@ export const applyNetworkLoadBalancerConfiguration: API.OperationMethod<
   ApplyNetworkLoadBalancerConfigurationError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11264, __c352, 0) as any as S.Schema<ApplyNetworkLoadBalancerConfigurationRequest>,
-  output: __S(11301, __c353, 5) as any as S.Schema<CloudProjectNetworkloadbalancerConfiguration>,
+  input: __S(11232, __c351, 0) as any as S.Schema<ApplyNetworkLoadBalancerConfigurationRequest>,
+  output: __S(11269, __c352, 5) as any as S.Schema<CloudProjectNetworkloadbalancerConfiguration>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -21498,8 +21498,8 @@ export const archiveCloudProjectRegionColdArchive: API.OperationMethod<
   ArchiveCloudProjectRegionColdArchiveError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11648, __c364, 0) as any as S.Schema<ArchiveCloudProjectRegionColdArchiveRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<ArchiveCloudProjectRegionColdArchiveResponse>,
+  input: __S(11616, __c363, 0) as any as S.Schema<ArchiveCloudProjectRegionColdArchiveRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<ArchiveCloudProjectRegionColdArchiveResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -21516,8 +21516,8 @@ export const associateFloatingIpOnInstanceOnRegion: API.OperationMethod<
   AssociateFloatingIpOnInstanceOnRegionError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12032, __c376, 0) as any as S.Schema<AssociateFloatingIpOnInstanceOnRegionRequest>,
-  output: __S(17666, __c552, 2) as any as S.Schema<CloudOperation>,
+  input: __S(12000, __c375, 0) as any as S.Schema<AssociateFloatingIpOnInstanceOnRegionRequest>,
+  output: __S(17634, __c551, 2) as any as S.Schema<CloudOperation>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -21534,8 +21534,8 @@ export const attachCloudProjectIpFailover: API.OperationMethod<
   AttachCloudProjectIpFailoverError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12416, __c388, 0) as any as S.Schema<AttachCloudProjectIpFailoverRequest>,
-  output: __S(12448, __c389, 0) as any as S.Schema<CloudIpFailoverIp>,
+  input: __S(12384, __c387, 0) as any as S.Schema<AttachCloudProjectIpFailoverRequest>,
+  output: __S(12416, __c388, 0) as any as S.Schema<CloudIpFailoverIp>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -21552,8 +21552,8 @@ export const attachCloudProjectVolume: API.OperationMethod<
   AttachCloudProjectVolumeError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12800, __c400, 0) as any as S.Schema<AttachCloudProjectVolumeRequest>,
-  output: __S(12832, __c401, 0) as any as S.Schema<CloudVolumeVolume>,
+  input: __S(12768, __c399, 0) as any as S.Schema<AttachCloudProjectVolumeRequest>,
+  output: __S(12800, __c400, 0) as any as S.Schema<CloudVolumeVolume>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -21570,8 +21570,8 @@ export const bulkCloudProjectInstance: API.OperationMethod<
   BulkCloudProjectInstanceError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13186, __c412, 2) as any as S.Schema<BulkCloudProjectInstanceRequest>,
-  output: __S(22337, __c698, 1) as any as S.Schema<BulkCloudProjectInstanceResponse>,
+  input: __S(13154, __c411, 2) as any as S.Schema<BulkCloudProjectInstanceRequest>,
+  output: __S(22305, __c697, 1) as any as S.Schema<BulkCloudProjectInstanceResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -21589,11 +21589,11 @@ export const bulkCloudProjectRegionVolumeDeleteSnapshots: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    13568,
-    __c424,
+    13536,
+    __c423,
     0,
   ) as any as S.Schema<BulkCloudProjectRegionVolumeDeleteSnapshotsRequest>,
-  output: __S(17666, __c552, 2) as any as S.Schema<CloudOperation>,
+  output: __S(17634, __c551, 2) as any as S.Schema<CloudOperation>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -21610,8 +21610,8 @@ export const bulkDeleteContainerObjectsOnRegion: API.OperationMethod<
   BulkDeleteContainerObjectsOnRegionError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13922, __c435, 2) as any as S.Schema<BulkDeleteContainerObjectsOnRegionRequest>,
-  output: __S(13927, __c435, 7) as any as S.Schema<CloudStorageObjectDeleteBulkResponse>,
+  input: __S(13890, __c434, 2) as any as S.Schema<BulkDeleteContainerObjectsOnRegionRequest>,
+  output: __S(13895, __c434, 7) as any as S.Schema<CloudStorageObjectDeleteBulkResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -21628,8 +21628,8 @@ export const cancelCloudProject: API.OperationMethod<
   CancelCloudProjectError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14272, __c446, 0) as any as S.Schema<CancelCloudProjectRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<CancelCloudProjectResponse>,
+  input: __S(14240, __c445, 0) as any as S.Schema<CancelCloudProjectRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<CancelCloudProjectResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -21651,13 +21651,13 @@ export const cancelCloudProjectDatabaseClickhouseCurrentQuery: API.OperationMeth
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    14624,
-    __c457,
+    14592,
+    __c456,
     0,
   ) as any as S.Schema<CancelCloudProjectDatabaseClickhouseCurrentQueryRequest>,
   output: __S(
-    14656,
-    __c458,
+    14624,
+    __c457,
     0,
   ) as any as S.Schema<CloudProjectDatabaseServiceCurrentqueriesQueryCancelResponse>,
   errors: [BadRequest, NotFound, Conflict],
@@ -21681,13 +21681,13 @@ export const cancelCloudProjectDatabaseMysqlCurrentQuery: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    15008,
-    __c469,
+    14976,
+    __c468,
     0,
   ) as any as S.Schema<CancelCloudProjectDatabaseMysqlCurrentQueryRequest>,
   output: __S(
-    14656,
-    __c458,
+    14624,
+    __c457,
     0,
   ) as any as S.Schema<CloudProjectDatabaseServiceCurrentqueriesQueryCancelResponse>,
   errors: [BadRequest, NotFound, Conflict],
@@ -21711,13 +21711,13 @@ export const cancelCloudProjectDatabasePostgresqlCurrentQuery: API.OperationMeth
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    15360,
-    __c480,
+    15328,
+    __c479,
     0,
   ) as any as S.Schema<CancelCloudProjectDatabasePostgresqlCurrentQueryRequest>,
   output: __S(
-    14656,
-    __c458,
+    14624,
+    __c457,
     0,
   ) as any as S.Schema<CloudProjectDatabaseServiceCurrentqueriesQueryCancelResponse>,
   errors: [BadRequest, NotFound, Conflict],
@@ -21740,8 +21740,8 @@ export const checkCloudProjectDatabaseMysqlMigration: API.OperationMethod<
   CheckCloudProjectDatabaseMysqlMigrationError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15712, __c491, 0) as any as S.Schema<CheckCloudProjectDatabaseMysqlMigrationRequest>,
-  output: __S(15744, __c492, 0) as any as S.Schema<CloudProjectDatabaseMysqlMigrationCheckResult>,
+  input: __S(15680, __c490, 0) as any as S.Schema<CheckCloudProjectDatabaseMysqlMigrationRequest>,
+  output: __S(15712, __c491, 0) as any as S.Schema<CloudProjectDatabaseMysqlMigrationCheckResult>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -21758,8 +21758,8 @@ export const confirmCloudProjectTermination: API.OperationMethod<
   ConfirmCloudProjectTerminationError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16128, __c504, 0) as any as S.Schema<ConfirmCloudProjectTerminationRequest>,
-  output: __S(16160, __c505, 0) as any as S.Schema<ConfirmCloudProjectTerminationResponse>,
+  input: __S(16096, __c503, 0) as any as S.Schema<ConfirmCloudProjectTerminationRequest>,
+  output: __S(16128, __c504, 0) as any as S.Schema<ConfirmCloudProjectTerminationResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -21776,8 +21776,8 @@ export const copyCloudProjectRegionStorageObject: API.OperationMethod<
   CopyCloudProjectRegionStorageObjectError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16608, __c519, 0) as any as S.Schema<CopyCloudProjectRegionStorageObjectRequest>,
-  output: __S(16640, __c520, 0) as any as S.Schema<CloudStorageCopyObjectOut>,
+  input: __S(16576, __c518, 0) as any as S.Schema<CopyCloudProjectRegionStorageObjectRequest>,
+  output: __S(16608, __c519, 0) as any as S.Schema<CloudStorageCopyObjectOut>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -21795,11 +21795,11 @@ export const copyCloudProjectRegionStorageObjectVersion: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    17152,
-    __c536,
+    17120,
+    __c535,
     0,
   ) as any as S.Schema<CopyCloudProjectRegionStorageObjectVersionRequest>,
-  output: __S(16640, __c520, 0) as any as S.Schema<CloudStorageCopyObjectOut>,
+  output: __S(16608, __c519, 0) as any as S.Schema<CloudStorageCopyObjectOut>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -21816,8 +21816,8 @@ export const createApplicationLoadBalancer: API.OperationMethod<
   CreateApplicationLoadBalancerError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17728, __c554, 0) as any as S.Schema<CreateApplicationLoadBalancerRequest>,
-  output: __S(17824, __c557, 0) as any as S.Schema<CloudProjectApplicationLoadBalancer>,
+  input: __S(17696, __c553, 0) as any as S.Schema<CreateApplicationLoadBalancerRequest>,
+  output: __S(17792, __c556, 0) as any as S.Schema<CloudProjectApplicationLoadBalancer>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -21835,8 +21835,8 @@ export const createApplicationLoadBalancerConfiguration: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    18240,
-    __c570,
+    18208,
+    __c569,
     0,
   ) as any as S.Schema<CreateApplicationLoadBalancerConfigurationRequest>,
   output: __S(
@@ -21860,8 +21860,8 @@ export const createCloudProjectAcl: API.OperationMethod<
   CreateCloudProjectAclError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18752, __c586, 0) as any as S.Schema<CreateCloudProjectAclRequest>,
-  output: __S(18784, __c587, 0) as any as S.Schema<CloudAcl>,
+  input: __S(18720, __c585, 0) as any as S.Schema<CreateCloudProjectAclRequest>,
+  output: __S(18752, __c586, 0) as any as S.Schema<CloudAcl>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -21878,8 +21878,8 @@ export const createCloudProjectAiApp: API.OperationMethod<
   CreateCloudProjectAiAppError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19168, __c599, 0) as any as S.Schema<CreateCloudProjectAiAppRequest>,
-  output: __S(19204, __c600, 4) as any as S.Schema<CloudProjectAiAppApp>,
+  input: __S(19136, __c598, 0) as any as S.Schema<CreateCloudProjectAiAppRequest>,
+  output: __S(19172, __c599, 4) as any as S.Schema<CloudProjectAiAppApp>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -21896,8 +21896,8 @@ export const createCloudProjectAiAppCommand: API.OperationMethod<
   CreateCloudProjectAiAppCommandError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19872, __c621, 0) as any as S.Schema<CreateCloudProjectAiAppCommandRequest>,
-  output: __S(19904, __c622, 0) as any as S.Schema<CloudProjectAiCommand>,
+  input: __S(19840, __c620, 0) as any as S.Schema<CreateCloudProjectAiAppCommandRequest>,
+  output: __S(19872, __c621, 0) as any as S.Schema<CloudProjectAiCommand>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -21914,8 +21914,8 @@ export const createCloudProjectAiAppDatasync: API.OperationMethod<
   CreateCloudProjectAiAppDatasyncError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20256, __c633, 0) as any as S.Schema<CreateCloudProjectAiAppDatasyncRequest>,
-  output: __S(19493, __c609, 5) as any as S.Schema<CloudProjectAiVolumeDataSync>,
+  input: __S(20224, __c632, 0) as any as S.Schema<CreateCloudProjectAiAppDatasyncRequest>,
+  output: __S(19461, __c608, 5) as any as S.Schema<CloudProjectAiVolumeDataSync>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -21932,8 +21932,8 @@ export const createCloudProjectAiAuthorization: API.OperationMethod<
   CreateCloudProjectAiAuthorizationError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20608, __c644, 0) as any as S.Schema<CreateCloudProjectAiAuthorizationRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<CreateCloudProjectAiAuthorizationResponse>,
+  input: __S(20576, __c643, 0) as any as S.Schema<CreateCloudProjectAiAuthorizationRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<CreateCloudProjectAiAuthorizationResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -21950,8 +21950,8 @@ export const createCloudProjectAiDataRegionAlias: API.OperationMethod<
   CreateCloudProjectAiDataRegionAliasError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20960, __c655, 0) as any as S.Schema<CreateCloudProjectAiDataRegionAliasRequest>,
-  output: __S(20992, __c656, 0) as any as S.Schema<CloudProjectAiDataStore>,
+  input: __S(20928, __c654, 0) as any as S.Schema<CreateCloudProjectAiDataRegionAliasRequest>,
+  output: __S(20960, __c655, 0) as any as S.Schema<CloudProjectAiDataStore>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -21968,8 +21968,8 @@ export const createCloudProjectAiJob: API.OperationMethod<
   CreateCloudProjectAiJobError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21376, __c668, 0) as any as S.Schema<CreateCloudProjectAiJobRequest>,
-  output: __S(21409, __c669, 1) as any as S.Schema<CloudProjectAiJobJob>,
+  input: __S(21344, __c667, 0) as any as S.Schema<CreateCloudProjectAiJobRequest>,
+  output: __S(21377, __c668, 1) as any as S.Schema<CloudProjectAiJobJob>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -21986,8 +21986,8 @@ export const createCloudProjectAiJobCommand: API.OperationMethod<
   CreateCloudProjectAiJobCommandError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21792, __c681, 0) as any as S.Schema<CreateCloudProjectAiJobCommandRequest>,
-  output: __S(19904, __c622, 0) as any as S.Schema<CloudProjectAiCommand>,
+  input: __S(21760, __c680, 0) as any as S.Schema<CreateCloudProjectAiJobCommandRequest>,
+  output: __S(19872, __c621, 0) as any as S.Schema<CloudProjectAiCommand>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -22004,8 +22004,8 @@ export const createCloudProjectAiJobDatasync: API.OperationMethod<
   CreateCloudProjectAiJobDatasyncError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22368, __c699, 0) as any as S.Schema<CreateCloudProjectAiJobDatasyncRequest>,
-  output: __S(19493, __c609, 5) as any as S.Schema<CloudProjectAiVolumeDataSync>,
+  input: __S(22336, __c698, 0) as any as S.Schema<CreateCloudProjectAiJobDatasyncRequest>,
+  output: __S(19461, __c608, 5) as any as S.Schema<CloudProjectAiVolumeDataSync>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -22022,8 +22022,8 @@ export const createCloudProjectAiNotebook: API.OperationMethod<
   CreateCloudProjectAiNotebookError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22720, __c710, 0) as any as S.Schema<CreateCloudProjectAiNotebookRequest>,
-  output: __S(22755, __c711, 3) as any as S.Schema<CloudProjectAiNotebookNotebook>,
+  input: __S(22688, __c709, 0) as any as S.Schema<CreateCloudProjectAiNotebookRequest>,
+  output: __S(22723, __c710, 3) as any as S.Schema<CloudProjectAiNotebookNotebook>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -22040,8 +22040,8 @@ export const createCloudProjectAiNotebookCommand: API.OperationMethod<
   CreateCloudProjectAiNotebookCommandError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23168, __c724, 0) as any as S.Schema<CreateCloudProjectAiNotebookCommandRequest>,
-  output: __S(19904, __c622, 0) as any as S.Schema<CloudProjectAiCommand>,
+  input: __S(23136, __c723, 0) as any as S.Schema<CreateCloudProjectAiNotebookCommandRequest>,
+  output: __S(19872, __c621, 0) as any as S.Schema<CloudProjectAiCommand>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -22058,8 +22058,8 @@ export const createCloudProjectAiNotebookDatasync: API.OperationMethod<
   CreateCloudProjectAiNotebookDatasyncError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23552, __c736, 0) as any as S.Schema<CreateCloudProjectAiNotebookDatasyncRequest>,
-  output: __S(19493, __c609, 5) as any as S.Schema<CloudProjectAiVolumeDataSync>,
+  input: __S(23520, __c735, 0) as any as S.Schema<CreateCloudProjectAiNotebookDatasyncRequest>,
+  output: __S(19461, __c608, 5) as any as S.Schema<CloudProjectAiVolumeDataSync>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -22076,8 +22076,8 @@ export const createCloudProjectAiRegistry: API.OperationMethod<
   CreateCloudProjectAiRegistryError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23904, __c747, 0) as any as S.Schema<CreateCloudProjectAiRegistryRequest>,
-  output: __S(23936, __c748, 0) as any as S.Schema<CloudProjectAiRegistryRegistry>,
+  input: __S(23872, __c746, 0) as any as S.Schema<CreateCloudProjectAiRegistryRequest>,
+  output: __S(23904, __c747, 0) as any as S.Schema<CloudProjectAiRegistryRegistry>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -22094,8 +22094,8 @@ export const createCloudProjectAiToken: API.OperationMethod<
   CreateCloudProjectAiTokenError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24320, __c760, 0) as any as S.Schema<CreateCloudProjectAiTokenRequest>,
-  output: __S(24354, __c761, 2) as any as S.Schema<CloudProjectAiTokenToken>,
+  input: __S(24288, __c759, 0) as any as S.Schema<CreateCloudProjectAiTokenRequest>,
+  output: __S(24322, __c760, 2) as any as S.Schema<CloudProjectAiTokenToken>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -22112,8 +22112,8 @@ export const createCloudProjectChangeContact: API.OperationMethod<
   CreateCloudProjectChangeContactError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24704, __c772, 0) as any as S.Schema<CreateCloudProjectChangeContactRequest>,
-  output: __S(24736, __c773, 0) as any as S.Schema<CreateCloudProjectChangeContactResponse>,
+  input: __S(24672, __c771, 0) as any as S.Schema<CreateCloudProjectChangeContactRequest>,
+  output: __S(24704, __c772, 0) as any as S.Schema<CreateCloudProjectChangeContactResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -22130,8 +22130,8 @@ export const createCloudProjectContainerRegistry: API.OperationMethod<
   CreateCloudProjectContainerRegistryError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25120, __c785, 0) as any as S.Schema<CreateCloudProjectContainerRegistryRequest>,
-  output: __S(25152, __c786, 0) as any as S.Schema<CloudContainerRegistryRegistry>,
+  input: __S(25088, __c784, 0) as any as S.Schema<CreateCloudProjectContainerRegistryRequest>,
+  output: __S(25120, __c785, 0) as any as S.Schema<CloudContainerRegistryRegistry>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -22148,8 +22148,8 @@ export const createCloudProjectContainerRegistryIam: API.OperationMethod<
   CreateCloudProjectContainerRegistryIamError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25568, __c799, 0) as any as S.Schema<CreateCloudProjectContainerRegistryIamRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<CreateCloudProjectContainerRegistryIamResponse>,
+  input: __S(25536, __c798, 0) as any as S.Schema<CreateCloudProjectContainerRegistryIamRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<CreateCloudProjectContainerRegistryIamResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -22167,13 +22167,13 @@ export const createCloudProjectContainerRegistryOpenIdConnect: API.OperationMeth
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    25953,
-    __c811,
+    25921,
+    __c810,
     1,
   ) as any as S.Schema<CreateCloudProjectContainerRegistryOpenIdConnectRequest>,
   output: __S(
-    11680,
-    __c365,
+    11648,
+    __c364,
     0,
   ) as any as S.Schema<CreateCloudProjectContainerRegistryOpenIdConnectResponse>,
   errors: [],
@@ -22192,8 +22192,8 @@ export const createCloudProjectContainerRegistryUser: API.OperationMethod<
   CreateCloudProjectContainerRegistryUserError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26464, __c827, 0) as any as S.Schema<CreateCloudProjectContainerRegistryUserRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<CloudContainerRegistryUser>,
+  input: __S(26432, __c826, 0) as any as S.Schema<CreateCloudProjectContainerRegistryUserRequest>,
+  output: __S(26464, __c827, 0) as any as S.Schema<CloudContainerRegistryUser>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -22210,8 +22210,8 @@ export const createCloudProjectCredit: API.OperationMethod<
   CreateCloudProjectCreditError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27040, __c845, 0) as any as S.Schema<CreateCloudProjectCreditRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<CreateCloudProjectCreditResponse>,
+  input: __S(27008, __c844, 0) as any as S.Schema<CreateCloudProjectCreditRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<CreateCloudProjectCreditResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -24117,7 +24117,7 @@ export const createCloudProjectInstance: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6050, __c189, 2) as any as S.Schema<CreateCloudProjectInstanceRequest>,
-  output: __S(22307, __c697, 3) as any as S.Schema<CloudInstanceInstance>,
+  output: __S(22275, __c696, 3) as any as S.Schema<CloudInstanceInstance>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -24139,7 +24139,7 @@ export const createCloudProjectInstanceActiveMonthlyBilling: API.OperationMethod
     __c190,
     0,
   ) as any as S.Schema<CreateCloudProjectInstanceActiveMonthlyBillingRequest>,
-  output: __S(22307, __c697, 3) as any as S.Schema<CloudInstanceInstance>,
+  output: __S(22275, __c696, 3) as any as S.Schema<CloudInstanceInstance>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -24215,7 +24215,7 @@ export const createCloudProjectInstanceReinstall: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6304, __c197, 0) as any as S.Schema<CreateCloudProjectInstanceReinstallRequest>,
-  output: __S(22307, __c697, 3) as any as S.Schema<CloudInstanceInstance>,
+  output: __S(22275, __c696, 3) as any as S.Schema<CloudInstanceInstance>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -24251,7 +24251,7 @@ export const createCloudProjectInstanceShelve: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6368, __c199, 0) as any as S.Schema<CreateCloudProjectInstanceShelveRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<CreateCloudProjectInstanceShelveResponse>,
+  output: __S(11648, __c364, 0) as any as S.Schema<CreateCloudProjectInstanceShelveResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -24287,7 +24287,7 @@ export const createCloudProjectInstanceUnshelve: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6464, __c202, 0) as any as S.Schema<CreateCloudProjectInstanceUnshelveRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<CreateCloudProjectInstanceUnshelveResponse>,
+  output: __S(11648, __c364, 0) as any as S.Schema<CreateCloudProjectInstanceUnshelveResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -24359,7 +24359,7 @@ export const createCloudProjectKubeKubeconfig: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6848, __c214, 0) as any as S.Schema<CreateCloudProjectKubeKubeconfigRequest>,
-  output: __S(6880, __c215, 0) as any as S.Schema<CloudKubeKubeconfig>,
+  output: __S(6849, __c214, 1) as any as S.Schema<CloudKubeKubeconfig>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -24376,7 +24376,7 @@ export const createCloudProjectKubeLogSubscription: API.OperationMethod<
   CreateCloudProjectKubeLogSubscriptionError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6912, __c216, 0) as any as S.Schema<CreateCloudProjectKubeLogSubscriptionRequest>,
+  input: __S(6880, __c215, 0) as any as S.Schema<CreateCloudProjectKubeLogSubscriptionRequest>,
   output: __S(28672, __c896, 0) as any as S.Schema<DbaasLogsLogSubscriptionResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
@@ -24394,7 +24394,7 @@ export const createCloudProjectKubeLogUrl: API.OperationMethod<
   CreateCloudProjectKubeLogUrlError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6944, __c217, 0) as any as S.Schema<CreateCloudProjectKubeLogUrlRequest>,
+  input: __S(6912, __c216, 0) as any as S.Schema<CreateCloudProjectKubeLogUrlRequest>,
   output: __S(29152, __c911, 0) as any as S.Schema<DbaasLogsTemporaryLogsLink>,
   errors: [],
   serviceErrors: OvhServiceErrors,
@@ -24412,8 +24412,8 @@ export const createCloudProjectKubeNodepool: API.OperationMethod<
   CreateCloudProjectKubeNodepoolError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6976, __c218, 0) as any as S.Schema<CreateCloudProjectKubeNodepoolRequest>,
-  output: __S(7008, __c219, 0) as any as S.Schema<CloudKubeNodePool>,
+  input: __S(6944, __c217, 0) as any as S.Schema<CreateCloudProjectKubeNodepoolRequest>,
+  output: __S(6976, __c218, 0) as any as S.Schema<CloudKubeNodePool>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -24430,8 +24430,8 @@ export const createCloudProjectKubeOpenIdConnect: API.OperationMethod<
   CreateCloudProjectKubeOpenIdConnectError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7040, __c220, 0) as any as S.Schema<CreateCloudProjectKubeOpenIdConnectRequest>,
-  output: __S(7072, __c221, 0) as any as S.Schema<CloudKubeOpenIdConnect>,
+  input: __S(7008, __c219, 0) as any as S.Schema<CreateCloudProjectKubeOpenIdConnectRequest>,
+  output: __S(7040, __c220, 0) as any as S.Schema<CloudKubeOpenIdConnect>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -24448,8 +24448,8 @@ export const createCloudProjectNetworkPrivate: API.OperationMethod<
   CreateCloudProjectNetworkPrivateError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7136, __c223, 0) as any as S.Schema<CreateCloudProjectNetworkPrivateRequest>,
-  output: __S(7170, __c224, 2) as any as S.Schema<CloudNetworkNetwork>,
+  input: __S(7104, __c222, 0) as any as S.Schema<CreateCloudProjectNetworkPrivateRequest>,
+  output: __S(7138, __c223, 2) as any as S.Schema<CloudNetworkNetwork>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -24466,8 +24466,8 @@ export const createCloudProjectNetworkPrivateRegion: API.OperationMethod<
   CreateCloudProjectNetworkPrivateRegionError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7200, __c225, 0) as any as S.Schema<CreateCloudProjectNetworkPrivateRegionRequest>,
-  output: __S(7170, __c224, 2) as any as S.Schema<CloudNetworkNetwork>,
+  input: __S(7168, __c224, 0) as any as S.Schema<CreateCloudProjectNetworkPrivateRegionRequest>,
+  output: __S(7138, __c223, 2) as any as S.Schema<CloudNetworkNetwork>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -24484,8 +24484,8 @@ export const createCloudProjectNetworkPrivateSubnet: API.OperationMethod<
   CreateCloudProjectNetworkPrivateSubnetError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7232, __c226, 0) as any as S.Schema<CreateCloudProjectNetworkPrivateSubnetRequest>,
-  output: __S(7266, __c227, 2) as any as S.Schema<CloudNetworkSubnet>,
+  input: __S(7200, __c225, 0) as any as S.Schema<CreateCloudProjectNetworkPrivateSubnetRequest>,
+  output: __S(7234, __c226, 2) as any as S.Schema<CloudNetworkSubnet>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -24502,8 +24502,8 @@ export const createCloudProjectRegion: API.OperationMethod<
   CreateCloudProjectRegionError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7296, __c228, 0) as any as S.Schema<CreateCloudProjectRegionRequest>,
-  output: __S(7330, __c229, 2) as any as S.Schema<CloudRegion>,
+  input: __S(7264, __c227, 0) as any as S.Schema<CreateCloudProjectRegionRequest>,
+  output: __S(7298, __c228, 2) as any as S.Schema<CloudRegion>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -24520,10 +24520,10 @@ export const createCloudProjectRegionColdArchiveDestroy: API.OperationMethod<
   CreateCloudProjectRegionColdArchiveDestroyError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7360, __c230, 0) as any as S.Schema<CreateCloudProjectRegionColdArchiveDestroyRequest>,
+  input: __S(7328, __c229, 0) as any as S.Schema<CreateCloudProjectRegionColdArchiveDestroyRequest>,
   output: __S(
-    11680,
-    __c365,
+    11648,
+    __c364,
     0,
   ) as any as S.Schema<CreateCloudProjectRegionColdArchiveDestroyResponse>,
   errors: [],
@@ -24542,8 +24542,8 @@ export const createCloudProjectRegionGateway: API.OperationMethod<
   CreateCloudProjectRegionGatewayError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7394, __c231, 2) as any as S.Schema<CreateCloudProjectRegionGatewayRequest>,
-  output: __S(17666, __c552, 2) as any as S.Schema<CloudOperation>,
+  input: __S(7362, __c230, 2) as any as S.Schema<CreateCloudProjectRegionGatewayRequest>,
+  output: __S(17634, __c551, 2) as any as S.Schema<CloudOperation>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -24560,8 +24560,8 @@ export const createCloudProjectRegionGatewayExpose: API.OperationMethod<
   CreateCloudProjectRegionGatewayExposeError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7456, __c233, 0) as any as S.Schema<CreateCloudProjectRegionGatewayExposeRequest>,
-  output: __S(7521, __c235, 1) as any as S.Schema<CloudNetworkGateway>,
+  input: __S(7424, __c232, 0) as any as S.Schema<CreateCloudProjectRegionGatewayExposeRequest>,
+  output: __S(7489, __c234, 1) as any as S.Schema<CloudNetworkGateway>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -24578,8 +24578,8 @@ export const createCloudProjectRegionGatewayInterface: API.OperationMethod<
   CreateCloudProjectRegionGatewayInterfaceError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7584, __c237, 0) as any as S.Schema<CreateCloudProjectRegionGatewayInterfaceRequest>,
-  output: __S(7489, __c234, 1) as any as S.Schema<CloudNetworkGatewayInterface>,
+  input: __S(7552, __c236, 0) as any as S.Schema<CreateCloudProjectRegionGatewayInterfaceRequest>,
+  output: __S(7457, __c233, 1) as any as S.Schema<CloudNetworkGatewayInterface>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -24596,8 +24596,8 @@ export const createCloudProjectRegionInstanceAutobackup: API.OperationMethod<
   CreateCloudProjectRegionInstanceAutobackupError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7616, __c238, 0) as any as S.Schema<CreateCloudProjectRegionInstanceAutobackupRequest>,
-  output: __S(17666, __c552, 2) as any as S.Schema<CloudOperation>,
+  input: __S(7584, __c237, 0) as any as S.Schema<CreateCloudProjectRegionInstanceAutobackupRequest>,
+  output: __S(17634, __c551, 2) as any as S.Schema<CloudOperation>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -24615,8 +24615,8 @@ export const createCloudProjectRegionInstanceMetricSubscription: API.OperationMe
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    7648,
-    __c239,
+    7616,
+    __c238,
     0,
   ) as any as S.Schema<CreateCloudProjectRegionInstanceMetricSubscriptionRequest>,
   output: __S(28672, __c896, 0) as any as S.Schema<DbaasLogsMetricSubscriptionResponse>,
@@ -24637,11 +24637,11 @@ export const createCloudProjectRegionKeymanagerCertificate: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    7712,
-    __c241,
+    7680,
+    __c240,
     0,
   ) as any as S.Schema<CreateCloudProjectRegionKeymanagerCertificateRequest>,
-  output: __S(7808, __c244, 0) as any as S.Schema<CloudKeymanagerCertificate>,
+  output: __S(7776, __c243, 0) as any as S.Schema<CloudKeymanagerCertificate>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -24659,11 +24659,11 @@ export const createCloudProjectRegionLoadbalancingHealthMonitor: API.OperationMe
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    7840,
-    __c245,
+    7808,
+    __c244,
     0,
   ) as any as S.Schema<CreateCloudProjectRegionLoadbalancingHealthMonitorRequest>,
-  output: __S(7904, __c247, 0) as any as S.Schema<CloudLoadbalancingHealthMonitor>,
+  output: __S(7872, __c246, 0) as any as S.Schema<CloudLoadbalancingHealthMonitor>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -24680,11 +24680,11 @@ export const createCloudProjectRegionLoadbalancingL7Policy: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    7936,
-    __c248,
+    7904,
+    __c247,
     0,
   ) as any as S.Schema<CreateCloudProjectRegionLoadbalancingL7PolicyRequest>,
-  output: __S(7968, __c249, 0) as any as S.Schema<CloudLoadbalancingL7Policy>,
+  output: __S(7936, __c248, 0) as any as S.Schema<CloudLoadbalancingL7Policy>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -24701,11 +24701,11 @@ export const createCloudProjectRegionLoadbalancingL7PolicyL7Rule: API.OperationM
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    8000,
-    __c250,
+    7968,
+    __c249,
     0,
   ) as any as S.Schema<CreateCloudProjectRegionLoadbalancingL7PolicyL7RuleRequest>,
-  output: __S(8032, __c251, 0) as any as S.Schema<CloudLoadbalancingL7Rule>,
+  output: __S(8000, __c250, 0) as any as S.Schema<CloudLoadbalancingL7Rule>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -24723,11 +24723,11 @@ export const createCloudProjectRegionLoadbalancingListener: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    8064,
-    __c252,
+    8032,
+    __c251,
     0,
   ) as any as S.Schema<CreateCloudProjectRegionLoadbalancingListenerRequest>,
-  output: __S(8096, __c253, 0) as any as S.Schema<CloudLoadbalancingListener>,
+  output: __S(8064, __c252, 0) as any as S.Schema<CloudLoadbalancingListener>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -24745,11 +24745,11 @@ export const createCloudProjectRegionLoadbalancingLoadbalancer: API.OperationMet
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    8137,
-    __c254,
+    8105,
+    __c253,
     9,
   ) as any as S.Schema<CreateCloudProjectRegionLoadbalancingLoadbalancerRequest>,
-  output: __S(17666, __c552, 2) as any as S.Schema<CloudOperation>,
+  output: __S(17634, __c551, 2) as any as S.Schema<CloudOperation>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -24767,11 +24767,11 @@ export const createCloudProjectRegionLoadbalancingLoadbalancerAssociateFloatingI
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    8224,
-    __c257,
+    8192,
+    __c256,
     0,
   ) as any as S.Schema<CreateCloudProjectRegionLoadbalancingLoadbalancerAssociateFloatingIpRequest>,
-  output: __S(17666, __c552, 2) as any as S.Schema<CloudOperation>,
+  output: __S(17634, __c551, 2) as any as S.Schema<CloudOperation>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -24789,11 +24789,11 @@ export const createCloudProjectRegionLoadbalancingLoadbalancerFloatingIp: API.Op
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    8256,
-    __c258,
+    8224,
+    __c257,
     0,
   ) as any as S.Schema<CreateCloudProjectRegionLoadbalancingLoadbalancerFloatingIpRequest>,
-  output: __S(17666, __c552, 2) as any as S.Schema<CloudOperation>,
+  output: __S(17634, __c551, 2) as any as S.Schema<CloudOperation>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -24811,8 +24811,8 @@ export const createCloudProjectRegionLoadbalancingLoadbalancerLogSubscription: A
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    8288,
-    __c259,
+    8256,
+    __c258,
     0,
   ) as any as S.Schema<CreateCloudProjectRegionLoadbalancingLoadbalancerLogSubscriptionRequest>,
   output: __S(28672, __c896, 0) as any as S.Schema<DbaasLogsLogSubscriptionResponse>,
@@ -24833,8 +24833,8 @@ export const createCloudProjectRegionLoadbalancingLoadbalancerLogUrl: API.Operat
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    8320,
-    __c260,
+    8288,
+    __c259,
     0,
   ) as any as S.Schema<CreateCloudProjectRegionLoadbalancingLoadbalancerLogUrlRequest>,
   output: __S(29152, __c911, 0) as any as S.Schema<DbaasLogsTemporaryLogsLink>,
@@ -24854,8 +24854,8 @@ export const createCloudProjectRegionLoadbalancingPool: API.OperationMethod<
   CreateCloudProjectRegionLoadbalancingPoolError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8384, __c262, 0) as any as S.Schema<CreateCloudProjectRegionLoadbalancingPoolRequest>,
-  output: __S(8416, __c263, 0) as any as S.Schema<CloudLoadbalancingPool>,
+  input: __S(8352, __c261, 0) as any as S.Schema<CreateCloudProjectRegionLoadbalancingPoolRequest>,
+  output: __S(8384, __c262, 0) as any as S.Schema<CloudLoadbalancingPool>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -24873,13 +24873,13 @@ export const createCloudProjectRegionLoadbalancingPoolMember: API.OperationMetho
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    8448,
-    __c264,
+    8416,
+    __c263,
     0,
   ) as any as S.Schema<CreateCloudProjectRegionLoadbalancingPoolMemberRequest>,
   output: __S(
-    8513,
-    __c266,
+    8481,
+    __c265,
     1,
   ) as any as S.Schema<CreateCloudProjectRegionLoadbalancingPoolMemberResponse>,
   errors: [],
@@ -24898,7 +24898,7 @@ export const createCloudProjectRegionLogSubscription: API.OperationMethod<
   CreateCloudProjectRegionLogSubscriptionError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8544, __c267, 0) as any as S.Schema<CreateCloudProjectRegionLogSubscriptionRequest>,
+  input: __S(8512, __c266, 0) as any as S.Schema<CreateCloudProjectRegionLogSubscriptionRequest>,
   output: __S(28672, __c896, 0) as any as S.Schema<DbaasLogsLogSubscriptionResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
@@ -24916,7 +24916,7 @@ export const createCloudProjectRegionLogUrl: API.OperationMethod<
   CreateCloudProjectRegionLogUrlError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8576, __c268, 0) as any as S.Schema<CreateCloudProjectRegionLogUrlRequest>,
+  input: __S(8544, __c267, 0) as any as S.Schema<CreateCloudProjectRegionLogUrlRequest>,
   output: __S(29152, __c911, 0) as any as S.Schema<DbaasLogsTemporaryLogsLink>,
   errors: [],
   serviceErrors: OvhServiceErrors,
@@ -24934,8 +24934,8 @@ export const createCloudProjectRegionNetwork: API.OperationMethod<
   CreateCloudProjectRegionNetworkError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8609, __c269, 1) as any as S.Schema<CreateCloudProjectRegionNetworkRequest>,
-  output: __S(17666, __c552, 2) as any as S.Schema<CloudOperation>,
+  input: __S(8577, __c268, 1) as any as S.Schema<CreateCloudProjectRegionNetworkRequest>,
+  output: __S(17634, __c551, 2) as any as S.Schema<CloudOperation>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -24952,8 +24952,8 @@ export const createCloudProjectRegionNetworkSubnet: API.OperationMethod<
   CreateCloudProjectRegionNetworkSubnetError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8640, __c270, 0) as any as S.Schema<CreateCloudProjectRegionNetworkSubnetRequest>,
-  output: __S(8672, __c271, 0) as any as S.Schema<CloudProjectSubnet>,
+  input: __S(8608, __c269, 0) as any as S.Schema<CreateCloudProjectRegionNetworkSubnetRequest>,
+  output: __S(8640, __c270, 0) as any as S.Schema<CloudProjectSubnet>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -24971,11 +24971,11 @@ export const createCloudProjectRegionNetworkSubnetGateway: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    8704,
-    __c272,
+    8672,
+    __c271,
     0,
   ) as any as S.Schema<CreateCloudProjectRegionNetworkSubnetGatewayRequest>,
-  output: __S(17666, __c552, 2) as any as S.Schema<CloudOperation>,
+  output: __S(17634, __c551, 2) as any as S.Schema<CloudOperation>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -24992,8 +24992,8 @@ export const createCloudProjectRegionQuota: API.OperationMethod<
   CreateCloudProjectRegionQuotaError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8736, __c273, 0) as any as S.Schema<CreateCloudProjectRegionQuotaRequest>,
-  output: __S(17666, __c552, 2) as any as S.Schema<CloudOperation>,
+  input: __S(8704, __c272, 0) as any as S.Schema<CreateCloudProjectRegionQuotaRequest>,
+  output: __S(17634, __c551, 2) as any as S.Schema<CloudOperation>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -25010,8 +25010,8 @@ export const createCloudProjectRegionShareAcl: API.OperationMethod<
   CreateCloudProjectRegionShareAclError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8768, __c274, 0) as any as S.Schema<CreateCloudProjectRegionShareAclRequest>,
-  output: __S(8800, __c275, 0) as any as S.Schema<CloudShareAclACL>,
+  input: __S(8736, __c273, 0) as any as S.Schema<CreateCloudProjectRegionShareAclRequest>,
+  output: __S(8768, __c274, 0) as any as S.Schema<CloudShareAclACL>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -25028,8 +25028,8 @@ export const createCloudProjectRegionShareSnapshot: API.OperationMethod<
   CreateCloudProjectRegionShareSnapshotError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8832, __c276, 0) as any as S.Schema<CreateCloudProjectRegionShareSnapshotRequest>,
-  output: __S(8864, __c277, 0) as any as S.Schema<CloudShareSnapshotSnapshot>,
+  input: __S(8800, __c275, 0) as any as S.Schema<CreateCloudProjectRegionShareSnapshotRequest>,
+  output: __S(8832, __c276, 0) as any as S.Schema<CloudShareSnapshotSnapshot>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -25046,8 +25046,8 @@ export const createCloudProjectRegionVolume: API.OperationMethod<
   CreateCloudProjectRegionVolumeError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8928, __c279, 0) as any as S.Schema<CreateCloudProjectRegionVolumeRequest>,
-  output: __S(8931, __c279, 3) as any as S.Schema<CloudRegionVolumeCreateResponse>,
+  input: __S(8896, __c278, 0) as any as S.Schema<CreateCloudProjectRegionVolumeRequest>,
+  output: __S(8899, __c278, 3) as any as S.Schema<CloudRegionVolumeCreateResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -25064,8 +25064,8 @@ export const createCloudProjectRegionVolumeBackup: API.OperationMethod<
   CreateCloudProjectRegionVolumeBackupError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8960, __c280, 0) as any as S.Schema<CreateCloudProjectRegionVolumeBackupRequest>,
-  output: __S(8992, __c281, 0) as any as S.Schema<CloudVolumeBackupVolumeBackup>,
+  input: __S(8928, __c279, 0) as any as S.Schema<CreateCloudProjectRegionVolumeBackupRequest>,
+  output: __S(8960, __c280, 0) as any as S.Schema<CloudVolumeBackupVolumeBackup>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -25082,8 +25082,8 @@ export const createCloudProjectRegionVolumeBackupVolume: API.OperationMethod<
   CreateCloudProjectRegionVolumeBackupVolumeError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9024, __c282, 0) as any as S.Schema<CreateCloudProjectRegionVolumeBackupVolumeRequest>,
-  output: __S(12832, __c401, 0) as any as S.Schema<CloudVolumeVolume>,
+  input: __S(8992, __c281, 0) as any as S.Schema<CreateCloudProjectRegionVolumeBackupVolumeRequest>,
+  output: __S(12800, __c400, 0) as any as S.Schema<CloudVolumeVolume>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -25100,8 +25100,8 @@ export const createCloudProjectRegionWorkflowBackup: API.OperationMethod<
   CreateCloudProjectRegionWorkflowBackupError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9056, __c283, 0) as any as S.Schema<CreateCloudProjectRegionWorkflowBackupRequest>,
-  output: __S(9090, __c284, 2) as any as S.Schema<CloudBackup>,
+  input: __S(9024, __c282, 0) as any as S.Schema<CreateCloudProjectRegionWorkflowBackupRequest>,
+  output: __S(9058, __c283, 2) as any as S.Schema<CloudBackup>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -25118,8 +25118,8 @@ export const createCloudProjectRetain: API.OperationMethod<
   CreateCloudProjectRetainError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9120, __c285, 0) as any as S.Schema<CreateCloudProjectRetainRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<CreateCloudProjectRetainResponse>,
+  input: __S(9088, __c284, 0) as any as S.Schema<CreateCloudProjectRetainRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<CreateCloudProjectRetainResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -25136,8 +25136,8 @@ export const createCloudProjectSshkey: API.OperationMethod<
   CreateCloudProjectSshkeyError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9152, __c286, 0) as any as S.Schema<CreateCloudProjectSshkeyRequest>,
-  output: __S(22208, __c694, 0) as any as S.Schema<CloudSshkeySshKeyDetail>,
+  input: __S(9120, __c285, 0) as any as S.Schema<CreateCloudProjectSshkeyRequest>,
+  output: __S(22176, __c693, 0) as any as S.Schema<CloudSshkeySshKeyDetail>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -25154,8 +25154,8 @@ export const createCloudProjectStorage: API.OperationMethod<
   CreateCloudProjectStorageError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9184, __c287, 0) as any as S.Schema<CreateCloudProjectStorageRequest>,
-  output: __S(9216, __c288, 0) as any as S.Schema<CloudStorageContainer2>,
+  input: __S(9152, __c286, 0) as any as S.Schema<CreateCloudProjectStorageRequest>,
+  output: __S(9184, __c287, 0) as any as S.Schema<CloudStorageContainer2>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -25172,8 +25172,8 @@ export const createCloudProjectStorageAccess: API.OperationMethod<
   CreateCloudProjectStorageAccessError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9248, __c289, 0) as any as S.Schema<CreateCloudProjectStorageAccessRequest>,
-  output: __S(9251, __c289, 3) as any as S.Schema<CloudStorageContainerAccess>,
+  input: __S(9216, __c288, 0) as any as S.Schema<CreateCloudProjectStorageAccessRequest>,
+  output: __S(9219, __c288, 3) as any as S.Schema<CloudStorageContainerAccess>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -25190,8 +25190,8 @@ export const createCloudProjectStorageCors: API.OperationMethod<
   CreateCloudProjectStorageCorsError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9280, __c290, 0) as any as S.Schema<CreateCloudProjectStorageCorsRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<CreateCloudProjectStorageCorsResponse>,
+  input: __S(9248, __c289, 0) as any as S.Schema<CreateCloudProjectStorageCorsRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<CreateCloudProjectStorageCorsResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -25208,8 +25208,8 @@ export const createCloudProjectStoragePublicUrl: API.OperationMethod<
   CreateCloudProjectStoragePublicUrlError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9312, __c291, 0) as any as S.Schema<CreateCloudProjectStoragePublicUrlRequest>,
-  output: __S(9313, __c291, 1) as any as S.Schema<CloudStorageContainerObjectTempURL>,
+  input: __S(9280, __c290, 0) as any as S.Schema<CreateCloudProjectStoragePublicUrlRequest>,
+  output: __S(9281, __c290, 1) as any as S.Schema<CloudStorageContainerObjectTempURL>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -25226,8 +25226,8 @@ export const createCloudProjectStorageStatic: API.OperationMethod<
   CreateCloudProjectStorageStaticError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9376, __c293, 0) as any as S.Schema<CreateCloudProjectStorageStaticRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<CreateCloudProjectStorageStaticResponse>,
+  input: __S(9344, __c292, 0) as any as S.Schema<CreateCloudProjectStorageStaticRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<CreateCloudProjectStorageStaticResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -25244,8 +25244,8 @@ export const createCloudProjectStorageUser: API.OperationMethod<
   CreateCloudProjectStorageUserError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9408, __c294, 0) as any as S.Schema<CreateCloudProjectStorageUserRequest>,
-  output: __S(9440, __c295, 0) as any as S.Schema<CloudUserUserDetail>,
+  input: __S(9376, __c293, 0) as any as S.Schema<CreateCloudProjectStorageUserRequest>,
+  output: __S(9408, __c294, 0) as any as S.Schema<CloudUserUserDetail>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -25262,8 +25262,8 @@ export const createCloudProjectUnleash: API.OperationMethod<
   CreateCloudProjectUnleashError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9536, __c298, 0) as any as S.Schema<CreateCloudProjectUnleashRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<CreateCloudProjectUnleashResponse>,
+  input: __S(9504, __c297, 0) as any as S.Schema<CreateCloudProjectUnleashRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<CreateCloudProjectUnleashResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -25280,8 +25280,8 @@ export const createCloudProjectUser: API.OperationMethod<
   CreateCloudProjectUserError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9568, __c299, 0) as any as S.Schema<CreateCloudProjectUserRequest>,
-  output: __S(9440, __c295, 0) as any as S.Schema<CloudUserUserDetail>,
+  input: __S(9536, __c298, 0) as any as S.Schema<CreateCloudProjectUserRequest>,
+  output: __S(9408, __c294, 0) as any as S.Schema<CloudUserUserDetail>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -25298,8 +25298,8 @@ export const createCloudProjectUserPolicy: API.OperationMethod<
   CreateCloudProjectUserPolicyError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9600, __c300, 0) as any as S.Schema<CreateCloudProjectUserPolicyRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<CreateCloudProjectUserPolicyResponse>,
+  input: __S(9568, __c299, 0) as any as S.Schema<CreateCloudProjectUserPolicyRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<CreateCloudProjectUserPolicyResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -25316,8 +25316,8 @@ export const createCloudProjectUserRole: API.OperationMethod<
   CreateCloudProjectUserRoleError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9632, __c301, 0) as any as S.Schema<CreateCloudProjectUserRoleRequest>,
-  output: __S(9440, __c295, 0) as any as S.Schema<CloudUserUserDetail>,
+  input: __S(9600, __c300, 0) as any as S.Schema<CreateCloudProjectUserRoleRequest>,
+  output: __S(9408, __c294, 0) as any as S.Schema<CloudUserUserDetail>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -25334,8 +25334,8 @@ export const createCloudProjectUserS3Credentials: API.OperationMethod<
   CreateCloudProjectUserS3CredentialsError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9664, __c302, 0) as any as S.Schema<CreateCloudProjectUserS3CredentialsRequest>,
-  output: __S(9665, __c302, 1) as any as S.Schema<CloudUserS3CredentialsWithSecret>,
+  input: __S(9632, __c301, 0) as any as S.Schema<CreateCloudProjectUserS3CredentialsRequest>,
+  output: __S(9633, __c301, 1) as any as S.Schema<CloudUserS3CredentialsWithSecret>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -25352,8 +25352,8 @@ export const createCloudProjectUserS3CredentialsSecret: API.OperationMethod<
   CreateCloudProjectUserS3CredentialsSecretError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9696, __c303, 0) as any as S.Schema<CreateCloudProjectUserS3CredentialsSecretRequest>,
-  output: __S(9697, __c303, 1) as any as S.Schema<CloudUserS3CredentialsSecretOnly>,
+  input: __S(9664, __c302, 0) as any as S.Schema<CreateCloudProjectUserS3CredentialsSecretRequest>,
+  output: __S(9665, __c302, 1) as any as S.Schema<CloudUserS3CredentialsSecretOnly>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -25370,8 +25370,8 @@ export const createCloudProjectUserToken: API.OperationMethod<
   CreateCloudProjectUserTokenError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9728, __c304, 0) as any as S.Schema<CreateCloudProjectUserTokenRequest>,
-  output: __S(9735, __c304, 7) as any as S.Schema<CloudAuthenticationToken>,
+  input: __S(9696, __c303, 0) as any as S.Schema<CreateCloudProjectUserTokenRequest>,
+  output: __S(9703, __c303, 7) as any as S.Schema<CloudAuthenticationToken>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -25388,8 +25388,8 @@ export const createCloudProjectVolume: API.OperationMethod<
   CreateCloudProjectVolumeError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9760, __c305, 0) as any as S.Schema<CreateCloudProjectVolumeRequest>,
-  output: __S(12832, __c401, 0) as any as S.Schema<CloudVolumeVolume>,
+  input: __S(9728, __c304, 0) as any as S.Schema<CreateCloudProjectVolumeRequest>,
+  output: __S(12800, __c400, 0) as any as S.Schema<CloudVolumeVolume>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -25406,8 +25406,8 @@ export const createCloudProjectVolumeSnapshot: API.OperationMethod<
   CreateCloudProjectVolumeSnapshotError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9824, __c307, 0) as any as S.Schema<CreateCloudProjectVolumeSnapshotRequest>,
-  output: __S(9856, __c308, 0) as any as S.Schema<CloudVolumeSnapshot>,
+  input: __S(9792, __c306, 0) as any as S.Schema<CreateCloudProjectVolumeSnapshotRequest>,
+  output: __S(9824, __c307, 0) as any as S.Schema<CloudVolumeSnapshot>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -25424,8 +25424,8 @@ export const createCloudProjectVolumeUpsize: API.OperationMethod<
   CreateCloudProjectVolumeUpsizeError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9888, __c309, 0) as any as S.Schema<CreateCloudProjectVolumeUpsizeRequest>,
-  output: __S(12832, __c401, 0) as any as S.Schema<CloudVolumeVolume>,
+  input: __S(9856, __c308, 0) as any as S.Schema<CreateCloudProjectVolumeUpsizeRequest>,
+  output: __S(12800, __c400, 0) as any as S.Schema<CloudVolumeVolume>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -25442,8 +25442,8 @@ export const createCloudProjectVrack: API.OperationMethod<
   CreateCloudProjectVrackError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9920, __c310, 0) as any as S.Schema<CreateCloudProjectVrackRequest>,
-  output: __S(17666, __c552, 2) as any as S.Schema<CloudOperation>,
+  input: __S(9888, __c309, 0) as any as S.Schema<CreateCloudProjectVrackRequest>,
+  output: __S(17634, __c551, 2) as any as S.Schema<CloudOperation>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -25460,8 +25460,8 @@ export const createColdArchiveContainerOnRegion: API.OperationMethod<
   CreateColdArchiveContainerOnRegionError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9952, __c311, 0) as any as S.Schema<CreateColdArchiveContainerOnRegionRequest>,
-  output: __S(10144, __c317, 0) as any as S.Schema<CloudColdArchiveContainer>,
+  input: __S(9920, __c310, 0) as any as S.Schema<CreateColdArchiveContainerOnRegionRequest>,
+  output: __S(10112, __c316, 0) as any as S.Schema<CloudColdArchiveContainer>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -25478,8 +25478,8 @@ export const createFloatingIpOnInstanceOnRegion: API.OperationMethod<
   CreateFloatingIpOnInstanceOnRegionError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10176, __c318, 0) as any as S.Schema<CreateFloatingIpOnInstanceOnRegionRequest>,
-  output: __S(17666, __c552, 2) as any as S.Schema<CloudOperation>,
+  input: __S(10144, __c317, 0) as any as S.Schema<CreateFloatingIpOnInstanceOnRegionRequest>,
+  output: __S(17634, __c551, 2) as any as S.Schema<CloudOperation>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -25496,8 +25496,8 @@ export const createInstanceOnRegion: API.OperationMethod<
   CreateInstanceOnRegionError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10218, __c319, 10) as any as S.Schema<CreateInstanceOnRegionRequest>,
-  output: __S(17666, __c552, 2) as any as S.Schema<CloudOperation>,
+  input: __S(10186, __c318, 10) as any as S.Schema<CreateInstanceOnRegionRequest>,
+  output: __S(17634, __c551, 2) as any as S.Schema<CloudOperation>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -25514,8 +25514,8 @@ export const createLoadBalancer: API.OperationMethod<
   CreateLoadBalancerError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10272, __c321, 0) as any as S.Schema<CreateLoadBalancerRequest>,
-  output: __S(10306, __c322, 2) as any as S.Schema<CloudProjectLoadBalancer>,
+  input: __S(10240, __c320, 0) as any as S.Schema<CreateLoadBalancerRequest>,
+  output: __S(10274, __c321, 2) as any as S.Schema<CloudProjectLoadBalancer>,
   errors: [BadRequest, Forbidden],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -25532,8 +25532,8 @@ export const createLoadBalancerConfiguration: API.OperationMethod<
   CreateLoadBalancerConfigurationError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10336, __c323, 0) as any as S.Schema<CreateLoadBalancerConfigurationRequest>,
-  output: __S(10916, __c341, 4) as any as S.Schema<CloudProjectLoadbalancerConfiguration>,
+  input: __S(10304, __c322, 0) as any as S.Schema<CreateLoadBalancerConfigurationRequest>,
+  output: __S(10884, __c340, 4) as any as S.Schema<CloudProjectLoadbalancerConfiguration>,
   errors: [BadRequest, Forbidden],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -25550,8 +25550,8 @@ export const createNetworkLoadBalancer: API.OperationMethod<
   CreateNetworkLoadBalancerError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10368, __c324, 0) as any as S.Schema<CreateNetworkLoadBalancerRequest>,
-  output: __S(17824, __c557, 0) as any as S.Schema<CloudProjectNetworkLoadBalancer>,
+  input: __S(10336, __c323, 0) as any as S.Schema<CreateNetworkLoadBalancerRequest>,
+  output: __S(17792, __c556, 0) as any as S.Schema<CloudProjectNetworkLoadBalancer>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -25568,8 +25568,8 @@ export const createNetworkLoadBalancerConfiguration: API.OperationMethod<
   CreateNetworkLoadBalancerConfigurationError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10400, __c325, 0) as any as S.Schema<CreateNetworkLoadBalancerConfigurationRequest>,
-  output: __S(11301, __c353, 5) as any as S.Schema<CloudProjectNetworkloadbalancerConfiguration>,
+  input: __S(10368, __c324, 0) as any as S.Schema<CreateNetworkLoadBalancerConfigurationRequest>,
+  output: __S(11269, __c352, 5) as any as S.Schema<CloudProjectNetworkloadbalancerConfiguration>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -25586,8 +25586,8 @@ export const createPresignedUrlOnRegion: API.OperationMethod<
   CreatePresignedUrlOnRegionError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10464, __c327, 0) as any as S.Schema<CreatePresignedUrlOnRegionRequest>,
-  output: __S(10496, __c328, 0) as any as S.Schema<CloudStoragePresignedURL>,
+  input: __S(10432, __c326, 0) as any as S.Schema<CreatePresignedUrlOnRegionRequest>,
+  output: __S(10464, __c327, 0) as any as S.Schema<CloudStoragePresignedURL>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -25604,8 +25604,8 @@ export const createReplicationJobOnStorageContainer: API.OperationMethod<
   CreateReplicationJobOnStorageContainerError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10528, __c329, 0) as any as S.Schema<CreateReplicationJobOnStorageContainerRequest>,
-  output: __S(10560, __c330, 0) as any as S.Schema<CloudStorageJobReplication>,
+  input: __S(10496, __c328, 0) as any as S.Schema<CreateReplicationJobOnStorageContainerRequest>,
+  output: __S(10528, __c329, 0) as any as S.Schema<CloudStorageJobReplication>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -25622,8 +25622,8 @@ export const createStorageContainerOnRegion: API.OperationMethod<
   CreateStorageContainerOnRegionError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10592, __c331, 0) as any as S.Schema<CreateStorageContainerOnRegionRequest>,
-  output: __S(10628, __c332, 4) as any as S.Schema<CloudStorageContainer>,
+  input: __S(10560, __c330, 0) as any as S.Schema<CreateStorageContainerOnRegionRequest>,
+  output: __S(10596, __c331, 4) as any as S.Schema<CloudStorageContainer>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -25640,8 +25640,8 @@ export const createStorageContainerPolicyOnRegion: API.OperationMethod<
   CreateStorageContainerPolicyOnRegionError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10656, __c333, 0) as any as S.Schema<CreateStorageContainerPolicyOnRegionRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<CreateStorageContainerPolicyOnRegionResponse>,
+  input: __S(10624, __c332, 0) as any as S.Schema<CreateStorageContainerPolicyOnRegionRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<CreateStorageContainerPolicyOnRegionResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -25658,8 +25658,8 @@ export const deleteAlerting: API.OperationMethod<
   DeleteAlertingError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10688, __c334, 0) as any as S.Schema<DeleteAlertingRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<DeleteAlertingResponse>,
+  input: __S(10656, __c333, 0) as any as S.Schema<DeleteAlertingRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<DeleteAlertingResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -25676,8 +25676,8 @@ export const deleteApplicationLoadBalancer: API.OperationMethod<
   DeleteApplicationLoadBalancerError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10720, __c335, 0) as any as S.Schema<DeleteApplicationLoadBalancerRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<DeleteApplicationLoadBalancerResponse>,
+  input: __S(10688, __c334, 0) as any as S.Schema<DeleteApplicationLoadBalancerRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<DeleteApplicationLoadBalancerResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -25695,13 +25695,13 @@ export const deleteApplicationLoadBalancerConfiguration: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    10752,
-    __c336,
+    10720,
+    __c335,
     0,
   ) as any as S.Schema<DeleteApplicationLoadBalancerConfigurationRequest>,
   output: __S(
-    11680,
-    __c365,
+    11648,
+    __c364,
     0,
   ) as any as S.Schema<DeleteApplicationLoadBalancerConfigurationResponse>,
   errors: [],
@@ -25720,8 +25720,8 @@ export const deleteCertificate: API.OperationMethod<
   DeleteCertificateError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10784, __c337, 0) as any as S.Schema<DeleteCertificateRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<DeleteCertificateResponse>,
+  input: __S(10752, __c336, 0) as any as S.Schema<DeleteCertificateRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<DeleteCertificateResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -25738,8 +25738,8 @@ export const deleteCloudProjectAcl: API.OperationMethod<
   DeleteCloudProjectAclError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10816, __c338, 0) as any as S.Schema<DeleteCloudProjectAclRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<DeleteCloudProjectAclResponse>,
+  input: __S(10784, __c337, 0) as any as S.Schema<DeleteCloudProjectAclRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<DeleteCloudProjectAclResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -25756,8 +25756,8 @@ export const deleteCloudProjectAiApp: API.OperationMethod<
   DeleteCloudProjectAiAppError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10848, __c339, 0) as any as S.Schema<DeleteCloudProjectAiAppRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<DeleteCloudProjectAiAppResponse>,
+  input: __S(10816, __c338, 0) as any as S.Schema<DeleteCloudProjectAiAppRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<DeleteCloudProjectAiAppResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -25774,8 +25774,8 @@ export const deleteCloudProjectAiDataRegionAlias: API.OperationMethod<
   DeleteCloudProjectAiDataRegionAliasError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10944, __c342, 0) as any as S.Schema<DeleteCloudProjectAiDataRegionAliasRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<DeleteCloudProjectAiDataRegionAliasResponse>,
+  input: __S(10912, __c341, 0) as any as S.Schema<DeleteCloudProjectAiDataRegionAliasRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<DeleteCloudProjectAiDataRegionAliasResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -25792,8 +25792,8 @@ export const deleteCloudProjectAiJob: API.OperationMethod<
   DeleteCloudProjectAiJobError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10976, __c343, 0) as any as S.Schema<DeleteCloudProjectAiJobRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<DeleteCloudProjectAiJobResponse>,
+  input: __S(10944, __c342, 0) as any as S.Schema<DeleteCloudProjectAiJobRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<DeleteCloudProjectAiJobResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -25810,8 +25810,8 @@ export const deleteCloudProjectAiNotebook: API.OperationMethod<
   DeleteCloudProjectAiNotebookError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11008, __c344, 0) as any as S.Schema<DeleteCloudProjectAiNotebookRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<DeleteCloudProjectAiNotebookResponse>,
+  input: __S(10976, __c343, 0) as any as S.Schema<DeleteCloudProjectAiNotebookRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<DeleteCloudProjectAiNotebookResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -25828,8 +25828,8 @@ export const deleteCloudProjectAiRegistry: API.OperationMethod<
   DeleteCloudProjectAiRegistryError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11040, __c345, 0) as any as S.Schema<DeleteCloudProjectAiRegistryRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<DeleteCloudProjectAiRegistryResponse>,
+  input: __S(11008, __c344, 0) as any as S.Schema<DeleteCloudProjectAiRegistryRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<DeleteCloudProjectAiRegistryResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -25846,8 +25846,8 @@ export const deleteCloudProjectAiToken: API.OperationMethod<
   DeleteCloudProjectAiTokenError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11072, __c346, 0) as any as S.Schema<DeleteCloudProjectAiTokenRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<DeleteCloudProjectAiTokenResponse>,
+  input: __S(11040, __c345, 0) as any as S.Schema<DeleteCloudProjectAiTokenRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<DeleteCloudProjectAiTokenResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -25864,8 +25864,8 @@ export const deleteCloudProjectContainerRegistry: API.OperationMethod<
   DeleteCloudProjectContainerRegistryError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11104, __c347, 0) as any as S.Schema<DeleteCloudProjectContainerRegistryRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<DeleteCloudProjectContainerRegistryResponse>,
+  input: __S(11072, __c346, 0) as any as S.Schema<DeleteCloudProjectContainerRegistryRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<DeleteCloudProjectContainerRegistryResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -25882,8 +25882,8 @@ export const deleteCloudProjectContainerRegistryIam: API.OperationMethod<
   DeleteCloudProjectContainerRegistryIamError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11136, __c348, 0) as any as S.Schema<DeleteCloudProjectContainerRegistryIamRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<DeleteCloudProjectContainerRegistryIamResponse>,
+  input: __S(11104, __c347, 0) as any as S.Schema<DeleteCloudProjectContainerRegistryIamRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<DeleteCloudProjectContainerRegistryIamResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -25901,13 +25901,13 @@ export const deleteCloudProjectContainerRegistryOpenIdConnect: API.OperationMeth
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    11168,
-    __c349,
+    11136,
+    __c348,
     0,
   ) as any as S.Schema<DeleteCloudProjectContainerRegistryOpenIdConnectRequest>,
   output: __S(
-    11680,
-    __c365,
+    11648,
+    __c364,
     0,
   ) as any as S.Schema<DeleteCloudProjectContainerRegistryOpenIdConnectResponse>,
   errors: [],
@@ -25926,8 +25926,8 @@ export const deleteCloudProjectContainerRegistryUser: API.OperationMethod<
   DeleteCloudProjectContainerRegistryUserError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11200, __c350, 0) as any as S.Schema<DeleteCloudProjectContainerRegistryUserRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<DeleteCloudProjectContainerRegistryUserResponse>,
+  input: __S(11168, __c349, 0) as any as S.Schema<DeleteCloudProjectContainerRegistryUserRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<DeleteCloudProjectContainerRegistryUserResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -25944,8 +25944,8 @@ export const deleteCloudProjectDatabaseCassandra: API.OperationMethod<
   DeleteCloudProjectDatabaseCassandraError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11232, __c351, 0) as any as S.Schema<DeleteCloudProjectDatabaseCassandraRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<DeleteCloudProjectDatabaseCassandraResponse>,
+  input: __S(11200, __c350, 0) as any as S.Schema<DeleteCloudProjectDatabaseCassandraRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<DeleteCloudProjectDatabaseCassandraResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -25963,13 +25963,13 @@ export const deleteCloudProjectDatabaseCassandraIntegration: API.OperationMethod
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    11328,
-    __c354,
+    11296,
+    __c353,
     0,
   ) as any as S.Schema<DeleteCloudProjectDatabaseCassandraIntegrationRequest>,
   output: __S(
-    11680,
-    __c365,
+    11648,
+    __c364,
     0,
   ) as any as S.Schema<DeleteCloudProjectDatabaseCassandraIntegrationResponse>,
   errors: [],
@@ -25993,8 +25993,8 @@ export const deleteCloudProjectDatabaseCassandraLogSubscription: API.OperationMe
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    11360,
-    __c355,
+    11328,
+    __c354,
     0,
   ) as any as S.Schema<DeleteCloudProjectDatabaseCassandraLogSubscriptionRequest>,
   output: __S(28672, __c896, 0) as any as S.Schema<DbaasLogsLogSubscriptionResponse>,
@@ -26014,8 +26014,8 @@ export const deleteCloudProjectDatabaseCassandraUser: API.OperationMethod<
   DeleteCloudProjectDatabaseCassandraUserError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11392, __c356, 0) as any as S.Schema<DeleteCloudProjectDatabaseCassandraUserRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<DeleteCloudProjectDatabaseCassandraUserResponse>,
+  input: __S(11360, __c355, 0) as any as S.Schema<DeleteCloudProjectDatabaseCassandraUserRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<DeleteCloudProjectDatabaseCassandraUserResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -26032,8 +26032,8 @@ export const deleteCloudProjectDatabaseClickhouse: API.OperationMethod<
   DeleteCloudProjectDatabaseClickhouseError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11424, __c357, 0) as any as S.Schema<DeleteCloudProjectDatabaseClickhouseRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<DeleteCloudProjectDatabaseClickhouseResponse>,
+  input: __S(11392, __c356, 0) as any as S.Schema<DeleteCloudProjectDatabaseClickhouseRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<DeleteCloudProjectDatabaseClickhouseResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -26051,13 +26051,13 @@ export const deleteCloudProjectDatabaseClickhouseDatabase: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    11456,
-    __c358,
+    11424,
+    __c357,
     0,
   ) as any as S.Schema<DeleteCloudProjectDatabaseClickhouseDatabaseRequest>,
   output: __S(
-    11680,
-    __c365,
+    11648,
+    __c364,
     0,
   ) as any as S.Schema<DeleteCloudProjectDatabaseClickhouseDatabaseResponse>,
   errors: [],
@@ -26077,13 +26077,13 @@ export const deleteCloudProjectDatabaseClickhouseIntegration: API.OperationMetho
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    11488,
-    __c359,
+    11456,
+    __c358,
     0,
   ) as any as S.Schema<DeleteCloudProjectDatabaseClickhouseIntegrationRequest>,
   output: __S(
-    11680,
-    __c365,
+    11648,
+    __c364,
     0,
   ) as any as S.Schema<DeleteCloudProjectDatabaseClickhouseIntegrationResponse>,
   errors: [],
@@ -26107,8 +26107,8 @@ export const deleteCloudProjectDatabaseClickhouseLogSubscription: API.OperationM
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    11520,
-    __c360,
+    11488,
+    __c359,
     0,
   ) as any as S.Schema<DeleteCloudProjectDatabaseClickhouseLogSubscriptionRequest>,
   output: __S(28672, __c896, 0) as any as S.Schema<DbaasLogsLogSubscriptionResponse>,
@@ -26128,10 +26128,10 @@ export const deleteCloudProjectDatabaseClickhouseUser: API.OperationMethod<
   DeleteCloudProjectDatabaseClickhouseUserError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11552, __c361, 0) as any as S.Schema<DeleteCloudProjectDatabaseClickhouseUserRequest>,
+  input: __S(11520, __c360, 0) as any as S.Schema<DeleteCloudProjectDatabaseClickhouseUserRequest>,
   output: __S(
-    11680,
-    __c365,
+    11648,
+    __c364,
     0,
   ) as any as S.Schema<DeleteCloudProjectDatabaseClickhouseUserResponse>,
   errors: [],
@@ -26150,8 +26150,8 @@ export const deleteCloudProjectDatabaseGrafana: API.OperationMethod<
   DeleteCloudProjectDatabaseGrafanaError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11584, __c362, 0) as any as S.Schema<DeleteCloudProjectDatabaseGrafanaRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<DeleteCloudProjectDatabaseGrafanaResponse>,
+  input: __S(11552, __c361, 0) as any as S.Schema<DeleteCloudProjectDatabaseGrafanaRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<DeleteCloudProjectDatabaseGrafanaResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -26169,13 +26169,13 @@ export const deleteCloudProjectDatabaseGrafanaIntegration: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    11616,
-    __c363,
+    11584,
+    __c362,
     0,
   ) as any as S.Schema<DeleteCloudProjectDatabaseGrafanaIntegrationRequest>,
   output: __S(
-    11680,
-    __c365,
+    11648,
+    __c364,
     0,
   ) as any as S.Schema<DeleteCloudProjectDatabaseGrafanaIntegrationResponse>,
   errors: [],
@@ -26199,8 +26199,8 @@ export const deleteCloudProjectDatabaseGrafanaLogSubscription: API.OperationMeth
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    11712,
-    __c366,
+    11680,
+    __c365,
     0,
   ) as any as S.Schema<DeleteCloudProjectDatabaseGrafanaLogSubscriptionRequest>,
   output: __S(28672, __c896, 0) as any as S.Schema<DbaasLogsLogSubscriptionResponse>,
@@ -26220,8 +26220,8 @@ export const deleteCloudProjectDatabaseKafka: API.OperationMethod<
   DeleteCloudProjectDatabaseKafkaError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11744, __c367, 0) as any as S.Schema<DeleteCloudProjectDatabaseKafkaRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<DeleteCloudProjectDatabaseKafkaResponse>,
+  input: __S(11712, __c366, 0) as any as S.Schema<DeleteCloudProjectDatabaseKafkaRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<DeleteCloudProjectDatabaseKafkaResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -26238,8 +26238,8 @@ export const deleteCloudProjectDatabaseKafkaConnect: API.OperationMethod<
   DeleteCloudProjectDatabaseKafkaConnectError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11776, __c368, 0) as any as S.Schema<DeleteCloudProjectDatabaseKafkaConnectRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<DeleteCloudProjectDatabaseKafkaConnectResponse>,
+  input: __S(11744, __c367, 0) as any as S.Schema<DeleteCloudProjectDatabaseKafkaConnectRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<DeleteCloudProjectDatabaseKafkaConnectResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -26257,13 +26257,13 @@ export const deleteCloudProjectDatabaseKafkaConnectConnector: API.OperationMetho
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    11808,
-    __c369,
+    11776,
+    __c368,
     0,
   ) as any as S.Schema<DeleteCloudProjectDatabaseKafkaConnectConnectorRequest>,
   output: __S(
-    11680,
-    __c365,
+    11648,
+    __c364,
     0,
   ) as any as S.Schema<DeleteCloudProjectDatabaseKafkaConnectConnectorResponse>,
   errors: [],
@@ -26283,13 +26283,13 @@ export const deleteCloudProjectDatabaseKafkaConnectIntegration: API.OperationMet
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    11840,
-    __c370,
+    11808,
+    __c369,
     0,
   ) as any as S.Schema<DeleteCloudProjectDatabaseKafkaConnectIntegrationRequest>,
   output: __S(
-    11680,
-    __c365,
+    11648,
+    __c364,
     0,
   ) as any as S.Schema<DeleteCloudProjectDatabaseKafkaConnectIntegrationResponse>,
   errors: [],
@@ -26313,8 +26313,8 @@ export const deleteCloudProjectDatabaseKafkaConnectLogSubscription: API.Operatio
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    11872,
-    __c371,
+    11840,
+    __c370,
     0,
   ) as any as S.Schema<DeleteCloudProjectDatabaseKafkaConnectLogSubscriptionRequest>,
   output: __S(28672, __c896, 0) as any as S.Schema<DbaasLogsLogSubscriptionResponse>,
@@ -26335,13 +26335,13 @@ export const deleteCloudProjectDatabaseKafkaConnectUser: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    11904,
-    __c372,
+    11872,
+    __c371,
     0,
   ) as any as S.Schema<DeleteCloudProjectDatabaseKafkaConnectUserRequest>,
   output: __S(
-    11680,
-    __c365,
+    11648,
+    __c364,
     0,
   ) as any as S.Schema<DeleteCloudProjectDatabaseKafkaConnectUserResponse>,
   errors: [],
@@ -26361,13 +26361,13 @@ export const deleteCloudProjectDatabaseKafkaIntegration: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    11936,
-    __c373,
+    11904,
+    __c372,
     0,
   ) as any as S.Schema<DeleteCloudProjectDatabaseKafkaIntegrationRequest>,
   output: __S(
-    11680,
-    __c365,
+    11648,
+    __c364,
     0,
   ) as any as S.Schema<DeleteCloudProjectDatabaseKafkaIntegrationResponse>,
   errors: [],
@@ -26391,8 +26391,8 @@ export const deleteCloudProjectDatabaseKafkaLogSubscription: API.OperationMethod
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    11968,
-    __c374,
+    11936,
+    __c373,
     0,
   ) as any as S.Schema<DeleteCloudProjectDatabaseKafkaLogSubscriptionRequest>,
   output: __S(28672, __c896, 0) as any as S.Schema<DbaasLogsLogSubscriptionResponse>,
@@ -26413,13 +26413,13 @@ export const deleteCloudProjectDatabaseKafkaMirrorMaker: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    12000,
-    __c375,
+    11968,
+    __c374,
     0,
   ) as any as S.Schema<DeleteCloudProjectDatabaseKafkaMirrorMakerRequest>,
   output: __S(
-    11680,
-    __c365,
+    11648,
+    __c364,
     0,
   ) as any as S.Schema<DeleteCloudProjectDatabaseKafkaMirrorMakerResponse>,
   errors: [],
@@ -26439,13 +26439,13 @@ export const deleteCloudProjectDatabaseKafkaMirrorMakerIntegration: API.Operatio
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    12096,
-    __c378,
+    12064,
+    __c377,
     0,
   ) as any as S.Schema<DeleteCloudProjectDatabaseKafkaMirrorMakerIntegrationRequest>,
   output: __S(
-    11680,
-    __c365,
+    11648,
+    __c364,
     0,
   ) as any as S.Schema<DeleteCloudProjectDatabaseKafkaMirrorMakerIntegrationResponse>,
   errors: [],
@@ -26469,8 +26469,8 @@ export const deleteCloudProjectDatabaseKafkaMirrorMakerLogSubscription: API.Oper
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    12128,
-    __c379,
+    12096,
+    __c378,
     0,
   ) as any as S.Schema<DeleteCloudProjectDatabaseKafkaMirrorMakerLogSubscriptionRequest>,
   output: __S(28672, __c896, 0) as any as S.Schema<DbaasLogsLogSubscriptionResponse>,
@@ -26491,13 +26491,13 @@ export const deleteCloudProjectDatabaseKafkaMirrorMakerReplication: API.Operatio
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    12160,
-    __c380,
+    12128,
+    __c379,
     0,
   ) as any as S.Schema<DeleteCloudProjectDatabaseKafkaMirrorMakerReplicationRequest>,
   output: __S(
-    11680,
-    __c365,
+    11648,
+    __c364,
     0,
   ) as any as S.Schema<DeleteCloudProjectDatabaseKafkaMirrorMakerReplicationResponse>,
   errors: [],
@@ -26517,13 +26517,13 @@ export const deleteCloudProjectDatabaseKafkaSchemaRegistryAcl: API.OperationMeth
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    12192,
-    __c381,
+    12160,
+    __c380,
     0,
   ) as any as S.Schema<DeleteCloudProjectDatabaseKafkaSchemaRegistryAclRequest>,
   output: __S(
-    11680,
-    __c365,
+    11648,
+    __c364,
     0,
   ) as any as S.Schema<DeleteCloudProjectDatabaseKafkaSchemaRegistryAclResponse>,
   errors: [],
@@ -26542,8 +26542,8 @@ export const deleteCloudProjectDatabaseKafkaTopic: API.OperationMethod<
   DeleteCloudProjectDatabaseKafkaTopicError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12224, __c382, 0) as any as S.Schema<DeleteCloudProjectDatabaseKafkaTopicRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<DeleteCloudProjectDatabaseKafkaTopicResponse>,
+  input: __S(12192, __c381, 0) as any as S.Schema<DeleteCloudProjectDatabaseKafkaTopicRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<DeleteCloudProjectDatabaseKafkaTopicResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -26560,8 +26560,8 @@ export const deleteCloudProjectDatabaseKafkaTopicAcl: API.OperationMethod<
   DeleteCloudProjectDatabaseKafkaTopicAclError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12256, __c383, 0) as any as S.Schema<DeleteCloudProjectDatabaseKafkaTopicAclRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<DeleteCloudProjectDatabaseKafkaTopicAclResponse>,
+  input: __S(12224, __c382, 0) as any as S.Schema<DeleteCloudProjectDatabaseKafkaTopicAclRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<DeleteCloudProjectDatabaseKafkaTopicAclResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -26578,8 +26578,8 @@ export const deleteCloudProjectDatabaseKafkaUser: API.OperationMethod<
   DeleteCloudProjectDatabaseKafkaUserError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12288, __c384, 0) as any as S.Schema<DeleteCloudProjectDatabaseKafkaUserRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<DeleteCloudProjectDatabaseKafkaUserResponse>,
+  input: __S(12256, __c383, 0) as any as S.Schema<DeleteCloudProjectDatabaseKafkaUserRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<DeleteCloudProjectDatabaseKafkaUserResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -26596,8 +26596,8 @@ export const deleteCloudProjectDatabaseM3aggregator: API.OperationMethod<
   DeleteCloudProjectDatabaseM3aggregatorError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12320, __c385, 0) as any as S.Schema<DeleteCloudProjectDatabaseM3aggregatorRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<DeleteCloudProjectDatabaseM3aggregatorResponse>,
+  input: __S(12288, __c384, 0) as any as S.Schema<DeleteCloudProjectDatabaseM3aggregatorRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<DeleteCloudProjectDatabaseM3aggregatorResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -26615,13 +26615,13 @@ export const deleteCloudProjectDatabaseM3aggregatorIntegration: API.OperationMet
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    12352,
-    __c386,
+    12320,
+    __c385,
     0,
   ) as any as S.Schema<DeleteCloudProjectDatabaseM3aggregatorIntegrationRequest>,
   output: __S(
-    11680,
-    __c365,
+    11648,
+    __c364,
     0,
   ) as any as S.Schema<DeleteCloudProjectDatabaseM3aggregatorIntegrationResponse>,
   errors: [],
@@ -26645,8 +26645,8 @@ export const deleteCloudProjectDatabaseM3aggregatorLogSubscription: API.Operatio
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    12384,
-    __c387,
+    12352,
+    __c386,
     0,
   ) as any as S.Schema<DeleteCloudProjectDatabaseM3aggregatorLogSubscriptionRequest>,
   output: __S(28672, __c896, 0) as any as S.Schema<DbaasLogsLogSubscriptionResponse>,
@@ -26666,8 +26666,8 @@ export const deleteCloudProjectDatabaseM3db: API.OperationMethod<
   DeleteCloudProjectDatabaseM3dbError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12480, __c390, 0) as any as S.Schema<DeleteCloudProjectDatabaseM3dbRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<DeleteCloudProjectDatabaseM3dbResponse>,
+  input: __S(12448, __c389, 0) as any as S.Schema<DeleteCloudProjectDatabaseM3dbRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<DeleteCloudProjectDatabaseM3dbResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -26684,10 +26684,10 @@ export const deleteCloudProjectDatabaseM3dbIntegration: API.OperationMethod<
   DeleteCloudProjectDatabaseM3dbIntegrationError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12512, __c391, 0) as any as S.Schema<DeleteCloudProjectDatabaseM3dbIntegrationRequest>,
+  input: __S(12480, __c390, 0) as any as S.Schema<DeleteCloudProjectDatabaseM3dbIntegrationRequest>,
   output: __S(
-    11680,
-    __c365,
+    11648,
+    __c364,
     0,
   ) as any as S.Schema<DeleteCloudProjectDatabaseM3dbIntegrationResponse>,
   errors: [],
@@ -26711,8 +26711,8 @@ export const deleteCloudProjectDatabaseM3dbLogSubscription: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    12544,
-    __c392,
+    12512,
+    __c391,
     0,
   ) as any as S.Schema<DeleteCloudProjectDatabaseM3dbLogSubscriptionRequest>,
   output: __S(28672, __c896, 0) as any as S.Schema<DbaasLogsLogSubscriptionResponse>,
@@ -26732,8 +26732,8 @@ export const deleteCloudProjectDatabaseM3dbNamespace: API.OperationMethod<
   DeleteCloudProjectDatabaseM3dbNamespaceError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12576, __c393, 0) as any as S.Schema<DeleteCloudProjectDatabaseM3dbNamespaceRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<DeleteCloudProjectDatabaseM3dbNamespaceResponse>,
+  input: __S(12544, __c392, 0) as any as S.Schema<DeleteCloudProjectDatabaseM3dbNamespaceRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<DeleteCloudProjectDatabaseM3dbNamespaceResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -26750,8 +26750,8 @@ export const deleteCloudProjectDatabaseM3dbUser: API.OperationMethod<
   DeleteCloudProjectDatabaseM3dbUserError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12608, __c394, 0) as any as S.Schema<DeleteCloudProjectDatabaseM3dbUserRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<DeleteCloudProjectDatabaseM3dbUserResponse>,
+  input: __S(12576, __c393, 0) as any as S.Schema<DeleteCloudProjectDatabaseM3dbUserRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<DeleteCloudProjectDatabaseM3dbUserResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -26768,8 +26768,8 @@ export const deleteCloudProjectDatabaseMongodb: API.OperationMethod<
   DeleteCloudProjectDatabaseMongodbError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12640, __c395, 0) as any as S.Schema<DeleteCloudProjectDatabaseMongodbRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<DeleteCloudProjectDatabaseMongodbResponse>,
+  input: __S(12608, __c394, 0) as any as S.Schema<DeleteCloudProjectDatabaseMongodbRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<DeleteCloudProjectDatabaseMongodbResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -26786,8 +26786,8 @@ export const deleteCloudProjectDatabaseMongodbBackup: API.OperationMethod<
   DeleteCloudProjectDatabaseMongodbBackupError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12672, __c396, 0) as any as S.Schema<DeleteCloudProjectDatabaseMongodbBackupRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<DeleteCloudProjectDatabaseMongodbBackupResponse>,
+  input: __S(12640, __c395, 0) as any as S.Schema<DeleteCloudProjectDatabaseMongodbBackupRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<DeleteCloudProjectDatabaseMongodbBackupResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -26809,8 +26809,8 @@ export const deleteCloudProjectDatabaseMongodbLogSubscription: API.OperationMeth
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    12704,
-    __c397,
+    12672,
+    __c396,
     0,
   ) as any as S.Schema<DeleteCloudProjectDatabaseMongodbLogSubscriptionRequest>,
   output: __S(28672, __c896, 0) as any as S.Schema<DbaasLogsLogSubscriptionResponse>,
@@ -26830,8 +26830,8 @@ export const deleteCloudProjectDatabaseMongodbNode: API.OperationMethod<
   DeleteCloudProjectDatabaseMongodbNodeError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12736, __c398, 0) as any as S.Schema<DeleteCloudProjectDatabaseMongodbNodeRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<DeleteCloudProjectDatabaseMongodbNodeResponse>,
+  input: __S(12704, __c397, 0) as any as S.Schema<DeleteCloudProjectDatabaseMongodbNodeRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<DeleteCloudProjectDatabaseMongodbNodeResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -26848,8 +26848,8 @@ export const deleteCloudProjectDatabaseMongodbUser: API.OperationMethod<
   DeleteCloudProjectDatabaseMongodbUserError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12768, __c399, 0) as any as S.Schema<DeleteCloudProjectDatabaseMongodbUserRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<DeleteCloudProjectDatabaseMongodbUserResponse>,
+  input: __S(12736, __c398, 0) as any as S.Schema<DeleteCloudProjectDatabaseMongodbUserRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<DeleteCloudProjectDatabaseMongodbUserResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -26866,8 +26866,8 @@ export const deleteCloudProjectDatabaseMysql: API.OperationMethod<
   DeleteCloudProjectDatabaseMysqlError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12864, __c402, 0) as any as S.Schema<DeleteCloudProjectDatabaseMysqlRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<DeleteCloudProjectDatabaseMysqlResponse>,
+  input: __S(12832, __c401, 0) as any as S.Schema<DeleteCloudProjectDatabaseMysqlRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<DeleteCloudProjectDatabaseMysqlResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -26884,8 +26884,8 @@ export const deleteCloudProjectDatabaseMysqlDatabase: API.OperationMethod<
   DeleteCloudProjectDatabaseMysqlDatabaseError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12896, __c403, 0) as any as S.Schema<DeleteCloudProjectDatabaseMysqlDatabaseRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<DeleteCloudProjectDatabaseMysqlDatabaseResponse>,
+  input: __S(12864, __c402, 0) as any as S.Schema<DeleteCloudProjectDatabaseMysqlDatabaseRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<DeleteCloudProjectDatabaseMysqlDatabaseResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -26903,13 +26903,13 @@ export const deleteCloudProjectDatabaseMysqlIntegration: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    12928,
-    __c404,
+    12896,
+    __c403,
     0,
   ) as any as S.Schema<DeleteCloudProjectDatabaseMysqlIntegrationRequest>,
   output: __S(
-    11680,
-    __c365,
+    11648,
+    __c364,
     0,
   ) as any as S.Schema<DeleteCloudProjectDatabaseMysqlIntegrationResponse>,
   errors: [],
@@ -26933,8 +26933,8 @@ export const deleteCloudProjectDatabaseMysqlLogSubscription: API.OperationMethod
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    12960,
-    __c405,
+    12928,
+    __c404,
     0,
   ) as any as S.Schema<DeleteCloudProjectDatabaseMysqlLogSubscriptionRequest>,
   output: __S(28672, __c896, 0) as any as S.Schema<DbaasLogsLogSubscriptionResponse>,
@@ -26954,8 +26954,8 @@ export const deleteCloudProjectDatabaseMysqlUser: API.OperationMethod<
   DeleteCloudProjectDatabaseMysqlUserError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12992, __c406, 0) as any as S.Schema<DeleteCloudProjectDatabaseMysqlUserRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<DeleteCloudProjectDatabaseMysqlUserResponse>,
+  input: __S(12960, __c405, 0) as any as S.Schema<DeleteCloudProjectDatabaseMysqlUserRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<DeleteCloudProjectDatabaseMysqlUserResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -26972,8 +26972,8 @@ export const deleteCloudProjectDatabaseOpensearch: API.OperationMethod<
   DeleteCloudProjectDatabaseOpensearchError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13024, __c407, 0) as any as S.Schema<DeleteCloudProjectDatabaseOpensearchRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<DeleteCloudProjectDatabaseOpensearchResponse>,
+  input: __S(12992, __c406, 0) as any as S.Schema<DeleteCloudProjectDatabaseOpensearchRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<DeleteCloudProjectDatabaseOpensearchResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -26990,10 +26990,10 @@ export const deleteCloudProjectDatabaseOpensearchIndex: API.OperationMethod<
   DeleteCloudProjectDatabaseOpensearchIndexError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13056, __c408, 0) as any as S.Schema<DeleteCloudProjectDatabaseOpensearchIndexRequest>,
+  input: __S(13024, __c407, 0) as any as S.Schema<DeleteCloudProjectDatabaseOpensearchIndexRequest>,
   output: __S(
-    11680,
-    __c365,
+    11648,
+    __c364,
     0,
   ) as any as S.Schema<DeleteCloudProjectDatabaseOpensearchIndexResponse>,
   errors: [],
@@ -27013,13 +27013,13 @@ export const deleteCloudProjectDatabaseOpensearchIntegration: API.OperationMetho
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    13088,
-    __c409,
+    13056,
+    __c408,
     0,
   ) as any as S.Schema<DeleteCloudProjectDatabaseOpensearchIntegrationRequest>,
   output: __S(
-    11680,
-    __c365,
+    11648,
+    __c364,
     0,
   ) as any as S.Schema<DeleteCloudProjectDatabaseOpensearchIntegrationResponse>,
   errors: [],
@@ -27043,8 +27043,8 @@ export const deleteCloudProjectDatabaseOpensearchLogSubscription: API.OperationM
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    13120,
-    __c410,
+    13088,
+    __c409,
     0,
   ) as any as S.Schema<DeleteCloudProjectDatabaseOpensearchLogSubscriptionRequest>,
   output: __S(28672, __c896, 0) as any as S.Schema<DbaasLogsLogSubscriptionResponse>,
@@ -27065,13 +27065,13 @@ export const deleteCloudProjectDatabaseOpensearchPattern: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    13152,
-    __c411,
+    13120,
+    __c410,
     0,
   ) as any as S.Schema<DeleteCloudProjectDatabaseOpensearchPatternRequest>,
   output: __S(
-    11680,
-    __c365,
+    11648,
+    __c364,
     0,
   ) as any as S.Schema<DeleteCloudProjectDatabaseOpensearchPatternResponse>,
   errors: [],
@@ -27090,10 +27090,10 @@ export const deleteCloudProjectDatabaseOpensearchUser: API.OperationMethod<
   DeleteCloudProjectDatabaseOpensearchUserError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13248, __c414, 0) as any as S.Schema<DeleteCloudProjectDatabaseOpensearchUserRequest>,
+  input: __S(13216, __c413, 0) as any as S.Schema<DeleteCloudProjectDatabaseOpensearchUserRequest>,
   output: __S(
-    11680,
-    __c365,
+    11648,
+    __c364,
     0,
   ) as any as S.Schema<DeleteCloudProjectDatabaseOpensearchUserResponse>,
   errors: [],
@@ -27112,8 +27112,8 @@ export const deleteCloudProjectDatabasePostgresql: API.OperationMethod<
   DeleteCloudProjectDatabasePostgresqlError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13280, __c415, 0) as any as S.Schema<DeleteCloudProjectDatabasePostgresqlRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<DeleteCloudProjectDatabasePostgresqlResponse>,
+  input: __S(13248, __c414, 0) as any as S.Schema<DeleteCloudProjectDatabasePostgresqlRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<DeleteCloudProjectDatabasePostgresqlResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -27131,13 +27131,13 @@ export const deleteCloudProjectDatabasePostgresqlConnectionPool: API.OperationMe
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    13312,
-    __c416,
+    13280,
+    __c415,
     0,
   ) as any as S.Schema<DeleteCloudProjectDatabasePostgresqlConnectionPoolRequest>,
   output: __S(
-    11680,
-    __c365,
+    11648,
+    __c364,
     0,
   ) as any as S.Schema<DeleteCloudProjectDatabasePostgresqlConnectionPoolResponse>,
   errors: [],
@@ -27157,13 +27157,13 @@ export const deleteCloudProjectDatabasePostgresqlDatabase: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    13344,
-    __c417,
+    13312,
+    __c416,
     0,
   ) as any as S.Schema<DeleteCloudProjectDatabasePostgresqlDatabaseRequest>,
   output: __S(
-    11680,
-    __c365,
+    11648,
+    __c364,
     0,
   ) as any as S.Schema<DeleteCloudProjectDatabasePostgresqlDatabaseResponse>,
   errors: [],
@@ -27183,13 +27183,13 @@ export const deleteCloudProjectDatabasePostgresqlIntegration: API.OperationMetho
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    13376,
-    __c418,
+    13344,
+    __c417,
     0,
   ) as any as S.Schema<DeleteCloudProjectDatabasePostgresqlIntegrationRequest>,
   output: __S(
-    11680,
-    __c365,
+    11648,
+    __c364,
     0,
   ) as any as S.Schema<DeleteCloudProjectDatabasePostgresqlIntegrationResponse>,
   errors: [],
@@ -27213,8 +27213,8 @@ export const deleteCloudProjectDatabasePostgresqlLogSubscription: API.OperationM
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    13408,
-    __c419,
+    13376,
+    __c418,
     0,
   ) as any as S.Schema<DeleteCloudProjectDatabasePostgresqlLogSubscriptionRequest>,
   output: __S(28672, __c896, 0) as any as S.Schema<DbaasLogsLogSubscriptionResponse>,
@@ -27234,10 +27234,10 @@ export const deleteCloudProjectDatabasePostgresqlUser: API.OperationMethod<
   DeleteCloudProjectDatabasePostgresqlUserError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13440, __c420, 0) as any as S.Schema<DeleteCloudProjectDatabasePostgresqlUserRequest>,
+  input: __S(13408, __c419, 0) as any as S.Schema<DeleteCloudProjectDatabasePostgresqlUserRequest>,
   output: __S(
-    11680,
-    __c365,
+    11648,
+    __c364,
     0,
   ) as any as S.Schema<DeleteCloudProjectDatabasePostgresqlUserResponse>,
   errors: [],
@@ -27256,8 +27256,8 @@ export const deleteCloudProjectDatabaseRedis: API.OperationMethod<
   DeleteCloudProjectDatabaseRedisError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13472, __c421, 0) as any as S.Schema<DeleteCloudProjectDatabaseRedisRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<DeleteCloudProjectDatabaseRedisResponse>,
+  input: __S(13440, __c420, 0) as any as S.Schema<DeleteCloudProjectDatabaseRedisRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<DeleteCloudProjectDatabaseRedisResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -27275,13 +27275,13 @@ export const deleteCloudProjectDatabaseRedisIntegration: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    13504,
-    __c422,
+    13472,
+    __c421,
     0,
   ) as any as S.Schema<DeleteCloudProjectDatabaseRedisIntegrationRequest>,
   output: __S(
-    11680,
-    __c365,
+    11648,
+    __c364,
     0,
   ) as any as S.Schema<DeleteCloudProjectDatabaseRedisIntegrationResponse>,
   errors: [],
@@ -27305,8 +27305,8 @@ export const deleteCloudProjectDatabaseRedisLogSubscription: API.OperationMethod
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    13536,
-    __c423,
+    13504,
+    __c422,
     0,
   ) as any as S.Schema<DeleteCloudProjectDatabaseRedisLogSubscriptionRequest>,
   output: __S(28672, __c896, 0) as any as S.Schema<DbaasLogsLogSubscriptionResponse>,
@@ -27326,8 +27326,8 @@ export const deleteCloudProjectDatabaseRedisUser: API.OperationMethod<
   DeleteCloudProjectDatabaseRedisUserError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13600, __c425, 0) as any as S.Schema<DeleteCloudProjectDatabaseRedisUserRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<DeleteCloudProjectDatabaseRedisUserResponse>,
+  input: __S(13568, __c424, 0) as any as S.Schema<DeleteCloudProjectDatabaseRedisUserRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<DeleteCloudProjectDatabaseRedisUserResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -27344,8 +27344,8 @@ export const deleteCloudProjectDatabaseValkey: API.OperationMethod<
   DeleteCloudProjectDatabaseValkeyError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13632, __c426, 0) as any as S.Schema<DeleteCloudProjectDatabaseValkeyRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<DeleteCloudProjectDatabaseValkeyResponse>,
+  input: __S(13600, __c425, 0) as any as S.Schema<DeleteCloudProjectDatabaseValkeyRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<DeleteCloudProjectDatabaseValkeyResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -27363,13 +27363,13 @@ export const deleteCloudProjectDatabaseValkeyIntegration: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    13664,
-    __c427,
+    13632,
+    __c426,
     0,
   ) as any as S.Schema<DeleteCloudProjectDatabaseValkeyIntegrationRequest>,
   output: __S(
-    11680,
-    __c365,
+    11648,
+    __c364,
     0,
   ) as any as S.Schema<DeleteCloudProjectDatabaseValkeyIntegrationResponse>,
   errors: [],
@@ -27393,8 +27393,8 @@ export const deleteCloudProjectDatabaseValkeyLogSubscription: API.OperationMetho
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    13696,
-    __c428,
+    13664,
+    __c427,
     0,
   ) as any as S.Schema<DeleteCloudProjectDatabaseValkeyLogSubscriptionRequest>,
   output: __S(28672, __c896, 0) as any as S.Schema<DbaasLogsLogSubscriptionResponse>,
@@ -27414,8 +27414,8 @@ export const deleteCloudProjectDatabaseValkeyUser: API.OperationMethod<
   DeleteCloudProjectDatabaseValkeyUserError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13728, __c429, 0) as any as S.Schema<DeleteCloudProjectDatabaseValkeyUserRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<DeleteCloudProjectDatabaseValkeyUserResponse>,
+  input: __S(13696, __c428, 0) as any as S.Schema<DeleteCloudProjectDatabaseValkeyUserRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<DeleteCloudProjectDatabaseValkeyUserResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -27432,8 +27432,8 @@ export const deleteCloudProjectInstance: API.OperationMethod<
   DeleteCloudProjectInstanceError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13760, __c430, 0) as any as S.Schema<DeleteCloudProjectInstanceRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<DeleteCloudProjectInstanceResponse>,
+  input: __S(13728, __c429, 0) as any as S.Schema<DeleteCloudProjectInstanceRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<DeleteCloudProjectInstanceResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -27450,8 +27450,8 @@ export const deleteCloudProjectInstanceGroup: API.OperationMethod<
   DeleteCloudProjectInstanceGroupError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13792, __c431, 0) as any as S.Schema<DeleteCloudProjectInstanceGroupRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<DeleteCloudProjectInstanceGroupResponse>,
+  input: __S(13760, __c430, 0) as any as S.Schema<DeleteCloudProjectInstanceGroupRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<DeleteCloudProjectInstanceGroupResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -27468,8 +27468,8 @@ export const deleteCloudProjectInstanceInterface: API.OperationMethod<
   DeleteCloudProjectInstanceInterfaceError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13824, __c432, 0) as any as S.Schema<DeleteCloudProjectInstanceInterfaceRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<DeleteCloudProjectInstanceInterfaceResponse>,
+  input: __S(13792, __c431, 0) as any as S.Schema<DeleteCloudProjectInstanceInterfaceRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<DeleteCloudProjectInstanceInterfaceResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -27486,8 +27486,8 @@ export const deleteCloudProjectKube: API.OperationMethod<
   DeleteCloudProjectKubeError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13856, __c433, 0) as any as S.Schema<DeleteCloudProjectKubeRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<DeleteCloudProjectKubeResponse>,
+  input: __S(13824, __c432, 0) as any as S.Schema<DeleteCloudProjectKubeRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<DeleteCloudProjectKubeResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -27504,8 +27504,8 @@ export const deleteCloudProjectKubeIpRestriction: API.OperationMethod<
   DeleteCloudProjectKubeIpRestrictionError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13888, __c434, 0) as any as S.Schema<DeleteCloudProjectKubeIpRestrictionRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<DeleteCloudProjectKubeIpRestrictionResponse>,
+  input: __S(13856, __c433, 0) as any as S.Schema<DeleteCloudProjectKubeIpRestrictionRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<DeleteCloudProjectKubeIpRestrictionResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -27522,7 +27522,7 @@ export const deleteCloudProjectKubeLogSubscription: API.OperationMethod<
   DeleteCloudProjectKubeLogSubscriptionError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13952, __c436, 0) as any as S.Schema<DeleteCloudProjectKubeLogSubscriptionRequest>,
+  input: __S(13920, __c435, 0) as any as S.Schema<DeleteCloudProjectKubeLogSubscriptionRequest>,
   output: __S(28672, __c896, 0) as any as S.Schema<DbaasLogsLogSubscriptionResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
@@ -27540,8 +27540,8 @@ export const deleteCloudProjectKubeNode: API.OperationMethod<
   DeleteCloudProjectKubeNodeError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13984, __c437, 0) as any as S.Schema<DeleteCloudProjectKubeNodeRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<DeleteCloudProjectKubeNodeResponse>,
+  input: __S(13952, __c436, 0) as any as S.Schema<DeleteCloudProjectKubeNodeRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<DeleteCloudProjectKubeNodeResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -27558,8 +27558,8 @@ export const deleteCloudProjectKubeNodepool: API.OperationMethod<
   DeleteCloudProjectKubeNodepoolError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14016, __c438, 0) as any as S.Schema<DeleteCloudProjectKubeNodepoolRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<DeleteCloudProjectKubeNodepoolResponse>,
+  input: __S(13984, __c437, 0) as any as S.Schema<DeleteCloudProjectKubeNodepoolRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<DeleteCloudProjectKubeNodepoolResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -27576,8 +27576,8 @@ export const deleteCloudProjectKubeOpenIdConnect: API.OperationMethod<
   DeleteCloudProjectKubeOpenIdConnectError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14048, __c439, 0) as any as S.Schema<DeleteCloudProjectKubeOpenIdConnectRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<DeleteCloudProjectKubeOpenIdConnectResponse>,
+  input: __S(14016, __c438, 0) as any as S.Schema<DeleteCloudProjectKubeOpenIdConnectRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<DeleteCloudProjectKubeOpenIdConnectResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -27594,8 +27594,8 @@ export const deleteCloudProjectNetworkPrivate: API.OperationMethod<
   DeleteCloudProjectNetworkPrivateError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14080, __c440, 0) as any as S.Schema<DeleteCloudProjectNetworkPrivateRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<DeleteCloudProjectNetworkPrivateResponse>,
+  input: __S(14048, __c439, 0) as any as S.Schema<DeleteCloudProjectNetworkPrivateRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<DeleteCloudProjectNetworkPrivateResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -27612,8 +27612,8 @@ export const deleteCloudProjectNetworkPrivateRegion: API.OperationMethod<
   DeleteCloudProjectNetworkPrivateRegionError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14112, __c441, 0) as any as S.Schema<DeleteCloudProjectNetworkPrivateRegionRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<DeleteCloudProjectNetworkPrivateRegionResponse>,
+  input: __S(14080, __c440, 0) as any as S.Schema<DeleteCloudProjectNetworkPrivateRegionRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<DeleteCloudProjectNetworkPrivateRegionResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -27630,8 +27630,8 @@ export const deleteCloudProjectNetworkPrivateSubnet: API.OperationMethod<
   DeleteCloudProjectNetworkPrivateSubnetError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14144, __c442, 0) as any as S.Schema<DeleteCloudProjectNetworkPrivateSubnetRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<DeleteCloudProjectNetworkPrivateSubnetResponse>,
+  input: __S(14112, __c441, 0) as any as S.Schema<DeleteCloudProjectNetworkPrivateSubnetRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<DeleteCloudProjectNetworkPrivateSubnetResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -27648,10 +27648,10 @@ export const deleteCloudProjectRegionColdArchiveObject: API.OperationMethod<
   DeleteCloudProjectRegionColdArchiveObjectError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14176, __c443, 0) as any as S.Schema<DeleteCloudProjectRegionColdArchiveObjectRequest>,
+  input: __S(14144, __c442, 0) as any as S.Schema<DeleteCloudProjectRegionColdArchiveObjectRequest>,
   output: __S(
-    11680,
-    __c365,
+    11648,
+    __c364,
     0,
   ) as any as S.Schema<DeleteCloudProjectRegionColdArchiveObjectResponse>,
   errors: [],
@@ -27670,8 +27670,8 @@ export const deleteCloudProjectRegionGateway: API.OperationMethod<
   DeleteCloudProjectRegionGatewayError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14208, __c444, 0) as any as S.Schema<DeleteCloudProjectRegionGatewayRequest>,
-  output: __S(17666, __c552, 2) as any as S.Schema<CloudOperation>,
+  input: __S(14176, __c443, 0) as any as S.Schema<DeleteCloudProjectRegionGatewayRequest>,
+  output: __S(17634, __c551, 2) as any as S.Schema<CloudOperation>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -27688,10 +27688,10 @@ export const deleteCloudProjectRegionGatewayInterface: API.OperationMethod<
   DeleteCloudProjectRegionGatewayInterfaceError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14240, __c445, 0) as any as S.Schema<DeleteCloudProjectRegionGatewayInterfaceRequest>,
+  input: __S(14208, __c444, 0) as any as S.Schema<DeleteCloudProjectRegionGatewayInterfaceRequest>,
   output: __S(
-    11680,
-    __c365,
+    11648,
+    __c364,
     0,
   ) as any as S.Schema<DeleteCloudProjectRegionGatewayInterfaceResponse>,
   errors: [],
@@ -27711,8 +27711,8 @@ export const deleteCloudProjectRegionInstanceMetricSubscription: API.OperationMe
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    14304,
-    __c447,
+    14272,
+    __c446,
     0,
   ) as any as S.Schema<DeleteCloudProjectRegionInstanceMetricSubscriptionRequest>,
   output: __S(28672, __c896, 0) as any as S.Schema<DbaasLogsMetricSubscriptionResponse>,
@@ -27733,13 +27733,13 @@ export const deleteCloudProjectRegionKeymanagerCertificate: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    14336,
-    __c448,
+    14304,
+    __c447,
     0,
   ) as any as S.Schema<DeleteCloudProjectRegionKeymanagerCertificateRequest>,
   output: __S(
-    11680,
-    __c365,
+    11648,
+    __c364,
     0,
   ) as any as S.Schema<DeleteCloudProjectRegionKeymanagerCertificateResponse>,
   errors: [],
@@ -27758,10 +27758,10 @@ export const deleteCloudProjectRegionKeymanagerSecret: API.OperationMethod<
   DeleteCloudProjectRegionKeymanagerSecretError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14368, __c449, 0) as any as S.Schema<DeleteCloudProjectRegionKeymanagerSecretRequest>,
+  input: __S(14336, __c448, 0) as any as S.Schema<DeleteCloudProjectRegionKeymanagerSecretRequest>,
   output: __S(
-    11680,
-    __c365,
+    11648,
+    __c364,
     0,
   ) as any as S.Schema<DeleteCloudProjectRegionKeymanagerSecretResponse>,
   errors: [],
@@ -27781,13 +27781,13 @@ export const deleteCloudProjectRegionLoadbalancingHealthMonitor: API.OperationMe
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    14400,
-    __c450,
+    14368,
+    __c449,
     0,
   ) as any as S.Schema<DeleteCloudProjectRegionLoadbalancingHealthMonitorRequest>,
   output: __S(
-    11680,
-    __c365,
+    11648,
+    __c364,
     0,
   ) as any as S.Schema<DeleteCloudProjectRegionLoadbalancingHealthMonitorResponse>,
   errors: [],
@@ -27806,13 +27806,13 @@ export const deleteCloudProjectRegionLoadbalancingL7Policy: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    14432,
-    __c451,
+    14400,
+    __c450,
     0,
   ) as any as S.Schema<DeleteCloudProjectRegionLoadbalancingL7PolicyRequest>,
   output: __S(
-    11680,
-    __c365,
+    11648,
+    __c364,
     0,
   ) as any as S.Schema<DeleteCloudProjectRegionLoadbalancingL7PolicyResponse>,
   errors: [],
@@ -27831,13 +27831,13 @@ export const deleteCloudProjectRegionLoadbalancingL7PolicyL7Rule: API.OperationM
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    14464,
-    __c452,
+    14432,
+    __c451,
     0,
   ) as any as S.Schema<DeleteCloudProjectRegionLoadbalancingL7PolicyL7RuleRequest>,
   output: __S(
-    11680,
-    __c365,
+    11648,
+    __c364,
     0,
   ) as any as S.Schema<DeleteCloudProjectRegionLoadbalancingL7PolicyL7RuleResponse>,
   errors: [],
@@ -27857,13 +27857,13 @@ export const deleteCloudProjectRegionLoadbalancingListener: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    14496,
-    __c453,
+    14464,
+    __c452,
     0,
   ) as any as S.Schema<DeleteCloudProjectRegionLoadbalancingListenerRequest>,
   output: __S(
-    11680,
-    __c365,
+    11648,
+    __c364,
     0,
   ) as any as S.Schema<DeleteCloudProjectRegionLoadbalancingListenerResponse>,
   errors: [],
@@ -27883,13 +27883,13 @@ export const deleteCloudProjectRegionLoadbalancingLoadbalancer: API.OperationMet
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    14528,
-    __c454,
+    14496,
+    __c453,
     0,
   ) as any as S.Schema<DeleteCloudProjectRegionLoadbalancingLoadbalancerRequest>,
   output: __S(
-    11680,
-    __c365,
+    11648,
+    __c364,
     0,
   ) as any as S.Schema<DeleteCloudProjectRegionLoadbalancingLoadbalancerResponse>,
   errors: [],
@@ -27909,8 +27909,8 @@ export const deleteCloudProjectRegionLoadbalancingLoadbalancerLogSubscription: A
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    14560,
-    __c455,
+    14528,
+    __c454,
     0,
   ) as any as S.Schema<DeleteCloudProjectRegionLoadbalancingLoadbalancerLogSubscriptionRequest>,
   output: __S(28672, __c896, 0) as any as S.Schema<DbaasLogsLogSubscriptionResponse>,
@@ -27930,10 +27930,10 @@ export const deleteCloudProjectRegionLoadbalancingPool: API.OperationMethod<
   DeleteCloudProjectRegionLoadbalancingPoolError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14592, __c456, 0) as any as S.Schema<DeleteCloudProjectRegionLoadbalancingPoolRequest>,
+  input: __S(14560, __c455, 0) as any as S.Schema<DeleteCloudProjectRegionLoadbalancingPoolRequest>,
   output: __S(
-    11680,
-    __c365,
+    11648,
+    __c364,
     0,
   ) as any as S.Schema<DeleteCloudProjectRegionLoadbalancingPoolResponse>,
   errors: [],
@@ -27953,13 +27953,13 @@ export const deleteCloudProjectRegionLoadbalancingPoolMember: API.OperationMetho
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    14688,
-    __c459,
+    14656,
+    __c458,
     0,
   ) as any as S.Schema<DeleteCloudProjectRegionLoadbalancingPoolMemberRequest>,
   output: __S(
-    11680,
-    __c365,
+    11648,
+    __c364,
     0,
   ) as any as S.Schema<DeleteCloudProjectRegionLoadbalancingPoolMemberResponse>,
   errors: [],
@@ -27978,7 +27978,7 @@ export const deleteCloudProjectRegionLogSubscription: API.OperationMethod<
   DeleteCloudProjectRegionLogSubscriptionError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14720, __c460, 0) as any as S.Schema<DeleteCloudProjectRegionLogSubscriptionRequest>,
+  input: __S(14688, __c459, 0) as any as S.Schema<DeleteCloudProjectRegionLogSubscriptionRequest>,
   output: __S(28672, __c896, 0) as any as S.Schema<DbaasLogsLogSubscriptionResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
@@ -27996,8 +27996,8 @@ export const deleteCloudProjectRegionNetwork: API.OperationMethod<
   DeleteCloudProjectRegionNetworkError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14752, __c461, 0) as any as S.Schema<DeleteCloudProjectRegionNetworkRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<DeleteCloudProjectRegionNetworkResponse>,
+  input: __S(14720, __c460, 0) as any as S.Schema<DeleteCloudProjectRegionNetworkRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<DeleteCloudProjectRegionNetworkResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -28014,8 +28014,8 @@ export const deleteCloudProjectRegionNetworkSubnet: API.OperationMethod<
   DeleteCloudProjectRegionNetworkSubnetError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14784, __c462, 0) as any as S.Schema<DeleteCloudProjectRegionNetworkSubnetRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<DeleteCloudProjectRegionNetworkSubnetResponse>,
+  input: __S(14752, __c461, 0) as any as S.Schema<DeleteCloudProjectRegionNetworkSubnetRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<DeleteCloudProjectRegionNetworkSubnetResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -28032,8 +28032,8 @@ export const deleteCloudProjectRegionQuotaStorage: API.OperationMethod<
   DeleteCloudProjectRegionQuotaStorageError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14816, __c463, 0) as any as S.Schema<DeleteCloudProjectRegionQuotaStorageRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<DeleteCloudProjectRegionQuotaStorageResponse>,
+  input: __S(14784, __c462, 0) as any as S.Schema<DeleteCloudProjectRegionQuotaStorageRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<DeleteCloudProjectRegionQuotaStorageResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -28050,8 +28050,8 @@ export const deleteCloudProjectRegionShare: API.OperationMethod<
   DeleteCloudProjectRegionShareError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14848, __c464, 0) as any as S.Schema<DeleteCloudProjectRegionShareRequest>,
-  output: __S(17666, __c552, 2) as any as S.Schema<CloudOperation>,
+  input: __S(14816, __c463, 0) as any as S.Schema<DeleteCloudProjectRegionShareRequest>,
+  output: __S(17634, __c551, 2) as any as S.Schema<CloudOperation>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -28068,8 +28068,8 @@ export const deleteCloudProjectRegionShareAcl: API.OperationMethod<
   DeleteCloudProjectRegionShareAclError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14880, __c465, 0) as any as S.Schema<DeleteCloudProjectRegionShareAclRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<DeleteCloudProjectRegionShareAclResponse>,
+  input: __S(14848, __c464, 0) as any as S.Schema<DeleteCloudProjectRegionShareAclRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<DeleteCloudProjectRegionShareAclResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -28086,8 +28086,8 @@ export const deleteCloudProjectRegionShareSnapshot: API.OperationMethod<
   DeleteCloudProjectRegionShareSnapshotError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14912, __c466, 0) as any as S.Schema<DeleteCloudProjectRegionShareSnapshotRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<DeleteCloudProjectRegionShareSnapshotResponse>,
+  input: __S(14880, __c465, 0) as any as S.Schema<DeleteCloudProjectRegionShareSnapshotRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<DeleteCloudProjectRegionShareSnapshotResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -28104,8 +28104,8 @@ export const deleteCloudProjectRegionVolumeBackup: API.OperationMethod<
   DeleteCloudProjectRegionVolumeBackupError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14944, __c467, 0) as any as S.Schema<DeleteCloudProjectRegionVolumeBackupRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<DeleteCloudProjectRegionVolumeBackupResponse>,
+  input: __S(14912, __c466, 0) as any as S.Schema<DeleteCloudProjectRegionVolumeBackupRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<DeleteCloudProjectRegionVolumeBackupResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -28122,8 +28122,8 @@ export const deleteCloudProjectRegionWorkflowBackup: API.OperationMethod<
   DeleteCloudProjectRegionWorkflowBackupError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14976, __c468, 0) as any as S.Schema<DeleteCloudProjectRegionWorkflowBackupRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<DeleteCloudProjectRegionWorkflowBackupResponse>,
+  input: __S(14944, __c467, 0) as any as S.Schema<DeleteCloudProjectRegionWorkflowBackupRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<DeleteCloudProjectRegionWorkflowBackupResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -28140,8 +28140,8 @@ export const deleteCloudProjectSnapshot: API.OperationMethod<
   DeleteCloudProjectSnapshotError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15040, __c470, 0) as any as S.Schema<DeleteCloudProjectSnapshotRequest>,
-  output: __S(22240, __c695, 0) as any as S.Schema<CloudImageImage>,
+  input: __S(15008, __c469, 0) as any as S.Schema<DeleteCloudProjectSnapshotRequest>,
+  output: __S(22208, __c694, 0) as any as S.Schema<CloudImageImage>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -28158,8 +28158,8 @@ export const deleteCloudProjectSshkey: API.OperationMethod<
   DeleteCloudProjectSshkeyError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15072, __c471, 0) as any as S.Schema<DeleteCloudProjectSshkeyRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<DeleteCloudProjectSshkeyResponse>,
+  input: __S(15040, __c470, 0) as any as S.Schema<DeleteCloudProjectSshkeyRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<DeleteCloudProjectSshkeyResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -28176,8 +28176,8 @@ export const deleteCloudProjectStorage: API.OperationMethod<
   DeleteCloudProjectStorageError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15104, __c472, 0) as any as S.Schema<DeleteCloudProjectStorageRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<DeleteCloudProjectStorageResponse>,
+  input: __S(15072, __c471, 0) as any as S.Schema<DeleteCloudProjectStorageRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<DeleteCloudProjectStorageResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -28194,8 +28194,8 @@ export const deleteCloudProjectStorageCors: API.OperationMethod<
   DeleteCloudProjectStorageCorsError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15136, __c473, 0) as any as S.Schema<DeleteCloudProjectStorageCorsRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<DeleteCloudProjectStorageCorsResponse>,
+  input: __S(15104, __c472, 0) as any as S.Schema<DeleteCloudProjectStorageCorsRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<DeleteCloudProjectStorageCorsResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -28212,8 +28212,8 @@ export const deleteCloudProjectUser: API.OperationMethod<
   DeleteCloudProjectUserError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15168, __c474, 0) as any as S.Schema<DeleteCloudProjectUserRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<DeleteCloudProjectUserResponse>,
+  input: __S(15136, __c473, 0) as any as S.Schema<DeleteCloudProjectUserRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<DeleteCloudProjectUserResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -28230,8 +28230,8 @@ export const deleteCloudProjectUserRole: API.OperationMethod<
   DeleteCloudProjectUserRoleError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15200, __c475, 0) as any as S.Schema<DeleteCloudProjectUserRoleRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<DeleteCloudProjectUserRoleResponse>,
+  input: __S(15168, __c474, 0) as any as S.Schema<DeleteCloudProjectUserRoleRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<DeleteCloudProjectUserRoleResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -28248,8 +28248,8 @@ export const deleteCloudProjectUserS3Credentials: API.OperationMethod<
   DeleteCloudProjectUserS3CredentialsError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15232, __c476, 0) as any as S.Schema<DeleteCloudProjectUserS3CredentialsRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<DeleteCloudProjectUserS3CredentialsResponse>,
+  input: __S(15200, __c475, 0) as any as S.Schema<DeleteCloudProjectUserS3CredentialsRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<DeleteCloudProjectUserS3CredentialsResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -28266,8 +28266,8 @@ export const deleteCloudProjectVolume: API.OperationMethod<
   DeleteCloudProjectVolumeError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15264, __c477, 0) as any as S.Schema<DeleteCloudProjectVolumeRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<DeleteCloudProjectVolumeResponse>,
+  input: __S(15232, __c476, 0) as any as S.Schema<DeleteCloudProjectVolumeRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<DeleteCloudProjectVolumeResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -28284,8 +28284,8 @@ export const deleteCloudProjectVolumeSnapshot: API.OperationMethod<
   DeleteCloudProjectVolumeSnapshotError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15296, __c478, 0) as any as S.Schema<DeleteCloudProjectVolumeSnapshotRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<DeleteCloudProjectVolumeSnapshotResponse>,
+  input: __S(15264, __c477, 0) as any as S.Schema<DeleteCloudProjectVolumeSnapshotRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<DeleteCloudProjectVolumeSnapshotResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -28302,8 +28302,8 @@ export const deleteColdArchiveContainerOnRegion: API.OperationMethod<
   DeleteColdArchiveContainerOnRegionError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15328, __c479, 0) as any as S.Schema<DeleteColdArchiveContainerOnRegionRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<DeleteColdArchiveContainerOnRegionResponse>,
+  input: __S(15296, __c478, 0) as any as S.Schema<DeleteColdArchiveContainerOnRegionRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<DeleteColdArchiveContainerOnRegionResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -28320,8 +28320,8 @@ export const deleteContainerLifecycleConfiguration: API.OperationMethod<
   DeleteContainerLifecycleConfigurationError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15392, __c481, 0) as any as S.Schema<DeleteContainerLifecycleConfigurationRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<DeleteContainerLifecycleConfigurationResponse>,
+  input: __S(15360, __c480, 0) as any as S.Schema<DeleteContainerLifecycleConfigurationRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<DeleteContainerLifecycleConfigurationResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -28338,8 +28338,8 @@ export const deleteFloatingIpOnRegion: API.OperationMethod<
   DeleteFloatingIpOnRegionError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15424, __c482, 0) as any as S.Schema<DeleteFloatingIpOnRegionRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<DeleteFloatingIpOnRegionResponse>,
+  input: __S(15392, __c481, 0) as any as S.Schema<DeleteFloatingIpOnRegionRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<DeleteFloatingIpOnRegionResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -28356,8 +28356,8 @@ export const deleteLoadBalancer: API.OperationMethod<
   DeleteLoadBalancerError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15456, __c483, 0) as any as S.Schema<DeleteLoadBalancerRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<DeleteLoadBalancerResponse>,
+  input: __S(15424, __c482, 0) as any as S.Schema<DeleteLoadBalancerRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<DeleteLoadBalancerResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -28374,8 +28374,8 @@ export const deleteLoadBalancerConfiguration: API.OperationMethod<
   DeleteLoadBalancerConfigurationError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15488, __c484, 0) as any as S.Schema<DeleteLoadBalancerConfigurationRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<DeleteLoadBalancerConfigurationResponse>,
+  input: __S(15456, __c483, 0) as any as S.Schema<DeleteLoadBalancerConfigurationRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<DeleteLoadBalancerConfigurationResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -28392,8 +28392,8 @@ export const deleteNetworkLoadBalancer: API.OperationMethod<
   DeleteNetworkLoadBalancerError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15520, __c485, 0) as any as S.Schema<DeleteNetworkLoadBalancerRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<DeleteNetworkLoadBalancerResponse>,
+  input: __S(15488, __c484, 0) as any as S.Schema<DeleteNetworkLoadBalancerRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<DeleteNetworkLoadBalancerResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -28410,8 +28410,8 @@ export const deleteNetworkLoadBalancerConfiguration: API.OperationMethod<
   DeleteNetworkLoadBalancerConfigurationError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15552, __c486, 0) as any as S.Schema<DeleteNetworkLoadBalancerConfigurationRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<DeleteNetworkLoadBalancerConfigurationResponse>,
+  input: __S(15520, __c485, 0) as any as S.Schema<DeleteNetworkLoadBalancerConfigurationRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<DeleteNetworkLoadBalancerConfigurationResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -28428,8 +28428,8 @@ export const deleteObjectOnContainerOnRegion: API.OperationMethod<
   DeleteObjectOnContainerOnRegionError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15584, __c487, 0) as any as S.Schema<DeleteObjectOnContainerOnRegionRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<DeleteObjectOnContainerOnRegionResponse>,
+  input: __S(15552, __c486, 0) as any as S.Schema<DeleteObjectOnContainerOnRegionRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<DeleteObjectOnContainerOnRegionResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -28446,8 +28446,8 @@ export const deleteObjectVersionOnContainerOnRegion: API.OperationMethod<
   DeleteObjectVersionOnContainerOnRegionError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15616, __c488, 0) as any as S.Schema<DeleteObjectVersionOnContainerOnRegionRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<DeleteObjectVersionOnContainerOnRegionResponse>,
+  input: __S(15584, __c487, 0) as any as S.Schema<DeleteObjectVersionOnContainerOnRegionRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<DeleteObjectVersionOnContainerOnRegionResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -28464,8 +28464,8 @@ export const detachCloudProjectRegionFloatingip: API.OperationMethod<
   DetachCloudProjectRegionFloatingipError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15648, __c489, 0) as any as S.Schema<DetachCloudProjectRegionFloatingipRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<DetachCloudProjectRegionFloatingipResponse>,
+  input: __S(15616, __c488, 0) as any as S.Schema<DetachCloudProjectRegionFloatingipRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<DetachCloudProjectRegionFloatingipResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -28482,8 +28482,8 @@ export const detachCloudProjectVolume: API.OperationMethod<
   DetachCloudProjectVolumeError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15680, __c490, 0) as any as S.Schema<DetachCloudProjectVolumeRequest>,
-  output: __S(12832, __c401, 0) as any as S.Schema<CloudVolumeVolume>,
+  input: __S(15648, __c489, 0) as any as S.Schema<DetachCloudProjectVolumeRequest>,
+  output: __S(12800, __c400, 0) as any as S.Schema<CloudVolumeVolume>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -28500,8 +28500,8 @@ export const deteteStorageContainerOnRegion: API.OperationMethod<
   DeteteStorageContainerOnRegionError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15776, __c493, 0) as any as S.Schema<DeteteStorageContainerOnRegionRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<DeteteStorageContainerOnRegionResponse>,
+  input: __S(15744, __c492, 0) as any as S.Schema<DeteteStorageContainerOnRegionRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<DeteteStorageContainerOnRegionResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -28523,11 +28523,11 @@ export const enableCloudProjectDatabaseClickhouseWrites: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    15808,
-    __c494,
+    15776,
+    __c493,
     0,
   ) as any as S.Schema<EnableCloudProjectDatabaseClickhouseWritesRequest>,
-  output: __S(15840, __c495, 0) as any as S.Schema<CloudProjectDatabaseTemporaryWriteDeadline>,
+  output: __S(15808, __c494, 0) as any as S.Schema<CloudProjectDatabaseTemporaryWriteDeadline>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -28548,8 +28548,8 @@ export const enableCloudProjectDatabaseMysqlWrites: API.OperationMethod<
   EnableCloudProjectDatabaseMysqlWritesError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15872, __c496, 0) as any as S.Schema<EnableCloudProjectDatabaseMysqlWritesRequest>,
-  output: __S(15840, __c495, 0) as any as S.Schema<CloudProjectDatabaseTemporaryWriteDeadline>,
+  input: __S(15840, __c495, 0) as any as S.Schema<EnableCloudProjectDatabaseMysqlWritesRequest>,
+  output: __S(15808, __c494, 0) as any as S.Schema<CloudProjectDatabaseTemporaryWriteDeadline>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -28571,11 +28571,11 @@ export const enableCloudProjectDatabasePostgresqlWrites: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    15904,
-    __c497,
+    15872,
+    __c496,
     0,
   ) as any as S.Schema<EnableCloudProjectDatabasePostgresqlWritesRequest>,
-  output: __S(15840, __c495, 0) as any as S.Schema<CloudProjectDatabaseTemporaryWriteDeadline>,
+  output: __S(15808, __c494, 0) as any as S.Schema<CloudProjectDatabaseTemporaryWriteDeadline>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -28592,8 +28592,8 @@ export const forkCloudProjectAiNotebookBackup: API.OperationMethod<
   ForkCloudProjectAiNotebookBackupError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15936, __c498, 0) as any as S.Schema<ForkCloudProjectAiNotebookBackupRequest>,
-  output: __S(22755, __c711, 3) as any as S.Schema<CloudProjectAiNotebookNotebook>,
+  input: __S(15904, __c497, 0) as any as S.Schema<ForkCloudProjectAiNotebookBackupRequest>,
+  output: __S(22723, __c710, 3) as any as S.Schema<CloudProjectAiNotebookNotebook>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -28610,8 +28610,8 @@ export const getAlert: API.OperationMethod<
   GetAlertError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15968, __c499, 0) as any as S.Schema<GetAlertRequest>,
-  output: __S(15969, __c499, 1) as any as S.Schema<CloudAlertingAlert>,
+  input: __S(15936, __c498, 0) as any as S.Schema<GetAlertRequest>,
+  output: __S(15937, __c498, 1) as any as S.Schema<CloudAlertingAlert>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -28628,8 +28628,8 @@ export const getAlertingConfiguration: API.OperationMethod<
   GetAlertingConfigurationError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16000, __c500, 0) as any as S.Schema<GetAlertingConfigurationRequest>,
-  output: __S(26400, __c825, 0) as any as S.Schema<CloudAlertingAlerting>,
+  input: __S(15968, __c499, 0) as any as S.Schema<GetAlertingConfigurationRequest>,
+  output: __S(26368, __c824, 0) as any as S.Schema<CloudAlertingAlerting>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -28646,7 +28646,7 @@ export const getAlertingConfigurations: API.OperationMethod<
   GetAlertingConfigurationsError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16032, __c501, 0) as any as S.Schema<GetAlertingConfigurationsRequest>,
+  input: __S(16000, __c500, 0) as any as S.Schema<GetAlertingConfigurationsRequest>,
   output: __S(6816, __c213, 0) as any as S.Schema<GetAlertingConfigurationsResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
@@ -28664,8 +28664,8 @@ export const getAlerts: API.OperationMethod<
   GetAlertsError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16064, __c502, 0) as any as S.Schema<GetAlertsRequest>,
-  output: __S(24736, __c773, 0) as any as S.Schema<GetAlertsResponse>,
+  input: __S(16032, __c501, 0) as any as S.Schema<GetAlertsRequest>,
+  output: __S(24704, __c772, 0) as any as S.Schema<GetAlertsResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -28682,8 +28682,8 @@ export const getApplicationLoadBalancer: API.OperationMethod<
   GetApplicationLoadBalancerError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16096, __c503, 0) as any as S.Schema<GetApplicationLoadBalancerRequest>,
-  output: __S(17824, __c557, 0) as any as S.Schema<CloudProjectApplicationLoadBalancer>,
+  input: __S(16064, __c502, 0) as any as S.Schema<GetApplicationLoadBalancerRequest>,
+  output: __S(17792, __c556, 0) as any as S.Schema<CloudProjectApplicationLoadBalancer>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -28700,7 +28700,7 @@ export const getApplicationLoadBalancerConfiguration: API.OperationMethod<
   GetApplicationLoadBalancerConfigurationError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16192, __c506, 0) as any as S.Schema<GetApplicationLoadBalancerConfigurationRequest>,
+  input: __S(16160, __c505, 0) as any as S.Schema<GetApplicationLoadBalancerConfigurationRequest>,
   output: __S(
     35337,
     __c1104,
@@ -28722,8 +28722,8 @@ export const getApplicationLoadBalancerStats: API.OperationMethod<
   GetApplicationLoadBalancerStatsError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16224, __c507, 0) as any as S.Schema<GetApplicationLoadBalancerStatsRequest>,
-  output: __S(16261, __c508, 5) as any as S.Schema<CloudProjectLoadbalancerStats>,
+  input: __S(16192, __c506, 0) as any as S.Schema<GetApplicationLoadBalancerStatsRequest>,
+  output: __S(16229, __c507, 5) as any as S.Schema<CloudProjectLoadbalancerStats>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -28740,7 +28740,7 @@ export const getCertificate: API.OperationMethod<
   GetCertificateError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16288, __c509, 0) as any as S.Schema<GetCertificateRequest>,
+  input: __S(16256, __c508, 0) as any as S.Schema<GetCertificateRequest>,
   output: __S(31202, __c975, 2) as any as S.Schema<CloudProjectCertificate>,
   errors: [BadRequest, Forbidden],
   serviceErrors: OvhServiceErrors,
@@ -28758,8 +28758,8 @@ export const getCloudProjectAcl: API.OperationMethod<
   GetCloudProjectAclError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16320, __c510, 0) as any as S.Schema<GetCloudProjectAclRequest>,
-  output: __S(18784, __c587, 0) as any as S.Schema<CloudAcl>,
+  input: __S(16288, __c509, 0) as any as S.Schema<GetCloudProjectAclRequest>,
+  output: __S(18752, __c586, 0) as any as S.Schema<CloudAcl>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -28776,8 +28776,8 @@ export const getCloudProjectAiApp: API.OperationMethod<
   GetCloudProjectAiAppError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16352, __c511, 0) as any as S.Schema<GetCloudProjectAiAppRequest>,
-  output: __S(19204, __c600, 4) as any as S.Schema<CloudProjectAiAppApp>,
+  input: __S(16320, __c510, 0) as any as S.Schema<GetCloudProjectAiAppRequest>,
+  output: __S(19172, __c599, 4) as any as S.Schema<CloudProjectAiAppApp>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -28794,8 +28794,8 @@ export const getCloudProjectAiAuthorization: API.OperationMethod<
   GetCloudProjectAiAuthorizationError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16384, __c512, 0) as any as S.Schema<GetCloudProjectAiAuthorizationRequest>,
-  output: __S(16385, __c512, 1) as any as S.Schema<CloudProjectAiAuthorizationStatus>,
+  input: __S(16352, __c511, 0) as any as S.Schema<GetCloudProjectAiAuthorizationRequest>,
+  output: __S(16353, __c511, 1) as any as S.Schema<CloudProjectAiAuthorizationStatus>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -28812,8 +28812,8 @@ export const getCloudProjectAiCapabilityFeature: API.OperationMethod<
   GetCloudProjectAiCapabilityFeatureError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16416, __c513, 0) as any as S.Schema<GetCloudProjectAiCapabilityFeatureRequest>,
-  output: __S(16417, __c513, 1) as any as S.Schema<CloudProjectAiCapabilitiesFeatures>,
+  input: __S(16384, __c512, 0) as any as S.Schema<GetCloudProjectAiCapabilityFeatureRequest>,
+  output: __S(16385, __c512, 1) as any as S.Schema<CloudProjectAiCapabilitiesFeatures>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -28830,8 +28830,8 @@ export const getCloudProjectAiCapabilityQuota: API.OperationMethod<
   GetCloudProjectAiCapabilityQuotaError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16448, __c514, 0) as any as S.Schema<GetCloudProjectAiCapabilityQuotaRequest>,
-  output: __S(16450, __c514, 2) as any as S.Schema<CloudProjectAiCapabilitiesProjectQuotas>,
+  input: __S(16416, __c513, 0) as any as S.Schema<GetCloudProjectAiCapabilityQuotaRequest>,
+  output: __S(16418, __c513, 2) as any as S.Schema<CloudProjectAiCapabilitiesProjectQuotas>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -28848,8 +28848,8 @@ export const getCloudProjectAiCapabilityRegion: API.OperationMethod<
   GetCloudProjectAiCapabilityRegionError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16480, __c515, 0) as any as S.Schema<GetCloudProjectAiCapabilityRegionRequest>,
-  output: __S(16512, __c516, 0) as any as S.Schema<CloudProjectAiCapabilitiesRegion>,
+  input: __S(16448, __c514, 0) as any as S.Schema<GetCloudProjectAiCapabilityRegionRequest>,
+  output: __S(16480, __c515, 0) as any as S.Schema<CloudProjectAiCapabilitiesRegion>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -28866,8 +28866,8 @@ export const getCloudProjectAiCapabilityRegionFlavor: API.OperationMethod<
   GetCloudProjectAiCapabilityRegionFlavorError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16544, __c517, 0) as any as S.Schema<GetCloudProjectAiCapabilityRegionFlavorRequest>,
-  output: __S(16578, __c518, 2) as any as S.Schema<CloudProjectAiCapabilitiesFlavor>,
+  input: __S(16512, __c516, 0) as any as S.Schema<GetCloudProjectAiCapabilityRegionFlavorRequest>,
+  output: __S(16546, __c517, 2) as any as S.Schema<CloudProjectAiCapabilitiesFlavor>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -28885,11 +28885,11 @@ export const getCloudProjectAiCapabilityRegionNotebookEditor: API.OperationMetho
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    16672,
-    __c521,
+    16640,
+    __c520,
     0,
   ) as any as S.Schema<GetCloudProjectAiCapabilityRegionNotebookEditorRequest>,
-  output: __S(16704, __c522, 0) as any as S.Schema<CloudProjectAiCapabilitiesNotebookEditor>,
+  output: __S(16672, __c521, 0) as any as S.Schema<CloudProjectAiCapabilitiesNotebookEditor>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -28907,11 +28907,11 @@ export const getCloudProjectAiCapabilityRegionNotebookFramework: API.OperationMe
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    16736,
-    __c523,
+    16704,
+    __c522,
     0,
   ) as any as S.Schema<GetCloudProjectAiCapabilityRegionNotebookFrameworkRequest>,
-  output: __S(16768, __c524, 0) as any as S.Schema<CloudProjectAiCapabilitiesNotebookFramework>,
+  output: __S(16736, __c523, 0) as any as S.Schema<CloudProjectAiCapabilitiesNotebookFramework>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -28930,13 +28930,13 @@ export const getCloudProjectAiCapabilityRegionNotebookWorkspacebackupretentionpo
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    16800,
-    __c525,
+    16768,
+    __c524,
     0,
   ) as any as S.Schema<GetCloudProjectAiCapabilityRegionNotebookWorkspacebackupretentionpolicyRequest>,
   output: __S(
-    16832,
-    __c526,
+    16800,
+    __c525,
     0,
   ) as any as S.Schema<CloudProjectAiNotebookNotebookWorkspaceBackupRetentionPolicy>,
   errors: [],
@@ -28955,8 +28955,8 @@ export const getCloudProjectAiCapabilityRegionPreset: API.OperationMethod<
   GetCloudProjectAiCapabilityRegionPresetError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16864, __c527, 0) as any as S.Schema<GetCloudProjectAiCapabilityRegionPresetRequest>,
-  output: __S(16901, __c528, 5) as any as S.Schema<CloudProjectAiCapabilitiesPreset>,
+  input: __S(16832, __c526, 0) as any as S.Schema<GetCloudProjectAiCapabilityRegionPresetRequest>,
+  output: __S(16869, __c527, 5) as any as S.Schema<CloudProjectAiCapabilitiesPreset>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -28973,8 +28973,8 @@ export const getCloudProjectAiDataRegion: API.OperationMethod<
   GetCloudProjectAiDataRegionError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16928, __c529, 0) as any as S.Schema<GetCloudProjectAiDataRegionRequest>,
-  output: __S(16512, __c516, 0) as any as S.Schema<CloudProjectAiCapabilitiesRegion>,
+  input: __S(16896, __c528, 0) as any as S.Schema<GetCloudProjectAiDataRegionRequest>,
+  output: __S(16480, __c515, 0) as any as S.Schema<CloudProjectAiCapabilitiesRegion>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -28991,8 +28991,8 @@ export const getCloudProjectAiDataRegionAlias: API.OperationMethod<
   GetCloudProjectAiDataRegionAliasError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16960, __c530, 0) as any as S.Schema<GetCloudProjectAiDataRegionAliasRequest>,
-  output: __S(20992, __c656, 0) as any as S.Schema<CloudProjectAiDataStore>,
+  input: __S(16928, __c529, 0) as any as S.Schema<GetCloudProjectAiDataRegionAliasRequest>,
+  output: __S(20960, __c655, 0) as any as S.Schema<CloudProjectAiDataStore>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -29009,8 +29009,8 @@ export const getCloudProjectAiDataRegionAliasAuth: API.OperationMethod<
   GetCloudProjectAiDataRegionAliasAuthError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16992, __c531, 0) as any as S.Schema<GetCloudProjectAiDataRegionAliasAuthRequest>,
-  output: __S(16993, __c531, 1) as any as S.Schema<CloudProjectAiDataStoreAuth>,
+  input: __S(16960, __c530, 0) as any as S.Schema<GetCloudProjectAiDataRegionAliasAuthRequest>,
+  output: __S(16961, __c530, 1) as any as S.Schema<CloudProjectAiDataStoreAuth>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -29027,8 +29027,8 @@ export const getCloudProjectAiJob: API.OperationMethod<
   GetCloudProjectAiJobError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17024, __c532, 0) as any as S.Schema<GetCloudProjectAiJobRequest>,
-  output: __S(21409, __c669, 1) as any as S.Schema<CloudProjectAiJobJob>,
+  input: __S(16992, __c531, 0) as any as S.Schema<GetCloudProjectAiJobRequest>,
+  output: __S(21377, __c668, 1) as any as S.Schema<CloudProjectAiJobJob>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -29045,8 +29045,8 @@ export const getCloudProjectAiNotebook: API.OperationMethod<
   GetCloudProjectAiNotebookError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17056, __c533, 0) as any as S.Schema<GetCloudProjectAiNotebookRequest>,
-  output: __S(22755, __c711, 3) as any as S.Schema<CloudProjectAiNotebookNotebook>,
+  input: __S(17024, __c532, 0) as any as S.Schema<GetCloudProjectAiNotebookRequest>,
+  output: __S(22723, __c710, 3) as any as S.Schema<CloudProjectAiNotebookNotebook>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -29063,8 +29063,8 @@ export const getCloudProjectAiNotebookBackup: API.OperationMethod<
   GetCloudProjectAiNotebookBackupError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17088, __c534, 0) as any as S.Schema<GetCloudProjectAiNotebookBackupRequest>,
-  output: __S(17120, __c535, 0) as any as S.Schema<CloudProjectAiNotebookBackup>,
+  input: __S(17056, __c533, 0) as any as S.Schema<GetCloudProjectAiNotebookBackupRequest>,
+  output: __S(17088, __c534, 0) as any as S.Schema<CloudProjectAiNotebookBackup>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -29082,13 +29082,13 @@ export const getCloudProjectAiNotebookWorkspacebackupretentionpolicy: API.Operat
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    17184,
-    __c537,
+    17152,
+    __c536,
     0,
   ) as any as S.Schema<GetCloudProjectAiNotebookWorkspacebackupretentionpolicyRequest>,
   output: __S(
-    16832,
-    __c526,
+    16800,
+    __c525,
     0,
   ) as any as S.Schema<CloudProjectAiNotebookNotebookWorkspaceBackupRetentionPolicy>,
   errors: [],
@@ -29107,8 +29107,8 @@ export const getCloudProjectAiPartnerRegion: API.OperationMethod<
   GetCloudProjectAiPartnerRegionError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17216, __c538, 0) as any as S.Schema<GetCloudProjectAiPartnerRegionRequest>,
-  output: __S(16512, __c516, 0) as any as S.Schema<CloudProjectAiCapabilitiesRegion>,
+  input: __S(17184, __c537, 0) as any as S.Schema<GetCloudProjectAiPartnerRegionRequest>,
+  output: __S(16480, __c515, 0) as any as S.Schema<CloudProjectAiCapabilitiesRegion>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -29125,8 +29125,8 @@ export const getCloudProjectAiPartnerRegionPartner: API.OperationMethod<
   GetCloudProjectAiPartnerRegionPartnerError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17248, __c539, 0) as any as S.Schema<GetCloudProjectAiPartnerRegionPartnerRequest>,
-  output: __S(17283, __c540, 3) as any as S.Schema<CloudProjectAiPartnerPartner>,
+  input: __S(17216, __c538, 0) as any as S.Schema<GetCloudProjectAiPartnerRegionPartnerRequest>,
+  output: __S(17251, __c539, 3) as any as S.Schema<CloudProjectAiPartnerPartner>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -29143,8 +29143,8 @@ export const getCloudProjectAiRegistry: API.OperationMethod<
   GetCloudProjectAiRegistryError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17312, __c541, 0) as any as S.Schema<GetCloudProjectAiRegistryRequest>,
-  output: __S(23936, __c748, 0) as any as S.Schema<CloudProjectAiRegistryRegistry>,
+  input: __S(17280, __c540, 0) as any as S.Schema<GetCloudProjectAiRegistryRequest>,
+  output: __S(23904, __c747, 0) as any as S.Schema<CloudProjectAiRegistryRegistry>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -29161,8 +29161,8 @@ export const getCloudProjectAiToken: API.OperationMethod<
   GetCloudProjectAiTokenError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17344, __c542, 0) as any as S.Schema<GetCloudProjectAiTokenRequest>,
-  output: __S(24354, __c761, 2) as any as S.Schema<CloudProjectAiTokenToken>,
+  input: __S(17312, __c541, 0) as any as S.Schema<GetCloudProjectAiTokenRequest>,
+  output: __S(24322, __c760, 2) as any as S.Schema<CloudProjectAiTokenToken>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -29180,11 +29180,11 @@ export const getCloudProjectCapabilityApplicationloadbalancerRegion: API.Operati
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    17376,
-    __c543,
+    17344,
+    __c542,
     0,
   ) as any as S.Schema<GetCloudProjectCapabilityApplicationloadbalancerRegionRequest>,
-  output: __S(17408, __c544, 0) as any as S.Schema<CloudProjectLoadbalancerRegion>,
+  output: __S(17376, __c543, 0) as any as S.Schema<CloudProjectLoadbalancerRegion>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -29202,13 +29202,13 @@ export const getCloudProjectCapabilityApplicationloadbalancerSize: API.Operation
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    17440,
-    __c545,
+    17408,
+    __c544,
     0,
   ) as any as S.Schema<GetCloudProjectCapabilityApplicationloadbalancerSizeRequest>,
   output: __S(
-    17441,
-    __c545,
+    17409,
+    __c544,
     1,
   ) as any as S.Schema<CloudProjectLoadbalancerApplicationLoadBalancerSizeCapability>,
   errors: [],
@@ -29227,8 +29227,8 @@ export const getCloudProjectCapabilityKubeLogKind: API.OperationMethod<
   GetCloudProjectCapabilityKubeLogKindError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17472, __c546, 0) as any as S.Schema<GetCloudProjectCapabilityKubeLogKindRequest>,
-  output: __S(17504, __c547, 0) as any as S.Schema<DbaasLogsLogKind>,
+  input: __S(17440, __c545, 0) as any as S.Schema<GetCloudProjectCapabilityKubeLogKindRequest>,
+  output: __S(17472, __c546, 0) as any as S.Schema<DbaasLogsLogKind>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -29246,11 +29246,11 @@ export const getCloudProjectCapabilityLoadbalancerRegion: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    17536,
-    __c548,
+    17504,
+    __c547,
     0,
   ) as any as S.Schema<GetCloudProjectCapabilityLoadbalancerRegionRequest>,
-  output: __S(17408, __c544, 0) as any as S.Schema<CloudProjectLoadbalancerRegion>,
+  output: __S(17376, __c543, 0) as any as S.Schema<CloudProjectLoadbalancerRegion>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -29267,10 +29267,10 @@ export const getCloudProjectCapabilityLoadbalancerSize: API.OperationMethod<
   GetCloudProjectCapabilityLoadbalancerSizeError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17568, __c549, 0) as any as S.Schema<GetCloudProjectCapabilityLoadbalancerSizeRequest>,
+  input: __S(17536, __c548, 0) as any as S.Schema<GetCloudProjectCapabilityLoadbalancerSizeRequest>,
   output: __S(
-    17600,
-    __c550,
+    17568,
+    __c549,
     0,
   ) as any as S.Schema<CloudProjectLoadbalancerLoadBalancerSizeCapability>,
   errors: [],
@@ -29290,11 +29290,11 @@ export const getCloudProjectCapabilityNetworkloadbalancerRegion: API.OperationMe
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    17856,
-    __c558,
+    17824,
+    __c557,
     0,
   ) as any as S.Schema<GetCloudProjectCapabilityNetworkloadbalancerRegionRequest>,
-  output: __S(17408, __c544, 0) as any as S.Schema<CloudProjectLoadbalancerRegion>,
+  output: __S(17376, __c543, 0) as any as S.Schema<CloudProjectLoadbalancerRegion>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -29312,13 +29312,13 @@ export const getCloudProjectCapabilityNetworkloadbalancerSize: API.OperationMeth
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    17888,
-    __c559,
+    17856,
+    __c558,
     0,
   ) as any as S.Schema<GetCloudProjectCapabilityNetworkloadbalancerSizeRequest>,
   output: __S(
-    17600,
-    __c550,
+    17568,
+    __c549,
     0,
   ) as any as S.Schema<CloudProjectNetworkloadbalancerLoadBalancerSizeCapability>,
   errors: [],
@@ -29337,8 +29337,8 @@ export const getCloudProjectContainerRegistry: API.OperationMethod<
   GetCloudProjectContainerRegistryError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17920, __c560, 0) as any as S.Schema<GetCloudProjectContainerRegistryRequest>,
-  output: __S(25152, __c786, 0) as any as S.Schema<CloudContainerRegistryRegistry>,
+  input: __S(17888, __c559, 0) as any as S.Schema<GetCloudProjectContainerRegistryRequest>,
+  output: __S(25120, __c785, 0) as any as S.Schema<CloudContainerRegistryRegistry>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -29356,11 +29356,11 @@ export const getCloudProjectContainerRegistryOpenIdConnect: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    17952,
-    __c561,
+    17920,
+    __c560,
     0,
   ) as any as S.Schema<GetCloudProjectContainerRegistryOpenIdConnectRequest>,
-  output: __S(17953, __c561, 1) as any as S.Schema<CloudContainerRegistryOIDCConfiguration>,
+  output: __S(17921, __c560, 1) as any as S.Schema<CloudContainerRegistryOIDCConfiguration>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -29377,8 +29377,8 @@ export const getCloudProjectContainerRegistryPlan: API.OperationMethod<
   GetCloudProjectContainerRegistryPlanError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17984, __c562, 0) as any as S.Schema<GetCloudProjectContainerRegistryPlanRequest>,
-  output: __S(18018, __c563, 2) as any as S.Schema<CloudContainerRegistryPlan>,
+  input: __S(17952, __c561, 0) as any as S.Schema<GetCloudProjectContainerRegistryPlanRequest>,
+  output: __S(17986, __c562, 2) as any as S.Schema<CloudContainerRegistryPlan>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -29395,8 +29395,8 @@ export const getCloudProjectContainerRegistryUser: API.OperationMethod<
   GetCloudProjectContainerRegistryUserError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18048, __c564, 0) as any as S.Schema<GetCloudProjectContainerRegistryUserRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<CloudContainerRegistryUser>,
+  input: __S(18016, __c563, 0) as any as S.Schema<GetCloudProjectContainerRegistryUserRequest>,
+  output: __S(26464, __c827, 0) as any as S.Schema<CloudContainerRegistryUser>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -29413,8 +29413,8 @@ export const getCloudProjectCredit: API.OperationMethod<
   GetCloudProjectCreditError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18080, __c565, 0) as any as S.Schema<GetCloudProjectCreditRequest>,
-  output: __S(18082, __c565, 2) as any as S.Schema<CloudCredit>,
+  input: __S(18048, __c564, 0) as any as S.Schema<GetCloudProjectCreditRequest>,
+  output: __S(18050, __c564, 2) as any as S.Schema<CloudCredit>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -29431,7 +29431,7 @@ export const getCloudProjectDatabaseCassandra: API.OperationMethod<
   GetCloudProjectDatabaseCassandraError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18112, __c566, 0) as any as S.Schema<GetCloudProjectDatabaseCassandraRequest>,
+  input: __S(18080, __c565, 0) as any as S.Schema<GetCloudProjectDatabaseCassandraRequest>,
   output: __S(27776, __c868, 0) as any as S.Schema<CloudProjectDatabaseService>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
@@ -29454,13 +29454,13 @@ export const getCloudProjectDatabaseCassandraAdvancedConfiguration: API.Operatio
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    18144,
-    __c567,
+    18112,
+    __c566,
     0,
   ) as any as S.Schema<GetCloudProjectDatabaseCassandraAdvancedConfigurationRequest>,
   output: __S(
-    18176,
-    __c568,
+    18144,
+    __c567,
     0,
   ) as any as S.Schema<GetCloudProjectDatabaseCassandraAdvancedConfigurationResponse>,
   errors: [BadRequest, NotFound, Conflict],
@@ -29483,7 +29483,7 @@ export const getCloudProjectDatabaseCassandraBackup: API.OperationMethod<
   GetCloudProjectDatabaseCassandraBackupError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18208, __c569, 0) as any as S.Schema<GetCloudProjectDatabaseCassandraBackupRequest>,
+  input: __S(18176, __c568, 0) as any as S.Schema<GetCloudProjectDatabaseCassandraBackupRequest>,
   output: __S(2688, __c84, 0) as any as S.Schema<CloudProjectDatabaseBackup>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
@@ -29506,11 +29506,11 @@ export const getCloudProjectDatabaseCassandraCertificates: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    18272,
-    __c571,
+    18240,
+    __c570,
     0,
   ) as any as S.Schema<GetCloudProjectDatabaseCassandraCertificatesRequest>,
-  output: __S(18304, __c572, 0) as any as S.Schema<CloudProjectDatabaseServiceCertificates>,
+  output: __S(18272, __c571, 0) as any as S.Schema<CloudProjectDatabaseServiceCertificates>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -29532,8 +29532,8 @@ export const getCloudProjectDatabaseCassandraIntegration: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    18336,
-    __c573,
+    18304,
+    __c572,
     0,
   ) as any as S.Schema<GetCloudProjectDatabaseCassandraIntegrationRequest>,
   output: __S(28192, __c881, 0) as any as S.Schema<CloudProjectDatabaseServiceIntegration>,
@@ -29557,8 +29557,8 @@ export const getCloudProjectDatabaseCassandraLogKind: API.OperationMethod<
   GetCloudProjectDatabaseCassandraLogKindError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18368, __c574, 0) as any as S.Schema<GetCloudProjectDatabaseCassandraLogKindRequest>,
-  output: __S(17504, __c547, 0) as any as S.Schema<DbaasLogsLogKind>,
+  input: __S(18336, __c573, 0) as any as S.Schema<GetCloudProjectDatabaseCassandraLogKindRequest>,
+  output: __S(17472, __c546, 0) as any as S.Schema<DbaasLogsLogKind>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -29580,11 +29580,11 @@ export const getCloudProjectDatabaseCassandraLogSubscription: API.OperationMetho
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    18400,
-    __c575,
+    18368,
+    __c574,
     0,
   ) as any as S.Schema<GetCloudProjectDatabaseCassandraLogSubscriptionRequest>,
-  output: __S(18464, __c577, 0) as any as S.Schema<DbaasLogsLogSubscription>,
+  output: __S(18432, __c576, 0) as any as S.Schema<DbaasLogsLogSubscription>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -29606,8 +29606,8 @@ export const getCloudProjectDatabaseCassandraMaintenance: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    18496,
-    __c578,
+    18464,
+    __c577,
     0,
   ) as any as S.Schema<GetCloudProjectDatabaseCassandraMaintenanceRequest>,
   output: __S(38912, __c1216, 0) as any as S.Schema<CloudProjectDatabaseServiceMaintenance>,
@@ -29631,8 +29631,8 @@ export const getCloudProjectDatabaseCassandraMetric: API.OperationMethod<
   GetCloudProjectDatabaseCassandraMetricError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18528, __c579, 0) as any as S.Schema<GetCloudProjectDatabaseCassandraMetricRequest>,
-  output: __S(18564, __c580, 4) as any as S.Schema<CloudProjectDatabaseServiceMetric>,
+  input: __S(18496, __c578, 0) as any as S.Schema<GetCloudProjectDatabaseCassandraMetricRequest>,
+  output: __S(18532, __c579, 4) as any as S.Schema<CloudProjectDatabaseServiceMetric>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -29653,7 +29653,7 @@ export const getCloudProjectDatabaseCassandraNode: API.OperationMethod<
   GetCloudProjectDatabaseCassandraNodeError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18592, __c581, 0) as any as S.Schema<GetCloudProjectDatabaseCassandraNodeRequest>,
+  input: __S(18560, __c580, 0) as any as S.Schema<GetCloudProjectDatabaseCassandraNodeRequest>,
   output: __S(27648, __c864, 0) as any as S.Schema<CloudProjectDatabaseServiceNode>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
@@ -29675,8 +29675,8 @@ export const getCloudProjectDatabaseCassandraUser: API.OperationMethod<
   GetCloudProjectDatabaseCassandraUserError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18624, __c582, 0) as any as S.Schema<GetCloudProjectDatabaseCassandraUserRequest>,
-  output: __S(18656, __c583, 0) as any as S.Schema<CloudProjectDatabaseServiceUser>,
+  input: __S(18592, __c581, 0) as any as S.Schema<GetCloudProjectDatabaseCassandraUserRequest>,
+  output: __S(18624, __c582, 0) as any as S.Schema<CloudProjectDatabaseServiceUser>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -29693,7 +29693,7 @@ export const getCloudProjectDatabaseClickhouse: API.OperationMethod<
   GetCloudProjectDatabaseClickhouseError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18688, __c584, 0) as any as S.Schema<GetCloudProjectDatabaseClickhouseRequest>,
+  input: __S(18656, __c583, 0) as any as S.Schema<GetCloudProjectDatabaseClickhouseRequest>,
   output: __S(27776, __c868, 0) as any as S.Schema<CloudProjectDatabaseService>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
@@ -29715,7 +29715,7 @@ export const getCloudProjectDatabaseClickhouseBackup: API.OperationMethod<
   GetCloudProjectDatabaseClickhouseBackupError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18720, __c585, 0) as any as S.Schema<GetCloudProjectDatabaseClickhouseBackupRequest>,
+  input: __S(18688, __c584, 0) as any as S.Schema<GetCloudProjectDatabaseClickhouseBackupRequest>,
   output: __S(2688, __c84, 0) as any as S.Schema<CloudProjectDatabaseBackup>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
@@ -29738,11 +29738,11 @@ export const getCloudProjectDatabaseClickhouseCertificates: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    18816,
-    __c588,
+    18784,
+    __c587,
     0,
   ) as any as S.Schema<GetCloudProjectDatabaseClickhouseCertificatesRequest>,
-  output: __S(18304, __c572, 0) as any as S.Schema<CloudProjectDatabaseServiceCertificates>,
+  output: __S(18272, __c571, 0) as any as S.Schema<CloudProjectDatabaseServiceCertificates>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -29763,7 +29763,7 @@ export const getCloudProjectDatabaseClickhouseDatabase: API.OperationMethod<
   GetCloudProjectDatabaseClickhouseDatabaseError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18848, __c589, 0) as any as S.Schema<GetCloudProjectDatabaseClickhouseDatabaseRequest>,
+  input: __S(18816, __c588, 0) as any as S.Schema<GetCloudProjectDatabaseClickhouseDatabaseRequest>,
   output: __S(30368, __c949, 0) as any as S.Schema<CloudProjectDatabaseServiceDatabase>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
@@ -29786,8 +29786,8 @@ export const getCloudProjectDatabaseClickhouseIntegration: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    18880,
-    __c590,
+    18848,
+    __c589,
     0,
   ) as any as S.Schema<GetCloudProjectDatabaseClickhouseIntegrationRequest>,
   output: __S(28192, __c881, 0) as any as S.Schema<CloudProjectDatabaseServiceIntegration>,
@@ -29811,8 +29811,8 @@ export const getCloudProjectDatabaseClickhouseLogKind: API.OperationMethod<
   GetCloudProjectDatabaseClickhouseLogKindError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18912, __c591, 0) as any as S.Schema<GetCloudProjectDatabaseClickhouseLogKindRequest>,
-  output: __S(17504, __c547, 0) as any as S.Schema<DbaasLogsLogKind>,
+  input: __S(18880, __c590, 0) as any as S.Schema<GetCloudProjectDatabaseClickhouseLogKindRequest>,
+  output: __S(17472, __c546, 0) as any as S.Schema<DbaasLogsLogKind>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -29834,11 +29834,11 @@ export const getCloudProjectDatabaseClickhouseLogSubscription: API.OperationMeth
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    18944,
-    __c592,
+    18912,
+    __c591,
     0,
   ) as any as S.Schema<GetCloudProjectDatabaseClickhouseLogSubscriptionRequest>,
-  output: __S(18464, __c577, 0) as any as S.Schema<DbaasLogsLogSubscription>,
+  output: __S(18432, __c576, 0) as any as S.Schema<DbaasLogsLogSubscription>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -29860,8 +29860,8 @@ export const getCloudProjectDatabaseClickhouseMaintenance: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    18976,
-    __c593,
+    18944,
+    __c592,
     0,
   ) as any as S.Schema<GetCloudProjectDatabaseClickhouseMaintenanceRequest>,
   output: __S(38912, __c1216, 0) as any as S.Schema<CloudProjectDatabaseServiceMaintenance>,
@@ -29885,8 +29885,8 @@ export const getCloudProjectDatabaseClickhouseMetric: API.OperationMethod<
   GetCloudProjectDatabaseClickhouseMetricError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19008, __c594, 0) as any as S.Schema<GetCloudProjectDatabaseClickhouseMetricRequest>,
-  output: __S(18564, __c580, 4) as any as S.Schema<CloudProjectDatabaseServiceMetric>,
+  input: __S(18976, __c593, 0) as any as S.Schema<GetCloudProjectDatabaseClickhouseMetricRequest>,
+  output: __S(18532, __c579, 4) as any as S.Schema<CloudProjectDatabaseServiceMetric>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -29907,7 +29907,7 @@ export const getCloudProjectDatabaseClickhouseNode: API.OperationMethod<
   GetCloudProjectDatabaseClickhouseNodeError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19040, __c595, 0) as any as S.Schema<GetCloudProjectDatabaseClickhouseNodeRequest>,
+  input: __S(19008, __c594, 0) as any as S.Schema<GetCloudProjectDatabaseClickhouseNodeRequest>,
   output: __S(27648, __c864, 0) as any as S.Schema<CloudProjectDatabaseServiceNode>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
@@ -29929,8 +29929,8 @@ export const getCloudProjectDatabaseClickhouseUser: API.OperationMethod<
   GetCloudProjectDatabaseClickhouseUserError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19072, __c596, 0) as any as S.Schema<GetCloudProjectDatabaseClickhouseUserRequest>,
-  output: __S(19104, __c597, 0) as any as S.Schema<CloudProjectDatabaseServiceUserWithRoles>,
+  input: __S(19040, __c595, 0) as any as S.Schema<GetCloudProjectDatabaseClickhouseUserRequest>,
+  output: __S(19072, __c596, 0) as any as S.Schema<CloudProjectDatabaseServiceUserWithRoles>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -29947,7 +29947,7 @@ export const getCloudProjectDatabaseGrafana: API.OperationMethod<
   GetCloudProjectDatabaseGrafanaError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19136, __c598, 0) as any as S.Schema<GetCloudProjectDatabaseGrafanaRequest>,
+  input: __S(19104, __c597, 0) as any as S.Schema<GetCloudProjectDatabaseGrafanaRequest>,
   output: __S(32608, __c1019, 0) as any as S.Schema<CloudProjectDatabaseServiceWithoutPrometheus>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
@@ -29970,13 +29970,13 @@ export const getCloudProjectDatabaseGrafanaAdvancedConfiguration: API.OperationM
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    19552,
-    __c611,
+    19520,
+    __c610,
     0,
   ) as any as S.Schema<GetCloudProjectDatabaseGrafanaAdvancedConfigurationRequest>,
   output: __S(
-    18176,
-    __c568,
+    18144,
+    __c567,
     0,
   ) as any as S.Schema<GetCloudProjectDatabaseGrafanaAdvancedConfigurationResponse>,
   errors: [BadRequest, NotFound, Conflict],
@@ -29999,7 +29999,7 @@ export const getCloudProjectDatabaseGrafanaBackup: API.OperationMethod<
   GetCloudProjectDatabaseGrafanaBackupError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19584, __c612, 0) as any as S.Schema<GetCloudProjectDatabaseGrafanaBackupRequest>,
+  input: __S(19552, __c611, 0) as any as S.Schema<GetCloudProjectDatabaseGrafanaBackupRequest>,
   output: __S(2688, __c84, 0) as any as S.Schema<CloudProjectDatabaseBackup>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
@@ -30021,7 +30021,7 @@ export const getCloudProjectDatabaseGrafanaIntegration: API.OperationMethod<
   GetCloudProjectDatabaseGrafanaIntegrationError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19616, __c613, 0) as any as S.Schema<GetCloudProjectDatabaseGrafanaIntegrationRequest>,
+  input: __S(19584, __c612, 0) as any as S.Schema<GetCloudProjectDatabaseGrafanaIntegrationRequest>,
   output: __S(28192, __c881, 0) as any as S.Schema<CloudProjectDatabaseServiceIntegration>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
@@ -30043,8 +30043,8 @@ export const getCloudProjectDatabaseGrafanaLogKind: API.OperationMethod<
   GetCloudProjectDatabaseGrafanaLogKindError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19648, __c614, 0) as any as S.Schema<GetCloudProjectDatabaseGrafanaLogKindRequest>,
-  output: __S(17504, __c547, 0) as any as S.Schema<DbaasLogsLogKind>,
+  input: __S(19616, __c613, 0) as any as S.Schema<GetCloudProjectDatabaseGrafanaLogKindRequest>,
+  output: __S(17472, __c546, 0) as any as S.Schema<DbaasLogsLogKind>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -30066,11 +30066,11 @@ export const getCloudProjectDatabaseGrafanaLogSubscription: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    19680,
-    __c615,
+    19648,
+    __c614,
     0,
   ) as any as S.Schema<GetCloudProjectDatabaseGrafanaLogSubscriptionRequest>,
-  output: __S(18464, __c577, 0) as any as S.Schema<DbaasLogsLogSubscription>,
+  output: __S(18432, __c576, 0) as any as S.Schema<DbaasLogsLogSubscription>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -30091,7 +30091,7 @@ export const getCloudProjectDatabaseGrafanaMaintenance: API.OperationMethod<
   GetCloudProjectDatabaseGrafanaMaintenanceError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19712, __c616, 0) as any as S.Schema<GetCloudProjectDatabaseGrafanaMaintenanceRequest>,
+  input: __S(19680, __c615, 0) as any as S.Schema<GetCloudProjectDatabaseGrafanaMaintenanceRequest>,
   output: __S(38912, __c1216, 0) as any as S.Schema<CloudProjectDatabaseServiceMaintenance>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
@@ -30113,8 +30113,8 @@ export const getCloudProjectDatabaseGrafanaMetric: API.OperationMethod<
   GetCloudProjectDatabaseGrafanaMetricError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19744, __c617, 0) as any as S.Schema<GetCloudProjectDatabaseGrafanaMetricRequest>,
-  output: __S(18564, __c580, 4) as any as S.Schema<CloudProjectDatabaseServiceMetric>,
+  input: __S(19712, __c616, 0) as any as S.Schema<GetCloudProjectDatabaseGrafanaMetricRequest>,
+  output: __S(18532, __c579, 4) as any as S.Schema<CloudProjectDatabaseServiceMetric>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -30131,7 +30131,7 @@ export const getCloudProjectDatabaseGrafanaNode: API.OperationMethod<
   GetCloudProjectDatabaseGrafanaNodeError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19776, __c618, 0) as any as S.Schema<GetCloudProjectDatabaseGrafanaNodeRequest>,
+  input: __S(19744, __c617, 0) as any as S.Schema<GetCloudProjectDatabaseGrafanaNodeRequest>,
   output: __S(27648, __c864, 0) as any as S.Schema<CloudProjectDatabaseServiceNode>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
@@ -30149,8 +30149,8 @@ export const getCloudProjectDatabaseGrafanaUser: API.OperationMethod<
   GetCloudProjectDatabaseGrafanaUserError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19808, __c619, 0) as any as S.Schema<GetCloudProjectDatabaseGrafanaUserRequest>,
-  output: __S(18656, __c583, 0) as any as S.Schema<CloudProjectDatabaseServiceUser>,
+  input: __S(19776, __c618, 0) as any as S.Schema<GetCloudProjectDatabaseGrafanaUserRequest>,
+  output: __S(18624, __c582, 0) as any as S.Schema<CloudProjectDatabaseServiceUser>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -30167,7 +30167,7 @@ export const getCloudProjectDatabaseKafka: API.OperationMethod<
   GetCloudProjectDatabaseKafkaError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19840, __c620, 0) as any as S.Schema<GetCloudProjectDatabaseKafkaRequest>,
+  input: __S(19808, __c619, 0) as any as S.Schema<GetCloudProjectDatabaseKafkaRequest>,
   output: __S(34048, __c1064, 0) as any as S.Schema<CloudProjectDatabaseKafkaService>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
@@ -30190,13 +30190,13 @@ export const getCloudProjectDatabaseKafkaAdvancedConfiguration: API.OperationMet
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    19936,
-    __c623,
+    19904,
+    __c622,
     0,
   ) as any as S.Schema<GetCloudProjectDatabaseKafkaAdvancedConfigurationRequest>,
   output: __S(
-    18176,
-    __c568,
+    18144,
+    __c567,
     0,
   ) as any as S.Schema<GetCloudProjectDatabaseKafkaAdvancedConfigurationResponse>,
   errors: [BadRequest, NotFound, Conflict],
@@ -30219,8 +30219,8 @@ export const getCloudProjectDatabaseKafkaCertificates: API.OperationMethod<
   GetCloudProjectDatabaseKafkaCertificatesError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19968, __c624, 0) as any as S.Schema<GetCloudProjectDatabaseKafkaCertificatesRequest>,
-  output: __S(18304, __c572, 0) as any as S.Schema<CloudProjectDatabaseServiceCertificates>,
+  input: __S(19936, __c623, 0) as any as S.Schema<GetCloudProjectDatabaseKafkaCertificatesRequest>,
+  output: __S(18272, __c571, 0) as any as S.Schema<CloudProjectDatabaseServiceCertificates>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -30241,7 +30241,7 @@ export const getCloudProjectDatabaseKafkaConnect: API.OperationMethod<
   GetCloudProjectDatabaseKafkaConnectError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20000, __c625, 0) as any as S.Schema<GetCloudProjectDatabaseKafkaConnectRequest>,
+  input: __S(19968, __c624, 0) as any as S.Schema<GetCloudProjectDatabaseKafkaConnectRequest>,
   output: __S(27776, __c868, 0) as any as S.Schema<CloudProjectDatabaseService>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
@@ -30264,13 +30264,13 @@ export const getCloudProjectDatabaseKafkaConnectAdvancedConfiguration: API.Opera
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    20032,
-    __c626,
+    20000,
+    __c625,
     0,
   ) as any as S.Schema<GetCloudProjectDatabaseKafkaConnectAdvancedConfigurationRequest>,
   output: __S(
-    18176,
-    __c568,
+    18144,
+    __c567,
     0,
   ) as any as S.Schema<GetCloudProjectDatabaseKafkaConnectAdvancedConfigurationResponse>,
   errors: [BadRequest, NotFound, Conflict],
@@ -30294,13 +30294,13 @@ export const getCloudProjectDatabaseKafkaConnectCapabilityConnector: API.Operati
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    20064,
-    __c627,
+    20032,
+    __c626,
     0,
   ) as any as S.Schema<GetCloudProjectDatabaseKafkaConnectCapabilityConnectorRequest>,
   output: __S(
-    20065,
-    __c627,
+    20033,
+    __c626,
     1,
   ) as any as S.Schema<CloudProjectDatabaseKafkaConnectCapabilitiesConnector>,
   errors: [BadRequest, NotFound, Conflict],
@@ -30324,8 +30324,8 @@ export const getCloudProjectDatabaseKafkaConnectConnector: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    20096,
-    __c628,
+    20064,
+    __c627,
     0,
   ) as any as S.Schema<GetCloudProjectDatabaseKafkaConnectConnectorRequest>,
   output: __S(34784, __c1087, 0) as any as S.Schema<CloudProjectDatabaseKafkaConnectConnector>,
@@ -30350,11 +30350,11 @@ export const getCloudProjectDatabaseKafkaConnectConnectorTask: API.OperationMeth
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    20128,
-    __c629,
+    20096,
+    __c628,
     0,
   ) as any as S.Schema<GetCloudProjectDatabaseKafkaConnectConnectorTaskRequest>,
-  output: __S(20129, __c629, 1) as any as S.Schema<CloudProjectDatabaseKafkaConnectConnectorTask>,
+  output: __S(20097, __c628, 1) as any as S.Schema<CloudProjectDatabaseKafkaConnectConnectorTask>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -30376,8 +30376,8 @@ export const getCloudProjectDatabaseKafkaConnectIntegration: API.OperationMethod
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    20160,
-    __c630,
+    20128,
+    __c629,
     0,
   ) as any as S.Schema<GetCloudProjectDatabaseKafkaConnectIntegrationRequest>,
   output: __S(28192, __c881, 0) as any as S.Schema<CloudProjectDatabaseServiceIntegration>,
@@ -30402,11 +30402,11 @@ export const getCloudProjectDatabaseKafkaConnectLogKind: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    20192,
-    __c631,
+    20160,
+    __c630,
     0,
   ) as any as S.Schema<GetCloudProjectDatabaseKafkaConnectLogKindRequest>,
-  output: __S(17504, __c547, 0) as any as S.Schema<DbaasLogsLogKind>,
+  output: __S(17472, __c546, 0) as any as S.Schema<DbaasLogsLogKind>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -30428,11 +30428,11 @@ export const getCloudProjectDatabaseKafkaConnectLogSubscription: API.OperationMe
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    20224,
-    __c632,
+    20192,
+    __c631,
     0,
   ) as any as S.Schema<GetCloudProjectDatabaseKafkaConnectLogSubscriptionRequest>,
-  output: __S(18464, __c577, 0) as any as S.Schema<DbaasLogsLogSubscription>,
+  output: __S(18432, __c576, 0) as any as S.Schema<DbaasLogsLogSubscription>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -30454,8 +30454,8 @@ export const getCloudProjectDatabaseKafkaConnectMaintenance: API.OperationMethod
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    20288,
-    __c634,
+    20256,
+    __c633,
     0,
   ) as any as S.Schema<GetCloudProjectDatabaseKafkaConnectMaintenanceRequest>,
   output: __S(38912, __c1216, 0) as any as S.Schema<CloudProjectDatabaseServiceMaintenance>,
@@ -30479,8 +30479,8 @@ export const getCloudProjectDatabaseKafkaConnectMetric: API.OperationMethod<
   GetCloudProjectDatabaseKafkaConnectMetricError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20320, __c635, 0) as any as S.Schema<GetCloudProjectDatabaseKafkaConnectMetricRequest>,
-  output: __S(18564, __c580, 4) as any as S.Schema<CloudProjectDatabaseServiceMetric>,
+  input: __S(20288, __c634, 0) as any as S.Schema<GetCloudProjectDatabaseKafkaConnectMetricRequest>,
+  output: __S(18532, __c579, 4) as any as S.Schema<CloudProjectDatabaseServiceMetric>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -30501,7 +30501,7 @@ export const getCloudProjectDatabaseKafkaConnectNode: API.OperationMethod<
   GetCloudProjectDatabaseKafkaConnectNodeError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20352, __c636, 0) as any as S.Schema<GetCloudProjectDatabaseKafkaConnectNodeRequest>,
+  input: __S(20320, __c635, 0) as any as S.Schema<GetCloudProjectDatabaseKafkaConnectNodeRequest>,
   output: __S(27648, __c864, 0) as any as S.Schema<CloudProjectDatabaseServiceNode>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
@@ -30523,8 +30523,8 @@ export const getCloudProjectDatabaseKafkaConnectUser: API.OperationMethod<
   GetCloudProjectDatabaseKafkaConnectUserError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20384, __c637, 0) as any as S.Schema<GetCloudProjectDatabaseKafkaConnectUserRequest>,
-  output: __S(18656, __c583, 0) as any as S.Schema<CloudProjectDatabaseServiceUser>,
+  input: __S(20352, __c636, 0) as any as S.Schema<GetCloudProjectDatabaseKafkaConnectUserRequest>,
+  output: __S(18624, __c582, 0) as any as S.Schema<CloudProjectDatabaseServiceUser>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -30545,7 +30545,7 @@ export const getCloudProjectDatabaseKafkaIntegration: API.OperationMethod<
   GetCloudProjectDatabaseKafkaIntegrationError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20416, __c638, 0) as any as S.Schema<GetCloudProjectDatabaseKafkaIntegrationRequest>,
+  input: __S(20384, __c637, 0) as any as S.Schema<GetCloudProjectDatabaseKafkaIntegrationRequest>,
   output: __S(28192, __c881, 0) as any as S.Schema<CloudProjectDatabaseServiceIntegration>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
@@ -30567,8 +30567,8 @@ export const getCloudProjectDatabaseKafkaLogKind: API.OperationMethod<
   GetCloudProjectDatabaseKafkaLogKindError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20448, __c639, 0) as any as S.Schema<GetCloudProjectDatabaseKafkaLogKindRequest>,
-  output: __S(17504, __c547, 0) as any as S.Schema<DbaasLogsLogKind>,
+  input: __S(20416, __c638, 0) as any as S.Schema<GetCloudProjectDatabaseKafkaLogKindRequest>,
+  output: __S(17472, __c546, 0) as any as S.Schema<DbaasLogsLogKind>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -30590,11 +30590,11 @@ export const getCloudProjectDatabaseKafkaLogSubscription: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    20480,
-    __c640,
+    20448,
+    __c639,
     0,
   ) as any as S.Schema<GetCloudProjectDatabaseKafkaLogSubscriptionRequest>,
-  output: __S(18464, __c577, 0) as any as S.Schema<DbaasLogsLogSubscription>,
+  output: __S(18432, __c576, 0) as any as S.Schema<DbaasLogsLogSubscription>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -30615,7 +30615,7 @@ export const getCloudProjectDatabaseKafkaMaintenance: API.OperationMethod<
   GetCloudProjectDatabaseKafkaMaintenanceError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20512, __c641, 0) as any as S.Schema<GetCloudProjectDatabaseKafkaMaintenanceRequest>,
+  input: __S(20480, __c640, 0) as any as S.Schema<GetCloudProjectDatabaseKafkaMaintenanceRequest>,
   output: __S(38912, __c1216, 0) as any as S.Schema<CloudProjectDatabaseServiceMaintenance>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
@@ -30633,8 +30633,8 @@ export const getCloudProjectDatabaseKafkaMetric: API.OperationMethod<
   GetCloudProjectDatabaseKafkaMetricError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20544, __c642, 0) as any as S.Schema<GetCloudProjectDatabaseKafkaMetricRequest>,
-  output: __S(18564, __c580, 4) as any as S.Schema<CloudProjectDatabaseServiceMetric>,
+  input: __S(20512, __c641, 0) as any as S.Schema<GetCloudProjectDatabaseKafkaMetricRequest>,
+  output: __S(18532, __c579, 4) as any as S.Schema<CloudProjectDatabaseServiceMetric>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -30655,7 +30655,7 @@ export const getCloudProjectDatabaseKafkaMirrorMaker: API.OperationMethod<
   GetCloudProjectDatabaseKafkaMirrorMakerError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20576, __c643, 0) as any as S.Schema<GetCloudProjectDatabaseKafkaMirrorMakerRequest>,
+  input: __S(20544, __c642, 0) as any as S.Schema<GetCloudProjectDatabaseKafkaMirrorMakerRequest>,
   output: __S(27776, __c868, 0) as any as S.Schema<CloudProjectDatabaseService>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
@@ -30678,8 +30678,8 @@ export const getCloudProjectDatabaseKafkaMirrorMakerIntegration: API.OperationMe
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    20640,
-    __c645,
+    20608,
+    __c644,
     0,
   ) as any as S.Schema<GetCloudProjectDatabaseKafkaMirrorMakerIntegrationRequest>,
   output: __S(28192, __c881, 0) as any as S.Schema<CloudProjectDatabaseServiceIntegration>,
@@ -30704,11 +30704,11 @@ export const getCloudProjectDatabaseKafkaMirrorMakerLogKind: API.OperationMethod
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    20672,
-    __c646,
+    20640,
+    __c645,
     0,
   ) as any as S.Schema<GetCloudProjectDatabaseKafkaMirrorMakerLogKindRequest>,
-  output: __S(17504, __c547, 0) as any as S.Schema<DbaasLogsLogKind>,
+  output: __S(17472, __c546, 0) as any as S.Schema<DbaasLogsLogKind>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -30730,11 +30730,11 @@ export const getCloudProjectDatabaseKafkaMirrorMakerLogSubscription: API.Operati
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    20704,
-    __c647,
+    20672,
+    __c646,
     0,
   ) as any as S.Schema<GetCloudProjectDatabaseKafkaMirrorMakerLogSubscriptionRequest>,
-  output: __S(18464, __c577, 0) as any as S.Schema<DbaasLogsLogSubscription>,
+  output: __S(18432, __c576, 0) as any as S.Schema<DbaasLogsLogSubscription>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -30756,8 +30756,8 @@ export const getCloudProjectDatabaseKafkaMirrorMakerMaintenance: API.OperationMe
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    20736,
-    __c648,
+    20704,
+    __c647,
     0,
   ) as any as S.Schema<GetCloudProjectDatabaseKafkaMirrorMakerMaintenanceRequest>,
   output: __S(38912, __c1216, 0) as any as S.Schema<CloudProjectDatabaseServiceMaintenance>,
@@ -30782,11 +30782,11 @@ export const getCloudProjectDatabaseKafkaMirrorMakerMetric: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    20768,
-    __c649,
+    20736,
+    __c648,
     0,
   ) as any as S.Schema<GetCloudProjectDatabaseKafkaMirrorMakerMetricRequest>,
-  output: __S(18564, __c580, 4) as any as S.Schema<CloudProjectDatabaseServiceMetric>,
+  output: __S(18532, __c579, 4) as any as S.Schema<CloudProjectDatabaseServiceMetric>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -30808,8 +30808,8 @@ export const getCloudProjectDatabaseKafkaMirrorMakerNode: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    20800,
-    __c650,
+    20768,
+    __c649,
     0,
   ) as any as S.Schema<GetCloudProjectDatabaseKafkaMirrorMakerNodeRequest>,
   output: __S(27648, __c864, 0) as any as S.Schema<CloudProjectDatabaseServiceNode>,
@@ -30834,8 +30834,8 @@ export const getCloudProjectDatabaseKafkaMirrorMakerReplication: API.OperationMe
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    20832,
-    __c651,
+    20800,
+    __c650,
     0,
   ) as any as S.Schema<GetCloudProjectDatabaseKafkaMirrorMakerReplicationRequest>,
   output: __S(39328, __c1229, 0) as any as S.Schema<CloudProjectDatabaseServiceReplication>,
@@ -30855,7 +30855,7 @@ export const getCloudProjectDatabaseKafkaNode: API.OperationMethod<
   GetCloudProjectDatabaseKafkaNodeError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20864, __c652, 0) as any as S.Schema<GetCloudProjectDatabaseKafkaNodeRequest>,
+  input: __S(20832, __c651, 0) as any as S.Schema<GetCloudProjectDatabaseKafkaNodeRequest>,
   output: __S(27648, __c864, 0) as any as S.Schema<CloudProjectDatabaseServiceNode>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
@@ -30878,8 +30878,8 @@ export const getCloudProjectDatabaseKafkaSchemaRegistryAcl: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    20896,
-    __c653,
+    20864,
+    __c652,
     0,
   ) as any as S.Schema<GetCloudProjectDatabaseKafkaSchemaRegistryAclRequest>,
   output: __S(39744, __c1242, 0) as any as S.Schema<CloudProjectDatabaseKafkaSchemaRegistryAcl>,
@@ -30899,7 +30899,7 @@ export const getCloudProjectDatabaseKafkaTopic: API.OperationMethod<
   GetCloudProjectDatabaseKafkaTopicError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20928, __c654, 0) as any as S.Schema<GetCloudProjectDatabaseKafkaTopicRequest>,
+  input: __S(20896, __c653, 0) as any as S.Schema<GetCloudProjectDatabaseKafkaTopicRequest>,
   output: __S(40192, __c1256, 0) as any as S.Schema<CloudProjectDatabaseKafkaTopic>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
@@ -30921,7 +30921,7 @@ export const getCloudProjectDatabaseKafkaTopicAcl: API.OperationMethod<
   GetCloudProjectDatabaseKafkaTopicAclError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21056, __c658, 0) as any as S.Schema<GetCloudProjectDatabaseKafkaTopicAclRequest>,
+  input: __S(21024, __c657, 0) as any as S.Schema<GetCloudProjectDatabaseKafkaTopicAclRequest>,
   output: __S(40608, __c1269, 0) as any as S.Schema<CloudProjectDatabaseKafkaTopicAcl>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
@@ -30939,8 +30939,8 @@ export const getCloudProjectDatabaseKafkaUser: API.OperationMethod<
   GetCloudProjectDatabaseKafkaUserError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21088, __c659, 0) as any as S.Schema<GetCloudProjectDatabaseKafkaUserRequest>,
-  output: __S(18656, __c583, 0) as any as S.Schema<CloudProjectDatabaseServiceUser>,
+  input: __S(21056, __c658, 0) as any as S.Schema<GetCloudProjectDatabaseKafkaUserRequest>,
+  output: __S(18624, __c582, 0) as any as S.Schema<CloudProjectDatabaseServiceUser>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -30961,8 +30961,8 @@ export const getCloudProjectDatabaseKafkaUserAccess: API.OperationMethod<
   GetCloudProjectDatabaseKafkaUserAccessError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21120, __c660, 0) as any as S.Schema<GetCloudProjectDatabaseKafkaUserAccessRequest>,
-  output: __S(21121, __c660, 1) as any as S.Schema<CloudProjectDatabaseKafkaUserAccess>,
+  input: __S(21088, __c659, 0) as any as S.Schema<GetCloudProjectDatabaseKafkaUserAccessRequest>,
+  output: __S(21089, __c659, 1) as any as S.Schema<CloudProjectDatabaseKafkaUserAccess>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -30983,7 +30983,7 @@ export const getCloudProjectDatabaseM3aggregator: API.OperationMethod<
   GetCloudProjectDatabaseM3aggregatorError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21152, __c661, 0) as any as S.Schema<GetCloudProjectDatabaseM3aggregatorRequest>,
+  input: __S(21120, __c660, 0) as any as S.Schema<GetCloudProjectDatabaseM3aggregatorRequest>,
   output: __S(32608, __c1019, 0) as any as S.Schema<CloudProjectDatabaseServiceWithoutPrometheus>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
@@ -31006,8 +31006,8 @@ export const getCloudProjectDatabaseM3aggregatorIntegration: API.OperationMethod
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    21184,
-    __c662,
+    21152,
+    __c661,
     0,
   ) as any as S.Schema<GetCloudProjectDatabaseM3aggregatorIntegrationRequest>,
   output: __S(28192, __c881, 0) as any as S.Schema<CloudProjectDatabaseServiceIntegration>,
@@ -31032,11 +31032,11 @@ export const getCloudProjectDatabaseM3aggregatorLogKind: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    21216,
-    __c663,
+    21184,
+    __c662,
     0,
   ) as any as S.Schema<GetCloudProjectDatabaseM3aggregatorLogKindRequest>,
-  output: __S(17504, __c547, 0) as any as S.Schema<DbaasLogsLogKind>,
+  output: __S(17472, __c546, 0) as any as S.Schema<DbaasLogsLogKind>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -31058,11 +31058,11 @@ export const getCloudProjectDatabaseM3aggregatorLogSubscription: API.OperationMe
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    21248,
-    __c664,
+    21216,
+    __c663,
     0,
   ) as any as S.Schema<GetCloudProjectDatabaseM3aggregatorLogSubscriptionRequest>,
-  output: __S(18464, __c577, 0) as any as S.Schema<DbaasLogsLogSubscription>,
+  output: __S(18432, __c576, 0) as any as S.Schema<DbaasLogsLogSubscription>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -31084,8 +31084,8 @@ export const getCloudProjectDatabaseM3aggregatorMaintenance: API.OperationMethod
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    21280,
-    __c665,
+    21248,
+    __c664,
     0,
   ) as any as S.Schema<GetCloudProjectDatabaseM3aggregatorMaintenanceRequest>,
   output: __S(38912, __c1216, 0) as any as S.Schema<CloudProjectDatabaseServiceMaintenance>,
@@ -31109,8 +31109,8 @@ export const getCloudProjectDatabaseM3aggregatorMetric: API.OperationMethod<
   GetCloudProjectDatabaseM3aggregatorMetricError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21312, __c666, 0) as any as S.Schema<GetCloudProjectDatabaseM3aggregatorMetricRequest>,
-  output: __S(18564, __c580, 4) as any as S.Schema<CloudProjectDatabaseServiceMetric>,
+  input: __S(21280, __c665, 0) as any as S.Schema<GetCloudProjectDatabaseM3aggregatorMetricRequest>,
+  output: __S(18532, __c579, 4) as any as S.Schema<CloudProjectDatabaseServiceMetric>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -31131,7 +31131,7 @@ export const getCloudProjectDatabaseM3aggregatorNode: API.OperationMethod<
   GetCloudProjectDatabaseM3aggregatorNodeError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21344, __c667, 0) as any as S.Schema<GetCloudProjectDatabaseM3aggregatorNodeRequest>,
+  input: __S(21312, __c666, 0) as any as S.Schema<GetCloudProjectDatabaseM3aggregatorNodeRequest>,
   output: __S(27648, __c864, 0) as any as S.Schema<CloudProjectDatabaseServiceNode>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
@@ -31149,7 +31149,7 @@ export const getCloudProjectDatabaseM3db: API.OperationMethod<
   GetCloudProjectDatabaseM3dbError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21472, __c671, 0) as any as S.Schema<GetCloudProjectDatabaseM3dbRequest>,
+  input: __S(21440, __c670, 0) as any as S.Schema<GetCloudProjectDatabaseM3dbRequest>,
   output: __S(32608, __c1019, 0) as any as S.Schema<CloudProjectDatabaseServiceWithoutPrometheus>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
@@ -31172,13 +31172,13 @@ export const getCloudProjectDatabaseM3dbAdvancedConfiguration: API.OperationMeth
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    21504,
-    __c672,
+    21472,
+    __c671,
     0,
   ) as any as S.Schema<GetCloudProjectDatabaseM3dbAdvancedConfigurationRequest>,
   output: __S(
-    18176,
-    __c568,
+    18144,
+    __c567,
     0,
   ) as any as S.Schema<GetCloudProjectDatabaseM3dbAdvancedConfigurationResponse>,
   errors: [BadRequest, NotFound, Conflict],
@@ -31197,7 +31197,7 @@ export const getCloudProjectDatabaseM3dbBackup: API.OperationMethod<
   GetCloudProjectDatabaseM3dbBackupError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21536, __c673, 0) as any as S.Schema<GetCloudProjectDatabaseM3dbBackupRequest>,
+  input: __S(21504, __c672, 0) as any as S.Schema<GetCloudProjectDatabaseM3dbBackupRequest>,
   output: __S(2688, __c84, 0) as any as S.Schema<CloudProjectDatabaseBackup>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
@@ -31219,7 +31219,7 @@ export const getCloudProjectDatabaseM3dbIntegration: API.OperationMethod<
   GetCloudProjectDatabaseM3dbIntegrationError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21568, __c674, 0) as any as S.Schema<GetCloudProjectDatabaseM3dbIntegrationRequest>,
+  input: __S(21536, __c673, 0) as any as S.Schema<GetCloudProjectDatabaseM3dbIntegrationRequest>,
   output: __S(28192, __c881, 0) as any as S.Schema<CloudProjectDatabaseServiceIntegration>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
@@ -31237,8 +31237,8 @@ export const getCloudProjectDatabaseM3dbLogKind: API.OperationMethod<
   GetCloudProjectDatabaseM3dbLogKindError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21600, __c675, 0) as any as S.Schema<GetCloudProjectDatabaseM3dbLogKindRequest>,
-  output: __S(17504, __c547, 0) as any as S.Schema<DbaasLogsLogKind>,
+  input: __S(21568, __c674, 0) as any as S.Schema<GetCloudProjectDatabaseM3dbLogKindRequest>,
+  output: __S(17472, __c546, 0) as any as S.Schema<DbaasLogsLogKind>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -31260,11 +31260,11 @@ export const getCloudProjectDatabaseM3dbLogSubscription: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    21632,
-    __c676,
+    21600,
+    __c675,
     0,
   ) as any as S.Schema<GetCloudProjectDatabaseM3dbLogSubscriptionRequest>,
-  output: __S(18464, __c577, 0) as any as S.Schema<DbaasLogsLogSubscription>,
+  output: __S(18432, __c576, 0) as any as S.Schema<DbaasLogsLogSubscription>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -31285,7 +31285,7 @@ export const getCloudProjectDatabaseM3dbMaintenance: API.OperationMethod<
   GetCloudProjectDatabaseM3dbMaintenanceError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21664, __c677, 0) as any as S.Schema<GetCloudProjectDatabaseM3dbMaintenanceRequest>,
+  input: __S(21632, __c676, 0) as any as S.Schema<GetCloudProjectDatabaseM3dbMaintenanceRequest>,
   output: __S(38912, __c1216, 0) as any as S.Schema<CloudProjectDatabaseServiceMaintenance>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
@@ -31303,8 +31303,8 @@ export const getCloudProjectDatabaseM3dbMetric: API.OperationMethod<
   GetCloudProjectDatabaseM3dbMetricError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21696, __c678, 0) as any as S.Schema<GetCloudProjectDatabaseM3dbMetricRequest>,
-  output: __S(18564, __c580, 4) as any as S.Schema<CloudProjectDatabaseServiceMetric>,
+  input: __S(21664, __c677, 0) as any as S.Schema<GetCloudProjectDatabaseM3dbMetricRequest>,
+  output: __S(18532, __c579, 4) as any as S.Schema<CloudProjectDatabaseServiceMetric>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -31325,7 +31325,7 @@ export const getCloudProjectDatabaseM3dbNamespace: API.OperationMethod<
   GetCloudProjectDatabaseM3dbNamespaceError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21728, __c679, 0) as any as S.Schema<GetCloudProjectDatabaseM3dbNamespaceRequest>,
+  input: __S(21696, __c678, 0) as any as S.Schema<GetCloudProjectDatabaseM3dbNamespaceRequest>,
   output: __S(1537, __c48, 1) as any as S.Schema<CloudProjectDatabaseM3dbNamespace>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
@@ -31343,7 +31343,7 @@ export const getCloudProjectDatabaseM3dbNode: API.OperationMethod<
   GetCloudProjectDatabaseM3dbNodeError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21760, __c680, 0) as any as S.Schema<GetCloudProjectDatabaseM3dbNodeRequest>,
+  input: __S(21728, __c679, 0) as any as S.Schema<GetCloudProjectDatabaseM3dbNodeRequest>,
   output: __S(27648, __c864, 0) as any as S.Schema<CloudProjectDatabaseServiceNode>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
@@ -31361,8 +31361,8 @@ export const getCloudProjectDatabaseM3dbUser: API.OperationMethod<
   GetCloudProjectDatabaseM3dbUserError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21824, __c682, 0) as any as S.Schema<GetCloudProjectDatabaseM3dbUserRequest>,
-  output: __S(21856, __c683, 0) as any as S.Schema<CloudProjectDatabaseM3dbUser>,
+  input: __S(21792, __c681, 0) as any as S.Schema<GetCloudProjectDatabaseM3dbUserRequest>,
+  output: __S(21824, __c682, 0) as any as S.Schema<CloudProjectDatabaseM3dbUser>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -31379,7 +31379,7 @@ export const getCloudProjectDatabaseMongodb: API.OperationMethod<
   GetCloudProjectDatabaseMongodbError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21888, __c684, 0) as any as S.Schema<GetCloudProjectDatabaseMongodbRequest>,
+  input: __S(21856, __c683, 0) as any as S.Schema<GetCloudProjectDatabaseMongodbRequest>,
   output: __S(27776, __c868, 0) as any as S.Schema<CloudProjectDatabaseService>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
@@ -31401,7 +31401,7 @@ export const getCloudProjectDatabaseMongodbBackup: API.OperationMethod<
   GetCloudProjectDatabaseMongodbBackupError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21920, __c685, 0) as any as S.Schema<GetCloudProjectDatabaseMongodbBackupRequest>,
+  input: __S(21888, __c684, 0) as any as S.Schema<GetCloudProjectDatabaseMongodbBackupRequest>,
   output: __S(2688, __c84, 0) as any as S.Schema<CloudProjectDatabaseBackup>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
@@ -31423,8 +31423,8 @@ export const getCloudProjectDatabaseMongodbLogKind: API.OperationMethod<
   GetCloudProjectDatabaseMongodbLogKindError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21952, __c686, 0) as any as S.Schema<GetCloudProjectDatabaseMongodbLogKindRequest>,
-  output: __S(17504, __c547, 0) as any as S.Schema<DbaasLogsLogKind>,
+  input: __S(21920, __c685, 0) as any as S.Schema<GetCloudProjectDatabaseMongodbLogKindRequest>,
+  output: __S(17472, __c546, 0) as any as S.Schema<DbaasLogsLogKind>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -31446,11 +31446,11 @@ export const getCloudProjectDatabaseMongodbLogSubscription: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    21984,
-    __c687,
+    21952,
+    __c686,
     0,
   ) as any as S.Schema<GetCloudProjectDatabaseMongodbLogSubscriptionRequest>,
-  output: __S(18464, __c577, 0) as any as S.Schema<DbaasLogsLogSubscription>,
+  output: __S(18432, __c576, 0) as any as S.Schema<DbaasLogsLogSubscription>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -31471,7 +31471,7 @@ export const getCloudProjectDatabaseMongodbMaintenance: API.OperationMethod<
   GetCloudProjectDatabaseMongodbMaintenanceError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22016, __c688, 0) as any as S.Schema<GetCloudProjectDatabaseMongodbMaintenanceRequest>,
+  input: __S(21984, __c687, 0) as any as S.Schema<GetCloudProjectDatabaseMongodbMaintenanceRequest>,
   output: __S(38912, __c1216, 0) as any as S.Schema<CloudProjectDatabaseServiceMaintenance>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
@@ -31493,8 +31493,8 @@ export const getCloudProjectDatabaseMongodbMetric: API.OperationMethod<
   GetCloudProjectDatabaseMongodbMetricError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22048, __c689, 0) as any as S.Schema<GetCloudProjectDatabaseMongodbMetricRequest>,
-  output: __S(18564, __c580, 4) as any as S.Schema<CloudProjectDatabaseServiceMetric>,
+  input: __S(22016, __c688, 0) as any as S.Schema<GetCloudProjectDatabaseMongodbMetricRequest>,
+  output: __S(18532, __c579, 4) as any as S.Schema<CloudProjectDatabaseServiceMetric>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -31511,7 +31511,7 @@ export const getCloudProjectDatabaseMongodbNode: API.OperationMethod<
   GetCloudProjectDatabaseMongodbNodeError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22080, __c690, 0) as any as S.Schema<GetCloudProjectDatabaseMongodbNodeRequest>,
+  input: __S(22048, __c689, 0) as any as S.Schema<GetCloudProjectDatabaseMongodbNodeRequest>,
   output: __S(27648, __c864, 0) as any as S.Schema<CloudProjectDatabaseServiceNode>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
@@ -31533,8 +31533,8 @@ export const getCloudProjectDatabaseMongodbPrometheus: API.OperationMethod<
   GetCloudProjectDatabaseMongodbPrometheusError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22112, __c691, 0) as any as S.Schema<GetCloudProjectDatabaseMongodbPrometheusRequest>,
-  output: __S(22113, __c691, 1) as any as S.Schema<CloudProjectDatabaseMongodbPrometheusEndpoint>,
+  input: __S(22080, __c690, 0) as any as S.Schema<GetCloudProjectDatabaseMongodbPrometheusRequest>,
+  output: __S(22081, __c690, 1) as any as S.Schema<CloudProjectDatabaseMongodbPrometheusEndpoint>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -31551,8 +31551,8 @@ export const getCloudProjectDatabaseMongodbUser: API.OperationMethod<
   GetCloudProjectDatabaseMongodbUserError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22144, __c692, 0) as any as S.Schema<GetCloudProjectDatabaseMongodbUserRequest>,
-  output: __S(19104, __c597, 0) as any as S.Schema<CloudProjectDatabaseServiceUserWithRoles>,
+  input: __S(22112, __c691, 0) as any as S.Schema<GetCloudProjectDatabaseMongodbUserRequest>,
+  output: __S(19072, __c596, 0) as any as S.Schema<CloudProjectDatabaseServiceUserWithRoles>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -31569,7 +31569,7 @@ export const getCloudProjectDatabaseMysql: API.OperationMethod<
   GetCloudProjectDatabaseMysqlError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22400, __c700, 0) as any as S.Schema<GetCloudProjectDatabaseMysqlRequest>,
+  input: __S(22368, __c699, 0) as any as S.Schema<GetCloudProjectDatabaseMysqlRequest>,
   output: __S(27776, __c868, 0) as any as S.Schema<CloudProjectDatabaseService>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
@@ -31592,13 +31592,13 @@ export const getCloudProjectDatabaseMysqlAdvancedConfiguration: API.OperationMet
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    22432,
-    __c701,
+    22400,
+    __c700,
     0,
   ) as any as S.Schema<GetCloudProjectDatabaseMysqlAdvancedConfigurationRequest>,
   output: __S(
-    18176,
-    __c568,
+    18144,
+    __c567,
     0,
   ) as any as S.Schema<GetCloudProjectDatabaseMysqlAdvancedConfigurationResponse>,
   errors: [BadRequest, NotFound, Conflict],
@@ -31617,7 +31617,7 @@ export const getCloudProjectDatabaseMysqlBackup: API.OperationMethod<
   GetCloudProjectDatabaseMysqlBackupError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22464, __c702, 0) as any as S.Schema<GetCloudProjectDatabaseMysqlBackupRequest>,
+  input: __S(22432, __c701, 0) as any as S.Schema<GetCloudProjectDatabaseMysqlBackupRequest>,
   output: __S(2688, __c84, 0) as any as S.Schema<CloudProjectDatabaseBackup>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
@@ -31639,8 +31639,8 @@ export const getCloudProjectDatabaseMysqlCertificates: API.OperationMethod<
   GetCloudProjectDatabaseMysqlCertificatesError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22496, __c703, 0) as any as S.Schema<GetCloudProjectDatabaseMysqlCertificatesRequest>,
-  output: __S(18304, __c572, 0) as any as S.Schema<CloudProjectDatabaseServiceCertificates>,
+  input: __S(22464, __c702, 0) as any as S.Schema<GetCloudProjectDatabaseMysqlCertificatesRequest>,
+  output: __S(18272, __c571, 0) as any as S.Schema<CloudProjectDatabaseServiceCertificates>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -31661,7 +31661,7 @@ export const getCloudProjectDatabaseMysqlDatabase: API.OperationMethod<
   GetCloudProjectDatabaseMysqlDatabaseError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22528, __c704, 0) as any as S.Schema<GetCloudProjectDatabaseMysqlDatabaseRequest>,
+  input: __S(22496, __c703, 0) as any as S.Schema<GetCloudProjectDatabaseMysqlDatabaseRequest>,
   output: __S(30368, __c949, 0) as any as S.Schema<CloudProjectDatabaseServiceDatabase>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
@@ -31683,7 +31683,7 @@ export const getCloudProjectDatabaseMysqlIntegration: API.OperationMethod<
   GetCloudProjectDatabaseMysqlIntegrationError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22560, __c705, 0) as any as S.Schema<GetCloudProjectDatabaseMysqlIntegrationRequest>,
+  input: __S(22528, __c704, 0) as any as S.Schema<GetCloudProjectDatabaseMysqlIntegrationRequest>,
   output: __S(28192, __c881, 0) as any as S.Schema<CloudProjectDatabaseServiceIntegration>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
@@ -31705,8 +31705,8 @@ export const getCloudProjectDatabaseMysqlLogKind: API.OperationMethod<
   GetCloudProjectDatabaseMysqlLogKindError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22592, __c706, 0) as any as S.Schema<GetCloudProjectDatabaseMysqlLogKindRequest>,
-  output: __S(17504, __c547, 0) as any as S.Schema<DbaasLogsLogKind>,
+  input: __S(22560, __c705, 0) as any as S.Schema<GetCloudProjectDatabaseMysqlLogKindRequest>,
+  output: __S(17472, __c546, 0) as any as S.Schema<DbaasLogsLogKind>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -31728,11 +31728,11 @@ export const getCloudProjectDatabaseMysqlLogSubscription: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    22624,
-    __c707,
+    22592,
+    __c706,
     0,
   ) as any as S.Schema<GetCloudProjectDatabaseMysqlLogSubscriptionRequest>,
-  output: __S(18464, __c577, 0) as any as S.Schema<DbaasLogsLogSubscription>,
+  output: __S(18432, __c576, 0) as any as S.Schema<DbaasLogsLogSubscription>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -31753,7 +31753,7 @@ export const getCloudProjectDatabaseMysqlMaintenance: API.OperationMethod<
   GetCloudProjectDatabaseMysqlMaintenanceError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22656, __c708, 0) as any as S.Schema<GetCloudProjectDatabaseMysqlMaintenanceRequest>,
+  input: __S(22624, __c707, 0) as any as S.Schema<GetCloudProjectDatabaseMysqlMaintenanceRequest>,
   output: __S(38912, __c1216, 0) as any as S.Schema<CloudProjectDatabaseServiceMaintenance>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
@@ -31771,8 +31771,8 @@ export const getCloudProjectDatabaseMysqlMetric: API.OperationMethod<
   GetCloudProjectDatabaseMysqlMetricError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22688, __c709, 0) as any as S.Schema<GetCloudProjectDatabaseMysqlMetricRequest>,
-  output: __S(18564, __c580, 4) as any as S.Schema<CloudProjectDatabaseServiceMetric>,
+  input: __S(22656, __c708, 0) as any as S.Schema<GetCloudProjectDatabaseMysqlMetricRequest>,
+  output: __S(18532, __c579, 4) as any as S.Schema<CloudProjectDatabaseServiceMetric>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -31793,7 +31793,7 @@ export const getCloudProjectDatabaseMysqlMigration: API.OperationMethod<
   GetCloudProjectDatabaseMysqlMigrationError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22848, __c714, 0) as any as S.Schema<GetCloudProjectDatabaseMysqlMigrationRequest>,
+  input: __S(22816, __c713, 0) as any as S.Schema<GetCloudProjectDatabaseMysqlMigrationRequest>,
   output: __S(4960, __c155, 0) as any as S.Schema<CloudProjectDatabaseMysqlMigrationResult>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
@@ -31816,11 +31816,11 @@ export const getCloudProjectDatabaseMysqlMigrationCheck: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    22880,
-    __c715,
+    22848,
+    __c714,
     0,
   ) as any as S.Schema<GetCloudProjectDatabaseMysqlMigrationCheckRequest>,
-  output: __S(15744, __c492, 0) as any as S.Schema<CloudProjectDatabaseMysqlMigrationCheckResult>,
+  output: __S(15712, __c491, 0) as any as S.Schema<CloudProjectDatabaseMysqlMigrationCheckResult>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -31837,7 +31837,7 @@ export const getCloudProjectDatabaseMysqlNode: API.OperationMethod<
   GetCloudProjectDatabaseMysqlNodeError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22912, __c716, 0) as any as S.Schema<GetCloudProjectDatabaseMysqlNodeRequest>,
+  input: __S(22880, __c715, 0) as any as S.Schema<GetCloudProjectDatabaseMysqlNodeRequest>,
   output: __S(27648, __c864, 0) as any as S.Schema<CloudProjectDatabaseServiceNode>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
@@ -31855,8 +31855,8 @@ export const getCloudProjectDatabaseMysqlUser: API.OperationMethod<
   GetCloudProjectDatabaseMysqlUserError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22944, __c717, 0) as any as S.Schema<GetCloudProjectDatabaseMysqlUserRequest>,
-  output: __S(18656, __c583, 0) as any as S.Schema<CloudProjectDatabaseServiceUser>,
+  input: __S(22912, __c716, 0) as any as S.Schema<GetCloudProjectDatabaseMysqlUserRequest>,
+  output: __S(18624, __c582, 0) as any as S.Schema<CloudProjectDatabaseServiceUser>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -31873,7 +31873,7 @@ export const getCloudProjectDatabaseOpensearch: API.OperationMethod<
   GetCloudProjectDatabaseOpensearchError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22976, __c718, 0) as any as S.Schema<GetCloudProjectDatabaseOpensearchRequest>,
+  input: __S(22944, __c717, 0) as any as S.Schema<GetCloudProjectDatabaseOpensearchRequest>,
   output: __S(5056, __c158, 0) as any as S.Schema<CloudProjectDatabaseOpensearchService>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
@@ -31896,13 +31896,13 @@ export const getCloudProjectDatabaseOpensearchAdvancedConfiguration: API.Operati
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    23008,
-    __c719,
+    22976,
+    __c718,
     0,
   ) as any as S.Schema<GetCloudProjectDatabaseOpensearchAdvancedConfigurationRequest>,
   output: __S(
-    18176,
-    __c568,
+    18144,
+    __c567,
     0,
   ) as any as S.Schema<GetCloudProjectDatabaseOpensearchAdvancedConfigurationResponse>,
   errors: [BadRequest, NotFound, Conflict],
@@ -31925,7 +31925,7 @@ export const getCloudProjectDatabaseOpensearchBackup: API.OperationMethod<
   GetCloudProjectDatabaseOpensearchBackupError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23040, __c720, 0) as any as S.Schema<GetCloudProjectDatabaseOpensearchBackupRequest>,
+  input: __S(23008, __c719, 0) as any as S.Schema<GetCloudProjectDatabaseOpensearchBackupRequest>,
   output: __S(2688, __c84, 0) as any as S.Schema<CloudProjectDatabaseBackup>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
@@ -31947,8 +31947,8 @@ export const getCloudProjectDatabaseOpensearchIndex: API.OperationMethod<
   GetCloudProjectDatabaseOpensearchIndexError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23072, __c721, 0) as any as S.Schema<GetCloudProjectDatabaseOpensearchIndexRequest>,
-  output: __S(23073, __c721, 1) as any as S.Schema<CloudProjectDatabaseOpensearchIndex>,
+  input: __S(23040, __c720, 0) as any as S.Schema<GetCloudProjectDatabaseOpensearchIndexRequest>,
+  output: __S(23041, __c720, 1) as any as S.Schema<CloudProjectDatabaseOpensearchIndex>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -31970,8 +31970,8 @@ export const getCloudProjectDatabaseOpensearchIntegration: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    23104,
-    __c722,
+    23072,
+    __c721,
     0,
   ) as any as S.Schema<GetCloudProjectDatabaseOpensearchIntegrationRequest>,
   output: __S(28192, __c881, 0) as any as S.Schema<CloudProjectDatabaseServiceIntegration>,
@@ -31995,8 +31995,8 @@ export const getCloudProjectDatabaseOpensearchLogKind: API.OperationMethod<
   GetCloudProjectDatabaseOpensearchLogKindError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23136, __c723, 0) as any as S.Schema<GetCloudProjectDatabaseOpensearchLogKindRequest>,
-  output: __S(17504, __c547, 0) as any as S.Schema<DbaasLogsLogKind>,
+  input: __S(23104, __c722, 0) as any as S.Schema<GetCloudProjectDatabaseOpensearchLogKindRequest>,
+  output: __S(17472, __c546, 0) as any as S.Schema<DbaasLogsLogKind>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -32018,11 +32018,11 @@ export const getCloudProjectDatabaseOpensearchLogSubscription: API.OperationMeth
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    23200,
-    __c725,
+    23168,
+    __c724,
     0,
   ) as any as S.Schema<GetCloudProjectDatabaseOpensearchLogSubscriptionRequest>,
-  output: __S(18464, __c577, 0) as any as S.Schema<DbaasLogsLogSubscription>,
+  output: __S(18432, __c576, 0) as any as S.Schema<DbaasLogsLogSubscription>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -32044,8 +32044,8 @@ export const getCloudProjectDatabaseOpensearchMaintenance: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    23232,
-    __c726,
+    23200,
+    __c725,
     0,
   ) as any as S.Schema<GetCloudProjectDatabaseOpensearchMaintenanceRequest>,
   output: __S(38912, __c1216, 0) as any as S.Schema<CloudProjectDatabaseServiceMaintenance>,
@@ -32069,8 +32069,8 @@ export const getCloudProjectDatabaseOpensearchMetric: API.OperationMethod<
   GetCloudProjectDatabaseOpensearchMetricError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23264, __c727, 0) as any as S.Schema<GetCloudProjectDatabaseOpensearchMetricRequest>,
-  output: __S(18564, __c580, 4) as any as S.Schema<CloudProjectDatabaseServiceMetric>,
+  input: __S(23232, __c726, 0) as any as S.Schema<GetCloudProjectDatabaseOpensearchMetricRequest>,
+  output: __S(18532, __c579, 4) as any as S.Schema<CloudProjectDatabaseServiceMetric>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -32091,7 +32091,7 @@ export const getCloudProjectDatabaseOpensearchNode: API.OperationMethod<
   GetCloudProjectDatabaseOpensearchNodeError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23296, __c728, 0) as any as S.Schema<GetCloudProjectDatabaseOpensearchNodeRequest>,
+  input: __S(23264, __c727, 0) as any as S.Schema<GetCloudProjectDatabaseOpensearchNodeRequest>,
   output: __S(27648, __c864, 0) as any as S.Schema<CloudProjectDatabaseServiceNode>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
@@ -32113,7 +32113,7 @@ export const getCloudProjectDatabaseOpensearchPattern: API.OperationMethod<
   GetCloudProjectDatabaseOpensearchPatternError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23328, __c729, 0) as any as S.Schema<GetCloudProjectDatabaseOpensearchPatternRequest>,
+  input: __S(23296, __c728, 0) as any as S.Schema<GetCloudProjectDatabaseOpensearchPatternRequest>,
   output: __S(5248, __c164, 0) as any as S.Schema<CloudProjectDatabaseOpensearchPattern>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
@@ -32135,8 +32135,8 @@ export const getCloudProjectDatabaseOpensearchUser: API.OperationMethod<
   GetCloudProjectDatabaseOpensearchUserError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23360, __c730, 0) as any as S.Schema<GetCloudProjectDatabaseOpensearchUserRequest>,
-  output: __S(23392, __c731, 0) as any as S.Schema<CloudProjectDatabaseOpensearchUser>,
+  input: __S(23328, __c729, 0) as any as S.Schema<GetCloudProjectDatabaseOpensearchUserRequest>,
+  output: __S(23360, __c730, 0) as any as S.Schema<CloudProjectDatabaseOpensearchUser>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -32153,7 +32153,7 @@ export const getCloudProjectDatabasePostgresql: API.OperationMethod<
   GetCloudProjectDatabasePostgresqlError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23424, __c732, 0) as any as S.Schema<GetCloudProjectDatabasePostgresqlRequest>,
+  input: __S(23392, __c731, 0) as any as S.Schema<GetCloudProjectDatabasePostgresqlRequest>,
   output: __S(27776, __c868, 0) as any as S.Schema<CloudProjectDatabaseService>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
@@ -32176,13 +32176,13 @@ export const getCloudProjectDatabasePostgresqlAdvancedConfiguration: API.Operati
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    23456,
-    __c733,
+    23424,
+    __c732,
     0,
   ) as any as S.Schema<GetCloudProjectDatabasePostgresqlAdvancedConfigurationRequest>,
   output: __S(
-    18176,
-    __c568,
+    18144,
+    __c567,
     0,
   ) as any as S.Schema<GetCloudProjectDatabasePostgresqlAdvancedConfigurationResponse>,
   errors: [BadRequest, NotFound, Conflict],
@@ -32205,7 +32205,7 @@ export const getCloudProjectDatabasePostgresqlBackup: API.OperationMethod<
   GetCloudProjectDatabasePostgresqlBackupError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23488, __c734, 0) as any as S.Schema<GetCloudProjectDatabasePostgresqlBackupRequest>,
+  input: __S(23456, __c733, 0) as any as S.Schema<GetCloudProjectDatabasePostgresqlBackupRequest>,
   output: __S(2688, __c84, 0) as any as S.Schema<CloudProjectDatabaseBackup>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
@@ -32228,11 +32228,11 @@ export const getCloudProjectDatabasePostgresqlCertificates: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    23520,
-    __c735,
+    23488,
+    __c734,
     0,
   ) as any as S.Schema<GetCloudProjectDatabasePostgresqlCertificatesRequest>,
-  output: __S(18304, __c572, 0) as any as S.Schema<CloudProjectDatabaseServiceCertificates>,
+  output: __S(18272, __c571, 0) as any as S.Schema<CloudProjectDatabaseServiceCertificates>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -32254,8 +32254,8 @@ export const getCloudProjectDatabasePostgresqlConnectionPool: API.OperationMetho
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    23584,
-    __c737,
+    23552,
+    __c736,
     0,
   ) as any as S.Schema<GetCloudProjectDatabasePostgresqlConnectionPoolRequest>,
   output: __S(5440, __c170, 0) as any as S.Schema<CloudProjectDatabasePostgresqlConnectionPool>,
@@ -32279,7 +32279,7 @@ export const getCloudProjectDatabasePostgresqlDatabase: API.OperationMethod<
   GetCloudProjectDatabasePostgresqlDatabaseError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23616, __c738, 0) as any as S.Schema<GetCloudProjectDatabasePostgresqlDatabaseRequest>,
+  input: __S(23584, __c737, 0) as any as S.Schema<GetCloudProjectDatabasePostgresqlDatabaseRequest>,
   output: __S(30368, __c949, 0) as any as S.Schema<CloudProjectDatabaseServiceDatabase>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
@@ -32302,8 +32302,8 @@ export const getCloudProjectDatabasePostgresqlIntegration: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    23648,
-    __c739,
+    23616,
+    __c738,
     0,
   ) as any as S.Schema<GetCloudProjectDatabasePostgresqlIntegrationRequest>,
   output: __S(28192, __c881, 0) as any as S.Schema<CloudProjectDatabaseServiceIntegration>,
@@ -32327,8 +32327,8 @@ export const getCloudProjectDatabasePostgresqlLogKind: API.OperationMethod<
   GetCloudProjectDatabasePostgresqlLogKindError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23680, __c740, 0) as any as S.Schema<GetCloudProjectDatabasePostgresqlLogKindRequest>,
-  output: __S(17504, __c547, 0) as any as S.Schema<DbaasLogsLogKind>,
+  input: __S(23648, __c739, 0) as any as S.Schema<GetCloudProjectDatabasePostgresqlLogKindRequest>,
+  output: __S(17472, __c546, 0) as any as S.Schema<DbaasLogsLogKind>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -32350,11 +32350,11 @@ export const getCloudProjectDatabasePostgresqlLogSubscription: API.OperationMeth
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    23712,
-    __c741,
+    23680,
+    __c740,
     0,
   ) as any as S.Schema<GetCloudProjectDatabasePostgresqlLogSubscriptionRequest>,
-  output: __S(18464, __c577, 0) as any as S.Schema<DbaasLogsLogSubscription>,
+  output: __S(18432, __c576, 0) as any as S.Schema<DbaasLogsLogSubscription>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -32376,8 +32376,8 @@ export const getCloudProjectDatabasePostgresqlMaintenance: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    23744,
-    __c742,
+    23712,
+    __c741,
     0,
   ) as any as S.Schema<GetCloudProjectDatabasePostgresqlMaintenanceRequest>,
   output: __S(38912, __c1216, 0) as any as S.Schema<CloudProjectDatabaseServiceMaintenance>,
@@ -32401,8 +32401,8 @@ export const getCloudProjectDatabasePostgresqlMetric: API.OperationMethod<
   GetCloudProjectDatabasePostgresqlMetricError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23776, __c743, 0) as any as S.Schema<GetCloudProjectDatabasePostgresqlMetricRequest>,
-  output: __S(18564, __c580, 4) as any as S.Schema<CloudProjectDatabaseServiceMetric>,
+  input: __S(23744, __c742, 0) as any as S.Schema<GetCloudProjectDatabasePostgresqlMetricRequest>,
+  output: __S(18532, __c579, 4) as any as S.Schema<CloudProjectDatabaseServiceMetric>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -32423,7 +32423,7 @@ export const getCloudProjectDatabasePostgresqlNode: API.OperationMethod<
   GetCloudProjectDatabasePostgresqlNodeError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23808, __c744, 0) as any as S.Schema<GetCloudProjectDatabasePostgresqlNodeRequest>,
+  input: __S(23776, __c743, 0) as any as S.Schema<GetCloudProjectDatabasePostgresqlNodeRequest>,
   output: __S(27648, __c864, 0) as any as S.Schema<CloudProjectDatabaseServiceNode>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
@@ -32445,8 +32445,8 @@ export const getCloudProjectDatabasePostgresqlUser: API.OperationMethod<
   GetCloudProjectDatabasePostgresqlUserError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23840, __c745, 0) as any as S.Schema<GetCloudProjectDatabasePostgresqlUserRequest>,
-  output: __S(19104, __c597, 0) as any as S.Schema<CloudProjectDatabaseServiceUserWithRoles>,
+  input: __S(23808, __c744, 0) as any as S.Schema<GetCloudProjectDatabasePostgresqlUserRequest>,
+  output: __S(19072, __c596, 0) as any as S.Schema<CloudProjectDatabaseServiceUserWithRoles>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -32463,7 +32463,7 @@ export const getCloudProjectDatabaseRedis: API.OperationMethod<
   GetCloudProjectDatabaseRedisError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23872, __c746, 0) as any as S.Schema<GetCloudProjectDatabaseRedisRequest>,
+  input: __S(23840, __c745, 0) as any as S.Schema<GetCloudProjectDatabaseRedisRequest>,
   output: __S(27776, __c868, 0) as any as S.Schema<CloudProjectDatabaseService>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
@@ -32486,13 +32486,13 @@ export const getCloudProjectDatabaseRedisAdvancedConfiguration: API.OperationMet
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    23968,
-    __c749,
+    23936,
+    __c748,
     0,
   ) as any as S.Schema<GetCloudProjectDatabaseRedisAdvancedConfigurationRequest>,
   output: __S(
-    18176,
-    __c568,
+    18144,
+    __c567,
     0,
   ) as any as S.Schema<GetCloudProjectDatabaseRedisAdvancedConfigurationResponse>,
   errors: [BadRequest, NotFound, Conflict],
@@ -32511,7 +32511,7 @@ export const getCloudProjectDatabaseRedisBackup: API.OperationMethod<
   GetCloudProjectDatabaseRedisBackupError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24000, __c750, 0) as any as S.Schema<GetCloudProjectDatabaseRedisBackupRequest>,
+  input: __S(23968, __c749, 0) as any as S.Schema<GetCloudProjectDatabaseRedisBackupRequest>,
   output: __S(2688, __c84, 0) as any as S.Schema<CloudProjectDatabaseBackup>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
@@ -32533,7 +32533,7 @@ export const getCloudProjectDatabaseRedisIntegration: API.OperationMethod<
   GetCloudProjectDatabaseRedisIntegrationError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24032, __c751, 0) as any as S.Schema<GetCloudProjectDatabaseRedisIntegrationRequest>,
+  input: __S(24000, __c750, 0) as any as S.Schema<GetCloudProjectDatabaseRedisIntegrationRequest>,
   output: __S(28192, __c881, 0) as any as S.Schema<CloudProjectDatabaseServiceIntegration>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
@@ -32555,8 +32555,8 @@ export const getCloudProjectDatabaseRedisLogKind: API.OperationMethod<
   GetCloudProjectDatabaseRedisLogKindError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24064, __c752, 0) as any as S.Schema<GetCloudProjectDatabaseRedisLogKindRequest>,
-  output: __S(17504, __c547, 0) as any as S.Schema<DbaasLogsLogKind>,
+  input: __S(24032, __c751, 0) as any as S.Schema<GetCloudProjectDatabaseRedisLogKindRequest>,
+  output: __S(17472, __c546, 0) as any as S.Schema<DbaasLogsLogKind>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -32578,11 +32578,11 @@ export const getCloudProjectDatabaseRedisLogSubscription: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    24096,
-    __c753,
+    24064,
+    __c752,
     0,
   ) as any as S.Schema<GetCloudProjectDatabaseRedisLogSubscriptionRequest>,
-  output: __S(18464, __c577, 0) as any as S.Schema<DbaasLogsLogSubscription>,
+  output: __S(18432, __c576, 0) as any as S.Schema<DbaasLogsLogSubscription>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -32603,7 +32603,7 @@ export const getCloudProjectDatabaseRedisMaintenance: API.OperationMethod<
   GetCloudProjectDatabaseRedisMaintenanceError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24128, __c754, 0) as any as S.Schema<GetCloudProjectDatabaseRedisMaintenanceRequest>,
+  input: __S(24096, __c753, 0) as any as S.Schema<GetCloudProjectDatabaseRedisMaintenanceRequest>,
   output: __S(38912, __c1216, 0) as any as S.Schema<CloudProjectDatabaseServiceMaintenance>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
@@ -32621,8 +32621,8 @@ export const getCloudProjectDatabaseRedisMetric: API.OperationMethod<
   GetCloudProjectDatabaseRedisMetricError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24160, __c755, 0) as any as S.Schema<GetCloudProjectDatabaseRedisMetricRequest>,
-  output: __S(18564, __c580, 4) as any as S.Schema<CloudProjectDatabaseServiceMetric>,
+  input: __S(24128, __c754, 0) as any as S.Schema<GetCloudProjectDatabaseRedisMetricRequest>,
+  output: __S(18532, __c579, 4) as any as S.Schema<CloudProjectDatabaseServiceMetric>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -32639,7 +32639,7 @@ export const getCloudProjectDatabaseRedisNode: API.OperationMethod<
   GetCloudProjectDatabaseRedisNodeError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24192, __c756, 0) as any as S.Schema<GetCloudProjectDatabaseRedisNodeRequest>,
+  input: __S(24160, __c755, 0) as any as S.Schema<GetCloudProjectDatabaseRedisNodeRequest>,
   output: __S(27648, __c864, 0) as any as S.Schema<CloudProjectDatabaseServiceNode>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
@@ -32657,8 +32657,8 @@ export const getCloudProjectDatabaseRedisUser: API.OperationMethod<
   GetCloudProjectDatabaseRedisUserError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24224, __c757, 0) as any as S.Schema<GetCloudProjectDatabaseRedisUserRequest>,
-  output: __S(24256, __c758, 0) as any as S.Schema<CloudProjectDatabaseRedisUser>,
+  input: __S(24192, __c756, 0) as any as S.Schema<GetCloudProjectDatabaseRedisUserRequest>,
+  output: __S(24224, __c757, 0) as any as S.Schema<CloudProjectDatabaseRedisUser>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -32675,7 +32675,7 @@ export const getCloudProjectDatabaseService: API.OperationMethod<
   GetCloudProjectDatabaseServiceError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24288, __c759, 0) as any as S.Schema<GetCloudProjectDatabaseServiceRequest>,
+  input: __S(24256, __c758, 0) as any as S.Schema<GetCloudProjectDatabaseServiceRequest>,
   output: __S(27776, __c868, 0) as any as S.Schema<CloudProjectDatabaseService>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
@@ -32693,7 +32693,7 @@ export const getCloudProjectDatabaseValkey: API.OperationMethod<
   GetCloudProjectDatabaseValkeyError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24384, __c762, 0) as any as S.Schema<GetCloudProjectDatabaseValkeyRequest>,
+  input: __S(24352, __c761, 0) as any as S.Schema<GetCloudProjectDatabaseValkeyRequest>,
   output: __S(27776, __c868, 0) as any as S.Schema<CloudProjectDatabaseService>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
@@ -32716,13 +32716,13 @@ export const getCloudProjectDatabaseValkeyAdvancedConfiguration: API.OperationMe
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    24416,
-    __c763,
+    24384,
+    __c762,
     0,
   ) as any as S.Schema<GetCloudProjectDatabaseValkeyAdvancedConfigurationRequest>,
   output: __S(
-    18176,
-    __c568,
+    18144,
+    __c567,
     0,
   ) as any as S.Schema<GetCloudProjectDatabaseValkeyAdvancedConfigurationResponse>,
   errors: [BadRequest, NotFound, Conflict],
@@ -32745,7 +32745,7 @@ export const getCloudProjectDatabaseValkeyBackup: API.OperationMethod<
   GetCloudProjectDatabaseValkeyBackupError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24448, __c764, 0) as any as S.Schema<GetCloudProjectDatabaseValkeyBackupRequest>,
+  input: __S(24416, __c763, 0) as any as S.Schema<GetCloudProjectDatabaseValkeyBackupRequest>,
   output: __S(2688, __c84, 0) as any as S.Schema<CloudProjectDatabaseBackup>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
@@ -32767,7 +32767,7 @@ export const getCloudProjectDatabaseValkeyIntegration: API.OperationMethod<
   GetCloudProjectDatabaseValkeyIntegrationError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24480, __c765, 0) as any as S.Schema<GetCloudProjectDatabaseValkeyIntegrationRequest>,
+  input: __S(24448, __c764, 0) as any as S.Schema<GetCloudProjectDatabaseValkeyIntegrationRequest>,
   output: __S(28192, __c881, 0) as any as S.Schema<CloudProjectDatabaseServiceIntegration>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
@@ -32789,8 +32789,8 @@ export const getCloudProjectDatabaseValkeyLogKind: API.OperationMethod<
   GetCloudProjectDatabaseValkeyLogKindError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24512, __c766, 0) as any as S.Schema<GetCloudProjectDatabaseValkeyLogKindRequest>,
-  output: __S(17504, __c547, 0) as any as S.Schema<DbaasLogsLogKind>,
+  input: __S(24480, __c765, 0) as any as S.Schema<GetCloudProjectDatabaseValkeyLogKindRequest>,
+  output: __S(17472, __c546, 0) as any as S.Schema<DbaasLogsLogKind>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -32812,11 +32812,11 @@ export const getCloudProjectDatabaseValkeyLogSubscription: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    24544,
-    __c767,
+    24512,
+    __c766,
     0,
   ) as any as S.Schema<GetCloudProjectDatabaseValkeyLogSubscriptionRequest>,
-  output: __S(18464, __c577, 0) as any as S.Schema<DbaasLogsLogSubscription>,
+  output: __S(18432, __c576, 0) as any as S.Schema<DbaasLogsLogSubscription>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -32837,7 +32837,7 @@ export const getCloudProjectDatabaseValkeyMaintenance: API.OperationMethod<
   GetCloudProjectDatabaseValkeyMaintenanceError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24576, __c768, 0) as any as S.Schema<GetCloudProjectDatabaseValkeyMaintenanceRequest>,
+  input: __S(24544, __c767, 0) as any as S.Schema<GetCloudProjectDatabaseValkeyMaintenanceRequest>,
   output: __S(38912, __c1216, 0) as any as S.Schema<CloudProjectDatabaseServiceMaintenance>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
@@ -32859,8 +32859,8 @@ export const getCloudProjectDatabaseValkeyMetric: API.OperationMethod<
   GetCloudProjectDatabaseValkeyMetricError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24608, __c769, 0) as any as S.Schema<GetCloudProjectDatabaseValkeyMetricRequest>,
-  output: __S(18564, __c580, 4) as any as S.Schema<CloudProjectDatabaseServiceMetric>,
+  input: __S(24576, __c768, 0) as any as S.Schema<GetCloudProjectDatabaseValkeyMetricRequest>,
+  output: __S(18532, __c579, 4) as any as S.Schema<CloudProjectDatabaseServiceMetric>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -32877,7 +32877,7 @@ export const getCloudProjectDatabaseValkeyNode: API.OperationMethod<
   GetCloudProjectDatabaseValkeyNodeError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24640, __c770, 0) as any as S.Schema<GetCloudProjectDatabaseValkeyNodeRequest>,
+  input: __S(24608, __c769, 0) as any as S.Schema<GetCloudProjectDatabaseValkeyNodeRequest>,
   output: __S(27648, __c864, 0) as any as S.Schema<CloudProjectDatabaseServiceNode>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
@@ -32895,8 +32895,8 @@ export const getCloudProjectDatabaseValkeyUser: API.OperationMethod<
   GetCloudProjectDatabaseValkeyUserError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24672, __c771, 0) as any as S.Schema<GetCloudProjectDatabaseValkeyUserRequest>,
-  output: __S(24256, __c758, 0) as any as S.Schema<CloudProjectDatabaseRedisUser>,
+  input: __S(24640, __c770, 0) as any as S.Schema<GetCloudProjectDatabaseValkeyUserRequest>,
+  output: __S(24224, __c757, 0) as any as S.Schema<CloudProjectDatabaseRedisUser>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -32913,8 +32913,8 @@ export const getCloudProjectImage: API.OperationMethod<
   GetCloudProjectImageError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24768, __c774, 0) as any as S.Schema<GetCloudProjectImageRequest>,
-  output: __S(22240, __c695, 0) as any as S.Schema<CloudImageImage>,
+  input: __S(24736, __c773, 0) as any as S.Schema<GetCloudProjectImageRequest>,
+  output: __S(22208, __c694, 0) as any as S.Schema<CloudImageImage>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -32931,8 +32931,8 @@ export const getCloudProjectInstance: API.OperationMethod<
   GetCloudProjectInstanceError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24800, __c775, 0) as any as S.Schema<GetCloudProjectInstanceRequest>,
-  output: __S(22307, __c697, 3) as any as S.Schema<CloudInstanceInstance>,
+  input: __S(24768, __c774, 0) as any as S.Schema<GetCloudProjectInstanceRequest>,
+  output: __S(22275, __c696, 3) as any as S.Schema<CloudInstanceInstance>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -32949,7 +32949,7 @@ export const getCloudProjectInstanceGroup: API.OperationMethod<
   GetCloudProjectInstanceGroupError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24832, __c776, 0) as any as S.Schema<GetCloudProjectInstanceGroupRequest>,
+  input: __S(24800, __c775, 0) as any as S.Schema<GetCloudProjectInstanceGroupRequest>,
   output: __S(6176, __c193, 0) as any as S.Schema<CloudInstancegroupInstanceGroup>,
   errors: [],
   serviceErrors: OvhServiceErrors,
@@ -32967,7 +32967,7 @@ export const getCloudProjectInstanceInterface: API.OperationMethod<
   GetCloudProjectInstanceInterfaceError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24864, __c777, 0) as any as S.Schema<GetCloudProjectInstanceInterfaceRequest>,
+  input: __S(24832, __c776, 0) as any as S.Schema<GetCloudProjectInstanceInterfaceRequest>,
   output: __S(6272, __c196, 0) as any as S.Schema<CloudInstanceInterfaceInterface>,
   errors: [],
   serviceErrors: OvhServiceErrors,
@@ -32985,8 +32985,8 @@ export const getCloudProjectIpFailover: API.OperationMethod<
   GetCloudProjectIpFailoverError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24896, __c778, 0) as any as S.Schema<GetCloudProjectIpFailoverRequest>,
-  output: __S(12448, __c389, 0) as any as S.Schema<CloudIpFailoverIp>,
+  input: __S(24864, __c777, 0) as any as S.Schema<GetCloudProjectIpFailoverRequest>,
+  output: __S(12416, __c388, 0) as any as S.Schema<CloudIpFailoverIp>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -33003,7 +33003,7 @@ export const getCloudProjectKube: API.OperationMethod<
   GetCloudProjectKubeError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24928, __c779, 0) as any as S.Schema<GetCloudProjectKubeRequest>,
+  input: __S(24896, __c778, 0) as any as S.Schema<GetCloudProjectKubeRequest>,
   output: __S(6624, __c207, 0) as any as S.Schema<CloudKubeCluster>,
   errors: [],
   serviceErrors: OvhServiceErrors,
@@ -33021,7 +33021,7 @@ export const getCloudProjectKubeCustomization: API.OperationMethod<
   GetCloudProjectKubeCustomizationError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24960, __c780, 0) as any as S.Schema<GetCloudProjectKubeCustomizationRequest>,
+  input: __S(24928, __c779, 0) as any as S.Schema<GetCloudProjectKubeCustomizationRequest>,
   output: __S(6720, __c210, 0) as any as S.Schema<CloudProjectKubeCustomization>,
   errors: [],
   serviceErrors: OvhServiceErrors,
@@ -33039,8 +33039,8 @@ export const getCloudProjectKubeLogSubscription: API.OperationMethod<
   GetCloudProjectKubeLogSubscriptionError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24992, __c781, 0) as any as S.Schema<GetCloudProjectKubeLogSubscriptionRequest>,
-  output: __S(18464, __c577, 0) as any as S.Schema<DbaasLogsLogSubscription>,
+  input: __S(24960, __c780, 0) as any as S.Schema<GetCloudProjectKubeLogSubscriptionRequest>,
+  output: __S(18432, __c576, 0) as any as S.Schema<DbaasLogsLogSubscription>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -33057,8 +33057,8 @@ export const getCloudProjectKubeMetricsEtcdUsage: API.OperationMethod<
   GetCloudProjectKubeMetricsEtcdUsageError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25024, __c782, 0) as any as S.Schema<GetCloudProjectKubeMetricsEtcdUsageRequest>,
-  output: __S(25025, __c782, 1) as any as S.Schema<CloudKubeEtcdUsage>,
+  input: __S(24992, __c781, 0) as any as S.Schema<GetCloudProjectKubeMetricsEtcdUsageRequest>,
+  output: __S(24993, __c781, 1) as any as S.Schema<CloudKubeEtcdUsage>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -33075,8 +33075,8 @@ export const getCloudProjectKubeNode: API.OperationMethod<
   GetCloudProjectKubeNodeError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25056, __c783, 0) as any as S.Schema<GetCloudProjectKubeNodeRequest>,
-  output: __S(25088, __c784, 0) as any as S.Schema<CloudKubeNode>,
+  input: __S(25024, __c782, 0) as any as S.Schema<GetCloudProjectKubeNodeRequest>,
+  output: __S(25056, __c783, 0) as any as S.Schema<CloudKubeNode>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -33093,8 +33093,8 @@ export const getCloudProjectKubeNodepool: API.OperationMethod<
   GetCloudProjectKubeNodepoolError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25184, __c787, 0) as any as S.Schema<GetCloudProjectKubeNodepoolRequest>,
-  output: __S(7008, __c219, 0) as any as S.Schema<CloudKubeNodePool>,
+  input: __S(25152, __c786, 0) as any as S.Schema<GetCloudProjectKubeNodepoolRequest>,
+  output: __S(6976, __c218, 0) as any as S.Schema<CloudKubeNodePool>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -33111,8 +33111,8 @@ export const getCloudProjectKubeOpenIdConnect: API.OperationMethod<
   GetCloudProjectKubeOpenIdConnectError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25216, __c788, 0) as any as S.Schema<GetCloudProjectKubeOpenIdConnectRequest>,
-  output: __S(7072, __c221, 0) as any as S.Schema<CloudKubeOpenIdConnect>,
+  input: __S(25184, __c787, 0) as any as S.Schema<GetCloudProjectKubeOpenIdConnectRequest>,
+  output: __S(7040, __c220, 0) as any as S.Schema<CloudKubeOpenIdConnect>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -33130,8 +33130,8 @@ export const getCloudProjectKubePrivateNetworkConfiguration: API.OperationMethod
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    25248,
-    __c789,
+    25216,
+    __c788,
     0,
   ) as any as S.Schema<GetCloudProjectKubePrivateNetworkConfigurationRequest>,
   output: __S(6752, __c211, 0) as any as S.Schema<CloudKubePrivateNetworkConfiguration>,
@@ -33151,8 +33151,8 @@ export const getCloudProjectLab: API.OperationMethod<
   GetCloudProjectLabError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25280, __c790, 0) as any as S.Schema<GetCloudProjectLabRequest>,
-  output: __S(25312, __c791, 0) as any as S.Schema<CloudLab>,
+  input: __S(25248, __c789, 0) as any as S.Schema<GetCloudProjectLabRequest>,
+  output: __S(25280, __c790, 0) as any as S.Schema<CloudLab>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -33169,8 +33169,8 @@ export const getCloudProjectNetworkPrivate: API.OperationMethod<
   GetCloudProjectNetworkPrivateError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25344, __c792, 0) as any as S.Schema<GetCloudProjectNetworkPrivateRequest>,
-  output: __S(7170, __c224, 2) as any as S.Schema<CloudNetworkNetwork>,
+  input: __S(25312, __c791, 0) as any as S.Schema<GetCloudProjectNetworkPrivateRequest>,
+  output: __S(7138, __c223, 2) as any as S.Schema<CloudNetworkNetwork>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -33187,8 +33187,8 @@ export const getCloudProjectNetworkPrivateSubnet: API.OperationMethod<
   GetCloudProjectNetworkPrivateSubnetError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25376, __c793, 0) as any as S.Schema<GetCloudProjectNetworkPrivateSubnetRequest>,
-  output: __S(7266, __c227, 2) as any as S.Schema<CloudNetworkSubnet>,
+  input: __S(25344, __c792, 0) as any as S.Schema<GetCloudProjectNetworkPrivateSubnetRequest>,
+  output: __S(7234, __c226, 2) as any as S.Schema<CloudNetworkSubnet>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -33205,8 +33205,8 @@ export const getCloudProjectOperation: API.OperationMethod<
   GetCloudProjectOperationError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25408, __c794, 0) as any as S.Schema<GetCloudProjectOperationRequest>,
-  output: __S(17666, __c552, 2) as any as S.Schema<CloudOperation>,
+  input: __S(25376, __c793, 0) as any as S.Schema<GetCloudProjectOperationRequest>,
+  output: __S(17634, __c551, 2) as any as S.Schema<CloudOperation>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -33223,8 +33223,8 @@ export const getCloudProjectQuantumCapabilityRegion: API.OperationMethod<
   GetCloudProjectQuantumCapabilityRegionError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25440, __c795, 0) as any as S.Schema<GetCloudProjectQuantumCapabilityRegionRequest>,
-  output: __S(16512, __c516, 0) as any as S.Schema<CloudProjectQuantumCapabilitiesRegion>,
+  input: __S(25408, __c794, 0) as any as S.Schema<GetCloudProjectQuantumCapabilityRegionRequest>,
+  output: __S(16480, __c515, 0) as any as S.Schema<CloudProjectQuantumCapabilitiesRegion>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -33241,8 +33241,8 @@ export const getCloudProjectQuantumCapabilityRegionQpu: API.OperationMethod<
   GetCloudProjectQuantumCapabilityRegionQpuError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25472, __c796, 0) as any as S.Schema<GetCloudProjectQuantumCapabilityRegionQpuRequest>,
-  output: __S(25504, __c797, 0) as any as S.Schema<CloudProjectQuantumCapabilitiesQPUFlavor>,
+  input: __S(25440, __c795, 0) as any as S.Schema<GetCloudProjectQuantumCapabilityRegionQpuRequest>,
+  output: __S(25472, __c796, 0) as any as S.Schema<CloudProjectQuantumCapabilitiesQPUFlavor>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -33259,8 +33259,8 @@ export const getCloudProjectRegion: API.OperationMethod<
   GetCloudProjectRegionError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25536, __c798, 0) as any as S.Schema<GetCloudProjectRegionRequest>,
-  output: __S(7330, __c229, 2) as any as S.Schema<CloudRegion>,
+  input: __S(25504, __c797, 0) as any as S.Schema<GetCloudProjectRegionRequest>,
+  output: __S(7298, __c228, 2) as any as S.Schema<CloudRegion>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -33277,8 +33277,8 @@ export const getCloudProjectRegionGateway: API.OperationMethod<
   GetCloudProjectRegionGatewayError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25600, __c800, 0) as any as S.Schema<GetCloudProjectRegionGatewayRequest>,
-  output: __S(7521, __c235, 1) as any as S.Schema<CloudNetworkGateway>,
+  input: __S(25568, __c799, 0) as any as S.Schema<GetCloudProjectRegionGatewayRequest>,
+  output: __S(7489, __c234, 1) as any as S.Schema<CloudNetworkGateway>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -33295,8 +33295,8 @@ export const getCloudProjectRegionGatewayInterface: API.OperationMethod<
   GetCloudProjectRegionGatewayInterfaceError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25632, __c801, 0) as any as S.Schema<GetCloudProjectRegionGatewayInterfaceRequest>,
-  output: __S(7489, __c234, 1) as any as S.Schema<CloudNetworkGatewayInterface>,
+  input: __S(25600, __c800, 0) as any as S.Schema<GetCloudProjectRegionGatewayInterfaceRequest>,
+  output: __S(7457, __c233, 1) as any as S.Schema<CloudNetworkGatewayInterface>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -33314,11 +33314,11 @@ export const getCloudProjectRegionInstanceMetricSubscription: API.OperationMetho
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    25664,
-    __c802,
+    25632,
+    __c801,
     0,
   ) as any as S.Schema<GetCloudProjectRegionInstanceMetricSubscriptionRequest>,
-  output: __S(25665, __c802, 1) as any as S.Schema<DbaasLogsMetricSubscription>,
+  output: __S(25633, __c801, 1) as any as S.Schema<DbaasLogsMetricSubscription>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -33336,11 +33336,11 @@ export const getCloudProjectRegionKeymanagerCertificate: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    25696,
-    __c803,
+    25664,
+    __c802,
     0,
   ) as any as S.Schema<GetCloudProjectRegionKeymanagerCertificateRequest>,
-  output: __S(7808, __c244, 0) as any as S.Schema<CloudKeymanagerCertificate>,
+  output: __S(7776, __c243, 0) as any as S.Schema<CloudKeymanagerCertificate>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -33357,8 +33357,8 @@ export const getCloudProjectRegionKeymanagerSecret: API.OperationMethod<
   GetCloudProjectRegionKeymanagerSecretError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25728, __c804, 0) as any as S.Schema<GetCloudProjectRegionKeymanagerSecretRequest>,
-  output: __S(25760, __c805, 0) as any as S.Schema<CloudKeymanagerSecret>,
+  input: __S(25696, __c803, 0) as any as S.Schema<GetCloudProjectRegionKeymanagerSecretRequest>,
+  output: __S(25728, __c804, 0) as any as S.Schema<CloudKeymanagerSecret>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -33375,8 +33375,8 @@ export const getCloudProjectRegionLoadbalancingFlavor: API.OperationMethod<
   GetCloudProjectRegionLoadbalancingFlavorError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25792, __c806, 0) as any as S.Schema<GetCloudProjectRegionLoadbalancingFlavorRequest>,
-  output: __S(25760, __c805, 0) as any as S.Schema<CloudLoadbalancingFlavor>,
+  input: __S(25760, __c805, 0) as any as S.Schema<GetCloudProjectRegionLoadbalancingFlavorRequest>,
+  output: __S(25728, __c804, 0) as any as S.Schema<CloudLoadbalancingFlavor>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -33394,11 +33394,11 @@ export const getCloudProjectRegionLoadbalancingHealthMonitor: API.OperationMetho
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    25824,
-    __c807,
+    25792,
+    __c806,
     0,
   ) as any as S.Schema<GetCloudProjectRegionLoadbalancingHealthMonitorRequest>,
-  output: __S(7904, __c247, 0) as any as S.Schema<CloudLoadbalancingHealthMonitor>,
+  output: __S(7872, __c246, 0) as any as S.Schema<CloudLoadbalancingHealthMonitor>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -33415,11 +33415,11 @@ export const getCloudProjectRegionLoadbalancingL7Policy: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    25856,
-    __c808,
+    25824,
+    __c807,
     0,
   ) as any as S.Schema<GetCloudProjectRegionLoadbalancingL7PolicyRequest>,
-  output: __S(7968, __c249, 0) as any as S.Schema<CloudLoadbalancingL7Policy>,
+  output: __S(7936, __c248, 0) as any as S.Schema<CloudLoadbalancingL7Policy>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -33436,11 +33436,11 @@ export const getCloudProjectRegionLoadbalancingL7PolicyL7Rule: API.OperationMeth
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    25888,
-    __c809,
+    25856,
+    __c808,
     0,
   ) as any as S.Schema<GetCloudProjectRegionLoadbalancingL7PolicyL7RuleRequest>,
-  output: __S(8032, __c251, 0) as any as S.Schema<CloudLoadbalancingL7Rule>,
+  output: __S(8000, __c250, 0) as any as S.Schema<CloudLoadbalancingL7Rule>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -33458,11 +33458,11 @@ export const getCloudProjectRegionLoadbalancingListener: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    25920,
-    __c810,
+    25888,
+    __c809,
     0,
   ) as any as S.Schema<GetCloudProjectRegionLoadbalancingListenerRequest>,
-  output: __S(8096, __c253, 0) as any as S.Schema<CloudLoadbalancingListener>,
+  output: __S(8064, __c252, 0) as any as S.Schema<CloudLoadbalancingListener>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -33480,11 +33480,11 @@ export const getCloudProjectRegionLoadbalancingLoadbalancer: API.OperationMethod
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    25984,
-    __c812,
+    25952,
+    __c811,
     0,
   ) as any as S.Schema<GetCloudProjectRegionLoadbalancingLoadbalancerRequest>,
-  output: __S(26017, __c813, 1) as any as S.Schema<CloudLoadbalancingLoadBalancer>,
+  output: __S(25985, __c812, 1) as any as S.Schema<CloudLoadbalancingLoadBalancer>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -33502,11 +33502,11 @@ export const getCloudProjectRegionLoadbalancingLoadbalancerLogSubscription: API.
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    26048,
-    __c814,
+    26016,
+    __c813,
     0,
   ) as any as S.Schema<GetCloudProjectRegionLoadbalancingLoadbalancerLogSubscriptionRequest>,
-  output: __S(18464, __c577, 0) as any as S.Schema<DbaasLogsLogSubscription>,
+  output: __S(18432, __c576, 0) as any as S.Schema<DbaasLogsLogSubscription>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -33524,11 +33524,11 @@ export const getCloudProjectRegionLoadbalancingLoadbalancerStats: API.OperationM
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    26080,
-    __c815,
+    26048,
+    __c814,
     0,
   ) as any as S.Schema<GetCloudProjectRegionLoadbalancingLoadbalancerStatsRequest>,
-  output: __S(26081, __c815, 1) as any as S.Schema<CloudLoadbalancingLoadbalancerStats>,
+  output: __S(26049, __c814, 1) as any as S.Schema<CloudLoadbalancingLoadbalancerStats>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -33545,8 +33545,8 @@ export const getCloudProjectRegionLoadbalancingLogKind: API.OperationMethod<
   GetCloudProjectRegionLoadbalancingLogKindError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26112, __c816, 0) as any as S.Schema<GetCloudProjectRegionLoadbalancingLogKindRequest>,
-  output: __S(17504, __c547, 0) as any as S.Schema<DbaasLogsLogKind>,
+  input: __S(26080, __c815, 0) as any as S.Schema<GetCloudProjectRegionLoadbalancingLogKindRequest>,
+  output: __S(17472, __c546, 0) as any as S.Schema<DbaasLogsLogKind>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -33563,8 +33563,8 @@ export const getCloudProjectRegionLoadbalancingPool: API.OperationMethod<
   GetCloudProjectRegionLoadbalancingPoolError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26144, __c817, 0) as any as S.Schema<GetCloudProjectRegionLoadbalancingPoolRequest>,
-  output: __S(8416, __c263, 0) as any as S.Schema<CloudLoadbalancingPool>,
+  input: __S(26112, __c816, 0) as any as S.Schema<GetCloudProjectRegionLoadbalancingPoolRequest>,
+  output: __S(8384, __c262, 0) as any as S.Schema<CloudLoadbalancingPool>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -33582,11 +33582,11 @@ export const getCloudProjectRegionLoadbalancingPoolMember: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    26176,
-    __c818,
+    26144,
+    __c817,
     0,
   ) as any as S.Schema<GetCloudProjectRegionLoadbalancingPoolMemberRequest>,
-  output: __S(8480, __c265, 0) as any as S.Schema<CloudLoadbalancingPoolMember>,
+  output: __S(8448, __c264, 0) as any as S.Schema<CloudLoadbalancingPoolMember>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -33603,8 +33603,8 @@ export const getCloudProjectRegionLogKind: API.OperationMethod<
   GetCloudProjectRegionLogKindError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26208, __c819, 0) as any as S.Schema<GetCloudProjectRegionLogKindRequest>,
-  output: __S(17504, __c547, 0) as any as S.Schema<DbaasLogsLogKind>,
+  input: __S(26176, __c818, 0) as any as S.Schema<GetCloudProjectRegionLogKindRequest>,
+  output: __S(17472, __c546, 0) as any as S.Schema<DbaasLogsLogKind>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -33621,8 +33621,8 @@ export const getCloudProjectRegionLogSubscription: API.OperationMethod<
   GetCloudProjectRegionLogSubscriptionError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26240, __c820, 0) as any as S.Schema<GetCloudProjectRegionLogSubscriptionRequest>,
-  output: __S(18464, __c577, 0) as any as S.Schema<DbaasLogsLogSubscription>,
+  input: __S(26208, __c819, 0) as any as S.Schema<GetCloudProjectRegionLogSubscriptionRequest>,
+  output: __S(18432, __c576, 0) as any as S.Schema<DbaasLogsLogSubscription>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -33639,8 +33639,8 @@ export const getCloudProjectRegionNetwork: API.OperationMethod<
   GetCloudProjectRegionNetworkError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26272, __c821, 0) as any as S.Schema<GetCloudProjectRegionNetworkRequest>,
-  output: __S(26304, __c822, 0) as any as S.Schema<CloudProjectNetwork>,
+  input: __S(26240, __c820, 0) as any as S.Schema<GetCloudProjectRegionNetworkRequest>,
+  output: __S(26272, __c821, 0) as any as S.Schema<CloudProjectNetwork>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -33657,8 +33657,8 @@ export const getCloudProjectRegionNetworkSubnet: API.OperationMethod<
   GetCloudProjectRegionNetworkSubnetError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26336, __c823, 0) as any as S.Schema<GetCloudProjectRegionNetworkSubnetRequest>,
-  output: __S(8672, __c271, 0) as any as S.Schema<CloudProjectSubnet>,
+  input: __S(26304, __c822, 0) as any as S.Schema<GetCloudProjectRegionNetworkSubnetRequest>,
+  output: __S(8640, __c270, 0) as any as S.Schema<CloudProjectSubnet>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -33675,8 +33675,8 @@ export const getCloudProjectRegionQuota: API.OperationMethod<
   GetCloudProjectRegionQuotaError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26528, __c829, 0) as any as S.Schema<GetCloudProjectRegionQuotaRequest>,
-  output: __S(26598, __c831, 6) as any as S.Schema<CloudQuotaQuotas>,
+  input: __S(26496, __c828, 0) as any as S.Schema<GetCloudProjectRegionQuotaRequest>,
+  output: __S(26566, __c830, 6) as any as S.Schema<CloudQuotaQuotas>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -33693,8 +33693,8 @@ export const getCloudProjectRegionQuotaShare: API.OperationMethod<
   GetCloudProjectRegionQuotaShareError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26624, __c832, 0) as any as S.Schema<GetCloudProjectRegionQuotaShareRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<CloudQuotaShareQuota>,
+  input: __S(26592, __c831, 0) as any as S.Schema<GetCloudProjectRegionQuotaShareRequest>,
+  output: __S(26528, __c829, 0) as any as S.Schema<CloudQuotaShareQuota>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -33711,8 +33711,8 @@ export const getCloudProjectRegionQuotaStorage: API.OperationMethod<
   GetCloudProjectRegionQuotaStorageError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26656, __c833, 0) as any as S.Schema<GetCloudProjectRegionQuotaStorageRequest>,
-  output: __S(26657, __c833, 1) as any as S.Schema<CloudQuotaStorageQuota>,
+  input: __S(26624, __c832, 0) as any as S.Schema<GetCloudProjectRegionQuotaStorageRequest>,
+  output: __S(26625, __c832, 1) as any as S.Schema<CloudQuotaStorageQuota>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -33729,8 +33729,8 @@ export const getCloudProjectRegionShare: API.OperationMethod<
   GetCloudProjectRegionShareError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26688, __c834, 0) as any as S.Schema<GetCloudProjectRegionShareRequest>,
-  output: __S(26724, __c835, 4) as any as S.Schema<CloudShareShare>,
+  input: __S(26656, __c833, 0) as any as S.Schema<GetCloudProjectRegionShareRequest>,
+  output: __S(26692, __c834, 4) as any as S.Schema<CloudShareShare>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -33747,8 +33747,8 @@ export const getCloudProjectRegionShareAcl: API.OperationMethod<
   GetCloudProjectRegionShareAclError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26752, __c836, 0) as any as S.Schema<GetCloudProjectRegionShareAclRequest>,
-  output: __S(8800, __c275, 0) as any as S.Schema<CloudShareAclACL>,
+  input: __S(26720, __c835, 0) as any as S.Schema<GetCloudProjectRegionShareAclRequest>,
+  output: __S(8768, __c274, 0) as any as S.Schema<CloudShareAclACL>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -33765,8 +33765,8 @@ export const getCloudProjectRegionShareSnapshot: API.OperationMethod<
   GetCloudProjectRegionShareSnapshotError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26784, __c837, 0) as any as S.Schema<GetCloudProjectRegionShareSnapshotRequest>,
-  output: __S(8864, __c277, 0) as any as S.Schema<CloudShareSnapshotSnapshot>,
+  input: __S(26752, __c836, 0) as any as S.Schema<GetCloudProjectRegionShareSnapshotRequest>,
+  output: __S(8832, __c276, 0) as any as S.Schema<CloudShareSnapshotSnapshot>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -33783,8 +33783,8 @@ export const getCloudProjectRegionSshkey: API.OperationMethod<
   GetCloudProjectRegionSshkeyError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26816, __c838, 0) as any as S.Schema<GetCloudProjectRegionSshkeyRequest>,
-  output: __S(26848, __c839, 0) as any as S.Schema<CloudRegionSSHKey>,
+  input: __S(26784, __c837, 0) as any as S.Schema<GetCloudProjectRegionSshkeyRequest>,
+  output: __S(26816, __c838, 0) as any as S.Schema<CloudRegionSSHKey>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -33801,8 +33801,8 @@ export const getCloudProjectRegionVolume: API.OperationMethod<
   GetCloudProjectRegionVolumeError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26880, __c840, 0) as any as S.Schema<GetCloudProjectRegionVolumeRequest>,
-  output: __S(26944, __c842, 0) as any as S.Schema<CloudRegionVolume>,
+  input: __S(26848, __c839, 0) as any as S.Schema<GetCloudProjectRegionVolumeRequest>,
+  output: __S(26912, __c841, 0) as any as S.Schema<CloudRegionVolume>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -33819,8 +33819,8 @@ export const getCloudProjectRegionVolumeBackup: API.OperationMethod<
   GetCloudProjectRegionVolumeBackupError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26976, __c843, 0) as any as S.Schema<GetCloudProjectRegionVolumeBackupRequest>,
-  output: __S(8992, __c281, 0) as any as S.Schema<CloudVolumeBackupVolumeBackup>,
+  input: __S(26944, __c842, 0) as any as S.Schema<GetCloudProjectRegionVolumeBackupRequest>,
+  output: __S(8960, __c280, 0) as any as S.Schema<CloudVolumeBackupVolumeBackup>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -33837,8 +33837,8 @@ export const getCloudProjectRegionWorkflowBackup: API.OperationMethod<
   GetCloudProjectRegionWorkflowBackupError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27008, __c844, 0) as any as S.Schema<GetCloudProjectRegionWorkflowBackupRequest>,
-  output: __S(9090, __c284, 2) as any as S.Schema<CloudBackup>,
+  input: __S(26976, __c843, 0) as any as S.Schema<GetCloudProjectRegionWorkflowBackupRequest>,
+  output: __S(9058, __c283, 2) as any as S.Schema<CloudBackup>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -33855,8 +33855,8 @@ export const getCloudProjectServiceInfos: API.OperationMethod<
   GetCloudProjectServiceInfosError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27072, __c846, 0) as any as S.Schema<GetCloudProjectServiceInfosRequest>,
-  output: __S(27073, __c846, 1) as any as S.Schema<ServicesService>,
+  input: __S(27040, __c845, 0) as any as S.Schema<GetCloudProjectServiceInfosRequest>,
+  output: __S(27041, __c845, 1) as any as S.Schema<ServicesService>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -33873,8 +33873,8 @@ export const getCloudProjectSnapshot: API.OperationMethod<
   GetCloudProjectSnapshotError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27136, __c848, 0) as any as S.Schema<GetCloudProjectSnapshotRequest>,
-  output: __S(22240, __c695, 0) as any as S.Schema<CloudImageImage>,
+  input: __S(27104, __c847, 0) as any as S.Schema<GetCloudProjectSnapshotRequest>,
+  output: __S(22208, __c694, 0) as any as S.Schema<CloudImageImage>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -33891,8 +33891,8 @@ export const getCloudProjectSshkey: API.OperationMethod<
   GetCloudProjectSshkeyError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27168, __c849, 0) as any as S.Schema<GetCloudProjectSshkeyRequest>,
-  output: __S(22208, __c694, 0) as any as S.Schema<CloudSshkeySshKeyDetail>,
+  input: __S(27136, __c848, 0) as any as S.Schema<GetCloudProjectSshkeyRequest>,
+  output: __S(22176, __c693, 0) as any as S.Schema<CloudSshkeySshKeyDetail>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -33909,8 +33909,8 @@ export const getCloudProjectStorage: API.OperationMethod<
   GetCloudProjectStorageError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27200, __c850, 0) as any as S.Schema<GetCloudProjectStorageRequest>,
-  output: __S(27203, __c850, 3) as any as S.Schema<CloudStorageContainerDetail>,
+  input: __S(27168, __c849, 0) as any as S.Schema<GetCloudProjectStorageRequest>,
+  output: __S(27171, __c849, 3) as any as S.Schema<CloudStorageContainerDetail>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -33927,8 +33927,8 @@ export const getCloudProjectStorageQuota: API.OperationMethod<
   GetCloudProjectStorageQuotaError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27232, __c851, 0) as any as S.Schema<GetCloudProjectStorageQuotaRequest>,
-  output: __S(27233, __c851, 1) as any as S.Schema<CloudStorageQuota>,
+  input: __S(27200, __c850, 0) as any as S.Schema<GetCloudProjectStorageQuotaRequest>,
+  output: __S(27201, __c850, 1) as any as S.Schema<CloudStorageQuota>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -33945,8 +33945,8 @@ export const getCloudProjectUsageCurrent: API.OperationMethod<
   GetCloudProjectUsageCurrentError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27264, __c852, 0) as any as S.Schema<GetCloudProjectUsageCurrentRequest>,
-  output: __S(27265, __c852, 1) as any as S.Schema<CloudUsageUsageCurrent>,
+  input: __S(27232, __c851, 0) as any as S.Schema<GetCloudProjectUsageCurrentRequest>,
+  output: __S(27233, __c851, 1) as any as S.Schema<CloudUsageUsageCurrent>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -33963,8 +33963,8 @@ export const getCloudProjectUsageForecast: API.OperationMethod<
   GetCloudProjectUsageForecastError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27424, __c857, 0) as any as S.Schema<GetCloudProjectUsageForecastRequest>,
-  output: __S(27428, __c857, 4) as any as S.Schema<CloudUsageUsageForecast>,
+  input: __S(27392, __c856, 0) as any as S.Schema<GetCloudProjectUsageForecastRequest>,
+  output: __S(27396, __c856, 4) as any as S.Schema<CloudUsageUsageForecast>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -33981,8 +33981,8 @@ export const getCloudProjectUsageHistory: API.OperationMethod<
   GetCloudProjectUsageHistoryError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27456, __c858, 0) as any as S.Schema<GetCloudProjectUsageHistoryRequest>,
-  output: __S(27457, __c858, 1) as any as S.Schema<CloudUsageUsageHistoryDetail>,
+  input: __S(27424, __c857, 0) as any as S.Schema<GetCloudProjectUsageHistoryRequest>,
+  output: __S(27425, __c857, 1) as any as S.Schema<CloudUsageUsageHistoryDetail>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -33999,8 +33999,8 @@ export const getCloudProjectUser: API.OperationMethod<
   GetCloudProjectUserError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27488, __c859, 0) as any as S.Schema<GetCloudProjectUserRequest>,
-  output: __S(27520, __c860, 0) as any as S.Schema<CloudUserUser>,
+  input: __S(27456, __c858, 0) as any as S.Schema<GetCloudProjectUserRequest>,
+  output: __S(27488, __c859, 0) as any as S.Schema<CloudUserUser>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -34017,8 +34017,8 @@ export const getCloudProjectUserConfiguration: API.OperationMethod<
   GetCloudProjectUserConfigurationError,
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27552, __c861, 0) as any as S.Schema<GetCloudProjectUserConfigurationRequest>,
-  output: __S(6880, __c215, 0) as any as S.Schema<CloudUserConfiguration>,
+  input: __S(27520, __c860, 0) as any as S.Schema<GetCloudProjectUserConfigurationRequest>,
+  output: __S(27552, __c861, 0) as any as S.Schema<CloudUserConfiguration>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -34036,7 +34036,7 @@ export const getCloudProjectUserOpenrc: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27808, __c869, 0) as any as S.Schema<GetCloudProjectUserOpenrcRequest>,
-  output: __S(6880, __c215, 0) as any as S.Schema<CloudUserOpenrc>,
+  output: __S(27552, __c861, 0) as any as S.Schema<CloudUserOpenrc>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -34072,7 +34072,7 @@ export const getCloudProjectUserRclone: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27872, __c871, 0) as any as S.Schema<GetCloudProjectUserRcloneRequest>,
-  output: __S(6880, __c215, 0) as any as S.Schema<CloudUserRclone>,
+  output: __S(27552, __c861, 0) as any as S.Schema<CloudUserRclone>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -34090,7 +34090,7 @@ export const getCloudProjectUserRole: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27904, __c872, 0) as any as S.Schema<GetCloudProjectUserRoleRequest>,
-  output: __S(9472, __c296, 0) as any as S.Schema<CloudRoleRole>,
+  output: __S(9440, __c295, 0) as any as S.Schema<CloudRoleRole>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -34126,7 +34126,7 @@ export const getCloudProjectVolume: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28000, __c875, 0) as any as S.Schema<GetCloudProjectVolumeRequest>,
-  output: __S(12832, __c401, 0) as any as S.Schema<CloudVolumeVolume>,
+  output: __S(12800, __c400, 0) as any as S.Schema<CloudVolumeVolume>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -34144,7 +34144,7 @@ export const getCloudProjectVolumeSnapshot: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28032, __c876, 0) as any as S.Schema<GetCloudProjectVolumeSnapshotRequest>,
-  output: __S(9856, __c308, 0) as any as S.Schema<CloudVolumeSnapshot>,
+  output: __S(9824, __c307, 0) as any as S.Schema<CloudVolumeSnapshot>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -34180,7 +34180,7 @@ export const getColdArchiveContainerOnRegion: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28096, __c878, 0) as any as S.Schema<GetColdArchiveContainerOnRegionRequest>,
-  output: __S(10144, __c317, 0) as any as S.Schema<CloudColdArchiveContainer>,
+  output: __S(10112, __c316, 0) as any as S.Schema<CloudColdArchiveContainer>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -34216,7 +34216,7 @@ export const getContainerLifecycleConfiguration: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28224, __c882, 0) as any as S.Schema<GetContainerLifecycleConfigurationRequest>,
-  output: __S(10090, __c315, 10) as any as S.Schema<CloudStorageLifecycleConfiguration>,
+  output: __S(10058, __c314, 10) as any as S.Schema<CloudStorageLifecycleConfiguration>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -34234,7 +34234,7 @@ export const getFlavor: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28256, __c883, 0) as any as S.Schema<GetFlavorRequest>,
-  output: __S(22275, __c696, 3) as any as S.Schema<CloudFlavorFlavor>,
+  output: __S(22243, __c695, 3) as any as S.Schema<CloudFlavorFlavor>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -34378,7 +34378,7 @@ export const getLoadBalancer: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28608, __c894, 0) as any as S.Schema<GetLoadBalancerRequest>,
-  output: __S(10306, __c322, 2) as any as S.Schema<CloudProjectLoadBalancer>,
+  output: __S(10274, __c321, 2) as any as S.Schema<CloudProjectLoadBalancer>,
   errors: [BadRequest, Forbidden],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -34396,7 +34396,7 @@ export const getLoadBalancerConfiguration: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28704, __c897, 0) as any as S.Schema<GetLoadBalancerConfigurationRequest>,
-  output: __S(10916, __c341, 4) as any as S.Schema<CloudProjectLoadbalancerConfiguration>,
+  output: __S(10884, __c340, 4) as any as S.Schema<CloudProjectLoadbalancerConfiguration>,
   errors: [BadRequest, Forbidden],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -34414,7 +34414,7 @@ export const getLoadBalancerStats: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28736, __c898, 0) as any as S.Schema<GetLoadBalancerStatsRequest>,
-  output: __S(16261, __c508, 5) as any as S.Schema<CloudProjectLoadbalancerStats>,
+  output: __S(16229, __c507, 5) as any as S.Schema<CloudProjectLoadbalancerStats>,
   errors: [BadRequest, Forbidden],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -34432,7 +34432,7 @@ export const getNetworkLoadBalancer: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28768, __c899, 0) as any as S.Schema<GetNetworkLoadBalancerRequest>,
-  output: __S(17824, __c557, 0) as any as S.Schema<CloudProjectNetworkLoadBalancer>,
+  output: __S(17792, __c556, 0) as any as S.Schema<CloudProjectNetworkLoadBalancer>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -34450,7 +34450,7 @@ export const getNetworkLoadBalancerConfiguration: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28800, __c900, 0) as any as S.Schema<GetNetworkLoadBalancerConfigurationRequest>,
-  output: __S(11301, __c353, 5) as any as S.Schema<CloudProjectNetworkloadbalancerConfiguration>,
+  output: __S(11269, __c352, 5) as any as S.Schema<CloudProjectNetworkloadbalancerConfiguration>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -34616,7 +34616,7 @@ export const getStorageContainerOnRegion: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29248, __c914, 0) as any as S.Schema<GetStorageContainerOnRegionRequest>,
-  output: __S(10628, __c332, 4) as any as S.Schema<CloudStorageContainer>,
+  output: __S(10596, __c331, 4) as any as S.Schema<CloudStorageContainer>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -34653,8 +34653,8 @@ export const listApplicationLoadBalancerConfigurations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29312, __c916, 0) as any as S.Schema<ListApplicationLoadBalancerConfigurationsRequest>,
   output: __S(
-    24736,
-    __c773,
+    24704,
+    __c772,
     0,
   ) as any as S.Schema<ListApplicationLoadBalancerConfigurationsResponse>,
   errors: [],
@@ -35720,7 +35720,7 @@ export const listCloudProjectCredit: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31424, __c982, 0) as any as S.Schema<ListCloudProjectCreditRequest>,
-  output: __S(24736, __c773, 0) as any as S.Schema<ListCloudProjectCreditResponse>,
+  output: __S(24704, __c772, 0) as any as S.Schema<ListCloudProjectCreditResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -37202,8 +37202,8 @@ export const listCloudProjectDatabaseKafkaConnectConnectorTask: API.OperationMet
     0,
   ) as any as S.Schema<ListCloudProjectDatabaseKafkaConnectConnectorTaskRequest>,
   output: __S(
-    24736,
-    __c773,
+    24704,
+    __c772,
     0,
   ) as any as S.Schema<ListCloudProjectDatabaseKafkaConnectConnectorTaskResponse>,
   errors: [BadRequest, NotFound, Conflict],
@@ -40966,7 +40966,7 @@ export const listCloudProjectInstance: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(39488, __c1234, 0) as any as S.Schema<ListCloudProjectInstanceRequest>,
-  output: __S(22337, __c698, 1) as any as S.Schema<ListCloudProjectInstanceResponse>,
+  output: __S(22305, __c697, 1) as any as S.Schema<ListCloudProjectInstanceResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -41709,8 +41709,8 @@ export const listCloudProjectRegionLoadbalancingPoolMember: API.OperationMethod<
     0,
   ) as any as S.Schema<ListCloudProjectRegionLoadbalancingPoolMemberRequest>,
   output: __S(
-    8513,
-    __c266,
+    8481,
+    __c265,
     1,
   ) as any as S.Schema<ListCloudProjectRegionLoadbalancingPoolMemberResponse>,
   errors: [],
@@ -42162,7 +42162,7 @@ export const listLoadBalancerConfigurations: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(41824, __c1307, 0) as any as S.Schema<ListLoadBalancerConfigurationsRequest>,
-  output: __S(24736, __c773, 0) as any as S.Schema<ListLoadBalancerConfigurationsResponse>,
+  output: __S(24704, __c772, 0) as any as S.Schema<ListLoadBalancerConfigurationsResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -42198,7 +42198,7 @@ export const listNetworkLoadBalancerConfigurations: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(41888, __c1309, 0) as any as S.Schema<ListNetworkLoadBalancerConfigurationsRequest>,
-  output: __S(24736, __c773, 0) as any as S.Schema<ListNetworkLoadBalancerConfigurationsResponse>,
+  output: __S(24704, __c772, 0) as any as S.Schema<ListNetworkLoadBalancerConfigurationsResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -42239,8 +42239,8 @@ export const pauseCloudProjectDatabaseKafkaConnectConnector: API.OperationMethod
     0,
   ) as any as S.Schema<PauseCloudProjectDatabaseKafkaConnectConnectorRequest>,
   output: __S(
-    11680,
-    __c365,
+    11648,
+    __c364,
     0,
   ) as any as S.Schema<PauseCloudProjectDatabaseKafkaConnectConnectorResponse>,
   errors: [],
@@ -42260,7 +42260,7 @@ export const presignCloudProjectRegionColdArchive: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(41984, __c1312, 0) as any as S.Schema<PresignCloudProjectRegionColdArchiveRequest>,
-  output: __S(10496, __c328, 0) as any as S.Schema<CloudStoragePresignedURL>,
+  output: __S(10464, __c327, 0) as any as S.Schema<CloudStoragePresignedURL>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -42278,7 +42278,7 @@ export const putCloudProject: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(42048, __c1314, 0) as any as S.Schema<PutCloudProjectRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<PutCloudProjectResponse>,
+  output: __S(11648, __c364, 0) as any as S.Schema<PutCloudProjectResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -42296,7 +42296,7 @@ export const putCloudProjectAiApp: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(42082, __c1315, 2) as any as S.Schema<PutCloudProjectAiAppRequest>,
-  output: __S(19204, __c600, 4) as any as S.Schema<CloudProjectAiAppApp>,
+  output: __S(19172, __c599, 4) as any as S.Schema<CloudProjectAiAppApp>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -42332,7 +42332,7 @@ export const putCloudProjectAiAppLabel: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(42176, __c1318, 0) as any as S.Schema<PutCloudProjectAiAppLabelRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<PutCloudProjectAiAppLabelResponse>,
+  output: __S(11648, __c364, 0) as any as S.Schema<PutCloudProjectAiAppLabelResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -42350,7 +42350,7 @@ export const putCloudProjectAiAppScalingstrategy: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(42208, __c1319, 0) as any as S.Schema<PutCloudProjectAiAppScalingstrategyRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<PutCloudProjectAiAppScalingstrategyResponse>,
+  output: __S(11648, __c364, 0) as any as S.Schema<PutCloudProjectAiAppScalingstrategyResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -42368,7 +42368,7 @@ export const putCloudProjectAiAppStart: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(42240, __c1320, 0) as any as S.Schema<PutCloudProjectAiAppStartRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<PutCloudProjectAiAppStartResponse>,
+  output: __S(11648, __c364, 0) as any as S.Schema<PutCloudProjectAiAppStartResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -42386,7 +42386,7 @@ export const putCloudProjectAiAppStop: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(42272, __c1321, 0) as any as S.Schema<PutCloudProjectAiAppStopRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<PutCloudProjectAiAppStopResponse>,
+  output: __S(11648, __c364, 0) as any as S.Schema<PutCloudProjectAiAppStopResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -42410,8 +42410,8 @@ export const putCloudProjectAiCapabilityRegionNotebookWorkspacebackupretentionpo
     0,
   ) as any as S.Schema<PutCloudProjectAiCapabilityRegionNotebookWorkspacebackupretentionpolicyRequest>,
   output: __S(
-    16832,
-    __c526,
+    16800,
+    __c525,
     0,
   ) as any as S.Schema<CloudProjectAiNotebookNotebookWorkspaceBackupRetentionPolicy>,
   errors: [],
@@ -42431,7 +42431,7 @@ export const putCloudProjectAiDataRegionAlias: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(42336, __c1323, 0) as any as S.Schema<PutCloudProjectAiDataRegionAliasRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<PutCloudProjectAiDataRegionAliasResponse>,
+  output: __S(11648, __c364, 0) as any as S.Schema<PutCloudProjectAiDataRegionAliasResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -42449,7 +42449,7 @@ export const putCloudProjectAiJobKill: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(42368, __c1324, 0) as any as S.Schema<PutCloudProjectAiJobKillRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<PutCloudProjectAiJobKillResponse>,
+  output: __S(11648, __c364, 0) as any as S.Schema<PutCloudProjectAiJobKillResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -42467,7 +42467,7 @@ export const putCloudProjectAiJobLabel: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(42432, __c1326, 0) as any as S.Schema<PutCloudProjectAiJobLabelRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<PutCloudProjectAiJobLabelResponse>,
+  output: __S(11648, __c364, 0) as any as S.Schema<PutCloudProjectAiJobLabelResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -42485,7 +42485,7 @@ export const putCloudProjectAiNotebook: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(42464, __c1327, 0) as any as S.Schema<PutCloudProjectAiNotebookRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<PutCloudProjectAiNotebookResponse>,
+  output: __S(11648, __c364, 0) as any as S.Schema<PutCloudProjectAiNotebookResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -42503,7 +42503,7 @@ export const putCloudProjectAiNotebookLabel: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(42496, __c1328, 0) as any as S.Schema<PutCloudProjectAiNotebookLabelRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<PutCloudProjectAiNotebookLabelResponse>,
+  output: __S(11648, __c364, 0) as any as S.Schema<PutCloudProjectAiNotebookLabelResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -42521,7 +42521,7 @@ export const putCloudProjectAiNotebookRestart: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(42528, __c1329, 0) as any as S.Schema<PutCloudProjectAiNotebookRestartRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<PutCloudProjectAiNotebookRestartResponse>,
+  output: __S(11648, __c364, 0) as any as S.Schema<PutCloudProjectAiNotebookRestartResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -42539,7 +42539,7 @@ export const putCloudProjectAiNotebookStart: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(42560, __c1330, 0) as any as S.Schema<PutCloudProjectAiNotebookStartRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<PutCloudProjectAiNotebookStartResponse>,
+  output: __S(11648, __c364, 0) as any as S.Schema<PutCloudProjectAiNotebookStartResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -42557,7 +42557,7 @@ export const putCloudProjectAiNotebookStop: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(42592, __c1331, 0) as any as S.Schema<PutCloudProjectAiNotebookStopRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<PutCloudProjectAiNotebookStopResponse>,
+  output: __S(11648, __c364, 0) as any as S.Schema<PutCloudProjectAiNotebookStopResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -42580,8 +42580,8 @@ export const putCloudProjectAiNotebookWorkspacebackupretentionpolicy: API.Operat
     0,
   ) as any as S.Schema<PutCloudProjectAiNotebookWorkspacebackupretentionpolicyRequest>,
   output: __S(
-    16832,
-    __c526,
+    16800,
+    __c525,
     0,
   ) as any as S.Schema<CloudProjectAiNotebookNotebookWorkspaceBackupRetentionPolicy>,
   errors: [],
@@ -42601,7 +42601,7 @@ export const putCloudProjectAiRegistry: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(42656, __c1333, 0) as any as S.Schema<PutCloudProjectAiRegistryRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<PutCloudProjectAiRegistryResponse>,
+  output: __S(11648, __c364, 0) as any as S.Schema<PutCloudProjectAiRegistryResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -42619,7 +42619,7 @@ export const putCloudProjectContainerRegistry: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(42688, __c1334, 0) as any as S.Schema<PutCloudProjectContainerRegistryRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<PutCloudProjectContainerRegistryResponse>,
+  output: __S(11648, __c364, 0) as any as S.Schema<PutCloudProjectContainerRegistryResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -42690,8 +42690,8 @@ export const putCloudProjectContainerRegistryOpenIdConnect: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c4, 0) as any as S.Schema<PutCloudProjectContainerRegistryOpenIdConnectRequest>,
   output: __S(
-    11680,
-    __c365,
+    11648,
+    __c364,
     0,
   ) as any as S.Schema<PutCloudProjectContainerRegistryOpenIdConnectResponse>,
   errors: [],
@@ -42711,7 +42711,7 @@ export const putCloudProjectContainerRegistryPlan: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c5, 0) as any as S.Schema<PutCloudProjectContainerRegistryPlanRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<PutCloudProjectContainerRegistryPlanResponse>,
+  output: __S(11648, __c364, 0) as any as S.Schema<PutCloudProjectContainerRegistryPlanResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -42734,8 +42734,8 @@ export const putCloudProjectContainerRegistryUserSetAsAdmin: API.OperationMethod
     0,
   ) as any as S.Schema<PutCloudProjectContainerRegistryUserSetAsAdminRequest>,
   output: __S(
-    11680,
-    __c365,
+    11648,
+    __c364,
     0,
   ) as any as S.Schema<PutCloudProjectContainerRegistryUserSetAsAdminResponse>,
   errors: [],
@@ -42782,8 +42782,8 @@ export const putCloudProjectDatabaseCassandraAdvancedConfiguration: API.Operatio
     0,
   ) as any as S.Schema<PutCloudProjectDatabaseCassandraAdvancedConfigurationRequest>,
   output: __S(
-    18176,
-    __c568,
+    18144,
+    __c567,
     0,
   ) as any as S.Schema<PutCloudProjectDatabaseCassandraAdvancedConfigurationResponse>,
   errors: [BadRequest, NotFound, Conflict],
@@ -42825,7 +42825,7 @@ export const putCloudProjectDatabaseClickhouseUser: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c11, 0) as any as S.Schema<PutCloudProjectDatabaseClickhouseUserRequest>,
-  output: __S(19104, __c597, 0) as any as S.Schema<CloudProjectDatabaseServiceUserWithRoles>,
+  output: __S(19072, __c596, 0) as any as S.Schema<CloudProjectDatabaseServiceUserWithRoles>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -42870,8 +42870,8 @@ export const putCloudProjectDatabaseGrafanaAdvancedConfiguration: API.OperationM
     0,
   ) as any as S.Schema<PutCloudProjectDatabaseGrafanaAdvancedConfigurationRequest>,
   output: __S(
-    18176,
-    __c568,
+    18144,
+    __c567,
     0,
   ) as any as S.Schema<PutCloudProjectDatabaseGrafanaAdvancedConfigurationResponse>,
   errors: [BadRequest, NotFound, Conflict],
@@ -42918,8 +42918,8 @@ export const putCloudProjectDatabaseKafkaAdvancedConfiguration: API.OperationMet
     0,
   ) as any as S.Schema<PutCloudProjectDatabaseKafkaAdvancedConfigurationRequest>,
   output: __S(
-    18176,
-    __c568,
+    18144,
+    __c567,
     0,
   ) as any as S.Schema<PutCloudProjectDatabaseKafkaAdvancedConfigurationResponse>,
   errors: [BadRequest, NotFound, Conflict],
@@ -42970,8 +42970,8 @@ export const putCloudProjectDatabaseKafkaConnectAdvancedConfiguration: API.Opera
     0,
   ) as any as S.Schema<PutCloudProjectDatabaseKafkaConnectAdvancedConfigurationRequest>,
   output: __S(
-    18176,
-    __c568,
+    18144,
+    __c567,
     0,
   ) as any as S.Schema<PutCloudProjectDatabaseKafkaConnectAdvancedConfigurationResponse>,
   errors: [BadRequest, NotFound, Conflict],
@@ -43128,8 +43128,8 @@ export const putCloudProjectDatabaseM3dbAdvancedConfiguration: API.OperationMeth
     0,
   ) as any as S.Schema<PutCloudProjectDatabaseM3dbAdvancedConfigurationRequest>,
   output: __S(
-    18176,
-    __c568,
+    18144,
+    __c567,
     0,
   ) as any as S.Schema<PutCloudProjectDatabaseM3dbAdvancedConfigurationResponse>,
   errors: [BadRequest, NotFound, Conflict],
@@ -43171,7 +43171,7 @@ export const putCloudProjectDatabaseM3dbUser: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(896, __c28, 0) as any as S.Schema<PutCloudProjectDatabaseM3dbUserRequest>,
-  output: __S(21856, __c683, 0) as any as S.Schema<CloudProjectDatabaseM3dbUser>,
+  output: __S(21824, __c682, 0) as any as S.Schema<CloudProjectDatabaseM3dbUser>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -43225,7 +43225,7 @@ export const putCloudProjectDatabaseMongodbUser: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c31, 0) as any as S.Schema<PutCloudProjectDatabaseMongodbUserRequest>,
-  output: __S(19104, __c597, 0) as any as S.Schema<CloudProjectDatabaseServiceUserWithRoles>,
+  output: __S(19072, __c596, 0) as any as S.Schema<CloudProjectDatabaseServiceUserWithRoles>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -43270,8 +43270,8 @@ export const putCloudProjectDatabaseMysqlAdvancedConfiguration: API.OperationMet
     0,
   ) as any as S.Schema<PutCloudProjectDatabaseMysqlAdvancedConfigurationRequest>,
   output: __S(
-    18176,
-    __c568,
+    18144,
+    __c567,
     0,
   ) as any as S.Schema<PutCloudProjectDatabaseMysqlAdvancedConfigurationResponse>,
   errors: [BadRequest, NotFound, Conflict],
@@ -43318,8 +43318,8 @@ export const putCloudProjectDatabaseOpensearchAdvancedConfiguration: API.Operati
     0,
   ) as any as S.Schema<PutCloudProjectDatabaseOpensearchAdvancedConfigurationRequest>,
   output: __S(
-    18176,
-    __c568,
+    18144,
+    __c567,
     0,
   ) as any as S.Schema<PutCloudProjectDatabaseOpensearchAdvancedConfigurationResponse>,
   errors: [BadRequest, NotFound, Conflict],
@@ -43343,7 +43343,7 @@ export const putCloudProjectDatabaseOpensearchUser: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c37, 0) as any as S.Schema<PutCloudProjectDatabaseOpensearchUserRequest>,
-  output: __S(23392, __c731, 0) as any as S.Schema<CloudProjectDatabaseOpensearchUser>,
+  output: __S(23360, __c730, 0) as any as S.Schema<CloudProjectDatabaseOpensearchUser>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -43388,8 +43388,8 @@ export const putCloudProjectDatabasePostgresqlAdvancedConfiguration: API.Operati
     0,
   ) as any as S.Schema<PutCloudProjectDatabasePostgresqlAdvancedConfigurationRequest>,
   output: __S(
-    18176,
-    __c568,
+    18144,
+    __c567,
     0,
   ) as any as S.Schema<PutCloudProjectDatabasePostgresqlAdvancedConfigurationResponse>,
   errors: [BadRequest, NotFound, Conflict],
@@ -43439,7 +43439,7 @@ export const putCloudProjectDatabasePostgresqlUser: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1312, __c41, 0) as any as S.Schema<PutCloudProjectDatabasePostgresqlUserRequest>,
-  output: __S(19104, __c597, 0) as any as S.Schema<CloudProjectDatabaseServiceUserWithRoles>,
+  output: __S(19072, __c596, 0) as any as S.Schema<CloudProjectDatabaseServiceUserWithRoles>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -43484,8 +43484,8 @@ export const putCloudProjectDatabaseRedisAdvancedConfiguration: API.OperationMet
     0,
   ) as any as S.Schema<PutCloudProjectDatabaseRedisAdvancedConfigurationRequest>,
   output: __S(
-    18176,
-    __c568,
+    18144,
+    __c567,
     0,
   ) as any as S.Schema<PutCloudProjectDatabaseRedisAdvancedConfigurationResponse>,
   errors: [BadRequest, NotFound, Conflict],
@@ -43505,7 +43505,7 @@ export const putCloudProjectDatabaseRedisUser: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c44, 0) as any as S.Schema<PutCloudProjectDatabaseRedisUserRequest>,
-  output: __S(24256, __c758, 0) as any as S.Schema<CloudProjectDatabaseRedisUser>,
+  output: __S(24224, __c757, 0) as any as S.Schema<CloudProjectDatabaseRedisUser>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -43550,8 +43550,8 @@ export const putCloudProjectDatabaseValkeyAdvancedConfiguration: API.OperationMe
     0,
   ) as any as S.Schema<PutCloudProjectDatabaseValkeyAdvancedConfigurationRequest>,
   output: __S(
-    18176,
-    __c568,
+    18144,
+    __c567,
     0,
   ) as any as S.Schema<PutCloudProjectDatabaseValkeyAdvancedConfigurationResponse>,
   errors: [BadRequest, NotFound, Conflict],
@@ -43571,7 +43571,7 @@ export const putCloudProjectDatabaseValkeyUser: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1568, __c49, 0) as any as S.Schema<PutCloudProjectDatabaseValkeyUserRequest>,
-  output: __S(24256, __c758, 0) as any as S.Schema<CloudProjectDatabaseRedisUser>,
+  output: __S(24224, __c757, 0) as any as S.Schema<CloudProjectDatabaseRedisUser>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -43589,7 +43589,7 @@ export const putCloudProjectInstance: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1600, __c50, 0) as any as S.Schema<PutCloudProjectInstanceRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<PutCloudProjectInstanceResponse>,
+  output: __S(11648, __c364, 0) as any as S.Schema<PutCloudProjectInstanceResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -43607,7 +43607,7 @@ export const putCloudProjectKube: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1632, __c51, 0) as any as S.Schema<PutCloudProjectKubeRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<PutCloudProjectKubeResponse>,
+  output: __S(11648, __c364, 0) as any as S.Schema<PutCloudProjectKubeResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -43661,7 +43661,7 @@ export const putCloudProjectKubeNodepool: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1728, __c54, 0) as any as S.Schema<PutCloudProjectKubeNodepoolRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<PutCloudProjectKubeNodepoolResponse>,
+  output: __S(11648, __c364, 0) as any as S.Schema<PutCloudProjectKubeNodepoolResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -43679,7 +43679,7 @@ export const putCloudProjectKubeOpenIdConnect: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1760, __c55, 0) as any as S.Schema<PutCloudProjectKubeOpenIdConnectRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<PutCloudProjectKubeOpenIdConnectResponse>,
+  output: __S(11648, __c364, 0) as any as S.Schema<PutCloudProjectKubeOpenIdConnectResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -43724,8 +43724,8 @@ export const putCloudProjectKubeUpdateLoadBalancersSubnetId: API.OperationMethod
     0,
   ) as any as S.Schema<PutCloudProjectKubeUpdateLoadBalancersSubnetIdRequest>,
   output: __S(
-    11680,
-    __c365,
+    11648,
+    __c364,
     0,
   ) as any as S.Schema<PutCloudProjectKubeUpdateLoadBalancersSubnetIdResponse>,
   errors: [],
@@ -43745,7 +43745,7 @@ export const putCloudProjectKubeUpdatePolicy: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1856, __c58, 0) as any as S.Schema<PutCloudProjectKubeUpdatePolicyRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<PutCloudProjectKubeUpdatePolicyResponse>,
+  output: __S(11648, __c364, 0) as any as S.Schema<PutCloudProjectKubeUpdatePolicyResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -43763,7 +43763,7 @@ export const putCloudProjectNetworkPrivate: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1952, __c61, 0) as any as S.Schema<PutCloudProjectNetworkPrivateRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<PutCloudProjectNetworkPrivateResponse>,
+  output: __S(11648, __c364, 0) as any as S.Schema<PutCloudProjectNetworkPrivateResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -43781,7 +43781,7 @@ export const putCloudProjectNetworkPrivateSubnet: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1984, __c62, 0) as any as S.Schema<PutCloudProjectNetworkPrivateSubnetRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<PutCloudProjectNetworkPrivateSubnetResponse>,
+  output: __S(11648, __c364, 0) as any as S.Schema<PutCloudProjectNetworkPrivateSubnetResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -43799,7 +43799,7 @@ export const putCloudProjectRegionGateway: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2016, __c63, 0) as any as S.Schema<PutCloudProjectRegionGatewayRequest>,
-  output: __S(7521, __c235, 1) as any as S.Schema<CloudNetworkGateway>,
+  output: __S(7489, __c234, 1) as any as S.Schema<CloudNetworkGateway>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -43821,7 +43821,7 @@ export const putCloudProjectRegionLoadbalancingHealthMonitor: API.OperationMetho
     __c64,
     0,
   ) as any as S.Schema<PutCloudProjectRegionLoadbalancingHealthMonitorRequest>,
-  output: __S(7904, __c247, 0) as any as S.Schema<CloudLoadbalancingHealthMonitor>,
+  output: __S(7872, __c246, 0) as any as S.Schema<CloudLoadbalancingHealthMonitor>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -43838,7 +43838,7 @@ export const putCloudProjectRegionLoadbalancingL7Policy: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2080, __c65, 0) as any as S.Schema<PutCloudProjectRegionLoadbalancingL7PolicyRequest>,
-  output: __S(7968, __c249, 0) as any as S.Schema<CloudLoadbalancingL7Policy>,
+  output: __S(7936, __c248, 0) as any as S.Schema<CloudLoadbalancingL7Policy>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -43859,7 +43859,7 @@ export const putCloudProjectRegionLoadbalancingL7PolicyL7Rule: API.OperationMeth
     __c66,
     0,
   ) as any as S.Schema<PutCloudProjectRegionLoadbalancingL7PolicyL7RuleRequest>,
-  output: __S(8032, __c251, 0) as any as S.Schema<CloudLoadbalancingL7Rule>,
+  output: __S(8000, __c250, 0) as any as S.Schema<CloudLoadbalancingL7Rule>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -43877,7 +43877,7 @@ export const putCloudProjectRegionLoadbalancingListener: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2144, __c67, 0) as any as S.Schema<PutCloudProjectRegionLoadbalancingListenerRequest>,
-  output: __S(8096, __c253, 0) as any as S.Schema<CloudLoadbalancingListener>,
+  output: __S(8064, __c252, 0) as any as S.Schema<CloudLoadbalancingListener>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -43899,7 +43899,7 @@ export const putCloudProjectRegionLoadbalancingLoadbalancer: API.OperationMethod
     __c68,
     0,
   ) as any as S.Schema<PutCloudProjectRegionLoadbalancingLoadbalancerRequest>,
-  output: __S(26017, __c813, 1) as any as S.Schema<CloudLoadbalancingLoadBalancer>,
+  output: __S(25985, __c812, 1) as any as S.Schema<CloudLoadbalancingLoadBalancer>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -43917,7 +43917,7 @@ export const putCloudProjectRegionLoadbalancingPool: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2208, __c69, 0) as any as S.Schema<PutCloudProjectRegionLoadbalancingPoolRequest>,
-  output: __S(8416, __c263, 0) as any as S.Schema<CloudLoadbalancingPool>,
+  output: __S(8384, __c262, 0) as any as S.Schema<CloudLoadbalancingPool>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -43939,7 +43939,7 @@ export const putCloudProjectRegionLoadbalancingPoolMember: API.OperationMethod<
     __c70,
     0,
   ) as any as S.Schema<PutCloudProjectRegionLoadbalancingPoolMemberRequest>,
-  output: __S(8480, __c265, 0) as any as S.Schema<CloudLoadbalancingPoolMember>,
+  output: __S(8448, __c264, 0) as any as S.Schema<CloudLoadbalancingPoolMember>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -43957,7 +43957,7 @@ export const putCloudProjectRegionQuotaStorage: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2304, __c72, 0) as any as S.Schema<PutCloudProjectRegionQuotaStorageRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<PutCloudProjectRegionQuotaStorageResponse>,
+  output: __S(11648, __c364, 0) as any as S.Schema<PutCloudProjectRegionQuotaStorageResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -43975,7 +43975,7 @@ export const putCloudProjectRegionShare: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2336, __c73, 0) as any as S.Schema<PutCloudProjectRegionShareRequest>,
-  output: __S(17666, __c552, 2) as any as S.Schema<CloudOperation>,
+  output: __S(17634, __c551, 2) as any as S.Schema<CloudOperation>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -43993,7 +43993,7 @@ export const putCloudProjectRegionVolume: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2368, __c74, 0) as any as S.Schema<PutCloudProjectRegionVolumeRequest>,
-  output: __S(17666, __c552, 2) as any as S.Schema<CloudOperation>,
+  output: __S(17634, __c551, 2) as any as S.Schema<CloudOperation>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -44011,7 +44011,7 @@ export const putCloudProjectServiceInfos: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2400, __c75, 0) as any as S.Schema<PutCloudProjectServiceInfosRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<PutCloudProjectServiceInfosResponse>,
+  output: __S(11648, __c364, 0) as any as S.Schema<PutCloudProjectServiceInfosResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -44029,7 +44029,7 @@ export const putCloudProjectStorage: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2432, __c76, 0) as any as S.Schema<PutCloudProjectStorageRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<PutCloudProjectStorageResponse>,
+  output: __S(11648, __c364, 0) as any as S.Schema<PutCloudProjectStorageResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -44047,7 +44047,7 @@ export const putCloudProjectUserRole: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2464, __c77, 0) as any as S.Schema<PutCloudProjectUserRoleRequest>,
-  output: __S(9440, __c295, 0) as any as S.Schema<CloudUserUserDetail>,
+  output: __S(9408, __c294, 0) as any as S.Schema<CloudUserUserDetail>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -44065,7 +44065,7 @@ export const putCloudProjectVolume: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2496, __c78, 0) as any as S.Schema<PutCloudProjectVolumeRequest>,
-  output: __S(12832, __c401, 0) as any as S.Schema<CloudVolumeVolume>,
+  output: __S(12800, __c400, 0) as any as S.Schema<CloudVolumeVolume>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -44083,7 +44083,7 @@ export const rebootCloudProjectInstance: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2528, __c79, 0) as any as S.Schema<RebootCloudProjectInstanceRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<RebootCloudProjectInstanceResponse>,
+  output: __S(11648, __c364, 0) as any as S.Schema<RebootCloudProjectInstanceResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -44101,7 +44101,7 @@ export const regenerateCloudProjectUserPassword: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2560, __c80, 0) as any as S.Schema<RegenerateCloudProjectUserPasswordRequest>,
-  output: __S(9440, __c295, 0) as any as S.Schema<CloudUserUserDetail>,
+  output: __S(9408, __c294, 0) as any as S.Schema<CloudUserUserDetail>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -44119,7 +44119,7 @@ export const reinstallOnRegion: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2592, __c81, 0) as any as S.Schema<ReinstallOnRegionRequest>,
-  output: __S(17666, __c552, 2) as any as S.Schema<CloudOperation>,
+  output: __S(17634, __c551, 2) as any as S.Schema<CloudOperation>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -44137,7 +44137,7 @@ export const renewCloudProjectAiToken: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2752, __c86, 0) as any as S.Schema<RenewCloudProjectAiTokenRequest>,
-  output: __S(24354, __c761, 2) as any as S.Schema<CloudProjectAiTokenToken>,
+  output: __S(24322, __c760, 2) as any as S.Schema<CloudProjectAiTokenToken>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -44532,8 +44532,8 @@ export const resetCloudProjectDatabaseMysqlQueryStatistics: API.OperationMethod<
     0,
   ) as any as S.Schema<ResetCloudProjectDatabaseMysqlQueryStatisticsRequest>,
   output: __S(
-    11680,
-    __c365,
+    11648,
+    __c364,
     0,
   ) as any as S.Schema<ResetCloudProjectDatabaseMysqlQueryStatisticsResponse>,
   errors: [],
@@ -44662,8 +44662,8 @@ export const resetCloudProjectDatabasePostgresqlQueryStatistics: API.OperationMe
     0,
   ) as any as S.Schema<ResetCloudProjectDatabasePostgresqlQueryStatisticsRequest>,
   output: __S(
-    11680,
-    __c365,
+    11648,
+    __c364,
     0,
   ) as any as S.Schema<ResetCloudProjectDatabasePostgresqlQueryStatisticsResponse>,
   errors: [],
@@ -44817,7 +44817,7 @@ export const resetCloudProjectKube: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3680, __c115, 0) as any as S.Schema<ResetCloudProjectKubeRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<ResetCloudProjectKubeResponse>,
+  output: __S(11648, __c364, 0) as any as S.Schema<ResetCloudProjectKubeResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -44835,7 +44835,7 @@ export const resetCloudProjectKubeKubeconfig: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3712, __c116, 0) as any as S.Schema<ResetCloudProjectKubeKubeconfigRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<ResetCloudProjectKubeKubeconfigResponse>,
+  output: __S(11648, __c364, 0) as any as S.Schema<ResetCloudProjectKubeKubeconfigResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -44853,7 +44853,7 @@ export const resizeCloudProjectInstance: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3744, __c117, 0) as any as S.Schema<ResizeCloudProjectInstanceRequest>,
-  output: __S(22307, __c697, 3) as any as S.Schema<CloudInstanceInstance>,
+  output: __S(22275, __c696, 3) as any as S.Schema<CloudInstanceInstance>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -44876,8 +44876,8 @@ export const restartCloudProjectDatabaseKafkaConnectConnector: API.OperationMeth
     0,
   ) as any as S.Schema<RestartCloudProjectDatabaseKafkaConnectConnectorRequest>,
   output: __S(
-    11680,
-    __c365,
+    11648,
+    __c364,
     0,
   ) as any as S.Schema<RestartCloudProjectDatabaseKafkaConnectConnectorResponse>,
   errors: [],
@@ -44902,8 +44902,8 @@ export const restartCloudProjectDatabaseKafkaConnectConnectorTask: API.Operation
     0,
   ) as any as S.Schema<RestartCloudProjectDatabaseKafkaConnectConnectorTaskRequest>,
   output: __S(
-    11680,
-    __c365,
+    11648,
+    __c364,
     0,
   ) as any as S.Schema<RestartCloudProjectDatabaseKafkaConnectConnectorTaskResponse>,
   errors: [],
@@ -44923,7 +44923,7 @@ export const restartCloudProjectKube: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3904, __c122, 0) as any as S.Schema<RestartCloudProjectKubeRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<RestartCloudProjectKubeResponse>,
+  output: __S(11648, __c364, 0) as any as S.Schema<RestartCloudProjectKubeResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -44941,7 +44941,7 @@ export const restoreCloudProjectDatabaseMongodb: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3936, __c123, 0) as any as S.Schema<RestoreCloudProjectDatabaseMongodbRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<RestoreCloudProjectDatabaseMongodbResponse>,
+  output: __S(11648, __c364, 0) as any as S.Schema<RestoreCloudProjectDatabaseMongodbResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -44981,7 +44981,7 @@ export const restoreCloudProjectRegionColdArchive: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4000, __c125, 0) as any as S.Schema<RestoreCloudProjectRegionColdArchiveRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<RestoreCloudProjectRegionColdArchiveResponse>,
+  output: __S(11648, __c364, 0) as any as S.Schema<RestoreCloudProjectRegionColdArchiveResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -44999,7 +44999,7 @@ export const restoreCloudProjectRegionStorageObject: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4032, __c126, 0) as any as S.Schema<RestoreCloudProjectRegionStorageObjectRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<RestoreCloudProjectRegionStorageObjectResponse>,
+  output: __S(11648, __c364, 0) as any as S.Schema<RestoreCloudProjectRegionStorageObjectResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -45022,8 +45022,8 @@ export const restoreCloudProjectRegionStorageObjectVersion: API.OperationMethod<
     0,
   ) as any as S.Schema<RestoreCloudProjectRegionStorageObjectVersionRequest>,
   output: __S(
-    11680,
-    __c365,
+    11648,
+    __c364,
     0,
   ) as any as S.Schema<RestoreCloudProjectRegionStorageObjectVersionResponse>,
   errors: [],
@@ -45043,7 +45043,7 @@ export const restoreCloudProjectRegionVolumeBackup: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4096, __c128, 0) as any as S.Schema<RestoreCloudProjectRegionVolumeBackupRequest>,
-  output: __S(8992, __c281, 0) as any as S.Schema<CloudVolumeBackupVolumeBackup>,
+  output: __S(8960, __c280, 0) as any as S.Schema<CloudVolumeBackupVolumeBackup>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -45066,8 +45066,8 @@ export const resumeCloudProjectDatabaseKafkaConnectConnector: API.OperationMetho
     0,
   ) as any as S.Schema<ResumeCloudProjectDatabaseKafkaConnectConnectorRequest>,
   output: __S(
-    11680,
-    __c365,
+    11648,
+    __c364,
     0,
   ) as any as S.Schema<ResumeCloudProjectDatabaseKafkaConnectConnectorResponse>,
   errors: [],
@@ -45087,7 +45087,7 @@ export const resumeCloudProjectInstance: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4160, __c130, 0) as any as S.Schema<ResumeCloudProjectInstanceRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<ResumeCloudProjectInstanceResponse>,
+  output: __S(11648, __c364, 0) as any as S.Schema<ResumeCloudProjectInstanceResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -45105,7 +45105,7 @@ export const shareCloudProjectRegion: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4224, __c132, 0) as any as S.Schema<ShareCloudProjectRegionRequest>,
-  output: __S(17666, __c552, 2) as any as S.Schema<CloudOperation>,
+  output: __S(17634, __c551, 2) as any as S.Schema<CloudOperation>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -45141,7 +45141,7 @@ export const startCloudProjectInstance: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4288, __c134, 0) as any as S.Schema<StartCloudProjectInstanceRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<StartCloudProjectInstanceResponse>,
+  output: __S(11648, __c364, 0) as any as S.Schema<StartCloudProjectInstanceResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -45159,7 +45159,7 @@ export const stopCloudProjectDatabaseMysqlMigration: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4320, __c135, 0) as any as S.Schema<StopCloudProjectDatabaseMysqlMigrationRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<StopCloudProjectDatabaseMysqlMigrationResponse>,
+  output: __S(11648, __c364, 0) as any as S.Schema<StopCloudProjectDatabaseMysqlMigrationResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -45177,7 +45177,7 @@ export const stopCloudProjectInstance: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4352, __c136, 0) as any as S.Schema<StopCloudProjectInstanceRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<StopCloudProjectInstanceResponse>,
+  output: __S(11648, __c364, 0) as any as S.Schema<StopCloudProjectInstanceResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -45195,7 +45195,7 @@ export const terminateCloudProject: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4384, __c137, 0) as any as S.Schema<TerminateCloudProjectRequest>,
-  output: __S(16160, __c505, 0) as any as S.Schema<TerminateCloudProjectResponse>,
+  output: __S(16128, __c504, 0) as any as S.Schema<TerminateCloudProjectResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -45213,7 +45213,7 @@ export const updateAlerting: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4416, __c138, 0) as any as S.Schema<UpdateAlertingRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<UpdateAlertingResponse>,
+  output: __S(11648, __c364, 0) as any as S.Schema<UpdateAlertingResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -45231,7 +45231,7 @@ export const updateApplicationLoadBalancer: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4448, __c139, 0) as any as S.Schema<UpdateApplicationLoadBalancerRequest>,
-  output: __S(17824, __c557, 0) as any as S.Schema<CloudProjectApplicationLoadBalancer>,
+  output: __S(17792, __c556, 0) as any as S.Schema<CloudProjectApplicationLoadBalancer>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -45249,7 +45249,7 @@ export const updateCloudProjectKube: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4480, __c140, 0) as any as S.Schema<UpdateCloudProjectKubeRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<UpdateCloudProjectKubeResponse>,
+  output: __S(11648, __c364, 0) as any as S.Schema<UpdateCloudProjectKubeResponse>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -45267,7 +45267,7 @@ export const updateCloudProjectLab: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4512, __c141, 0) as any as S.Schema<UpdateCloudProjectLabRequest>,
-  output: __S(17666, __c552, 2) as any as S.Schema<CloudOperation>,
+  output: __S(17634, __c551, 2) as any as S.Schema<CloudOperation>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -45286,8 +45286,8 @@ export const updateCloudProjectRegionColdArchivePolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4576, __c143, 0) as any as S.Schema<UpdateCloudProjectRegionColdArchivePolicyRequest>,
   output: __S(
-    11680,
-    __c365,
+    11648,
+    __c364,
     0,
   ) as any as S.Schema<UpdateCloudProjectRegionColdArchivePolicyResponse>,
   errors: [],
@@ -45307,7 +45307,7 @@ export const updateContainerLifecycleConfiguration: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4608, __c144, 0) as any as S.Schema<UpdateContainerLifecycleConfigurationRequest>,
-  output: __S(10090, __c315, 10) as any as S.Schema<CloudStorageLifecycleConfiguration>,
+  output: __S(10058, __c314, 10) as any as S.Schema<CloudStorageLifecycleConfiguration>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -45325,7 +45325,7 @@ export const updateLoadBalancer: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4640, __c145, 0) as any as S.Schema<UpdateLoadBalancerRequest>,
-  output: __S(10306, __c322, 2) as any as S.Schema<CloudProjectLoadBalancer>,
+  output: __S(10274, __c321, 2) as any as S.Schema<CloudProjectLoadBalancer>,
   errors: [BadRequest, Forbidden],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -45343,7 +45343,7 @@ export const updateNetworkLoadBalancer: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4672, __c146, 0) as any as S.Schema<UpdateNetworkLoadBalancerRequest>,
-  output: __S(17824, __c557, 0) as any as S.Schema<CloudProjectNetworkLoadBalancer>,
+  output: __S(17792, __c556, 0) as any as S.Schema<CloudProjectNetworkLoadBalancer>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -45397,7 +45397,7 @@ export const updateStorageContainerOnRegion: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4768, __c149, 0) as any as S.Schema<UpdateStorageContainerOnRegionRequest>,
-  output: __S(10628, __c332, 4) as any as S.Schema<CloudStorageContainer>,
+  output: __S(10596, __c331, 4) as any as S.Schema<CloudStorageContainer>,
   errors: [],
   serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
@@ -45591,7 +45591,7 @@ function __c9(j: number): any {
         S.Struct({
           serviceName: S.String.pipe(T.Label()),
           clusterId: S.String.pipe(T.Label()),
-          body: __S(19392, __c606, 0).pipe(T.HttpBody()),
+          body: __S(19360, __c605, 0).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -45640,7 +45640,7 @@ function __c11(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           clusterId: S.String.pipe(T.Label()),
           userId: S.String.pipe(T.Label()),
-          roles: S.optional(__S(17696, __c553, 0)),
+          roles: S.optional(__S(17664, __c552, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -45687,7 +45687,7 @@ function __c13(j: number): any {
         S.Struct({
           serviceName: S.String.pipe(T.Label()),
           clusterId: S.String.pipe(T.Label()),
-          body: __S(19392, __c606, 0).pipe(T.HttpBody()),
+          body: __S(19360, __c605, 0).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -45706,7 +45706,7 @@ function __c14(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           clusterId: S.String.pipe(T.Label()),
           destinationServiceId: S.String,
-          parameters: S.optional(S.NullOr(__S(19392, __c606, 0))),
+          parameters: S.optional(S.NullOr(__S(19360, __c605, 0))),
           sourceServiceId: S.String,
           type: S.optional(S.String),
         }).pipe(
@@ -45758,7 +45758,7 @@ function __c16(j: number): any {
         S.Struct({
           serviceName: S.String.pipe(T.Label()),
           clusterId: S.String.pipe(T.Label()),
-          body: __S(19392, __c606, 0).pipe(T.HttpBody()),
+          body: __S(19360, __c605, 0).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -45806,7 +45806,7 @@ function __c18(j: number): any {
         S.Struct({
           serviceName: S.String.pipe(T.Label()),
           clusterId: S.String.pipe(T.Label()),
-          body: __S(19392, __c606, 0).pipe(T.HttpBody()),
+          body: __S(19360, __c605, 0).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -45825,7 +45825,7 @@ function __c19(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           clusterId: S.String.pipe(T.Label()),
           connectorId: S.String.pipe(T.Label()),
-          configuration: __S(19392, __c606, 0),
+          configuration: __S(19360, __c605, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -45879,8 +45879,8 @@ function __c21(j: number): any {
           replicationPolicyClass: S.optional(S.String),
           syncGroupOffsets: S.optional(S.Boolean),
           syncInterval: S.optional(S.Number),
-          topicExcludeList: S.optional(__S(17696, __c553, 0)),
-          topics: S.optional(__S(17696, __c553, 0)),
+          topicExcludeList: S.optional(__S(17664, __c552, 0)),
+          topics: S.optional(__S(17664, __c552, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -45998,7 +45998,7 @@ function __c26(j: number): any {
         S.Struct({
           serviceName: S.String.pipe(T.Label()),
           clusterId: S.String.pipe(T.Label()),
-          body: __S(19392, __c606, 0).pipe(T.HttpBody()),
+          body: __S(19360, __c605, 0).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -46117,7 +46117,7 @@ function __c31(j: number): any {
           clusterId: S.String.pipe(T.Label()),
           userId: S.String.pipe(T.Label()),
           password: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          roles: S.optional(__S(17696, __c553, 0)),
+          roles: S.optional(__S(17664, __c552, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -46165,7 +46165,7 @@ function __c33(j: number): any {
         S.Struct({
           serviceName: S.String.pipe(T.Label()),
           clusterId: S.String.pipe(T.Label()),
-          body: __S(19392, __c606, 0).pipe(T.HttpBody()),
+          body: __S(19360, __c605, 0).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -46214,7 +46214,7 @@ function __c35(j: number): any {
         S.Struct({
           serviceName: S.String.pipe(T.Label()),
           clusterId: S.String.pipe(T.Label()),
-          body: __S(19392, __c606, 0).pipe(T.HttpBody()),
+          body: __S(19360, __c605, 0).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -46299,7 +46299,7 @@ function __c39(j: number): any {
         S.Struct({
           serviceName: S.String.pipe(T.Label()),
           clusterId: S.String.pipe(T.Label()),
-          body: __S(19392, __c606, 0).pipe(T.HttpBody()),
+          body: __S(19360, __c605, 0).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -46340,7 +46340,7 @@ function __c41(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           clusterId: S.String.pipe(T.Label()),
           userId: S.String.pipe(T.Label()),
-          roles: S.optional(__S(17696, __c553, 0)),
+          roles: S.optional(__S(17664, __c552, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -46388,7 +46388,7 @@ function __c43(j: number): any {
         S.Struct({
           serviceName: S.String.pipe(T.Label()),
           clusterId: S.String.pipe(T.Label()),
-          body: __S(19392, __c606, 0).pipe(T.HttpBody()),
+          body: __S(19360, __c605, 0).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -46407,10 +46407,10 @@ function __c44(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           clusterId: S.String.pipe(T.Label()),
           userId: S.String.pipe(T.Label()),
-          categories: S.optional(__S(17696, __c553, 0)),
-          channels: S.optional(__S(17696, __c553, 0)),
-          commands: S.optional(__S(17696, __c553, 0)),
-          keys: S.optional(__S(17696, __c553, 0)),
+          categories: S.optional(__S(17664, __c552, 0)),
+          channels: S.optional(__S(17664, __c552, 0)),
+          commands: S.optional(__S(17664, __c552, 0)),
+          keys: S.optional(__S(17664, __c552, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -46458,7 +46458,7 @@ function __c46(j: number): any {
         S.Struct({
           serviceName: S.String.pipe(T.Label()),
           clusterId: S.String.pipe(T.Label()),
-          body: __S(19392, __c606, 0).pipe(T.HttpBody()),
+          body: __S(19360, __c605, 0).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -46536,10 +46536,10 @@ function __c49(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           clusterId: S.String.pipe(T.Label()),
           userId: S.String.pipe(T.Label()),
-          categories: S.optional(__S(17696, __c553, 0)),
-          channels: S.optional(__S(17696, __c553, 0)),
-          commands: S.optional(__S(17696, __c553, 0)),
-          keys: S.optional(__S(17696, __c553, 0)),
+          categories: S.optional(__S(17664, __c552, 0)),
+          channels: S.optional(__S(17664, __c552, 0)),
+          commands: S.optional(__S(17664, __c552, 0)),
+          keys: S.optional(__S(17664, __c552, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -46610,7 +46610,7 @@ function __c53(j: number): any {
         S.Struct({
           serviceName: S.String.pipe(T.Label()),
           kubeId: S.String.pipe(T.Label()),
-          ips: S.optional(__S(17696, __c553, 0)),
+          ips: S.optional(__S(17664, __c552, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -46635,7 +46635,7 @@ function __c54(j: number): any {
           desiredNodes: S.optional(S.Number),
           maxNodes: S.optional(S.Number),
           minNodes: S.optional(S.Number),
-          nodesToRemove: S.optional(__S(17696, __c553, 0)),
+          nodesToRemove: S.optional(__S(17664, __c552, 0)),
           template: S.optional(__S(6566, __c205, 6)),
         }).pipe(
           T.Http({
@@ -46656,10 +46656,10 @@ function __c55(j: number): any {
           kubeId: S.String.pipe(T.Label()),
           caContent: S.optional(S.NullOr(S.String)),
           clientId: S.optional(S.String),
-          groupsClaim: S.optional(S.NullOr(__S(17696, __c553, 0))),
+          groupsClaim: S.optional(S.NullOr(__S(17664, __c552, 0))),
           groupsPrefix: S.optional(S.NullOr(S.String)),
           issuerUrl: S.optional(S.String),
-          requiredClaim: S.optional(S.NullOr(__S(17696, __c553, 0))),
+          requiredClaim: S.optional(S.NullOr(__S(17664, __c552, 0))),
           signingAlgorithms: S.optional(S.NullOr(__S(6592, __c206, 0))),
           usernameClaim: S.optional(S.NullOr(S.String)),
           usernamePrefix: S.optional(S.NullOr(S.String)),
@@ -46830,7 +46830,7 @@ function __c64(j: number): any {
           regionName: S.String.pipe(T.Label()),
           healthMonitorId: S.String.pipe(T.Label()),
           delay: S.optional(S.Number),
-          httpConfiguration: S.optional(__S(7872, __c246, 0)),
+          httpConfiguration: S.optional(__S(7840, __c245, 0)),
           maxRetries: S.optional(S.Number),
           maxRetriesDown: S.optional(S.Number),
           name: S.optional(S.String),
@@ -46904,7 +46904,7 @@ function __c67(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           regionName: S.String.pipe(T.Label()),
           listenerId: S.String.pipe(T.Label()),
-          allowedCidrs: S.optional(__S(17696, __c553, 0)),
+          allowedCidrs: S.optional(__S(17664, __c552, 0)),
           certificateId: S.optional(S.String),
           defaultPoolId: S.optional(S.String),
           description: S.optional(S.String),
@@ -46950,7 +46950,7 @@ function __c69(j: number): any {
           poolId: S.String.pipe(T.Label()),
           algorithm: S.optional(S.NullOr(S.String)),
           name: S.optional(S.NullOr(S.String)),
-          sessionPersistence: S.optional(S.NullOr(__S(8160, __c255, 0))),
+          sessionPersistence: S.optional(S.NullOr(__S(8128, __c254, 0))),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -47079,7 +47079,7 @@ function __c75(j: number): any {
       return S.suspend(() =>
         S.Struct({
           serviceName: S.String.pipe(T.Label()),
-          renew: S.optional(S.NullOr(__S(27104, __c847, 0))),
+          renew: S.optional(S.NullOr(__S(27072, __c846, 0))),
         }).pipe(
           T.Http({ method: "PUT", uri: "/cloud/project/{serviceName}/serviceInfos", code: 200 }),
         ),
@@ -47111,7 +47111,7 @@ function __c77(j: number): any {
         S.Struct({
           serviceName: S.String.pipe(T.Label()),
           userId: S.Number.pipe(T.Label()),
-          rolesIds: __S(17696, __c553, 0),
+          rolesIds: __S(17664, __c552, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -48066,7 +48066,7 @@ function __c131(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           clusterId: S.String.pipe(T.Label()),
           name: S.optional(S.String),
-          roles: S.optional(__S(17696, __c553, 0)),
+          roles: S.optional(__S(17664, __c552, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -48202,7 +48202,7 @@ function __c138(j: number): any {
           id: S.String.pipe(T.Label()),
           delay: S.optional(S.Number),
           email: S.optional(S.String),
-          emails: S.optional(__S(17696, __c553, 0)),
+          emails: S.optional(__S(17664, __c552, 0)),
           monthlyThreshold: S.optional(S.Number),
           name: S.optional(S.String),
           service: S.optional(S.String),
@@ -48320,7 +48320,7 @@ function __c144(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           regionName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
-          rules: S.NullOr(__S(10089, __c315, 9)),
+          rules: S.NullOr(__S(10057, __c314, 9)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -48422,12 +48422,12 @@ function __c149(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           regionName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
-          encryption: S.optional(S.NullOr(__S(10112, __c316, 0))),
-          lifecycle: S.optional(S.NullOr(__S(10090, __c315, 10))),
-          objectLock: S.optional(S.NullOr(__S(10114, __c316, 2))),
-          replication: S.optional(S.NullOr(__S(9987, __c312, 3))),
-          tags: S.optional(S.NullOr(__S(19392, __c606, 0))),
-          versioning: S.optional(S.NullOr(__S(10116, __c316, 4))),
+          encryption: S.optional(S.NullOr(__S(10080, __c315, 0))),
+          lifecycle: S.optional(S.NullOr(__S(10058, __c314, 10))),
+          objectLock: S.optional(S.NullOr(__S(10082, __c315, 2))),
+          replication: S.optional(S.NullOr(__S(9955, __c311, 3))),
+          tags: S.optional(S.NullOr(__S(19360, __c605, 0))),
+          versioning: S.optional(S.NullOr(__S(10084, __c315, 4))),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -48464,7 +48464,7 @@ function __c151(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           clusterId: S.String.pipe(T.Label()),
           destinationServiceId: S.String,
-          parameters: S.optional(S.NullOr(__S(19392, __c606, 0))),
+          parameters: S.optional(S.NullOr(__S(19360, __c605, 0))),
           sourceServiceId: S.String,
           type: S.optional(S.String),
         }).pipe(
@@ -48657,7 +48657,7 @@ function __c160(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           clusterId: S.String.pipe(T.Label()),
           destinationServiceId: S.String,
-          parameters: S.optional(S.NullOr(__S(19392, __c606, 0))),
+          parameters: S.optional(S.NullOr(__S(19360, __c605, 0))),
           sourceServiceId: S.String,
           type: S.optional(S.String),
         }).pipe(
@@ -48881,7 +48881,7 @@ function __c172(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           clusterId: S.String.pipe(T.Label()),
           destinationServiceId: S.String,
-          parameters: S.optional(S.NullOr(__S(19392, __c606, 0))),
+          parameters: S.optional(S.NullOr(__S(19360, __c605, 0))),
           sourceServiceId: S.String,
           type: S.optional(S.String),
         }).pipe(
@@ -48957,7 +48957,7 @@ function __c176(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           clusterId: S.String.pipe(T.Label()),
           name: S.optional(S.String),
-          roles: S.optional(__S(17696, __c553, 0)),
+          roles: S.optional(__S(17664, __c552, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -49002,7 +49002,7 @@ function __c178(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           clusterId: S.String.pipe(T.Label()),
           destinationServiceId: S.String,
-          parameters: S.optional(S.NullOr(__S(19392, __c606, 0))),
+          parameters: S.optional(S.NullOr(__S(19360, __c605, 0))),
           sourceServiceId: S.String,
           type: S.optional(S.String),
         }).pipe(
@@ -49059,10 +49059,10 @@ function __c181(j: number): any {
         S.Struct({
           serviceName: S.String.pipe(T.Label()),
           clusterId: S.String.pipe(T.Label()),
-          categories: S.optional(__S(17696, __c553, 0)),
-          channels: S.optional(__S(17696, __c553, 0)),
-          commands: S.optional(__S(17696, __c553, 0)),
-          keys: S.optional(__S(17696, __c553, 0)),
+          categories: S.optional(__S(17664, __c552, 0)),
+          channels: S.optional(__S(17664, __c552, 0)),
+          commands: S.optional(__S(17664, __c552, 0)),
+          keys: S.optional(__S(17664, __c552, 0)),
           name: S.String,
         }).pipe(
           T.Http({
@@ -49079,12 +49079,12 @@ function __c182(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          categories: S.optional(__S(17696, __c553, 0)),
-          channels: S.optional(__S(17696, __c553, 0)),
-          commands: S.optional(__S(17696, __c553, 0)),
+          categories: S.optional(__S(17664, __c552, 0)),
+          channels: S.optional(__S(17664, __c552, 0)),
+          commands: S.optional(__S(17664, __c552, 0)),
           createdAt: S.optional(S.String),
           id: S.optional(S.String),
-          keys: S.optional(__S(17696, __c553, 0)),
+          keys: S.optional(__S(17664, __c552, 0)),
           password: S.optional(S.String.pipe(T.SensitiveValue({}))),
           status: S.optional(S.String),
           username: S.optional(S.String),
@@ -49130,7 +49130,7 @@ function __c184(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           clusterId: S.String.pipe(T.Label()),
           destinationServiceId: S.String,
-          parameters: S.optional(S.NullOr(__S(19392, __c606, 0))),
+          parameters: S.optional(S.NullOr(__S(19360, __c605, 0))),
           sourceServiceId: S.String,
           type: S.optional(S.String),
         }).pipe(
@@ -49205,10 +49205,10 @@ function __c188(j: number): any {
         S.Struct({
           serviceName: S.String.pipe(T.Label()),
           clusterId: S.String.pipe(T.Label()),
-          categories: S.optional(__S(17696, __c553, 0)),
-          channels: S.optional(__S(17696, __c553, 0)),
-          commands: S.optional(__S(17696, __c553, 0)),
-          keys: S.optional(__S(17696, __c553, 0)),
+          categories: S.optional(__S(17664, __c552, 0)),
+          channels: S.optional(__S(17664, __c552, 0)),
+          commands: S.optional(__S(17664, __c552, 0)),
+          keys: S.optional(__S(17664, __c552, 0)),
           name: S.String,
         }).pipe(
           T.Http({
@@ -49235,7 +49235,7 @@ function __c189(j: number): any {
       return S.suspend(() =>
         S.Struct({
           serviceName: S.String.pipe(T.Label()),
-          autobackup: S.optional(S.NullOr(__S(13216, __c413, 0))),
+          autobackup: S.optional(S.NullOr(__S(13184, __c412, 0))),
           availabilityZone: S.optional(S.NullOr(S.String)),
           flavorId: S.String,
           groupId: S.optional(S.NullOr(S.String)),
@@ -49326,7 +49326,7 @@ function __c193(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
-          instance_ids: S.optional(__S(17696, __c553, 0)),
+          instance_ids: S.optional(__S(17664, __c552, 0)),
           name: S.optional(S.String),
           region: S.optional(S.String),
           type: S.optional(S.String),
@@ -49533,7 +49533,7 @@ function __c204(j: number): any {
           attachFloatingIps: S.optional(S.NullOr(__S(6560, __c205, 0))),
           autoscale: S.optional(S.NullOr(S.Boolean)),
           autoscaling: S.optional(__S(6561, __c205, 1)),
-          availabilityZones: S.optional(S.NullOr(__S(17696, __c553, 0))),
+          availabilityZones: S.optional(S.NullOr(__S(17664, __c552, 0))),
           desiredNodes: S.optional(S.Number),
           flavorName: S.String,
           maxNodes: S.optional(S.Number),
@@ -49586,9 +49586,9 @@ function __c205(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          annotations: __S(19392, __c606, 0),
-          finalizers: __S(17696, __c553, 0),
-          labels: __S(19392, __c606, 0),
+          annotations: __S(19360, __c605, 0),
+          finalizers: __S(17664, __c552, 0),
+          labels: __S(19360, __c605, 0),
         }),
       ).annotate({ identifier: "CloudKubeNodePoolTemplateMetadata" });
     case 3:
@@ -49638,7 +49638,7 @@ function __c207(j: number): any {
           kubeProxyMode: S.optional(S.NullOr(S.String)),
           loadBalancersSubnetId: S.optional(S.NullOr(S.String)),
           name: S.optional(S.String),
-          nextUpgradeVersions: S.optional(S.NullOr(__S(17696, __c553, 0))),
+          nextUpgradeVersions: S.optional(S.NullOr(__S(17664, __c552, 0))),
           nodesSubnetId: S.optional(S.NullOr(S.String)),
           nodesUrl: S.optional(S.String),
           plan: S.optional(S.String),
@@ -49795,7 +49795,7 @@ function __c212(j: number): any {
         S.Struct({
           serviceName: S.String.pipe(T.Label()),
           kubeId: S.String.pipe(T.Label()),
-          ips: S.optional(__S(17696, __c553, 0)),
+          ips: S.optional(__S(17664, __c552, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -49809,7 +49809,7 @@ function __c212(j: number): any {
 function __c213(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => __S(17696, __c553, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(17664, __c552, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "CreateCloudProjectKubeIpRestrictionResponse",
       });
   }
@@ -49829,19 +49829,15 @@ function __c214(j: number): any {
           }),
         ),
       ).annotate({ identifier: "CreateCloudProjectKubeKubeconfigRequest" });
-  }
-}
-function __c215(j: number): any {
-  switch (j) {
-    case 0:
+    case 1:
       return S.suspend(() =>
         S.Struct({
-          content: S.optional(S.String),
+          content: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "CloudKubeKubeconfig" });
   }
 }
-function __c216(j: number): any {
+function __c215(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49860,7 +49856,7 @@ function __c216(j: number): any {
       ).annotate({ identifier: "CreateCloudProjectKubeLogSubscriptionRequest" });
   }
 }
-function __c217(j: number): any {
+function __c216(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49878,7 +49874,7 @@ function __c217(j: number): any {
       ).annotate({ identifier: "CreateCloudProjectKubeLogUrlRequest" });
   }
 }
-function __c218(j: number): any {
+function __c217(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49889,7 +49885,7 @@ function __c218(j: number): any {
           attachFloatingIps: S.optional(S.NullOr(__S(6560, __c205, 0))),
           autoscale: S.optional(S.NullOr(S.Boolean)),
           autoscaling: S.optional(__S(6561, __c205, 1)),
-          availabilityZones: S.optional(S.NullOr(__S(17696, __c553, 0))),
+          availabilityZones: S.optional(S.NullOr(__S(17664, __c552, 0))),
           desiredNodes: S.optional(S.Number),
           flavorName: S.String,
           maxNodes: S.optional(S.Number),
@@ -49907,7 +49903,7 @@ function __c218(j: number): any {
       ).annotate({ identifier: "CreateCloudProjectKubeNodepoolRequest" });
   }
 }
-function __c219(j: number): any {
+function __c218(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49916,7 +49912,7 @@ function __c219(j: number): any {
           attachFloatingIps: S.optional(S.NullOr(__S(6560, __c205, 0))),
           autoscale: S.optional(S.Boolean),
           autoscaling: S.optional(__S(6561, __c205, 1)),
-          availabilityZones: S.optional(S.NullOr(__S(17696, __c553, 0))),
+          availabilityZones: S.optional(S.NullOr(__S(17664, __c552, 0))),
           availableNodes: S.optional(S.Number),
           createdAt: S.optional(S.String),
           currentNodes: S.optional(S.Number),
@@ -49937,7 +49933,7 @@ function __c219(j: number): any {
       ).annotate({ identifier: "CloudKubeNodePool" });
   }
 }
-function __c220(j: number): any {
+function __c219(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49946,10 +49942,10 @@ function __c220(j: number): any {
           kubeId: S.String.pipe(T.Label()),
           caContent: S.optional(S.NullOr(S.String)),
           clientId: S.String,
-          groupsClaim: S.optional(S.NullOr(__S(17696, __c553, 0))),
+          groupsClaim: S.optional(S.NullOr(__S(17664, __c552, 0))),
           groupsPrefix: S.optional(S.NullOr(S.String)),
           issuerUrl: S.String,
-          requiredClaim: S.optional(S.NullOr(__S(17696, __c553, 0))),
+          requiredClaim: S.optional(S.NullOr(__S(17664, __c552, 0))),
           signingAlgorithms: S.optional(S.NullOr(__S(6592, __c206, 0))),
           usernameClaim: S.optional(S.NullOr(S.String)),
           usernamePrefix: S.optional(S.NullOr(S.String)),
@@ -49963,17 +49959,17 @@ function __c220(j: number): any {
       ).annotate({ identifier: "CreateCloudProjectKubeOpenIdConnectRequest" });
   }
 }
-function __c221(j: number): any {
+function __c220(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           caContent: S.optional(S.NullOr(S.String)),
           clientId: S.optional(S.String),
-          groupsClaim: S.optional(S.NullOr(__S(17696, __c553, 0))),
+          groupsClaim: S.optional(S.NullOr(__S(17664, __c552, 0))),
           groupsPrefix: S.optional(S.NullOr(S.String)),
           issuerUrl: S.optional(S.String),
-          requiredClaim: S.optional(S.NullOr(__S(17696, __c553, 0))),
+          requiredClaim: S.optional(S.NullOr(__S(17664, __c552, 0))),
           signingAlgorithms: S.optional(S.NullOr(__S(6592, __c206, 0))),
           usernameClaim: S.optional(S.NullOr(S.String)),
           usernamePrefix: S.optional(S.NullOr(S.String)),
@@ -49981,7 +49977,7 @@ function __c221(j: number): any {
       ).annotate({ identifier: "CloudKubeOpenIdConnect" });
   }
 }
-function __c222(j: number): any {
+function __c221(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49999,14 +49995,14 @@ function __c222(j: number): any {
       ).annotate({ identifier: "ApplyCloudProjectDatabaseM3dbMaintenanceRequest" });
   }
 }
-function __c223(j: number): any {
+function __c222(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           serviceName: S.String.pipe(T.Label()),
           name: S.String,
-          regions: S.optional(S.NullOr(__S(17696, __c553, 0))),
+          regions: S.optional(S.NullOr(__S(17664, __c552, 0))),
           vlanId: S.optional(S.NullOr(S.Number)),
         }).pipe(
           T.Http({
@@ -50018,7 +50014,7 @@ function __c223(j: number): any {
       ).annotate({ identifier: "CreateCloudProjectNetworkPrivateRequest" });
   }
 }
-function __c224(j: number): any {
+function __c223(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50029,13 +50025,13 @@ function __c224(j: number): any {
         }),
       ).annotate({ identifier: "CloudNetworkNetworkRegion" });
     case 1:
-      return S.Array(__S(7168, __c224, 0));
+      return S.Array(__S(7136, __c223, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
-          regions: S.optional(__S(7169, __c224, 1)),
+          regions: S.optional(__S(7137, __c223, 1)),
           status: S.optional(S.String),
           type: S.optional(S.NullOr(S.String)),
           vlanId: S.optional(S.Number),
@@ -50043,7 +50039,7 @@ function __c224(j: number): any {
       ).annotate({ identifier: "CloudNetworkNetwork" });
   }
 }
-function __c225(j: number): any {
+function __c224(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50061,7 +50057,7 @@ function __c225(j: number): any {
       ).annotate({ identifier: "CreateCloudProjectNetworkPrivateRegionRequest" });
   }
 }
-function __c226(j: number): any {
+function __c225(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50084,7 +50080,7 @@ function __c226(j: number): any {
       ).annotate({ identifier: "CreateCloudProjectNetworkPrivateSubnetRequest" });
   }
 }
-function __c227(j: number): any {
+function __c226(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50097,7 +50093,7 @@ function __c227(j: number): any {
         }),
       ).annotate({ identifier: "CloudNetworkIPPool" });
     case 1:
-      return S.Array(__S(7264, __c227, 0));
+      return S.Array(__S(7232, __c226, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -50105,12 +50101,12 @@ function __c227(j: number): any {
           dhcpEnabled: S.optional(S.Boolean),
           gatewayIp: S.optional(S.NullOr(S.String)),
           id: S.optional(S.String),
-          ipPools: S.optional(__S(7265, __c227, 1)),
+          ipPools: S.optional(__S(7233, __c226, 1)),
         }),
       ).annotate({ identifier: "CloudNetworkSubnet" });
   }
 }
-function __c228(j: number): any {
+function __c227(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50121,7 +50117,7 @@ function __c228(j: number): any {
       ).annotate({ identifier: "CreateCloudProjectRegionRequest" });
   }
 }
-function __c229(j: number): any {
+function __c228(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50132,24 +50128,24 @@ function __c229(j: number): any {
         }),
       ).annotate({ identifier: "CloudComponent" });
     case 1:
-      return S.Array(__S(7328, __c229, 0));
+      return S.Array(__S(7296, __c228, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          availabilityZones: S.optional(__S(17696, __c553, 0)),
+          availabilityZones: S.optional(__S(17664, __c552, 0)),
           continentCode: S.optional(S.String),
           countryCode: S.optional(S.String),
           datacenterLocation: S.optional(S.String),
           ipCountries: S.optional(__S(6592, __c206, 0)),
           name: S.optional(S.String),
-          services: S.optional(__S(7329, __c229, 1)),
+          services: S.optional(__S(7297, __c228, 1)),
           status: S.optional(S.String),
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "CloudRegion" });
   }
 }
-function __c230(j: number): any {
+function __c229(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50167,17 +50163,17 @@ function __c230(j: number): any {
       ).annotate({ identifier: "CreateCloudProjectRegionColdArchiveDestroyRequest" });
   }
 }
-function __c231(j: number): any {
+function __c230(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          allocationPools: S.optional(__S(7425, __c232, 1)),
+          allocationPools: S.optional(__S(7393, __c231, 1)),
           cidr: S.String,
-          dnsNameServers: S.optional(__S(17696, __c553, 0)),
+          dnsNameServers: S.optional(__S(17664, __c552, 0)),
           enableDhcp: S.Boolean,
           gatewayIp: S.optional(S.String),
-          hostRoutes: S.optional(__S(7427, __c232, 3)),
+          hostRoutes: S.optional(__S(7395, __c231, 3)),
           ipVersion: S.Number,
           name: S.optional(S.String),
           useDefaultPublicDNSResolver: S.optional(S.NullOr(S.Boolean)),
@@ -50187,7 +50183,7 @@ function __c231(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          subnet: __S(7392, __c231, 0),
+          subnet: __S(7360, __c230, 0),
           vlanId: S.optional(S.Number),
         }),
       ).annotate({ identifier: "CloudNetworkCreateNetworkForGatewaySummary" });
@@ -50198,7 +50194,7 @@ function __c231(j: number): any {
           regionName: S.String.pipe(T.Label()),
           model: S.String,
           name: S.String,
-          network: __S(7393, __c231, 1),
+          network: __S(7361, __c230, 1),
         }).pipe(
           T.Http({
             method: "POST",
@@ -50209,7 +50205,7 @@ function __c231(j: number): any {
       ).annotate({ identifier: "CreateCloudProjectRegionGatewayRequest" });
   }
 }
-function __c232(j: number): any {
+function __c231(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50219,7 +50215,7 @@ function __c232(j: number): any {
         }),
       ).annotate({ identifier: "CloudProjectAllocationPool" });
     case 1:
-      return S.Array(__S(7424, __c232, 0));
+      return S.Array(__S(7392, __c231, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -50228,10 +50224,10 @@ function __c232(j: number): any {
         }),
       ).annotate({ identifier: "CloudNetworkHostRoute" });
     case 3:
-      return S.Array(__S(7426, __c232, 2));
+      return S.Array(__S(7394, __c231, 2));
   }
 }
-function __c233(j: number): any {
+function __c232(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50249,7 +50245,7 @@ function __c233(j: number): any {
       ).annotate({ identifier: "CreateCloudProjectRegionGatewayExposeRequest" });
   }
 }
-function __c234(j: number): any {
+function __c233(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50265,13 +50261,13 @@ function __c234(j: number): any {
           id: S.optional(S.String),
           ip: S.optional(S.String),
           networkId: S.optional(S.String),
-          subnet: S.optional(S.NullOr(__S(7488, __c234, 0))),
+          subnet: S.optional(S.NullOr(__S(7456, __c233, 0))),
           subnetId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CloudNetworkGatewayInterface" });
   }
 }
-function __c235(j: number): any {
+function __c234(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50284,9 +50280,9 @@ function __c235(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          externalInformation: S.optional(S.NullOr(__S(7520, __c235, 0))),
+          externalInformation: S.optional(S.NullOr(__S(7488, __c234, 0))),
           id: S.optional(S.String),
-          interfaces: S.optional(__S(7552, __c236, 0)),
+          interfaces: S.optional(__S(7520, __c235, 0)),
           model: S.optional(S.String),
           name: S.optional(S.String),
           region: S.optional(S.String),
@@ -50296,13 +50292,13 @@ function __c235(j: number): any {
       ).annotate({ identifier: "CloudNetworkGateway" });
   }
 }
-function __c236(j: number): any {
+function __c235(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(7489, __c234, 1));
+      return S.Array(__S(7457, __c233, 1));
   }
 }
-function __c237(j: number): any {
+function __c236(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50321,7 +50317,7 @@ function __c237(j: number): any {
       ).annotate({ identifier: "CreateCloudProjectRegionGatewayInterfaceRequest" });
   }
 }
-function __c238(j: number): any {
+function __c237(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50345,7 +50341,7 @@ function __c238(j: number): any {
       ).annotate({ identifier: "CreateCloudProjectRegionInstanceAutobackupRequest" });
   }
 }
-function __c239(j: number): any {
+function __c238(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50364,7 +50360,7 @@ function __c239(j: number): any {
       ).annotate({ identifier: "CreateCloudProjectRegionInstanceMetricSubscriptionRequest" });
   }
 }
-function __c240(j: number): any {
+function __c239(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50382,18 +50378,18 @@ function __c240(j: number): any {
       ).annotate({ identifier: "ApplyCloudProjectDatabaseMongodbMaintenanceRequest" });
   }
 }
-function __c241(j: number): any {
+function __c240(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           serviceName: S.String.pipe(T.Label()),
           regionName: S.String.pipe(T.Label()),
-          certificate: S.String,
-          intermediates: S.optional(S.String),
+          certificate: S.String.pipe(T.SensitiveValue({})),
+          intermediates: S.optional(S.String.pipe(T.SensitiveValue({}))),
           name: S.String,
           privateKey: S.String.pipe(T.SensitiveValue({})),
-          privateKeyPassphrase: S.optional(S.String),
+          privateKeyPassphrase: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -50404,7 +50400,7 @@ function __c241(j: number): any {
       ).annotate({ identifier: "CreateCloudProjectRegionKeymanagerCertificateRequest" });
   }
 }
-function __c242(j: number): any {
+function __c241(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50415,13 +50411,13 @@ function __c242(j: number): any {
       ).annotate({ identifier: "CloudKeymanagerSecretRef" });
   }
 }
-function __c243(j: number): any {
+function __c242(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(7744, __c242, 0));
+      return S.Array(__S(7712, __c241, 0));
   }
 }
-function __c244(j: number): any {
+function __c243(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50429,12 +50425,12 @@ function __c244(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           region: S.optional(S.String),
-          secrets: S.optional(__S(7776, __c243, 0)),
+          secrets: S.optional(__S(7744, __c242, 0)),
         }),
       ).annotate({ identifier: "CloudKeymanagerCertificate" });
   }
 }
-function __c245(j: number): any {
+function __c244(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50442,7 +50438,7 @@ function __c245(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           regionName: S.String.pipe(T.Label()),
           delay: S.Number,
-          httpConfiguration: S.optional(S.NullOr(__S(7872, __c246, 0))),
+          httpConfiguration: S.optional(S.NullOr(__S(7840, __c245, 0))),
           maxRetries: S.Number,
           maxRetriesDown: S.optional(S.NullOr(S.Number)),
           monitorType: S.String,
@@ -50459,7 +50455,7 @@ function __c245(j: number): any {
       ).annotate({ identifier: "CreateCloudProjectRegionLoadbalancingHealthMonitorRequest" });
   }
 }
-function __c246(j: number): any {
+function __c245(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50473,13 +50469,13 @@ function __c246(j: number): any {
       ).annotate({ identifier: "CloudLoadbalancingHealthMonitorHTTPConfiguration" });
   }
 }
-function __c247(j: number): any {
+function __c246(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           delay: S.Number,
-          httpConfiguration: S.optional(S.NullOr(__S(7872, __c246, 0))),
+          httpConfiguration: S.optional(S.NullOr(__S(7840, __c245, 0))),
           id: S.optional(S.String),
           maxRetries: S.Number,
           maxRetriesDown: S.optional(S.NullOr(S.Number)),
@@ -50493,7 +50489,7 @@ function __c247(j: number): any {
       ).annotate({ identifier: "CloudLoadbalancingHealthMonitor" });
   }
 }
-function __c248(j: number): any {
+function __c247(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50519,7 +50515,7 @@ function __c248(j: number): any {
       ).annotate({ identifier: "CreateCloudProjectRegionLoadbalancingL7PolicyRequest" });
   }
 }
-function __c249(j: number): any {
+function __c248(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50540,7 +50536,7 @@ function __c249(j: number): any {
       ).annotate({ identifier: "CloudLoadbalancingL7Policy" });
   }
 }
-function __c250(j: number): any {
+function __c249(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50563,7 +50559,7 @@ function __c250(j: number): any {
       ).annotate({ identifier: "CreateCloudProjectRegionLoadbalancingL7PolicyL7RuleRequest" });
   }
 }
-function __c251(j: number): any {
+function __c250(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50580,14 +50576,14 @@ function __c251(j: number): any {
       ).annotate({ identifier: "CloudLoadbalancingL7Rule" });
   }
 }
-function __c252(j: number): any {
+function __c251(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           serviceName: S.String.pipe(T.Label()),
           regionName: S.String.pipe(T.Label()),
-          allowedCidrs: S.optional(__S(17696, __c553, 0)),
+          allowedCidrs: S.optional(__S(17664, __c552, 0)),
           certificateId: S.optional(S.String),
           defaultPoolId: S.optional(S.String),
           description: S.optional(S.String),
@@ -50608,17 +50604,17 @@ function __c252(j: number): any {
       ).annotate({ identifier: "CreateCloudProjectRegionLoadbalancingListenerRequest" });
   }
 }
-function __c253(j: number): any {
+function __c252(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          allowedCidrs: S.optional(S.NullOr(__S(17696, __c553, 0))),
+          allowedCidrs: S.optional(S.NullOr(__S(17664, __c552, 0))),
           certificateId: S.optional(S.NullOr(S.String)),
           defaultPoolId: S.optional(S.NullOr(S.String)),
           description: S.optional(S.NullOr(S.String)),
           id: S.optional(S.String),
-          loadBalancerIds: S.optional(__S(17696, __c553, 0)),
+          loadBalancerIds: S.optional(__S(17664, __c552, 0)),
           name: S.optional(S.String),
           operatingStatus: S.optional(S.String),
           port: S.optional(S.Number),
@@ -50631,13 +50627,13 @@ function __c253(j: number): any {
       ).annotate({ identifier: "CloudLoadbalancingListener" });
   }
 }
-function __c254(j: number): any {
+function __c253(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           delay: S.Number,
-          httpConfiguration: S.optional(S.NullOr(__S(7872, __c246, 0))),
+          httpConfiguration: S.optional(S.NullOr(__S(7840, __c245, 0))),
           maxRetries: S.Number,
           maxRetriesDown: S.optional(S.NullOr(S.Number)),
           monitorType: S.String,
@@ -50649,20 +50645,20 @@ function __c254(j: number): any {
       return S.suspend(() =>
         S.Struct({
           algorithm: S.String,
-          healthMonitor: S.optional(S.NullOr(__S(8128, __c254, 0))),
-          members: S.optional(__S(8193, __c256, 1)),
+          healthMonitor: S.optional(S.NullOr(__S(8096, __c253, 0))),
+          members: S.optional(__S(8161, __c255, 1)),
           name: S.optional(S.String),
           protocol: S.String,
-          sessionPersistence: S.optional(__S(8160, __c255, 0)),
+          sessionPersistence: S.optional(__S(8128, __c254, 0)),
         }),
       ).annotate({ identifier: "CloudLoadbalancingLoadbalancerPoolCreateInput" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          allowedCidrs: S.optional(__S(17696, __c553, 0)),
+          allowedCidrs: S.optional(__S(17664, __c552, 0)),
           description: S.optional(S.String),
           name: S.optional(S.String),
-          pool: S.optional(__S(8129, __c254, 1)),
+          pool: S.optional(__S(8097, __c253, 1)),
           port: S.Number,
           protocol: S.String,
           secretId: S.optional(S.String),
@@ -50672,7 +50668,7 @@ function __c254(j: number): any {
         }),
       ).annotate({ identifier: "CloudLoadbalancingLoadbalancerListenerCreateInput" });
     case 3:
-      return S.Array(__S(8130, __c254, 2));
+      return S.Array(__S(8098, __c253, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -50699,17 +50695,17 @@ function __c254(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          floatingIp: S.optional(__S(8132, __c254, 4)),
-          floatingIpCreate: S.optional(__S(8133, __c254, 5)),
-          gateway: S.optional(__S(8132, __c254, 4)),
-          gatewayCreate: S.optional(__S(12064, __c377, 0)),
-          network: __S(8134, __c254, 6),
+          floatingIp: S.optional(__S(8100, __c253, 4)),
+          floatingIpCreate: S.optional(__S(8101, __c253, 5)),
+          gateway: S.optional(__S(8100, __c253, 4)),
+          gatewayCreate: S.optional(__S(12032, __c376, 0)),
+          network: __S(8102, __c253, 6),
         }),
       ).annotate({ identifier: "CloudLoadbalancingLoadbalancerCreateInputNetworkPrivate" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          private: __S(8135, __c254, 7),
+          private: __S(8103, __c253, 7),
         }),
       ).annotate({ identifier: "CloudLoadbalancingLoadbalancerCreateInputNetwork" });
     case 9:
@@ -50718,9 +50714,9 @@ function __c254(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           regionName: S.String.pipe(T.Label()),
           flavorId: S.String,
-          listeners: S.optional(__S(8131, __c254, 3)),
+          listeners: S.optional(__S(8099, __c253, 3)),
           name: S.optional(S.String),
-          network: __S(8136, __c254, 8),
+          network: __S(8104, __c253, 8),
         }).pipe(
           T.Http({
             method: "POST",
@@ -50731,7 +50727,7 @@ function __c254(j: number): any {
       ).annotate({ identifier: "CreateCloudProjectRegionLoadbalancingLoadbalancerRequest" });
   }
 }
-function __c255(j: number): any {
+function __c254(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50742,7 +50738,7 @@ function __c255(j: number): any {
       ).annotate({ identifier: "CloudLoadbalancingPoolSessionPersistence" });
   }
 }
-function __c256(j: number): any {
+function __c255(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50754,10 +50750,10 @@ function __c256(j: number): any {
         }),
       ).annotate({ identifier: "CloudLoadbalancingLoadbalancerMemberCreate" });
     case 1:
-      return S.Array(__S(8192, __c256, 0));
+      return S.Array(__S(8160, __c255, 0));
   }
 }
-function __c257(j: number): any {
+function __c256(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50766,7 +50762,7 @@ function __c257(j: number): any {
           regionName: S.String.pipe(T.Label()),
           loadBalancerId: S.String.pipe(T.Label()),
           floatingIpId: S.String,
-          gateway: S.optional(S.NullOr(__S(12064, __c377, 0))),
+          gateway: S.optional(S.NullOr(__S(12032, __c376, 0))),
           ip: S.String,
         }).pipe(
           T.Http({
@@ -50780,7 +50776,7 @@ function __c257(j: number): any {
       });
   }
 }
-function __c258(j: number): any {
+function __c257(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50788,7 +50784,7 @@ function __c258(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           regionName: S.String.pipe(T.Label()),
           loadBalancerId: S.String.pipe(T.Label()),
-          gateway: S.optional(S.NullOr(__S(12064, __c377, 0))),
+          gateway: S.optional(S.NullOr(__S(12032, __c376, 0))),
           ip: S.String,
         }).pipe(
           T.Http({
@@ -50802,7 +50798,7 @@ function __c258(j: number): any {
       });
   }
 }
-function __c259(j: number): any {
+function __c258(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50824,7 +50820,7 @@ function __c259(j: number): any {
       });
   }
 }
-function __c260(j: number): any {
+function __c259(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50843,7 +50839,7 @@ function __c260(j: number): any {
       ).annotate({ identifier: "CreateCloudProjectRegionLoadbalancingLoadbalancerLogUrlRequest" });
   }
 }
-function __c261(j: number): any {
+function __c260(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50861,7 +50857,7 @@ function __c261(j: number): any {
       ).annotate({ identifier: "ApplyCloudProjectDatabaseMysqlMaintenanceRequest" });
   }
 }
-function __c262(j: number): any {
+function __c261(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50873,7 +50869,7 @@ function __c262(j: number): any {
           loadbalancerId: S.optional(S.String),
           name: S.optional(S.String),
           protocol: S.String,
-          sessionPersistence: S.optional(S.NullOr(__S(8160, __c255, 0))),
+          sessionPersistence: S.optional(S.NullOr(__S(8128, __c254, 0))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -50884,7 +50880,7 @@ function __c262(j: number): any {
       ).annotate({ identifier: "CreateCloudProjectRegionLoadbalancingPoolRequest" });
   }
 }
-function __c263(j: number): any {
+function __c262(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50897,12 +50893,12 @@ function __c263(j: number): any {
           operatingStatus: S.optional(S.String),
           protocol: S.optional(S.String),
           provisioningStatus: S.optional(S.String),
-          sessionPersistence: S.optional(S.NullOr(__S(8160, __c255, 0))),
+          sessionPersistence: S.optional(S.NullOr(__S(8128, __c254, 0))),
         }),
       ).annotate({ identifier: "CloudLoadbalancingPool" });
   }
 }
-function __c264(j: number): any {
+function __c263(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50910,7 +50906,7 @@ function __c264(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           regionName: S.String.pipe(T.Label()),
           poolId: S.String.pipe(T.Label()),
-          members: __S(8193, __c256, 1),
+          members: __S(8161, __c255, 1),
         }).pipe(
           T.Http({
             method: "POST",
@@ -50921,7 +50917,7 @@ function __c264(j: number): any {
       ).annotate({ identifier: "CreateCloudProjectRegionLoadbalancingPoolMemberRequest" });
   }
 }
-function __c265(j: number): any {
+function __c264(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50937,17 +50933,17 @@ function __c265(j: number): any {
       ).annotate({ identifier: "CloudLoadbalancingPoolMember" });
   }
 }
-function __c266(j: number): any {
+function __c265(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(8480, __c265, 0));
+      return S.Array(__S(8448, __c264, 0));
     case 1:
-      return S.suspend(() => __S(8512, __c266, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(8480, __c265, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "CreateCloudProjectRegionLoadbalancingPoolMemberResponse",
       });
   }
 }
-function __c267(j: number): any {
+function __c266(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50966,7 +50962,7 @@ function __c267(j: number): any {
       ).annotate({ identifier: "CreateCloudProjectRegionLogSubscriptionRequest" });
   }
 }
-function __c268(j: number): any {
+function __c267(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50984,18 +50980,18 @@ function __c268(j: number): any {
       ).annotate({ identifier: "CreateCloudProjectRegionLogUrlRequest" });
   }
 }
-function __c269(j: number): any {
+function __c268(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          allocationPools: S.optional(__S(7425, __c232, 1)),
+          allocationPools: S.optional(__S(7393, __c231, 1)),
           cidr: S.String,
-          dnsNameServers: S.optional(__S(17696, __c553, 0)),
+          dnsNameServers: S.optional(__S(17664, __c552, 0)),
           enableDhcp: S.Boolean,
           enableGatewayIp: S.Boolean,
           gatewayIp: S.optional(S.String),
-          hostRoutes: S.optional(__S(7427, __c232, 3)),
+          hostRoutes: S.optional(__S(7395, __c231, 3)),
           ipVersion: S.Number,
           name: S.optional(S.String),
           useDefaultPublicDNSResolver: S.optional(S.NullOr(S.Boolean)),
@@ -51006,9 +51002,9 @@ function __c269(j: number): any {
         S.Struct({
           serviceName: S.String.pipe(T.Label()),
           regionName: S.String.pipe(T.Label()),
-          gateway: S.optional(S.NullOr(__S(12064, __c377, 0))),
+          gateway: S.optional(S.NullOr(__S(12032, __c376, 0))),
           name: S.String,
-          subnet: S.optional(S.NullOr(__S(8608, __c269, 0))),
+          subnet: S.optional(S.NullOr(__S(8576, __c268, 0))),
           vlanId: S.optional(S.Number),
         }).pipe(
           T.Http({
@@ -51020,7 +51016,7 @@ function __c269(j: number): any {
       ).annotate({ identifier: "CreateCloudProjectRegionNetworkRequest" });
   }
 }
-function __c270(j: number): any {
+function __c269(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51028,13 +51024,13 @@ function __c270(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           regionName: S.String.pipe(T.Label()),
           networkId: S.String.pipe(T.Label()),
-          allocationPools: S.optional(__S(7425, __c232, 1)),
+          allocationPools: S.optional(__S(7393, __c231, 1)),
           cidr: S.String,
-          dnsNameServers: S.optional(__S(17696, __c553, 0)),
+          dnsNameServers: S.optional(__S(17664, __c552, 0)),
           enableDhcp: S.Boolean,
           enableGatewayIp: S.Boolean,
           gatewayIp: S.optional(S.String),
-          hostRoutes: S.optional(__S(7427, __c232, 3)),
+          hostRoutes: S.optional(__S(7395, __c231, 3)),
           ipVersion: S.Number,
           name: S.String,
           useDefaultPublicDNSResolver: S.optional(S.NullOr(S.Boolean)),
@@ -51048,17 +51044,17 @@ function __c270(j: number): any {
       ).annotate({ identifier: "CreateCloudProjectRegionNetworkSubnetRequest" });
   }
 }
-function __c271(j: number): any {
+function __c270(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          allocationPools: S.optional(__S(7425, __c232, 1)),
+          allocationPools: S.optional(__S(7393, __c231, 1)),
           cidr: S.optional(S.String),
           dhcpEnabled: S.optional(S.Boolean),
-          dnsNameServers: S.optional(__S(17696, __c553, 0)),
+          dnsNameServers: S.optional(__S(17664, __c552, 0)),
           gatewayIp: S.optional(S.NullOr(S.String)),
-          hostRoutes: S.optional(__S(7427, __c232, 3)),
+          hostRoutes: S.optional(__S(7395, __c231, 3)),
           id: S.optional(S.String),
           ipVersion: S.optional(S.Number),
           name: S.optional(S.String),
@@ -51066,7 +51062,7 @@ function __c271(j: number): any {
       ).annotate({ identifier: "CloudProjectSubnet" });
   }
 }
-function __c272(j: number): any {
+function __c271(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51087,7 +51083,7 @@ function __c272(j: number): any {
       ).annotate({ identifier: "CreateCloudProjectRegionNetworkSubnetGatewayRequest" });
   }
 }
-function __c273(j: number): any {
+function __c272(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51105,7 +51101,7 @@ function __c273(j: number): any {
       ).annotate({ identifier: "CreateCloudProjectRegionQuotaRequest" });
   }
 }
-function __c274(j: number): any {
+function __c273(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51125,7 +51121,7 @@ function __c274(j: number): any {
       ).annotate({ identifier: "CreateCloudProjectRegionShareAclRequest" });
   }
 }
-function __c275(j: number): any {
+function __c274(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51141,7 +51137,7 @@ function __c275(j: number): any {
       ).annotate({ identifier: "CloudShareAclACL" });
   }
 }
-function __c276(j: number): any {
+function __c275(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51161,7 +51157,7 @@ function __c276(j: number): any {
       ).annotate({ identifier: "CreateCloudProjectRegionShareSnapshotRequest" });
   }
 }
-function __c277(j: number): any {
+function __c276(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51179,7 +51175,7 @@ function __c277(j: number): any {
       ).annotate({ identifier: "CloudShareSnapshotSnapshot" });
   }
 }
-function __c278(j: number): any {
+function __c277(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51197,7 +51193,7 @@ function __c278(j: number): any {
       ).annotate({ identifier: "ApplyCloudProjectDatabaseOpensearchMaintenanceRequest" });
   }
 }
-function __c279(j: number): any {
+function __c278(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51229,7 +51225,7 @@ function __c279(j: number): any {
         }),
       ).annotate({ identifier: "CloudRegionVolumeCreateResource" });
     case 2:
-      return S.Array(__S(8929, __c279, 1));
+      return S.Array(__S(8897, __c278, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -51238,16 +51234,16 @@ function __c279(j: number): any {
           createdAt: S.optional(S.String),
           id: S.optional(S.String),
           progress: S.optional(S.Number),
-          regions: S.optional(__S(17696, __c553, 0)),
+          regions: S.optional(__S(17664, __c552, 0)),
           resourceId: S.optional(S.NullOr(S.String)),
           startedAt: S.optional(S.NullOr(S.String)),
           status: S.optional(S.String),
-          subOperations: S.optional(S.NullOr(__S(8930, __c279, 2))),
+          subOperations: S.optional(S.NullOr(__S(8898, __c278, 2))),
         }),
       ).annotate({ identifier: "CloudRegionVolumeCreateResponse" });
   }
 }
-function __c280(j: number): any {
+function __c279(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51266,7 +51262,7 @@ function __c280(j: number): any {
       ).annotate({ identifier: "CreateCloudProjectRegionVolumeBackupRequest" });
   }
 }
-function __c281(j: number): any {
+function __c280(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51282,7 +51278,7 @@ function __c281(j: number): any {
       ).annotate({ identifier: "CloudVolumeBackupVolumeBackup" });
   }
 }
-function __c282(j: number): any {
+function __c281(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51301,7 +51297,7 @@ function __c282(j: number): any {
       ).annotate({ identifier: "CreateCloudProjectRegionVolumeBackupVolumeRequest" });
   }
 }
-function __c283(j: number): any {
+function __c282(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51323,7 +51319,7 @@ function __c283(j: number): any {
       ).annotate({ identifier: "CreateCloudProjectRegionWorkflowBackupRequest" });
   }
 }
-function __c284(j: number): any {
+function __c283(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51335,7 +51331,7 @@ function __c284(j: number): any {
         }),
       ).annotate({ identifier: "CloudExecution" });
     case 1:
-      return S.Array(__S(9088, __c284, 0));
+      return S.Array(__S(9056, __c283, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -51344,7 +51340,7 @@ function __c284(j: number): any {
           cron: S.optional(S.String),
           distantBackupName: S.optional(S.NullOr(S.String)),
           distantRegion: S.optional(S.NullOr(S.String)),
-          executions: S.optional(S.NullOr(__S(9089, __c284, 1))),
+          executions: S.optional(S.NullOr(__S(9057, __c283, 1))),
           id: S.optional(S.String),
           instanceId: S.optional(S.String),
           name: S.optional(S.String),
@@ -51354,7 +51350,7 @@ function __c284(j: number): any {
       ).annotate({ identifier: "CloudBackup" });
   }
 }
-function __c285(j: number): any {
+function __c284(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51364,7 +51360,7 @@ function __c285(j: number): any {
       ).annotate({ identifier: "CreateCloudProjectRetainRequest" });
   }
 }
-function __c286(j: number): any {
+function __c285(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51377,7 +51373,7 @@ function __c286(j: number): any {
       ).annotate({ identifier: "CreateCloudProjectSshkeyRequest" });
   }
 }
-function __c287(j: number): any {
+function __c286(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51390,7 +51386,7 @@ function __c287(j: number): any {
       ).annotate({ identifier: "CreateCloudProjectStorageRequest" });
   }
 }
-function __c288(j: number): any {
+function __c287(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51406,7 +51402,7 @@ function __c288(j: number): any {
       ).annotate({ identifier: "CloudStorageContainer2" });
   }
 }
-function __c289(j: number): any {
+function __c288(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51424,17 +51420,17 @@ function __c289(j: number): any {
         }),
       ).annotate({ identifier: "CloudStorageEndpoint" });
     case 2:
-      return S.Array(__S(9249, __c289, 1));
+      return S.Array(__S(9217, __c288, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          endpoints: S.optional(__S(9250, __c289, 2)),
-          token: S.optional(S.String),
+          endpoints: S.optional(__S(9218, __c288, 2)),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "CloudStorageContainerAccess" });
   }
 }
-function __c290(j: number): any {
+function __c289(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51452,7 +51448,7 @@ function __c290(j: number): any {
       ).annotate({ identifier: "CreateCloudProjectStorageCorsRequest" });
   }
 }
-function __c291(j: number): any {
+function __c290(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51478,7 +51474,7 @@ function __c291(j: number): any {
       ).annotate({ identifier: "CloudStorageContainerObjectTempURL" });
   }
 }
-function __c292(j: number): any {
+function __c291(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51496,7 +51492,7 @@ function __c292(j: number): any {
       ).annotate({ identifier: "ApplyCloudProjectDatabasePostgresqlMaintenanceRequest" });
   }
 }
-function __c293(j: number): any {
+function __c292(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51513,7 +51509,7 @@ function __c293(j: number): any {
       ).annotate({ identifier: "CreateCloudProjectStorageStaticRequest" });
   }
 }
-function __c294(j: number): any {
+function __c293(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51532,7 +51528,7 @@ function __c294(j: number): any {
       ).annotate({ identifier: "CreateCloudProjectStorageUserRequest" });
   }
 }
-function __c295(j: number): any {
+function __c294(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51542,14 +51538,14 @@ function __c295(j: number): any {
           id: S.optional(S.Number),
           openstackId: S.optional(S.NullOr(S.String)),
           password: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          roles: S.optional(__S(9504, __c297, 0)),
+          roles: S.optional(__S(9472, __c296, 0)),
           status: S.optional(S.String),
           username: S.optional(S.String),
         }),
       ).annotate({ identifier: "CloudUserUserDetail" });
   }
 }
-function __c296(j: number): any {
+function __c295(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51557,18 +51553,18 @@ function __c296(j: number): any {
           description: S.optional(S.String),
           id: S.optional(S.String),
           name: S.optional(S.String),
-          permissions: S.optional(__S(17696, __c553, 0)),
+          permissions: S.optional(__S(17664, __c552, 0)),
         }),
       ).annotate({ identifier: "CloudRoleRole" });
   }
 }
-function __c297(j: number): any {
+function __c296(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(9472, __c296, 0));
+      return S.Array(__S(9440, __c295, 0));
   }
 }
-function __c298(j: number): any {
+function __c297(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51578,7 +51574,7 @@ function __c298(j: number): any {
       ).annotate({ identifier: "CreateCloudProjectUnleashRequest" });
   }
 }
-function __c299(j: number): any {
+function __c298(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51591,7 +51587,7 @@ function __c299(j: number): any {
       ).annotate({ identifier: "CreateCloudProjectUserRequest" });
   }
 }
-function __c300(j: number): any {
+function __c299(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51609,7 +51605,7 @@ function __c300(j: number): any {
       ).annotate({ identifier: "CreateCloudProjectUserPolicyRequest" });
   }
 }
-function __c301(j: number): any {
+function __c300(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51627,7 +51623,7 @@ function __c301(j: number): any {
       ).annotate({ identifier: "CreateCloudProjectUserRoleRequest" });
   }
 }
-function __c302(j: number): any {
+function __c301(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51653,7 +51649,7 @@ function __c302(j: number): any {
       ).annotate({ identifier: "CloudUserS3CredentialsWithSecret" });
   }
 }
-function __c303(j: number): any {
+function __c302(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51677,7 +51673,7 @@ function __c303(j: number): any {
       ).annotate({ identifier: "CloudUserS3CredentialsSecretOnly" });
   }
 }
-function __c304(j: number): any {
+function __c303(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51705,17 +51701,17 @@ function __c304(j: number): any {
         }),
       ).annotate({ identifier: "CloudAuthenticationEndpoint" });
     case 2:
-      return S.Array(__S(9729, __c304, 1));
+      return S.Array(__S(9697, __c303, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          endpoints: S.optional(__S(9730, __c304, 2)),
+          endpoints: S.optional(__S(9698, __c303, 2)),
           id: S.optional(S.String),
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "CloudAuthenticationCatalog" });
     case 4:
-      return S.Array(__S(9731, __c304, 3));
+      return S.Array(__S(9699, __c303, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -51727,25 +51723,25 @@ function __c304(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          catalog: S.optional(__S(9732, __c304, 4)),
+          catalog: S.optional(__S(9700, __c303, 4)),
           expires_at: S.optional(S.String),
           issued_at: S.optional(S.String),
-          methods: S.optional(__S(17696, __c553, 0)),
-          project: S.optional(__S(9733, __c304, 5)),
-          roles: S.optional(__S(7776, __c243, 0)),
-          user: S.optional(__S(9733, __c304, 5)),
+          methods: S.optional(__S(17664, __c552, 0)),
+          project: S.optional(__S(9701, __c303, 5)),
+          roles: S.optional(__S(7744, __c242, 0)),
+          user: S.optional(__S(9701, __c303, 5)),
         }),
       ).annotate({ identifier: "CloudAuthenticationOpenstackToken" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          X_Auth_Token: S.optional(S.String.pipe(T.Body("X-Auth-Token"))),
-          token: S.optional(__S(9734, __c304, 6)),
+          X_Auth_Token: S.optional(S.String.pipe(T.Body("X-Auth-Token"), T.SensitiveValue({}))),
+          token: S.optional(__S(9702, __c303, 6)),
         }),
       ).annotate({ identifier: "CloudAuthenticationToken" });
   }
 }
-function __c305(j: number): any {
+function __c304(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51762,7 +51758,7 @@ function __c305(j: number): any {
       ).annotate({ identifier: "CreateCloudProjectVolumeRequest" });
   }
 }
-function __c306(j: number): any {
+function __c305(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51780,7 +51776,7 @@ function __c306(j: number): any {
       ).annotate({ identifier: "ApplyCloudProjectDatabaseRedisMaintenanceRequest" });
   }
 }
-function __c307(j: number): any {
+function __c306(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51799,7 +51795,7 @@ function __c307(j: number): any {
       ).annotate({ identifier: "CreateCloudProjectVolumeSnapshotRequest" });
   }
 }
-function __c308(j: number): any {
+function __c307(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51817,7 +51813,7 @@ function __c308(j: number): any {
       ).annotate({ identifier: "CloudVolumeSnapshot" });
   }
 }
-function __c309(j: number): any {
+function __c308(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51835,7 +51831,7 @@ function __c309(j: number): any {
       ).annotate({ identifier: "CreateCloudProjectVolumeUpsizeRequest" });
   }
 }
-function __c310(j: number): any {
+function __c309(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51845,21 +51841,21 @@ function __c310(j: number): any {
       ).annotate({ identifier: "CreateCloudProjectVrackRequest" });
   }
 }
-function __c311(j: number): any {
+function __c310(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           serviceName: S.String.pipe(T.Label()),
           regionName: S.String.pipe(T.Label()),
-          encryption: S.optional(S.NullOr(__S(10112, __c316, 0))),
-          lifecycle: S.optional(S.NullOr(__S(10090, __c315, 10))),
+          encryption: S.optional(S.NullOr(__S(10080, __c315, 0))),
+          lifecycle: S.optional(S.NullOr(__S(10058, __c314, 10))),
           name: S.String,
-          objectLock: S.optional(S.NullOr(__S(10114, __c316, 2))),
+          objectLock: S.optional(S.NullOr(__S(10082, __c315, 2))),
           ownerId: S.optional(S.NullOr(S.Number)),
-          replication: S.optional(S.NullOr(__S(9987, __c312, 3))),
-          tags: S.optional(S.NullOr(__S(19392, __c606, 0))),
-          versioning: S.optional(S.NullOr(__S(10116, __c316, 4))),
+          replication: S.optional(S.NullOr(__S(9955, __c311, 3))),
+          tags: S.optional(S.NullOr(__S(19360, __c605, 0))),
+          versioning: S.optional(S.NullOr(__S(10084, __c315, 4))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -51870,7 +51866,7 @@ function __c311(j: number): any {
       ).annotate({ identifier: "CreateColdArchiveContainerOnRegionRequest" });
   }
 }
-function __c312(j: number): any {
+function __c311(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51884,24 +51880,24 @@ function __c312(j: number): any {
       return S.suspend(() =>
         S.Struct({
           deleteMarkerReplication: S.optional(S.String),
-          destination: S.optional(S.NullOr(__S(9984, __c312, 0))),
-          filter: S.optional(S.NullOr(__S(10115, __c316, 3))),
+          destination: S.optional(S.NullOr(__S(9952, __c311, 0))),
+          filter: S.optional(S.NullOr(__S(10083, __c315, 3))),
           id: S.optional(S.String),
           priority: S.optional(S.Number),
           status: S.optional(S.String),
         }),
       ).annotate({ identifier: "CloudStorageReplicationRuleIn" });
     case 2:
-      return S.Array(__S(9985, __c312, 1));
+      return S.Array(__S(9953, __c311, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          rules: S.optional(S.NullOr(__S(9986, __c312, 2))),
+          rules: S.optional(S.NullOr(__S(9954, __c311, 2))),
         }),
       ).annotate({ identifier: "CloudStorageReplicationObjectIn" });
   }
 }
-function __c313(j: number): any {
+function __c312(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51912,7 +51908,7 @@ function __c313(j: number): any {
       ).annotate({ identifier: "CloudStorageObjectRestoreStatus" });
   }
 }
-function __c314(j: number): any {
+function __c313(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51923,17 +51919,17 @@ function __c314(j: number): any {
           isLatest: S.optional(S.NullOr(S.Boolean)),
           key: S.optional(S.String),
           lastModified: S.optional(S.NullOr(S.String)),
-          restoreStatus: S.optional(S.NullOr(__S(10016, __c313, 0))),
+          restoreStatus: S.optional(S.NullOr(__S(9984, __c312, 0))),
           size: S.optional(S.Number),
           storageClass: S.optional(S.NullOr(S.String)),
           versionId: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "CloudStorageObjectList" });
     case 1:
-      return S.Array(__S(10048, __c314, 0));
+      return S.Array(__S(10016, __c313, 0));
   }
 }
-function __c315(j: number): any {
+function __c314(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51955,7 +51951,7 @@ function __c315(j: number): any {
           objectSizeGreaterThan: S.optional(S.NullOr(S.Number)),
           objectSizeLessThan: S.optional(S.NullOr(S.Number)),
           prefix: S.optional(S.NullOr(S.String)),
-          tags: S.optional(S.NullOr(__S(19392, __c606, 0))),
+          tags: S.optional(S.NullOr(__S(19360, __c605, 0))),
         }),
       ).annotate({ identifier: "CloudStorageLifecycleRuleFilter" });
     case 3:
@@ -51974,7 +51970,7 @@ function __c315(j: number): any {
         }),
       ).annotate({ identifier: "CloudStorageLifecycleRuleNoncurrentVersionTransition" });
     case 5:
-      return S.Array(__S(10084, __c315, 4));
+      return S.Array(__S(10052, __c314, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -51984,31 +51980,31 @@ function __c315(j: number): any {
         }),
       ).annotate({ identifier: "CloudStorageLifecycleRuleTransition" });
     case 7:
-      return S.Array(__S(10086, __c315, 6));
+      return S.Array(__S(10054, __c314, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          abortIncompleteMultipartUpload: S.optional(S.NullOr(__S(10080, __c315, 0))),
-          expiration: S.optional(S.NullOr(__S(10081, __c315, 1))),
-          filter: S.optional(S.NullOr(__S(10082, __c315, 2))),
+          abortIncompleteMultipartUpload: S.optional(S.NullOr(__S(10048, __c314, 0))),
+          expiration: S.optional(S.NullOr(__S(10049, __c314, 1))),
+          filter: S.optional(S.NullOr(__S(10050, __c314, 2))),
           id: S.optional(S.String),
-          noncurrentVersionExpiration: S.optional(S.NullOr(__S(10083, __c315, 3))),
-          noncurrentVersionTransitions: S.optional(S.NullOr(__S(10085, __c315, 5))),
+          noncurrentVersionExpiration: S.optional(S.NullOr(__S(10051, __c314, 3))),
+          noncurrentVersionTransitions: S.optional(S.NullOr(__S(10053, __c314, 5))),
           status: S.String,
-          transitions: S.optional(S.NullOr(__S(10087, __c315, 7))),
+          transitions: S.optional(S.NullOr(__S(10055, __c314, 7))),
         }),
       ).annotate({ identifier: "CloudStorageLifecycleRule" });
     case 9:
-      return S.Array(__S(10088, __c315, 8));
+      return S.Array(__S(10056, __c314, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
-          rules: S.NullOr(__S(10089, __c315, 9)),
+          rules: S.NullOr(__S(10057, __c314, 9)),
         }),
       ).annotate({ identifier: "CloudStorageLifecycleConfiguration" });
   }
 }
-function __c316(j: number): any {
+function __c315(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52026,7 +52022,7 @@ function __c316(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          rule: S.optional(S.NullOr(__S(10113, __c316, 1))),
+          rule: S.optional(S.NullOr(__S(10081, __c315, 1))),
           status: S.optional(S.String),
         }),
       ).annotate({ identifier: "CloudStorageLockConfiguration" });
@@ -52034,7 +52030,7 @@ function __c316(j: number): any {
       return S.suspend(() =>
         S.Struct({
           prefix: S.optional(S.NullOr(S.String)),
-          tags: S.optional(S.NullOr(__S(19392, __c606, 0))),
+          tags: S.optional(S.NullOr(__S(19360, __c605, 0))),
         }),
       ).annotate({ identifier: "CloudStorageReplicationRuleFilter" });
     case 4:
@@ -52045,7 +52041,7 @@ function __c316(j: number): any {
       ).annotate({ identifier: "CloudStorageVersioningObject" });
   }
 }
-function __c317(j: number): any {
+function __c316(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52054,7 +52050,7 @@ function __c317(j: number): any {
           createdAt: S.optional(S.String),
           lockedUntil: S.optional(S.NullOr(S.String)),
           name: S.optional(S.String),
-          objects: S.optional(__S(10049, __c314, 1)),
+          objects: S.optional(__S(10017, __c313, 1)),
           objectsCount: S.optional(S.Number),
           objectsSize: S.optional(S.Number),
           ownerId: S.optional(S.Number),
@@ -52064,7 +52060,7 @@ function __c317(j: number): any {
       ).annotate({ identifier: "CloudColdArchiveContainer" });
   }
 }
-function __c318(j: number): any {
+function __c317(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52072,7 +52068,7 @@ function __c318(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           regionName: S.String.pipe(T.Label()),
           instanceId: S.String.pipe(T.Label()),
-          gateway: S.optional(S.NullOr(__S(12064, __c377, 0))),
+          gateway: S.optional(S.NullOr(__S(12032, __c376, 0))),
           ip: S.String,
         }).pipe(
           T.Http({
@@ -52084,7 +52080,7 @@ function __c318(j: number): any {
       ).annotate({ identifier: "CreateFloatingIpOnInstanceOnRegionRequest" });
   }
 }
-function __c319(j: number): any {
+function __c318(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52138,26 +52134,26 @@ function __c319(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          subnet: S.optional(__S(10213, __c319, 5)),
+          subnet: S.optional(__S(10181, __c318, 5)),
           vlanId: S.optional(S.NullOr(S.Number)),
         }),
       ).annotate({ identifier: "CloudInstanceCreateInputNetworkPrivateNetworkCreate" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          floatingIp: S.optional(S.NullOr(__S(10240, __c320, 0))),
-          floatingIpCreate: S.optional(S.NullOr(__S(10210, __c319, 2))),
-          gateway: S.optional(S.NullOr(__S(10240, __c320, 0))),
-          gatewayCreate: S.optional(S.NullOr(__S(10211, __c319, 3))),
+          floatingIp: S.optional(S.NullOr(__S(10208, __c319, 0))),
+          floatingIpCreate: S.optional(S.NullOr(__S(10178, __c318, 2))),
+          gateway: S.optional(S.NullOr(__S(10208, __c319, 0))),
+          gatewayCreate: S.optional(S.NullOr(__S(10179, __c318, 3))),
           ip: S.optional(S.NullOr(S.String)),
-          network: S.optional(S.NullOr(__S(10212, __c319, 4))),
-          networkCreate: S.optional(S.NullOr(__S(10214, __c319, 6))),
+          network: S.optional(S.NullOr(__S(10180, __c318, 4))),
+          networkCreate: S.optional(S.NullOr(__S(10182, __c318, 6))),
         }),
       ).annotate({ identifier: "CloudInstanceCreateInputNetworkPrivate" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          private: S.optional(S.NullOr(__S(10215, __c319, 7))),
+          private: S.optional(S.NullOr(__S(10183, __c318, 7))),
           public: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "CloudInstanceCreateInputNetwork" });
@@ -52173,17 +52169,17 @@ function __c319(j: number): any {
         S.Struct({
           serviceName: S.String.pipe(T.Label()),
           regionName: S.String.pipe(T.Label()),
-          autobackup: S.optional(S.NullOr(__S(10208, __c319, 0))),
+          autobackup: S.optional(S.NullOr(__S(10176, __c318, 0))),
           availabilityZone: S.optional(S.NullOr(S.String)),
           billingPeriod: S.String,
-          bootFrom: __S(10209, __c319, 1),
+          bootFrom: __S(10177, __c318, 1),
           bulk: S.optional(S.Number),
-          flavor: __S(10240, __c320, 0),
-          group: S.optional(S.NullOr(__S(10240, __c320, 0))),
+          flavor: __S(10208, __c319, 0),
+          group: S.optional(S.NullOr(__S(10208, __c319, 0))),
           name: S.optional(S.String),
-          network: __S(10216, __c319, 8),
+          network: __S(10184, __c318, 8),
           sshKey: S.optional(S.NullOr(__S(2656, __c83, 0))),
-          sshKeyCreate: S.optional(S.NullOr(__S(10217, __c319, 9))),
+          sshKeyCreate: S.optional(S.NullOr(__S(10185, __c318, 9))),
           userData: S.optional(S.NullOr(S.String)),
         }).pipe(
           T.Http({
@@ -52195,7 +52191,7 @@ function __c319(j: number): any {
       ).annotate({ identifier: "CreateInstanceOnRegionRequest" });
   }
 }
-function __c320(j: number): any {
+function __c319(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52205,7 +52201,7 @@ function __c320(j: number): any {
       ).annotate({ identifier: "CloudInstanceCreateInputFlavor" });
   }
 }
-function __c321(j: number): any {
+function __c320(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52213,7 +52209,7 @@ function __c321(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           description: S.optional(S.NullOr(S.String)),
           name: S.optional(S.NullOr(S.String)),
-          networking: S.optional(S.NullOr(__S(17760, __c555, 0))),
+          networking: S.optional(S.NullOr(__S(17728, __c554, 0))),
           openstackRegion: S.optional(S.String),
           region: S.String,
           size: S.optional(S.NullOr(S.String)),
@@ -52223,7 +52219,7 @@ function __c321(j: number): any {
       ).annotate({ identifier: "CreateLoadBalancerRequest" });
   }
 }
-function __c322(j: number): any {
+function __c321(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52235,20 +52231,20 @@ function __c322(j: number): any {
       return S.suspend(() =>
         S.Struct({
           egress: S.optional(__S(35200, __c1100, 0)),
-          ingress: S.optional(__S(10304, __c322, 0)),
+          ingress: S.optional(__S(10272, __c321, 0)),
         }),
       ).annotate({ identifier: "CloudProjectLoadbalancerNetworkingNetworking" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          address: S.optional(__S(17792, __c556, 0)),
-          configuration: S.optional(__S(17793, __c556, 1)),
+          address: S.optional(__S(17760, __c555, 0)),
+          configuration: S.optional(__S(17761, __c555, 1)),
           createdAt: S.optional(S.String),
           description: S.optional(S.NullOr(S.String)),
-          egressAddress: S.optional(__S(17794, __c556, 2)),
+          egressAddress: S.optional(__S(17762, __c555, 2)),
           id: S.optional(S.String),
           name: S.optional(S.NullOr(S.String)),
-          networking: S.optional(__S(10305, __c322, 1)),
+          networking: S.optional(__S(10273, __c321, 1)),
           openstackRegion: S.optional(S.String),
           region: S.optional(S.String),
           size: S.optional(S.String),
@@ -52257,7 +52253,7 @@ function __c322(j: number): any {
       ).annotate({ identifier: "CloudProjectLoadBalancer" });
   }
 }
-function __c323(j: number): any {
+function __c322(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52265,8 +52261,8 @@ function __c323(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           loadBalancerId: S.String.pipe(T.Label()),
           backends: S.optional(__S(35238, __c1101, 6)),
-          certificates: S.optional(__S(17696, __c553, 0)),
-          frontends: S.optional(__S(10915, __c341, 3)),
+          certificates: S.optional(__S(17664, __c552, 0)),
+          frontends: S.optional(__S(10883, __c340, 3)),
           networking: S.optional(S.NullOr(__S(35234, __c1101, 2))),
         }).pipe(
           T.Http({
@@ -52278,7 +52274,7 @@ function __c323(j: number): any {
       ).annotate({ identifier: "CreateLoadBalancerConfigurationRequest" });
   }
 }
-function __c324(j: number): any {
+function __c323(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52286,7 +52282,7 @@ function __c324(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           description: S.optional(S.NullOr(S.String)),
           name: S.optional(S.NullOr(S.String)),
-          networking: S.optional(S.NullOr(__S(17760, __c555, 0))),
+          networking: S.optional(S.NullOr(__S(17728, __c554, 0))),
           openstackRegion: S.optional(S.String),
           region: S.String,
           size: S.optional(S.NullOr(S.String)),
@@ -52300,16 +52296,16 @@ function __c324(j: number): any {
       ).annotate({ identifier: "CreateNetworkLoadBalancerRequest" });
   }
 }
-function __c325(j: number): any {
+function __c324(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           serviceName: S.String.pipe(T.Label()),
           networkLoadBalancerId: S.String.pipe(T.Label()),
-          actions: S.optional(S.NullOr(__S(11298, __c353, 2))),
+          actions: S.optional(S.NullOr(__S(11266, __c352, 2))),
           conditions: S.optional(S.NullOr(__S(35299, __c1103, 3))),
-          entryPoints: S.optional(__S(11300, __c353, 4)),
+          entryPoints: S.optional(__S(11268, __c352, 4)),
           networking: S.optional(S.NullOr(__S(35234, __c1101, 2))),
           targets: S.optional(S.NullOr(__S(35238, __c1101, 6))),
         }).pipe(
@@ -52322,7 +52318,7 @@ function __c325(j: number): any {
       ).annotate({ identifier: "CreateNetworkLoadBalancerConfigurationRequest" });
   }
 }
-function __c326(j: number): any {
+function __c325(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52340,7 +52336,7 @@ function __c326(j: number): any {
       ).annotate({ identifier: "ApplyCloudProjectDatabaseValkeyMaintenanceRequest" });
   }
 }
-function __c327(j: number): any {
+function __c326(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52363,19 +52359,19 @@ function __c327(j: number): any {
       ).annotate({ identifier: "CreatePresignedUrlOnRegionRequest" });
   }
 }
-function __c328(j: number): any {
+function __c327(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           method: S.optional(S.String),
-          signedHeaders: S.optional(__S(19392, __c606, 0)),
+          signedHeaders: S.optional(__S(19360, __c605, 0)),
           url: S.optional(S.String),
         }),
       ).annotate({ identifier: "CloudStoragePresignedURL" });
   }
 }
-function __c329(j: number): any {
+function __c328(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52393,7 +52389,7 @@ function __c329(j: number): any {
       ).annotate({ identifier: "CreateReplicationJobOnStorageContainerRequest" });
   }
 }
-function __c330(j: number): any {
+function __c329(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52409,21 +52405,21 @@ function __c330(j: number): any {
       ).annotate({ identifier: "CloudStorageJobReplication" });
   }
 }
-function __c331(j: number): any {
+function __c330(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           serviceName: S.String.pipe(T.Label()),
           regionName: S.String.pipe(T.Label()),
-          encryption: S.optional(S.NullOr(__S(10112, __c316, 0))),
-          lifecycle: S.optional(S.NullOr(__S(10090, __c315, 10))),
+          encryption: S.optional(S.NullOr(__S(10080, __c315, 0))),
+          lifecycle: S.optional(S.NullOr(__S(10058, __c314, 10))),
           name: S.String,
-          objectLock: S.optional(S.NullOr(__S(10114, __c316, 2))),
+          objectLock: S.optional(S.NullOr(__S(10082, __c315, 2))),
           ownerId: S.optional(S.NullOr(S.Number)),
-          replication: S.optional(S.NullOr(__S(9987, __c312, 3))),
-          tags: S.optional(S.NullOr(__S(19392, __c606, 0))),
-          versioning: S.optional(S.NullOr(__S(10116, __c316, 4))),
+          replication: S.optional(S.NullOr(__S(9955, __c311, 3))),
+          tags: S.optional(S.NullOr(__S(19360, __c605, 0))),
+          versioning: S.optional(S.NullOr(__S(10084, __c315, 4))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -52434,7 +52430,7 @@ function __c331(j: number): any {
       ).annotate({ identifier: "CreateStorageContainerOnRegionRequest" });
   }
 }
-function __c332(j: number): any {
+function __c331(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52448,43 +52444,43 @@ function __c332(j: number): any {
       return S.suspend(() =>
         S.Struct({
           deleteMarkerReplication: S.optional(S.String),
-          destination: S.optional(S.NullOr(__S(10624, __c332, 0))),
-          filter: S.optional(S.NullOr(__S(10115, __c316, 3))),
+          destination: S.optional(S.NullOr(__S(10592, __c331, 0))),
+          filter: S.optional(S.NullOr(__S(10083, __c315, 3))),
           id: S.optional(S.String),
           priority: S.optional(S.Number),
           status: S.optional(S.String),
         }),
       ).annotate({ identifier: "CloudStorageReplicationRule" });
     case 2:
-      return S.Array(__S(10625, __c332, 1));
+      return S.Array(__S(10593, __c331, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          rules: S.optional(S.NullOr(__S(10626, __c332, 2))),
+          rules: S.optional(S.NullOr(__S(10594, __c331, 2))),
         }),
       ).annotate({ identifier: "CloudStorageReplicationObject" });
     case 4:
       return S.suspend(() =>
         S.Struct({
           createdAt: S.optional(S.String),
-          encryption: S.optional(S.NullOr(__S(10112, __c316, 0))),
-          lifecycle: S.optional(S.NullOr(__S(10090, __c315, 10))),
+          encryption: S.optional(S.NullOr(__S(10080, __c315, 0))),
+          lifecycle: S.optional(S.NullOr(__S(10058, __c314, 10))),
           name: S.optional(S.String),
-          objectLock: S.optional(S.NullOr(__S(10114, __c316, 2))),
-          objects: S.optional(__S(10049, __c314, 1)),
+          objectLock: S.optional(S.NullOr(__S(10082, __c315, 2))),
+          objects: S.optional(__S(10017, __c313, 1)),
           objectsCount: S.optional(S.Number),
           objectsSize: S.optional(S.Number),
           ownerId: S.optional(S.Number),
           region: S.optional(S.String),
-          replication: S.optional(S.NullOr(__S(10627, __c332, 3))),
-          tags: S.optional(S.NullOr(__S(19392, __c606, 0))),
-          versioning: S.optional(S.NullOr(__S(10116, __c316, 4))),
+          replication: S.optional(S.NullOr(__S(10595, __c331, 3))),
+          tags: S.optional(S.NullOr(__S(19360, __c605, 0))),
+          versioning: S.optional(S.NullOr(__S(10084, __c315, 4))),
           virtualHost: S.optional(S.String),
         }),
       ).annotate({ identifier: "CloudStorageContainer" });
   }
 }
-function __c333(j: number): any {
+function __c332(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52505,7 +52501,7 @@ function __c333(j: number): any {
       ).annotate({ identifier: "CreateStorageContainerPolicyOnRegionRequest" });
   }
 }
-function __c334(j: number): any {
+function __c333(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52522,7 +52518,7 @@ function __c334(j: number): any {
       ).annotate({ identifier: "DeleteAlertingRequest" });
   }
 }
-function __c335(j: number): any {
+function __c334(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52539,7 +52535,7 @@ function __c335(j: number): any {
       ).annotate({ identifier: "DeleteApplicationLoadBalancerRequest" });
   }
 }
-function __c336(j: number): any {
+function __c335(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52557,7 +52553,7 @@ function __c336(j: number): any {
       ).annotate({ identifier: "DeleteApplicationLoadBalancerConfigurationRequest" });
   }
 }
-function __c337(j: number): any {
+function __c336(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52574,7 +52570,7 @@ function __c337(j: number): any {
       ).annotate({ identifier: "DeleteCertificateRequest" });
   }
 }
-function __c338(j: number): any {
+function __c337(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52591,7 +52587,7 @@ function __c338(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectAclRequest" });
   }
 }
-function __c339(j: number): any {
+function __c338(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52609,7 +52605,7 @@ function __c339(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectAiAppRequest" });
   }
 }
-function __c340(j: number): any {
+function __c339(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52627,7 +52623,7 @@ function __c340(j: number): any {
       ).annotate({ identifier: "ApplyLoadBalancerConfigurationRequest" });
   }
 }
-function __c341(j: number): any {
+function __c340(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52636,35 +52632,35 @@ function __c341(j: number): any {
         }),
       ).annotate({ identifier: "CloudProjectLoadbalancerBackendSelector" });
     case 1:
-      return S.Array(__S(10912, __c341, 0));
+      return S.Array(__S(10880, __c340, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          backends: __S(10913, __c341, 1),
+          backends: __S(10881, __c340, 1),
           mode: S.optional(S.NullOr(S.String)),
           name: S.String,
           port: S.optional(S.NullOr(S.Number)),
           portRanges: S.optional(S.NullOr(__S(35233, __c1101, 1))),
           ports: S.optional(S.NullOr(__S(35264, __c1102, 0))),
           tls: S.optional(S.Boolean),
-          whitelist: S.optional(__S(17696, __c553, 0)),
+          whitelist: S.optional(__S(17664, __c552, 0)),
         }),
       ).annotate({ identifier: "CloudProjectLoadbalancerFrontend" });
     case 3:
-      return S.Array(__S(10914, __c341, 2));
+      return S.Array(__S(10882, __c340, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           backends: S.optional(__S(35238, __c1101, 6)),
-          certificates: S.optional(__S(17696, __c553, 0)),
-          frontends: S.optional(__S(10915, __c341, 3)),
+          certificates: S.optional(__S(17664, __c552, 0)),
+          frontends: S.optional(__S(10883, __c340, 3)),
           networking: S.optional(__S(35234, __c1101, 2)),
           version: S.optional(S.Number),
         }),
       ).annotate({ identifier: "CloudProjectLoadbalancerConfiguration" });
   }
 }
-function __c342(j: number): any {
+function __c341(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52682,7 +52678,7 @@ function __c342(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectAiDataRegionAliasRequest" });
   }
 }
-function __c343(j: number): any {
+function __c342(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52700,7 +52696,7 @@ function __c343(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectAiJobRequest" });
   }
 }
-function __c344(j: number): any {
+function __c343(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52718,7 +52714,7 @@ function __c344(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectAiNotebookRequest" });
   }
 }
-function __c345(j: number): any {
+function __c344(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52735,7 +52731,7 @@ function __c345(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectAiRegistryRequest" });
   }
 }
-function __c346(j: number): any {
+function __c345(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52752,7 +52748,7 @@ function __c346(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectAiTokenRequest" });
   }
 }
-function __c347(j: number): any {
+function __c346(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52769,7 +52765,7 @@ function __c347(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectContainerRegistryRequest" });
   }
 }
-function __c348(j: number): any {
+function __c347(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52786,7 +52782,7 @@ function __c348(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectContainerRegistryIamRequest" });
   }
 }
-function __c349(j: number): any {
+function __c348(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52803,7 +52799,7 @@ function __c349(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectContainerRegistryOpenIdConnectRequest" });
   }
 }
-function __c350(j: number): any {
+function __c349(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52821,7 +52817,7 @@ function __c350(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectContainerRegistryUserRequest" });
   }
 }
-function __c351(j: number): any {
+function __c350(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52838,7 +52834,7 @@ function __c351(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectDatabaseCassandraRequest" });
   }
 }
-function __c352(j: number): any {
+function __c351(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52856,7 +52852,7 @@ function __c352(j: number): any {
       ).annotate({ identifier: "ApplyNetworkLoadBalancerConfigurationRequest" });
   }
 }
-function __c353(j: number): any {
+function __c352(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52866,12 +52862,12 @@ function __c353(j: number): any {
         }),
       ).annotate({ identifier: "CloudProjectNetworkloadbalancerActionReject" });
     case 1:
-      return S.Array(__S(11296, __c353, 0));
+      return S.Array(__S(11264, __c352, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           dispatch: S.optional(S.NullOr(__S(35297, __c1103, 1))),
-          reject: S.optional(S.NullOr(__S(11297, __c353, 1))),
+          reject: S.optional(S.NullOr(__S(11265, __c352, 1))),
         }),
       ).annotate({ identifier: "CloudProjectNetworkloadbalancerActions" });
     case 3:
@@ -52885,13 +52881,13 @@ function __c353(j: number): any {
         }),
       ).annotate({ identifier: "CloudProjectNetworkloadbalancerEntryPoint" });
     case 4:
-      return S.Array(__S(11299, __c353, 3));
+      return S.Array(__S(11267, __c352, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          actions: S.optional(S.NullOr(__S(11298, __c353, 2))),
+          actions: S.optional(S.NullOr(__S(11266, __c352, 2))),
           conditions: S.optional(S.NullOr(__S(35299, __c1103, 3))),
-          entryPoints: S.optional(__S(11300, __c353, 4)),
+          entryPoints: S.optional(__S(11268, __c352, 4)),
           networking: S.optional(__S(35234, __c1101, 2)),
           targets: S.optional(S.NullOr(__S(35238, __c1101, 6))),
           version: S.optional(S.Number),
@@ -52899,7 +52895,7 @@ function __c353(j: number): any {
       ).annotate({ identifier: "CloudProjectNetworkloadbalancerConfiguration" });
   }
 }
-function __c354(j: number): any {
+function __c353(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52917,7 +52913,7 @@ function __c354(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectDatabaseCassandraIntegrationRequest" });
   }
 }
-function __c355(j: number): any {
+function __c354(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52935,7 +52931,7 @@ function __c355(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectDatabaseCassandraLogSubscriptionRequest" });
   }
 }
-function __c356(j: number): any {
+function __c355(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52953,7 +52949,7 @@ function __c356(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectDatabaseCassandraUserRequest" });
   }
 }
-function __c357(j: number): any {
+function __c356(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52970,7 +52966,7 @@ function __c357(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectDatabaseClickhouseRequest" });
   }
 }
-function __c358(j: number): any {
+function __c357(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52988,7 +52984,7 @@ function __c358(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectDatabaseClickhouseDatabaseRequest" });
   }
 }
-function __c359(j: number): any {
+function __c358(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53006,7 +53002,7 @@ function __c359(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectDatabaseClickhouseIntegrationRequest" });
   }
 }
-function __c360(j: number): any {
+function __c359(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53024,7 +53020,7 @@ function __c360(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectDatabaseClickhouseLogSubscriptionRequest" });
   }
 }
-function __c361(j: number): any {
+function __c360(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53042,7 +53038,7 @@ function __c361(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectDatabaseClickhouseUserRequest" });
   }
 }
-function __c362(j: number): any {
+function __c361(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53059,7 +53055,7 @@ function __c362(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectDatabaseGrafanaRequest" });
   }
 }
-function __c363(j: number): any {
+function __c362(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53077,7 +53073,7 @@ function __c363(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectDatabaseGrafanaIntegrationRequest" });
   }
 }
-function __c364(j: number): any {
+function __c363(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53096,7 +53092,7 @@ function __c364(j: number): any {
       ).annotate({ identifier: "ArchiveCloudProjectRegionColdArchiveRequest" });
   }
 }
-function __c365(j: number): any {
+function __c364(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -53104,7 +53100,7 @@ function __c365(j: number): any {
       });
   }
 }
-function __c366(j: number): any {
+function __c365(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53122,7 +53118,7 @@ function __c366(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectDatabaseGrafanaLogSubscriptionRequest" });
   }
 }
-function __c367(j: number): any {
+function __c366(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53139,7 +53135,7 @@ function __c367(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectDatabaseKafkaRequest" });
   }
 }
-function __c368(j: number): any {
+function __c367(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53156,7 +53152,7 @@ function __c368(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectDatabaseKafkaConnectRequest" });
   }
 }
-function __c369(j: number): any {
+function __c368(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53174,7 +53170,7 @@ function __c369(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectDatabaseKafkaConnectConnectorRequest" });
   }
 }
-function __c370(j: number): any {
+function __c369(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53192,7 +53188,7 @@ function __c370(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectDatabaseKafkaConnectIntegrationRequest" });
   }
 }
-function __c371(j: number): any {
+function __c370(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53210,7 +53206,7 @@ function __c371(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectDatabaseKafkaConnectLogSubscriptionRequest" });
   }
 }
-function __c372(j: number): any {
+function __c371(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53228,7 +53224,7 @@ function __c372(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectDatabaseKafkaConnectUserRequest" });
   }
 }
-function __c373(j: number): any {
+function __c372(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53246,7 +53242,7 @@ function __c373(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectDatabaseKafkaIntegrationRequest" });
   }
 }
-function __c374(j: number): any {
+function __c373(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53264,7 +53260,7 @@ function __c374(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectDatabaseKafkaLogSubscriptionRequest" });
   }
 }
-function __c375(j: number): any {
+function __c374(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53281,7 +53277,7 @@ function __c375(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectDatabaseKafkaMirrorMakerRequest" });
   }
 }
-function __c376(j: number): any {
+function __c375(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53290,7 +53286,7 @@ function __c376(j: number): any {
           regionName: S.String.pipe(T.Label()),
           instanceId: S.String.pipe(T.Label()),
           floatingIpId: S.String,
-          gateway: S.optional(S.NullOr(__S(12064, __c377, 0))),
+          gateway: S.optional(S.NullOr(__S(12032, __c376, 0))),
           ip: S.String,
         }).pipe(
           T.Http({
@@ -53302,7 +53298,7 @@ function __c376(j: number): any {
       ).annotate({ identifier: "AssociateFloatingIpOnInstanceOnRegionRequest" });
   }
 }
-function __c377(j: number): any {
+function __c376(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53313,7 +53309,7 @@ function __c377(j: number): any {
       ).annotate({ identifier: "CloudNetworkCreateGatewaySummary" });
   }
 }
-function __c378(j: number): any {
+function __c377(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53331,7 +53327,7 @@ function __c378(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectDatabaseKafkaMirrorMakerIntegrationRequest" });
   }
 }
-function __c379(j: number): any {
+function __c378(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53351,7 +53347,7 @@ function __c379(j: number): any {
       });
   }
 }
-function __c380(j: number): any {
+function __c379(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53369,7 +53365,7 @@ function __c380(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectDatabaseKafkaMirrorMakerReplicationRequest" });
   }
 }
-function __c381(j: number): any {
+function __c380(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53387,7 +53383,7 @@ function __c381(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectDatabaseKafkaSchemaRegistryAclRequest" });
   }
 }
-function __c382(j: number): any {
+function __c381(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53405,7 +53401,7 @@ function __c382(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectDatabaseKafkaTopicRequest" });
   }
 }
-function __c383(j: number): any {
+function __c382(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53423,7 +53419,7 @@ function __c383(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectDatabaseKafkaTopicAclRequest" });
   }
 }
-function __c384(j: number): any {
+function __c383(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53441,7 +53437,7 @@ function __c384(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectDatabaseKafkaUserRequest" });
   }
 }
-function __c385(j: number): any {
+function __c384(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53458,7 +53454,7 @@ function __c385(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectDatabaseM3aggregatorRequest" });
   }
 }
-function __c386(j: number): any {
+function __c385(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53476,7 +53472,7 @@ function __c386(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectDatabaseM3aggregatorIntegrationRequest" });
   }
 }
-function __c387(j: number): any {
+function __c386(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53494,7 +53490,7 @@ function __c387(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectDatabaseM3aggregatorLogSubscriptionRequest" });
   }
 }
-function __c388(j: number): any {
+function __c387(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53512,7 +53508,7 @@ function __c388(j: number): any {
       ).annotate({ identifier: "AttachCloudProjectIpFailoverRequest" });
   }
 }
-function __c389(j: number): any {
+function __c388(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53530,7 +53526,7 @@ function __c389(j: number): any {
       ).annotate({ identifier: "CloudIpFailoverIp" });
   }
 }
-function __c390(j: number): any {
+function __c389(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53547,7 +53543,7 @@ function __c390(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectDatabaseM3dbRequest" });
   }
 }
-function __c391(j: number): any {
+function __c390(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53565,7 +53561,7 @@ function __c391(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectDatabaseM3dbIntegrationRequest" });
   }
 }
-function __c392(j: number): any {
+function __c391(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53583,7 +53579,7 @@ function __c392(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectDatabaseM3dbLogSubscriptionRequest" });
   }
 }
-function __c393(j: number): any {
+function __c392(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53601,7 +53597,7 @@ function __c393(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectDatabaseM3dbNamespaceRequest" });
   }
 }
-function __c394(j: number): any {
+function __c393(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53619,7 +53615,7 @@ function __c394(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectDatabaseM3dbUserRequest" });
   }
 }
-function __c395(j: number): any {
+function __c394(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53636,7 +53632,7 @@ function __c395(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectDatabaseMongodbRequest" });
   }
 }
-function __c396(j: number): any {
+function __c395(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53654,7 +53650,7 @@ function __c396(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectDatabaseMongodbBackupRequest" });
   }
 }
-function __c397(j: number): any {
+function __c396(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53672,7 +53668,7 @@ function __c397(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectDatabaseMongodbLogSubscriptionRequest" });
   }
 }
-function __c398(j: number): any {
+function __c397(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53690,7 +53686,7 @@ function __c398(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectDatabaseMongodbNodeRequest" });
   }
 }
-function __c399(j: number): any {
+function __c398(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53708,7 +53704,7 @@ function __c399(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectDatabaseMongodbUserRequest" });
   }
 }
-function __c400(j: number): any {
+function __c399(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53726,12 +53722,12 @@ function __c400(j: number): any {
       ).annotate({ identifier: "AttachCloudProjectVolumeRequest" });
   }
 }
-function __c401(j: number): any {
+function __c400(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          attachedTo: S.optional(__S(17696, __c553, 0)),
+          attachedTo: S.optional(__S(17664, __c552, 0)),
           availabilityZone: S.optional(S.NullOr(S.String)),
           bootable: S.optional(S.Boolean),
           creationDate: S.optional(S.String),
@@ -53747,7 +53743,7 @@ function __c401(j: number): any {
       ).annotate({ identifier: "CloudVolumeVolume" });
   }
 }
-function __c402(j: number): any {
+function __c401(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53764,7 +53760,7 @@ function __c402(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectDatabaseMysqlRequest" });
   }
 }
-function __c403(j: number): any {
+function __c402(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53782,7 +53778,7 @@ function __c403(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectDatabaseMysqlDatabaseRequest" });
   }
 }
-function __c404(j: number): any {
+function __c403(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53800,7 +53796,7 @@ function __c404(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectDatabaseMysqlIntegrationRequest" });
   }
 }
-function __c405(j: number): any {
+function __c404(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53818,7 +53814,7 @@ function __c405(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectDatabaseMysqlLogSubscriptionRequest" });
   }
 }
-function __c406(j: number): any {
+function __c405(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53836,7 +53832,7 @@ function __c406(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectDatabaseMysqlUserRequest" });
   }
 }
-function __c407(j: number): any {
+function __c406(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53853,7 +53849,7 @@ function __c407(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectDatabaseOpensearchRequest" });
   }
 }
-function __c408(j: number): any {
+function __c407(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53871,7 +53867,7 @@ function __c408(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectDatabaseOpensearchIndexRequest" });
   }
 }
-function __c409(j: number): any {
+function __c408(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53889,7 +53885,7 @@ function __c409(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectDatabaseOpensearchIntegrationRequest" });
   }
 }
-function __c410(j: number): any {
+function __c409(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53907,7 +53903,7 @@ function __c410(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectDatabaseOpensearchLogSubscriptionRequest" });
   }
 }
-function __c411(j: number): any {
+function __c410(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53925,7 +53921,7 @@ function __c411(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectDatabaseOpensearchPatternRequest" });
   }
 }
-function __c412(j: number): any {
+function __c411(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53934,19 +53930,19 @@ function __c412(j: number): any {
         }),
       ).annotate({ identifier: "CloudInstanceNetworkBulkParams" });
     case 1:
-      return S.Array(__S(13184, __c412, 0));
+      return S.Array(__S(13152, __c411, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           serviceName: S.String.pipe(T.Label()),
-          autobackup: S.optional(S.NullOr(__S(13216, __c413, 0))),
+          autobackup: S.optional(S.NullOr(__S(13184, __c412, 0))),
           availabilityZone: S.optional(S.NullOr(S.String)),
           flavorId: S.String,
           groupId: S.optional(S.NullOr(S.String)),
           imageId: S.optional(S.NullOr(S.String)),
           monthlyBilling: S.optional(S.NullOr(S.Boolean)),
           name: S.String,
-          networks: S.optional(S.NullOr(__S(13185, __c412, 1))),
+          networks: S.optional(S.NullOr(__S(13153, __c411, 1))),
           number: S.Number,
           region: S.String,
           sshKeyId: S.optional(S.NullOr(S.String)),
@@ -53958,7 +53954,7 @@ function __c412(j: number): any {
       ).annotate({ identifier: "BulkCloudProjectInstanceRequest" });
   }
 }
-function __c413(j: number): any {
+function __c412(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53969,7 +53965,7 @@ function __c413(j: number): any {
       ).annotate({ identifier: "CloudInstanceAutoBackup" });
   }
 }
-function __c414(j: number): any {
+function __c413(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53987,7 +53983,7 @@ function __c414(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectDatabaseOpensearchUserRequest" });
   }
 }
-function __c415(j: number): any {
+function __c414(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54004,7 +54000,7 @@ function __c415(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectDatabasePostgresqlRequest" });
   }
 }
-function __c416(j: number): any {
+function __c415(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54022,7 +54018,7 @@ function __c416(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectDatabasePostgresqlConnectionPoolRequest" });
   }
 }
-function __c417(j: number): any {
+function __c416(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54040,7 +54036,7 @@ function __c417(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectDatabasePostgresqlDatabaseRequest" });
   }
 }
-function __c418(j: number): any {
+function __c417(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54058,7 +54054,7 @@ function __c418(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectDatabasePostgresqlIntegrationRequest" });
   }
 }
-function __c419(j: number): any {
+function __c418(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54076,7 +54072,7 @@ function __c419(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectDatabasePostgresqlLogSubscriptionRequest" });
   }
 }
-function __c420(j: number): any {
+function __c419(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54094,7 +54090,7 @@ function __c420(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectDatabasePostgresqlUserRequest" });
   }
 }
-function __c421(j: number): any {
+function __c420(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54111,7 +54107,7 @@ function __c421(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectDatabaseRedisRequest" });
   }
 }
-function __c422(j: number): any {
+function __c421(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54129,7 +54125,7 @@ function __c422(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectDatabaseRedisIntegrationRequest" });
   }
 }
-function __c423(j: number): any {
+function __c422(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54147,7 +54143,7 @@ function __c423(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectDatabaseRedisLogSubscriptionRequest" });
   }
 }
-function __c424(j: number): any {
+function __c423(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54156,7 +54152,7 @@ function __c424(j: number): any {
           regionName: S.String.pipe(T.Label()),
           volumeId: S.String.pipe(T.Label()),
           deleteAll: S.optional(S.Boolean),
-          snapshotIds: S.optional(S.NullOr(__S(17696, __c553, 0))),
+          snapshotIds: S.optional(S.NullOr(__S(17664, __c552, 0))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -54167,7 +54163,7 @@ function __c424(j: number): any {
       ).annotate({ identifier: "BulkCloudProjectRegionVolumeDeleteSnapshotsRequest" });
   }
 }
-function __c425(j: number): any {
+function __c424(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54185,7 +54181,7 @@ function __c425(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectDatabaseRedisUserRequest" });
   }
 }
-function __c426(j: number): any {
+function __c425(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54202,7 +54198,7 @@ function __c426(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectDatabaseValkeyRequest" });
   }
 }
-function __c427(j: number): any {
+function __c426(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54220,7 +54216,7 @@ function __c427(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectDatabaseValkeyIntegrationRequest" });
   }
 }
-function __c428(j: number): any {
+function __c427(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54238,7 +54234,7 @@ function __c428(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectDatabaseValkeyLogSubscriptionRequest" });
   }
 }
-function __c429(j: number): any {
+function __c428(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54256,7 +54252,7 @@ function __c429(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectDatabaseValkeyUserRequest" });
   }
 }
-function __c430(j: number): any {
+function __c429(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54273,7 +54269,7 @@ function __c430(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectInstanceRequest" });
   }
 }
-function __c431(j: number): any {
+function __c430(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54290,7 +54286,7 @@ function __c431(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectInstanceGroupRequest" });
   }
 }
-function __c432(j: number): any {
+function __c431(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54308,7 +54304,7 @@ function __c432(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectInstanceInterfaceRequest" });
   }
 }
-function __c433(j: number): any {
+function __c432(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54325,7 +54321,7 @@ function __c433(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectKubeRequest" });
   }
 }
-function __c434(j: number): any {
+function __c433(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54343,7 +54339,7 @@ function __c434(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectKubeIpRestrictionRequest" });
   }
 }
-function __c435(j: number): any {
+function __c434(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54353,14 +54349,14 @@ function __c435(j: number): any {
         }),
       ).annotate({ identifier: "CloudStorageObjectDelete" });
     case 1:
-      return S.Array(__S(13920, __c435, 0));
+      return S.Array(__S(13888, __c434, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           serviceName: S.String.pipe(T.Label()),
           regionName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
-          objects: __S(13921, __c435, 1),
+          objects: __S(13889, __c434, 1),
         }).pipe(
           T.Http({
             method: "POST",
@@ -54379,7 +54375,7 @@ function __c435(j: number): any {
         }),
       ).annotate({ identifier: "CloudStorageObjectDeleted" });
     case 4:
-      return S.Array(__S(13923, __c435, 3));
+      return S.Array(__S(13891, __c434, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -54390,17 +54386,17 @@ function __c435(j: number): any {
         }),
       ).annotate({ identifier: "CloudStorageObjectDeleteError" });
     case 6:
-      return S.Array(__S(13925, __c435, 5));
+      return S.Array(__S(13893, __c434, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          deleted: S.optional(__S(13924, __c435, 4)),
-          errors: S.optional(__S(13926, __c435, 6)),
+          deleted: S.optional(__S(13892, __c434, 4)),
+          errors: S.optional(__S(13894, __c434, 6)),
         }),
       ).annotate({ identifier: "CloudStorageObjectDeleteBulkResponse" });
   }
 }
-function __c436(j: number): any {
+function __c435(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54418,7 +54414,7 @@ function __c436(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectKubeLogSubscriptionRequest" });
   }
 }
-function __c437(j: number): any {
+function __c436(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54436,7 +54432,7 @@ function __c437(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectKubeNodeRequest" });
   }
 }
-function __c438(j: number): any {
+function __c437(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54454,7 +54450,7 @@ function __c438(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectKubeNodepoolRequest" });
   }
 }
-function __c439(j: number): any {
+function __c438(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54471,7 +54467,7 @@ function __c439(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectKubeOpenIdConnectRequest" });
   }
 }
-function __c440(j: number): any {
+function __c439(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54488,7 +54484,7 @@ function __c440(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectNetworkPrivateRequest" });
   }
 }
-function __c441(j: number): any {
+function __c440(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54506,7 +54502,7 @@ function __c441(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectNetworkPrivateRegionRequest" });
   }
 }
-function __c442(j: number): any {
+function __c441(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54524,7 +54520,7 @@ function __c442(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectNetworkPrivateSubnetRequest" });
   }
 }
-function __c443(j: number): any {
+function __c442(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54543,7 +54539,7 @@ function __c443(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectRegionColdArchiveObjectRequest" });
   }
 }
-function __c444(j: number): any {
+function __c443(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54561,7 +54557,7 @@ function __c444(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectRegionGatewayRequest" });
   }
 }
-function __c445(j: number): any {
+function __c444(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54580,7 +54576,7 @@ function __c445(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectRegionGatewayInterfaceRequest" });
   }
 }
-function __c446(j: number): any {
+function __c445(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54590,7 +54586,7 @@ function __c446(j: number): any {
       ).annotate({ identifier: "CancelCloudProjectRequest" });
   }
 }
-function __c447(j: number): any {
+function __c446(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54609,7 +54605,7 @@ function __c447(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectRegionInstanceMetricSubscriptionRequest" });
   }
 }
-function __c448(j: number): any {
+function __c447(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54627,7 +54623,7 @@ function __c448(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectRegionKeymanagerCertificateRequest" });
   }
 }
-function __c449(j: number): any {
+function __c448(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54645,7 +54641,7 @@ function __c449(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectRegionKeymanagerSecretRequest" });
   }
 }
-function __c450(j: number): any {
+function __c449(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54663,7 +54659,7 @@ function __c450(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectRegionLoadbalancingHealthMonitorRequest" });
   }
 }
-function __c451(j: number): any {
+function __c450(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54681,7 +54677,7 @@ function __c451(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectRegionLoadbalancingL7PolicyRequest" });
   }
 }
-function __c452(j: number): any {
+function __c451(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54700,7 +54696,7 @@ function __c452(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectRegionLoadbalancingL7PolicyL7RuleRequest" });
   }
 }
-function __c453(j: number): any {
+function __c452(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54718,7 +54714,7 @@ function __c453(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectRegionLoadbalancingListenerRequest" });
   }
 }
-function __c454(j: number): any {
+function __c453(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54736,7 +54732,7 @@ function __c454(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectRegionLoadbalancingLoadbalancerRequest" });
   }
 }
-function __c455(j: number): any {
+function __c454(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54757,7 +54753,7 @@ function __c455(j: number): any {
       });
   }
 }
-function __c456(j: number): any {
+function __c455(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54775,7 +54771,7 @@ function __c456(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectRegionLoadbalancingPoolRequest" });
   }
 }
-function __c457(j: number): any {
+function __c456(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54794,7 +54790,7 @@ function __c457(j: number): any {
       ).annotate({ identifier: "CancelCloudProjectDatabaseClickhouseCurrentQueryRequest" });
   }
 }
-function __c458(j: number): any {
+function __c457(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54804,7 +54800,7 @@ function __c458(j: number): any {
       ).annotate({ identifier: "CloudProjectDatabaseServiceCurrentqueriesQueryCancelResponse" });
   }
 }
-function __c459(j: number): any {
+function __c458(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54823,7 +54819,7 @@ function __c459(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectRegionLoadbalancingPoolMemberRequest" });
   }
 }
-function __c460(j: number): any {
+function __c459(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54841,7 +54837,7 @@ function __c460(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectRegionLogSubscriptionRequest" });
   }
 }
-function __c461(j: number): any {
+function __c460(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54859,7 +54855,7 @@ function __c461(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectRegionNetworkRequest" });
   }
 }
-function __c462(j: number): any {
+function __c461(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54878,7 +54874,7 @@ function __c462(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectRegionNetworkSubnetRequest" });
   }
 }
-function __c463(j: number): any {
+function __c462(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54895,7 +54891,7 @@ function __c463(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectRegionQuotaStorageRequest" });
   }
 }
-function __c464(j: number): any {
+function __c463(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54913,7 +54909,7 @@ function __c464(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectRegionShareRequest" });
   }
 }
-function __c465(j: number): any {
+function __c464(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54932,7 +54928,7 @@ function __c465(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectRegionShareAclRequest" });
   }
 }
-function __c466(j: number): any {
+function __c465(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54951,7 +54947,7 @@ function __c466(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectRegionShareSnapshotRequest" });
   }
 }
-function __c467(j: number): any {
+function __c466(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54969,7 +54965,7 @@ function __c467(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectRegionVolumeBackupRequest" });
   }
 }
-function __c468(j: number): any {
+function __c467(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54987,7 +54983,7 @@ function __c468(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectRegionWorkflowBackupRequest" });
   }
 }
-function __c469(j: number): any {
+function __c468(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55006,7 +55002,7 @@ function __c469(j: number): any {
       ).annotate({ identifier: "CancelCloudProjectDatabaseMysqlCurrentQueryRequest" });
   }
 }
-function __c470(j: number): any {
+function __c469(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55023,7 +55019,7 @@ function __c470(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectSnapshotRequest" });
   }
 }
-function __c471(j: number): any {
+function __c470(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55040,7 +55036,7 @@ function __c471(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectSshkeyRequest" });
   }
 }
-function __c472(j: number): any {
+function __c471(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55058,7 +55054,7 @@ function __c472(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectStorageRequest" });
   }
 }
-function __c473(j: number): any {
+function __c472(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55076,7 +55072,7 @@ function __c473(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectStorageCorsRequest" });
   }
 }
-function __c474(j: number): any {
+function __c473(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55093,7 +55089,7 @@ function __c474(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectUserRequest" });
   }
 }
-function __c475(j: number): any {
+function __c474(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55111,7 +55107,7 @@ function __c475(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectUserRoleRequest" });
   }
 }
-function __c476(j: number): any {
+function __c475(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55129,7 +55125,7 @@ function __c476(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectUserS3CredentialsRequest" });
   }
 }
-function __c477(j: number): any {
+function __c476(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55146,7 +55142,7 @@ function __c477(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectVolumeRequest" });
   }
 }
-function __c478(j: number): any {
+function __c477(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55163,7 +55159,7 @@ function __c478(j: number): any {
       ).annotate({ identifier: "DeleteCloudProjectVolumeSnapshotRequest" });
   }
 }
-function __c479(j: number): any {
+function __c478(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55181,7 +55177,7 @@ function __c479(j: number): any {
       ).annotate({ identifier: "DeleteColdArchiveContainerOnRegionRequest" });
   }
 }
-function __c480(j: number): any {
+function __c479(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55200,7 +55196,7 @@ function __c480(j: number): any {
       ).annotate({ identifier: "CancelCloudProjectDatabasePostgresqlCurrentQueryRequest" });
   }
 }
-function __c481(j: number): any {
+function __c480(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55218,7 +55214,7 @@ function __c481(j: number): any {
       ).annotate({ identifier: "DeleteContainerLifecycleConfigurationRequest" });
   }
 }
-function __c482(j: number): any {
+function __c481(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55236,7 +55232,7 @@ function __c482(j: number): any {
       ).annotate({ identifier: "DeleteFloatingIpOnRegionRequest" });
   }
 }
-function __c483(j: number): any {
+function __c482(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55253,7 +55249,7 @@ function __c483(j: number): any {
       ).annotate({ identifier: "DeleteLoadBalancerRequest" });
   }
 }
-function __c484(j: number): any {
+function __c483(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55271,7 +55267,7 @@ function __c484(j: number): any {
       ).annotate({ identifier: "DeleteLoadBalancerConfigurationRequest" });
   }
 }
-function __c485(j: number): any {
+function __c484(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55288,7 +55284,7 @@ function __c485(j: number): any {
       ).annotate({ identifier: "DeleteNetworkLoadBalancerRequest" });
   }
 }
-function __c486(j: number): any {
+function __c485(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55306,7 +55302,7 @@ function __c486(j: number): any {
       ).annotate({ identifier: "DeleteNetworkLoadBalancerConfigurationRequest" });
   }
 }
-function __c487(j: number): any {
+function __c486(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55325,7 +55321,7 @@ function __c487(j: number): any {
       ).annotate({ identifier: "DeleteObjectOnContainerOnRegionRequest" });
   }
 }
-function __c488(j: number): any {
+function __c487(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55345,7 +55341,7 @@ function __c488(j: number): any {
       ).annotate({ identifier: "DeleteObjectVersionOnContainerOnRegionRequest" });
   }
 }
-function __c489(j: number): any {
+function __c488(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55363,7 +55359,7 @@ function __c489(j: number): any {
       ).annotate({ identifier: "DetachCloudProjectRegionFloatingipRequest" });
   }
 }
-function __c490(j: number): any {
+function __c489(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55381,7 +55377,7 @@ function __c490(j: number): any {
       ).annotate({ identifier: "DetachCloudProjectVolumeRequest" });
   }
 }
-function __c491(j: number): any {
+function __c490(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55403,7 +55399,7 @@ function __c491(j: number): any {
       ).annotate({ identifier: "CheckCloudProjectDatabaseMysqlMigrationRequest" });
   }
 }
-function __c492(j: number): any {
+function __c491(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55415,7 +55411,7 @@ function __c492(j: number): any {
       ).annotate({ identifier: "CloudProjectDatabaseMysqlMigrationCheckResult" });
   }
 }
-function __c493(j: number): any {
+function __c492(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55433,7 +55429,7 @@ function __c493(j: number): any {
       ).annotate({ identifier: "DeteteStorageContainerOnRegionRequest" });
   }
 }
-function __c494(j: number): any {
+function __c493(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55450,7 +55446,7 @@ function __c494(j: number): any {
       ).annotate({ identifier: "EnableCloudProjectDatabaseClickhouseWritesRequest" });
   }
 }
-function __c495(j: number): any {
+function __c494(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55460,7 +55456,7 @@ function __c495(j: number): any {
       ).annotate({ identifier: "CloudProjectDatabaseTemporaryWriteDeadline" });
   }
 }
-function __c496(j: number): any {
+function __c495(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55477,7 +55473,7 @@ function __c496(j: number): any {
       ).annotate({ identifier: "EnableCloudProjectDatabaseMysqlWritesRequest" });
   }
 }
-function __c497(j: number): any {
+function __c496(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55494,7 +55490,7 @@ function __c497(j: number): any {
       ).annotate({ identifier: "EnableCloudProjectDatabasePostgresqlWritesRequest" });
   }
 }
-function __c498(j: number): any {
+function __c497(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55513,7 +55509,7 @@ function __c498(j: number): any {
       ).annotate({ identifier: "ForkCloudProjectAiNotebookBackupRequest" });
   }
 }
-function __c499(j: number): any {
+function __c498(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55534,12 +55530,12 @@ function __c499(j: number): any {
         S.Struct({
           alertDate: S.optional(S.String),
           alertId: S.optional(S.Number),
-          emails: S.optional(S.NullOr(__S(17696, __c553, 0))),
+          emails: S.optional(S.NullOr(__S(17664, __c552, 0))),
         }),
       ).annotate({ identifier: "CloudAlertingAlert" });
   }
 }
-function __c500(j: number): any {
+function __c499(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55552,7 +55548,7 @@ function __c500(j: number): any {
       ).annotate({ identifier: "GetAlertingConfigurationRequest" });
   }
 }
-function __c501(j: number): any {
+function __c500(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55562,7 +55558,7 @@ function __c501(j: number): any {
       ).annotate({ identifier: "GetAlertingConfigurationsRequest" });
   }
 }
-function __c502(j: number): any {
+function __c501(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55579,7 +55575,7 @@ function __c502(j: number): any {
       ).annotate({ identifier: "GetAlertsRequest" });
   }
 }
-function __c503(j: number): any {
+function __c502(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55596,7 +55592,7 @@ function __c503(j: number): any {
       ).annotate({ identifier: "GetApplicationLoadBalancerRequest" });
   }
 }
-function __c504(j: number): any {
+function __c503(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55605,7 +55601,7 @@ function __c504(j: number): any {
           commentary: S.optional(S.String),
           futureUse: S.optional(S.String),
           reason: S.optional(S.String),
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
         }).pipe(
           T.Http({
             method: "POST",
@@ -55616,7 +55612,7 @@ function __c504(j: number): any {
       ).annotate({ identifier: "ConfirmCloudProjectTerminationRequest" });
   }
 }
-function __c505(j: number): any {
+function __c504(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.String.pipe(T.RawResponseRoot())).annotate({
@@ -55624,7 +55620,7 @@ function __c505(j: number): any {
       });
   }
 }
-function __c506(j: number): any {
+function __c505(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55642,7 +55638,7 @@ function __c506(j: number): any {
       ).annotate({ identifier: "GetApplicationLoadBalancerConfigurationRequest" });
   }
 }
-function __c507(j: number): any {
+function __c506(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55659,7 +55655,7 @@ function __c507(j: number): any {
       ).annotate({ identifier: "GetApplicationLoadBalancerStatsRequest" });
   }
 }
-function __c508(j: number): any {
+function __c507(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55669,16 +55665,16 @@ function __c508(j: number): any {
         }),
       ).annotate({ identifier: "CloudProjectLoadbalancerStatsTargetServer" });
     case 1:
-      return S.Array(__S(16256, __c508, 0));
+      return S.Array(__S(16224, __c507, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          servers: S.optional(__S(16257, __c508, 1)),
+          servers: S.optional(__S(16225, __c507, 1)),
         }),
       ).annotate({ identifier: "CloudProjectLoadbalancerStatsTarget" });
     case 3:
-      return S.Array(__S(16258, __c508, 2));
+      return S.Array(__S(16226, __c507, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -55692,14 +55688,14 @@ function __c508(j: number): any {
           concurrentFlows: S.optional(S.Number),
           httpRequestsPerSecond: S.optional(S.NullOr(S.Number)),
           status: S.optional(S.String),
-          targets: S.optional(__S(16259, __c508, 3)),
+          targets: S.optional(__S(16227, __c507, 3)),
           tcpConnectionsPerSecond: S.optional(S.Number),
-          throughput: S.optional(__S(16260, __c508, 4)),
+          throughput: S.optional(__S(16228, __c507, 4)),
         }),
       ).annotate({ identifier: "CloudProjectLoadbalancerStats" });
   }
 }
-function __c509(j: number): any {
+function __c508(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55716,7 +55712,7 @@ function __c509(j: number): any {
       ).annotate({ identifier: "GetCertificateRequest" });
   }
 }
-function __c510(j: number): any {
+function __c509(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55729,7 +55725,7 @@ function __c510(j: number): any {
       ).annotate({ identifier: "GetCloudProjectAclRequest" });
   }
 }
-function __c511(j: number): any {
+function __c510(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55742,7 +55738,7 @@ function __c511(j: number): any {
       ).annotate({ identifier: "GetCloudProjectAiAppRequest" });
   }
 }
-function __c512(j: number): any {
+function __c511(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55764,7 +55760,7 @@ function __c512(j: number): any {
       ).annotate({ identifier: "CloudProjectAiAuthorizationStatus" });
   }
 }
-function __c513(j: number): any {
+function __c512(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55787,7 +55783,7 @@ function __c513(j: number): any {
       ).annotate({ identifier: "CloudProjectAiCapabilitiesFeatures" });
   }
 }
-function __c514(j: number): any {
+function __c513(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55806,13 +55802,13 @@ function __c514(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          resources: S.optional(__S(16449, __c514, 1)),
+          resources: S.optional(__S(16417, __c513, 1)),
           storage: S.optional(S.Number),
         }),
       ).annotate({ identifier: "CloudProjectAiCapabilitiesProjectQuotas" });
   }
 }
-function __c515(j: number): any {
+function __c514(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55829,7 +55825,7 @@ function __c515(j: number): any {
       ).annotate({ identifier: "GetCloudProjectAiCapabilityRegionRequest" });
   }
 }
-function __c516(j: number): any {
+function __c515(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55843,7 +55839,7 @@ function __c516(j: number): any {
       ).annotate({ identifier: "CloudProjectAiCapabilitiesRegion" });
   }
 }
-function __c517(j: number): any {
+function __c516(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55861,7 +55857,7 @@ function __c517(j: number): any {
       ).annotate({ identifier: "GetCloudProjectAiCapabilityRegionFlavorRequest" });
   }
 }
-function __c518(j: number): any {
+function __c517(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55887,16 +55883,16 @@ function __c518(j: number): any {
         S.Struct({
           default: S.optional(S.Boolean),
           description: S.optional(S.String),
-          gpuInformation: S.optional(S.NullOr(__S(16576, __c518, 0))),
+          gpuInformation: S.optional(S.NullOr(__S(16544, __c517, 0))),
           id: S.optional(S.String),
           max: S.optional(S.Number),
-          resourcesPerUnit: S.optional(__S(16577, __c518, 1)),
+          resourcesPerUnit: S.optional(__S(16545, __c517, 1)),
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "CloudProjectAiCapabilitiesFlavor" });
   }
 }
-function __c519(j: number): any {
+function __c518(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55918,7 +55914,7 @@ function __c519(j: number): any {
       ).annotate({ identifier: "CopyCloudProjectRegionStorageObjectRequest" });
   }
 }
-function __c520(j: number): any {
+function __c519(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55929,7 +55925,7 @@ function __c520(j: number): any {
       ).annotate({ identifier: "CloudStorageCopyObjectOut" });
   }
 }
-function __c521(j: number): any {
+function __c520(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55947,7 +55943,7 @@ function __c521(j: number): any {
       ).annotate({ identifier: "GetCloudProjectAiCapabilityRegionNotebookEditorRequest" });
   }
 }
-function __c522(j: number): any {
+function __c521(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55957,12 +55953,12 @@ function __c522(j: number): any {
           id: S.optional(S.String),
           logoUrl: S.optional(S.String),
           name: S.optional(S.String),
-          versions: S.optional(__S(17696, __c553, 0)),
+          versions: S.optional(__S(17664, __c552, 0)),
         }),
       ).annotate({ identifier: "CloudProjectAiCapabilitiesNotebookEditor" });
   }
 }
-function __c523(j: number): any {
+function __c522(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55980,7 +55976,7 @@ function __c523(j: number): any {
       ).annotate({ identifier: "GetCloudProjectAiCapabilityRegionNotebookFrameworkRequest" });
   }
 }
-function __c524(j: number): any {
+function __c523(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55990,15 +55986,15 @@ function __c524(j: number): any {
           id: S.optional(S.String),
           logoUrl: S.optional(S.String),
           name: S.optional(S.String),
-          savedPaths: S.optional(S.NullOr(__S(17696, __c553, 0))),
-          supportedQpus: S.optional(S.NullOr(__S(17696, __c553, 0))),
+          savedPaths: S.optional(S.NullOr(__S(17664, __c552, 0))),
+          supportedQpus: S.optional(S.NullOr(__S(17664, __c552, 0))),
           type: S.optional(S.String),
-          versions: S.optional(__S(17696, __c553, 0)),
+          versions: S.optional(__S(17664, __c552, 0)),
         }),
       ).annotate({ identifier: "CloudProjectAiCapabilitiesNotebookFramework" });
   }
 }
-function __c525(j: number): any {
+function __c524(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56018,7 +56014,7 @@ function __c525(j: number): any {
       });
   }
 }
-function __c526(j: number): any {
+function __c525(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56030,7 +56026,7 @@ function __c526(j: number): any {
       ).annotate({ identifier: "CloudProjectAiNotebookNotebookWorkspaceBackupRetentionPolicy" });
   }
 }
-function __c527(j: number): any {
+function __c526(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56048,7 +56044,7 @@ function __c527(j: number): any {
       ).annotate({ identifier: "GetCloudProjectAiCapabilityRegionPresetRequest" });
   }
 }
-function __c528(j: number): any {
+function __c527(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56062,7 +56058,7 @@ function __c528(j: number): any {
           exec: S.optional(S.Boolean),
           flavorTypes: S.optional(__S(6592, __c206, 0)),
           log: S.optional(S.Boolean),
-          resources: S.optional(__S(16896, __c528, 0)),
+          resources: S.optional(__S(16864, __c527, 0)),
           ssh: S.optional(S.Boolean),
           volume: S.optional(S.Boolean),
         }),
@@ -56075,7 +56071,7 @@ function __c528(j: number): any {
         }),
       ).annotate({ identifier: "CloudProjectAiCapabilitiesPresetDocumentationUrl" });
     case 3:
-      return S.Array(__S(16898, __c528, 2));
+      return S.Array(__S(16866, __c527, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -56087,20 +56083,20 @@ function __c528(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          capabilities: S.optional(__S(16897, __c528, 1)),
-          descriptions: S.optional(__S(17696, __c553, 0)),
-          docUrl: S.optional(__S(16899, __c528, 3)),
+          capabilities: S.optional(__S(16865, __c527, 1)),
+          descriptions: S.optional(__S(17664, __c552, 0)),
+          docUrl: S.optional(__S(16867, __c527, 3)),
           id: S.optional(S.String),
           logoUrl: S.optional(S.String),
           name: S.optional(S.String),
-          partner: S.optional(__S(16900, __c528, 4)),
+          partner: S.optional(__S(16868, __c527, 4)),
           snippet: S.optional(S.String),
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "CloudProjectAiCapabilitiesPreset" });
   }
 }
-function __c529(j: number): any {
+function __c528(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56117,7 +56113,7 @@ function __c529(j: number): any {
       ).annotate({ identifier: "GetCloudProjectAiDataRegionRequest" });
   }
 }
-function __c530(j: number): any {
+function __c529(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56135,7 +56131,7 @@ function __c530(j: number): any {
       ).annotate({ identifier: "GetCloudProjectAiDataRegionAliasRequest" });
   }
 }
-function __c531(j: number): any {
+function __c530(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56158,13 +56154,13 @@ function __c531(j: number): any {
           region: S.optional(S.NullOr(S.String)),
           s3Url: S.optional(S.NullOr(S.String)),
           secretKey: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
-          token: S.optional(S.NullOr(S.String)),
+          token: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           url: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "CloudProjectAiDataStoreAuth" });
   }
 }
-function __c532(j: number): any {
+function __c531(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56177,7 +56173,7 @@ function __c532(j: number): any {
       ).annotate({ identifier: "GetCloudProjectAiJobRequest" });
   }
 }
-function __c533(j: number): any {
+function __c532(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56194,7 +56190,7 @@ function __c533(j: number): any {
       ).annotate({ identifier: "GetCloudProjectAiNotebookRequest" });
   }
 }
-function __c534(j: number): any {
+function __c533(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56212,7 +56208,7 @@ function __c534(j: number): any {
       ).annotate({ identifier: "GetCloudProjectAiNotebookBackupRequest" });
   }
 }
-function __c535(j: number): any {
+function __c534(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56225,7 +56221,7 @@ function __c535(j: number): any {
       ).annotate({ identifier: "CloudProjectAiNotebookBackup" });
   }
 }
-function __c536(j: number): any {
+function __c535(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56248,7 +56244,7 @@ function __c536(j: number): any {
       ).annotate({ identifier: "CopyCloudProjectRegionStorageObjectVersionRequest" });
   }
 }
-function __c537(j: number): any {
+function __c536(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56265,7 +56261,7 @@ function __c537(j: number): any {
       ).annotate({ identifier: "GetCloudProjectAiNotebookWorkspacebackupretentionpolicyRequest" });
   }
 }
-function __c538(j: number): any {
+function __c537(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56282,7 +56278,7 @@ function __c538(j: number): any {
       ).annotate({ identifier: "GetCloudProjectAiPartnerRegionRequest" });
   }
 }
-function __c539(j: number): any {
+function __c538(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56300,7 +56296,7 @@ function __c539(j: number): any {
       ).annotate({ identifier: "GetCloudProjectAiPartnerRegionPartnerRequest" });
   }
 }
-function __c540(j: number): any {
+function __c539(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56309,18 +56305,18 @@ function __c540(j: number): any {
         }),
       ).annotate({ identifier: "CloudProjectAiPartnerContractTermsLocale" });
     case 1:
-      return S.Record(S.String, __S(17280, __c540, 0));
+      return S.Record(S.String, __S(17248, __c539, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           signedAt: S.optional(S.NullOr(S.String)),
-          termsOfService: S.optional(__S(17281, __c540, 1)),
+          termsOfService: S.optional(__S(17249, __c539, 1)),
         }),
       ).annotate({ identifier: "CloudProjectAiPartnerContract" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          contract: S.optional(S.NullOr(__S(17282, __c540, 2))),
+          contract: S.optional(S.NullOr(__S(17250, __c539, 2))),
           createdAt: S.optional(S.String),
           description: S.optional(S.String),
           id: S.optional(S.String),
@@ -56329,7 +56325,7 @@ function __c540(j: number): any {
       ).annotate({ identifier: "CloudProjectAiPartnerPartner" });
   }
 }
-function __c541(j: number): any {
+function __c540(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56346,7 +56342,7 @@ function __c541(j: number): any {
       ).annotate({ identifier: "GetCloudProjectAiRegistryRequest" });
   }
 }
-function __c542(j: number): any {
+function __c541(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56359,7 +56355,7 @@ function __c542(j: number): any {
       ).annotate({ identifier: "GetCloudProjectAiTokenRequest" });
   }
 }
-function __c543(j: number): any {
+function __c542(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56376,7 +56372,7 @@ function __c543(j: number): any {
       ).annotate({ identifier: "GetCloudProjectCapabilityApplicationloadbalancerRegionRequest" });
   }
 }
-function __c544(j: number): any {
+function __c543(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56386,7 +56382,7 @@ function __c544(j: number): any {
       ).annotate({ identifier: "CloudProjectLoadbalancerRegion" });
   }
 }
-function __c545(j: number): any {
+function __c544(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56412,7 +56408,7 @@ function __c545(j: number): any {
       ).annotate({ identifier: "CloudProjectLoadbalancerApplicationLoadBalancerSizeCapability" });
   }
 }
-function __c546(j: number): any {
+function __c545(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56429,12 +56425,12 @@ function __c546(j: number): any {
       ).annotate({ identifier: "GetCloudProjectCapabilityKubeLogKindRequest" });
   }
 }
-function __c547(j: number): any {
+function __c546(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          additionalReturnedFields: S.optional(__S(17696, __c553, 0)),
+          additionalReturnedFields: S.optional(__S(17664, __c552, 0)),
           createdAt: S.optional(S.String),
           displayName: S.optional(S.String),
           kindId: S.optional(S.String),
@@ -56444,7 +56440,7 @@ function __c547(j: number): any {
       ).annotate({ identifier: "DbaasLogsLogKind" });
   }
 }
-function __c548(j: number): any {
+function __c547(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56461,7 +56457,7 @@ function __c548(j: number): any {
       ).annotate({ identifier: "GetCloudProjectCapabilityLoadbalancerRegionRequest" });
   }
 }
-function __c549(j: number): any {
+function __c548(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56478,7 +56474,7 @@ function __c549(j: number): any {
       ).annotate({ identifier: "GetCloudProjectCapabilityLoadbalancerSizeRequest" });
   }
 }
-function __c550(j: number): any {
+function __c549(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56491,7 +56487,7 @@ function __c550(j: number): any {
       ).annotate({ identifier: "CloudProjectLoadbalancerLoadBalancerSizeCapability" });
   }
 }
-function __c551(j: number): any {
+function __c550(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56509,7 +56505,7 @@ function __c551(j: number): any {
       ).annotate({ identifier: "AbortSnapshotOnRegionRequest" });
   }
 }
-function __c552(j: number): any {
+function __c551(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56518,14 +56514,14 @@ function __c552(j: number): any {
           completedAt: S.optional(S.NullOr(S.String)),
           id: S.optional(S.String),
           progress: S.optional(S.Number),
-          regions: S.optional(S.NullOr(__S(17696, __c553, 0))),
+          regions: S.optional(S.NullOr(__S(17664, __c552, 0))),
           resourceId: S.optional(S.NullOr(S.String)),
           startedAt: S.optional(S.NullOr(S.String)),
           status: S.optional(S.String),
         }),
       ).annotate({ identifier: "CloudSubOperation" });
     case 1:
-      return S.Array(__S(17664, __c552, 0));
+      return S.Array(__S(17632, __c551, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -56534,22 +56530,22 @@ function __c552(j: number): any {
           createdAt: S.optional(S.String),
           id: S.optional(S.String),
           progress: S.optional(S.Number),
-          regions: S.optional(S.NullOr(__S(17696, __c553, 0))),
+          regions: S.optional(S.NullOr(__S(17664, __c552, 0))),
           resourceId: S.optional(S.NullOr(S.String)),
           startedAt: S.optional(S.NullOr(S.String)),
           status: S.optional(S.String),
-          subOperations: S.optional(S.NullOr(__S(17665, __c552, 1))),
+          subOperations: S.optional(S.NullOr(__S(17633, __c551, 1))),
         }),
       ).annotate({ identifier: "CloudOperation" });
   }
 }
-function __c553(j: number): any {
+function __c552(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c554(j: number): any {
+function __c553(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56557,7 +56553,7 @@ function __c554(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           description: S.optional(S.NullOr(S.String)),
           name: S.optional(S.NullOr(S.String)),
-          networking: S.optional(S.NullOr(__S(17760, __c555, 0))),
+          networking: S.optional(S.NullOr(__S(17728, __c554, 0))),
           openstackRegion: S.optional(S.String),
           region: S.String,
           size: S.optional(S.NullOr(S.String)),
@@ -56571,7 +56567,7 @@ function __c554(j: number): any {
       ).annotate({ identifier: "CreateApplicationLoadBalancerRequest" });
   }
 }
-function __c555(j: number): any {
+function __c554(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56582,7 +56578,7 @@ function __c555(j: number): any {
       ).annotate({ identifier: "CloudProjectLoadbalancerNetworkingNetworkingCreation" });
   }
 }
-function __c556(j: number): any {
+function __c555(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56601,22 +56597,22 @@ function __c556(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          ipv4: S.optional(__S(17696, __c553, 0)),
-          ipv6: S.optional(S.NullOr(__S(17696, __c553, 0))),
+          ipv4: S.optional(__S(17664, __c552, 0)),
+          ipv6: S.optional(S.NullOr(__S(17664, __c552, 0))),
         }),
       ).annotate({ identifier: "CloudProjectLoadbalancerAddresses" });
   }
 }
-function __c557(j: number): any {
+function __c556(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          address: S.optional(__S(17792, __c556, 0)),
-          configuration: S.optional(__S(17793, __c556, 1)),
+          address: S.optional(__S(17760, __c555, 0)),
+          configuration: S.optional(__S(17761, __c555, 1)),
           createdAt: S.optional(S.String),
           description: S.optional(S.NullOr(S.String)),
-          egressAddress: S.optional(__S(17794, __c556, 2)),
+          egressAddress: S.optional(__S(17762, __c555, 2)),
           id: S.optional(S.String),
           name: S.optional(S.NullOr(S.String)),
           openstackRegion: S.optional(S.String),
@@ -56627,7 +56623,7 @@ function __c557(j: number): any {
       ).annotate({ identifier: "CloudProjectApplicationLoadBalancer" });
   }
 }
-function __c558(j: number): any {
+function __c557(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56644,7 +56640,7 @@ function __c558(j: number): any {
       ).annotate({ identifier: "GetCloudProjectCapabilityNetworkloadbalancerRegionRequest" });
   }
 }
-function __c559(j: number): any {
+function __c558(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56661,7 +56657,7 @@ function __c559(j: number): any {
       ).annotate({ identifier: "GetCloudProjectCapabilityNetworkloadbalancerSizeRequest" });
   }
 }
-function __c560(j: number): any {
+function __c559(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56678,7 +56674,7 @@ function __c560(j: number): any {
       ).annotate({ identifier: "GetCloudProjectContainerRegistryRequest" });
   }
 }
-function __c561(j: number): any {
+function __c560(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56715,7 +56711,7 @@ function __c561(j: number): any {
       ).annotate({ identifier: "CloudContainerRegistryOIDCConfiguration" });
   }
 }
-function __c562(j: number): any {
+function __c561(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56732,7 +56728,7 @@ function __c562(j: number): any {
       ).annotate({ identifier: "GetCloudProjectContainerRegistryPlanRequest" });
   }
 }
-function __c563(j: number): any {
+function __c562(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56752,16 +56748,16 @@ function __c563(j: number): any {
         S.Struct({
           code: S.optional(S.String),
           createdAt: S.optional(S.String),
-          features: S.optional(__S(18016, __c563, 0)),
+          features: S.optional(__S(17984, __c562, 0)),
           id: S.optional(S.String),
           name: S.optional(S.String),
-          registryLimits: S.optional(__S(18017, __c563, 1)),
+          registryLimits: S.optional(__S(17985, __c562, 1)),
           updatedAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "CloudContainerRegistryPlan" });
   }
 }
-function __c564(j: number): any {
+function __c563(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56779,7 +56775,7 @@ function __c564(j: number): any {
       ).annotate({ identifier: "GetCloudProjectContainerRegistryUserRequest" });
   }
 }
-function __c565(j: number): any {
+function __c564(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56800,20 +56796,20 @@ function __c565(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          available_credit: S.optional(__S(26432, __c826, 0)),
+          available_credit: S.optional(__S(26400, __c825, 0)),
           bill: S.optional(S.NullOr(S.String)),
           description: S.optional(S.NullOr(S.String)),
           id: S.optional(S.Number),
-          products: S.optional(S.NullOr(__S(17696, __c553, 0))),
-          total_credit: S.optional(__S(26432, __c826, 0)),
-          used_credit: S.optional(__S(26432, __c826, 0)),
-          validity: S.optional(S.NullOr(__S(18081, __c565, 1))),
+          products: S.optional(S.NullOr(__S(17664, __c552, 0))),
+          total_credit: S.optional(__S(26400, __c825, 0)),
+          used_credit: S.optional(__S(26400, __c825, 0)),
+          validity: S.optional(S.NullOr(__S(18049, __c564, 1))),
           voucher: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "CloudCredit" });
   }
 }
-function __c566(j: number): any {
+function __c565(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56830,7 +56826,7 @@ function __c566(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseCassandraRequest" });
   }
 }
-function __c567(j: number): any {
+function __c566(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56847,15 +56843,15 @@ function __c567(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseCassandraAdvancedConfigurationRequest" });
   }
 }
-function __c568(j: number): any {
+function __c567(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => __S(19392, __c606, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(19360, __c605, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetCloudProjectDatabaseCassandraAdvancedConfigurationResponse",
       });
   }
 }
-function __c569(j: number): any {
+function __c568(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56873,7 +56869,7 @@ function __c569(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseCassandraBackupRequest" });
   }
 }
-function __c570(j: number): any {
+function __c569(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56881,7 +56877,7 @@ function __c570(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           applicationLoadBalancerId: S.String.pipe(T.Label()),
           actions: S.optional(S.NullOr(__S(35334, __c1104, 6))),
-          certificates: S.optional(__S(17696, __c553, 0)),
+          certificates: S.optional(__S(17664, __c552, 0)),
           conditions: S.optional(S.NullOr(__S(35299, __c1103, 3))),
           entryPoints: S.optional(__S(35336, __c1104, 8)),
           networking: S.optional(S.NullOr(__S(35234, __c1101, 2))),
@@ -56896,7 +56892,7 @@ function __c570(j: number): any {
       ).annotate({ identifier: "CreateApplicationLoadBalancerConfigurationRequest" });
   }
 }
-function __c571(j: number): any {
+function __c570(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56913,7 +56909,7 @@ function __c571(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseCassandraCertificatesRequest" });
   }
 }
-function __c572(j: number): any {
+function __c571(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56923,7 +56919,7 @@ function __c572(j: number): any {
       ).annotate({ identifier: "CloudProjectDatabaseServiceCertificates" });
   }
 }
-function __c573(j: number): any {
+function __c572(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56941,7 +56937,7 @@ function __c573(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseCassandraIntegrationRequest" });
   }
 }
-function __c574(j: number): any {
+function __c573(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56959,7 +56955,7 @@ function __c574(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseCassandraLogKindRequest" });
   }
 }
-function __c575(j: number): any {
+function __c574(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56977,7 +56973,7 @@ function __c575(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseCassandraLogSubscriptionRequest" });
   }
 }
-function __c576(j: number): any {
+function __c575(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56988,14 +56984,14 @@ function __c576(j: number): any {
       ).annotate({ identifier: "DbaasLogsSubscriptionResource" });
   }
 }
-function __c577(j: number): any {
+function __c576(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           createdAt: S.optional(S.String),
           kind: S.optional(S.String),
-          resource: S.optional(__S(18432, __c576, 0)),
+          resource: S.optional(__S(18400, __c575, 0)),
           serviceName: S.optional(S.String),
           streamId: S.optional(S.String),
           subscriptionId: S.optional(S.String),
@@ -57004,7 +57000,7 @@ function __c577(j: number): any {
       ).annotate({ identifier: "DbaasLogsLogSubscription" });
   }
 }
-function __c578(j: number): any {
+function __c577(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57022,7 +57018,7 @@ function __c578(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseCassandraMaintenanceRequest" });
   }
 }
-function __c579(j: number): any {
+function __c578(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57041,7 +57037,7 @@ function __c579(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseCassandraMetricRequest" });
   }
 }
-function __c580(j: number): any {
+function __c579(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57051,27 +57047,27 @@ function __c580(j: number): any {
         }),
       ).annotate({ identifier: "CloudProjectDatabaseServiceDataPoint" });
     case 1:
-      return S.Array(__S(18560, __c580, 0));
+      return S.Array(__S(18528, __c579, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          dataPoints: S.optional(__S(18561, __c580, 1)),
+          dataPoints: S.optional(__S(18529, __c579, 1)),
           hostname: S.optional(S.String),
         }),
       ).annotate({ identifier: "CloudProjectDatabaseServiceHostMetric" });
     case 3:
-      return S.Array(__S(18562, __c580, 2));
+      return S.Array(__S(18530, __c579, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          metrics: S.optional(__S(18563, __c580, 3)),
+          metrics: S.optional(__S(18531, __c579, 3)),
           name: S.optional(S.String),
           units: S.optional(S.String),
         }),
       ).annotate({ identifier: "CloudProjectDatabaseServiceMetric" });
   }
 }
-function __c581(j: number): any {
+function __c580(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57089,7 +57085,7 @@ function __c581(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseCassandraNodeRequest" });
   }
 }
-function __c582(j: number): any {
+function __c581(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57107,7 +57103,7 @@ function __c582(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseCassandraUserRequest" });
   }
 }
-function __c583(j: number): any {
+function __c582(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57120,7 +57116,7 @@ function __c583(j: number): any {
       ).annotate({ identifier: "CloudProjectDatabaseServiceUser" });
   }
 }
-function __c584(j: number): any {
+function __c583(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57137,7 +57133,7 @@ function __c584(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseClickhouseRequest" });
   }
 }
-function __c585(j: number): any {
+function __c584(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57155,7 +57151,7 @@ function __c585(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseClickhouseBackupRequest" });
   }
 }
-function __c586(j: number): any {
+function __c585(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57167,7 +57163,7 @@ function __c586(j: number): any {
       ).annotate({ identifier: "CreateCloudProjectAclRequest" });
   }
 }
-function __c587(j: number): any {
+function __c586(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57178,7 +57174,7 @@ function __c587(j: number): any {
       ).annotate({ identifier: "CloudAcl" });
   }
 }
-function __c588(j: number): any {
+function __c587(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57195,7 +57191,7 @@ function __c588(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseClickhouseCertificatesRequest" });
   }
 }
-function __c589(j: number): any {
+function __c588(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57213,7 +57209,7 @@ function __c589(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseClickhouseDatabaseRequest" });
   }
 }
-function __c590(j: number): any {
+function __c589(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57231,7 +57227,7 @@ function __c590(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseClickhouseIntegrationRequest" });
   }
 }
-function __c591(j: number): any {
+function __c590(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57249,7 +57245,7 @@ function __c591(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseClickhouseLogKindRequest" });
   }
 }
-function __c592(j: number): any {
+function __c591(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57267,7 +57263,7 @@ function __c592(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseClickhouseLogSubscriptionRequest" });
   }
 }
-function __c593(j: number): any {
+function __c592(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57285,7 +57281,7 @@ function __c593(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseClickhouseMaintenanceRequest" });
   }
 }
-function __c594(j: number): any {
+function __c593(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57304,7 +57300,7 @@ function __c594(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseClickhouseMetricRequest" });
   }
 }
-function __c595(j: number): any {
+function __c594(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57322,7 +57318,7 @@ function __c595(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseClickhouseNodeRequest" });
   }
 }
-function __c596(j: number): any {
+function __c595(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57340,21 +57336,21 @@ function __c596(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseClickhouseUserRequest" });
   }
 }
-function __c597(j: number): any {
+function __c596(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           createdAt: S.optional(S.String),
           id: S.optional(S.String),
-          roles: S.optional(__S(17696, __c553, 0)),
+          roles: S.optional(__S(17664, __c552, 0)),
           status: S.optional(S.String),
           username: S.optional(S.String),
         }),
       ).annotate({ identifier: "CloudProjectDatabaseServiceUserWithRoles" });
   }
 }
-function __c598(j: number): any {
+function __c597(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57371,40 +57367,40 @@ function __c598(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseGrafanaRequest" });
   }
 }
-function __c599(j: number): any {
+function __c598(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           serviceName: S.String.pipe(T.Label()),
-          command: S.optional(S.NullOr(__S(17696, __c553, 0))),
+          command: S.optional(S.NullOr(__S(17664, __c552, 0))),
           defaultHttpPort: S.optional(S.NullOr(S.Number)),
-          deploymentStrategy: S.optional(S.NullOr(__S(19264, __c602, 0))),
-          envVars: S.optional(S.NullOr(__S(19329, __c604, 1))),
+          deploymentStrategy: S.optional(S.NullOr(__S(19232, __c601, 0))),
+          envVars: S.optional(S.NullOr(__S(19297, __c603, 1))),
           grpcPort: S.optional(S.NullOr(S.Number)),
           image: S.String,
-          labels: S.optional(S.NullOr(__S(19392, __c606, 0))),
-          livenessProbe: S.optional(S.NullOr(__S(19265, __c602, 1))),
+          labels: S.optional(S.NullOr(__S(19360, __c605, 0))),
+          livenessProbe: S.optional(S.NullOr(__S(19233, __c601, 1))),
           name: S.optional(S.String),
           partnerId: S.optional(S.NullOr(S.String)),
-          probe: S.optional(S.NullOr(__S(19265, __c602, 1))),
+          probe: S.optional(S.NullOr(__S(19233, __c601, 1))),
           region: S.String,
-          resources: __S(19424, __c607, 0),
-          scalingStrategy: S.optional(S.NullOr(__S(19232, __c601, 0))),
+          resources: __S(19392, __c606, 0),
+          scalingStrategy: S.optional(S.NullOr(__S(19200, __c600, 0))),
           unsecureHttp: S.optional(S.NullOr(S.Boolean)),
-          volumes: S.optional(S.NullOr(__S(19426, __c607, 2))),
+          volumes: S.optional(S.NullOr(__S(19394, __c606, 2))),
         }).pipe(T.Http({ method: "POST", uri: "/cloud/project/{serviceName}/ai/app", code: 200 })),
       ).annotate({ identifier: "CreateCloudProjectAiAppRequest" });
   }
 }
-function __c600(j: number): any {
+function __c599(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           averageUsageTarget: S.optional(S.NullOr(S.Number)),
           cooldownPeriodSeconds: S.optional(S.NullOr(S.Number)),
-          customMetrics: S.optional(S.NullOr(__S(19296, __c603, 0))),
+          customMetrics: S.optional(S.NullOr(__S(19264, __c602, 0))),
           replicasMax: S.optional(S.Number),
           replicasMin: S.optional(S.NullOr(S.Number)),
           resourceType: S.optional(S.NullOr(S.String)),
@@ -57415,46 +57411,46 @@ function __c600(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          automatic: S.optional(S.NullOr(__S(19200, __c600, 0))),
-          fixed: S.optional(S.NullOr(__S(19297, __c603, 1))),
+          automatic: S.optional(S.NullOr(__S(19168, __c599, 0))),
+          fixed: S.optional(S.NullOr(__S(19265, __c602, 1))),
         }),
       ).annotate({ identifier: "CloudProjectAiAppScalingStrategy" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          command: S.optional(S.NullOr(__S(17696, __c553, 0))),
+          command: S.optional(S.NullOr(__S(17664, __c552, 0))),
           defaultHttpPort: S.optional(S.NullOr(S.Number)),
-          deploymentStrategy: S.optional(S.NullOr(__S(19264, __c602, 0))),
-          envVars: S.optional(S.NullOr(__S(19329, __c604, 1))),
+          deploymentStrategy: S.optional(S.NullOr(__S(19232, __c601, 0))),
+          envVars: S.optional(S.NullOr(__S(19297, __c603, 1))),
           grpcPort: S.optional(S.NullOr(S.Number)),
           image: S.optional(S.String),
-          labels: S.optional(S.NullOr(__S(19392, __c606, 0))),
-          livenessProbe: S.optional(S.NullOr(__S(19265, __c602, 1))),
+          labels: S.optional(S.NullOr(__S(19360, __c605, 0))),
+          livenessProbe: S.optional(S.NullOr(__S(19233, __c601, 1))),
           name: S.optional(S.String),
           partnerId: S.optional(S.NullOr(S.String)),
-          probe: S.optional(S.NullOr(__S(19265, __c602, 1))),
+          probe: S.optional(S.NullOr(__S(19233, __c601, 1))),
           region: S.optional(S.String),
-          resources: S.optional(__S(19520, __c610, 0)),
-          scalingStrategy: S.optional(S.NullOr(__S(19201, __c600, 1))),
+          resources: S.optional(__S(19488, __c609, 0)),
+          scalingStrategy: S.optional(S.NullOr(__S(19169, __c599, 1))),
           unsecureHttp: S.optional(S.NullOr(S.Boolean)),
-          volumes: S.optional(S.NullOr(__S(19522, __c610, 2))),
+          volumes: S.optional(S.NullOr(__S(19490, __c609, 2))),
         }),
       ).annotate({ identifier: "CloudProjectAiAppAppSpec" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           availableReplicas: S.optional(S.Number),
-          dataSync: S.optional(__S(19523, __c610, 3)),
+          dataSync: S.optional(__S(19491, __c609, 3)),
           grpcAddress: S.optional(S.NullOr(S.String)),
-          history: S.optional(__S(19525, __c610, 5)),
-          info: S.optional(__S(19489, __c609, 1)),
+          history: S.optional(__S(19493, __c609, 5)),
+          info: S.optional(__S(19457, __c608, 1)),
           infoUrl: S.optional(S.NullOr(S.String)),
           internalServiceIp: S.optional(S.NullOr(S.String)),
           lastTransitionDate: S.optional(S.NullOr(S.String)),
           monitoringUrl: S.optional(S.NullOr(S.String)),
           state: S.optional(S.NullOr(S.String)),
           url: S.optional(S.NullOr(S.String)),
-          volumes: S.optional(S.NullOr(__S(19527, __c610, 7))),
+          volumes: S.optional(S.NullOr(__S(19495, __c609, 7))),
         }),
       ).annotate({ identifier: "CloudProjectAiAppAppStatus" });
     case 4:
@@ -57462,26 +57458,26 @@ function __c600(j: number): any {
         S.Struct({
           createdAt: S.optional(S.String),
           id: S.optional(S.String),
-          spec: S.optional(__S(19202, __c600, 2)),
-          status: S.optional(__S(19203, __c600, 3)),
+          spec: S.optional(__S(19170, __c599, 2)),
+          status: S.optional(__S(19171, __c599, 3)),
           updatedAt: S.optional(S.String),
           user: S.optional(S.String),
         }),
       ).annotate({ identifier: "CloudProjectAiAppApp" });
   }
 }
-function __c601(j: number): any {
+function __c600(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          automatic: S.optional(S.NullOr(__S(19456, __c608, 0))),
-          fixed: S.optional(S.NullOr(__S(19297, __c603, 1))),
+          automatic: S.optional(S.NullOr(__S(19424, __c607, 0))),
+          fixed: S.optional(S.NullOr(__S(19265, __c602, 1))),
         }),
       ).annotate({ identifier: "CloudProjectAiAppScalingStrategyInput" });
   }
 }
-function __c602(j: number): any {
+function __c601(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57506,7 +57502,7 @@ function __c602(j: number): any {
       ).annotate({ identifier: "CloudProjectAiAppProbeInput" });
   }
 }
-function __c603(j: number): any {
+function __c602(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57526,7 +57522,7 @@ function __c603(j: number): any {
       ).annotate({ identifier: "CloudProjectAiAppScalingFixedStrategyInput" });
   }
 }
-function __c604(j: number): any {
+function __c603(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57536,10 +57532,10 @@ function __c604(j: number): any {
         }),
       ).annotate({ identifier: "CloudProjectAiJobJobEnv" });
     case 1:
-      return S.Array(__S(19328, __c604, 0));
+      return S.Array(__S(19296, __c603, 0));
   }
 }
-function __c605(j: number): any {
+function __c604(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57566,27 +57562,27 @@ function __c605(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          dataStore: S.optional(S.NullOr(__S(19360, __c605, 0))),
-          publicGit: S.optional(S.NullOr(__S(19361, __c605, 1))),
-          publicSwift: S.optional(S.NullOr(__S(19361, __c605, 1))),
-          standalone: S.optional(S.NullOr(__S(19362, __c605, 2))),
+          dataStore: S.optional(S.NullOr(__S(19328, __c604, 0))),
+          publicGit: S.optional(S.NullOr(__S(19329, __c604, 1))),
+          publicSwift: S.optional(S.NullOr(__S(19329, __c604, 1))),
+          standalone: S.optional(S.NullOr(__S(19330, __c604, 2))),
         }),
       ).annotate({ identifier: "CloudProjectAiVolumeVolumeSource" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          targetDataStore: S.optional(S.NullOr(__S(19360, __c605, 0))),
+          targetDataStore: S.optional(S.NullOr(__S(19328, __c604, 0))),
         }),
       ).annotate({ identifier: "CloudProjectAiVolumeVolumeTarget" });
   }
 }
-function __c606(j: number): any {
+function __c605(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c607(j: number): any {
+function __c606(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57609,31 +57605,31 @@ function __c607(j: number): any {
         S.Struct({
           cache: S.optional(S.Boolean),
           container: S.optional(S.NullOr(S.String)),
-          dataStore: S.optional(S.NullOr(__S(19360, __c605, 0))),
+          dataStore: S.optional(S.NullOr(__S(19328, __c604, 0))),
           mountPath: S.String,
           permission: S.String,
           prefix: S.optional(S.NullOr(S.String)),
-          publicGit: S.optional(S.NullOr(__S(19361, __c605, 1))),
-          publicSwift: S.optional(S.NullOr(__S(19361, __c605, 1))),
+          publicGit: S.optional(S.NullOr(__S(19329, __c604, 1))),
+          publicSwift: S.optional(S.NullOr(__S(19329, __c604, 1))),
           region: S.optional(S.NullOr(S.String)),
-          standalone: S.optional(S.NullOr(__S(19362, __c605, 2))),
-          targetDataStore: S.optional(S.NullOr(__S(19360, __c605, 0))),
-          volumeSource: S.optional(S.NullOr(__S(19363, __c605, 3))),
-          volumeTarget: S.optional(S.NullOr(__S(19364, __c605, 4))),
+          standalone: S.optional(S.NullOr(__S(19330, __c604, 2))),
+          targetDataStore: S.optional(S.NullOr(__S(19328, __c604, 0))),
+          volumeSource: S.optional(S.NullOr(__S(19331, __c604, 3))),
+          volumeTarget: S.optional(S.NullOr(__S(19332, __c604, 4))),
         }),
       ).annotate({ identifier: "CloudProjectAiVolumeVolumeInput" });
     case 2:
-      return S.Array(__S(19425, __c607, 1));
+      return S.Array(__S(19393, __c606, 1));
   }
 }
-function __c608(j: number): any {
+function __c607(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           averageUsageTarget: S.optional(S.NullOr(S.Number)),
           cooldownPeriodSeconds: S.optional(S.NullOr(S.Number)),
-          customMetrics: S.optional(S.NullOr(__S(19296, __c603, 0))),
+          customMetrics: S.optional(S.NullOr(__S(19264, __c602, 0))),
           replicasMax: S.optional(S.Number),
           replicasMin: S.optional(S.Number),
           resourceType: S.optional(S.NullOr(S.String)),
@@ -57643,7 +57639,7 @@ function __c608(j: number): any {
       ).annotate({ identifier: "CloudProjectAiAppScalingAutomaticStrategyInput" });
   }
 }
-function __c609(j: number): any {
+function __c608(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57680,13 +57676,13 @@ function __c609(j: number): any {
         }),
       ).annotate({ identifier: "CloudProjectAiVolumeProgress" });
     case 3:
-      return S.Array(__S(19490, __c609, 2));
+      return S.Array(__S(19458, __c608, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           endedAt: S.optional(S.NullOr(S.String)),
-          info: S.optional(__S(19489, __c609, 1)),
-          progress: S.optional(__S(19491, __c609, 3)),
+          info: S.optional(__S(19457, __c608, 1)),
+          progress: S.optional(__S(19459, __c608, 3)),
           queuedAt: S.optional(S.String),
           startedAt: S.optional(S.NullOr(S.String)),
           state: S.optional(S.String),
@@ -57697,14 +57693,14 @@ function __c609(j: number): any {
         S.Struct({
           createdAt: S.optional(S.String),
           id: S.optional(S.String),
-          spec: S.optional(__S(19488, __c609, 0)),
-          status: S.optional(__S(19492, __c609, 4)),
+          spec: S.optional(__S(19456, __c608, 0)),
+          status: S.optional(__S(19460, __c608, 4)),
           updatedAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "CloudProjectAiVolumeDataSync" });
   }
 }
-function __c610(j: number): any {
+function __c609(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57727,24 +57723,24 @@ function __c610(j: number): any {
         S.Struct({
           cache: S.optional(S.Boolean),
           container: S.optional(S.NullOr(S.String)),
-          dataStore: S.optional(S.NullOr(__S(19360, __c605, 0))),
+          dataStore: S.optional(S.NullOr(__S(19328, __c604, 0))),
           id: S.optional(S.NullOr(S.String)),
           mountPath: S.String,
           permission: S.String,
           prefix: S.optional(S.NullOr(S.String)),
-          publicGit: S.optional(S.NullOr(__S(19361, __c605, 1))),
-          publicSwift: S.optional(S.NullOr(__S(19361, __c605, 1))),
+          publicGit: S.optional(S.NullOr(__S(19329, __c604, 1))),
+          publicSwift: S.optional(S.NullOr(__S(19329, __c604, 1))),
           region: S.optional(S.NullOr(S.String)),
-          standalone: S.optional(S.NullOr(__S(19362, __c605, 2))),
-          targetDataStore: S.optional(S.NullOr(__S(19360, __c605, 0))),
-          volumeSource: S.optional(S.NullOr(__S(19363, __c605, 3))),
-          volumeTarget: S.optional(S.NullOr(__S(19364, __c605, 4))),
+          standalone: S.optional(S.NullOr(__S(19330, __c604, 2))),
+          targetDataStore: S.optional(S.NullOr(__S(19328, __c604, 0))),
+          volumeSource: S.optional(S.NullOr(__S(19331, __c604, 3))),
+          volumeTarget: S.optional(S.NullOr(__S(19332, __c604, 4))),
         }),
       ).annotate({ identifier: "CloudProjectAiVolumeVolume" });
     case 2:
-      return S.Array(__S(19521, __c610, 1));
+      return S.Array(__S(19489, __c609, 1));
     case 3:
-      return S.Array(__S(19493, __c609, 5));
+      return S.Array(__S(19461, __c608, 5));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -57753,7 +57749,7 @@ function __c610(j: number): any {
         }),
       ).annotate({ identifier: "CloudProjectAiAppAppStateHistory" });
     case 5:
-      return S.Array(__S(19524, __c610, 4));
+      return S.Array(__S(19492, __c609, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -57763,10 +57759,10 @@ function __c610(j: number): any {
         }),
       ).annotate({ identifier: "CloudProjectAiVolumeVolumeStatus" });
     case 7:
-      return S.Array(__S(19526, __c610, 6));
+      return S.Array(__S(19494, __c609, 6));
   }
 }
-function __c611(j: number): any {
+function __c610(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57783,7 +57779,7 @@ function __c611(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseGrafanaAdvancedConfigurationRequest" });
   }
 }
-function __c612(j: number): any {
+function __c611(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57801,7 +57797,7 @@ function __c612(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseGrafanaBackupRequest" });
   }
 }
-function __c613(j: number): any {
+function __c612(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57819,7 +57815,7 @@ function __c613(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseGrafanaIntegrationRequest" });
   }
 }
-function __c614(j: number): any {
+function __c613(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57837,7 +57833,7 @@ function __c614(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseGrafanaLogKindRequest" });
   }
 }
-function __c615(j: number): any {
+function __c614(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57855,7 +57851,7 @@ function __c615(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseGrafanaLogSubscriptionRequest" });
   }
 }
-function __c616(j: number): any {
+function __c615(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57873,7 +57869,7 @@ function __c616(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseGrafanaMaintenanceRequest" });
   }
 }
-function __c617(j: number): any {
+function __c616(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57892,7 +57888,7 @@ function __c617(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseGrafanaMetricRequest" });
   }
 }
-function __c618(j: number): any {
+function __c617(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57910,7 +57906,7 @@ function __c618(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseGrafanaNodeRequest" });
   }
 }
-function __c619(j: number): any {
+function __c618(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57928,7 +57924,7 @@ function __c619(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseGrafanaUserRequest" });
   }
 }
-function __c620(j: number): any {
+function __c619(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57945,35 +57941,35 @@ function __c620(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseKafkaRequest" });
   }
 }
-function __c621(j: number): any {
+function __c620(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           serviceName: S.String.pipe(T.Label()),
-          command: S.optional(S.NullOr(__S(17696, __c553, 0))),
+          command: S.optional(S.NullOr(__S(17664, __c552, 0))),
           defaultHttpPort: S.optional(S.NullOr(S.Number)),
-          deploymentStrategy: S.optional(S.NullOr(__S(19264, __c602, 0))),
-          envVars: S.optional(S.NullOr(__S(19329, __c604, 1))),
+          deploymentStrategy: S.optional(S.NullOr(__S(19232, __c601, 0))),
+          envVars: S.optional(S.NullOr(__S(19297, __c603, 1))),
           grpcPort: S.optional(S.NullOr(S.Number)),
           image: S.String,
-          labels: S.optional(S.NullOr(__S(19392, __c606, 0))),
-          livenessProbe: S.optional(S.NullOr(__S(19265, __c602, 1))),
+          labels: S.optional(S.NullOr(__S(19360, __c605, 0))),
+          livenessProbe: S.optional(S.NullOr(__S(19233, __c601, 1))),
           name: S.optional(S.String),
           partnerId: S.optional(S.NullOr(S.String)),
-          probe: S.optional(S.NullOr(__S(19265, __c602, 1))),
+          probe: S.optional(S.NullOr(__S(19233, __c601, 1))),
           region: S.String,
-          resources: __S(19424, __c607, 0),
-          scalingStrategy: S.optional(S.NullOr(__S(19232, __c601, 0))),
+          resources: __S(19392, __c606, 0),
+          scalingStrategy: S.optional(S.NullOr(__S(19200, __c600, 0))),
           unsecureHttp: S.optional(S.NullOr(S.Boolean)),
-          volumes: S.optional(S.NullOr(__S(19426, __c607, 2))),
+          volumes: S.optional(S.NullOr(__S(19394, __c606, 2))),
         }).pipe(
           T.Http({ method: "POST", uri: "/cloud/project/{serviceName}/ai/app/command", code: 200 }),
         ),
       ).annotate({ identifier: "CreateCloudProjectAiAppCommandRequest" });
   }
 }
-function __c622(j: number): any {
+function __c621(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57983,7 +57979,7 @@ function __c622(j: number): any {
       ).annotate({ identifier: "CloudProjectAiCommand" });
   }
 }
-function __c623(j: number): any {
+function __c622(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58000,7 +57996,7 @@ function __c623(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseKafkaAdvancedConfigurationRequest" });
   }
 }
-function __c624(j: number): any {
+function __c623(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58017,7 +58013,7 @@ function __c624(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseKafkaCertificatesRequest" });
   }
 }
-function __c625(j: number): any {
+function __c624(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58034,7 +58030,7 @@ function __c625(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseKafkaConnectRequest" });
   }
 }
-function __c626(j: number): any {
+function __c625(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58051,7 +58047,7 @@ function __c626(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseKafkaConnectAdvancedConfigurationRequest" });
   }
 }
-function __c627(j: number): any {
+function __c626(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58082,7 +58078,7 @@ function __c627(j: number): any {
       ).annotate({ identifier: "CloudProjectDatabaseKafkaConnectCapabilitiesConnector" });
   }
 }
-function __c628(j: number): any {
+function __c627(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58100,7 +58096,7 @@ function __c628(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseKafkaConnectConnectorRequest" });
   }
 }
-function __c629(j: number): any {
+function __c628(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58127,7 +58123,7 @@ function __c629(j: number): any {
       ).annotate({ identifier: "CloudProjectDatabaseKafkaConnectConnectorTask" });
   }
 }
-function __c630(j: number): any {
+function __c629(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58145,7 +58141,7 @@ function __c630(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseKafkaConnectIntegrationRequest" });
   }
 }
-function __c631(j: number): any {
+function __c630(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58163,7 +58159,7 @@ function __c631(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseKafkaConnectLogKindRequest" });
   }
 }
-function __c632(j: number): any {
+function __c631(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58181,7 +58177,7 @@ function __c632(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseKafkaConnectLogSubscriptionRequest" });
   }
 }
-function __c633(j: number): any {
+function __c632(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58200,7 +58196,7 @@ function __c633(j: number): any {
       ).annotate({ identifier: "CreateCloudProjectAiAppDatasyncRequest" });
   }
 }
-function __c634(j: number): any {
+function __c633(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58218,7 +58214,7 @@ function __c634(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseKafkaConnectMaintenanceRequest" });
   }
 }
-function __c635(j: number): any {
+function __c634(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58237,7 +58233,7 @@ function __c635(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseKafkaConnectMetricRequest" });
   }
 }
-function __c636(j: number): any {
+function __c635(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58255,7 +58251,7 @@ function __c636(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseKafkaConnectNodeRequest" });
   }
 }
-function __c637(j: number): any {
+function __c636(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58273,7 +58269,7 @@ function __c637(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseKafkaConnectUserRequest" });
   }
 }
-function __c638(j: number): any {
+function __c637(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58291,7 +58287,7 @@ function __c638(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseKafkaIntegrationRequest" });
   }
 }
-function __c639(j: number): any {
+function __c638(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58309,7 +58305,7 @@ function __c639(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseKafkaLogKindRequest" });
   }
 }
-function __c640(j: number): any {
+function __c639(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58327,7 +58323,7 @@ function __c640(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseKafkaLogSubscriptionRequest" });
   }
 }
-function __c641(j: number): any {
+function __c640(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58345,7 +58341,7 @@ function __c641(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseKafkaMaintenanceRequest" });
   }
 }
-function __c642(j: number): any {
+function __c641(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58364,7 +58360,7 @@ function __c642(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseKafkaMetricRequest" });
   }
 }
-function __c643(j: number): any {
+function __c642(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58381,7 +58377,7 @@ function __c643(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseKafkaMirrorMakerRequest" });
   }
 }
-function __c644(j: number): any {
+function __c643(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58397,7 +58393,7 @@ function __c644(j: number): any {
       ).annotate({ identifier: "CreateCloudProjectAiAuthorizationRequest" });
   }
 }
-function __c645(j: number): any {
+function __c644(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58415,7 +58411,7 @@ function __c645(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseKafkaMirrorMakerIntegrationRequest" });
   }
 }
-function __c646(j: number): any {
+function __c645(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58433,7 +58429,7 @@ function __c646(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseKafkaMirrorMakerLogKindRequest" });
   }
 }
-function __c647(j: number): any {
+function __c646(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58451,7 +58447,7 @@ function __c647(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseKafkaMirrorMakerLogSubscriptionRequest" });
   }
 }
-function __c648(j: number): any {
+function __c647(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58469,7 +58465,7 @@ function __c648(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseKafkaMirrorMakerMaintenanceRequest" });
   }
 }
-function __c649(j: number): any {
+function __c648(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58488,7 +58484,7 @@ function __c649(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseKafkaMirrorMakerMetricRequest" });
   }
 }
-function __c650(j: number): any {
+function __c649(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58506,7 +58502,7 @@ function __c650(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseKafkaMirrorMakerNodeRequest" });
   }
 }
-function __c651(j: number): any {
+function __c650(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58524,7 +58520,7 @@ function __c651(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseKafkaMirrorMakerReplicationRequest" });
   }
 }
-function __c652(j: number): any {
+function __c651(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58542,7 +58538,7 @@ function __c652(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseKafkaNodeRequest" });
   }
 }
-function __c653(j: number): any {
+function __c652(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58560,7 +58556,7 @@ function __c653(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseKafkaSchemaRegistryAclRequest" });
   }
 }
-function __c654(j: number): any {
+function __c653(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58578,7 +58574,7 @@ function __c654(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseKafkaTopicRequest" });
   }
 }
-function __c655(j: number): any {
+function __c654(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58587,7 +58583,7 @@ function __c655(j: number): any {
           region: S.String.pipe(T.Label()),
           skipDataStoreConnectionCheck: S.optional(S.Boolean.pipe(T.Query())),
           alias: S.String,
-          credentials: __S(21028, __c657, 4),
+          credentials: __S(20996, __c656, 4),
           endpoint: S.String,
           owner: S.String,
           prefix: S.optional(S.NullOr(S.String)),
@@ -58602,7 +58598,7 @@ function __c655(j: number): any {
       ).annotate({ identifier: "CreateCloudProjectAiDataRegionAliasRequest" });
   }
 }
-function __c656(j: number): any {
+function __c655(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58615,7 +58611,7 @@ function __c656(j: number): any {
       ).annotate({ identifier: "CloudProjectAiDataStore" });
   }
 }
-function __c657(j: number): any {
+function __c656(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58634,8 +58630,8 @@ function __c657(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          basicAuth: S.optional(S.NullOr(__S(21024, __c657, 0))),
-          sshKeypair: S.optional(S.NullOr(__S(21025, __c657, 1))),
+          basicAuth: S.optional(S.NullOr(__S(20992, __c656, 0))),
+          sshKeypair: S.optional(S.NullOr(__S(20993, __c656, 1))),
         }),
       ).annotate({ identifier: "CloudProjectAiGitCredentialsInput" });
     case 3:
@@ -58649,13 +58645,13 @@ function __c657(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          git: S.optional(S.NullOr(__S(21026, __c657, 2))),
-          s3: S.optional(S.NullOr(__S(21027, __c657, 3))),
+          git: S.optional(S.NullOr(__S(20994, __c656, 2))),
+          s3: S.optional(S.NullOr(__S(20995, __c656, 3))),
         }),
       ).annotate({ identifier: "CloudProjectAiDataStoreCredentialsInput" });
   }
 }
-function __c658(j: number): any {
+function __c657(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58673,7 +58669,7 @@ function __c658(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseKafkaTopicAclRequest" });
   }
 }
-function __c659(j: number): any {
+function __c658(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58691,7 +58687,7 @@ function __c659(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseKafkaUserRequest" });
   }
 }
-function __c660(j: number): any {
+function __c659(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58711,12 +58707,12 @@ function __c660(j: number): any {
       return S.suspend(() =>
         S.Struct({
           cert: S.optional(S.String),
-          key: S.optional(S.String),
+          key: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "CloudProjectDatabaseKafkaUserAccess" });
   }
 }
-function __c661(j: number): any {
+function __c660(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58733,7 +58729,7 @@ function __c661(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseM3aggregatorRequest" });
   }
 }
-function __c662(j: number): any {
+function __c661(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58751,7 +58747,7 @@ function __c662(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseM3aggregatorIntegrationRequest" });
   }
 }
-function __c663(j: number): any {
+function __c662(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58769,7 +58765,7 @@ function __c663(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseM3aggregatorLogKindRequest" });
   }
 }
-function __c664(j: number): any {
+function __c663(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58787,7 +58783,7 @@ function __c664(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseM3aggregatorLogSubscriptionRequest" });
   }
 }
-function __c665(j: number): any {
+function __c664(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58805,7 +58801,7 @@ function __c665(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseM3aggregatorMaintenanceRequest" });
   }
 }
-function __c666(j: number): any {
+function __c665(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58824,7 +58820,7 @@ function __c666(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseM3aggregatorMetricRequest" });
   }
 }
-function __c667(j: number): any {
+function __c666(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58842,54 +58838,54 @@ function __c667(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseM3aggregatorNodeRequest" });
   }
 }
-function __c668(j: number): any {
+function __c667(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           serviceName: S.String.pipe(T.Label()),
-          command: S.optional(S.NullOr(__S(17696, __c553, 0))),
+          command: S.optional(S.NullOr(__S(17664, __c552, 0))),
           defaultHttpPort: S.optional(S.NullOr(S.Number)),
-          envVars: S.optional(S.NullOr(__S(19329, __c604, 1))),
+          envVars: S.optional(S.NullOr(__S(19297, __c603, 1))),
           grpcPort: S.optional(S.NullOr(S.Number)),
           image: S.String,
-          labels: S.optional(S.NullOr(__S(19392, __c606, 0))),
+          labels: S.optional(S.NullOr(__S(19360, __c605, 0))),
           name: S.optional(S.String),
           partnerId: S.optional(S.NullOr(S.String)),
           readUser: S.optional(S.NullOr(S.String)),
           region: S.String,
-          resources: __S(19424, __c607, 0),
-          sshPublicKeys: S.optional(S.NullOr(__S(17696, __c553, 0))),
+          resources: __S(19392, __c606, 0),
+          sshPublicKeys: S.optional(S.NullOr(__S(17664, __c552, 0))),
           timeout: S.optional(S.NullOr(S.Number)),
           timeoutAutoRestart: S.optional(S.NullOr(S.Boolean)),
           unsecureHttp: S.optional(S.NullOr(S.Boolean)),
-          volumes: S.optional(S.NullOr(__S(19426, __c607, 2))),
+          volumes: S.optional(S.NullOr(__S(19394, __c606, 2))),
         }).pipe(T.Http({ method: "POST", uri: "/cloud/project/{serviceName}/ai/job", code: 200 })),
       ).annotate({ identifier: "CreateCloudProjectAiJobRequest" });
   }
 }
-function __c669(j: number): any {
+function __c668(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          command: S.optional(S.NullOr(__S(17696, __c553, 0))),
+          command: S.optional(S.NullOr(__S(17664, __c552, 0))),
           defaultHttpPort: S.optional(S.NullOr(S.Number)),
-          envVars: S.optional(S.NullOr(__S(19329, __c604, 1))),
+          envVars: S.optional(S.NullOr(__S(19297, __c603, 1))),
           grpcPort: S.optional(S.NullOr(S.Number)),
           image: S.optional(S.String),
-          labels: S.optional(S.NullOr(__S(19392, __c606, 0))),
+          labels: S.optional(S.NullOr(__S(19360, __c605, 0))),
           name: S.optional(S.String),
           partnerId: S.optional(S.NullOr(S.String)),
           readUser: S.optional(S.NullOr(S.String)),
           region: S.optional(S.String),
-          resources: S.optional(__S(19520, __c610, 0)),
+          resources: S.optional(__S(19488, __c609, 0)),
           shutdown: S.optional(S.NullOr(S.String)),
-          sshPublicKeys: S.optional(S.NullOr(__S(17696, __c553, 0))),
+          sshPublicKeys: S.optional(S.NullOr(__S(17664, __c552, 0))),
           timeout: S.optional(S.NullOr(S.Number)),
           timeoutAutoRestart: S.optional(S.NullOr(S.Boolean)),
           unsecureHttp: S.optional(S.NullOr(S.Boolean)),
-          volumes: S.optional(S.NullOr(__S(19522, __c610, 2))),
+          volumes: S.optional(S.NullOr(__S(19490, __c609, 2))),
         }),
       ).annotate({ identifier: "CloudProjectAiJobJobSpec" });
     case 1:
@@ -58897,27 +58893,27 @@ function __c669(j: number): any {
         S.Struct({
           createdAt: S.optional(S.String),
           id: S.optional(S.String),
-          spec: S.optional(__S(21408, __c669, 0)),
-          status: S.optional(__S(21440, __c670, 0)),
+          spec: S.optional(__S(21376, __c668, 0)),
+          status: S.optional(__S(21408, __c669, 0)),
           updatedAt: S.optional(S.String),
           user: S.optional(S.String),
         }),
       ).annotate({ identifier: "CloudProjectAiJobJob" });
   }
 }
-function __c670(j: number): any {
+function __c669(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          dataSync: S.optional(__S(19523, __c610, 3)),
+          dataSync: S.optional(__S(19491, __c609, 3)),
           duration: S.optional(S.NullOr(S.Number)),
           exitCode: S.optional(S.NullOr(S.Number)),
           externalIp: S.optional(S.NullOr(S.String)),
           finalizedAt: S.optional(S.NullOr(S.String)),
           grpcAddress: S.optional(S.NullOr(S.String)),
-          history: S.optional(__S(19525, __c610, 5)),
-          info: S.optional(__S(19489, __c609, 1)),
+          history: S.optional(__S(19493, __c609, 5)),
+          info: S.optional(__S(19457, __c608, 1)),
           infoUrl: S.optional(S.NullOr(S.String)),
           initializingAt: S.optional(S.NullOr(S.String)),
           ip: S.optional(S.NullOr(S.String)),
@@ -58930,12 +58926,12 @@ function __c670(j: number): any {
           stoppedAt: S.optional(S.NullOr(S.String)),
           timeoutAt: S.optional(S.NullOr(S.String)),
           url: S.optional(S.NullOr(S.String)),
-          volumes: S.optional(S.NullOr(__S(19527, __c610, 7))),
+          volumes: S.optional(S.NullOr(__S(19495, __c609, 7))),
         }),
       ).annotate({ identifier: "CloudProjectAiJobJobStatus" });
   }
 }
-function __c671(j: number): any {
+function __c670(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58952,7 +58948,7 @@ function __c671(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseM3dbRequest" });
   }
 }
-function __c672(j: number): any {
+function __c671(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58969,7 +58965,7 @@ function __c672(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseM3dbAdvancedConfigurationRequest" });
   }
 }
-function __c673(j: number): any {
+function __c672(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58987,7 +58983,7 @@ function __c673(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseM3dbBackupRequest" });
   }
 }
-function __c674(j: number): any {
+function __c673(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59005,7 +59001,7 @@ function __c674(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseM3dbIntegrationRequest" });
   }
 }
-function __c675(j: number): any {
+function __c674(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59023,7 +59019,7 @@ function __c675(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseM3dbLogKindRequest" });
   }
 }
-function __c676(j: number): any {
+function __c675(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59041,7 +59037,7 @@ function __c676(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseM3dbLogSubscriptionRequest" });
   }
 }
-function __c677(j: number): any {
+function __c676(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59059,7 +59055,7 @@ function __c677(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseM3dbMaintenanceRequest" });
   }
 }
-function __c678(j: number): any {
+function __c677(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59078,7 +59074,7 @@ function __c678(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseM3dbMetricRequest" });
   }
 }
-function __c679(j: number): any {
+function __c678(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59096,7 +59092,7 @@ function __c679(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseM3dbNamespaceRequest" });
   }
 }
-function __c680(j: number): any {
+function __c679(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59114,35 +59110,35 @@ function __c680(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseM3dbNodeRequest" });
   }
 }
-function __c681(j: number): any {
+function __c680(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           serviceName: S.String.pipe(T.Label()),
-          command: S.optional(S.NullOr(__S(17696, __c553, 0))),
+          command: S.optional(S.NullOr(__S(17664, __c552, 0))),
           defaultHttpPort: S.optional(S.NullOr(S.Number)),
-          envVars: S.optional(S.NullOr(__S(19329, __c604, 1))),
+          envVars: S.optional(S.NullOr(__S(19297, __c603, 1))),
           grpcPort: S.optional(S.NullOr(S.Number)),
           image: S.String,
-          labels: S.optional(S.NullOr(__S(19392, __c606, 0))),
+          labels: S.optional(S.NullOr(__S(19360, __c605, 0))),
           name: S.optional(S.String),
           partnerId: S.optional(S.NullOr(S.String)),
           readUser: S.optional(S.NullOr(S.String)),
           region: S.String,
-          resources: __S(19424, __c607, 0),
-          sshPublicKeys: S.optional(S.NullOr(__S(17696, __c553, 0))),
+          resources: __S(19392, __c606, 0),
+          sshPublicKeys: S.optional(S.NullOr(__S(17664, __c552, 0))),
           timeout: S.optional(S.NullOr(S.Number)),
           timeoutAutoRestart: S.optional(S.NullOr(S.Boolean)),
           unsecureHttp: S.optional(S.NullOr(S.Boolean)),
-          volumes: S.optional(S.NullOr(__S(19426, __c607, 2))),
+          volumes: S.optional(S.NullOr(__S(19394, __c606, 2))),
         }).pipe(
           T.Http({ method: "POST", uri: "/cloud/project/{serviceName}/ai/job/command", code: 200 }),
         ),
       ).annotate({ identifier: "CreateCloudProjectAiJobCommandRequest" });
   }
 }
-function __c682(j: number): any {
+function __c681(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59160,7 +59156,7 @@ function __c682(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseM3dbUserRequest" });
   }
 }
-function __c683(j: number): any {
+function __c682(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59174,7 +59170,7 @@ function __c683(j: number): any {
       ).annotate({ identifier: "CloudProjectDatabaseM3dbUser" });
   }
 }
-function __c684(j: number): any {
+function __c683(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59191,7 +59187,7 @@ function __c684(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseMongodbRequest" });
   }
 }
-function __c685(j: number): any {
+function __c684(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59209,7 +59205,7 @@ function __c685(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseMongodbBackupRequest" });
   }
 }
-function __c686(j: number): any {
+function __c685(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59227,7 +59223,7 @@ function __c686(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseMongodbLogKindRequest" });
   }
 }
-function __c687(j: number): any {
+function __c686(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59245,7 +59241,7 @@ function __c687(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseMongodbLogSubscriptionRequest" });
   }
 }
-function __c688(j: number): any {
+function __c687(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59263,7 +59259,7 @@ function __c688(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseMongodbMaintenanceRequest" });
   }
 }
-function __c689(j: number): any {
+function __c688(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59282,7 +59278,7 @@ function __c689(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseMongodbMetricRequest" });
   }
 }
-function __c690(j: number): any {
+function __c689(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59300,7 +59296,7 @@ function __c690(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseMongodbNodeRequest" });
   }
 }
-function __c691(j: number): any {
+function __c690(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59324,7 +59320,7 @@ function __c691(j: number): any {
       ).annotate({ identifier: "CloudProjectDatabaseMongodbPrometheusEndpoint" });
   }
 }
-function __c692(j: number): any {
+function __c691(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59342,7 +59338,7 @@ function __c692(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseMongodbUserRequest" });
   }
 }
-function __c693(j: number): any {
+function __c692(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59352,12 +59348,12 @@ function __c693(j: number): any {
         }),
       ).annotate({ identifier: "CloudInstanceMonthlyInstanceBulkParams" });
     case 1:
-      return S.Array(__S(22176, __c693, 0));
+      return S.Array(__S(22144, __c692, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           serviceName: S.String.pipe(T.Label()),
-          instances: __S(22177, __c693, 1),
+          instances: __S(22145, __c692, 1),
         }).pipe(
           T.Http({
             method: "POST",
@@ -59368,7 +59364,7 @@ function __c693(j: number): any {
       ).annotate({ identifier: "ActivateCloudProjectMonthlyBillingRequest" });
   }
 }
-function __c694(j: number): any {
+function __c693(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59377,12 +59373,12 @@ function __c694(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           publicKey: S.optional(S.String),
-          regions: S.optional(__S(17696, __c553, 0)),
+          regions: S.optional(__S(17664, __c552, 0)),
         }),
       ).annotate({ identifier: "CloudSshkeySshKeyDetail" });
   }
 }
-function __c695(j: number): any {
+function __c694(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59397,7 +59393,7 @@ function __c695(j: number): any {
           region: S.optional(S.String),
           size: S.optional(S.Number),
           status: S.optional(S.String),
-          tags: S.optional(S.NullOr(__S(17696, __c553, 0))),
+          tags: S.optional(S.NullOr(__S(17664, __c552, 0))),
           type: S.optional(S.String),
           user: S.optional(S.String),
           visibility: S.optional(S.String),
@@ -59405,7 +59401,7 @@ function __c695(j: number): any {
       ).annotate({ identifier: "CloudImageImage" });
   }
 }
-function __c696(j: number): any {
+function __c695(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59415,7 +59411,7 @@ function __c696(j: number): any {
         }),
       ).annotate({ identifier: "CloudFlavorCapability" });
     case 1:
-      return S.Array(__S(22272, __c696, 0));
+      return S.Array(__S(22240, __c695, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -59428,14 +59424,14 @@ function __c696(j: number): any {
       return S.suspend(() =>
         S.Struct({
           available: S.optional(S.Boolean),
-          capabilities: S.optional(__S(22273, __c696, 1)),
+          capabilities: S.optional(__S(22241, __c695, 1)),
           disk: S.optional(S.Number),
           id: S.optional(S.String),
           inboundBandwidth: S.optional(S.NullOr(S.Number)),
           name: S.optional(S.String),
           osType: S.optional(S.String),
           outboundBandwidth: S.optional(S.NullOr(S.Number)),
-          planCodes: S.optional(__S(22274, __c696, 2)),
+          planCodes: S.optional(__S(22242, __c695, 2)),
           quota: S.optional(S.Number),
           ram: S.optional(S.Number),
           region: S.optional(S.String),
@@ -59445,7 +59441,7 @@ function __c696(j: number): any {
       ).annotate({ identifier: "CloudFlavorFlavor" });
   }
 }
-function __c697(j: number): any {
+function __c696(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59458,7 +59454,7 @@ function __c697(j: number): any {
         }),
       ).annotate({ identifier: "CloudInstanceIpAddress" });
     case 1:
-      return S.Array(__S(22304, __c697, 0));
+      return S.Array(__S(22272, __c696, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -59472,36 +59468,36 @@ function __c697(j: number): any {
           availabilityZone: S.optional(S.NullOr(S.String)),
           created: S.optional(S.String),
           currentMonthOutgoingTraffic: S.optional(S.NullOr(S.Number)),
-          flavor: S.optional(S.NullOr(__S(22275, __c696, 3))),
+          flavor: S.optional(S.NullOr(__S(22243, __c695, 3))),
           flavorId: S.optional(S.String),
           id: S.optional(S.String),
-          image: S.optional(S.NullOr(__S(22240, __c695, 0))),
+          image: S.optional(S.NullOr(__S(22208, __c694, 0))),
           imageId: S.optional(S.String),
-          ipAddresses: S.optional(__S(22305, __c697, 1)),
-          monthlyBilling: S.optional(S.NullOr(__S(22306, __c697, 2))),
+          ipAddresses: S.optional(__S(22273, __c696, 1)),
+          monthlyBilling: S.optional(S.NullOr(__S(22274, __c696, 2))),
           name: S.optional(S.String),
-          operationIds: S.optional(__S(17696, __c553, 0)),
+          operationIds: S.optional(__S(17664, __c552, 0)),
           planCode: S.optional(S.NullOr(S.String)),
           region: S.optional(S.String),
           rescuePassword: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
-          sshKey: S.optional(S.NullOr(__S(22208, __c694, 0))),
+          sshKey: S.optional(S.NullOr(__S(22176, __c693, 0))),
           sshKeyId: S.optional(S.NullOr(S.String)),
           status: S.optional(S.String),
         }),
       ).annotate({ identifier: "CloudInstanceInstance" });
   }
 }
-function __c698(j: number): any {
+function __c697(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(22307, __c697, 3));
+      return S.Array(__S(22275, __c696, 3));
     case 1:
-      return S.suspend(() => __S(22336, __c698, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(22304, __c697, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ActivateCloudProjectMonthlyBillingResponse",
       });
   }
 }
-function __c699(j: number): any {
+function __c698(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59520,7 +59516,7 @@ function __c699(j: number): any {
       ).annotate({ identifier: "CreateCloudProjectAiJobDatasyncRequest" });
   }
 }
-function __c700(j: number): any {
+function __c699(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59537,7 +59533,7 @@ function __c700(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseMysqlRequest" });
   }
 }
-function __c701(j: number): any {
+function __c700(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59554,7 +59550,7 @@ function __c701(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseMysqlAdvancedConfigurationRequest" });
   }
 }
-function __c702(j: number): any {
+function __c701(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59572,7 +59568,7 @@ function __c702(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseMysqlBackupRequest" });
   }
 }
-function __c703(j: number): any {
+function __c702(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59589,7 +59585,7 @@ function __c703(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseMysqlCertificatesRequest" });
   }
 }
-function __c704(j: number): any {
+function __c703(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59607,7 +59603,7 @@ function __c704(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseMysqlDatabaseRequest" });
   }
 }
-function __c705(j: number): any {
+function __c704(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59625,7 +59621,7 @@ function __c705(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseMysqlIntegrationRequest" });
   }
 }
-function __c706(j: number): any {
+function __c705(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59643,7 +59639,7 @@ function __c706(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseMysqlLogKindRequest" });
   }
 }
-function __c707(j: number): any {
+function __c706(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59661,7 +59657,7 @@ function __c707(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseMysqlLogSubscriptionRequest" });
   }
 }
-function __c708(j: number): any {
+function __c707(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59679,7 +59675,7 @@ function __c708(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseMysqlMaintenanceRequest" });
   }
 }
-function __c709(j: number): any {
+function __c708(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59698,47 +59694,47 @@ function __c709(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseMysqlMetricRequest" });
   }
 }
-function __c710(j: number): any {
+function __c709(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           serviceName: S.String.pipe(T.Label()),
-          env: __S(22784, __c712, 0),
-          envVars: S.optional(S.NullOr(__S(19329, __c604, 1))),
-          labels: S.optional(S.NullOr(__S(19392, __c606, 0))),
+          env: __S(22752, __c711, 0),
+          envVars: S.optional(S.NullOr(__S(19297, __c603, 1))),
+          labels: S.optional(S.NullOr(__S(19360, __c605, 0))),
           name: S.optional(S.String),
-          quantumResources: S.optional(S.NullOr(__S(22816, __c713, 0))),
+          quantumResources: S.optional(S.NullOr(__S(22784, __c712, 0))),
           region: S.String,
-          resources: __S(19424, __c607, 0),
-          sshPublicKeys: S.optional(S.NullOr(__S(17696, __c553, 0))),
+          resources: __S(19392, __c606, 0),
+          sshPublicKeys: S.optional(S.NullOr(__S(17664, __c552, 0))),
           timeoutAutoRestart: S.optional(S.NullOr(S.Boolean)),
           unsecureHttp: S.optional(S.NullOr(S.Boolean)),
-          volumes: S.optional(S.NullOr(__S(19426, __c607, 2))),
+          volumes: S.optional(S.NullOr(__S(19394, __c606, 2))),
         }).pipe(
           T.Http({ method: "POST", uri: "/cloud/project/{serviceName}/ai/notebook", code: 200 }),
         ),
       ).annotate({ identifier: "CreateCloudProjectAiNotebookRequest" });
   }
 }
-function __c711(j: number): any {
+function __c710(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          env: S.optional(__S(22784, __c712, 0)),
-          envVars: S.optional(__S(19329, __c604, 1)),
+          env: S.optional(__S(22752, __c711, 0)),
+          envVars: S.optional(__S(19297, __c603, 1)),
           flavor: S.optional(S.NullOr(S.String)),
-          labels: S.optional(S.NullOr(__S(19392, __c606, 0))),
+          labels: S.optional(S.NullOr(__S(19360, __c605, 0))),
           name: S.optional(S.String),
-          quantumResources: S.optional(S.NullOr(__S(22816, __c713, 0))),
+          quantumResources: S.optional(S.NullOr(__S(22784, __c712, 0))),
           region: S.optional(S.String),
-          resources: S.optional(__S(19520, __c610, 0)),
+          resources: S.optional(__S(19488, __c609, 0)),
           shutdown: S.optional(S.NullOr(S.String)),
-          sshPublicKeys: S.optional(S.NullOr(__S(17696, __c553, 0))),
+          sshPublicKeys: S.optional(S.NullOr(__S(17664, __c552, 0))),
           timeoutAutoRestart: S.optional(S.NullOr(S.Boolean)),
           unsecureHttp: S.optional(S.NullOr(S.Boolean)),
-          volumes: S.optional(S.NullOr(__S(19522, __c610, 2))),
+          volumes: S.optional(S.NullOr(__S(19490, __c609, 2))),
         }),
       ).annotate({ identifier: "CloudProjectAiNotebookNotebookSpec" });
     case 1:
@@ -59751,20 +59747,20 @@ function __c711(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          dataSync: S.optional(__S(19523, __c610, 3)),
+          dataSync: S.optional(__S(19491, __c609, 3)),
           duration: S.optional(S.NullOr(S.Number)),
           grpcAddress: S.optional(S.NullOr(S.String)),
-          info: S.optional(__S(19489, __c609, 1)),
+          info: S.optional(__S(19457, __c608, 1)),
           infoUrl: S.optional(S.NullOr(S.String)),
-          lastJobStatus: S.optional(__S(21440, __c670, 0)),
+          lastJobStatus: S.optional(__S(21408, __c669, 0)),
           lastStartedAt: S.optional(S.NullOr(S.String)),
           lastStoppedAt: S.optional(S.NullOr(S.String)),
           monitoringUrl: S.optional(S.NullOr(S.String)),
           sshUrl: S.optional(S.NullOr(S.String)),
           state: S.optional(S.NullOr(S.String)),
           url: S.optional(S.NullOr(S.String)),
-          volumes: S.optional(S.NullOr(__S(19527, __c610, 7))),
-          workspace: S.optional(S.NullOr(__S(22753, __c711, 1))),
+          volumes: S.optional(S.NullOr(__S(19495, __c609, 7))),
+          workspace: S.optional(S.NullOr(__S(22721, __c710, 1))),
         }),
       ).annotate({ identifier: "CloudProjectAiNotebookNotebookStatus" });
     case 3:
@@ -59772,15 +59768,15 @@ function __c711(j: number): any {
         S.Struct({
           createdAt: S.optional(S.String),
           id: S.optional(S.String),
-          spec: S.optional(__S(22752, __c711, 0)),
-          status: S.optional(__S(22754, __c711, 2)),
+          spec: S.optional(__S(22720, __c710, 0)),
+          status: S.optional(__S(22722, __c710, 2)),
           updatedAt: S.optional(S.String),
           user: S.optional(S.String),
         }),
       ).annotate({ identifier: "CloudProjectAiNotebookNotebook" });
   }
 }
-function __c712(j: number): any {
+function __c711(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59792,7 +59788,7 @@ function __c712(j: number): any {
       ).annotate({ identifier: "CloudProjectAiNotebookNotebookEnv" });
   }
 }
-function __c713(j: number): any {
+function __c712(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59802,7 +59798,7 @@ function __c713(j: number): any {
       ).annotate({ identifier: "CloudProjectQuantumQuantumResourcesInput" });
   }
 }
-function __c714(j: number): any {
+function __c713(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59819,7 +59815,7 @@ function __c714(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseMysqlMigrationRequest" });
   }
 }
-function __c715(j: number): any {
+function __c714(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59836,7 +59832,7 @@ function __c715(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseMysqlMigrationCheckRequest" });
   }
 }
-function __c716(j: number): any {
+function __c715(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59854,7 +59850,7 @@ function __c716(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseMysqlNodeRequest" });
   }
 }
-function __c717(j: number): any {
+function __c716(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59872,7 +59868,7 @@ function __c717(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseMysqlUserRequest" });
   }
 }
-function __c718(j: number): any {
+function __c717(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59889,7 +59885,7 @@ function __c718(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseOpensearchRequest" });
   }
 }
-function __c719(j: number): any {
+function __c718(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59906,7 +59902,7 @@ function __c719(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseOpensearchAdvancedConfigurationRequest" });
   }
 }
-function __c720(j: number): any {
+function __c719(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59924,7 +59920,7 @@ function __c720(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseOpensearchBackupRequest" });
   }
 }
-function __c721(j: number): any {
+function __c720(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59954,7 +59950,7 @@ function __c721(j: number): any {
       ).annotate({ identifier: "CloudProjectDatabaseOpensearchIndex" });
   }
 }
-function __c722(j: number): any {
+function __c721(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59972,7 +59968,7 @@ function __c722(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseOpensearchIntegrationRequest" });
   }
 }
-function __c723(j: number): any {
+function __c722(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59990,23 +59986,23 @@ function __c723(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseOpensearchLogKindRequest" });
   }
 }
-function __c724(j: number): any {
+function __c723(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           serviceName: S.String.pipe(T.Label()),
-          env: __S(22784, __c712, 0),
-          envVars: S.optional(S.NullOr(__S(19329, __c604, 1))),
-          labels: S.optional(S.NullOr(__S(19392, __c606, 0))),
+          env: __S(22752, __c711, 0),
+          envVars: S.optional(S.NullOr(__S(19297, __c603, 1))),
+          labels: S.optional(S.NullOr(__S(19360, __c605, 0))),
           name: S.optional(S.String),
-          quantumResources: S.optional(S.NullOr(__S(22816, __c713, 0))),
+          quantumResources: S.optional(S.NullOr(__S(22784, __c712, 0))),
           region: S.String,
-          resources: __S(19424, __c607, 0),
-          sshPublicKeys: S.optional(S.NullOr(__S(17696, __c553, 0))),
+          resources: __S(19392, __c606, 0),
+          sshPublicKeys: S.optional(S.NullOr(__S(17664, __c552, 0))),
           timeoutAutoRestart: S.optional(S.NullOr(S.Boolean)),
           unsecureHttp: S.optional(S.NullOr(S.Boolean)),
-          volumes: S.optional(S.NullOr(__S(19426, __c607, 2))),
+          volumes: S.optional(S.NullOr(__S(19394, __c606, 2))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -60017,7 +60013,7 @@ function __c724(j: number): any {
       ).annotate({ identifier: "CreateCloudProjectAiNotebookCommandRequest" });
   }
 }
-function __c725(j: number): any {
+function __c724(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60035,7 +60031,7 @@ function __c725(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseOpensearchLogSubscriptionRequest" });
   }
 }
-function __c726(j: number): any {
+function __c725(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60053,7 +60049,7 @@ function __c726(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseOpensearchMaintenanceRequest" });
   }
 }
-function __c727(j: number): any {
+function __c726(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60072,7 +60068,7 @@ function __c727(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseOpensearchMetricRequest" });
   }
 }
-function __c728(j: number): any {
+function __c727(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60090,7 +60086,7 @@ function __c728(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseOpensearchNodeRequest" });
   }
 }
-function __c729(j: number): any {
+function __c728(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60108,7 +60104,7 @@ function __c729(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseOpensearchPatternRequest" });
   }
 }
-function __c730(j: number): any {
+function __c729(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60126,7 +60122,7 @@ function __c730(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseOpensearchUserRequest" });
   }
 }
-function __c731(j: number): any {
+function __c730(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60140,7 +60136,7 @@ function __c731(j: number): any {
       ).annotate({ identifier: "CloudProjectDatabaseOpensearchUser" });
   }
 }
-function __c732(j: number): any {
+function __c731(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60157,7 +60153,7 @@ function __c732(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabasePostgresqlRequest" });
   }
 }
-function __c733(j: number): any {
+function __c732(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60174,7 +60170,7 @@ function __c733(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabasePostgresqlAdvancedConfigurationRequest" });
   }
 }
-function __c734(j: number): any {
+function __c733(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60192,7 +60188,7 @@ function __c734(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabasePostgresqlBackupRequest" });
   }
 }
-function __c735(j: number): any {
+function __c734(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60209,7 +60205,7 @@ function __c735(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabasePostgresqlCertificatesRequest" });
   }
 }
-function __c736(j: number): any {
+function __c735(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60228,7 +60224,7 @@ function __c736(j: number): any {
       ).annotate({ identifier: "CreateCloudProjectAiNotebookDatasyncRequest" });
   }
 }
-function __c737(j: number): any {
+function __c736(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60246,7 +60242,7 @@ function __c737(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabasePostgresqlConnectionPoolRequest" });
   }
 }
-function __c738(j: number): any {
+function __c737(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60264,7 +60260,7 @@ function __c738(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabasePostgresqlDatabaseRequest" });
   }
 }
-function __c739(j: number): any {
+function __c738(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60282,7 +60278,7 @@ function __c739(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabasePostgresqlIntegrationRequest" });
   }
 }
-function __c740(j: number): any {
+function __c739(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60300,7 +60296,7 @@ function __c740(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabasePostgresqlLogKindRequest" });
   }
 }
-function __c741(j: number): any {
+function __c740(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60318,7 +60314,7 @@ function __c741(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabasePostgresqlLogSubscriptionRequest" });
   }
 }
-function __c742(j: number): any {
+function __c741(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60336,7 +60332,7 @@ function __c742(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabasePostgresqlMaintenanceRequest" });
   }
 }
-function __c743(j: number): any {
+function __c742(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60355,7 +60351,7 @@ function __c743(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabasePostgresqlMetricRequest" });
   }
 }
-function __c744(j: number): any {
+function __c743(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60373,7 +60369,7 @@ function __c744(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabasePostgresqlNodeRequest" });
   }
 }
-function __c745(j: number): any {
+function __c744(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60391,7 +60387,7 @@ function __c745(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabasePostgresqlUserRequest" });
   }
 }
-function __c746(j: number): any {
+function __c745(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60408,7 +60404,7 @@ function __c746(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseRedisRequest" });
   }
 }
-function __c747(j: number): any {
+function __c746(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60424,7 +60420,7 @@ function __c747(j: number): any {
       ).annotate({ identifier: "CreateCloudProjectAiRegistryRequest" });
   }
 }
-function __c748(j: number): any {
+function __c747(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60441,7 +60437,7 @@ function __c748(j: number): any {
       ).annotate({ identifier: "CloudProjectAiRegistryRegistry" });
   }
 }
-function __c749(j: number): any {
+function __c748(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60458,7 +60454,7 @@ function __c749(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseRedisAdvancedConfigurationRequest" });
   }
 }
-function __c750(j: number): any {
+function __c749(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60476,7 +60472,7 @@ function __c750(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseRedisBackupRequest" });
   }
 }
-function __c751(j: number): any {
+function __c750(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60494,7 +60490,7 @@ function __c751(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseRedisIntegrationRequest" });
   }
 }
-function __c752(j: number): any {
+function __c751(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60512,7 +60508,7 @@ function __c752(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseRedisLogKindRequest" });
   }
 }
-function __c753(j: number): any {
+function __c752(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60530,7 +60526,7 @@ function __c753(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseRedisLogSubscriptionRequest" });
   }
 }
-function __c754(j: number): any {
+function __c753(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60548,7 +60544,7 @@ function __c754(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseRedisMaintenanceRequest" });
   }
 }
-function __c755(j: number): any {
+function __c754(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60567,7 +60563,7 @@ function __c755(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseRedisMetricRequest" });
   }
 }
-function __c756(j: number): any {
+function __c755(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60585,7 +60581,7 @@ function __c756(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseRedisNodeRequest" });
   }
 }
-function __c757(j: number): any {
+function __c756(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60603,24 +60599,24 @@ function __c757(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseRedisUserRequest" });
   }
 }
-function __c758(j: number): any {
+function __c757(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          categories: S.optional(__S(17696, __c553, 0)),
-          channels: S.optional(__S(17696, __c553, 0)),
-          commands: S.optional(__S(17696, __c553, 0)),
+          categories: S.optional(__S(17664, __c552, 0)),
+          channels: S.optional(__S(17664, __c552, 0)),
+          commands: S.optional(__S(17664, __c552, 0)),
           createdAt: S.optional(S.String),
           id: S.optional(S.String),
-          keys: S.optional(__S(17696, __c553, 0)),
+          keys: S.optional(__S(17664, __c552, 0)),
           status: S.optional(S.String),
           username: S.optional(S.String),
         }),
       ).annotate({ identifier: "CloudProjectDatabaseRedisUser" });
   }
 }
-function __c759(j: number): any {
+function __c758(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60637,7 +60633,7 @@ function __c759(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseServiceRequest" });
   }
 }
-function __c760(j: number): any {
+function __c759(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60653,7 +60649,7 @@ function __c760(j: number): any {
       ).annotate({ identifier: "CreateCloudProjectAiTokenRequest" });
   }
 }
-function __c761(j: number): any {
+function __c760(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60667,7 +60663,7 @@ function __c761(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(S.NullOr(S.String)),
+          value: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           version: S.optional(S.Number),
         }),
       ).annotate({ identifier: "CloudProjectAiTokenTokenStatus" });
@@ -60676,14 +60672,14 @@ function __c761(j: number): any {
         S.Struct({
           createdAt: S.optional(S.String),
           id: S.optional(S.String),
-          spec: S.optional(__S(24352, __c761, 0)),
-          status: S.optional(__S(24353, __c761, 1)),
+          spec: S.optional(__S(24320, __c760, 0)),
+          status: S.optional(__S(24321, __c760, 1)),
           updatedAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "CloudProjectAiTokenToken" });
   }
 }
-function __c762(j: number): any {
+function __c761(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60700,7 +60696,7 @@ function __c762(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseValkeyRequest" });
   }
 }
-function __c763(j: number): any {
+function __c762(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60717,7 +60713,7 @@ function __c763(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseValkeyAdvancedConfigurationRequest" });
   }
 }
-function __c764(j: number): any {
+function __c763(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60735,7 +60731,7 @@ function __c764(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseValkeyBackupRequest" });
   }
 }
-function __c765(j: number): any {
+function __c764(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60753,7 +60749,7 @@ function __c765(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseValkeyIntegrationRequest" });
   }
 }
-function __c766(j: number): any {
+function __c765(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60771,7 +60767,7 @@ function __c766(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseValkeyLogKindRequest" });
   }
 }
-function __c767(j: number): any {
+function __c766(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60789,7 +60785,7 @@ function __c767(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseValkeyLogSubscriptionRequest" });
   }
 }
-function __c768(j: number): any {
+function __c767(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60807,7 +60803,7 @@ function __c768(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseValkeyMaintenanceRequest" });
   }
 }
-function __c769(j: number): any {
+function __c768(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60826,7 +60822,7 @@ function __c769(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseValkeyMetricRequest" });
   }
 }
-function __c770(j: number): any {
+function __c769(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60844,7 +60840,7 @@ function __c770(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseValkeyNodeRequest" });
   }
 }
-function __c771(j: number): any {
+function __c770(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60862,7 +60858,7 @@ function __c771(j: number): any {
       ).annotate({ identifier: "GetCloudProjectDatabaseValkeyUserRequest" });
   }
 }
-function __c772(j: number): any {
+function __c771(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60877,7 +60873,7 @@ function __c772(j: number): any {
       ).annotate({ identifier: "CreateCloudProjectChangeContactRequest" });
   }
 }
-function __c773(j: number): any {
+function __c772(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => __S(35264, __c1102, 0).pipe(T.RawResponseRoot())).annotate({
@@ -60885,7 +60881,7 @@ function __c773(j: number): any {
       });
   }
 }
-function __c774(j: number): any {
+function __c773(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60898,7 +60894,7 @@ function __c774(j: number): any {
       ).annotate({ identifier: "GetCloudProjectImageRequest" });
   }
 }
-function __c775(j: number): any {
+function __c774(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60915,7 +60911,7 @@ function __c775(j: number): any {
       ).annotate({ identifier: "GetCloudProjectInstanceRequest" });
   }
 }
-function __c776(j: number): any {
+function __c775(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60933,7 +60929,7 @@ function __c776(j: number): any {
       ).annotate({ identifier: "GetCloudProjectInstanceGroupRequest" });
   }
 }
-function __c777(j: number): any {
+function __c776(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60951,7 +60947,7 @@ function __c777(j: number): any {
       ).annotate({ identifier: "GetCloudProjectInstanceInterfaceRequest" });
   }
 }
-function __c778(j: number): any {
+function __c777(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60968,7 +60964,7 @@ function __c778(j: number): any {
       ).annotate({ identifier: "GetCloudProjectIpFailoverRequest" });
   }
 }
-function __c779(j: number): any {
+function __c778(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60981,7 +60977,7 @@ function __c779(j: number): any {
       ).annotate({ identifier: "GetCloudProjectKubeRequest" });
   }
 }
-function __c780(j: number): any {
+function __c779(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60998,7 +60994,7 @@ function __c780(j: number): any {
       ).annotate({ identifier: "GetCloudProjectKubeCustomizationRequest" });
   }
 }
-function __c781(j: number): any {
+function __c780(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61016,7 +61012,7 @@ function __c781(j: number): any {
       ).annotate({ identifier: "GetCloudProjectKubeLogSubscriptionRequest" });
   }
 }
-function __c782(j: number): any {
+function __c781(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61040,7 +61036,7 @@ function __c782(j: number): any {
       ).annotate({ identifier: "CloudKubeEtcdUsage" });
   }
 }
-function __c783(j: number): any {
+function __c782(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61058,7 +61054,7 @@ function __c783(j: number): any {
       ).annotate({ identifier: "GetCloudProjectKubeNodeRequest" });
   }
 }
-function __c784(j: number): any {
+function __c783(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61080,7 +61076,7 @@ function __c784(j: number): any {
       ).annotate({ identifier: "CloudKubeNode" });
   }
 }
-function __c785(j: number): any {
+function __c784(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61099,7 +61095,7 @@ function __c785(j: number): any {
       ).annotate({ identifier: "CreateCloudProjectContainerRegistryRequest" });
   }
 }
-function __c786(j: number): any {
+function __c785(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61119,7 +61115,7 @@ function __c786(j: number): any {
       ).annotate({ identifier: "CloudContainerRegistryRegistry" });
   }
 }
-function __c787(j: number): any {
+function __c786(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61137,7 +61133,7 @@ function __c787(j: number): any {
       ).annotate({ identifier: "GetCloudProjectKubeNodepoolRequest" });
   }
 }
-function __c788(j: number): any {
+function __c787(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61154,7 +61150,7 @@ function __c788(j: number): any {
       ).annotate({ identifier: "GetCloudProjectKubeOpenIdConnectRequest" });
   }
 }
-function __c789(j: number): any {
+function __c788(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61171,7 +61167,7 @@ function __c789(j: number): any {
       ).annotate({ identifier: "GetCloudProjectKubePrivateNetworkConfigurationRequest" });
   }
 }
-function __c790(j: number): any {
+function __c789(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61184,7 +61180,7 @@ function __c790(j: number): any {
       ).annotate({ identifier: "GetCloudProjectLabRequest" });
   }
 }
-function __c791(j: number): any {
+function __c790(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61196,7 +61192,7 @@ function __c791(j: number): any {
       ).annotate({ identifier: "CloudLab" });
   }
 }
-function __c792(j: number): any {
+function __c791(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61213,7 +61209,7 @@ function __c792(j: number): any {
       ).annotate({ identifier: "GetCloudProjectNetworkPrivateRequest" });
   }
 }
-function __c793(j: number): any {
+function __c792(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61231,7 +61227,7 @@ function __c793(j: number): any {
       ).annotate({ identifier: "GetCloudProjectNetworkPrivateSubnetRequest" });
   }
 }
-function __c794(j: number): any {
+function __c793(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61248,7 +61244,7 @@ function __c794(j: number): any {
       ).annotate({ identifier: "GetCloudProjectOperationRequest" });
   }
 }
-function __c795(j: number): any {
+function __c794(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61265,7 +61261,7 @@ function __c795(j: number): any {
       ).annotate({ identifier: "GetCloudProjectQuantumCapabilityRegionRequest" });
   }
 }
-function __c796(j: number): any {
+function __c795(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61283,7 +61279,7 @@ function __c796(j: number): any {
       ).annotate({ identifier: "GetCloudProjectQuantumCapabilityRegionQpuRequest" });
   }
 }
-function __c797(j: number): any {
+function __c796(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61296,7 +61292,7 @@ function __c797(j: number): any {
       ).annotate({ identifier: "CloudProjectQuantumCapabilitiesQPUFlavor" });
   }
 }
-function __c798(j: number): any {
+function __c797(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61313,7 +61309,7 @@ function __c798(j: number): any {
       ).annotate({ identifier: "GetCloudProjectRegionRequest" });
   }
 }
-function __c799(j: number): any {
+function __c798(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61331,7 +61327,7 @@ function __c799(j: number): any {
       ).annotate({ identifier: "CreateCloudProjectContainerRegistryIamRequest" });
   }
 }
-function __c800(j: number): any {
+function __c799(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61349,7 +61345,7 @@ function __c800(j: number): any {
       ).annotate({ identifier: "GetCloudProjectRegionGatewayRequest" });
   }
 }
-function __c801(j: number): any {
+function __c800(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61368,7 +61364,7 @@ function __c801(j: number): any {
       ).annotate({ identifier: "GetCloudProjectRegionGatewayInterfaceRequest" });
   }
 }
-function __c802(j: number): any {
+function __c801(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61389,7 +61385,7 @@ function __c802(j: number): any {
       return S.suspend(() =>
         S.Struct({
           createdAt: S.optional(S.String),
-          resource: S.optional(__S(18432, __c576, 0)),
+          resource: S.optional(__S(18400, __c575, 0)),
           serviceName: S.optional(S.String),
           subscriptionId: S.optional(S.String),
           tenantId: S.optional(S.String),
@@ -61398,7 +61394,7 @@ function __c802(j: number): any {
       ).annotate({ identifier: "DbaasLogsMetricSubscription" });
   }
 }
-function __c803(j: number): any {
+function __c802(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61416,7 +61412,7 @@ function __c803(j: number): any {
       ).annotate({ identifier: "GetCloudProjectRegionKeymanagerCertificateRequest" });
   }
 }
-function __c804(j: number): any {
+function __c803(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61434,7 +61430,7 @@ function __c804(j: number): any {
       ).annotate({ identifier: "GetCloudProjectRegionKeymanagerSecretRequest" });
   }
 }
-function __c805(j: number): any {
+function __c804(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61446,7 +61442,7 @@ function __c805(j: number): any {
       ).annotate({ identifier: "CloudKeymanagerSecret" });
   }
 }
-function __c806(j: number): any {
+function __c805(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61464,7 +61460,7 @@ function __c806(j: number): any {
       ).annotate({ identifier: "GetCloudProjectRegionLoadbalancingFlavorRequest" });
   }
 }
-function __c807(j: number): any {
+function __c806(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61482,7 +61478,7 @@ function __c807(j: number): any {
       ).annotate({ identifier: "GetCloudProjectRegionLoadbalancingHealthMonitorRequest" });
   }
 }
-function __c808(j: number): any {
+function __c807(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61500,7 +61496,7 @@ function __c808(j: number): any {
       ).annotate({ identifier: "GetCloudProjectRegionLoadbalancingL7PolicyRequest" });
   }
 }
-function __c809(j: number): any {
+function __c808(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61519,7 +61515,7 @@ function __c809(j: number): any {
       ).annotate({ identifier: "GetCloudProjectRegionLoadbalancingL7PolicyL7RuleRequest" });
   }
 }
-function __c810(j: number): any {
+function __c809(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61537,7 +61533,7 @@ function __c810(j: number): any {
       ).annotate({ identifier: "GetCloudProjectRegionLoadbalancingListenerRequest" });
   }
 }
-function __c811(j: number): any {
+function __c810(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61561,7 +61557,7 @@ function __c811(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           registryID: S.String.pipe(T.Label()),
           deleteUsers: S.optional(S.NullOr(S.Boolean)),
-          provider: __S(25952, __c811, 0),
+          provider: __S(25920, __c810, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -61572,7 +61568,7 @@ function __c811(j: number): any {
       ).annotate({ identifier: "CreateCloudProjectContainerRegistryOpenIdConnectRequest" });
   }
 }
-function __c812(j: number): any {
+function __c811(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61590,7 +61586,7 @@ function __c812(j: number): any {
       ).annotate({ identifier: "GetCloudProjectRegionLoadbalancingLoadbalancerRequest" });
   }
 }
-function __c813(j: number): any {
+function __c812(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61604,7 +61600,7 @@ function __c813(j: number): any {
         S.Struct({
           createdAt: S.optional(S.String),
           flavorId: S.optional(S.String),
-          floatingIp: S.optional(S.NullOr(__S(26016, __c813, 0))),
+          floatingIp: S.optional(S.NullOr(__S(25984, __c812, 0))),
           id: S.optional(S.String),
           name: S.optional(S.String),
           operatingStatus: S.optional(S.String),
@@ -61618,7 +61614,7 @@ function __c813(j: number): any {
       ).annotate({ identifier: "CloudLoadbalancingLoadBalancer" });
   }
 }
-function __c814(j: number): any {
+function __c813(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61639,7 +61635,7 @@ function __c814(j: number): any {
       });
   }
 }
-function __c815(j: number): any {
+function __c814(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61667,7 +61663,7 @@ function __c815(j: number): any {
       ).annotate({ identifier: "CloudLoadbalancingLoadbalancerStats" });
   }
 }
-function __c816(j: number): any {
+function __c815(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61685,7 +61681,7 @@ function __c816(j: number): any {
       ).annotate({ identifier: "GetCloudProjectRegionLoadbalancingLogKindRequest" });
   }
 }
-function __c817(j: number): any {
+function __c816(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61703,7 +61699,7 @@ function __c817(j: number): any {
       ).annotate({ identifier: "GetCloudProjectRegionLoadbalancingPoolRequest" });
   }
 }
-function __c818(j: number): any {
+function __c817(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61722,7 +61718,7 @@ function __c818(j: number): any {
       ).annotate({ identifier: "GetCloudProjectRegionLoadbalancingPoolMemberRequest" });
   }
 }
-function __c819(j: number): any {
+function __c818(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61740,7 +61736,7 @@ function __c819(j: number): any {
       ).annotate({ identifier: "GetCloudProjectRegionLogKindRequest" });
   }
 }
-function __c820(j: number): any {
+function __c819(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61758,7 +61754,7 @@ function __c820(j: number): any {
       ).annotate({ identifier: "GetCloudProjectRegionLogSubscriptionRequest" });
   }
 }
-function __c821(j: number): any {
+function __c820(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61776,7 +61772,7 @@ function __c821(j: number): any {
       ).annotate({ identifier: "GetCloudProjectRegionNetworkRequest" });
   }
 }
-function __c822(j: number): any {
+function __c821(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61785,14 +61781,14 @@ function __c822(j: number): any {
           name: S.optional(S.String),
           region: S.optional(S.NullOr(S.String)),
           status: S.optional(S.String),
-          subnetIds: S.optional(__S(17696, __c553, 0)),
+          subnetIds: S.optional(__S(17664, __c552, 0)),
           visibility: S.optional(S.String),
           vlanId: S.optional(S.NullOr(S.Number)),
         }),
       ).annotate({ identifier: "CloudProjectNetwork" });
   }
 }
-function __c823(j: number): any {
+function __c822(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61811,7 +61807,7 @@ function __c823(j: number): any {
       ).annotate({ identifier: "GetCloudProjectRegionNetworkSubnetRequest" });
   }
 }
-function __c824(j: number): any {
+function __c823(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61819,7 +61815,7 @@ function __c824(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           delay: S.Number,
           email: S.optional(S.String),
-          emails: S.optional(__S(17696, __c553, 0)),
+          emails: S.optional(__S(17664, __c552, 0)),
           monthlyThreshold: S.Number,
           name: S.optional(S.String),
           service: S.optional(S.String),
@@ -61829,7 +61825,7 @@ function __c824(j: number): any {
       ).annotate({ identifier: "AddAlertingRequest" });
   }
 }
-function __c825(j: number): any {
+function __c824(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61837,8 +61833,8 @@ function __c825(j: number): any {
           creationDate: S.optional(S.String),
           delay: S.Number,
           email: S.optional(S.String),
-          emails: S.optional(__S(17696, __c553, 0)),
-          formattedMonthlyThreshold: S.optional(__S(26432, __c826, 0)),
+          emails: S.optional(__S(17664, __c552, 0)),
+          formattedMonthlyThreshold: S.optional(__S(26400, __c825, 0)),
           id: S.optional(S.String),
           monthlyThreshold: S.Number,
           name: S.optional(S.String),
@@ -61848,7 +61844,7 @@ function __c825(j: number): any {
       ).annotate({ identifier: "CloudAlertingAlerting" });
   }
 }
-function __c826(j: number): any {
+function __c825(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61861,7 +61857,7 @@ function __c826(j: number): any {
       ).annotate({ identifier: "OrderPrice" });
   }
 }
-function __c827(j: number): any {
+function __c826(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61880,7 +61876,7 @@ function __c827(j: number): any {
       ).annotate({ identifier: "CreateCloudProjectContainerRegistryUserRequest" });
   }
 }
-function __c828(j: number): any {
+function __c827(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61893,7 +61889,7 @@ function __c828(j: number): any {
       ).annotate({ identifier: "CloudContainerRegistryUser" });
   }
 }
-function __c829(j: number): any {
+function __c828(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61910,7 +61906,7 @@ function __c829(j: number): any {
       ).annotate({ identifier: "GetCloudProjectRegionQuotaRequest" });
   }
 }
-function __c830(j: number): any {
+function __c829(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61930,7 +61926,7 @@ function __c830(j: number): any {
       ).annotate({ identifier: "CloudQuotaShareQuota" });
   }
 }
-function __c831(j: number): any {
+function __c830(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61992,19 +61988,19 @@ function __c831(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          instance: S.optional(S.NullOr(__S(26592, __c831, 0))),
-          keymanager: S.optional(S.NullOr(__S(26593, __c831, 1))),
-          keypair: S.optional(S.NullOr(__S(26594, __c831, 2))),
-          loadbalancer: S.optional(S.NullOr(__S(26595, __c831, 3))),
-          network: S.optional(S.NullOr(__S(26596, __c831, 4))),
+          instance: S.optional(S.NullOr(__S(26560, __c830, 0))),
+          keymanager: S.optional(S.NullOr(__S(26561, __c830, 1))),
+          keypair: S.optional(S.NullOr(__S(26562, __c830, 2))),
+          loadbalancer: S.optional(S.NullOr(__S(26563, __c830, 3))),
+          network: S.optional(S.NullOr(__S(26564, __c830, 4))),
           region: S.optional(S.String),
-          share: S.optional(S.NullOr(__S(26560, __c830, 0))),
-          volume: S.optional(S.NullOr(__S(26597, __c831, 5))),
+          share: S.optional(S.NullOr(__S(26528, __c829, 0))),
+          volume: S.optional(S.NullOr(__S(26565, __c830, 5))),
         }),
       ).annotate({ identifier: "CloudQuotaQuotas" });
   }
 }
-function __c832(j: number): any {
+function __c831(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -62021,7 +62017,7 @@ function __c832(j: number): any {
       ).annotate({ identifier: "GetCloudProjectRegionQuotaShareRequest" });
   }
 }
-function __c833(j: number): any {
+function __c832(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -62047,7 +62043,7 @@ function __c833(j: number): any {
       ).annotate({ identifier: "CloudQuotaStorageQuota" });
   }
 }
-function __c834(j: number): any {
+function __c833(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -62065,7 +62061,7 @@ function __c834(j: number): any {
       ).annotate({ identifier: "GetCloudProjectRegionShareRequest" });
   }
 }
-function __c835(j: number): any {
+function __c834(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -62075,7 +62071,7 @@ function __c835(j: number): any {
         }),
       ).annotate({ identifier: "CloudShareCapability" });
     case 1:
-      return S.Array(__S(26720, __c835, 0));
+      return S.Array(__S(26688, __c834, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -62084,15 +62080,15 @@ function __c835(j: number): any {
         }),
       ).annotate({ identifier: "CloudShareExportLocationObject" });
     case 3:
-      return S.Array(__S(26722, __c835, 2));
+      return S.Array(__S(26690, __c834, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           availabilityZone: S.optional(S.NullOr(S.String)),
-          capabilities: S.optional(S.NullOr(__S(26721, __c835, 1))),
+          capabilities: S.optional(S.NullOr(__S(26689, __c834, 1))),
           createdAt: S.optional(S.String),
           description: S.optional(S.String),
-          exportLocations: S.optional(S.NullOr(__S(26723, __c835, 3))),
+          exportLocations: S.optional(S.NullOr(__S(26691, __c834, 3))),
           id: S.optional(S.String),
           isPublic: S.optional(S.Boolean),
           name: S.optional(S.String),
@@ -62108,7 +62104,7 @@ function __c835(j: number): any {
       ).annotate({ identifier: "CloudShareShare" });
   }
 }
-function __c836(j: number): any {
+function __c835(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -62127,7 +62123,7 @@ function __c836(j: number): any {
       ).annotate({ identifier: "GetCloudProjectRegionShareAclRequest" });
   }
 }
-function __c837(j: number): any {
+function __c836(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -62146,7 +62142,7 @@ function __c837(j: number): any {
       ).annotate({ identifier: "GetCloudProjectRegionShareSnapshotRequest" });
   }
 }
-function __c838(j: number): any {
+function __c837(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -62164,7 +62160,7 @@ function __c838(j: number): any {
       ).annotate({ identifier: "GetCloudProjectRegionSshkeyRequest" });
   }
 }
-function __c839(j: number): any {
+function __c838(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -62178,7 +62174,7 @@ function __c839(j: number): any {
       ).annotate({ identifier: "CloudRegionSSHKey" });
   }
 }
-function __c840(j: number): any {
+function __c839(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -62196,18 +62192,18 @@ function __c840(j: number): any {
       ).annotate({ identifier: "GetCloudProjectRegionVolumeRequest" });
   }
 }
-function __c841(j: number): any {
+function __c840(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(10240, __c320, 0));
+      return S.Array(__S(10208, __c319, 0));
   }
 }
-function __c842(j: number): any {
+function __c841(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          attachedTo: S.optional(__S(26912, __c841, 0)),
+          attachedTo: S.optional(__S(26880, __c840, 0)),
           availabilityZone: S.optional(S.NullOr(S.String)),
           id: S.optional(S.String),
           name: S.optional(S.String),
@@ -62218,7 +62214,7 @@ function __c842(j: number): any {
       ).annotate({ identifier: "CloudRegionVolume" });
   }
 }
-function __c843(j: number): any {
+function __c842(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -62236,7 +62232,7 @@ function __c843(j: number): any {
       ).annotate({ identifier: "GetCloudProjectRegionVolumeBackupRequest" });
   }
 }
-function __c844(j: number): any {
+function __c843(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -62254,7 +62250,7 @@ function __c844(j: number): any {
       ).annotate({ identifier: "GetCloudProjectRegionWorkflowBackupRequest" });
   }
 }
-function __c845(j: number): any {
+function __c844(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -62265,7 +62261,7 @@ function __c845(j: number): any {
       ).annotate({ identifier: "CreateCloudProjectCreditRequest" });
   }
 }
-function __c846(j: number): any {
+function __c845(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -62287,7 +62283,7 @@ function __c846(j: number): any {
           engagedUpTo: S.optional(S.NullOr(S.String)),
           expiration: S.optional(S.String),
           possibleRenewPeriod: S.optional(S.NullOr(__S(35264, __c1102, 0))),
-          renew: S.optional(S.NullOr(__S(27104, __c847, 0))),
+          renew: S.optional(S.NullOr(__S(27072, __c846, 0))),
           renewalType: S.optional(S.String),
           serviceId: S.optional(S.Number),
           status: S.optional(S.String),
@@ -62295,7 +62291,7 @@ function __c846(j: number): any {
       ).annotate({ identifier: "ServicesService" });
   }
 }
-function __c847(j: number): any {
+function __c846(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -62309,7 +62305,7 @@ function __c847(j: number): any {
       ).annotate({ identifier: "ServiceRenewType" });
   }
 }
-function __c848(j: number): any {
+function __c847(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -62326,7 +62322,7 @@ function __c848(j: number): any {
       ).annotate({ identifier: "GetCloudProjectSnapshotRequest" });
   }
 }
-function __c849(j: number): any {
+function __c848(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -62339,7 +62335,7 @@ function __c849(j: number): any {
       ).annotate({ identifier: "GetCloudProjectSshkeyRequest" });
   }
 }
-function __c850(j: number): any {
+function __c849(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -62368,15 +62364,15 @@ function __c850(j: number): any {
         }),
       ).annotate({ identifier: "CloudStorageContainerObject" });
     case 2:
-      return S.Array(__S(27201, __c850, 1));
+      return S.Array(__S(27169, __c849, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           archive: S.optional(S.Boolean),
           containerType: S.optional(S.String),
-          cors: S.optional(__S(17696, __c553, 0)),
+          cors: S.optional(__S(17664, __c552, 0)),
           name: S.optional(S.String),
-          objects: S.optional(__S(27202, __c850, 2)),
+          objects: S.optional(__S(27170, __c849, 2)),
           public: S.optional(S.Boolean),
           region: S.optional(S.String),
           staticUrl: S.optional(S.String),
@@ -62386,7 +62382,7 @@ function __c850(j: number): any {
       ).annotate({ identifier: "CloudStorageContainerDetail" });
   }
 }
-function __c851(j: number): any {
+function __c850(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -62405,7 +62401,7 @@ function __c851(j: number): any {
       ).annotate({ identifier: "CloudStorageQuota" });
   }
 }
-function __c852(j: number): any {
+function __c851(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -62418,17 +62414,17 @@ function __c852(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          hourlyUsage: S.optional(S.NullOr(__S(27329, __c854, 1))),
+          hourlyUsage: S.optional(S.NullOr(__S(27297, __c853, 1))),
           lastUpdate: S.optional(S.String),
-          monthlyUsage: S.optional(S.NullOr(__S(27344, __c854, 16))),
-          period: S.optional(__S(27360, __c855, 0)),
-          resourcesUsage: S.optional(S.NullOr(__S(27350, __c854, 22))),
-          totalPrice: S.optional(__S(26432, __c826, 0)),
+          monthlyUsage: S.optional(S.NullOr(__S(27312, __c853, 16))),
+          period: S.optional(__S(27328, __c854, 0)),
+          resourcesUsage: S.optional(S.NullOr(__S(27318, __c853, 22))),
+          totalPrice: S.optional(__S(26400, __c825, 0)),
         }),
       ).annotate({ identifier: "CloudUsageUsageCurrent" });
   }
 }
-function __c853(j: number): any {
+function __c852(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -62441,31 +62437,31 @@ function __c853(j: number): any {
       return S.suspend(() =>
         S.Struct({
           instanceId: S.optional(S.String),
-          quantity: S.optional(__S(27296, __c853, 0)),
+          quantity: S.optional(__S(27264, __c852, 0)),
           resourceId: S.optional(S.String),
           totalPrice: S.optional(S.Number),
         }),
       ).annotate({ identifier: "CloudBillingViewHourlyInstanceDetail" });
     case 2:
-      return S.Array(__S(27297, __c853, 1));
+      return S.Array(__S(27265, __c852, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           deploymentMode: S.optional(S.NullOr(S.String)),
-          details: S.optional(__S(27298, __c853, 2)),
-          quantity: S.optional(__S(27296, __c853, 0)),
+          details: S.optional(__S(27266, __c852, 2)),
+          quantity: S.optional(__S(27264, __c852, 0)),
           reference: S.optional(S.String),
           region: S.optional(S.String),
-          savingsPlanIds: S.optional(S.NullOr(__S(17696, __c553, 0))),
+          savingsPlanIds: S.optional(S.NullOr(__S(17664, __c552, 0))),
           totalPrice: S.optional(S.Number),
         }),
       ).annotate({ identifier: "CloudBillingViewHourlyInstance" });
     case 4:
-      return S.Array(__S(27299, __c853, 3));
+      return S.Array(__S(27267, __c852, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          quantity: S.optional(__S(27296, __c853, 0)),
+          quantity: S.optional(__S(27264, __c852, 0)),
           totalPrice: S.optional(S.Number),
         }),
       ).annotate({ identifier: "CloudBillingViewBandwidthInstance" });
@@ -62473,132 +62469,132 @@ function __c853(j: number): any {
       return S.suspend(() =>
         S.Struct({
           deploymentMode: S.optional(S.NullOr(S.String)),
-          incomingBandwidth: S.optional(S.NullOr(__S(27301, __c853, 5))),
-          outgoingBandwidth: S.optional(S.NullOr(__S(27301, __c853, 5))),
+          incomingBandwidth: S.optional(S.NullOr(__S(27269, __c852, 5))),
+          outgoingBandwidth: S.optional(S.NullOr(__S(27269, __c852, 5))),
           region: S.optional(S.String),
           totalPrice: S.optional(S.Number),
         }),
       ).annotate({ identifier: "CloudBillingViewHourlyInstanceBandwidth" });
     case 7:
-      return S.Array(__S(27302, __c853, 6));
+      return S.Array(__S(27270, __c852, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
           instanceId: S.optional(S.String),
-          quantity: S.optional(__S(27296, __c853, 0)),
+          quantity: S.optional(__S(27264, __c852, 0)),
           totalPrice: S.optional(S.Number),
         }),
       ).annotate({ identifier: "CloudBillingViewHourlyInstanceOptionDetail" });
     case 9:
-      return S.Array(__S(27304, __c853, 8));
+      return S.Array(__S(27272, __c852, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
           deploymentMode: S.optional(S.NullOr(S.String)),
-          details: S.optional(__S(27305, __c853, 9)),
-          quantity: S.optional(__S(27296, __c853, 0)),
+          details: S.optional(__S(27273, __c852, 9)),
+          quantity: S.optional(__S(27264, __c852, 0)),
           reference: S.optional(S.String),
           region: S.optional(S.String),
           totalPrice: S.optional(S.Number),
         }),
       ).annotate({ identifier: "CloudBillingViewHourlyInstanceOption" });
     case 11:
-      return S.Array(__S(27306, __c853, 10));
+      return S.Array(__S(27274, __c852, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
-          quantity: S.optional(__S(27296, __c853, 0)),
+          quantity: S.optional(__S(27264, __c852, 0)),
           resourceId: S.optional(S.String),
-          totalPrice: S.optional(__S(26432, __c826, 0)),
+          totalPrice: S.optional(__S(26400, __c825, 0)),
         }),
       ).annotate({ identifier: "CloudBillingViewHourlyDetail" });
     case 13:
-      return S.Array(__S(27308, __c853, 12));
+      return S.Array(__S(27276, __c852, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
           deploymentMode: S.optional(S.NullOr(S.String)),
-          details: S.optional(S.NullOr(__S(27309, __c853, 13))),
-          quantity: S.optional(__S(27296, __c853, 0)),
+          details: S.optional(S.NullOr(__S(27277, __c852, 13))),
+          quantity: S.optional(__S(27264, __c852, 0)),
           reference: S.optional(S.NullOr(S.String)),
           region: S.optional(S.NullOr(S.String)),
-          totalPrice: S.optional(__S(26432, __c826, 0)),
+          totalPrice: S.optional(__S(26400, __c825, 0)),
         }),
       ).annotate({ identifier: "CloudBillingViewHourlyManagedKubernetesService" });
     case 15:
-      return S.Array(__S(27310, __c853, 14));
+      return S.Array(__S(27278, __c852, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({
           deploymentMode: S.optional(S.NullOr(S.String)),
-          details: S.optional(__S(27309, __c853, 13)),
-          quantity: S.optional(__S(27296, __c853, 0)),
+          details: S.optional(__S(27277, __c852, 13)),
+          quantity: S.optional(__S(27264, __c852, 0)),
           reference: S.optional(S.String),
           region: S.optional(S.String),
-          totalPrice: S.optional(__S(26432, __c826, 0)),
+          totalPrice: S.optional(__S(26400, __c825, 0)),
         }),
       ).annotate({ identifier: "CloudBillingViewHourlyQuantumNotebook" });
     case 17:
-      return S.Array(__S(27312, __c853, 16));
+      return S.Array(__S(27280, __c852, 16));
     case 18:
       return S.suspend(() =>
         S.Struct({
-          notebook: S.optional(__S(27313, __c853, 17)),
-          processingUnit: S.optional(__S(27313, __c853, 17)),
+          notebook: S.optional(__S(27281, __c852, 17)),
+          processingUnit: S.optional(__S(27281, __c852, 17)),
         }),
       ).annotate({ identifier: "CloudBillingViewHourlyQuantum" });
     case 19:
       return S.suspend(() =>
         S.Struct({
-          quantity: S.optional(__S(27296, __c853, 0)),
+          quantity: S.optional(__S(27264, __c852, 0)),
           rancherId: S.optional(S.String),
           resourceId: S.optional(S.String),
-          totalPrice: S.optional(__S(26432, __c826, 0)),
+          totalPrice: S.optional(__S(26400, __c825, 0)),
         }),
       ).annotate({ identifier: "CloudBillingViewHourlyRancherDetail" });
     case 20:
-      return S.Array(__S(27315, __c853, 19));
+      return S.Array(__S(27283, __c852, 19));
     case 21:
       return S.suspend(() =>
         S.Struct({
           deploymentMode: S.optional(S.NullOr(S.String)),
-          details: S.optional(__S(27316, __c853, 20)),
-          quantity: S.optional(__S(27296, __c853, 0)),
+          details: S.optional(__S(27284, __c852, 20)),
+          quantity: S.optional(__S(27264, __c852, 0)),
           reference: S.optional(S.String),
           region: S.optional(S.String),
-          savingsPlanIds: S.optional(S.NullOr(__S(17696, __c553, 0))),
-          totalPrice: S.optional(__S(26432, __c826, 0)),
+          savingsPlanIds: S.optional(S.NullOr(__S(17664, __c552, 0))),
+          totalPrice: S.optional(__S(26400, __c825, 0)),
         }),
       ).annotate({ identifier: "CloudBillingViewHourlyRancher" });
     case 22:
-      return S.Array(__S(27317, __c853, 21));
+      return S.Array(__S(27285, __c852, 21));
     case 23:
       return S.suspend(() =>
         S.Struct({
           deploymentMode: S.optional(S.NullOr(S.String)),
-          instance: S.optional(S.NullOr(__S(27301, __c853, 5))),
+          instance: S.optional(S.NullOr(__S(27269, __c852, 5))),
           region: S.optional(S.String),
           totalPrice: S.optional(S.Number),
-          volume: S.optional(S.NullOr(__S(27301, __c853, 5))),
+          volume: S.optional(S.NullOr(__S(27269, __c852, 5))),
         }),
       ).annotate({ identifier: "CloudBillingViewHourlySnapshot" });
     case 24:
-      return S.Array(__S(27319, __c853, 23));
+      return S.Array(__S(27287, __c852, 23));
     case 25:
       return S.suspend(() =>
         S.Struct({
-          quantity: S.optional(__S(27296, __c853, 0)),
-          resourceIds: S.optional(__S(17696, __c553, 0)),
+          quantity: S.optional(__S(27264, __c852, 0)),
+          resourceIds: S.optional(__S(17664, __c552, 0)),
           totalPrice: S.optional(S.Number),
         }),
       ).annotate({ identifier: "CloudBillingViewBandwidthStorage" });
     case 26:
       return S.suspend(() =>
         S.Struct({
-          quantity: S.optional(__S(27296, __c853, 0)),
-          resourceIds: S.optional(__S(17696, __c553, 0)),
-          totalPrice: S.optional(__S(26432, __c826, 0)),
+          quantity: S.optional(__S(27264, __c852, 0)),
+          resourceIds: S.optional(__S(17664, __c552, 0)),
+          totalPrice: S.optional(__S(26400, __c825, 0)),
         }),
       ).annotate({ identifier: "CloudBillingViewRetrievalFees" });
     case 27:
@@ -62606,36 +62602,36 @@ function __c853(j: number): any {
         S.Struct({
           bucketName: S.optional(S.NullOr(S.String)),
           deploymentMode: S.optional(S.NullOr(S.String)),
-          incomingBandwidth: S.optional(S.NullOr(__S(27321, __c853, 25))),
-          incomingInternalBandwidth: S.optional(S.NullOr(__S(27321, __c853, 25))),
-          outgoingBandwidth: S.optional(S.NullOr(__S(27321, __c853, 25))),
-          outgoingInternalBandwidth: S.optional(S.NullOr(__S(27321, __c853, 25))),
+          incomingBandwidth: S.optional(S.NullOr(__S(27289, __c852, 25))),
+          incomingInternalBandwidth: S.optional(S.NullOr(__S(27289, __c852, 25))),
+          outgoingBandwidth: S.optional(S.NullOr(__S(27289, __c852, 25))),
+          outgoingInternalBandwidth: S.optional(S.NullOr(__S(27289, __c852, 25))),
           region: S.optional(S.String),
-          retrievalFees: S.optional(S.NullOr(__S(27322, __c853, 26))),
-          stored: S.optional(S.NullOr(__S(27321, __c853, 25))),
+          retrievalFees: S.optional(S.NullOr(__S(27290, __c852, 26))),
+          stored: S.optional(S.NullOr(__S(27289, __c852, 25))),
           totalPrice: S.optional(S.Number),
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "CloudBillingViewHourlyStorage" });
     case 28:
-      return S.Array(__S(27323, __c853, 27));
+      return S.Array(__S(27291, __c852, 27));
     case 29:
       return S.suspend(() =>
         S.Struct({
-          quantity: S.optional(__S(27296, __c853, 0)),
+          quantity: S.optional(__S(27264, __c852, 0)),
           resourceId: S.optional(S.String),
           totalPrice: S.optional(S.Number),
           volumeId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CloudBillingViewHourlyVolumeDetail" });
     case 30:
-      return S.Array(__S(27325, __c853, 29));
+      return S.Array(__S(27293, __c852, 29));
     case 31:
       return S.suspend(() =>
         S.Struct({
           deploymentMode: S.optional(S.NullOr(S.String)),
-          details: S.optional(__S(27326, __c853, 30)),
-          quantity: S.optional(__S(27296, __c853, 0)),
+          details: S.optional(__S(27294, __c852, 30)),
+          quantity: S.optional(__S(27264, __c852, 0)),
           region: S.optional(S.String),
           totalPrice: S.optional(S.Number),
           type: S.optional(S.String),
@@ -62643,22 +62639,22 @@ function __c853(j: number): any {
       ).annotate({ identifier: "CloudBillingViewHourlyVolume" });
   }
 }
-function __c854(j: number): any {
+function __c853(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(27327, __c853, 31));
+      return S.Array(__S(27295, __c852, 31));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          instance: S.optional(__S(27300, __c853, 4)),
-          instanceBandwidth: S.optional(__S(27303, __c853, 7)),
-          instanceOption: S.optional(__S(27307, __c853, 11)),
-          managedKubernetesService: S.optional(__S(27311, __c853, 15)),
-          quantum: S.optional(__S(27314, __c853, 18)),
-          rancher: S.optional(__S(27318, __c853, 22)),
-          snapshot: S.optional(__S(27320, __c853, 24)),
-          storage: S.optional(__S(27324, __c853, 28)),
-          volume: S.optional(__S(27328, __c854, 0)),
+          instance: S.optional(__S(27268, __c852, 4)),
+          instanceBandwidth: S.optional(__S(27271, __c852, 7)),
+          instanceOption: S.optional(__S(27275, __c852, 11)),
+          managedKubernetesService: S.optional(__S(27279, __c852, 15)),
+          quantum: S.optional(__S(27282, __c852, 18)),
+          rancher: S.optional(__S(27286, __c852, 22)),
+          snapshot: S.optional(__S(27288, __c852, 24)),
+          storage: S.optional(__S(27292, __c852, 28)),
+          volume: S.optional(__S(27296, __c853, 0)),
         }),
       ).annotate({ identifier: "CloudBillingViewHourlyResources" });
     case 2:
@@ -62669,17 +62665,17 @@ function __c854(j: number): any {
         }),
       ).annotate({ identifier: "CloudBillingViewMonthlyCertificationDetail" });
     case 3:
-      return S.Array(__S(27330, __c854, 2));
+      return S.Array(__S(27298, __c853, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          details: S.optional(__S(27331, __c854, 3)),
+          details: S.optional(__S(27299, __c853, 3)),
           reference: S.optional(S.String),
           totalPrice: S.optional(S.Number),
         }),
       ).annotate({ identifier: "CloudBillingViewMonthlyCertification" });
     case 5:
-      return S.Array(__S(27332, __c854, 4));
+      return S.Array(__S(27300, __c853, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -62690,19 +62686,19 @@ function __c854(j: number): any {
         }),
       ).annotate({ identifier: "CloudBillingViewMonthlyInstanceDetail" });
     case 7:
-      return S.Array(__S(27334, __c854, 6));
+      return S.Array(__S(27302, __c853, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
           deploymentMode: S.optional(S.NullOr(S.String)),
-          details: S.optional(__S(27335, __c854, 7)),
+          details: S.optional(__S(27303, __c853, 7)),
           reference: S.optional(S.String),
           region: S.optional(S.String),
           totalPrice: S.optional(S.Number),
         }),
       ).annotate({ identifier: "CloudBillingViewMonthlyInstance" });
     case 9:
-      return S.Array(__S(27336, __c854, 8));
+      return S.Array(__S(27304, __c853, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
@@ -62711,36 +62707,36 @@ function __c854(j: number): any {
         }),
       ).annotate({ identifier: "CloudBillingViewMonthlyInstanceOptionDetail" });
     case 11:
-      return S.Array(__S(27338, __c854, 10));
+      return S.Array(__S(27306, __c853, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
           deploymentMode: S.optional(S.NullOr(S.String)),
-          details: S.optional(__S(27339, __c854, 11)),
+          details: S.optional(__S(27307, __c853, 11)),
           reference: S.optional(S.String),
           region: S.optional(S.String),
           totalPrice: S.optional(S.Number),
         }),
       ).annotate({ identifier: "CloudBillingViewMonthlyInstanceOption" });
     case 13:
-      return S.Array(__S(27340, __c854, 12));
+      return S.Array(__S(27308, __c853, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
-          details: S.optional(__S(27393, __c856, 1)),
+          details: S.optional(__S(27361, __c855, 1)),
           flavor: S.optional(S.String),
-          totalPrice: S.optional(__S(26432, __c826, 0)),
+          totalPrice: S.optional(__S(26400, __c825, 0)),
         }),
       ).annotate({ identifier: "CloudBillingViewMonthlySavingsPlan" });
     case 15:
-      return S.Array(__S(27342, __c854, 14));
+      return S.Array(__S(27310, __c853, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({
-          certification: S.optional(__S(27333, __c854, 5)),
-          instance: S.optional(__S(27337, __c854, 9)),
-          instanceOption: S.optional(__S(27341, __c854, 13)),
-          savingsPlan: S.optional(__S(27343, __c854, 15)),
+          certification: S.optional(__S(27301, __c853, 5)),
+          instance: S.optional(__S(27305, __c853, 9)),
+          instanceOption: S.optional(__S(27309, __c853, 13)),
+          savingsPlan: S.optional(__S(27311, __c853, 15)),
         }),
       ).annotate({ identifier: "CloudBillingViewMonthlyResources" });
     case 17:
@@ -62748,36 +62744,36 @@ function __c854(j: number): any {
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
-          quantity: S.optional(__S(27296, __c853, 0)),
+          quantity: S.optional(__S(27264, __c852, 0)),
           resourceId: S.optional(S.String),
           totalPrice: S.optional(S.Number),
         }),
       ).annotate({ identifier: "CloudBillingViewComponent" });
     case 18:
-      return S.Array(__S(27345, __c854, 17));
+      return S.Array(__S(27313, __c853, 17));
     case 19:
       return S.suspend(() =>
         S.Struct({
-          components: S.optional(__S(27346, __c854, 18)),
+          components: S.optional(__S(27314, __c853, 18)),
           deploymentMode: S.optional(S.NullOr(S.String)),
           region: S.optional(S.String),
         }),
       ).annotate({ identifier: "CloudBillingViewRegionalizedResource" });
     case 20:
-      return S.Array(__S(27347, __c854, 19));
+      return S.Array(__S(27315, __c853, 19));
     case 21:
       return S.suspend(() =>
         S.Struct({
-          resources: S.optional(__S(27348, __c854, 20)),
+          resources: S.optional(__S(27316, __c853, 20)),
           totalPrice: S.optional(S.Number),
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "CloudBillingViewTypedResources" });
     case 22:
-      return S.Array(__S(27349, __c854, 21));
+      return S.Array(__S(27317, __c853, 21));
   }
 }
-function __c855(j: number): any {
+function __c854(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -62788,24 +62784,24 @@ function __c855(j: number): any {
       ).annotate({ identifier: "CloudUsagePeriod" });
   }
 }
-function __c856(j: number): any {
+function __c855(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
-          period: S.optional(__S(27360, __c855, 0)),
+          period: S.optional(__S(27328, __c854, 0)),
           planName: S.optional(S.NullOr(S.String)),
           size: S.optional(S.Number),
-          totalPrice: S.optional(__S(26432, __c826, 0)),
-          unitPrice: S.optional(__S(26432, __c826, 0)),
+          totalPrice: S.optional(__S(26400, __c825, 0)),
+          unitPrice: S.optional(__S(26400, __c825, 0)),
         }),
       ).annotate({ identifier: "CloudPlanDetail" });
     case 1:
-      return S.Array(__S(27392, __c856, 0));
+      return S.Array(__S(27360, __c855, 0));
   }
 }
-function __c857(j: number): any {
+function __c856(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -62824,29 +62820,29 @@ function __c857(j: number): any {
         }),
       ).annotate({ identifier: "CloudBillingViewUsedCredit" });
     case 2:
-      return S.Array(__S(27425, __c857, 1));
+      return S.Array(__S(27393, __c856, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          details: S.optional(__S(27426, __c857, 2)),
+          details: S.optional(__S(27394, __c856, 2)),
           totalCredit: S.optional(S.Number),
         }),
       ).annotate({ identifier: "CloudBillingViewUsedCredits" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          hourlyUsage: S.optional(S.NullOr(__S(27329, __c854, 1))),
+          hourlyUsage: S.optional(S.NullOr(__S(27297, __c853, 1))),
           lastUpdate: S.optional(S.String),
-          monthlyUsage: S.optional(S.NullOr(__S(27344, __c854, 16))),
-          period: S.optional(__S(27360, __c855, 0)),
-          resourcesUsage: S.optional(S.NullOr(__S(27350, __c854, 22))),
-          totalPrice: S.optional(__S(26432, __c826, 0)),
-          usableCredits: S.optional(S.NullOr(__S(27427, __c857, 3))),
+          monthlyUsage: S.optional(S.NullOr(__S(27312, __c853, 16))),
+          period: S.optional(__S(27328, __c854, 0)),
+          resourcesUsage: S.optional(S.NullOr(__S(27318, __c853, 22))),
+          totalPrice: S.optional(__S(26400, __c825, 0)),
+          usableCredits: S.optional(S.NullOr(__S(27395, __c856, 3))),
         }),
       ).annotate({ identifier: "CloudUsageUsageForecast" });
   }
 }
-function __c858(j: number): any {
+function __c857(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -62864,18 +62860,18 @@ function __c858(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          hourlyUsage: S.optional(S.NullOr(__S(27329, __c854, 1))),
+          hourlyUsage: S.optional(S.NullOr(__S(27297, __c853, 1))),
           id: S.optional(S.String),
           lastUpdate: S.optional(S.String),
-          monthlyUsage: S.optional(S.NullOr(__S(27344, __c854, 16))),
-          period: S.optional(__S(27360, __c855, 0)),
-          resourcesUsage: S.optional(S.NullOr(__S(27350, __c854, 22))),
-          totalPrice: S.optional(__S(26432, __c826, 0)),
+          monthlyUsage: S.optional(S.NullOr(__S(27312, __c853, 16))),
+          period: S.optional(__S(27328, __c854, 0)),
+          resourcesUsage: S.optional(S.NullOr(__S(27318, __c853, 22))),
+          totalPrice: S.optional(__S(26400, __c825, 0)),
         }),
       ).annotate({ identifier: "CloudUsageUsageHistoryDetail" });
   }
 }
-function __c859(j: number): any {
+function __c858(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -62888,7 +62884,7 @@ function __c859(j: number): any {
       ).annotate({ identifier: "GetCloudProjectUserRequest" });
   }
 }
-function __c860(j: number): any {
+function __c859(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -62897,14 +62893,14 @@ function __c860(j: number): any {
           description: S.optional(S.String),
           id: S.optional(S.Number),
           openstackId: S.optional(S.NullOr(S.String)),
-          roles: S.optional(__S(9504, __c297, 0)),
+          roles: S.optional(__S(9472, __c296, 0)),
           status: S.optional(S.String),
           username: S.optional(S.String),
         }),
       ).annotate({ identifier: "CloudUserUser" });
   }
 }
-function __c861(j: number): any {
+function __c860(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -62920,6 +62916,16 @@ function __c861(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GetCloudProjectUserConfigurationRequest" });
+  }
+}
+function __c861(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          content: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CloudUserConfiguration" });
   }
 }
 function __c862(j: number): any {
@@ -63023,7 +63029,7 @@ function __c866(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          regions: S.optional(__S(17696, __c553, 0)),
+          regions: S.optional(__S(17664, __c552, 0)),
           time: S.optional(S.String),
         }),
       ).annotate({ identifier: "CloudProjectDatabaseServiceBackupInput" });
@@ -63050,7 +63056,7 @@ function __c867(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pitr: S.optional(S.NullOr(S.String)),
-          regions: S.optional(__S(17696, __c553, 0)),
+          regions: S.optional(__S(17664, __c552, 0)),
           retentionDays: S.optional(S.NullOr(S.Number)),
           time: S.optional(S.String),
         }),
@@ -63340,7 +63346,7 @@ function __c879(j: number): any {
         ),
       ).annotate({ identifier: "GetColdArchiveContainersOnRegionRequest" });
     case 1:
-      return S.Array(__S(10144, __c317, 0));
+      return S.Array(__S(10112, __c316, 0));
     case 2:
       return S.suspend(() => __S(28129, __c879, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetColdArchiveContainersOnRegionResponse",
@@ -63355,7 +63361,7 @@ function __c880(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           clusterId: S.String.pipe(T.Label()),
           destinationServiceId: S.String,
-          parameters: S.optional(S.NullOr(__S(19392, __c606, 0))),
+          parameters: S.optional(S.NullOr(__S(19360, __c605, 0))),
           sourceServiceId: S.String,
           type: S.optional(S.String),
         }).pipe(
@@ -63375,7 +63381,7 @@ function __c881(j: number): any {
         S.Struct({
           destinationServiceId: S.String,
           id: S.optional(S.String),
-          parameters: S.optional(S.NullOr(__S(19392, __c606, 0))),
+          parameters: S.optional(S.NullOr(__S(19360, __c605, 0))),
           sourceServiceId: S.String,
           status: S.optional(S.String),
           type: S.optional(S.String),
@@ -63461,7 +63467,7 @@ function __c886(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/flavor", code: 200 })),
       ).annotate({ identifier: "GetFlavorsRequest" });
     case 1:
-      return S.Array(__S(22275, __c696, 3));
+      return S.Array(__S(22243, __c695, 3));
     case 2:
       return S.suspend(() => __S(28353, __c886, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetFlavorsResponse",
@@ -63596,7 +63602,7 @@ function __c892(j: number): any {
           gatewayIP: S.optional(S.NullOr(S.String)),
           id: S.optional(S.String),
           name: S.optional(S.String),
-          network: S.optional(__S(7744, __c242, 0)),
+          network: S.optional(__S(7712, __c241, 0)),
         }),
       ).annotate({ identifier: "CloudInstanceInstanceAddressSubnet" });
     case 3:
@@ -63657,7 +63663,7 @@ function __c892(j: number): any {
       return S.suspend(() =>
         S.Struct({
           includeVat: S.optional(S.Boolean),
-          price: S.optional(__S(26432, __c826, 0)),
+          price: S.optional(__S(26400, __c825, 0)),
           status: S.optional(S.String),
           type: S.optional(S.String),
         }),
@@ -63679,7 +63685,7 @@ function __c892(j: number): any {
         S.Struct({
           actions: S.optional(S.NullOr(__S(28545, __c892, 1))),
           addresses: S.optional(__S(28548, __c892, 4)),
-          attachedVolumes: S.optional(__S(26912, __c841, 0)),
+          attachedVolumes: S.optional(__S(26880, __c840, 0)),
           availabilityZone: S.optional(S.NullOr(S.String)),
           backups: S.optional(S.NullOr(__S(28550, __c892, 6))),
           flavor: S.optional(S.NullOr(__S(28553, __c892, 9))),
@@ -63874,7 +63880,7 @@ function __c902(j: number): any {
           legalHold: S.optional(S.NullOr(S.String)),
           lock: S.optional(S.NullOr(__S(28896, __c903, 0))),
           replicationStatus: S.optional(S.NullOr(S.String)),
-          restoreStatus: S.optional(S.NullOr(__S(10016, __c313, 0))),
+          restoreStatus: S.optional(S.NullOr(__S(9984, __c312, 0))),
           size: S.optional(S.Number),
           storageClass: S.optional(S.NullOr(S.String)),
           versionId: S.optional(S.NullOr(S.String)),
@@ -63916,7 +63922,7 @@ function __c904(j: number): any {
         ),
       ).annotate({ identifier: "GetObjectsInformationOnContainerOnRegionRequest" });
     case 1:
-      return S.suspend(() => __S(10049, __c314, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(10017, __c313, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetObjectsInformationOnContainerOnRegionResponse",
       });
   }
@@ -63953,7 +63959,7 @@ function __c906(j: number): any {
           lastModified: S.optional(S.String),
           legalHold: S.optional(S.NullOr(S.String)),
           lock: S.optional(S.NullOr(__S(28896, __c903, 0))),
-          restoreStatus: S.optional(S.NullOr(__S(10016, __c313, 0))),
+          restoreStatus: S.optional(S.NullOr(__S(9984, __c312, 0))),
           size: S.optional(S.Number),
           storageClass: S.optional(S.NullOr(S.String)),
           versionId: S.optional(S.String),
@@ -64002,7 +64008,7 @@ function __c908(j: number): any {
           displayName: S.optional(S.NullOr(S.String)),
           id: S.optional(S.String),
           state: S.optional(S.NullOr(S.String)),
-          tags: S.optional(S.NullOr(__S(19392, __c606, 0))),
+          tags: S.optional(S.NullOr(__S(19360, __c605, 0))),
           urn: S.optional(S.String),
         }),
       ).annotate({ identifier: "IamResourceMetadata" });
@@ -64028,7 +64034,7 @@ function __c908(j: number): any {
 function __c909(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(11680, __c365, 0));
+      return S.Array(__S(11648, __c364, 0));
     case 1:
       return S.Record(S.String, __S(29088, __c909, 0));
     case 2:
@@ -64078,7 +64084,7 @@ function __c912(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/quota", code: 200 })),
       ).annotate({ identifier: "GetQuotasRequest" });
     case 1:
-      return S.Array(__S(26598, __c831, 6));
+      return S.Array(__S(26566, __c830, 6));
     case 2:
       return S.suspend(() => __S(29185, __c912, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetQuotasResponse",
@@ -64102,7 +64108,7 @@ function __c913(j: number): any {
         ),
       ).annotate({ identifier: "GetReplicationJobsOnStorageContainerRequest" });
     case 1:
-      return S.Array(__S(10560, __c330, 0));
+      return S.Array(__S(10528, __c329, 0));
     case 2:
       return S.suspend(() => __S(29217, __c913, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetReplicationJobsOnStorageContainerResponse",
@@ -64151,7 +64157,7 @@ function __c915(j: number): any {
         S.Struct({
           createdAt: S.optional(S.String),
           name: S.optional(S.String),
-          objects: S.optional(__S(10049, __c314, 1)),
+          objects: S.optional(__S(10017, __c313, 1)),
           objectsCount: S.optional(S.Number),
           objectsSize: S.optional(S.Number),
           ownerId: S.optional(S.Number),
@@ -64234,13 +64240,13 @@ function __c920(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          voucher: S.optional(S.String.pipe(T.Query())),
+          voucher: S.optional(S.String.pipe(T.Query(), T.SensitiveValue({}))),
         }).pipe(T.Http({ method: "GET", uri: "/cloud/eligibility", code: 200 })),
       ).annotate({ identifier: "ListCloudEligibilityRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          credit: S.optional(__S(26432, __c826, 0)),
+          credit: S.optional(__S(26400, __c825, 0)),
           paymentMethodRequired: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "CloudProjectNewProjectInfoVoucher" });
@@ -64248,7 +64254,7 @@ function __c920(j: number): any {
       return S.suspend(() =>
         S.Struct({
           actionsRequired: S.optional(S.NullOr(__S(6592, __c206, 0))),
-          minimumCredit: S.optional(S.NullOr(__S(26432, __c826, 0))),
+          minimumCredit: S.optional(S.NullOr(__S(26400, __c825, 0))),
           paymentMethodsAuthorized: S.optional(S.NullOr(__S(6592, __c206, 0))),
           voucher: S.optional(S.NullOr(__S(29441, __c920, 1))),
         }),
@@ -64327,7 +64333,7 @@ function __c924(j: number): any {
       return S.suspend(() =>
         S.Struct({
           code: S.optional(S.String),
-          regions: S.optional(__S(17696, __c553, 0)),
+          regions: S.optional(__S(17664, __c552, 0)),
         }),
       ).annotate({ identifier: "CloudOrderRuleAvailabilityPlan" });
     case 2:
@@ -64336,7 +64342,7 @@ function __c924(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          regions: S.optional(__S(17696, __c553, 0)),
+          regions: S.optional(__S(17664, __c552, 0)),
         }),
       ).annotate({ identifier: "CloudOrderRuleAvailabilityProduct" });
     case 4:
@@ -64379,7 +64385,7 @@ function __c926(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/ai/app", code: 200 })),
       ).annotate({ identifier: "ListCloudProjectAiAppRequest" });
     case 1:
-      return S.Array(__S(19204, __c600, 4));
+      return S.Array(__S(19172, __c599, 4));
     case 2:
       return S.suspend(() => __S(29633, __c926, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListCloudProjectAiAppResponse",
@@ -64445,7 +64451,7 @@ function __c929(j: number): any {
 function __c930(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(16512, __c516, 0));
+      return S.Array(__S(16480, __c515, 0));
     case 1:
       return S.suspend(() => __S(29760, __c930, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListCloudProjectAiCapabilityRegionResponse",
@@ -64478,7 +64484,7 @@ function __c931(j: number): any {
           name: S.optional(S.String),
           partnerId: S.optional(S.String),
           partnerName: S.optional(S.String),
-          versions: S.optional(__S(17696, __c553, 0)),
+          versions: S.optional(__S(17664, __c552, 0)),
         }),
       ).annotate({ identifier: "CloudProjectAiCapabilitiesAppImage" });
     case 2:
@@ -64522,7 +64528,7 @@ function __c933(j: number): any {
         ),
       ).annotate({ identifier: "ListCloudProjectAiCapabilityRegionFlavorRequest" });
     case 1:
-      return S.Array(__S(16578, __c518, 2));
+      return S.Array(__S(16546, __c517, 2));
     case 2:
       return S.suspend(() => __S(29857, __c933, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListCloudProjectAiCapabilityRegionFlavorResponse",
@@ -64549,7 +64555,7 @@ function __c934(j: number): any {
 function __c935(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(16704, __c522, 0));
+      return S.Array(__S(16672, __c521, 0));
     case 1:
       return S.suspend(() => __S(29920, __c935, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListCloudProjectAiCapabilityRegionJobImageResponse",
@@ -64622,7 +64628,7 @@ function __c938(j: number): any {
         ),
       ).annotate({ identifier: "ListCloudProjectAiCapabilityRegionNotebookFrameworkRequest" });
     case 1:
-      return S.Array(__S(16768, __c524, 0));
+      return S.Array(__S(16736, __c523, 0));
     case 2:
       return S.suspend(() => __S(30017, __c938, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListCloudProjectAiCapabilityRegionNotebookFrameworkResponse",
@@ -64646,7 +64652,7 @@ function __c939(j: number): any {
         ),
       ).annotate({ identifier: "ListCloudProjectAiCapabilityRegionPresetRequest" });
     case 1:
-      return S.Array(__S(16901, __c528, 5));
+      return S.Array(__S(16869, __c527, 5));
     case 2:
       return S.suspend(() => __S(30049, __c939, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListCloudProjectAiCapabilityRegionPresetResponse",
@@ -64681,7 +64687,7 @@ function __c941(j: number): any {
         ),
       ).annotate({ identifier: "ListCloudProjectAiDataRegionAliasRequest" });
     case 1:
-      return S.Array(__S(20992, __c656, 0));
+      return S.Array(__S(20960, __c655, 0));
     case 2:
       return S.suspend(() => __S(30113, __c941, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListCloudProjectAiDataRegionAliasResponse",
@@ -64706,7 +64712,7 @@ function __c942(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/ai/job", code: 200 })),
       ).annotate({ identifier: "ListCloudProjectAiJobRequest" });
     case 1:
-      return S.Array(__S(21409, __c669, 1));
+      return S.Array(__S(21377, __c668, 1));
     case 2:
       return S.suspend(() => __S(30145, __c942, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListCloudProjectAiJobResponse",
@@ -64785,7 +64791,7 @@ function __c945(j: number): any {
         ),
       ).annotate({ identifier: "ListCloudProjectAiNotebookRequest" });
     case 1:
-      return S.Array(__S(22755, __c711, 3));
+      return S.Array(__S(22723, __c710, 3));
     case 2:
       return S.suspend(() => __S(30241, __c945, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListCloudProjectAiNotebookResponse",
@@ -64814,7 +64820,7 @@ function __c946(j: number): any {
         ),
       ).annotate({ identifier: "ListCloudProjectAiNotebookBackupRequest" });
     case 1:
-      return S.Array(__S(17120, __c535, 0));
+      return S.Array(__S(17088, __c534, 0));
     case 2:
       return S.suspend(() => __S(30273, __c946, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListCloudProjectAiNotebookBackupResponse",
@@ -64952,7 +64958,7 @@ function __c953(j: number): any {
         ),
       ).annotate({ identifier: "ListCloudProjectAiPartnerRegionPartnerRequest" });
     case 1:
-      return S.Array(__S(17283, __c540, 3));
+      return S.Array(__S(17251, __c539, 3));
     case 2:
       return S.suspend(() => __S(30497, __c953, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListCloudProjectAiPartnerRegionPartnerResponse",
@@ -64970,7 +64976,7 @@ function __c954(j: number): any {
         ),
       ).annotate({ identifier: "ListCloudProjectAiRegistryRequest" });
     case 1:
-      return S.Array(__S(23936, __c748, 0));
+      return S.Array(__S(23904, __c747, 0));
     case 2:
       return S.suspend(() => __S(30529, __c954, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListCloudProjectAiRegistryResponse",
@@ -64986,7 +64992,7 @@ function __c955(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/ai/token", code: 200 })),
       ).annotate({ identifier: "ListCloudProjectAiTokenRequest" });
     case 1:
-      return S.Array(__S(24354, __c761, 2));
+      return S.Array(__S(24322, __c760, 2));
     case 2:
       return S.suspend(() => __S(30561, __c955, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListCloudProjectAiTokenResponse",
@@ -65091,7 +65097,7 @@ function __c960(j: number): any {
 function __c961(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(18018, __c563, 2));
+      return S.Array(__S(17986, __c562, 2));
   }
 }
 function __c962(j: number): any {
@@ -65102,7 +65108,7 @@ function __c962(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           clusterId: S.String.pipe(T.Label()),
           destinationServiceId: S.String,
-          parameters: S.optional(S.NullOr(__S(19392, __c606, 0))),
+          parameters: S.optional(S.NullOr(__S(19360, __c605, 0))),
           sourceServiceId: S.String,
           type: S.optional(S.String),
         }).pipe(
@@ -65287,7 +65293,7 @@ function __c972(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          availabilityZones: S.optional(__S(17696, __c553, 0)),
+          availabilityZones: S.optional(__S(17664, __c552, 0)),
           continentCode: S.optional(S.String),
           countryCode: S.optional(S.String),
           datacenter: S.optional(S.String),
@@ -65340,7 +65346,7 @@ function __c973(j: number): any {
         ),
       ).annotate({ identifier: "ListCloudProjectContainerRegistryRequest" });
     case 1:
-      return S.Array(__S(25152, __c786, 0));
+      return S.Array(__S(25120, __c785, 0));
     case 2:
       return S.suspend(() => __S(31137, __c973, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListCloudProjectContainerRegistryResponse",
@@ -65354,7 +65360,7 @@ function __c974(j: number): any {
         S.Struct({
           cert: S.String,
           chain: S.optional(S.NullOr(S.String)),
-          key: S.String,
+          key: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "CloudProjectCertificateImport" });
     case 1:
@@ -65508,7 +65514,7 @@ function __c981(j: number): any {
         ),
       ).annotate({ identifier: "ListCloudProjectContainerRegistryUsersRequest" });
     case 1:
-      return S.Array(__S(26496, __c828, 0));
+      return S.Array(__S(26464, __c827, 0));
     case 2:
       return S.suspend(() => __S(31393, __c981, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListCloudProjectContainerRegistryUsersResponse",
@@ -65644,9 +65650,9 @@ function __c985(j: number): any {
           defaultVersion: S.optional(S.String),
           description: S.optional(S.String),
           name: S.optional(S.String),
-          sslModes: S.optional(__S(17696, __c553, 0)),
+          sslModes: S.optional(__S(17664, __c552, 0)),
           storage: S.optional(S.String),
-          versions: S.optional(__S(17696, __c553, 0)),
+          versions: S.optional(__S(17664, __c552, 0)),
         }),
       ).annotate({ identifier: "CloudProjectDatabaseCapabilitiesEngine" });
     case 2:
@@ -65669,7 +65675,7 @@ function __c985(j: number): any {
           order: S.optional(S.Number),
           specifications: S.optional(__S(31523, __c985, 3)),
           storage: S.optional(S.Number),
-          tags: S.optional(__S(17696, __c553, 0)),
+          tags: S.optional(__S(17664, __c552, 0)),
         }),
       ).annotate({ identifier: "CloudProjectDatabaseCapabilitiesFlavor" });
     case 5:
@@ -65682,7 +65688,7 @@ function __c985(j: number): any {
           lifecycle: S.optional(__S(31488, __c984, 0)),
           name: S.optional(S.String),
           order: S.optional(S.Number),
-          tags: S.optional(__S(17696, __c553, 0)),
+          tags: S.optional(__S(17664, __c552, 0)),
         }),
       ).annotate({ identifier: "CloudProjectDatabaseCapabilitiesPlan" });
     case 7:
@@ -65690,12 +65696,12 @@ function __c985(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
-          disks: S.optional(__S(17696, __c553, 0)),
+          disks: S.optional(__S(17664, __c552, 0)),
           engines: S.optional(__S(31522, __c985, 2)),
           flavors: S.optional(__S(31525, __c985, 5)),
           options: S.optional(__S(31553, __c986, 1)),
           plans: S.optional(__S(31527, __c985, 7)),
-          regions: S.optional(__S(17696, __c553, 0)),
+          regions: S.optional(__S(17664, __c552, 0)),
         }),
       ).annotate({ identifier: "CloudProjectDatabaseCapabilities" });
   }
@@ -65775,7 +65781,7 @@ function __c990(j: number): any {
           minimum: S.optional(S.NullOr(S.Number)),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          values: S.optional(S.NullOr(__S(17696, __c553, 0))),
+          values: S.optional(S.NullOr(__S(17664, __c552, 0))),
         }),
       ).annotate({ identifier: "CloudProjectDatabaseCapabilitiesAdvancedConfigurationProperty" });
     case 1:
@@ -66041,7 +66047,7 @@ function __c1005(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           clusterId: S.String.pipe(T.Label()),
           name: S.optional(S.String),
-          roles: S.optional(__S(17696, __c553, 0)),
+          roles: S.optional(__S(17664, __c552, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -66060,7 +66066,7 @@ function __c1006(j: number): any {
           createdAt: S.optional(S.String),
           id: S.optional(S.String),
           password: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          roles: S.optional(__S(17696, __c553, 0)),
+          roles: S.optional(__S(17664, __c552, 0)),
           status: S.optional(S.String),
           username: S.optional(S.String),
         }),
@@ -66547,7 +66553,7 @@ function __c1030(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           clusterId: S.String.pipe(T.Label()),
           destinationServiceId: S.String,
-          parameters: S.optional(S.NullOr(__S(19392, __c606, 0))),
+          parameters: S.optional(S.NullOr(__S(19360, __c605, 0))),
           sourceServiceId: S.String,
           type: S.optional(S.String),
         }).pipe(
@@ -66899,7 +66905,7 @@ function __c1049(j: number): any {
           name: S.optional(S.String),
           required: S.optional(S.Boolean),
           type: S.optional(S.String),
-          values: S.optional(S.NullOr(__S(17696, __c553, 0))),
+          values: S.optional(S.NullOr(__S(17664, __c552, 0))),
         }),
       ).annotate({
         identifier: "CloudProjectDatabaseKafkaConnectCapabilitiesConnectorConfigurationProperty",
@@ -66939,7 +66945,7 @@ function __c1050(j: number): any {
           required: S.optional(S.Boolean),
           transformType: S.optional(S.String),
           type: S.optional(S.String),
-          values: S.optional(S.NullOr(__S(17696, __c553, 0))),
+          values: S.optional(S.NullOr(__S(17664, __c552, 0))),
         }),
       ).annotate({ identifier: "CloudProjectDatabaseKafkaConnectCapabilitiesConnectorTransform" });
     case 2:
@@ -67597,9 +67603,9 @@ function __c1085(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          names: S.optional(__S(17696, __c553, 0)),
-          schemaRegistry: S.optional(__S(17696, __c553, 0)),
-          topic: S.optional(__S(17696, __c553, 0)),
+          names: S.optional(__S(17664, __c552, 0)),
+          schemaRegistry: S.optional(__S(17664, __c552, 0)),
+          topic: S.optional(__S(17664, __c552, 0)),
         }),
       ).annotate({ identifier: "CloudProjectDatabaseKafkaPermissions" });
   }
@@ -67611,7 +67617,7 @@ function __c1086(j: number): any {
         S.Struct({
           serviceName: S.String.pipe(T.Label()),
           clusterId: S.String.pipe(T.Label()),
-          configuration: __S(19392, __c606, 0),
+          configuration: __S(19360, __c605, 0),
           connectorId: S.String,
           name: S.String,
         }).pipe(
@@ -67629,7 +67635,7 @@ function __c1087(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          configuration: __S(19392, __c606, 0),
+          configuration: __S(19360, __c605, 0),
           connectorId: S.optional(S.String),
           id: S.optional(S.String),
           name: S.optional(S.String),
@@ -67917,7 +67923,7 @@ function __c1103(j: number): any {
           name: S.String,
           negate: S.optional(S.NullOr(S.Boolean)),
           type: S.String,
-          values: __S(17696, __c553, 0),
+          values: __S(17664, __c552, 0),
         }),
       ).annotate({ identifier: "CloudProjectLoadbalancerCondition" });
     case 3:
@@ -67926,7 +67932,7 @@ function __c1103(j: number): any {
       return S.suspend(() =>
         S.Struct({
           action: S.String,
-          conditions: S.optional(S.NullOr(__S(17696, __c553, 0))),
+          conditions: S.optional(S.NullOr(__S(17664, __c552, 0))),
         }),
       ).annotate({ identifier: "CloudProjectLoadbalancerRule" });
     case 5:
@@ -67990,7 +67996,7 @@ function __c1104(j: number): any {
       return S.suspend(() =>
         S.Struct({
           actions: S.optional(S.NullOr(__S(35334, __c1104, 6))),
-          certificates: S.optional(__S(17696, __c553, 0)),
+          certificates: S.optional(__S(17664, __c552, 0)),
           conditions: S.optional(S.NullOr(__S(35299, __c1103, 3))),
           entryPoints: S.optional(__S(35336, __c1104, 8)),
           networking: S.optional(__S(35234, __c1101, 2)),
@@ -68008,7 +68014,7 @@ function __c1105(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           clusterId: S.String.pipe(T.Label()),
           destinationServiceId: S.String,
-          parameters: S.optional(S.NullOr(__S(19392, __c606, 0))),
+          parameters: S.optional(S.NullOr(__S(19360, __c605, 0))),
           sourceServiceId: S.String,
           type: S.optional(S.String),
         }).pipe(
@@ -68768,7 +68774,7 @@ function __c1149(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           clusterId: S.String.pipe(T.Label()),
           destinationServiceId: S.String,
-          parameters: S.optional(S.NullOr(__S(19392, __c606, 0))),
+          parameters: S.optional(S.NullOr(__S(19360, __c605, 0))),
           sourceServiceId: S.String,
           type: S.optional(S.String),
         }).pipe(
@@ -69179,7 +69185,7 @@ function __c1169(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          names: S.optional(__S(17696, __c553, 0)),
+          names: S.optional(__S(17664, __c552, 0)),
         }),
       ).annotate({ identifier: "CloudProjectDatabaseOpensearchPermissions" });
   }
@@ -69649,7 +69655,7 @@ function __c1193(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           clusterId: S.String.pipe(T.Label()),
           destinationServiceId: S.String,
-          parameters: S.optional(S.NullOr(__S(19392, __c606, 0))),
+          parameters: S.optional(S.NullOr(__S(19360, __c605, 0))),
           sourceServiceId: S.String,
           type: S.optional(S.String),
         }).pipe(
@@ -70255,8 +70261,8 @@ function __c1228(j: number): any {
           syncGroupOffsets: S.optional(S.Boolean),
           syncInterval: S.optional(S.Number),
           targetIntegration: S.String,
-          topicExcludeList: S.optional(__S(17696, __c553, 0)),
-          topics: S.optional(__S(17696, __c553, 0)),
+          topicExcludeList: S.optional(__S(17664, __c552, 0)),
+          topics: S.optional(__S(17664, __c552, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -70280,8 +70286,8 @@ function __c1229(j: number): any {
           syncGroupOffsets: S.optional(S.Boolean),
           syncInterval: S.optional(S.Number),
           targetIntegration: S.optional(S.String),
-          topicExcludeList: S.optional(__S(17696, __c553, 0)),
-          topics: S.optional(__S(17696, __c553, 0)),
+          topicExcludeList: S.optional(__S(17664, __c552, 0)),
+          topics: S.optional(__S(17664, __c552, 0)),
         }),
       ).annotate({ identifier: "CloudProjectDatabaseServiceReplication" });
   }
@@ -70336,7 +70342,7 @@ function __c1232(j: number): any {
 function __c1233(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(22240, __c695, 0));
+      return S.Array(__S(22208, __c694, 0));
     case 1:
       return S.suspend(() => __S(39456, __c1233, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListCloudProjectImageResponse",
@@ -70432,7 +70438,7 @@ function __c1238(j: number): any {
         ),
       ).annotate({ identifier: "ListCloudProjectIpFailoverRequest" });
     case 1:
-      return S.Array(__S(12448, __c389, 0));
+      return S.Array(__S(12416, __c388, 0));
     case 2:
       return S.suspend(() => __S(39617, __c1238, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListCloudProjectIpFailoverResponse",
@@ -70556,7 +70562,7 @@ function __c1245(j: number): any {
 function __c1246(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(25088, __c784, 0));
+      return S.Array(__S(25056, __c783, 0));
     case 1:
       return S.suspend(() => __S(39872, __c1246, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListCloudProjectKubeNodeResponse",
@@ -70579,7 +70585,7 @@ function __c1247(j: number): any {
         ),
       ).annotate({ identifier: "ListCloudProjectKubeNodepoolRequest" });
     case 1:
-      return S.Array(__S(7008, __c219, 0));
+      return S.Array(__S(6976, __c218, 0));
     case 2:
       return S.suspend(() => __S(39905, __c1247, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListCloudProjectKubeNodepoolResponse",
@@ -70615,7 +70621,7 @@ function __c1249(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/lab", code: 200 })),
       ).annotate({ identifier: "ListCloudProjectLabRequest" });
     case 1:
-      return S.Array(__S(25312, __c791, 0));
+      return S.Array(__S(25280, __c790, 0));
     case 2:
       return S.suspend(() => __S(39969, __c1249, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListCloudProjectLabResponse",
@@ -70661,7 +70667,7 @@ function __c1251(j: number): any {
 function __c1252(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(7170, __c224, 2));
+      return S.Array(__S(7138, __c223, 2));
     case 1:
       return S.suspend(() => __S(40064, __c1252, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListCloudProjectNetworkResponse",
@@ -70696,7 +70702,7 @@ function __c1254(j: number): any {
         ),
       ).annotate({ identifier: "ListCloudProjectNetworkPrivateSubnetRequest" });
     case 1:
-      return S.Array(__S(7266, __c227, 2));
+      return S.Array(__S(7234, __c226, 2));
     case 2:
       return S.suspend(() => __S(40129, __c1254, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListCloudProjectNetworkPrivateSubnetResponse",
@@ -70754,7 +70760,7 @@ function __c1257(j: number): any {
         ),
       ).annotate({ identifier: "ListCloudProjectOperationRequest" });
     case 1:
-      return S.Array(__S(17666, __c552, 2));
+      return S.Array(__S(17634, __c551, 2));
     case 2:
       return S.suspend(() => __S(40225, __c1257, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListCloudProjectOperationResponse",
@@ -70794,7 +70800,7 @@ function __c1259(j: number): any {
         ),
       ).annotate({ identifier: "ListCloudProjectQuantumCapabilityRegionQpuRequest" });
     case 1:
-      return S.Array(__S(25504, __c797, 0));
+      return S.Array(__S(25472, __c796, 0));
     case 2:
       return S.suspend(() => __S(40289, __c1259, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListCloudProjectQuantumCapabilityRegionQpuResponse",
@@ -70858,7 +70864,7 @@ function __c1262(j: number): any {
         ),
       ).annotate({ identifier: "ListCloudProjectRegionGatewayRequest" });
     case 1:
-      return S.Array(__S(7521, __c235, 1));
+      return S.Array(__S(7489, __c234, 1));
     case 2:
       return S.suspend(() => __S(40385, __c1262, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListCloudProjectRegionGatewayResponse",
@@ -70882,7 +70888,7 @@ function __c1263(j: number): any {
         ),
       ).annotate({ identifier: "ListCloudProjectRegionGatewayInterfaceRequest" });
     case 1:
-      return S.suspend(() => __S(7552, __c236, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(7520, __c235, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListCloudProjectRegionGatewayInterfaceResponse",
       });
   }
@@ -70921,7 +70927,7 @@ function __c1265(j: number): any {
         ),
       ).annotate({ identifier: "ListCloudProjectRegionKeymanagerCertificateRequest" });
     case 1:
-      return S.Array(__S(7808, __c244, 0));
+      return S.Array(__S(7776, __c243, 0));
     case 2:
       return S.suspend(() => __S(40481, __c1265, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListCloudProjectRegionKeymanagerCertificateResponse",
@@ -70948,7 +70954,7 @@ function __c1266(j: number): any {
 function __c1267(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(25760, __c805, 0));
+      return S.Array(__S(25728, __c804, 0));
     case 1:
       return S.suspend(() => __S(40544, __c1267, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListCloudProjectRegionKeymanagerSecretResponse",
@@ -71022,7 +71028,7 @@ function __c1271(j: number): any {
         ),
       ).annotate({ identifier: "ListCloudProjectRegionLoadbalancingHealthMonitorRequest" });
     case 1:
-      return S.Array(__S(7904, __c247, 0));
+      return S.Array(__S(7872, __c246, 0));
     case 2:
       return S.suspend(() => __S(40673, __c1271, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListCloudProjectRegionLoadbalancingHealthMonitorResponse",
@@ -71046,7 +71052,7 @@ function __c1272(j: number): any {
         ),
       ).annotate({ identifier: "ListCloudProjectRegionLoadbalancingL7PolicyRequest" });
     case 1:
-      return S.Array(__S(7968, __c249, 0));
+      return S.Array(__S(7936, __c248, 0));
     case 2:
       return S.suspend(() => __S(40705, __c1272, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListCloudProjectRegionLoadbalancingL7PolicyResponse",
@@ -71070,7 +71076,7 @@ function __c1273(j: number): any {
         ),
       ).annotate({ identifier: "ListCloudProjectRegionLoadbalancingL7PolicyL7RuleRequest" });
     case 1:
-      return S.Array(__S(8032, __c251, 0));
+      return S.Array(__S(8000, __c250, 0));
     case 2:
       return S.suspend(() => __S(40737, __c1273, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListCloudProjectRegionLoadbalancingL7PolicyL7RuleResponse",
@@ -71094,7 +71100,7 @@ function __c1274(j: number): any {
         ),
       ).annotate({ identifier: "ListCloudProjectRegionLoadbalancingListenerRequest" });
     case 1:
-      return S.Array(__S(8096, __c253, 0));
+      return S.Array(__S(8064, __c252, 0));
     case 2:
       return S.suspend(() => __S(40769, __c1274, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListCloudProjectRegionLoadbalancingListenerResponse",
@@ -71117,7 +71123,7 @@ function __c1275(j: number): any {
         ),
       ).annotate({ identifier: "ListCloudProjectRegionLoadbalancingLoadbalancerRequest" });
     case 1:
-      return S.Array(__S(26017, __c813, 1));
+      return S.Array(__S(25985, __c812, 1));
     case 2:
       return S.suspend(() => __S(40801, __c1275, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListCloudProjectRegionLoadbalancingLoadbalancerResponse",
@@ -71179,7 +71185,7 @@ function __c1278(j: number): any {
         ),
       ).annotate({ identifier: "ListCloudProjectRegionLoadbalancingPoolRequest" });
     case 1:
-      return S.Array(__S(8416, __c263, 0));
+      return S.Array(__S(8384, __c262, 0));
     case 2:
       return S.suspend(() => __S(40897, __c1278, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListCloudProjectRegionLoadbalancingPoolResponse",
@@ -71273,7 +71279,7 @@ function __c1283(j: number): any {
         ),
       ).annotate({ identifier: "ListCloudProjectRegionNetworkRequest" });
     case 1:
-      return S.Array(__S(26304, __c822, 0));
+      return S.Array(__S(26272, __c821, 0));
     case 2:
       return S.suspend(() => __S(41057, __c1283, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListCloudProjectRegionNetworkResponse",
@@ -71297,7 +71303,7 @@ function __c1284(j: number): any {
         ),
       ).annotate({ identifier: "ListCloudProjectRegionNetworkSubnetRequest" });
     case 1:
-      return S.Array(__S(8672, __c271, 0));
+      return S.Array(__S(8640, __c270, 0));
     case 2:
       return S.suspend(() => __S(41089, __c1284, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListCloudProjectRegionNetworkSubnetResponse",
@@ -71376,7 +71382,7 @@ function __c1286(j: number): any {
         ),
       ).annotate({ identifier: "ListCloudProjectRegionShareRequest" });
     case 1:
-      return S.Array(__S(26724, __c835, 4));
+      return S.Array(__S(26692, __c834, 4));
     case 2:
       return S.suspend(() => __S(41153, __c1286, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListCloudProjectRegionShareResponse",
@@ -71400,7 +71406,7 @@ function __c1287(j: number): any {
         ),
       ).annotate({ identifier: "ListCloudProjectRegionShareAclRequest" });
     case 1:
-      return S.Array(__S(8800, __c275, 0));
+      return S.Array(__S(8768, __c274, 0));
     case 2:
       return S.suspend(() => __S(41185, __c1287, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListCloudProjectRegionShareAclResponse",
@@ -71424,7 +71430,7 @@ function __c1288(j: number): any {
         ),
       ).annotate({ identifier: "ListCloudProjectRegionShareSnapshotRequest" });
     case 1:
-      return S.Array(__S(8864, __c277, 0));
+      return S.Array(__S(8832, __c276, 0));
     case 2:
       return S.suspend(() => __S(41217, __c1288, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListCloudProjectRegionShareSnapshotResponse",
@@ -71447,7 +71453,7 @@ function __c1289(j: number): any {
         ),
       ).annotate({ identifier: "ListCloudProjectRegionSshkeyRequest" });
     case 1:
-      return S.Array(__S(26848, __c839, 0));
+      return S.Array(__S(26816, __c838, 0));
     case 2:
       return S.suspend(() => __S(41249, __c1289, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListCloudProjectRegionSshkeyResponse",
@@ -71470,7 +71476,7 @@ function __c1290(j: number): any {
         ),
       ).annotate({ identifier: "ListCloudProjectRegionVolumeRequest" });
     case 1:
-      return S.Array(__S(26944, __c842, 0));
+      return S.Array(__S(26912, __c841, 0));
     case 2:
       return S.suspend(() => __S(41281, __c1290, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListCloudProjectRegionVolumeResponse",
@@ -71523,7 +71529,7 @@ function __c1292(j: number): any {
         ),
       ).annotate({ identifier: "ListCloudProjectRegionVolumeBackupRequest" });
     case 1:
-      return S.Array(__S(8992, __c281, 0));
+      return S.Array(__S(8960, __c280, 0));
     case 2:
       return S.suspend(() => __S(41345, __c1292, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListCloudProjectRegionVolumeBackupResponse",
@@ -71567,7 +71573,7 @@ function __c1294(j: number): any {
         ),
       ).annotate({ identifier: "ListCloudProjectRegionWorkflowBackupRequest" });
     case 1:
-      return S.Array(__S(9090, __c284, 2));
+      return S.Array(__S(9058, __c283, 2));
     case 2:
       return S.suspend(() => __S(41409, __c1294, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListCloudProjectRegionWorkflowBackupResponse",
@@ -71586,7 +71592,7 @@ function __c1295(j: number): any {
       return S.suspend(() =>
         S.Struct({
           label: S.optional(S.String),
-          roles: S.optional(__S(17696, __c553, 0)),
+          roles: S.optional(__S(17664, __c552, 0)),
         }),
       ).annotate({ identifier: "CloudRolePermission" });
     case 2:
@@ -71603,7 +71609,7 @@ function __c1295(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          roles: S.optional(__S(9504, __c297, 0)),
+          roles: S.optional(__S(9472, __c296, 0)),
           services: S.optional(__S(41444, __c1295, 4)),
         }),
       ).annotate({ identifier: "CloudRoleRoles" });
@@ -71636,7 +71642,7 @@ function __c1297(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           publicKey: S.optional(S.String),
-          regions: S.optional(__S(17696, __c553, 0)),
+          regions: S.optional(__S(17664, __c552, 0)),
         }),
       ).annotate({ identifier: "CloudSshkeySshKey" });
     case 2:
@@ -71657,7 +71663,7 @@ function __c1298(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/storage", code: 200 })),
       ).annotate({ identifier: "ListCloudProjectStorageRequest" });
     case 1:
-      return S.Array(__S(9216, __c288, 0));
+      return S.Array(__S(9184, __c287, 0));
     case 2:
       return S.suspend(() => __S(41537, __c1298, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListCloudProjectStorageResponse",
@@ -71681,7 +71687,7 @@ function __c1299(j: number): any {
         S.Struct({
           id: S.optional(S.String),
           lastUpdate: S.optional(S.String),
-          period: S.optional(__S(27360, __c855, 0)),
+          period: S.optional(__S(27328, __c854, 0)),
         }),
       ).annotate({ identifier: "CloudUsageUsageHistory" });
     case 2:
@@ -71708,17 +71714,17 @@ function __c1300(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          details: S.optional(__S(27393, __c856, 1)),
-          totalPrice: S.optional(__S(26432, __c826, 0)),
+          details: S.optional(__S(27361, __c855, 1)),
+          totalPrice: S.optional(__S(26400, __c825, 0)),
         }),
       ).annotate({ identifier: "CloudPlanFlatFee" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          ids: S.optional(__S(17696, __c553, 0)),
+          ids: S.optional(__S(17664, __c552, 0)),
           quantity: S.optional(S.Number),
-          totalPrice: S.optional(__S(26432, __c826, 0)),
-          unitPrice: S.optional(__S(26432, __c826, 0)),
+          totalPrice: S.optional(__S(26400, __c825, 0)),
+          unitPrice: S.optional(__S(26400, __c825, 0)),
         }),
       ).annotate({ identifier: "CloudPlanOverQuota" });
     case 3:
@@ -71726,8 +71732,8 @@ function __c1300(j: number): any {
         S.Struct({
           flatFee: S.optional(__S(41601, __c1300, 1)),
           overQuota: S.optional(__S(41602, __c1300, 2)),
-          savedAmount: S.optional(__S(26432, __c826, 0)),
-          totalPrice: S.optional(__S(26432, __c826, 0)),
+          savedAmount: S.optional(__S(26400, __c825, 0)),
+          totalPrice: S.optional(__S(26400, __c825, 0)),
         }),
       ).annotate({ identifier: "CloudPlanFees" });
     case 4:
@@ -71738,8 +71744,8 @@ function __c1300(j: number): any {
           coverage: S.optional(S.String),
           cumulPlanSize: S.optional(S.Number),
           end: S.optional(S.String),
-          plansIds: S.optional(__S(17696, __c553, 0)),
-          resourceIds: S.optional(__S(17696, __c553, 0)),
+          plansIds: S.optional(__S(17664, __c552, 0)),
+          resourceIds: S.optional(__S(17664, __c552, 0)),
           utilization: S.optional(S.String),
         }),
       ).annotate({ identifier: "CloudPlanPlanPeriod" });
@@ -71771,9 +71777,9 @@ function __c1300(j: number): any {
       return S.suspend(() =>
         S.Struct({
           flavors: S.optional(__S(41609, __c1300, 9)),
-          period: S.optional(__S(27360, __c855, 0)),
+          period: S.optional(__S(27328, __c854, 0)),
           projectId: S.optional(S.String),
-          totalSavings: S.optional(__S(26432, __c826, 0)),
+          totalSavings: S.optional(__S(26400, __c825, 0)),
         }),
       ).annotate({ identifier: "CloudUsagePlanResponse" });
   }
@@ -71787,7 +71793,7 @@ function __c1301(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/user", code: 200 })),
       ).annotate({ identifier: "ListCloudProjectUserRequest" });
     case 1:
-      return S.Array(__S(27520, __c860, 0));
+      return S.Array(__S(27488, __c859, 0));
     case 2:
       return S.suspend(() => __S(41633, __c1301, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListCloudProjectUserResponse",
@@ -71802,7 +71808,7 @@ function __c1302(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           clusterId: S.String.pipe(T.Label()),
           destinationServiceId: S.String,
-          parameters: S.optional(S.NullOr(__S(19392, __c606, 0))),
+          parameters: S.optional(S.NullOr(__S(19360, __c605, 0))),
           sourceServiceId: S.String,
           type: S.optional(S.String),
         }).pipe(
@@ -71831,7 +71837,7 @@ function __c1303(j: number): any {
         ),
       ).annotate({ identifier: "ListCloudProjectUserRoleRequest" });
     case 1:
-      return S.suspend(() => __S(9504, __c297, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(9472, __c296, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListCloudProjectUserRoleResponse",
       });
   }
@@ -71869,7 +71875,7 @@ function __c1305(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/volume", code: 200 })),
       ).annotate({ identifier: "ListCloudProjectVolumeRequest" });
     case 1:
-      return S.Array(__S(12832, __c401, 0));
+      return S.Array(__S(12800, __c400, 0));
     case 2:
       return S.suspend(() => __S(41761, __c1305, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListCloudProjectVolumeResponse",
@@ -71888,7 +71894,7 @@ function __c1306(j: number): any {
         ),
       ).annotate({ identifier: "ListCloudProjectVolumeSnapshotRequest" });
     case 1:
-      return S.Array(__S(9856, __c308, 0));
+      return S.Array(__S(9824, __c307, 0));
     case 2:
       return S.suspend(() => __S(41793, __c1306, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListCloudProjectVolumeSnapshotResponse",
@@ -72045,16 +72051,16 @@ function __c1315(j: number): any {
         S.Struct({
           serviceName: S.String.pipe(T.Label()),
           appId: S.String.pipe(T.Label()),
-          command: S.optional(S.NullOr(__S(17696, __c553, 0))),
+          command: S.optional(S.NullOr(__S(17664, __c552, 0))),
           cpu: S.optional(S.NullOr(S.Number)),
           defaultHttpPort: S.optional(S.NullOr(S.Number)),
-          deploymentStrategy: S.optional(S.NullOr(__S(19264, __c602, 0))),
+          deploymentStrategy: S.optional(S.NullOr(__S(19232, __c601, 0))),
           envVars: S.optional(S.NullOr(__S(42081, __c1315, 1))),
           flavor: S.optional(S.NullOr(S.String)),
           gpu: S.optional(S.NullOr(S.Number)),
           grpcPort: S.optional(S.NullOr(S.Number)),
-          livenessProbe: S.optional(S.NullOr(__S(19265, __c602, 1))),
-          probe: S.optional(S.NullOr(__S(19265, __c602, 1))),
+          livenessProbe: S.optional(S.NullOr(__S(19233, __c601, 1))),
+          probe: S.optional(S.NullOr(__S(19233, __c601, 1))),
           url: S.optional(S.NullOr(S.String)),
         }).pipe(
           T.Http({ method: "PUT", uri: "/cloud/project/{serviceName}/ai/app/{appId}", code: 200 }),
@@ -72116,8 +72122,8 @@ function __c1319(j: number): any {
         S.Struct({
           serviceName: S.String.pipe(T.Label()),
           appId: S.String.pipe(T.Label()),
-          automatic: S.optional(S.NullOr(__S(19456, __c608, 0))),
-          fixed: S.optional(S.NullOr(__S(19297, __c603, 1))),
+          automatic: S.optional(S.NullOr(__S(19424, __c607, 0))),
+          fixed: S.optional(S.NullOr(__S(19265, __c602, 1))),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -72193,7 +72199,7 @@ function __c1323(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           region: S.String.pipe(T.Label()),
           alias: S.String.pipe(T.Label()),
-          credentials: __S(21028, __c657, 4),
+          credentials: __S(20996, __c656, 4),
           endpoint: S.String,
           owner: S.String,
           prefix: S.optional(S.NullOr(S.String)),
@@ -72270,14 +72276,14 @@ function __c1327(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           notebookId: S.String.pipe(T.Label()),
           frameworkVersion: S.optional(S.NullOr(S.String)),
-          labels: S.optional(S.NullOr(__S(19392, __c606, 0))),
+          labels: S.optional(S.NullOr(__S(19360, __c605, 0))),
           name: S.optional(S.NullOr(S.String)),
-          quantumResources: S.optional(S.NullOr(__S(22816, __c713, 0))),
-          resources: S.optional(S.NullOr(__S(19424, __c607, 0))),
-          sshPublicKeys: S.optional(S.NullOr(__S(17696, __c553, 0))),
+          quantumResources: S.optional(S.NullOr(__S(22784, __c712, 0))),
+          resources: S.optional(S.NullOr(__S(19392, __c606, 0))),
+          sshPublicKeys: S.optional(S.NullOr(__S(17664, __c552, 0))),
           timeoutAutoRestart: S.optional(S.NullOr(S.Boolean)),
           unsecureHttp: S.optional(S.NullOr(S.Boolean)),
-          volumes: S.optional(S.NullOr(__S(19426, __c607, 2))),
+          volumes: S.optional(S.NullOr(__S(19394, __c606, 2))),
         }).pipe(
           T.Http({
             method: "PUT",

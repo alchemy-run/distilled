@@ -81,7 +81,7 @@ export interface BotPropertiesInput {
   /** The Application Insights key */
   developerAppInsightKey?: string | undefined;
   /** The Application Insights Api Key */
-  developerAppInsightsApiKey?: string | undefined;
+  developerAppInsightsApiKey?: string | Redacted.Redacted<string> | undefined;
   /** The Application Insights App Id */
   developerAppInsightsApplicationId?: string | undefined;
   /** Collection of LUIS App Ids */
@@ -109,7 +109,7 @@ export interface BotPropertiesInput {
   /** The hint (e.g. keyVault secret resourceId) on how to fetch the app secret */
   appPasswordHint?: string | Redacted.Redacted<string> | undefined;
   /** Publishing credentials of the resource */
-  publishingCredentials?: string | undefined;
+  publishingCredentials?: string | Redacted.Redacted<string> | undefined;
 }
 export interface CreateBotRequest {
   /** Azure Subscription ID. */
@@ -240,7 +240,7 @@ export interface BotProperties {
   /** The Application Insights key */
   developerAppInsightKey?: string | undefined;
   /** The Application Insights Api Key */
-  developerAppInsightsApiKey?: string | undefined;
+  developerAppInsightsApiKey?: string | Redacted.Redacted<string> | undefined;
   /** The Application Insights App Id */
   developerAppInsightsApplicationId?: string | undefined;
   /** Collection of LUIS App Ids */
@@ -262,7 +262,7 @@ export interface BotProperties {
   /** Whether the bot is developerAppInsightsApiKey set */
   isDeveloperAppInsightsApiKeySet?: boolean | undefined;
   /** Token used to migrate non Azure bot to azure subscription */
-  migrationToken?: string | undefined;
+  migrationToken?: string | Redacted.Redacted<string> | undefined;
   /** Opt-out of local authentication and ensure only MSI and AAD can be used exclusively for authentication. */
   disableLocalAuth?: boolean | undefined;
   /** The channel schema transformation version for the bot */
@@ -278,7 +278,7 @@ export interface BotProperties {
   /** Provisioning state of the resource */
   provisioningState?: string | undefined;
   /** Publishing credentials of the resource */
-  publishingCredentials?: string | undefined;
+  publishingCredentials?: string | Redacted.Redacted<string> | undefined;
 }
 export interface CreateBotResponse {
   /** Specifies the resource ID. */
@@ -467,7 +467,7 @@ export interface FacebookChannelPropertiesInput {
   /** Facebook application id */
   appId: string;
   /** Facebook application secret. Value only returned through POST to the action Channel List API, otherwise empty. */
-  appSecret?: string | undefined;
+  appSecret?: string | Redacted.Redacted<string> | undefined;
   /** Whether this channel is enabled for the bot */
   isEnabled: boolean;
 }
@@ -721,7 +721,7 @@ export interface SmsChannelProperties {
   /** The Sms account SID. Value only returned through POST to the action Channel List API, otherwise empty. */
   accountSID: string;
   /** The Sms auth token. Value only returned through POST to the action Channel List API, otherwise empty. */
-  authToken?: string | undefined;
+  authToken?: string | Redacted.Redacted<string> | undefined;
   /** Whether this channel is validated for the bot */
   isValidated?: boolean | undefined;
   /** Whether this channel is enabled for the bot */
@@ -747,7 +747,7 @@ export interface SlackChannelPropertiesInput {
   /** The Slack client secret. Value only returned through POST to the action Channel List API, otherwise empty. */
   clientSecret?: string | Redacted.Redacted<string> | undefined;
   /** The Slack verification token. Value only returned through POST to the action Channel List API, otherwise empty. */
-  verificationToken?: string | undefined;
+  verificationToken?: string | Redacted.Redacted<string> | undefined;
   /** The Slack permission scopes. */
   scopes?: string | undefined;
   /** The Slack landing page Url */
@@ -755,7 +755,7 @@ export interface SlackChannelPropertiesInput {
   /** Whether to register the settings before OAuth validation is performed. Recommended to True. */
   registerBeforeOAuthFlow?: boolean | undefined;
   /** The Slack signing secret. */
-  signingSecret?: string | undefined;
+  signingSecret?: string | Redacted.Redacted<string> | undefined;
   /** Whether this channel is enabled for the bot */
   isEnabled: boolean;
 }
@@ -775,9 +775,9 @@ export type LineChannelInputChannelName = "LineChannel";
 /** The properties corresponding to a line channel registration */
 export interface LineRegistrationInput {
   /** Secret for the line channel registration */
-  channelSecret?: string | undefined;
+  channelSecret?: string | Redacted.Redacted<string> | undefined;
   /** Access token for the line channel registration */
-  channelAccessToken?: string | undefined;
+  channelAccessToken?: string | Redacted.Redacted<string> | undefined;
 }
 /** The list of line channel registrations */
 export type LineChannelPropertiesInputLineRegistrationsList = Array<LineRegistrationInput>;
@@ -806,7 +806,7 @@ export interface DirectLineSpeechChannelProperties {
   /** The cognitive service region with this channel registration. */
   cognitiveServiceRegion?: string | null | undefined;
   /** The cognitive service subscription key to use with this channel registration. */
-  cognitiveServiceSubscriptionKey?: string | null | undefined;
+  cognitiveServiceSubscriptionKey?: string | Redacted.Redacted<string> | null | undefined;
   /** Whether this channel is enabled or not. */
   isEnabled?: boolean | undefined;
   /** Custom speech model id (optional). */
@@ -849,7 +849,7 @@ export interface TelephonyPhoneNumbers {
   /** The endpoint of ACS. */
   acsEndpoint?: string | null | undefined;
   /** The secret of ACS. */
-  acsSecret?: string | null | undefined;
+  acsSecret?: string | Redacted.Redacted<string> | null | undefined;
   /** The resource id of ACS. */
   acsResourceId?: string | null | undefined;
   /** The subscription key of cognitive service. */
@@ -1024,13 +1024,13 @@ export type FacebookChannelPropertiesPagesList = Array<FacebookPage>;
 /** The parameters to provide for the Facebook channel. */
 export interface FacebookChannelProperties {
   /** Verify token. Value only returned through POST to the action Channel List API, otherwise empty. */
-  verifyToken?: string | undefined;
+  verifyToken?: string | Redacted.Redacted<string> | undefined;
   /** The list of Facebook pages */
   pages?: FacebookChannelPropertiesPagesList | undefined;
   /** Facebook application id */
   appId: string;
   /** Facebook application secret. Value only returned through POST to the action Channel List API, otherwise empty. */
-  appSecret?: string | undefined;
+  appSecret?: string | Redacted.Redacted<string> | undefined;
   /** Callback Url */
   callbackUrl?: string | undefined;
   /** Whether this channel is enabled for the bot */
@@ -1256,7 +1256,7 @@ export interface SlackChannelProperties {
   /** The Slack client secret. Value only returned through POST to the action Channel List API, otherwise empty. */
   clientSecret?: string | Redacted.Redacted<string> | undefined;
   /** The Slack verification token. Value only returned through POST to the action Channel List API, otherwise empty. */
-  verificationToken?: string | undefined;
+  verificationToken?: string | Redacted.Redacted<string> | undefined;
   /** The Slack permission scopes. */
   scopes?: string | undefined;
   /** The Slack landing page Url */
@@ -1270,7 +1270,7 @@ export interface SlackChannelProperties {
   /** Whether this channel is validated for the bot */
   IsValidated?: boolean | undefined;
   /** The Slack signing secret. */
-  signingSecret?: string | undefined;
+  signingSecret?: string | Redacted.Redacted<string> | undefined;
   /** Whether this channel is enabled for the bot */
   isEnabled: boolean;
 }
@@ -1294,9 +1294,9 @@ export interface LineRegistration {
   /** Id generated for the line channel registration */
   generatedId?: string | undefined;
   /** Secret for the line channel registration */
-  channelSecret?: string | undefined;
+  channelSecret?: string | Redacted.Redacted<string> | undefined;
   /** Access token for the line channel registration */
-  channelAccessToken?: string | undefined;
+  channelAccessToken?: string | Redacted.Redacted<string> | undefined;
 }
 /** The list of line channel registrations */
 export type LineChannelPropertiesLineRegistrationsList = Array<LineRegistration>;
@@ -3052,7 +3052,7 @@ function __c4(j: number): any {
           msaAppTenantId: S.optional(S.String),
           msaAppMSIResourceId: S.optional(S.String),
           developerAppInsightKey: S.optional(S.String),
-          developerAppInsightsApiKey: S.optional(S.String),
+          developerAppInsightsApiKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           developerAppInsightsApplicationId: S.optional(S.String),
           luisAppIds: S.optional(__S(64, __c2, 0)),
           luisKey: S.optional(S.String),
@@ -3066,7 +3066,7 @@ function __c4(j: number): any {
           storageResourceId: S.optional(S.String),
           openWithHint: S.optional(S.String),
           appPasswordHint: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          publishingCredentials: S.optional(S.String),
+          publishingCredentials: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "BotPropertiesInput" });
   }
@@ -3133,7 +3133,7 @@ function __c7(j: number): any {
           configuredChannels: S.optional(__S(64, __c2, 0)),
           enabledChannels: S.optional(__S(64, __c2, 0)),
           developerAppInsightKey: S.optional(S.String),
-          developerAppInsightsApiKey: S.optional(S.String),
+          developerAppInsightsApiKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           developerAppInsightsApplicationId: S.optional(S.String),
           luisAppIds: S.optional(__S(64, __c2, 0)),
           luisKey: S.optional(S.String),
@@ -3144,7 +3144,7 @@ function __c7(j: number): any {
           publicNetworkAccess: S.optional(S.String),
           isStreamingSupported: S.optional(S.Boolean),
           isDeveloperAppInsightsApiKeySet: S.optional(S.Boolean),
-          migrationToken: S.optional(S.String),
+          migrationToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           disableLocalAuth: S.optional(S.Boolean),
           schemaTransformationVersion: S.optional(S.NullOr(S.String)),
           storageResourceId: S.optional(S.String),
@@ -3152,7 +3152,7 @@ function __c7(j: number): any {
           openWithHint: S.optional(S.String),
           appPasswordHint: S.optional(S.String.pipe(T.SensitiveValue({}))),
           provisioningState: S.optional(S.String),
-          publishingCredentials: S.optional(S.String),
+          publishingCredentials: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "BotProperties" });
     case 1:
@@ -3657,7 +3657,7 @@ function __c23(j: number): any {
         S.Struct({
           phone: S.String,
           accountSID: S.String,
-          authToken: S.optional(S.String),
+          authToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           isValidated: S.optional(S.Boolean),
           isEnabled: S.Boolean,
         }),
@@ -3667,7 +3667,9 @@ function __c23(j: number): any {
         S.Struct({
           cognitiveServiceResourceId: S.optional(S.String),
           cognitiveServiceRegion: S.optional(S.NullOr(S.String)),
-          cognitiveServiceSubscriptionKey: S.optional(S.NullOr(S.String)),
+          cognitiveServiceSubscriptionKey: S.optional(
+            S.NullOr(S.String).pipe(T.SensitiveValue({})),
+          ),
           isEnabled: S.optional(S.Boolean),
           customVoiceDeploymentId: S.optional(S.String),
           customSpeechModelId: S.optional(S.String),
@@ -3680,7 +3682,7 @@ function __c23(j: number): any {
           id: S.optional(S.String),
           phoneNumber: S.optional(S.String),
           acsEndpoint: S.optional(S.NullOr(S.String)),
-          acsSecret: S.optional(S.NullOr(S.String)),
+          acsSecret: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           acsResourceId: S.optional(S.NullOr(S.String)),
           cognitiveServiceSubscriptionKey: S.optional(S.NullOr(S.String)),
           cognitiveServiceRegion: S.optional(S.NullOr(S.String)),
@@ -3738,10 +3740,10 @@ function __c23(j: number): any {
     case 16:
       return S.suspend(() =>
         S.Struct({
-          verifyToken: S.optional(S.String),
+          verifyToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           pages: S.optional(__S(737, __c23, 1)),
           appId: S.String,
-          appSecret: S.optional(S.String),
+          appSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           callbackUrl: S.optional(S.String),
           isEnabled: S.Boolean,
         }),
@@ -3892,14 +3894,14 @@ function __c23(j: number): any {
         S.Struct({
           clientId: S.optional(S.String),
           clientSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          verificationToken: S.optional(S.String),
+          verificationToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           scopes: S.optional(S.String),
           landingPageUrl: S.optional(S.String),
           redirectAction: S.optional(S.String),
           lastSubmissionId: S.optional(S.String),
           registerBeforeOAuthFlow: S.optional(S.Boolean),
           IsValidated: S.optional(S.Boolean),
-          signingSecret: S.optional(S.String),
+          signingSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           isEnabled: S.Boolean,
         }),
       ).annotate({ identifier: "SlackChannelProperties" });
@@ -3921,8 +3923,8 @@ function __c24(j: number): any {
       return S.suspend(() =>
         S.Struct({
           generatedId: S.optional(S.String),
-          channelSecret: S.optional(S.String),
-          channelAccessToken: S.optional(S.String),
+          channelSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          channelAccessToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "LineRegistration" });
     case 2:
@@ -4031,7 +4033,7 @@ function __c26(j: number): any {
         S.Struct({
           pages: S.optional(__S(737, __c23, 1)),
           appId: S.String,
-          appSecret: S.optional(S.String),
+          appSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           isEnabled: S.Boolean,
         }),
       ).annotate({ identifier: "FacebookChannelPropertiesInput" });
@@ -4166,11 +4168,11 @@ function __c26(j: number): any {
         S.Struct({
           clientId: S.optional(S.String),
           clientSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          verificationToken: S.optional(S.String),
+          verificationToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           scopes: S.optional(S.String),
           landingPageUrl: S.optional(S.String),
           registerBeforeOAuthFlow: S.optional(S.Boolean),
-          signingSecret: S.optional(S.String),
+          signingSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           isEnabled: S.Boolean,
         }),
       ).annotate({ identifier: "SlackChannelPropertiesInput" });
@@ -4186,8 +4188,8 @@ function __c26(j: number): any {
     case 19:
       return S.suspend(() =>
         S.Struct({
-          channelSecret: S.optional(S.String),
-          channelAccessToken: S.optional(S.String),
+          channelSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          channelAccessToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "LineRegistrationInput" });
     case 20:

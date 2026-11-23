@@ -1,4 +1,5 @@
 import { ConfigError } from "@distilled.cloud/core/errors";
+import { invalidHostLabelConfig } from "@distilled.cloud/core/protocol-http";
 /**
  * Datadog credentials -- hand-written.
  *
@@ -22,6 +23,19 @@ export const DEFAULT_API_BASE_URL = "https://api.datadoghq.com";
 /** Map a Datadog site (`datadoghq.eu`, `us3.datadoghq.com`, ...) to its API origin. */
 export const apiBaseUrlForSite = (site: string): string => `https://api.${site}`;
 
+/**
+ * `apiBaseUrl` when given, else the site's API origin. The site becomes the
+ * end of the host name, so it must be DNS labels.
+ */
+const resolveApiBaseUrl = (
+  site: string,
+  apiBaseUrl: string | undefined,
+): Effect.Effect<string, ConfigError> => {
+  if (apiBaseUrl !== undefined) return Effect.succeed(apiBaseUrl);
+  const invalid = invalidHostLabelConfig("Datadog site", site, true);
+  return invalid === undefined ? Effect.succeed(apiBaseUrlForSite(site)) : Effect.fail(invalid);
+};
+
 export interface Config {
   readonly apiKey: Redacted.Redacted<string>;
   readonly applicationKey?: Redacted.Redacted<string>;
@@ -44,12 +58,12 @@ export const fromApiKey = (config: {
   const site = config.site ?? DEFAULT_SITE;
   return Layer.succeed(
     Credentials,
-    Effect.succeed({
+    Effect.map(resolveApiBaseUrl(site, config.apiBaseUrl), (apiBaseUrl) => ({
       apiKey: config.apiKey,
       applicationKey: config.applicationKey,
       site,
-      apiBaseUrl: config.apiBaseUrl ?? apiBaseUrlForSite(site),
-    }),
+      apiBaseUrl,
+    })),
   );
 };
 
@@ -75,7 +89,7 @@ export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.
       apiKey: Redacted.make(apiKey),
       applicationKey: applicationKey !== undefined ? Redacted.make(applicationKey) : undefined,
       site,
-      apiBaseUrl: process.env.DD_API_BASE_URL ?? apiBaseUrlForSite(site),
+      apiBaseUrl: yield* resolveApiBaseUrl(site, process.env.DD_API_BASE_URL),
     };
   }),
 );

@@ -2861,7 +2861,7 @@ export interface CredentialProviderTypeEnumValue {
 /** Definition of RegistryCredential */
 export interface RegistryCredential {
   /** <p> The Amazon Resource Name (ARN) or name of credentials created using Secrets Manager. </p> <note> <p> The <code>credential</code> can use the name of the credentials only if they exist in your current Amazon Web Services Region. </p> </note> */
-  credential?: string | undefined;
+  credential?: string | Redacted.Redacted<string> | undefined;
   /** <p> The service that created the credentials to access a private Docker registry. The valid value, SECRETS_MANAGER, is for Secrets Manager. </p> */
   credentialProvider?: CredentialProviderTypeEnumValue | undefined;
 }
@@ -3111,7 +3111,7 @@ export interface Webhook {
   /** <p>An array of arrays of <code>WebhookFilter</code> objects used to determine which webhooks are triggered. At least one <code>WebhookFilter</code> in the array must specify <code>EVENT</code> as its <code>type</code>. </p> <p>For a build to be triggered, at least one filter group in the <code>filterGroups</code> array must pass. For a filter group to pass, each of its filters must pass. </p> */
   filterGroups?: WebhookFilterGroupsList | undefined;
   /** <p>A timestamp that indicates the last time a repository's secret token was modified. </p> */
-  lastModifiedSecret?: string | undefined;
+  lastModifiedSecret?: string | Redacted.Redacted<string> | undefined;
   /** <p>The CodeBuild endpoint where webhook events are sent.</p> */
   payloadUrl?: string | undefined;
   /** <p>The secret token of the associated repository. </p> <note> <p>A Bitbucket webhook does not support <code>secret</code>. </p> </note> */
@@ -3138,7 +3138,7 @@ export interface AwsCodeBuildProjectProperties {
   /** <p>A description that makes the build project easy to identify.</p> */
   description?: string | undefined;
   /** <p>The Key Management Service customer master key (CMK) to be used for encrypting the build output artifacts.</p> <note> <p>You can use a cross-account KMS key to encrypt the build output artifacts if your service role has permission to that key. </p> </note> <p>You can specify either the Amazon Resource Name (ARN) of the CMK or, if available, the CMK's alias (using the format <code>alias/&lt;alias-name&gt;</code>). If you don't specify a value, CodeBuild uses the managed CMK for Amazon Simple Storage Service (Amazon S3). </p> */
-  encryptionKey?: string | undefined;
+  encryptionKey?: string | Redacted.Redacted<string> | undefined;
   /** <p>Information about the build environment for this build project.</p> */
   environment?: ProjectEnvironment | undefined;
   /** <p> An array of <code>ProjectFileSystemLocation</code> objects for a CodeBuild build project. A <code>ProjectFileSystemLocation</code> object specifies the <code>identifier</code>, <code>location</code>, <code>mountOptions</code>, <code>mountPoint</code>, and <code>type</code> of a file system created using Amazon Elastic File System. </p> */
@@ -21970,7 +21970,7 @@ export interface AwsSecretsManagerSecretProperties {
   /** A custom type that specifies a ``Region`` and the ``KmsKeyId`` for a replica secret. */
   replicaRegions?: AwsSecretsManagerSecretPropertiesReplicaRegionsList | undefined;
   /** The text to encrypt and store in the secret. We recommend you use a JSON structure of key/value pairs for your secret value. To generate a random password, use ``GenerateSecretString`` instead. If you omit both ``GenerateSecretString`` and ``SecretString``, you create an empty secret. When you make a change to this property, a new secret version is created. */
-  secretString?: string | undefined;
+  secretString?: string | Redacted.Redacted<string> | undefined;
   /** A list of tags to attach to the secret. Each tag is a key and value pair of strings in a JSON text string, for example: ``[{'Key':'CostCenter','Value':'12345'},{'Key':'environment','Value':'production'}]`` Secrets Manager tag key names are case sensitive. A tag with the key 'ABC' is a different tag from one with key 'abc'. Stack-level tags, tags you apply to the CloudFormation stack, are also attached to the secret. If you check tags in permissions policies as part of your security strategy, then adding or removing a tag can change permissions. If the completion of this operation would result in you losing your permissions for this secret, then Secrets Manager blocks the operation and returns an ``Access Denied`` error. For more information, see [Control access to secrets using tags](https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access_examples.html#tag-secrets-abac) and [Limit access to identities with tags that match secrets' tags](https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access_examples.html#auth-and-access_tags2). For information about how to format a JSON parameter for the various command line tool environments, see [Using JSON for Parameters](https://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#cli-using-param-json). If your command-line tool or SDK requires quotation marks around the parameter, you should use single quotes to avoid confusion with the double quotes required in the JSON text. The following restrictions apply to tags: + Maximum number of tags per secret: 50 + Maximum key length: 127 Unicode characters in UTF-8 + Maximum value length: 255 Unicode characters in UTF-8 + Tag keys and values are case sensitive. + Do not use the ``aws:`` prefix in your tag names or values because AWS reserves it for AWS use. You can't edit or delete tag names or values with this prefix. Tags with this prefix do not count against your tags per secret limit. + If you use your tagging schema across multiple services and resources, other services might have restrictions on allowed characters. Generally allowed characters: letters, spaces, and numbers representable in UTF-8, plus the following special characters: + - = . _ : / @. */
   tags?: AwsSecretsManagerSecretPropertiesTagsList | undefined;
 }
@@ -49936,7 +49936,7 @@ function __c23(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
-          credential: S.optional(S.String),
+          credential: S.optional(S.String.pipe(T.SensitiveValue({}))),
           credentialProvider: S.optional(__S(224, __c7, 0)),
         }),
       ).annotate({ identifier: "RegistryCredential" });
@@ -50068,7 +50068,7 @@ function __c23(j: number): any {
           branchFilter: S.optional(S.String),
           buildType: S.optional(__S(224, __c7, 0)),
           filterGroups: S.optional(__S(762, __c23, 26)),
-          lastModifiedSecret: S.optional(S.String),
+          lastModifiedSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           payloadUrl: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           url: S.optional(S.String),
@@ -50085,7 +50085,7 @@ function __c23(j: number): any {
           concurrentBuildLimit: S.optional(S.Number),
           created: S.optional(S.String),
           description: S.optional(S.String),
-          encryptionKey: S.optional(S.String),
+          encryptionKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           environment: S.optional(__S(745, __c23, 9)),
           fileSystemLocations: S.optional(__S(747, __c23, 11)),
           lastModified: S.optional(S.String),
@@ -63096,7 +63096,7 @@ function __c424(j: number): any {
           kmsKeyId: S.optional(S.String),
           name: S.optional(S.String),
           replicaRegions: S.optional(__S(13570, __c424, 2)),
-          secretString: S.optional(S.String),
+          secretString: S.optional(S.String.pipe(T.SensitiveValue({}))),
           tags: S.optional(__S(129, __c4, 1)),
         }),
       ).annotate({ identifier: "AwsSecretsManagerSecretProperties" });

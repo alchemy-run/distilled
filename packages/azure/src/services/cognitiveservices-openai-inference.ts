@@ -607,7 +607,7 @@ export type ChatCompletionTokenLogprobBytesList = Array<number>;
 export type ChatCompletionTokenLogprobTopLogprobsItemBytesList = Array<number>;
 export interface ChatCompletionTokenLogprobTopLogprobsItem {
   /** The token. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The log probability of this token. */
   logprob: number;
   /** A list of integers representing the UTF-8 bytes representation of the token. Useful in instances where characters are represented by multiple tokens and their byte representations must be combined to generate the correct text representation. Can be `null` if there is no bytes representation for the token. */
@@ -618,7 +618,7 @@ export type ChatCompletionTokenLogprobTopLogprobsList =
   Array<ChatCompletionTokenLogprobTopLogprobsItem>;
 export interface ChatCompletionTokenLogprob {
   /** The token. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The log probability of this token. */
   logprob: number;
   /** A list of integers representing the UTF-8 bytes representation of the token. Useful in instances where characters are represented by multiple tokens and their byte representations must be combined to generate the correct text representation. Can be `null` if there is no bytes representation for the token. */
@@ -1525,7 +1525,7 @@ function __c1(j: number): any {
     case 25:
       return S.suspend(() =>
         S.Struct({
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           logprob: S.Number,
           bytes: S.NullOr(__S(160, __c5, 0)),
         }),
@@ -1535,7 +1535,7 @@ function __c1(j: number): any {
     case 27:
       return S.suspend(() =>
         S.Struct({
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           logprob: S.Number,
           bytes: S.NullOr(__S(160, __c5, 0)),
           top_logprobs: __S(58, __c1, 26),

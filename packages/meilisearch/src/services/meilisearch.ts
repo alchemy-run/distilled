@@ -549,7 +549,7 @@ export type TopLogprobsBytesList = Array<number>;
 /** A most likely token and its log probability at a given position. */
 export interface TopLogprobs {
   /** The token. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The log probability of this token. */
   logprob: number;
   /** A list of integers representing the UTF-8 bytes representation of the token. Useful in instances where characters are represented by multiple tokens and their byte representations must be combined to generate the correct text representation. Can be `null` if there is no bytes representation for the token. */
@@ -560,7 +560,7 @@ export type ChatCompletionTokenLogprobTopLogprobsList = Array<TopLogprobs>;
 /** Log probability information for an output token. */
 export interface ChatCompletionTokenLogprob {
   /** The token. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The log probability of this token, if it is within the top 20 most likely tokens. Otherwise, the value `-9999.0` is used to signify that the token is very unlikely. */
   logprob: number;
   /** A list of integers representing the UTF-8 bytes representation of the token. Useful in instances where characters are represented by multiple tokens and their byte representations must be combined to generate the correct text representation. Can be `null` if there is no bytes representation for the token. */
@@ -1915,9 +1915,9 @@ export interface Remote {
   /** URL of the remote instance - If the URL of the remote instance is resolving to a non-global IP, make sure that `--experimental-allowed-ip-networks` allows it. For details on how use this parameter, refer to [this documentation](https://www.meilisearch.com/docs/learn/self_hosted/configure_meilisearch_at_launch#allow-requests-to-private-networks). */
   url?: string | null | undefined;
   /** API key for search operations on this remote */
-  searchApiKey?: string | null | undefined;
+  searchApiKey?: string | Redacted.Redacted<string> | null | undefined;
   /** API key for write operations on this remote */
-  writeApiKey?: string | null | undefined;
+  writeApiKey?: string | Redacted.Redacted<string> | null | undefined;
 }
 /** Map of remote instance names to their configurations - Pass `null` as a value for a remote to remove it from the configuration. - Removing a remote will also remove it from all shards. - Remotes that don't appear in this list will be unmodified by the network call. */
 export type NetworkRemotesMap = { [key: string]: Remote | undefined };
@@ -8234,7 +8234,7 @@ function __c87(j: number): any {
     case 15:
       return S.suspend(() =>
         S.Struct({
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           logprob: S.Number,
           bytes: S.optional(S.NullOr(__S(2336, __c73, 0))),
         }),
@@ -8244,7 +8244,7 @@ function __c87(j: number): any {
     case 17:
       return S.suspend(() =>
         S.Struct({
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           logprob: S.Number,
           bytes: S.optional(S.NullOr(__S(2336, __c73, 0))),
           top_logprobs: __S(2800, __c87, 16),
@@ -9169,8 +9169,8 @@ function __c146(j: number): any {
       return S.suspend(() =>
         S.Struct({
           url: S.optional(S.NullOr(S.String)),
-          searchApiKey: S.optional(S.NullOr(S.String)),
-          writeApiKey: S.optional(S.NullOr(S.String)),
+          searchApiKey: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
+          writeApiKey: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "Remote" });
     case 1:

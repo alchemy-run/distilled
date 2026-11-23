@@ -410,7 +410,7 @@ export interface DomainConfigurationRulesRuleExtraData {
   /** Whether you accept the domain specific conditions or not */
   acceptCondition?: boolean | null | undefined;
   /** The auth info code for the domain */
-  authInfo?: string | null | undefined;
+  authInfo?: string | Redacted.Redacted<string> | null | undefined;
 }
 /** Missing description */
 export interface DomainContactAddress {
@@ -565,7 +565,7 @@ export interface ConfirmDomainZoneTerminationRequest {
   /** All reasons you can provide for a service termination */
   reason?: ServiceTerminationReasonEnum | (string & {}) | undefined;
   /** The termination token sent by email to the admin contact */
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 export type ConfirmDomainZoneTerminationResponse = string;
 export interface CreateContactRequest {
@@ -1519,7 +1519,7 @@ export interface DomainConfigurationsCustomFields {
   /** Domain name audience */
   audience?: string | null | undefined;
   /** Auth Info */
-  authInfo?: string | null | undefined;
+  authInfo?: string | Redacted.Redacted<string> | null | undefined;
   /** Purposes of the domain */
   isFor?: DomainConfigurationsCustomFieldsIsForList | null | undefined;
   /** Domain name other purpose */
@@ -5740,7 +5740,7 @@ function __c54(j: number): any {
       return S.suspend(() =>
         S.Struct({
           acceptCondition: S.optional(S.NullOr(S.Boolean)),
-          authInfo: S.optional(S.NullOr(S.String)),
+          authInfo: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "DomainConfigurationRulesRuleExtraData" });
     case 2:
@@ -5924,7 +5924,7 @@ function __c62(j: number): any {
       return S.suspend(() =>
         S.Struct({
           audience: S.optional(S.NullOr(S.String)),
-          authInfo: S.optional(S.NullOr(S.String)),
+          authInfo: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           isFor: S.optional(S.NullOr(__S(976, __c61, 0))),
           otherPurpose: S.optional(S.NullOr(S.String)),
           reason: S.optional(S.NullOr(S.String)),
@@ -6237,7 +6237,7 @@ function __c70(j: number): any {
           commentaryReason: S.optional(S.String),
           futureUse: S.optional(S.String),
           reason: S.optional(S.String),
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
         }).pipe(
           T.Http({ method: "POST", uri: "/domain/zone/{zoneName}/confirmTermination", code: 200 }),
         ),

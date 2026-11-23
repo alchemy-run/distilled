@@ -522,7 +522,7 @@ export interface StorageAccount {
   /** The name of the Azure Storage account. Required on PUT (CreateOrReplace) requests. */
   accountName?: string | undefined;
   /** The account key for the Azure Storage account. Required on PUT (CreateOrReplace) requests. */
-  accountKey?: string | undefined;
+  accountKey?: string | Redacted.Redacted<string> | undefined;
 }
 /** A list of one or more Azure Storage accounts. Required on PUT (CreateOrReplace) requests. */
 export type BlobStreamInputDataSourcePropertiesStorageAccountsList = Array<StorageAccount>;
@@ -827,7 +827,7 @@ export interface AzureTableOutputDataSourceProperties {
   /** The name of the Azure Storage account. Required on PUT (CreateOrReplace) requests. */
   accountName?: string | undefined;
   /** The account key for the Azure Storage account. Required on PUT (CreateOrReplace) requests. */
-  accountKey?: string | undefined;
+  accountKey?: string | Redacted.Redacted<string> | undefined;
   /** The name of the Azure Table. Required on PUT (CreateOrReplace) requests. */
   table?: string | undefined;
   /** This element indicates the name of a column from the SELECT statement in the query that will be used as the partition key for the Azure Table. Required on PUT (CreateOrReplace) requests. */
@@ -956,7 +956,7 @@ export interface DocumentDbOutputDataSourceProperties {
   /** The DocumentDB account name or ID. Required on PUT (CreateOrReplace) requests. */
   accountId?: string | undefined;
   /** The account key for the DocumentDB account. Required on PUT (CreateOrReplace) requests. */
-  accountKey?: string | undefined;
+  accountKey?: string | Redacted.Redacted<string> | undefined;
   /** The name of the DocumentDB database. Required on PUT (CreateOrReplace) requests. */
   database?: string | undefined;
   /** The collection name pattern for the collections to be used. The collection name format can be constructed using the optional {partition} token, where partitions start from 0. See the DocumentDB section of https://docs.microsoft.com/en-us/rest/api/streamanalytics/stream-analytics-output for more information. Required on PUT (CreateOrReplace) requests. */
@@ -1374,7 +1374,7 @@ export interface JobStorageAccount {
   /** The name of the Azure Storage account. Required on PUT (CreateOrReplace) requests. */
   accountName?: string | undefined;
   /** The account key for the Azure Storage account. Required on PUT (CreateOrReplace) requests. */
-  accountKey?: string | undefined;
+  accountKey?: string | Redacted.Redacted<string> | undefined;
   /** Authentication Mode. Valid modes are `ConnectionString`, `Msi` and 'UserToken'. */
   authenticationMode?: JobStorageAccountAuthenticationMode | (string & {}) | undefined;
 }
@@ -3389,7 +3389,7 @@ function __c7(j: number): any {
       return S.suspend(() =>
         S.Struct({
           accountName: S.optional(S.String),
-          accountKey: S.optional(S.String),
+          accountKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "StorageAccount" });
     case 2:
@@ -3675,7 +3675,7 @@ function __c13(j: number): any {
       return S.suspend(() =>
         S.Struct({
           accountName: S.optional(S.String),
-          accountKey: S.optional(S.String),
+          accountKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           table: S.optional(S.String),
           partitionKey: S.optional(S.String),
           rowKey: S.optional(S.String),
@@ -3750,7 +3750,7 @@ function __c13(j: number): any {
       return S.suspend(() =>
         S.Struct({
           accountId: S.optional(S.String),
-          accountKey: S.optional(S.String),
+          accountKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           database: S.optional(S.String),
           collectionNamePattern: S.optional(S.String),
           partitionKey: S.optional(S.String),
@@ -4042,7 +4042,7 @@ function __c22(j: number): any {
       return S.suspend(() =>
         S.Struct({
           accountName: S.optional(S.String),
-          accountKey: S.optional(S.String),
+          accountKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           authenticationMode: S.optional(S.String),
         }),
       ).annotate({ identifier: "JobStorageAccount" });

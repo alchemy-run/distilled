@@ -482,7 +482,7 @@ export interface ConnectServerRequest {
   code: string;
 }
 export interface PairingSession {
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 export type CredentialOAuthType = "oauth";
 export interface CredentialOAuth {
@@ -1610,7 +1610,7 @@ export type VoiceWebSocketTransportExpiresAt = number | VoiceWebSocketTransportE
 export interface VoiceWebSocketTransport {
   type: VoiceWebSocketTransportType;
   url: string;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   expiresAt: VoiceWebSocketTransportExpiresAt;
 }
 export type VoiceTransport = VoiceWebRTCTransport | VoiceWebSocketTransport;
@@ -9362,7 +9362,7 @@ function __c98(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "PairingSession" });
   }

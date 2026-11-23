@@ -458,7 +458,7 @@ export interface UpdateBackupsConfigRequest {
   regionId: string;
   /** Instance id */
   instanceId: string;
-  encryption_key?: string | undefined;
+  encryption_key?: string | Redacted.Redacted<string> | undefined;
 }
 export interface UpdateBackupsConfigResponse {
   message: string;
@@ -1324,7 +1324,7 @@ function __c15(j: number): any {
           projectId: S.String.pipe(T.Label()),
           regionId: S.String.pipe(T.Label()),
           instanceId: S.String.pipe(T.Label()),
-          encryption_key: S.optional(S.String),
+          encryption_key: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }).pipe(
           T.Http({
             method: "PATCH",

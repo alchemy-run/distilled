@@ -619,7 +619,7 @@ export interface AzureStorageInfoValue {
   /** Name of the file share (container name, for Blob storage). */
   shareName?: string | undefined;
   /** Access key for the storage account. */
-  accessKey?: string | undefined;
+  accessKey?: string | Redacted.Redacted<string> | undefined;
   /** Path to mount the storage within the site's runtime environment. */
   mountPath?: string | undefined;
   /** State of the storage account. */
@@ -4930,11 +4930,11 @@ export interface ArcConfiguration {
   artifactStorageNodeName?: string | undefined;
   artifactStorageAccessMode?: string | undefined;
   frontEndServiceConfiguration?: FrontEndConfiguration | undefined;
-  kubeConfig?: string | undefined;
+  kubeConfig?: string | Redacted.Redacted<string> | undefined;
 }
 export interface LogAnalyticsConfiguration {
   customerId?: string | undefined;
-  sharedKey?: string | undefined;
+  sharedKey?: string | Redacted.Redacted<string> | undefined;
 }
 export interface AppLogsConfiguration {
   destination?: string | undefined;
@@ -6104,9 +6104,9 @@ export interface GetSourceControlRequest {
 /** SourceControl resource specific properties */
 export interface SourceControlProperties {
   /** OAuth access token. */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   /** OAuth access token secret. */
-  tokenSecret?: string | undefined;
+  tokenSecret?: string | Redacted.Redacted<string> | undefined;
   /** OAuth refresh token. */
   refreshToken?: string | Redacted.Redacted<string> | undefined;
   /** OAuth token expiration. */
@@ -6697,7 +6697,7 @@ export interface StaticSite {
   /** The custom domains associated with this static site. */
   customDomains?: StaticSiteCustomDomainsList | undefined;
   /** A user's github repository token. This is used to setup the Github Actions workflow file and API secrets. */
-  repositoryToken?: string | undefined;
+  repositoryToken?: string | Redacted.Redacted<string> | undefined;
   /** Build properties to configure on the repository. */
   buildProperties?: StaticSiteBuildProperties | undefined;
   /** Private endpoint connections */
@@ -6922,7 +6922,7 @@ export interface StaticSiteCustomDomainOverviewARMResourceProperties {
   /** The status of the custom domain */
   status?: CustomDomainStatus | undefined;
   /** The TXT record validation token */
-  validationToken?: string | undefined;
+  validationToken?: string | Redacted.Redacted<string> | undefined;
   errorMessage?: string | undefined;
 }
 export interface GetStaticSiteStaticSiteCustomDomainResponse {
@@ -7355,7 +7355,7 @@ export interface SiteAuthSettingsProperties {
   /** The OpenID Connect Client ID for the Google web application. This setting is required for enabling Google Sign-In. Google Sign-In documentation: https://developers.google.com/identity/sign-in/web/ */
   googleClientId?: string | undefined;
   /** The client secret associated with the Google web application. This setting is required for enabling Google Sign-In. Google Sign-In documentation: https://developers.google.com/identity/sign-in/web/ */
-  googleClientSecret?: string | undefined;
+  googleClientSecret?: string | Redacted.Redacted<string> | undefined;
   /** The app setting name that contains the client secret associated with the Google web application. */
   googleClientSecretSettingName?: string | undefined;
   /** The OAuth 2.0 scopes that will be requested as part of Google Sign-In authentication. This setting is optional. If not specified, "openid", "profile", and "email" are used as default scopes. Google Sign-In documentation: https://developers.google.com/identity/sign-in/web/ */
@@ -7363,7 +7363,7 @@ export interface SiteAuthSettingsProperties {
   /** The App ID of the Facebook app used for login. This setting is required for enabling Facebook Login. Facebook Login documentation: https://developers.facebook.com/docs/facebook-login */
   facebookAppId?: string | undefined;
   /** The App Secret of the Facebook app used for Facebook Login. This setting is required for enabling Facebook Login. Facebook Login documentation: https://developers.facebook.com/docs/facebook-login */
-  facebookAppSecret?: string | undefined;
+  facebookAppSecret?: string | Redacted.Redacted<string> | undefined;
   /** The app setting name that contains the app secret used for Facebook Login. */
   facebookAppSecretSettingName?: string | undefined;
   /** The OAuth 2.0 scopes that will be requested as part of Facebook Login authentication. This setting is optional. Facebook Login documentation: https://developers.facebook.com/docs/facebook-login */
@@ -7371,7 +7371,7 @@ export interface SiteAuthSettingsProperties {
   /** The Client Id of the GitHub app used for login. This setting is required for enabling Github login */
   gitHubClientId?: string | undefined;
   /** The Client Secret of the GitHub app used for Github Login. This setting is required for enabling Github login. */
-  gitHubClientSecret?: string | undefined;
+  gitHubClientSecret?: string | Redacted.Redacted<string> | undefined;
   /** The app setting name that contains the client secret of the Github app used for GitHub Login. */
   gitHubClientSecretSettingName?: string | undefined;
   /** The OAuth 2.0 scopes that will be requested as part of GitHub Login authentication. This setting is optional */
@@ -7379,13 +7379,13 @@ export interface SiteAuthSettingsProperties {
   /** The OAuth 1.0a consumer key of the Twitter application used for sign-in. This setting is required for enabling Twitter Sign-In. Twitter Sign-In documentation: https://dev.twitter.com/web/sign-in */
   twitterConsumerKey?: string | undefined;
   /** The OAuth 1.0a consumer secret of the Twitter application used for sign-in. This setting is required for enabling Twitter Sign-In. Twitter Sign-In documentation: https://dev.twitter.com/web/sign-in */
-  twitterConsumerSecret?: string | undefined;
+  twitterConsumerSecret?: string | Redacted.Redacted<string> | undefined;
   /** The app setting name that contains the OAuth 1.0a consumer secret of the Twitter application used for sign-in. */
   twitterConsumerSecretSettingName?: string | undefined;
   /** The OAuth 2.0 client ID that was created for the app used for authentication. This setting is required for enabling Microsoft Account authentication. Microsoft Account OAuth documentation: https://dev.onedrive.com/auth/msa_oauth.htm */
   microsoftAccountClientId?: string | undefined;
   /** The OAuth 2.0 client secret that was created for the app used for authentication. This setting is required for enabling Microsoft Account authentication. Microsoft Account OAuth documentation: https://dev.onedrive.com/auth/msa_oauth.htm */
-  microsoftAccountClientSecret?: string | undefined;
+  microsoftAccountClientSecret?: string | Redacted.Redacted<string> | undefined;
   /** The app setting name containing the OAuth 2.0 client secret that was created for the app used for authentication. */
   microsoftAccountClientSecretSettingName?: string | undefined;
   /** The OAuth 2.0 scopes that will be requested as part of Microsoft Account authentication. This setting is optional. If not specified, "wl.basic" is used as the default scope. Microsoft Account Scopes and permissions documentation: https://msdn.microsoft.com/en-us/library/dn631845.aspx */
@@ -9861,9 +9861,9 @@ export interface GetWebAppRelayServiceConnectionRequest {
 /** RelayServiceConnectionEntity resource specific properties */
 export interface RelayServiceConnectionEntityProperties {
   entityName?: string | undefined;
-  entityConnectionString?: string | undefined;
+  entityConnectionString?: string | Redacted.Redacted<string> | undefined;
   resourceType?: string | undefined;
-  resourceConnectionString?: string | undefined;
+  resourceConnectionString?: string | Redacted.Redacted<string> | undefined;
   hostname?: string | undefined;
   port?: number | undefined;
   biztalkUri?: string | undefined;
@@ -14767,7 +14767,7 @@ export type HostKeysSystemKeysMap = { [key: string]: string | undefined };
 /** Functions host level keys. */
 export interface HostKeys {
   /** Secret key. */
-  masterKey?: string | undefined;
+  masterKey?: string | Redacted.Redacted<string> | undefined;
   /** Host level function keys. */
   functionKeys?: HostKeysFunctionKeysMap | undefined;
   /** System keys. */
@@ -16677,7 +16677,7 @@ export interface MigrateWebAppMySqlResponse {
 /** StorageMigrationOptions resource specific properties */
 export interface StorageMigrationOptionsProperties {
   /** AzureFiles connection string. */
-  azurefilesConnectionString: string;
+  azurefilesConnectionString: string | Redacted.Redacted<string>;
   /** AzureFiles share. */
   azurefilesShare: string;
   /** <code>true</code>if the app should be switched over; otherwise, <code>false</code>. */
@@ -17043,7 +17043,7 @@ export interface ResetRecommendationAllFiltersForWebAppResponse {}
 /** StaticSiteResetPropertiesARMResource resource specific properties */
 export interface StaticSiteResetPropertiesARMResourceProperties {
   /** The token which proves admin privileges to the repository. */
-  repositoryToken?: string | undefined;
+  repositoryToken?: string | Redacted.Redacted<string> | undefined;
   /** Determines whether the repository should be updated with the new properties. */
   shouldUpdateRepository?: boolean | undefined;
 }
@@ -17930,7 +17930,7 @@ export interface StaticSiteInput {
   /** The target branch in the repository. */
   branch?: string | undefined;
   /** A user's github repository token. This is used to setup the Github Actions workflow file and API secrets. */
-  repositoryToken?: string | undefined;
+  repositoryToken?: string | Redacted.Redacted<string> | undefined;
   /** Build properties to configure on the repository. */
   buildProperties?: StaticSiteBuildProperties | undefined;
   /** State indicating whether staging environments are allowed or not allowed for a static web app. */
@@ -40000,14 +40000,14 @@ function __c74(j: number): any {
           artifactStorageNodeName: S.optional(S.String),
           artifactStorageAccessMode: S.optional(S.String),
           frontEndServiceConfiguration: S.optional(__S(2368, __c74, 0)),
-          kubeConfig: S.optional(S.String),
+          kubeConfig: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "ArcConfiguration" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           customerId: S.optional(S.String),
-          sharedKey: S.optional(S.String),
+          sharedKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "LogAnalyticsConfiguration" });
     case 3:
@@ -41304,8 +41304,8 @@ function __c118(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          token: S.optional(S.String),
-          tokenSecret: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          tokenSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           refreshToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           expirationTime: S.optional(S.String),
         }),
@@ -41962,7 +41962,7 @@ function __c148(j: number): any {
           repositoryUrl: S.optional(S.String),
           branch: S.optional(S.String),
           customDomains: S.optional(__S(11136, __c348, 0)),
-          repositoryToken: S.optional(S.String),
+          repositoryToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           buildProperties: S.optional(__S(4704, __c147, 0)),
           privateEndpointConnections: S.optional(__S(4738, __c148, 2)),
           stagingEnvironmentPolicy: S.optional(S.String),
@@ -42198,7 +42198,7 @@ function __c160(j: number): any {
           domainName: S.optional(S.String),
           createdOn: S.optional(S.String),
           status: S.optional(S.String),
-          validationToken: S.optional(S.String),
+          validationToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           errorMessage: S.optional(S.String),
         }),
       ).annotate({ identifier: "StaticSiteCustomDomainOverviewARMResourceProperties" });
@@ -42646,22 +42646,22 @@ function __c181(j: number): any {
           additionalLoginParams: S.optional(__S(11136, __c348, 0)),
           aadClaimsAuthorization: S.optional(S.String),
           googleClientId: S.optional(S.String),
-          googleClientSecret: S.optional(S.String),
+          googleClientSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           googleClientSecretSettingName: S.optional(S.String),
           googleOAuthScopes: S.optional(__S(11136, __c348, 0)),
           facebookAppId: S.optional(S.String),
-          facebookAppSecret: S.optional(S.String),
+          facebookAppSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           facebookAppSecretSettingName: S.optional(S.String),
           facebookOAuthScopes: S.optional(__S(11136, __c348, 0)),
           gitHubClientId: S.optional(S.String),
-          gitHubClientSecret: S.optional(S.String),
+          gitHubClientSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           gitHubClientSecretSettingName: S.optional(S.String),
           gitHubOAuthScopes: S.optional(__S(11136, __c348, 0)),
           twitterConsumerKey: S.optional(S.String),
-          twitterConsumerSecret: S.optional(S.String),
+          twitterConsumerSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           twitterConsumerSecretSettingName: S.optional(S.String),
           microsoftAccountClientId: S.optional(S.String),
-          microsoftAccountClientSecret: S.optional(S.String),
+          microsoftAccountClientSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           microsoftAccountClientSecretSettingName: S.optional(S.String),
           microsoftAccountOAuthScopes: S.optional(__S(11136, __c348, 0)),
           isAuthFromFile: S.optional(S.String),
@@ -45321,9 +45321,9 @@ function __c287(j: number): any {
       return S.suspend(() =>
         S.Struct({
           entityName: S.optional(S.String),
-          entityConnectionString: S.optional(S.String),
+          entityConnectionString: S.optional(S.String.pipe(T.SensitiveValue({}))),
           resourceType: S.optional(S.String),
-          resourceConnectionString: S.optional(S.String),
+          resourceConnectionString: S.optional(S.String.pipe(T.SensitiveValue({}))),
           hostname: S.optional(S.String),
           port: S.optional(S.Number),
           biztalkUri: S.optional(S.String),
@@ -50337,7 +50337,7 @@ function __c498(j: number): any {
           type: S.optional(S.String),
           accountName: S.optional(S.String),
           shareName: S.optional(S.String),
-          accessKey: S.optional(S.String),
+          accessKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           mountPath: S.optional(S.String),
           state: S.optional(S.String),
           protocol: S.optional(S.String),
@@ -51589,7 +51589,7 @@ function __c539(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          masterKey: S.optional(S.String),
+          masterKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           functionKeys: S.optional(__S(128, __c4, 0)),
           systemKeys: S.optional(__S(128, __c4, 0)),
         }),
@@ -54236,7 +54236,7 @@ function __c659(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          azurefilesConnectionString: S.String,
+          azurefilesConnectionString: S.String.pipe(T.SensitiveValue({})),
           azurefilesShare: S.String,
           switchSiteAfterMigration: S.optional(S.Boolean),
           blockWriteAccessToSite: S.optional(S.Boolean),
@@ -54732,7 +54732,7 @@ function __c680(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          repositoryToken: S.optional(S.String),
+          repositoryToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           shouldUpdateRepository: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "StaticSiteResetPropertiesARMResourceProperties" });
@@ -55794,7 +55794,7 @@ function __c726(j: number): any {
         S.Struct({
           repositoryUrl: S.optional(S.String),
           branch: S.optional(S.String),
-          repositoryToken: S.optional(S.String),
+          repositoryToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           buildProperties: S.optional(__S(4704, __c147, 0)),
           stagingEnvironmentPolicy: S.optional(S.String),
           allowConfigFileUpdates: S.optional(S.Boolean),

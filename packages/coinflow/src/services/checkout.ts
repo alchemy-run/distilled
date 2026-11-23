@@ -426,7 +426,7 @@ export interface TransactionHistoryItem {
   txType: string;
   chain: string;
   paymentAmount: string;
-  paymentToken: string;
+  paymentToken: string | Redacted.Redacted<string>;
   to: string;
   from: string;
   registryContract: string;
@@ -849,7 +849,7 @@ export interface DecentRedeem {
   /** ID of the destination chain you will be using Find your chain ID here: https://chainlist.org/ */
   dstChainId: number;
   /** Address on that chain of the token you will be receiving */
-  dstToken: string;
+  dstToken: string | Redacted.Redacted<string>;
   /** The contract address which will be called on the destination chain */
   contractAddress: string;
   contractData: string;
@@ -883,7 +883,7 @@ export interface AchCheckoutRequest {
   feePercentage?: number | undefined;
   subtotal: Cents;
   /** This is a token encoding the parameters for the request. Allows purchase parameters to be verified to prevent manipulation when the checkout page is presented to the user. */
-  jwtToken?: string | undefined;
+  jwtToken?: string | Redacted.Redacted<string> | undefined;
   overrideChargebackProtectionDecision?: boolean | undefined;
   chargebackProtectionAccountType?: ChargebackProtectionAccountType | (string & {}) | undefined;
   doNotReviewChargebackProtection?: boolean | undefined;
@@ -893,9 +893,9 @@ export interface AchCheckoutRequest {
   rent?: LamportsAmount | undefined;
   transactionData?: EvmTransactionData | undefined;
   /** If utilizing USDC settlement to addresses other than your main merchant settlement address. Utilize this destinationAuthKey which is a JWT encoded with the information for which address to send the USDC to. */
-  destinationAuthKey?: string | undefined;
+  destinationAuthKey?: string | Redacted.Redacted<string> | undefined;
   /** Token for the bankAccount to be used for the checkout. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   orderType?: OrderType | (string & {}) | undefined;
   /** If this debit is a subsequent charge (recurring/top-up/limit-order/ fair-market-value fill) under a previously submitted ACH authorization, pass that authorization's founding `paymentId` here so this debit is traceable back to the same authorization record. */
   achAuthorizationId?: string | undefined;
@@ -952,7 +952,7 @@ export interface ApaCheckoutRequest {
   feePercentage?: number | undefined;
   subtotal: Subtotal;
   /** This is a token encoding the parameters for the request. Allows purchase parameters to be verified to prevent manipulation when the checkout page is presented to the user. */
-  jwtToken?: string | undefined;
+  jwtToken?: string | Redacted.Redacted<string> | undefined;
   overrideChargebackProtectionDecision?: boolean | undefined;
   chargebackProtectionAccountType?: ChargebackProtectionAccountType | (string & {}) | undefined;
   doNotReviewChargebackProtection?: boolean | undefined;
@@ -961,10 +961,10 @@ export interface ApaCheckoutRequest {
   rent?: LamportsAmount | undefined;
   transactionData?: EvmTransactionData | undefined;
   /** If utilizing USDC settlement to addresses other than your main merchant settlement address. Utilize this destinationAuthKey which is a JWT encoded with the information for which address to send the USDC to. */
-  destinationAuthKey?: string | undefined;
+  destinationAuthKey?: string | Redacted.Redacted<string> | undefined;
   credentialType: ExcludeApaCredentialTypeApaCredentialTypePAN;
   /** Lowercased email or E.164-formatted phone number, matching credentialType. */
-  credentialValue: string;
+  credentialValue: string | Redacted.Redacted<string>;
   /** Email for new customers paying with a phone APA credential. Not needed when credentialType is EMAIL (credentialValue is used as the email). */
   email?: string | undefined;
   /** The session key generated for the end user - see https://docs.coinflow.cash/api-reference/api-reference/authentication/get-session-key */
@@ -1105,7 +1105,7 @@ export interface ApplePayRequest {
   feePercentage?: number | undefined;
   subtotal: Subtotal;
   /** This is a token encoding the parameters for the request. Allows purchase parameters to be verified to prevent manipulation when the checkout page is presented to the user. */
-  jwtToken?: string | undefined;
+  jwtToken?: string | Redacted.Redacted<string> | undefined;
   overrideChargebackProtectionDecision?: boolean | undefined;
   chargebackProtectionAccountType?: ChargebackProtectionAccountType | (string & {}) | undefined;
   doNotReviewChargebackProtection?: boolean | undefined;
@@ -1119,7 +1119,7 @@ export interface ApplePayRequest {
   transactionData?: EvmTransactionData | undefined;
   presentment?: Currency | (string & {}) | undefined;
   /** If utilizing USDC settlement to addresses other than your main merchant settlement address. Utilize this destinationAuthKey which is a JWT encoded with the information for which address to send the USDC to. */
-  destinationAuthKey?: string | undefined;
+  destinationAuthKey?: string | Redacted.Redacted<string> | undefined;
   applePayPayment: ApplePayPayment;
   /** The session key generated for the end user - see https://docs.coinflow.cash/api-reference/api-reference/authentication/get-session-key */
   authSessionKey: string | Redacted.Redacted<string>;
@@ -1165,7 +1165,7 @@ export interface ConcludeChallenge {
 export type Authentication3DS = Device3DSInfo | External3DSInfo | ConcludeChallenge;
 export interface CardData {
   /** This is the card token received from the `CoinflowCardNumberInput` */
-  cardToken: string;
+  cardToken: string | Redacted.Redacted<string>;
   /** The Cards Expiration Year ex: 2026 => 26 */
   expYear: string;
   /** The Cards Expiration Month ex: January => 01 December => 12 */
@@ -1184,7 +1184,7 @@ export interface CardData {
 }
 export interface CardDataWithoutAddress {
   /** This is the card token received from the `CoinflowCardNumberInput` */
-  cardToken: string;
+  cardToken: string | Redacted.Redacted<string>;
   /** The Cards Expiration Year ex: 2026 => 26 */
   expYear: string;
   /** The Cards Expiration Month ex: January => 01 December => 12 */
@@ -1256,10 +1256,10 @@ export interface CardCheckoutRequest {
   feePercentage?: number | undefined;
   fixedFee?: Cents | undefined;
   /** This is a token encoding the parameters for the request. Allows purchase parameters to be verified to prevent manipulation when the checkout page is presented to the user. */
-  jwtToken?: string | undefined;
+  jwtToken?: string | Redacted.Redacted<string> | undefined;
   threeDsChallengePreference?: ThreeDsChallengePreference | (string & {}) | undefined;
   /** If utilizing USDC settlement to addresses other than your main merchant settlement address. Utilize this destinationAuthKey which is a JWT encoded with the information for which address to send the USDC to. */
-  destinationAuthKey?: string | undefined;
+  destinationAuthKey?: string | Redacted.Redacted<string> | undefined;
   customerUsdcTransferData?: CustomerUsdcTransferData | undefined;
   customerUsdcTransferDataV2?: CustomerUsdcTransferDataV2 | undefined;
   userLocation?: IUserLocation | undefined;
@@ -1289,7 +1289,7 @@ export interface CardCheckoutResponse {
 export interface CardOnFileAuthorizedRequest {
   xDeviceId?: string | undefined;
   xCoinflowClientIp?: string | undefined;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The external identifier of the end user - see https://docs.coinflow.cash/api-reference/api-reference/authentication/get-session-key */
   authUserId: string;
 }
@@ -1310,7 +1310,7 @@ export interface CardOnFileCheckoutArgsWithOriginalPaymentId {
   feePercentage?: number | undefined;
   subtotal: Subtotal;
   /** This is a token encoding the parameters for the request. Allows purchase parameters to be verified to prevent manipulation when the checkout page is presented to the user. */
-  jwtToken?: string | undefined;
+  jwtToken?: string | Redacted.Redacted<string> | undefined;
   overrideChargebackProtectionDecision?: boolean | undefined;
   chargebackProtectionAccountType?: ChargebackProtectionAccountType | (string & {}) | undefined;
   doNotReviewChargebackProtection?: boolean | undefined;
@@ -1325,7 +1325,7 @@ export interface CardOnFileCheckoutArgsWithOriginalPaymentId {
   presentment?: Currency | (string & {}) | undefined;
   authentication3DS?: Authentication3DS | undefined;
   /** If utilizing USDC settlement to addresses other than your main merchant settlement address. Utilize this destinationAuthKey which is a JWT encoded with the information for which address to send the USDC to. */
-  destinationAuthKey?: string | undefined;
+  destinationAuthKey?: string | Redacted.Redacted<string> | undefined;
   l2l3Data?: L2L3Data | undefined;
   /** The payment ID of the original authorization. */
   originalPaymentId: string;
@@ -1344,7 +1344,7 @@ export interface CardOnFileCheckoutArgsWithToken {
   feePercentage?: number | undefined;
   subtotal: Subtotal;
   /** This is a token encoding the parameters for the request. Allows purchase parameters to be verified to prevent manipulation when the checkout page is presented to the user. */
-  jwtToken?: string | undefined;
+  jwtToken?: string | Redacted.Redacted<string> | undefined;
   overrideChargebackProtectionDecision?: boolean | undefined;
   chargebackProtectionAccountType?: ChargebackProtectionAccountType | (string & {}) | undefined;
   doNotReviewChargebackProtection?: boolean | undefined;
@@ -1359,10 +1359,10 @@ export interface CardOnFileCheckoutArgsWithToken {
   presentment?: Currency | (string & {}) | undefined;
   authentication3DS?: Authentication3DS | undefined;
   /** If utilizing USDC settlement to addresses other than your main merchant settlement address. Utilize this destinationAuthKey which is a JWT encoded with the information for which address to send the USDC to. */
-  destinationAuthKey?: string | undefined;
+  destinationAuthKey?: string | Redacted.Redacted<string> | undefined;
   l2l3Data?: L2L3Data | undefined;
   /** Token for the card to be used for the card on file purchase. Must have been previously authorized with a CVV. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 export type CardOnFileCheckoutArgs =
   | CardOnFileCheckoutArgsWithOriginalPaymentId
@@ -1388,7 +1388,7 @@ export interface CashAppCheckoutRequest {
   feePercentage?: number | undefined;
   subtotal: Subtotal;
   /** This is a token encoding the parameters for the request. Allows purchase parameters to be verified to prevent manipulation when the checkout page is presented to the user. */
-  jwtToken?: string | undefined;
+  jwtToken?: string | Redacted.Redacted<string> | undefined;
   overrideChargebackProtectionDecision?: boolean | undefined;
   chargebackProtectionAccountType?: ChargebackProtectionAccountType | (string & {}) | undefined;
   doNotReviewChargebackProtection?: boolean | undefined;
@@ -1396,7 +1396,7 @@ export interface CashAppCheckoutRequest {
   rent?: LamportsAmount | undefined;
   transactionData?: EvmTransactionData | undefined;
   /** If utilizing USDC settlement to addresses other than your main merchant settlement address. Utilize this destinationAuthKey which is a JWT encoded with the information for which address to send the USDC to. */
-  destinationAuthKey?: string | undefined;
+  destinationAuthKey?: string | Redacted.Redacted<string> | undefined;
   email?: string | undefined;
   /** The session key generated for the end user - see https://docs.coinflow.cash/api-reference/api-reference/authentication/get-session-key */
   authSessionKey: string | Redacted.Redacted<string>;
@@ -1417,7 +1417,7 @@ export interface CreateAchAuthorizationRequest {
   /** Required when authenticating as merchant-admin/admin (no customer session to resolve one from); ignored for customer session-key calls, where the customer is resolved from the session instead. */
   customerId?: string | undefined;
   /** Purse token for the bank account being authorized. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The session key generated for the end user - see https://docs.coinflow.cash/api-reference/api-reference/authentication/get-session-key */
   authSessionKey: string | Redacted.Redacted<string>;
 }
@@ -1467,7 +1467,7 @@ export interface CreatePixPaymentRequest {
   feePercentage?: number | undefined;
   subtotal: Subtotal;
   /** This is a token encoding the parameters for the request. Allows purchase parameters to be verified to prevent manipulation when the checkout page is presented to the user. */
-  jwtToken?: string | undefined;
+  jwtToken?: string | Redacted.Redacted<string> | undefined;
   overrideChargebackProtectionDecision?: boolean | undefined;
   chargebackProtectionAccountType?: ChargebackProtectionAccountType | (string & {}) | undefined;
   doNotReviewChargebackProtection?: boolean | undefined;
@@ -1477,7 +1477,7 @@ export interface CreatePixPaymentRequest {
   rent?: LamportsAmount | undefined;
   transactionData?: EvmTransactionData | undefined;
   /** If utilizing USDC settlement to addresses other than your main merchant settlement address. Utilize this destinationAuthKey which is a JWT encoded with the information for which address to send the USDC to. */
-  destinationAuthKey?: string | undefined;
+  destinationAuthKey?: string | Redacted.Redacted<string> | undefined;
   email: string;
   /** Merchant Identifier */
   merchantId: string;
@@ -1504,7 +1504,7 @@ export interface CryptoHeadlessFixedCheckoutArgs {
   /** If this purchase is for a seller/submerchant where the marketplace takes a fee, this is the % fee which is taken from the subtotal amount. */
   feePercentage?: number | undefined;
   /** This is a token encoding the parameters for the request. Allows purchase parameters to be verified to prevent manipulation when the checkout page is presented to the user. */
-  jwtToken?: string | undefined;
+  jwtToken?: string | Redacted.Redacted<string> | undefined;
   overrideChargebackProtectionDecision?: boolean | undefined;
   chargebackProtectionAccountType?: ChargebackProtectionAccountType | (string & {}) | undefined;
   doNotReviewChargebackProtection?: boolean | undefined;
@@ -1512,11 +1512,11 @@ export interface CryptoHeadlessFixedCheckoutArgs {
   rent?: LamportsAmount | undefined;
   transactionData?: EvmTransactionData | undefined;
   /** If utilizing USDC settlement to addresses other than your main merchant settlement address. Utilize this destinationAuthKey which is a JWT encoded with the information for which address to send the USDC to. */
-  destinationAuthKey?: string | undefined;
+  destinationAuthKey?: string | Redacted.Redacted<string> | undefined;
   /** The name of the chain to perform the crypto payin on. */
   chain: string;
   /** The symbol of the token to execute the payin with. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** Origin-chain address to refund to if the payment fails, is over/underpaid, or cannot be completed. Required when the selected combo's `requiresRefundAddress` is true; optional otherwise. */
   refundAddress?: string | undefined;
   subtotal: Subtotal;
@@ -1533,7 +1533,7 @@ export interface CryptoHeadlessFlexibleCheckoutArgs {
   /** If this purchase is for a seller/submerchant where the marketplace takes a fee, this is the % fee which is taken from the subtotal amount. */
   feePercentage?: number | undefined;
   /** This is a token encoding the parameters for the request. Allows purchase parameters to be verified to prevent manipulation when the checkout page is presented to the user. */
-  jwtToken?: string | undefined;
+  jwtToken?: string | Redacted.Redacted<string> | undefined;
   overrideChargebackProtectionDecision?: boolean | undefined;
   chargebackProtectionAccountType?: ChargebackProtectionAccountType | (string & {}) | undefined;
   doNotReviewChargebackProtection?: boolean | undefined;
@@ -1541,11 +1541,11 @@ export interface CryptoHeadlessFlexibleCheckoutArgs {
   rent?: LamportsAmount | undefined;
   transactionData?: EvmTransactionData | undefined;
   /** If utilizing USDC settlement to addresses other than your main merchant settlement address. Utilize this destinationAuthKey which is a JWT encoded with the information for which address to send the USDC to. */
-  destinationAuthKey?: string | undefined;
+  destinationAuthKey?: string | Redacted.Redacted<string> | undefined;
   /** The name of the chain to perform the crypto payin on. */
   chain: string;
   /** The symbol of the token to execute the payin with. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** Origin-chain address to refund to if the payment fails, is over/underpaid, or cannot be completed. Required when the selected combo's `requiresRefundAddress` is true; optional otherwise. */
   refundAddress?: string | undefined;
   flexibleAmount: boolean;
@@ -1660,7 +1660,7 @@ export interface ZeroAuthSavedPaymentMethods {
 }
 /** Configuration for zero authorization flow - verify existing card mode. Shows the "Verify Card" flow for a specific saved card. The card token will be validated to ensure it belongs to the current user's wallet. If the card doesn't belong to the user, falls back to "Add New Card" view. */
 export interface ZeroAuthVerifyCard {
-  cardToken: string;
+  cardToken: string | Redacted.Redacted<string>;
 }
 /** Configuration for zero authorization flow. The presence of this object indicates the checkout is in zero auth mode. Two mutually exclusive modes: - Saved payment methods: `{ disableSavedPaymentMethods: boolean }` - show or hide saved methods - Verify card: `{ cardToken: "token" }` - verify a specific saved card */
 export type ZeroAuthorizationConfig = ZeroAuthSavedPaymentMethods | ZeroAuthVerifyCard;
@@ -1738,7 +1738,7 @@ export interface GetCheckoutJwtTokenRequest {
   transactionData?: EvmTransactionData | undefined;
   authentication3DS?: Authentication3DS | undefined;
   /** If utilizing USDC settlement to addresses other than your main merchant settlement address. Utilize this destinationAuthKey which is a JWT encoded with the information for which address to send the USDC to. */
-  destinationAuthKey?: string | undefined;
+  destinationAuthKey?: string | Redacted.Redacted<string> | undefined;
   /** If utilizing USDC settlement to addresses other than your main merchant settlement address. Utilize this destination which is the address to send the USDC to. */
   destination?: string | undefined;
   /** (Optional) Idemptotency Key to pass to prevent multiple purchases with the same checkout link. If not passed, a random one will be generated for you automatically. */
@@ -1812,7 +1812,7 @@ export interface GetCheckoutLinkRequest {
   transactionData?: EvmTransactionData | undefined;
   authentication3DS?: Authentication3DS | undefined;
   /** If utilizing USDC settlement to addresses other than your main merchant settlement address. Utilize this destinationAuthKey which is a JWT encoded with the information for which address to send the USDC to. */
-  destinationAuthKey?: string | undefined;
+  destinationAuthKey?: string | Redacted.Redacted<string> | undefined;
   /** If utilizing USDC settlement to addresses other than your main merchant settlement address. Utilize this destination which is the address to send the USDC to. */
   destination?: string | undefined;
   /** (Optional) Idemptotency Key to pass to prevent multiple purchases with the same checkout link. If not passed, a random one will be generated for you automatically. */
@@ -1867,7 +1867,7 @@ export interface GetDestinationAuthKeyRequest {
   body?: DestinationAuthKeyRequest | undefined;
 }
 export interface CheckoutGetDestinationAuthKeyResponse200 {
-  destinationAuthKey: string;
+  destinationAuthKey: string | Redacted.Redacted<string>;
 }
 export interface GetFeesRequest {
   /** The merchant identifier */
@@ -2054,13 +2054,13 @@ export interface GetTotalsRequest {
   merchantId: string;
   subtotal: Subtotal;
   /** This is a token encoding the parameters for the request. Allows purchase parameters to be verified to prevent manipulation when the checkout page is presented to the user. */
-  jwtToken?: string | undefined;
+  jwtToken?: string | Redacted.Redacted<string> | undefined;
   doNotReviewChargebackProtection?: boolean | undefined;
   settlementType?: SettlementType | (string & {}) | undefined;
   rent?: LamportsAmount | undefined;
   transactionData?: EvmTransactionData | undefined;
   /** If utilizing USDC settlement to addresses other than your main merchant settlement address. Utilize this destinationAuthKey which is a JWT encoded with the information for which address to send the USDC to. */
-  destinationAuthKey?: string | undefined;
+  destinationAuthKey?: string | Redacted.Redacted<string> | undefined;
   /** The bin of the card to get the exact fees */
   bin?: string | undefined;
   creditsBalance?: Cents | undefined;
@@ -2220,7 +2220,7 @@ export type GooglePaymentsApiPaymentMethodTokenizationType = "PAYMENT_GATEWAY" |
 export interface GooglePaymentsApiPaymentMethodTokenizationData {
   type: GooglePaymentsApiPaymentMethodTokenizationType | (string & {});
   /** The generated payment method token. The contents of this token and how it should be used will depend on the selected [[PaymentMethodTokenizationSpecification.type|`PaymentMethodTokenizationSpecification.type`]]. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 /** Data for a payment method. */
 export interface GooglePaymentsApiPaymentMethodData {
@@ -2272,10 +2272,10 @@ export interface GooglePayRequest {
   feePercentage?: number | undefined;
   fixedFee?: Cents | undefined;
   /** This is a token encoding the parameters for the request. Allows purchase parameters to be verified to prevent manipulation when the checkout page is presented to the user. */
-  jwtToken?: string | undefined;
+  jwtToken?: string | Redacted.Redacted<string> | undefined;
   threeDsChallengePreference?: ThreeDsChallengePreference | (string & {}) | undefined;
   /** If utilizing USDC settlement to addresses other than your main merchant settlement address. Utilize this destinationAuthKey which is a JWT encoded with the information for which address to send the USDC to. */
-  destinationAuthKey?: string | undefined;
+  destinationAuthKey?: string | Redacted.Redacted<string> | undefined;
   customerUsdcTransferData?: CustomerUsdcTransferData | undefined;
   customerUsdcTransferDataV2?: CustomerUsdcTransferDataV2 | undefined;
   userLocation?: IUserLocation | undefined;
@@ -2318,7 +2318,7 @@ export interface IbanCheckoutRequest {
   feePercentage?: number | undefined;
   subtotal: Subtotal;
   /** This is a token encoding the parameters for the request. Allows purchase parameters to be verified to prevent manipulation when the checkout page is presented to the user. */
-  jwtToken?: string | undefined;
+  jwtToken?: string | Redacted.Redacted<string> | undefined;
   overrideChargebackProtectionDecision?: boolean | undefined;
   chargebackProtectionAccountType?: ChargebackProtectionAccountType | (string & {}) | undefined;
   doNotReviewChargebackProtection?: boolean | undefined;
@@ -2328,7 +2328,7 @@ export interface IbanCheckoutRequest {
   rent?: LamportsAmount | undefined;
   transactionData?: EvmTransactionData | undefined;
   /** If utilizing USDC settlement to addresses other than your main merchant settlement address. Utilize this destinationAuthKey which is a JWT encoded with the information for which address to send the USDC to. */
-  destinationAuthKey?: string | undefined;
+  destinationAuthKey?: string | Redacted.Redacted<string> | undefined;
   /** Merchant Identifier */
   merchantId: string;
   data: IbanData;
@@ -2363,7 +2363,7 @@ export interface IbanTokenCheckoutRequest {
   feePercentage?: number | undefined;
   subtotal: Subtotal;
   /** This is a token encoding the parameters for the request. Allows purchase parameters to be verified to prevent manipulation when the checkout page is presented to the user. */
-  jwtToken?: string | undefined;
+  jwtToken?: string | Redacted.Redacted<string> | undefined;
   overrideChargebackProtectionDecision?: boolean | undefined;
   chargebackProtectionAccountType?: ChargebackProtectionAccountType | (string & {}) | undefined;
   doNotReviewChargebackProtection?: boolean | undefined;
@@ -2373,11 +2373,11 @@ export interface IbanTokenCheckoutRequest {
   rent?: LamportsAmount | undefined;
   transactionData?: EvmTransactionData | undefined;
   /** If utilizing USDC settlement to addresses other than your main merchant settlement address. Utilize this destinationAuthKey which is a JWT encoded with the information for which address to send the USDC to. */
-  destinationAuthKey?: string | undefined;
+  destinationAuthKey?: string | Redacted.Redacted<string> | undefined;
   /** Merchant Identifier */
   merchantId: string;
   /** Token for the account to be used for checkout */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The session key generated for the end user - see https://docs.coinflow.cash/api-reference/api-reference/authentication/get-session-key */
   authSessionKey: string | Redacted.Redacted<string>;
 }
@@ -2391,7 +2391,7 @@ export interface InteracCheckoutRequest {
   feePercentage?: number | undefined;
   subtotal: Subtotal;
   /** This is a token encoding the parameters for the request. Allows purchase parameters to be verified to prevent manipulation when the checkout page is presented to the user. */
-  jwtToken?: string | undefined;
+  jwtToken?: string | Redacted.Redacted<string> | undefined;
   overrideChargebackProtectionDecision?: boolean | undefined;
   chargebackProtectionAccountType?: ChargebackProtectionAccountType | (string & {}) | undefined;
   doNotReviewChargebackProtection?: boolean | undefined;
@@ -2401,7 +2401,7 @@ export interface InteracCheckoutRequest {
   rent?: LamportsAmount | undefined;
   transactionData?: EvmTransactionData | undefined;
   /** If utilizing USDC settlement to addresses other than your main merchant settlement address. Utilize this destinationAuthKey which is a JWT encoded with the information for which address to send the USDC to. */
-  destinationAuthKey?: string | undefined;
+  destinationAuthKey?: string | Redacted.Redacted<string> | undefined;
   /** Merchant Identifier */
   merchantId: string;
   /** Consumer email address. Optional -- used to create the Coinflow customer record. Also used as the Interac payin handle when `phone` is not provided. */
@@ -2433,7 +2433,7 @@ export interface InteracTokenCheckoutRequest {
   feePercentage?: number | undefined;
   subtotal: Subtotal;
   /** This is a token encoding the parameters for the request. Allows purchase parameters to be verified to prevent manipulation when the checkout page is presented to the user. */
-  jwtToken?: string | undefined;
+  jwtToken?: string | Redacted.Redacted<string> | undefined;
   overrideChargebackProtectionDecision?: boolean | undefined;
   chargebackProtectionAccountType?: ChargebackProtectionAccountType | (string & {}) | undefined;
   doNotReviewChargebackProtection?: boolean | undefined;
@@ -2443,11 +2443,11 @@ export interface InteracTokenCheckoutRequest {
   rent?: LamportsAmount | undefined;
   transactionData?: EvmTransactionData | undefined;
   /** If utilizing USDC settlement to addresses other than your main merchant settlement address. Utilize this destinationAuthKey which is a JWT encoded with the information for which address to send the USDC to. */
-  destinationAuthKey?: string | undefined;
+  destinationAuthKey?: string | Redacted.Redacted<string> | undefined;
   /** Merchant Identifier */
   merchantId: string;
   /** Token for the account to be used for checkout */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The session key generated for the end user - see https://docs.coinflow.cash/api-reference/api-reference/authentication/get-session-key */
   authSessionKey: string | Redacted.Redacted<string>;
 }
@@ -2475,7 +2475,7 @@ export interface MerchantInitiatedStandardTransactionArgs {
   transactionData?: EvmTransactionData | undefined;
   presentment?: Currency | (string & {}) | undefined;
   /** If utilizing USDC settlement to addresses other than your main merchant settlement address. Utilize this destinationAuthKey which is a JWT encoded with the information for which address to send the USDC to. */
-  destinationAuthKey?: string | undefined;
+  destinationAuthKey?: string | Redacted.Redacted<string> | undefined;
   /** (Optional) Unique key to safely retry this request. A request reusing the key of a successful payment within 24 hours returns 409 with the original paymentId instead of charging again. A declined or failed request does not consume the key, so it can be retried with the same key. After 24 hours the key is forgotten and a request reusing it creates a new charge. */
   idempotencyKey?: string | undefined;
 }
@@ -2532,10 +2532,10 @@ export interface NewPayPalCheckoutRequest {
   feePercentage?: number | undefined;
   fixedFee?: Cents | undefined;
   /** This is a token encoding the parameters for the request. Allows purchase parameters to be verified to prevent manipulation when the checkout page is presented to the user. */
-  jwtToken?: string | undefined;
+  jwtToken?: string | Redacted.Redacted<string> | undefined;
   threeDsChallengePreference?: ThreeDsChallengePreference | (string & {}) | undefined;
   /** If utilizing USDC settlement to addresses other than your main merchant settlement address. Utilize this destinationAuthKey which is a JWT encoded with the information for which address to send the USDC to. */
-  destinationAuthKey?: string | undefined;
+  destinationAuthKey?: string | Redacted.Redacted<string> | undefined;
   customerUsdcTransferData?: CustomerUsdcTransferData | undefined;
   customerUsdcTransferDataV2?: CustomerUsdcTransferDataV2 | undefined;
   userLocation?: IUserLocation | undefined;
@@ -2591,10 +2591,10 @@ export interface NewVenmoCheckoutRequest {
   feePercentage?: number | undefined;
   fixedFee?: Cents | undefined;
   /** This is a token encoding the parameters for the request. Allows purchase parameters to be verified to prevent manipulation when the checkout page is presented to the user. */
-  jwtToken?: string | undefined;
+  jwtToken?: string | Redacted.Redacted<string> | undefined;
   threeDsChallengePreference?: ThreeDsChallengePreference | (string & {}) | undefined;
   /** If utilizing USDC settlement to addresses other than your main merchant settlement address. Utilize this destinationAuthKey which is a JWT encoded with the information for which address to send the USDC to. */
-  destinationAuthKey?: string | undefined;
+  destinationAuthKey?: string | Redacted.Redacted<string> | undefined;
   customerUsdcTransferData?: CustomerUsdcTransferData | undefined;
   customerUsdcTransferDataV2?: CustomerUsdcTransferDataV2 | undefined;
   userLocation?: IUserLocation | undefined;
@@ -2656,10 +2656,10 @@ export interface SavedPayPalCheckoutRequest {
   feePercentage?: number | undefined;
   fixedFee?: Cents | undefined;
   /** This is a token encoding the parameters for the request. Allows purchase parameters to be verified to prevent manipulation when the checkout page is presented to the user. */
-  jwtToken?: string | undefined;
+  jwtToken?: string | Redacted.Redacted<string> | undefined;
   threeDsChallengePreference?: ThreeDsChallengePreference | (string & {}) | undefined;
   /** If utilizing USDC settlement to addresses other than your main merchant settlement address. Utilize this destinationAuthKey which is a JWT encoded with the information for which address to send the USDC to. */
-  destinationAuthKey?: string | undefined;
+  destinationAuthKey?: string | Redacted.Redacted<string> | undefined;
   customerUsdcTransferData?: CustomerUsdcTransferData | undefined;
   customerUsdcTransferDataV2?: CustomerUsdcTransferDataV2 | undefined;
   userLocation?: IUserLocation | undefined;
@@ -2681,7 +2681,7 @@ export interface SavedPayPalCheckoutRequest {
   /** Request that PayPal vault the customer's account on successful payment so later checkouts can charge it with one click. Requires vaulting to be enabled on your Coinflow account, and requires returnUrl and cancelUrl -- PayPal rejects vaulting orders without redirect URLs. */
   vault?: boolean | undefined;
   /** The saved token of the PayPal account */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The session key generated for the end user - see https://docs.coinflow.cash/api-reference/api-reference/authentication/get-session-key */
   authSessionKey: string | Redacted.Redacted<string>;
 }
@@ -2703,10 +2703,10 @@ export interface SavedVenmoCheckoutRequest {
   feePercentage?: number | undefined;
   fixedFee?: Cents | undefined;
   /** This is a token encoding the parameters for the request. Allows purchase parameters to be verified to prevent manipulation when the checkout page is presented to the user. */
-  jwtToken?: string | undefined;
+  jwtToken?: string | Redacted.Redacted<string> | undefined;
   threeDsChallengePreference?: ThreeDsChallengePreference | (string & {}) | undefined;
   /** If utilizing USDC settlement to addresses other than your main merchant settlement address. Utilize this destinationAuthKey which is a JWT encoded with the information for which address to send the USDC to. */
-  destinationAuthKey?: string | undefined;
+  destinationAuthKey?: string | Redacted.Redacted<string> | undefined;
   customerUsdcTransferData?: CustomerUsdcTransferData | undefined;
   customerUsdcTransferDataV2?: CustomerUsdcTransferDataV2 | undefined;
   userLocation?: IUserLocation | undefined;
@@ -2728,7 +2728,7 @@ export interface SavedVenmoCheckoutRequest {
   /** Request that Venmo vault the customer's account on successful payment so later checkouts can charge it with one click. Requires vaulting to be enabled on your Coinflow account, and requires returnUrl and cancelUrl -- PayPal rejects vaulting orders without redirect URLs. */
   vault?: boolean | undefined;
   /** The saved token of the Venmo account */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The session key generated for the end user - see https://docs.coinflow.cash/api-reference/api-reference/authentication/get-session-key */
   authSessionKey: string | Redacted.Redacted<string>;
 }
@@ -2764,10 +2764,10 @@ export interface TokenCheckoutRequest {
   feePercentage?: number | undefined;
   fixedFee?: Cents | undefined;
   /** This is a token encoding the parameters for the request. Allows purchase parameters to be verified to prevent manipulation when the checkout page is presented to the user. */
-  jwtToken?: string | undefined;
+  jwtToken?: string | Redacted.Redacted<string> | undefined;
   threeDsChallengePreference?: ThreeDsChallengePreference | (string & {}) | undefined;
   /** If utilizing USDC settlement to addresses other than your main merchant settlement address. Utilize this destinationAuthKey which is a JWT encoded with the information for which address to send the USDC to. */
-  destinationAuthKey?: string | undefined;
+  destinationAuthKey?: string | Redacted.Redacted<string> | undefined;
   customerUsdcTransferData?: CustomerUsdcTransferData | undefined;
   customerUsdcTransferDataV2?: CustomerUsdcTransferDataV2 | undefined;
   userLocation?: IUserLocation | undefined;
@@ -2781,7 +2781,7 @@ export interface TokenCheckoutRequest {
   /** If the bank supports dynamic descriptors, this will appear on the customer's statement. */
   statementDescriptor?: string | undefined;
   /** Token for the card to be used for the checkout. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   l2l3Data?: L2L3Data | undefined;
   /** The address field is not needed here unless explicitly given instructions to do so. */
   address?: TokenCheckoutArgsAddress | undefined;
@@ -2813,10 +2813,10 @@ export interface VaultedPayPalCheckoutRequest {
   feePercentage?: number | undefined;
   fixedFee?: Cents | undefined;
   /** This is a token encoding the parameters for the request. Allows purchase parameters to be verified to prevent manipulation when the checkout page is presented to the user. */
-  jwtToken?: string | undefined;
+  jwtToken?: string | Redacted.Redacted<string> | undefined;
   threeDsChallengePreference?: ThreeDsChallengePreference | (string & {}) | undefined;
   /** If utilizing USDC settlement to addresses other than your main merchant settlement address. Utilize this destinationAuthKey which is a JWT encoded with the information for which address to send the USDC to. */
-  destinationAuthKey?: string | undefined;
+  destinationAuthKey?: string | Redacted.Redacted<string> | undefined;
   customerUsdcTransferData?: CustomerUsdcTransferData | undefined;
   customerUsdcTransferDataV2?: CustomerUsdcTransferDataV2 | undefined;
   userLocation?: IUserLocation | undefined;
@@ -2836,7 +2836,7 @@ export interface VaultedPayPalCheckoutRequest {
   /** Sandbox Only. Will force the refund of the payment to fail. */
   simulateRefundFailure?: boolean | undefined;
   /** The saved token of the PayPal account */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The PayPal FraudNet client metadata ID (CMID) collected on the checkout page, forwarded to PayPal as the PayPal-Client-Metadata-Id header so PayPal Risk can correlate the order with the browser data FraudNet collected. */
   clientMetadataId: string;
   /** The session key generated for the end user - see https://docs.coinflow.cash/api-reference/api-reference/authentication/get-session-key */
@@ -2860,10 +2860,10 @@ export interface VaultedVenmoCheckoutRequest {
   feePercentage?: number | undefined;
   fixedFee?: Cents | undefined;
   /** This is a token encoding the parameters for the request. Allows purchase parameters to be verified to prevent manipulation when the checkout page is presented to the user. */
-  jwtToken?: string | undefined;
+  jwtToken?: string | Redacted.Redacted<string> | undefined;
   threeDsChallengePreference?: ThreeDsChallengePreference | (string & {}) | undefined;
   /** If utilizing USDC settlement to addresses other than your main merchant settlement address. Utilize this destinationAuthKey which is a JWT encoded with the information for which address to send the USDC to. */
-  destinationAuthKey?: string | undefined;
+  destinationAuthKey?: string | Redacted.Redacted<string> | undefined;
   customerUsdcTransferData?: CustomerUsdcTransferData | undefined;
   customerUsdcTransferDataV2?: CustomerUsdcTransferDataV2 | undefined;
   userLocation?: IUserLocation | undefined;
@@ -2883,7 +2883,7 @@ export interface VaultedVenmoCheckoutRequest {
   /** Sandbox Only. Will force the refund of the payment to fail. */
   simulateRefundFailure?: boolean | undefined;
   /** The saved token of the Venmo account */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The PayPal FraudNet client metadata ID (CMID) collected on the checkout page, forwarded to PayPal as the PayPal-Client-Metadata-Id header so PayPal Risk can correlate the order with the browser data FraudNet collected. */
   clientMetadataId: string;
   /** The session key generated for the end user - see https://docs.coinflow.cash/api-reference/api-reference/authentication/get-session-key */
@@ -2908,7 +2908,7 @@ export interface AddUSWireBankAccountData {
   country?: string | undefined;
   businessName?: string | undefined;
   plaidAccountId?: string | undefined;
-  plaidAccessToken?: string | undefined;
+  plaidAccessToken?: string | Redacted.Redacted<string> | undefined;
   plaidAccountType?: string | undefined;
   plaidAccountSubtype?: string | undefined;
   isTokenized?: boolean | undefined;
@@ -2924,7 +2924,7 @@ export interface WireCheckoutRequest {
   feePercentage?: number | undefined;
   subtotal: Subtotal;
   /** This is a token encoding the parameters for the request. Allows purchase parameters to be verified to prevent manipulation when the checkout page is presented to the user. */
-  jwtToken?: string | undefined;
+  jwtToken?: string | Redacted.Redacted<string> | undefined;
   overrideChargebackProtectionDecision?: boolean | undefined;
   chargebackProtectionAccountType?: ChargebackProtectionAccountType | (string & {}) | undefined;
   doNotReviewChargebackProtection?: boolean | undefined;
@@ -2934,7 +2934,7 @@ export interface WireCheckoutRequest {
   rent?: LamportsAmount | undefined;
   transactionData?: EvmTransactionData | undefined;
   /** If utilizing USDC settlement to addresses other than your main merchant settlement address. Utilize this destinationAuthKey which is a JWT encoded with the information for which address to send the USDC to. */
-  destinationAuthKey?: string | undefined;
+  destinationAuthKey?: string | Redacted.Redacted<string> | undefined;
   /** Merchant Identifier */
   merchantId: string;
   data: AddUSWireBankAccountData;
@@ -2971,7 +2971,7 @@ export interface WireTokenCheckoutRequest {
   feePercentage?: number | undefined;
   subtotal: Subtotal;
   /** This is a token encoding the parameters for the request. Allows purchase parameters to be verified to prevent manipulation when the checkout page is presented to the user. */
-  jwtToken?: string | undefined;
+  jwtToken?: string | Redacted.Redacted<string> | undefined;
   overrideChargebackProtectionDecision?: boolean | undefined;
   chargebackProtectionAccountType?: ChargebackProtectionAccountType | (string & {}) | undefined;
   doNotReviewChargebackProtection?: boolean | undefined;
@@ -2981,11 +2981,11 @@ export interface WireTokenCheckoutRequest {
   rent?: LamportsAmount | undefined;
   transactionData?: EvmTransactionData | undefined;
   /** If utilizing USDC settlement to addresses other than your main merchant settlement address. Utilize this destinationAuthKey which is a JWT encoded with the information for which address to send the USDC to. */
-  destinationAuthKey?: string | undefined;
+  destinationAuthKey?: string | Redacted.Redacted<string> | undefined;
   /** Merchant Identifier */
   merchantId: string;
   /** Token for the account to be used for checkout */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   wireRoutingNumber?: string | undefined;
   accountNumber?: string | undefined;
   /** The session key generated for the end user - see https://docs.coinflow.cash/api-reference/api-reference/authentication/get-session-key */
@@ -3009,7 +3009,7 @@ export interface ZeroAuthorizationCheckoutArgsNewCardWithoutReason {
   authentication3DS?: Authentication3DS | undefined;
 }
 export interface ZeroAuthorizationCheckoutArgsSavedCardWithoutReason {
-  token: string;
+  token: string | Redacted.Redacted<string>;
   userLocation?: IUserLocation | undefined;
   customPayInFees?: CustomPayInFeesConfig | undefined;
   threeDsChallengePreference?: ThreeDsChallengePreference | (string & {}) | undefined;
@@ -3066,7 +3066,7 @@ export interface Verification {
   vendor: VerificationVendor;
   name?: string | undefined;
   attested?: boolean | undefined;
-  shareToken?: string | undefined;
+  shareToken?: string | Redacted.Redacted<string> | undefined;
   shareTokenStatus?: string | undefined;
   sessionToken?: string | Redacted.Redacted<string> | undefined;
   rejectionReasons?: VerificationRejectionReasonsList | undefined;
@@ -3917,7 +3917,7 @@ function __c0(j: number): any {
           chargebackProtectionData: S.optional(__S(112, __c7, 0)),
           feePercentage: S.optional(S.Number),
           subtotal: __S(32, __c2, 0),
-          jwtToken: S.optional(S.String),
+          jwtToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           overrideChargebackProtectionDecision: S.optional(S.Boolean),
           chargebackProtectionAccountType: S.optional(S.String),
           doNotReviewChargebackProtection: S.optional(S.Boolean),
@@ -3925,8 +3925,8 @@ function __c0(j: number): any {
           authOnly: S.optional(S.Boolean),
           rent: S.optional(__S(16, __c1, 0)),
           transactionData: S.optional(S.Unknown),
-          destinationAuthKey: S.optional(S.String),
-          token: S.String,
+          destinationAuthKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          token: S.String.pipe(T.SensitiveValue({})),
           orderType: S.optional(S.String),
           achAuthorizationId: S.optional(S.String),
           statementDescriptor: S.optional(S.String),
@@ -4021,7 +4021,7 @@ function __c8(j: number): any {
           webhookInfo: S.optional(__S(80, __c5, 0)),
           feePercentage: S.optional(S.Number),
           subtotal: S.Unknown,
-          jwtToken: S.optional(S.String),
+          jwtToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           overrideChargebackProtectionDecision: S.optional(S.Boolean),
           chargebackProtectionAccountType: S.optional(S.String),
           doNotReviewChargebackProtection: S.optional(S.Boolean),
@@ -4029,9 +4029,9 @@ function __c8(j: number): any {
           customerUsdcTransferDataV2: S.optional(__S(144, __c9, 0)),
           rent: S.optional(__S(16, __c1, 0)),
           transactionData: S.optional(S.Unknown),
-          destinationAuthKey: S.optional(S.String),
+          destinationAuthKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           credentialType: S.Unknown,
-          credentialValue: S.String,
+          credentialValue: S.String.pipe(T.SensitiveValue({})),
           email: S.optional(S.String),
           authSessionKey: S.String.pipe(
             T.Header("x-coinflow-auth-session-key"),
@@ -4156,7 +4156,7 @@ function __c10(j: number): any {
           chargebackProtectionData: S.optional(__S(112, __c7, 0)),
           feePercentage: S.optional(S.Number),
           subtotal: S.Unknown,
-          jwtToken: S.optional(S.String),
+          jwtToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           overrideChargebackProtectionDecision: S.optional(S.Boolean),
           chargebackProtectionAccountType: S.optional(S.String),
           doNotReviewChargebackProtection: S.optional(S.Boolean),
@@ -4168,7 +4168,7 @@ function __c10(j: number): any {
           rent: S.optional(__S(16, __c1, 0)),
           transactionData: S.optional(S.Unknown),
           presentment: S.optional(S.String),
-          destinationAuthKey: S.optional(S.String),
+          destinationAuthKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           applePayPayment: __S(168, __c10, 8),
           authSessionKey: S.String.pipe(
             T.Header("x-coinflow-auth-session-key"),
@@ -4264,9 +4264,9 @@ function __c15(j: number): any {
           authOnly: S.optional(S.Boolean),
           feePercentage: S.optional(S.Number),
           fixedFee: S.optional(__S(32, __c2, 0)),
-          jwtToken: S.optional(S.String),
+          jwtToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           threeDsChallengePreference: S.optional(S.String),
-          destinationAuthKey: S.optional(S.String),
+          destinationAuthKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           customerUsdcTransferData: S.optional(__S(176, __c11, 0)),
           customerUsdcTransferDataV2: S.optional(__S(144, __c9, 0)),
           userLocation: S.optional(__S(64, __c4, 0)),
@@ -4307,7 +4307,7 @@ function __c17(j: number): any {
         S.Struct({
           xDeviceId: S.optional(S.String.pipe(T.Header("x-device-id"))),
           xCoinflowClientIp: S.optional(S.String.pipe(T.Header("x-coinflow-client-ip"))),
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           authUserId: S.String.pipe(T.Header("x-coinflow-auth-user-id")),
         }).pipe(T.Http({ method: "POST", uri: "/checkout/card-on-file-authorized", code: 200 })),
       ).annotate({ identifier: "CardOnFileAuthorizedRequest" });
@@ -4347,14 +4347,14 @@ function __c19(j: number): any {
           webhookInfo: S.optional(__S(80, __c5, 0)),
           feePercentage: S.optional(S.Number),
           subtotal: S.Unknown,
-          jwtToken: S.optional(S.String),
+          jwtToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           overrideChargebackProtectionDecision: S.optional(S.Boolean),
           chargebackProtectionAccountType: S.optional(S.String),
           doNotReviewChargebackProtection: S.optional(S.Boolean),
           settlementType: S.optional(S.String),
           rent: S.optional(__S(16, __c1, 0)),
           transactionData: S.optional(S.Unknown),
-          destinationAuthKey: S.optional(S.String),
+          destinationAuthKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           email: S.optional(S.String),
           authSessionKey: S.String.pipe(
             T.Header("x-coinflow-auth-session-key"),
@@ -4382,7 +4382,7 @@ function __c20(j: number): any {
           sessionAuthRef: S.String,
           idempotencyKey: S.String,
           customerId: S.optional(S.String),
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           authSessionKey: S.String.pipe(
             T.Header("x-coinflow-auth-session-key"),
             T.SensitiveValue({}),
@@ -4434,7 +4434,7 @@ function __c21(j: number): any {
           webhookInfo: S.optional(__S(80, __c5, 0)),
           feePercentage: S.optional(S.Number),
           subtotal: S.Unknown,
-          jwtToken: S.optional(S.String),
+          jwtToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           overrideChargebackProtectionDecision: S.optional(S.Boolean),
           chargebackProtectionAccountType: S.optional(S.String),
           doNotReviewChargebackProtection: S.optional(S.Boolean),
@@ -4443,7 +4443,7 @@ function __c21(j: number): any {
           customerUsdcTransferDataV2: S.optional(__S(144, __c9, 0)),
           rent: S.optional(__S(16, __c1, 0)),
           transactionData: S.optional(S.Unknown),
-          destinationAuthKey: S.optional(S.String),
+          destinationAuthKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           email: S.String,
           merchantId: S.String,
           authSessionKey: S.String.pipe(
@@ -4598,7 +4598,7 @@ function __c27(j: number): any {
           rent: S.optional(__S(16, __c1, 0)),
           transactionData: S.optional(S.Unknown),
           authentication3DS: S.optional(S.Unknown),
-          destinationAuthKey: S.optional(S.String),
+          destinationAuthKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           destination: S.optional(S.String),
           idempotencyKey: S.optional(S.String),
           standaloneLinkConfig: S.optional(__S(450, __c28, 2)),
@@ -4674,7 +4674,7 @@ function __c29(j: number): any {
           rent: S.optional(__S(16, __c1, 0)),
           transactionData: S.optional(S.Unknown),
           authentication3DS: S.optional(S.Unknown),
-          destinationAuthKey: S.optional(S.String),
+          destinationAuthKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           destination: S.optional(S.String),
           idempotencyKey: S.optional(S.String),
           standaloneLinkConfig: S.optional(__S(450, __c28, 2)),
@@ -4697,7 +4697,7 @@ function __c30(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          destinationAuthKey: S.String,
+          destinationAuthKey: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "CheckoutGetDestinationAuthKeyResponse200" });
   }
@@ -4794,12 +4794,12 @@ function __c33(j: number): any {
         S.Struct({
           merchantId: S.String.pipe(T.Label()),
           subtotal: S.Unknown,
-          jwtToken: S.optional(S.String),
+          jwtToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           doNotReviewChargebackProtection: S.optional(S.Boolean),
           settlementType: S.optional(S.String),
           rent: S.optional(__S(16, __c1, 0)),
           transactionData: S.optional(S.Unknown),
-          destinationAuthKey: S.optional(S.String),
+          destinationAuthKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           bin: S.optional(S.String),
           creditsBalance: S.optional(__S(32, __c2, 0)),
           usdcBalance: S.optional(__S(32, __c2, 0)),
@@ -4960,7 +4960,7 @@ function __c35(j: number): any {
       return S.suspend(() =>
         S.Struct({
           type: S.String,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "GooglePaymentsApiPaymentMethodTokenizationData" });
     case 4:
@@ -5012,9 +5012,9 @@ function __c35(j: number): any {
           authOnly: S.optional(S.Boolean),
           feePercentage: S.optional(S.Number),
           fixedFee: S.optional(__S(32, __c2, 0)),
-          jwtToken: S.optional(S.String),
+          jwtToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           threeDsChallengePreference: S.optional(S.String),
-          destinationAuthKey: S.optional(S.String),
+          destinationAuthKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           customerUsdcTransferData: S.optional(__S(176, __c11, 0)),
           customerUsdcTransferDataV2: S.optional(__S(144, __c9, 0)),
           userLocation: S.optional(__S(64, __c4, 0)),
@@ -5062,7 +5062,7 @@ function __c36(j: number): any {
           webhookInfo: S.optional(__S(80, __c5, 0)),
           feePercentage: S.optional(S.Number),
           subtotal: S.Unknown,
-          jwtToken: S.optional(S.String),
+          jwtToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           overrideChargebackProtectionDecision: S.optional(S.Boolean),
           chargebackProtectionAccountType: S.optional(S.String),
           doNotReviewChargebackProtection: S.optional(S.Boolean),
@@ -5071,7 +5071,7 @@ function __c36(j: number): any {
           customerUsdcTransferDataV2: S.optional(__S(144, __c9, 0)),
           rent: S.optional(__S(16, __c1, 0)),
           transactionData: S.optional(S.Unknown),
-          destinationAuthKey: S.optional(S.String),
+          destinationAuthKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           merchantId: S.String,
           data: __S(576, __c36, 0),
           authSessionKey: S.String.pipe(
@@ -5121,7 +5121,7 @@ function __c38(j: number): any {
           webhookInfo: S.optional(__S(80, __c5, 0)),
           feePercentage: S.optional(S.Number),
           subtotal: S.Unknown,
-          jwtToken: S.optional(S.String),
+          jwtToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           overrideChargebackProtectionDecision: S.optional(S.Boolean),
           chargebackProtectionAccountType: S.optional(S.String),
           doNotReviewChargebackProtection: S.optional(S.Boolean),
@@ -5130,9 +5130,9 @@ function __c38(j: number): any {
           customerUsdcTransferDataV2: S.optional(__S(144, __c9, 0)),
           rent: S.optional(__S(16, __c1, 0)),
           transactionData: S.optional(S.Unknown),
-          destinationAuthKey: S.optional(S.String),
+          destinationAuthKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           merchantId: S.String,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           authSessionKey: S.String.pipe(
             T.Header("x-coinflow-auth-session-key"),
             T.SensitiveValue({}),
@@ -5153,7 +5153,7 @@ function __c39(j: number): any {
           webhookInfo: S.optional(__S(80, __c5, 0)),
           feePercentage: S.optional(S.Number),
           subtotal: S.Unknown,
-          jwtToken: S.optional(S.String),
+          jwtToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           overrideChargebackProtectionDecision: S.optional(S.Boolean),
           chargebackProtectionAccountType: S.optional(S.String),
           doNotReviewChargebackProtection: S.optional(S.Boolean),
@@ -5162,7 +5162,7 @@ function __c39(j: number): any {
           customerUsdcTransferDataV2: S.optional(__S(144, __c9, 0)),
           rent: S.optional(__S(16, __c1, 0)),
           transactionData: S.optional(S.Unknown),
-          destinationAuthKey: S.optional(S.String),
+          destinationAuthKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           merchantId: S.String,
           email: S.optional(S.String),
           phone: S.optional(S.String),
@@ -5200,7 +5200,7 @@ function __c41(j: number): any {
           webhookInfo: S.optional(__S(80, __c5, 0)),
           feePercentage: S.optional(S.Number),
           subtotal: S.Unknown,
-          jwtToken: S.optional(S.String),
+          jwtToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           overrideChargebackProtectionDecision: S.optional(S.Boolean),
           chargebackProtectionAccountType: S.optional(S.String),
           doNotReviewChargebackProtection: S.optional(S.Boolean),
@@ -5209,9 +5209,9 @@ function __c41(j: number): any {
           customerUsdcTransferDataV2: S.optional(__S(144, __c9, 0)),
           rent: S.optional(__S(16, __c1, 0)),
           transactionData: S.optional(S.Unknown),
-          destinationAuthKey: S.optional(S.String),
+          destinationAuthKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           merchantId: S.String,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           authSessionKey: S.String.pipe(
             T.Header("x-coinflow-auth-session-key"),
             T.SensitiveValue({}),
@@ -5251,9 +5251,9 @@ function __c43(j: number): any {
           authOnly: S.optional(S.Boolean),
           feePercentage: S.optional(S.Number),
           fixedFee: S.optional(__S(32, __c2, 0)),
-          jwtToken: S.optional(S.String),
+          jwtToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           threeDsChallengePreference: S.optional(S.String),
-          destinationAuthKey: S.optional(S.String),
+          destinationAuthKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           customerUsdcTransferData: S.optional(__S(176, __c11, 0)),
           customerUsdcTransferDataV2: S.optional(__S(144, __c9, 0)),
           userLocation: S.optional(__S(64, __c4, 0)),
@@ -5296,9 +5296,9 @@ function __c44(j: number): any {
           authOnly: S.optional(S.Boolean),
           feePercentage: S.optional(S.Number),
           fixedFee: S.optional(__S(32, __c2, 0)),
-          jwtToken: S.optional(S.String),
+          jwtToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           threeDsChallengePreference: S.optional(S.String),
-          destinationAuthKey: S.optional(S.String),
+          destinationAuthKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           customerUsdcTransferData: S.optional(__S(176, __c11, 0)),
           customerUsdcTransferDataV2: S.optional(__S(144, __c9, 0)),
           userLocation: S.optional(__S(64, __c4, 0)),
@@ -5385,9 +5385,9 @@ function __c49(j: number): any {
           authOnly: S.optional(S.Boolean),
           feePercentage: S.optional(S.Number),
           fixedFee: S.optional(__S(32, __c2, 0)),
-          jwtToken: S.optional(S.String),
+          jwtToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           threeDsChallengePreference: S.optional(S.String),
-          destinationAuthKey: S.optional(S.String),
+          destinationAuthKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           customerUsdcTransferData: S.optional(__S(176, __c11, 0)),
           customerUsdcTransferDataV2: S.optional(__S(144, __c9, 0)),
           userLocation: S.optional(__S(64, __c4, 0)),
@@ -5402,7 +5402,7 @@ function __c49(j: number): any {
           simulateCaptureFailure: S.optional(S.Boolean),
           simulateRefundFailure: S.optional(S.Boolean),
           vault: S.optional(S.Boolean),
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           authSessionKey: S.String.pipe(
             T.Header("x-coinflow-auth-session-key"),
             T.SensitiveValue({}),
@@ -5429,9 +5429,9 @@ function __c50(j: number): any {
           authOnly: S.optional(S.Boolean),
           feePercentage: S.optional(S.Number),
           fixedFee: S.optional(__S(32, __c2, 0)),
-          jwtToken: S.optional(S.String),
+          jwtToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           threeDsChallengePreference: S.optional(S.String),
-          destinationAuthKey: S.optional(S.String),
+          destinationAuthKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           customerUsdcTransferData: S.optional(__S(176, __c11, 0)),
           customerUsdcTransferDataV2: S.optional(__S(144, __c9, 0)),
           userLocation: S.optional(__S(64, __c4, 0)),
@@ -5446,7 +5446,7 @@ function __c50(j: number): any {
           simulateCaptureFailure: S.optional(S.Boolean),
           simulateRefundFailure: S.optional(S.Boolean),
           vault: S.optional(S.Boolean),
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           authSessionKey: S.String.pipe(
             T.Header("x-coinflow-auth-session-key"),
             T.SensitiveValue({}),
@@ -5501,9 +5501,9 @@ function __c52(j: number): any {
           authOnly: S.optional(S.Boolean),
           feePercentage: S.optional(S.Number),
           fixedFee: S.optional(__S(32, __c2, 0)),
-          jwtToken: S.optional(S.String),
+          jwtToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           threeDsChallengePreference: S.optional(S.String),
-          destinationAuthKey: S.optional(S.String),
+          destinationAuthKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           customerUsdcTransferData: S.optional(__S(176, __c11, 0)),
           customerUsdcTransferDataV2: S.optional(__S(144, __c9, 0)),
           userLocation: S.optional(__S(64, __c4, 0)),
@@ -5515,7 +5515,7 @@ function __c52(j: number): any {
           presentment: S.optional(S.String),
           accountFundingTransaction: S.optional(__S(193, __c12, 1)),
           statementDescriptor: S.optional(S.String),
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           l2l3Data: S.optional(S.Unknown),
           address: S.optional(__S(832, __c52, 0)),
           authSessionKey: S.String.pipe(
@@ -5559,9 +5559,9 @@ function __c54(j: number): any {
           authOnly: S.optional(S.Boolean),
           feePercentage: S.optional(S.Number),
           fixedFee: S.optional(__S(32, __c2, 0)),
-          jwtToken: S.optional(S.String),
+          jwtToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           threeDsChallengePreference: S.optional(S.String),
-          destinationAuthKey: S.optional(S.String),
+          destinationAuthKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           customerUsdcTransferData: S.optional(__S(176, __c11, 0)),
           customerUsdcTransferDataV2: S.optional(__S(144, __c9, 0)),
           userLocation: S.optional(__S(64, __c4, 0)),
@@ -5575,7 +5575,7 @@ function __c54(j: number): any {
           simulateAuthorizationFailure: S.optional(S.Boolean),
           simulateCaptureFailure: S.optional(S.Boolean),
           simulateRefundFailure: S.optional(S.Boolean),
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           clientMetadataId: S.String,
           authSessionKey: S.String.pipe(
             T.Header("x-coinflow-auth-session-key"),
@@ -5605,9 +5605,9 @@ function __c55(j: number): any {
           authOnly: S.optional(S.Boolean),
           feePercentage: S.optional(S.Number),
           fixedFee: S.optional(__S(32, __c2, 0)),
-          jwtToken: S.optional(S.String),
+          jwtToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           threeDsChallengePreference: S.optional(S.String),
-          destinationAuthKey: S.optional(S.String),
+          destinationAuthKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           customerUsdcTransferData: S.optional(__S(176, __c11, 0)),
           customerUsdcTransferDataV2: S.optional(__S(144, __c9, 0)),
           userLocation: S.optional(__S(64, __c4, 0)),
@@ -5621,7 +5621,7 @@ function __c55(j: number): any {
           simulateAuthorizationFailure: S.optional(S.Boolean),
           simulateCaptureFailure: S.optional(S.Boolean),
           simulateRefundFailure: S.optional(S.Boolean),
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           clientMetadataId: S.String,
           authSessionKey: S.String.pipe(
             T.Header("x-coinflow-auth-session-key"),
@@ -5659,7 +5659,7 @@ function __c57(j: number): any {
           country: S.optional(S.String),
           businessName: S.optional(S.String),
           plaidAccountId: S.optional(S.String),
-          plaidAccessToken: S.optional(S.String),
+          plaidAccessToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           plaidAccountType: S.optional(S.String),
           plaidAccountSubtype: S.optional(S.String),
           isTokenized: S.optional(S.Boolean),
@@ -5676,7 +5676,7 @@ function __c57(j: number): any {
           webhookInfo: S.optional(__S(80, __c5, 0)),
           feePercentage: S.optional(S.Number),
           subtotal: S.Unknown,
-          jwtToken: S.optional(S.String),
+          jwtToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           overrideChargebackProtectionDecision: S.optional(S.Boolean),
           chargebackProtectionAccountType: S.optional(S.String),
           doNotReviewChargebackProtection: S.optional(S.Boolean),
@@ -5685,7 +5685,7 @@ function __c57(j: number): any {
           customerUsdcTransferDataV2: S.optional(__S(144, __c9, 0)),
           rent: S.optional(__S(16, __c1, 0)),
           transactionData: S.optional(S.Unknown),
-          destinationAuthKey: S.optional(S.String),
+          destinationAuthKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           merchantId: S.String,
           data: __S(912, __c57, 0),
           authSessionKey: S.String.pipe(
@@ -5736,7 +5736,7 @@ function __c59(j: number): any {
           webhookInfo: S.optional(__S(80, __c5, 0)),
           feePercentage: S.optional(S.Number),
           subtotal: S.Unknown,
-          jwtToken: S.optional(S.String),
+          jwtToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           overrideChargebackProtectionDecision: S.optional(S.Boolean),
           chargebackProtectionAccountType: S.optional(S.String),
           doNotReviewChargebackProtection: S.optional(S.Boolean),
@@ -5745,9 +5745,9 @@ function __c59(j: number): any {
           customerUsdcTransferDataV2: S.optional(__S(144, __c9, 0)),
           rent: S.optional(__S(16, __c1, 0)),
           transactionData: S.optional(S.Unknown),
-          destinationAuthKey: S.optional(S.String),
+          destinationAuthKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           merchantId: S.String,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           wireRoutingNumber: S.optional(S.String),
           accountNumber: S.optional(S.String),
           authSessionKey: S.String.pipe(

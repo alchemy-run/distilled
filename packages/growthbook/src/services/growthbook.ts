@@ -10236,7 +10236,7 @@ export interface SdkConnection {
   project: string;
   projects?: SdkConnectionProjectsList | undefined;
   encryptPayload: boolean;
-  encryptionKey: string;
+  encryptionKey: string | Redacted.Redacted<string>;
   includeVisualExperiments?: boolean | undefined;
   includeDraftExperiments?: boolean | undefined;
   /** When true, experiment-ref rules linked to draft experiments are included in feature definitions. Off by default. */
@@ -10252,7 +10252,7 @@ export interface SdkConnection {
   key: string;
   proxyEnabled: boolean;
   proxyHost: string;
-  proxySigningKey: string;
+  proxySigningKey: string | Redacted.Redacted<string>;
   sseEnabled?: boolean | undefined;
   hashSecureAttributes?: boolean | undefined;
   remoteEvalEnabled?: boolean | undefined;
@@ -52014,7 +52014,7 @@ function __c599(j: number): any {
           project: S.String,
           projects: S.optional(__S(0, __c0, 0)),
           encryptPayload: S.Boolean,
-          encryptionKey: S.String,
+          encryptionKey: S.String.pipe(T.SensitiveValue({})),
           includeVisualExperiments: S.optional(S.Boolean),
           includeDraftExperiments: S.optional(S.Boolean),
           includeDraftExperimentRefs: S.optional(S.Boolean),
@@ -52029,7 +52029,7 @@ function __c599(j: number): any {
           key: S.String,
           proxyEnabled: S.Boolean,
           proxyHost: S.String,
-          proxySigningKey: S.String,
+          proxySigningKey: S.String.pipe(T.SensitiveValue({})),
           sseEnabled: S.optional(S.Boolean),
           hashSecureAttributes: S.optional(S.Boolean),
           remoteEvalEnabled: S.optional(S.Boolean),
