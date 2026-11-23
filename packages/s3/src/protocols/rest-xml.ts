@@ -348,6 +348,11 @@ export const restXmlProtocol: ProtocolImpl = (operation: Operation): ProtocolHan
         // Check if this is an HTML error response (e.g., S3 503 Slow Down)
         // Format: <html>...<li>Code: SlowDown</li><li>Message: ...</li>...</html>
         if (bodyText.trimStart().toLowerCase().startsWith("<html")) {
+          if (bodyText.length > MAX_HTML_ERROR_LENGTH) {
+            return yield* new ParseError({
+              message: `HTML error response of ${bodyText.length} characters is over the ${MAX_HTML_ERROR_LENGTH}-character limit: ${errorBody(operation, bodyText)}`,
+            });
+          }
           const htmlError = parseHtmlError(bodyText);
           if (htmlError) {
             return htmlError;
@@ -907,6 +912,9 @@ function deserializeObject(ast: AST.AST, value: Record<string, unknown>): Record
   return result;
 }
 
+/** S3's HTML error pages are under 1 KiB; a longer HTML body is not one of them. */
+const MAX_HTML_ERROR_LENGTH = 64 * 1024;
+
 /**
  * Parse HTML error responses (e.g., S3 503 Slow Down rate limiting).
  * Format: <html>...<li>Code: SlowDown</li><li>Message: ...</li>...</html>
@@ -914,8 +922,9 @@ function deserializeObject(ast: AST.AST, value: Record<string, unknown>): Record
 function parseHtmlError(
   html: string,
 ): { errorCode: string; data: Record<string, unknown> } | undefined {
-  // Extract <li>Key: Value</li> pairs
-  const liPattern = /<li>([^:]+):\s*([^<]*)<\/li>/gi;
+  // Extract <li>Key: Value</li> pairs. Neither group crosses a `<`, so each
+  // attempt stops at the next tag and the scan stays linear.
+  const liPattern = /<li>([^:<]+):([^<]*)<\/li>/gi;
   const data: Record<string, string> = {};
   let errorCode: string | undefined;
 
