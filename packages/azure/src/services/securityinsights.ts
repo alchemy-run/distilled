@@ -38,7 +38,7 @@ export interface ActionRequestProperties {
   /** Logic App Resource Id, /subscriptions/{my-subscription}/resourceGroups/{my-resource-group}/providers/Microsoft.Logic/workflows/{my-workflow-id}. */
   logicAppResourceId: string;
   /** Logic App Callback URL for this specific workflow. */
-  triggerUri: string;
+  triggerUri: string | Redacted.Redacted<string>;
 }
 export interface ActionsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1263,13 +1263,13 @@ export interface RepositoryAccess {
   /** The kind of repository access credentials */
   kind: RepositoryAccessKind | (string & {});
   /** OAuth Code. Required when `kind` is `OAuth` */
-  code?: string | undefined;
+  code?: string | Redacted.Redacted<string> | undefined;
   /** OAuth State. Required when `kind` is `OAuth` */
-  state?: string | undefined;
+  state?: string | Redacted.Redacted<string> | undefined;
   /** OAuth ClientId. Required when `kind` is `OAuth` */
   clientId?: string | undefined;
   /** Personal Access Token. Required when `kind` is `PAT` */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   /** Application installation ID. Required when `kind` is `App`. Supported by `GitHub` only. */
   installationId?: string | undefined;
 }
@@ -2248,7 +2248,9 @@ export type JwtAuthModelType = "JwtToken";
 /** The user name. If user name and password sent in header request we only need to populate the `value` property with the user name (Same as basic auth). If user name and password sent in body request we need to specify the `Key` and `Value`. */
 export type JwtAuthModelUserNameMap = { [key: string]: string | undefined };
 /** The password */
-export type JwtAuthModelPasswordMap = { [key: string]: string | undefined };
+export type JwtAuthModelPasswordMap = {
+  [key: string]: string | Redacted.Redacted<string> | undefined;
+};
 /** The custom query parameter we want to add once we send request to token endpoint. */
 export type JwtAuthModelQueryParametersMap = { [key: string]: string | undefined };
 /** The custom headers we want to add once we send request to token endpoint. */
@@ -2298,7 +2300,7 @@ export interface OAuthModel {
   /** The auth type */
   type: OAuthModelType;
   /** The user's authorization code. */
-  authorizationCode?: string | undefined;
+  authorizationCode?: string | Redacted.Redacted<string> | undefined;
   /** The Application (client) secret that the OAuth provider assigned to your app. */
   clientSecret: string | Redacted.Redacted<string>;
   /** The Application (client) ID that the OAuth provider assigned to your app. */
@@ -2350,7 +2352,9 @@ export type SessionAuthModelType = "Session";
 /** The user name attribute key value. */
 export type SessionAuthModelUserNameMap = { [key: string]: string | undefined };
 /** The password attribute name. */
-export type SessionAuthModelPasswordMap = { [key: string]: string | undefined };
+export type SessionAuthModelPasswordMap = {
+  [key: string]: string | Redacted.Redacted<string> | undefined;
+};
 /** Query parameters to session service endpoint. */
 export type SessionAuthModelQueryParametersMap = { [key: string]: unknown | undefined };
 /** HTTP request headers to session service endpoint. */
@@ -8800,7 +8804,7 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           logicAppResourceId: S.String,
-          triggerUri: S.String,
+          triggerUri: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "ActionRequestProperties" });
     case 1:
@@ -9203,7 +9207,7 @@ function __c10(j: number): any {
         S.Struct({
           kind: S.String,
           etag: S.optional(S.String),
-          properties: S.optional(__S(415, __c12, 31)),
+          properties: S.optional(__S(416, __c13, 0)),
         }),
       ).annotate({ identifier: "RestApiPollerDataConnectorInput" });
     case 8:
@@ -9211,7 +9215,7 @@ function __c10(j: number): any {
         S.Struct({
           kind: S.String,
           etag: S.optional(S.String),
-          properties: S.optional(__S(417, __c13, 1)),
+          properties: S.optional(__S(418, __c13, 2)),
         }),
       ).annotate({ identifier: "TIDataConnectorInput" });
     case 9:
@@ -9250,7 +9254,7 @@ function __c10(j: number): any {
 function __c11(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => __S(427, __c13, 11).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(428, __c13, 12).pipe(T.RawResponseRoot())).annotate({
         identifier: "DataConnectorsCreateOrUpdateResponse",
       });
   }
@@ -9411,12 +9415,14 @@ function __c12(j: number): any {
         }),
       ).annotate({ identifier: "GitHubAuthModel" });
     case 21:
+      return S.Record(S.String, /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.SensitiveValue({})));
+    case 22:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
           tokenEndpoint: S.String,
           userName: __S(288, __c9, 0),
-          password: __S(288, __c9, 0),
+          password: __S(405, __c12, 21),
           queryParameters: S.optional(__S(288, __c9, 0)),
           headers: S.optional(__S(288, __c9, 0)),
           isCredentialsInHeaders: S.optional(S.NullOr(S.Boolean)),
@@ -9424,17 +9430,17 @@ function __c12(j: number): any {
           requestTimeoutInSeconds: S.optional(S.Number),
         }),
       ).annotate({ identifier: "JwtAuthModel" });
-    case 22:
+    case 23:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
         }),
       ).annotate({ identifier: "NoneAuthModel" });
-    case 23:
+    case 24:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
-          authorizationCode: S.optional(S.String),
+          authorizationCode: S.optional(S.String.pipe(T.SensitiveValue({}))),
           clientSecret: S.String.pipe(T.SensitiveValue({})),
           clientId: S.String,
           isCredentialsInHeaders: S.optional(S.NullOr(S.Boolean)),
@@ -9451,7 +9457,7 @@ function __c12(j: number): any {
           accessTokenPrepend: S.optional(S.String),
         }),
       ).annotate({ identifier: "OAuthModel" });
-    case 24:
+    case 25:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
@@ -9461,12 +9467,12 @@ function __c12(j: number): any {
           pemFile: S.String,
         }),
       ).annotate({ identifier: "OracleAuthModel" });
-    case 25:
+    case 26:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
           userName: __S(288, __c9, 0),
-          password: __S(288, __c9, 0),
+          password: __S(405, __c12, 21),
           queryParameters: S.optional(__S(3552, __c111, 0)),
           isPostPayloadJson: S.optional(S.NullOr(S.Boolean)),
           headers: S.optional(__S(288, __c9, 0)),
@@ -9475,7 +9481,7 @@ function __c12(j: number): any {
           sessionLoginRequestUri: S.optional(S.String),
         }),
       ).annotate({ identifier: "SessionAuthModel" });
-    case 26:
+    case 27:
       return S.Union([
         __S(399, __c12, 15),
         __S(400, __c12, 16),
@@ -9483,13 +9489,13 @@ function __c12(j: number): any {
         __S(402, __c12, 18),
         __S(403, __c12, 19),
         __S(404, __c12, 20),
-        __S(405, __c12, 21),
         __S(406, __c12, 22),
         __S(407, __c12, 23),
         __S(408, __c12, 24),
         __S(409, __c12, 25),
+        __S(410, __c12, 26),
       ]);
-    case 27:
+    case 28:
       return S.suspend(() =>
         S.Struct({
           apiEndpoint: S.String,
@@ -9510,7 +9516,7 @@ function __c12(j: number): any {
           queryTimeIntervalDelimiter: S.optional(S.String),
         }),
       ).annotate({ identifier: "RestApiPollerRequestConfig" });
-    case 28:
+    case 29:
       return S.suspend(() =>
         S.Struct({
           dataCollectionEndpoint: S.String,
@@ -9518,7 +9524,7 @@ function __c12(j: number): any {
           streamName: S.String,
         }),
       ).annotate({ identifier: "DCRConfiguration" });
-    case 29:
+    case 30:
       return S.suspend(() =>
         S.Struct({
           eventsJsonPaths: __S(128, __c4, 0),
@@ -9534,7 +9540,7 @@ function __c12(j: number): any {
           csvEscape: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "CcpResponseConfig" });
-    case 30:
+    case 31:
       return S.suspend(() =>
         S.Struct({
           pagingType: S.String,
@@ -9542,20 +9548,6 @@ function __c12(j: number): any {
           pageSizeParameterName: S.optional(S.String),
         }),
       ).annotate({ identifier: "RestApiPollerRequestPagingConfig" });
-    case 31:
-      return S.suspend(() =>
-        S.Struct({
-          connectorDefinitionName: S.String,
-          auth: __S(410, __c12, 26),
-          request: __S(411, __c12, 27),
-          dcrConfig: S.optional(__S(412, __c12, 28)),
-          isActive: S.optional(S.Boolean),
-          dataType: S.optional(S.String),
-          response: S.optional(__S(413, __c12, 29)),
-          paging: S.optional(__S(414, __c12, 30)),
-          addOnAttributes: S.optional(__S(288, __c9, 0)),
-        }),
-      ).annotate({ identifier: "RestApiPollerDataConnectorProperties" });
   }
 }
 function __c13(j: number): any {
@@ -9563,18 +9555,32 @@ function __c13(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          connectorDefinitionName: S.String,
+          auth: __S(411, __c12, 27),
+          request: __S(412, __c12, 28),
+          dcrConfig: S.optional(__S(413, __c12, 29)),
+          isActive: S.optional(S.Boolean),
+          dataType: S.optional(S.String),
+          response: S.optional(__S(414, __c12, 30)),
+          paging: S.optional(__S(415, __c12, 31)),
+          addOnAttributes: S.optional(__S(288, __c9, 0)),
+        }),
+      ).annotate({ identifier: "RestApiPollerDataConnectorProperties" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
           indicators: __S(384, __c12, 0),
         }),
       ).annotate({ identifier: "TIDataConnectorDataTypes" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           tenantId: S.String,
           tipLookbackPeriod: S.optional(S.NullOr(S.String)),
-          dataTypes: __S(416, __c13, 0),
+          dataTypes: __S(417, __c13, 1),
         }),
       ).annotate({ identifier: "TIDataConnectorProperties" });
-    case 2:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
@@ -9586,7 +9592,7 @@ function __c13(j: number): any {
           properties: S.optional(__S(386, __c12, 2)),
         }),
       ).annotate({ identifier: "AADDataConnector" });
-    case 3:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
@@ -9598,7 +9604,7 @@ function __c13(j: number): any {
           properties: S.optional(__S(387, __c12, 3)),
         }),
       ).annotate({ identifier: "ASCDataConnector" });
-    case 4:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
@@ -9610,7 +9616,7 @@ function __c13(j: number): any {
           properties: S.optional(__S(389, __c12, 5)),
         }),
       ).annotate({ identifier: "AwsCloudTrailDataConnector" });
-    case 5:
+    case 6:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
@@ -9622,7 +9628,7 @@ function __c13(j: number): any {
           properties: S.optional(__S(391, __c12, 7)),
         }),
       ).annotate({ identifier: "MCASDataConnector" });
-    case 6:
+    case 7:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
@@ -9634,7 +9640,7 @@ function __c13(j: number): any {
           properties: S.optional(__S(394, __c12, 10)),
         }),
       ).annotate({ identifier: "MSTIDataConnector" });
-    case 7:
+    case 8:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
@@ -9646,7 +9652,7 @@ function __c13(j: number): any {
           properties: S.optional(__S(396, __c12, 12)),
         }),
       ).annotate({ identifier: "OfficeDataConnector" });
-    case 8:
+    case 9:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
@@ -9658,18 +9664,6 @@ function __c13(j: number): any {
           properties: S.optional(__S(398, __c12, 14)),
         }),
       ).annotate({ identifier: "PremiumMicrosoftDefenderForThreatIntelligence" });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          type: S.optional(S.String),
-          systemData: S.optional(__S(32, __c1, 0)),
-          kind: S.String,
-          etag: S.optional(S.String),
-          properties: S.optional(__S(415, __c12, 31)),
-        }),
-      ).annotate({ identifier: "RestApiPollerDataConnector" });
     case 10:
       return S.suspend(() =>
         S.Struct({
@@ -9679,22 +9673,34 @@ function __c13(j: number): any {
           systemData: S.optional(__S(32, __c1, 0)),
           kind: S.String,
           etag: S.optional(S.String),
-          properties: S.optional(__S(417, __c13, 1)),
+          properties: S.optional(__S(416, __c13, 0)),
+        }),
+      ).annotate({ identifier: "RestApiPollerDataConnector" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(32, __c1, 0)),
+          kind: S.String,
+          etag: S.optional(S.String),
+          properties: S.optional(__S(418, __c13, 2)),
         }),
       ).annotate({ identifier: "TIDataConnector" });
-    case 11:
+    case 12:
       return S.Union([
-        __S(418, __c13, 2),
-        __S(418, __c13, 2),
+        __S(419, __c13, 3),
         __S(419, __c13, 3),
         __S(420, __c13, 4),
         __S(421, __c13, 5),
-        __S(418, __c13, 2),
         __S(422, __c13, 6),
+        __S(419, __c13, 3),
         __S(423, __c13, 7),
         __S(424, __c13, 8),
         __S(425, __c13, 9),
         __S(426, __c13, 10),
+        __S(427, __c13, 11),
       ]);
   }
 }
@@ -11959,10 +11965,10 @@ function __c95(j: number): any {
       return S.suspend(() =>
         S.Struct({
           kind: S.String,
-          code: S.optional(S.String),
-          state: S.optional(S.String),
+          code: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          state: S.optional(S.String.pipe(T.SensitiveValue({}))),
           clientId: S.optional(S.String),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           installationId: S.optional(S.String),
         }),
       ).annotate({ identifier: "RepositoryAccess" });
@@ -12269,7 +12275,7 @@ function __c102(j: number): any {
         ),
       ).annotate({ identifier: "ListDataConnectorsRequest" });
     case 1:
-      return S.Array(__S(427, __c13, 11));
+      return S.Array(__S(428, __c13, 12));
     case 2:
       return S.suspend(() =>
         S.Struct({

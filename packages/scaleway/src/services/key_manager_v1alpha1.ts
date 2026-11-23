@@ -256,7 +256,7 @@ export interface GenerateKeyMaterialImportParametersResponse {
   /** The public key to wrap the key material. */
   public_key?: string | undefined;
   /** The token generated to authorize the import operation. */
-  import_token?: string | undefined;
+  import_token?: string | Redacted.Redacted<string> | undefined;
 }
 export type GetKeyRequestRegion = "fr-par" | "nl-ams" | "pl-waw";
 export interface GetKeyRequest {
@@ -280,7 +280,7 @@ export interface ImportKeyMaterialRequestEncryptedKeyMaterial {
   /** The encrypted key material to import. This material must be encrypted using the public key and the exact wrapping algorithm returned by the `GetKeyMaterialImportParameters` method. */
   data?: string | undefined;
   /** The secure import token returned by the `GetKeyMaterialImportParameters` method. */
-  import_token?: string | undefined;
+  import_token?: string | Redacted.Redacted<string> | undefined;
 }
 export interface ImportKeyMaterialRequest {
   /** The region you want to target */
@@ -1087,7 +1087,7 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           data: S.optional(S.String),
-          import_token: S.optional(S.String),
+          import_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "ImportKeyMaterialRequestEncryptedKeyMaterial" });
     case 1:
@@ -1589,7 +1589,7 @@ function __c26(j: number): any {
         S.Struct({
           key_id: S.optional(S.String),
           public_key: S.optional(S.String),
-          import_token: S.optional(S.String),
+          import_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "GenerateKeyMaterialImportParametersResponse" });
   }

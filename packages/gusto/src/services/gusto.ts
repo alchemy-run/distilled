@@ -3467,7 +3467,7 @@ export interface CreatePlaidProcessorTokenRequest {
   /** The owner type of the bank account */
   owner_type: CreatePlaidProcessorTokenRequestOwnerType | (string & {});
   /** The Plaid processor token */
-  processor_token: string;
+  processor_token: string | Redacted.Redacted<string>;
 }
 export interface CreateProvisionRequestCompanyAddressesItem {
   city?: string | undefined;
@@ -10837,7 +10837,7 @@ export interface PutV1VerifyWebhookSubscriptionUuidRequest {
   /** The webhook subscription UUID. */
   webhook_subscription_uuid: string;
   /** The verification token received at the webhook subscription URL. */
-  verification_token: string;
+  verification_token: string | Redacted.Redacted<string>;
 }
 export type PutWebhookSubscriptionUuidRequestSubscriptionTypesItem =
   | "BankAccount"
@@ -10900,7 +10900,7 @@ export interface RevokeAccessTokenRequest {
   /** Your client secret */
   client_secret: string | Redacted.Redacted<string>;
   /** The access token that will be revoked. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 export interface RevokeAccessTokenResponse {}
 /** Payment method for the employee */
@@ -25069,7 +25069,7 @@ function __c315(j: number): any {
       return S.suspend(() =>
         S.Struct({
           webhook_subscription_uuid: S.String.pipe(T.Label()),
-          verification_token: S.String,
+          verification_token: S.String.pipe(T.SensitiveValue({})),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -25167,7 +25167,7 @@ function __c321(j: number): any {
         S.Struct({
           client_id: S.String,
           client_secret: S.String.pipe(T.SensitiveValue({})),
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
         }).pipe(T.Http({ method: "POST", uri: "/oauth/revoke", code: 200 })),
       ).annotate({ identifier: "RevokeAccessTokenRequest" });
   }
@@ -26042,7 +26042,7 @@ function __c363(j: number): any {
         S.Struct({
           owner_id: S.String,
           owner_type: S.String,
-          processor_token: S.String,
+          processor_token: S.String.pipe(T.SensitiveValue({})),
         }).pipe(T.Http({ method: "POST", uri: "/v1/plaid/processor_token", code: 200 })),
       ).annotate({ identifier: "CreatePlaidProcessorTokenRequest" });
   }

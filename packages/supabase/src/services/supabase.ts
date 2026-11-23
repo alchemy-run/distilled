@@ -67,7 +67,7 @@ export interface V1AcceptInviteExternalJitAccessRequest {
   /** Project ref */
   ref: string;
   email: string;
-  token: string;
+  token: T.Sensitive;
 }
 export interface JitAccessResponseOutputUserRolesItemAllowedNetworksAllowedCidrsItem {
   cidr: string;
@@ -282,7 +282,7 @@ export interface V1AuthorizeUserResponse {}
 export interface CreateSecretBodyItem {
   /** Secret name must not start with the SUPABASE_ prefix. */
   name: string;
-  value: string;
+  value: T.Sensitive;
 }
 export type CreateSecretBody = Array<CreateSecretBodyItem>;
 export interface V1BulkCreateSecretsRequest {
@@ -745,7 +745,7 @@ export interface V1CreateProjectClaimTokenRequest {
   ref: string;
 }
 export interface CreateProjectClaimTokenResponseOutput {
-  token: string;
+  token: T.Sensitive;
   token_alias: string;
   expires_at: string;
   created_at: string;
@@ -1683,18 +1683,18 @@ export interface AuthConfigResponseOutput {
   sms_otp_length: number;
   sms_provider: AuthConfigResponseOutputSmsProvider | null;
   sms_template: string | null;
-  sms_test_otp: string | null;
+  sms_test_otp: T.Sensitive | null;
   sms_test_otp_valid_until: string | null;
-  sms_textlocal_api_key: string | null;
+  sms_textlocal_api_key: T.Sensitive | null;
   sms_textlocal_sender: string | null;
   sms_twilio_account_sid: string | null;
-  sms_twilio_auth_token: string | null;
+  sms_twilio_auth_token: T.Sensitive | null;
   sms_twilio_content_sid: string | null;
   sms_twilio_message_service_sid: string | null;
   sms_twilio_verify_account_sid: string | null;
-  sms_twilio_verify_auth_token: string | null;
+  sms_twilio_verify_auth_token: T.Sensitive | null;
   sms_twilio_verify_message_service_sid: string | null;
-  sms_vonage_api_key: string | null;
+  sms_vonage_api_key: T.Sensitive | null;
   sms_vonage_api_secret: T.Sensitive | null;
   sms_vonage_from: string | null;
   smtp_admin_email: string | null;
@@ -3201,7 +3201,7 @@ export interface V1ListAllSecretsRequest {
 }
 export interface SecretResponseOutput {
   name: string;
-  value: string;
+  value: T.Sensitive;
   updated_at?: string | undefined;
 }
 export type V1ListAllSecretsResponseBodyList = Array<SecretResponseOutput>;
@@ -4190,18 +4190,18 @@ export interface V1UpdateAuthServiceConfigRequest {
   sms_provider?: V1UpdateAuthServiceConfigRequestSmsProvider | (string & {}) | null | undefined;
   sms_messagebird_access_key?: string | null | undefined;
   sms_messagebird_originator?: string | null | undefined;
-  sms_test_otp?: string | null | undefined;
+  sms_test_otp?: T.Sensitive | null | undefined;
   sms_test_otp_valid_until?: string | null | undefined;
-  sms_textlocal_api_key?: string | null | undefined;
+  sms_textlocal_api_key?: T.Sensitive | null | undefined;
   sms_textlocal_sender?: string | null | undefined;
   sms_twilio_account_sid?: string | null | undefined;
-  sms_twilio_auth_token?: string | null | undefined;
+  sms_twilio_auth_token?: T.Sensitive | null | undefined;
   sms_twilio_content_sid?: string | null | undefined;
   sms_twilio_message_service_sid?: string | null | undefined;
   sms_twilio_verify_account_sid?: string | null | undefined;
-  sms_twilio_verify_auth_token?: string | null | undefined;
+  sms_twilio_verify_auth_token?: T.Sensitive | null | undefined;
   sms_twilio_verify_message_service_sid?: string | null | undefined;
-  sms_vonage_api_key?: string | null | undefined;
+  sms_vonage_api_key?: T.Sensitive | null | undefined;
   sms_vonage_api_secret?: T.Sensitive | null | undefined;
   sms_vonage_from?: string | null | undefined;
   sms_template?: string | null | undefined;
@@ -7759,7 +7759,7 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          value: S.String,
+          value: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "CreateSecretBodyItem" });
     case 1:
@@ -8091,7 +8091,7 @@ function __c16(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          value: S.String,
+          value: S.String.pipe(T.SensitiveValue({})),
           updated_at: S.optional(S.String),
         }),
       ).annotate({ identifier: "SecretResponseOutput" });
@@ -9208,18 +9208,18 @@ function __c63(j: number): any {
           sms_provider: S.optional(S.NullOr(S.String)),
           sms_messagebird_access_key: S.optional(S.NullOr(S.String)),
           sms_messagebird_originator: S.optional(S.NullOr(S.String)),
-          sms_test_otp: S.optional(S.NullOr(S.String)),
+          sms_test_otp: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           sms_test_otp_valid_until: S.optional(S.NullOr(S.String)),
-          sms_textlocal_api_key: S.optional(S.NullOr(S.String)),
+          sms_textlocal_api_key: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           sms_textlocal_sender: S.optional(S.NullOr(S.String)),
           sms_twilio_account_sid: S.optional(S.NullOr(S.String)),
-          sms_twilio_auth_token: S.optional(S.NullOr(S.String)),
+          sms_twilio_auth_token: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           sms_twilio_content_sid: S.optional(S.NullOr(S.String)),
           sms_twilio_message_service_sid: S.optional(S.NullOr(S.String)),
           sms_twilio_verify_account_sid: S.optional(S.NullOr(S.String)),
-          sms_twilio_verify_auth_token: S.optional(S.NullOr(S.String)),
+          sms_twilio_verify_auth_token: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           sms_twilio_verify_message_service_sid: S.optional(S.NullOr(S.String)),
-          sms_vonage_api_key: S.optional(S.NullOr(S.String)),
+          sms_vonage_api_key: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           sms_vonage_api_secret: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           sms_vonage_from: S.optional(S.NullOr(S.String)),
           sms_template: S.optional(S.NullOr(S.String)),
@@ -10033,7 +10033,7 @@ function __c95(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           token_alias: S.String,
           expires_at: S.String,
           created_at: S.String,
@@ -10207,7 +10207,7 @@ function __c105(j: number): any {
         S.Struct({
           ref: S.String.pipe(T.Label()),
           email: S.String,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
         }).pipe(
           T.Http({
             method: "POST",
@@ -11306,18 +11306,18 @@ function __c149(j: number): any {
           sms_otp_length: S.Number,
           sms_provider: S.NullOr(S.String),
           sms_template: S.NullOr(S.String),
-          sms_test_otp: S.NullOr(S.String),
+          sms_test_otp: S.NullOr(S.String).pipe(T.SensitiveValue({})),
           sms_test_otp_valid_until: S.NullOr(S.String),
-          sms_textlocal_api_key: S.NullOr(S.String),
+          sms_textlocal_api_key: S.NullOr(S.String).pipe(T.SensitiveValue({})),
           sms_textlocal_sender: S.NullOr(S.String),
           sms_twilio_account_sid: S.NullOr(S.String),
-          sms_twilio_auth_token: S.NullOr(S.String),
+          sms_twilio_auth_token: S.NullOr(S.String).pipe(T.SensitiveValue({})),
           sms_twilio_content_sid: S.NullOr(S.String),
           sms_twilio_message_service_sid: S.NullOr(S.String),
           sms_twilio_verify_account_sid: S.NullOr(S.String),
-          sms_twilio_verify_auth_token: S.NullOr(S.String),
+          sms_twilio_verify_auth_token: S.NullOr(S.String).pipe(T.SensitiveValue({})),
           sms_twilio_verify_message_service_sid: S.NullOr(S.String),
-          sms_vonage_api_key: S.NullOr(S.String),
+          sms_vonage_api_key: S.NullOr(S.String).pipe(T.SensitiveValue({})),
           sms_vonage_api_secret: S.NullOr(S.String).pipe(T.SensitiveValue({})),
           sms_vonage_from: S.NullOr(S.String),
           smtp_admin_email: S.NullOr(S.String),

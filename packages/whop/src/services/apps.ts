@@ -177,7 +177,7 @@ export interface AppApiKey {
   /** When the key was created, as an ISO 8601 timestamp. */
   created_at: string;
   /** The key's secret token, sent as a bearer token to authenticate requests on the app's behalf. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 /** The type of end-user the app is built for. */
 export type AppAppType = "b2b_app" | "b2c_app" | "company_app" | "component" | "website";
@@ -397,7 +397,7 @@ export interface App {
   /** Full origin URL of the app's proxied domain, for example https://ab1c2d3e4f.apps.whop.com. */
   origin: string | null;
   /** A short-lived signed pass scoping the caller to this app's gated preview hosts -- every build preview and the live dev-server sandbox. Add it to a preview host as the `__whop_preview` query param (or `x-whop-preview-token` header). `null` unless the caller is a team member who can read the app's developer settings. */
-  preview_token: string | null;
+  preview_token: string | Redacted.Redacted<string> | null;
   previous_hosted_urls: AppPreviousHostedUrlsList;
   /** ID of the app's product listing on the Whop app store, or `null` when the app has no associated product. */
   product_id: string | null;
@@ -1189,7 +1189,7 @@ function __c11(j: number): any {
       return S.suspend(() =>
         S.Struct({
           created_at: S.String,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "AppApiKey" });
     case 1:
@@ -1259,7 +1259,7 @@ function __c11(j: number): any {
           oauth_client_type: S.String,
           openapi_path: S.NullOr(S.String),
           origin: S.NullOr(S.String),
-          preview_token: S.NullOr(S.String),
+          preview_token: S.NullOr(S.String).pipe(T.SensitiveValue({})),
           previous_hosted_urls: __S(80, __c10, 0),
           product_id: S.NullOr(S.String),
           production_android_build: S.NullOr(__S(91, __c11, 3)),

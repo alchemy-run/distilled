@@ -53,7 +53,7 @@ export interface AgentConnectorPropertiesInput {
   /** Endpoint of the connector */
   endpoint?: string | undefined;
   /** Data source connection string or endpoint supplied when creating or updating a connector. */
-  dataSource?: string | undefined;
+  dataSource?: string | Redacted.Redacted<string> | undefined;
   /** Identity used to access the data source */
   identity?: string | undefined;
   /** Additional properties for the data connector which can be used to store custom key-value pairs */
@@ -106,7 +106,7 @@ export interface AgentConnectorProperties {
   /** Endpoint of the connector */
   endpoint?: string | undefined;
   /** Data source connection string or endpoint supplied when creating or updating a connector. */
-  dataSource?: string | undefined;
+  dataSource?: string | Redacted.Redacted<string> | undefined;
   /** Identity used to access the data source */
   identity?: string | undefined;
   /** Provisioning state of the connector */
@@ -177,9 +177,9 @@ export interface IncidentManagementConfiguration {
   /** The name of the connection */
   connectionName?: string | undefined;
   /** The URL of the connection */
-  connectionUrl?: string | undefined;
+  connectionUrl?: string | Redacted.Redacted<string> | undefined;
   /** The key supplied when creating or updating the connection. */
-  connectionKey?: string | undefined;
+  connectionKey?: string | Redacted.Redacted<string> | undefined;
   /** The user for the connection */
   oboUser?: string | undefined;
 }
@@ -425,7 +425,7 @@ export interface CertificatePropertiesInput {
   /** Certificate password. */
   password?: string | Redacted.Redacted<string> | undefined;
   /** PFX or PEM blob */
-  value?: string | undefined;
+  value?: string | Redacted.Redacted<string> | undefined;
 }
 export interface CertificatesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -470,7 +470,7 @@ export interface CertificateProperties {
   /** Subject alternative names the certificate applies to. */
   subjectAlternativeNames?: CertificatePropertiesSubjectAlternativeNamesList | undefined;
   /** PFX or PEM blob */
-  value?: string | undefined;
+  value?: string | Redacted.Redacted<string> | undefined;
   /** Certificate issuer. */
   issuer?: string | undefined;
   /** Certificate issue Date. */
@@ -632,7 +632,7 @@ export interface CustomDomainConfigurationInput {
   /** Certificate stored in Azure Key Vault. */
   certificateKeyVaultProperties?: CertificateKeyVaultProperties | undefined;
   /** PFX or PEM blob */
-  certificateValue?: string | undefined;
+  certificateValue?: string | Redacted.Redacted<string> | undefined;
   /** Certificate password */
   certificatePassword?: string | Redacted.Redacted<string> | undefined;
 }
@@ -641,7 +641,7 @@ export interface ConnectedEnvironmentPropertiesInput {
   /** Static IP of the connectedEnvironment */
   staticIp?: string | undefined;
   /** Application Insights connection string used by Dapr to export Service to Service communication telemetry */
-  daprAIConnectionString?: string | undefined;
+  daprAIConnectionString?: string | Redacted.Redacted<string> | undefined;
   /** Custom domain configuration for the environment */
   customDomainConfiguration?: CustomDomainConfigurationInput | undefined;
 }
@@ -693,7 +693,7 @@ export interface CustomDomainConfiguration {
   /** Certificate stored in Azure Key Vault. */
   certificateKeyVaultProperties?: CertificateKeyVaultProperties | undefined;
   /** PFX or PEM blob */
-  certificateValue?: string | undefined;
+  certificateValue?: string | Redacted.Redacted<string> | undefined;
   /** Certificate password */
   certificatePassword?: string | Redacted.Redacted<string> | undefined;
   /** Certificate expiration date. */
@@ -714,7 +714,7 @@ export interface ConnectedEnvironmentProperties {
   /** Static IP of the connectedEnvironment */
   staticIp?: string | undefined;
   /** Application Insights connection string used by Dapr to export Service to Service communication telemetry */
-  daprAIConnectionString?: string | undefined;
+  daprAIConnectionString?: string | Redacted.Redacted<string> | undefined;
   /** Custom domain configuration for the environment */
   customDomainConfiguration?: CustomDomainConfiguration | undefined;
 }
@@ -745,7 +745,7 @@ export interface Secret {
   /** Secret Name. */
   name?: string | undefined;
   /** Secret Value. */
-  value?: string | undefined;
+  value?: string | Redacted.Redacted<string> | undefined;
   /** Resource ID of a managed identity to authenticate with Azure Key Vault, or System to use a system-assigned identity. */
   identity?: string | undefined;
   /** Azure Key Vault URL pointing to the secret referenced by the container app. */
@@ -863,7 +863,7 @@ export interface AzureFileProperties {
   /** Storage account name for azure file. */
   accountName?: string | undefined;
   /** Storage account key for azure file. */
-  accountKey?: string | undefined;
+  accountKey?: string | Redacted.Redacted<string> | undefined;
   /** Storage account key stored as an Azure Key Vault secret. */
   accountKeyVaultProperties?: SecretKeyVaultProperties | undefined;
   /** Access mode for storage */
@@ -2218,7 +2218,7 @@ export interface SessionPoolSecret {
   /** Secret Name. */
   name?: string | undefined;
   /** Secret Value. */
-  value?: string | undefined;
+  value?: string | Redacted.Redacted<string> | undefined;
 }
 /** The secrets of the session pool. */
 export type SessionPoolPropertiesInputSecretsList = Array<SessionPoolSecret>;
@@ -2473,11 +2473,11 @@ export interface RegistryInfo {
 /** Container App credentials. */
 export interface AzureCredentials {
   /** Client Id. */
-  clientId?: string | undefined;
+  clientId?: string | Redacted.Redacted<string> | undefined;
   /** Client Secret. */
   clientSecret?: string | Redacted.Redacted<string> | undefined;
   /** Tenant Id. */
-  tenantId?: string | undefined;
+  tenantId?: string | Redacted.Redacted<string> | undefined;
   /** Kind of auth github does for deploying the template */
   kind?: string | undefined;
   /** Subscription Id. */
@@ -2492,7 +2492,7 @@ export interface GithubActionConfiguration {
   /** Context path */
   contextPath?: string | undefined;
   /** One time Github PAT to configure github environment */
-  githubPersonalAccessToken?: string | undefined;
+  githubPersonalAccessToken?: string | Redacted.Redacted<string> | undefined;
   /** Image name */
   image?: string | undefined;
   /** Code or Image */
@@ -3421,7 +3421,7 @@ export type GetContainerAppAuthTokenResponseTagsMap = { [key: string]: string | 
 /** Container App auth token resource specific properties */
 export interface ContainerAppAuthTokenProperties {
   /** Auth token value. */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   /** Token expiration date. */
   expires?: string | undefined;
 }
@@ -4666,7 +4666,7 @@ export interface ManagedCertificateProperties {
   /** Selected type of domain control validation for managed certificates. */
   domainControlValidation?: ManagedCertificateDomainControlValidation | undefined;
   /** A TXT token used for DNS TXT domain control validation when issuing this type of managed certificates. */
-  validationToken?: string | undefined;
+  validationToken?: string | Redacted.Redacted<string> | undefined;
 }
 export interface GetManagedCertificateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -4724,7 +4724,7 @@ export interface LogAnalyticsConfiguration {
   /** Log analytics customer id */
   customerId?: string | undefined;
   /** Log analytics customer key */
-  sharedKey?: string | undefined;
+  sharedKey?: string | Redacted.Redacted<string> | undefined;
 }
 /** Configuration of application logs */
 export interface AppLogsConfiguration {
@@ -4743,7 +4743,7 @@ export interface DataDogConfiguration {
   /** The data dog site */
   site?: string | undefined;
   /** The data dog api key */
-  key?: string | undefined;
+  key?: string | Redacted.Redacted<string> | undefined;
 }
 /** Header of otlp configuration */
 export interface Header {
@@ -4893,9 +4893,9 @@ export interface ManagedEnvironmentProperties {
   /** Provisioning state of the Environment. */
   provisioningState?: EnvironmentProvisioningState | undefined;
   /** Azure Monitor instrumentation key used by Dapr to export Service to Service communication telemetry */
-  daprAIInstrumentationKey?: string | undefined;
+  daprAIInstrumentationKey?: string | Redacted.Redacted<string> | undefined;
   /** Application Insights connection string used by Dapr to export Service to Service communication telemetry */
-  daprAIConnectionString?: string | undefined;
+  daprAIConnectionString?: string | Redacted.Redacted<string> | undefined;
   /** Vnet configuration for the environment */
   vnetConfiguration?: VnetConfiguration | undefined;
   /** Any errors that occurred during deployment or deployment validation */
@@ -5635,7 +5635,7 @@ export interface AgentConnectorPropertiesWithSecrets {
   /** Additional properties for the data connector which can be used to store custom key-value pairs */
   extendedProperties?: AgentConnectorPropertiesWithSecretsExtendedPropertiesMap | undefined;
   /** Data source connection string or endpoint. */
-  dataSource?: string | undefined;
+  dataSource?: string | Redacted.Redacted<string> | undefined;
   /** The type of the data connector. */
   dataConnectorType?: string | undefined;
 }
@@ -7255,9 +7255,9 @@ export type DaprConfigurationInput = UserAssignedIdentityInput;
 /** Managed environment resource specific properties */
 export interface ManagedEnvironmentPropertiesInput {
   /** Azure Monitor instrumentation key used by Dapr to export Service to Service communication telemetry */
-  daprAIInstrumentationKey?: string | undefined;
+  daprAIInstrumentationKey?: string | Redacted.Redacted<string> | undefined;
   /** Application Insights connection string used by Dapr to export Service to Service communication telemetry */
-  daprAIConnectionString?: string | undefined;
+  daprAIConnectionString?: string | Redacted.Redacted<string> | undefined;
   /** Vnet configuration for the environment */
   vnetConfiguration?: VnetConfiguration | undefined;
   /** Cluster configuration which enables the log daemon to export app logs to configured destination */
@@ -9555,7 +9555,7 @@ export const GetContainerAppsDiagnosticDetector: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6944, __c217, 0) as any as S.Schema<GetContainerAppsDiagnosticDetectorRequest>,
-  output: __S(6989, __c218, 13) as any as S.Schema<GetContainerAppsDiagnosticDetectorResponse>,
+  output: __S(6991, __c218, 15) as any as S.Schema<GetContainerAppsDiagnosticDetectorResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -9861,7 +9861,7 @@ export const GetJobDetector: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7968, __c249, 0) as any as S.Schema<GetJobDetectorRequest>,
-  output: __S(6989, __c218, 13) as any as S.Schema<GetJobDetectorResponse>,
+  output: __S(6991, __c218, 15) as any as S.Schema<GetJobDetectorResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -10005,7 +10005,7 @@ export const GetManagedEnvironmentDiagnosticDetector: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8640, __c270, 0) as any as S.Schema<GetManagedEnvironmentDiagnosticDetectorRequest>,
-  output: __S(6989, __c218, 13) as any as S.Schema<GetManagedEnvironmentDiagnosticDetectorResponse>,
+  output: __S(6991, __c218, 15) as any as S.Schema<GetManagedEnvironmentDiagnosticDetectorResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -12228,7 +12228,7 @@ function __c2(j: number): any {
       return S.suspend(() =>
         S.Struct({
           endpoint: S.optional(S.String),
-          dataSource: S.optional(S.String),
+          dataSource: S.optional(S.String.pipe(T.SensitiveValue({}))),
           identity: S.optional(S.String),
           extendedProperties: S.optional(__S(160, __c5, 0)),
           dataConnectorType: S.optional(S.String),
@@ -12286,7 +12286,7 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           endpoint: S.optional(S.String),
-          dataSource: S.optional(S.String),
+          dataSource: S.optional(S.String.pipe(T.SensitiveValue({}))),
           identity: S.optional(S.String),
           provisioningState: S.optional(S.String),
           deploymentError: S.optional(S.String),
@@ -12359,7 +12359,7 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           accountName: S.optional(S.String),
-          accountKey: S.optional(S.String),
+          accountKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           accountKeyVaultProperties: S.optional(__S(5440, __c170, 0)),
           accessMode: S.optional(S.String),
           shareName: S.optional(S.String),
@@ -12427,7 +12427,7 @@ function __c11(j: number): any {
           provisioningState: S.optional(S.String),
           deploymentError: S.optional(S.String),
           extendedProperties: S.optional(__S(160, __c5, 0)),
-          dataSource: S.optional(S.String),
+          dataSource: S.optional(S.String.pipe(T.SensitiveValue({}))),
           dataConnectorType: S.optional(S.String),
         }),
       ).annotate({ identifier: "AgentConnectorPropertiesWithSecrets" });
@@ -13017,7 +13017,7 @@ function __c37(j: number): any {
 function __c38(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(6989, __c218, 13));
+      return S.Array(__S(6991, __c218, 15));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -14568,7 +14568,7 @@ function __c83(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          value: S.optional(S.String),
+          value: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "SessionPoolSecret" });
     case 1:
@@ -14983,9 +14983,9 @@ function __c98(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          clientId: S.optional(S.String),
+          clientId: S.optional(S.String.pipe(T.SensitiveValue({}))),
           clientSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          tenantId: S.optional(S.String),
+          tenantId: S.optional(S.String.pipe(T.SensitiveValue({}))),
           kind: S.optional(S.String),
           subscriptionId: S.optional(S.String),
         }),
@@ -14996,7 +14996,7 @@ function __c98(j: number): any {
           registryInfo: S.optional(__S(3136, __c98, 0)),
           azureCredentials: S.optional(__S(3137, __c98, 1)),
           contextPath: S.optional(S.String),
-          githubPersonalAccessToken: S.optional(S.String),
+          githubPersonalAccessToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           image: S.optional(S.String),
           publishType: S.optional(S.String),
           os: S.optional(S.String),
@@ -15477,8 +15477,8 @@ function __c114(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          daprAIInstrumentationKey: S.optional(S.String),
-          daprAIConnectionString: S.optional(S.String),
+          daprAIInstrumentationKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          daprAIConnectionString: S.optional(S.String.pipe(T.SensitiveValue({}))),
           vnetConfiguration: S.optional(__S(8576, __c268, 0)),
           appLogsConfiguration: S.optional(__S(8578, __c268, 2)),
           appInsightsConfiguration: S.optional(__S(8579, __c268, 3)),
@@ -16534,8 +16534,8 @@ function __c155(j: number): any {
         S.Struct({
           type: S.optional(S.String),
           connectionName: S.optional(S.String),
-          connectionUrl: S.optional(S.String),
-          connectionKey: S.optional(S.String),
+          connectionUrl: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          connectionKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           oboUser: S.optional(S.String),
         }),
       ).annotate({ identifier: "IncidentManagementConfiguration" });
@@ -16861,7 +16861,7 @@ function __c168(j: number): any {
         S.Struct({
           certificateKeyVaultProperties: S.optional(__S(5440, __c170, 0)),
           password: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          value: S.optional(S.String),
+          value: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "CertificatePropertiesInput" });
   }
@@ -16877,7 +16877,7 @@ function __c169(j: number): any {
           password: S.optional(S.String.pipe(T.SensitiveValue({}))),
           subjectName: S.optional(S.String),
           subjectAlternativeNames: S.optional(__S(4928, __c154, 0)),
-          value: S.optional(S.String),
+          value: S.optional(S.String.pipe(T.SensitiveValue({}))),
           issuer: S.optional(S.String),
           issueDate: S.optional(S.String),
           expirationDate: S.optional(S.String),
@@ -17734,7 +17734,7 @@ function __c210(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           expires: S.optional(S.String),
         }),
       ).annotate({ identifier: "ContainerAppAuthTokenProperties" });
@@ -17962,27 +17962,36 @@ function __c218(j: number): any {
     case 11:
       return S.suspend(() =>
         S.Struct({
+          name: S.optional(S.String),
+          value: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DiagnosticDataProviderMetadataPropertyBagItem" });
+    case 12:
+      return S.Array(__S(6987, __c218, 11));
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
           providerName: S.optional(S.String),
-          propertyBag: S.optional(__S(2657, __c83, 1)),
+          propertyBag: S.optional(__S(6988, __c218, 12)),
         }),
       ).annotate({ identifier: "DiagnosticDataProviderMetadata" });
-    case 12:
+    case 14:
       return S.suspend(() =>
         S.Struct({
           metadata: S.optional(__S(6978, __c218, 2)),
           dataset: S.optional(__S(6985, __c218, 9)),
           status: S.optional(__S(6986, __c218, 10)),
-          dataProviderMetadata: S.optional(__S(6987, __c218, 11)),
+          dataProviderMetadata: S.optional(__S(6989, __c218, 13)),
         }),
       ).annotate({ identifier: "DiagnosticsProperties" });
-    case 13:
+    case 15:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(96, __c3, 0)),
-          properties: S.optional(__S(6988, __c218, 12)),
+          properties: S.optional(__S(6990, __c218, 14)),
         }),
       ).annotate({ identifier: "GetContainerAppsDiagnosticDetectorResponse" });
   }
@@ -18797,7 +18806,7 @@ function __c251(j: number): any {
       return S.suspend(() =>
         S.Struct({
           staticIp: S.optional(S.String),
-          daprAIConnectionString: S.optional(S.String),
+          daprAIConnectionString: S.optional(S.String.pipe(T.SensitiveValue({}))),
           customDomainConfiguration: S.optional(__S(8096, __c253, 0)),
         }),
       ).annotate({ identifier: "ConnectedEnvironmentPropertiesInput" });
@@ -18855,7 +18864,7 @@ function __c253(j: number): any {
         S.Struct({
           dnsSuffix: S.optional(S.String),
           certificateKeyVaultProperties: S.optional(__S(5440, __c170, 0)),
-          certificateValue: S.optional(S.String),
+          certificateValue: S.optional(S.String.pipe(T.SensitiveValue({}))),
           certificatePassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "CustomDomainConfigurationInput" });
@@ -18870,7 +18879,7 @@ function __c254(j: number): any {
           deploymentErrors: S.optional(S.String),
           defaultDomain: S.optional(S.String),
           staticIp: S.optional(S.String),
-          daprAIConnectionString: S.optional(S.String),
+          daprAIConnectionString: S.optional(S.String.pipe(T.SensitiveValue({}))),
           customDomainConfiguration: S.optional(__S(8160, __c255, 0)),
         }),
       ).annotate({ identifier: "ConnectedEnvironmentProperties" });
@@ -18884,7 +18893,7 @@ function __c255(j: number): any {
           customDomainVerificationId: S.optional(S.String),
           dnsSuffix: S.optional(S.String),
           certificateKeyVaultProperties: S.optional(__S(5440, __c170, 0)),
-          certificateValue: S.optional(S.String),
+          certificateValue: S.optional(S.String.pipe(T.SensitiveValue({}))),
           certificatePassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
           expirationDate: S.optional(S.String),
           thumbprint: S.optional(S.String),
@@ -19072,7 +19081,7 @@ function __c263(j: number): any {
           subjectName: S.optional(S.String),
           error: S.optional(S.String),
           domainControlValidation: S.optional(S.String),
-          validationToken: S.optional(S.String),
+          validationToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "ManagedCertificateProperties" });
   }
@@ -19152,7 +19161,7 @@ function __c268(j: number): any {
       return S.suspend(() =>
         S.Struct({
           customerId: S.optional(S.String),
-          sharedKey: S.optional(S.String),
+          sharedKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "LogAnalyticsConfiguration" });
     case 2:
@@ -19172,7 +19181,7 @@ function __c268(j: number): any {
       return S.suspend(() =>
         S.Struct({
           site: S.optional(S.String),
-          key: S.optional(S.String),
+          key: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "DataDogConfiguration" });
     case 5:
@@ -19279,8 +19288,8 @@ function __c268(j: number): any {
       return S.suspend(() =>
         S.Struct({
           provisioningState: S.optional(S.String),
-          daprAIInstrumentationKey: S.optional(S.String),
-          daprAIConnectionString: S.optional(S.String),
+          daprAIInstrumentationKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          daprAIConnectionString: S.optional(S.String.pipe(T.SensitiveValue({}))),
           vnetConfiguration: S.optional(__S(8576, __c268, 0)),
           deploymentErrors: S.optional(S.String),
           defaultDomain: S.optional(S.String),
@@ -19456,7 +19465,7 @@ function __c276(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          value: S.optional(S.String),
+          value: S.optional(S.String.pipe(T.SensitiveValue({}))),
           identity: S.optional(S.String),
           keyVaultUrl: S.optional(S.String),
         }),

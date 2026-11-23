@@ -304,7 +304,7 @@ export interface XdslTemplateModemWLAN {
   /** Indicate if it is normal access wifi or guest wifi */
   guest?: boolean | undefined;
   /** Encrypted WLAN passphrase */
-  securityKey?: string | undefined;
+  securityKey?: string | Redacted.Redacted<string> | undefined;
   /** Type of WLAN security protection */
   securityType?: XdslTemplateModemSecurityTypeEnum | undefined;
   /** Wifi Name */
@@ -5921,7 +5921,7 @@ function __c17(j: number): any {
           enabled: S.optional(S.Boolean),
           frequency: S.optional(S.String),
           guest: S.optional(S.Boolean),
-          securityKey: S.optional(S.String),
+          securityKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           securityType: S.optional(S.String),
           wifiName: S.optional(S.String),
         }),

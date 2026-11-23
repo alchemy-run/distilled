@@ -125,7 +125,7 @@ export interface DestinationConfigOpenTelemetryBasicAuth {
 export interface DestinationConfigOpenTelemetry {
   basicAuth?: DestinationConfigOpenTelemetryBasicAuth | undefined;
   /** A bearer token to authenticate at the OpenTelemetry URI. */
-  bearerToken?: string | undefined;
+  bearerToken?: string | Redacted.Redacted<string> | undefined;
   /** The URI for reaching the resource. */
   uri: string;
 }
@@ -1150,7 +1150,7 @@ function __c14(j: number): any {
       return S.suspend(() =>
         S.Struct({
           basicAuth: S.optional(__S(112, __c14, 0)),
-          bearerToken: S.optional(S.String),
+          bearerToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           uri: S.String,
         }),
       ).annotate({ identifier: "DestinationConfigOpenTelemetry" });

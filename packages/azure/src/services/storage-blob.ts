@@ -210,7 +210,7 @@ export interface AppendBlobAppendBlockFromUrlRequest {
   /** Specify the transactional md5 for the body, to be validated by the service. */
   contentMD5?: string | undefined;
   /** Optional. Specifies the encryption key to use to encrypt the data provided in the request. If not specified, encryption is performed with the root account encryption key. For more information, see Encryption at Rest for Azure Storage Services. */
-  xMsEncryptionKey?: string | undefined;
+  xMsEncryptionKey?: string | Redacted.Redacted<string> | undefined;
   /** The SHA-256 hash of the provided encryption key. Must be provided if the x-ms-encryption-key header is provided. */
   xMsEncryptionKeySha256?: string | undefined;
   /** The algorithm used to produce the encryption key hash. Currently, the only accepted value is "AES256". Must be provided if the x-ms-encryption-key header is provided. */
@@ -247,14 +247,14 @@ export interface AppendBlobAppendBlockFromUrlRequest {
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   xMsClientRequestId?: string | undefined;
   /** Only Bearer type is supported. Credentials should be a valid OAuth access token to copy source. */
-  xMsCopySourceAuthorization?: string | undefined;
+  xMsCopySourceAuthorization?: string | Redacted.Redacted<string> | undefined;
   /** Valid value is backup */
   xMsFileRequestIntent?:
     | AppendBlobAppendBlockFromUrlRequestXMsFileRequestIntent
     | (string & {})
     | undefined;
   /** Optional. Specifies the source encryption key to use to encrypt the source data provided in the request. */
-  xMsSourceEncryptionKey?: string | undefined;
+  xMsSourceEncryptionKey?: string | Redacted.Redacted<string> | undefined;
   /** The SHA-256 hash of the provided source encryption key. Must be provided if the x-ms-source-encryption-key header is provided. */
   xMsSourceEncryptionKeySha256?: string | undefined;
   /** The algorithm used to produce the source encryption key hash. Currently, the only accepted value is "AES256". Must be provided if the x-ms-source-encryption-key is provided. */
@@ -498,7 +498,7 @@ export interface BlobQueryRequest {
   /** If specified, the operation only succeeds if the resource's lease is active and matches this ID. */
   xMsLeaseId?: string | undefined;
   /** Optional. Specifies the encryption key to use to encrypt the data provided in the request. If not specified, encryption is performed with the root account encryption key. For more information, see Encryption at Rest for Azure Storage Services. */
-  xMsEncryptionKey?: string | undefined;
+  xMsEncryptionKey?: string | Redacted.Redacted<string> | undefined;
   /** The SHA-256 hash of the provided encryption key. Must be provided if the x-ms-encryption-key header is provided. */
   xMsEncryptionKeySha256?: string | undefined;
   /** The algorithm used to produce the encryption key hash. Currently, the only accepted value is "AES256". Must be provided if the x-ms-encryption-key header is provided. */
@@ -747,7 +747,7 @@ export interface BlockAppendBlobAppendRequest {
   /** Optional conditional header, used only for the Append Block operation. A number indicating the byte offset to compare. Append Block will succeed only if the append position is equal to this number. If it is not, the request will fail with the AppendPositionConditionNotMet error (HTTP status code 412 - Precondition Failed). */
   xMsBlobConditionAppendpos?: number | undefined;
   /** Optional. Specifies the encryption key to use to encrypt the data provided in the request. If not specified, encryption is performed with the root account encryption key. For more information, see Encryption at Rest for Azure Storage Services. */
-  xMsEncryptionKey?: string | undefined;
+  xMsEncryptionKey?: string | Redacted.Redacted<string> | undefined;
   /** The SHA-256 hash of the provided encryption key. Must be provided if the x-ms-encryption-key header is provided. */
   xMsEncryptionKeySha256?: string | undefined;
   /** The algorithm used to produce the encryption key hash. Currently, the only accepted value is "AES256". Must be provided if the x-ms-encryption-key header is provided. */
@@ -874,7 +874,7 @@ export interface BlockBlobStageBlockRequest {
   /** If specified, the operation only succeeds if the resource's lease is active and matches this ID. */
   xMsLeaseId?: string | undefined;
   /** Optional. Specifies the encryption key to use to encrypt the data provided in the request. If not specified, encryption is performed with the root account encryption key. For more information, see Encryption at Rest for Azure Storage Services. */
-  xMsEncryptionKey?: string | undefined;
+  xMsEncryptionKey?: string | Redacted.Redacted<string> | undefined;
   /** The SHA-256 hash of the provided encryption key. Must be provided if the x-ms-encryption-key header is provided. */
   xMsEncryptionKeySha256?: string | undefined;
   /** The algorithm used to produce the encryption key hash. Currently, the only accepted value is "AES256". Must be provided if the x-ms-encryption-key header is provided. */
@@ -937,7 +937,7 @@ export interface BlockBlobStageBlockFromURLRequest {
   /** Specify the crc64 calculated for the range of bytes that must be read from the copy source. */
   xMsSourceContentCrc64?: string | undefined;
   /** Optional. Specifies the encryption key to use to encrypt the data provided in the request. If not specified, encryption is performed with the root account encryption key. For more information, see Encryption at Rest for Azure Storage Services. */
-  xMsEncryptionKey?: string | undefined;
+  xMsEncryptionKey?: string | Redacted.Redacted<string> | undefined;
   /** The SHA-256 hash of the provided encryption key. Must be provided if the x-ms-encryption-key header is provided. */
   xMsEncryptionKeySha256?: string | undefined;
   /** The algorithm used to produce the encryption key hash. Currently, the only accepted value is "AES256". Must be provided if the x-ms-encryption-key header is provided. */
@@ -960,14 +960,14 @@ export interface BlockBlobStageBlockFromURLRequest {
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   xMsClientRequestId?: string | undefined;
   /** Only Bearer type is supported. Credentials should be a valid OAuth access token to copy source. */
-  xMsCopySourceAuthorization?: string | undefined;
+  xMsCopySourceAuthorization?: string | Redacted.Redacted<string> | undefined;
   /** Valid value is backup */
   xMsFileRequestIntent?:
     | BlockBlobStageBlockFromURLRequestXMsFileRequestIntent
     | (string & {})
     | undefined;
   /** Optional. Specifies the source encryption key to use to encrypt the source data provided in the request. */
-  xMsSourceEncryptionKey?: string | undefined;
+  xMsSourceEncryptionKey?: string | Redacted.Redacted<string> | undefined;
   /** The SHA-256 hash of the provided source encryption key. Must be provided if the x-ms-source-encryption-key header is provided. */
   xMsSourceEncryptionKeySha256?: string | undefined;
   /** The algorithm used to produce the source encryption key hash. Currently, the only accepted value is "AES256". Must be provided if the x-ms-source-encryption-key is provided. */
@@ -1011,7 +1011,7 @@ export interface ClearPageBlobPagesRequest {
   /** If specified, the operation only succeeds if the resource's lease is active and matches this ID. */
   xMsLeaseId?: string | undefined;
   /** Optional. Specifies the encryption key to use to encrypt the data provided in the request. If not specified, encryption is performed with the root account encryption key. For more information, see Encryption at Rest for Azure Storage Services. */
-  xMsEncryptionKey?: string | undefined;
+  xMsEncryptionKey?: string | Redacted.Redacted<string> | undefined;
   /** The SHA-256 hash of the provided encryption key. Must be provided if the x-ms-encryption-key header is provided. */
   xMsEncryptionKeySha256?: string | undefined;
   /** The algorithm used to produce the encryption key hash. Currently, the only accepted value is "AES256". Must be provided if the x-ms-encryption-key header is provided. */
@@ -1314,7 +1314,7 @@ export interface CopyBlobFromURLRequest {
   /** Specified if a legal hold should be set on the blob. */
   xMsLegalHold?: boolean | undefined;
   /** Only Bearer type is supported. Credentials should be a valid OAuth access token to copy source. */
-  xMsCopySourceAuthorization?: string | undefined;
+  xMsCopySourceAuthorization?: string | Redacted.Redacted<string> | undefined;
   /** Optional. Version 2019-07-07 and later. Specifies the name of the encryption scope to use to encrypt the data provided in the request. If not specified, encryption is performed with the default account encryption scope. For more information, see Encryption at Rest for Azure Storage Services. */
   xMsEncryptionScope?: string | undefined;
   /** Optional, default 'replace'. Indicates if source tags should be copied or replaced with the tags specified by x-ms-tags. */
@@ -1418,7 +1418,7 @@ export interface CreateAppendBlobRequest {
   /** Optional. Sets the blob's Content-Disposition header. */
   xMsBlobContentDisposition?: string | undefined;
   /** Optional. Specifies the encryption key to use to encrypt the data provided in the request. If not specified, encryption is performed with the root account encryption key. For more information, see Encryption at Rest for Azure Storage Services. */
-  xMsEncryptionKey?: string | undefined;
+  xMsEncryptionKey?: string | Redacted.Redacted<string> | undefined;
   /** The SHA-256 hash of the provided encryption key. Must be provided if the x-ms-encryption-key header is provided. */
   xMsEncryptionKeySha256?: string | undefined;
   /** The algorithm used to produce the encryption key hash. Currently, the only accepted value is "AES256". Must be provided if the x-ms-encryption-key header is provided. */
@@ -1489,7 +1489,7 @@ export interface CreateBlobSnapshotRequest {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeout?: number | undefined;
   /** Optional. Specifies the encryption key to use to encrypt the data provided in the request. If not specified, encryption is performed with the root account encryption key. For more information, see Encryption at Rest for Azure Storage Services. */
-  xMsEncryptionKey?: string | undefined;
+  xMsEncryptionKey?: string | Redacted.Redacted<string> | undefined;
   /** The SHA-256 hash of the provided encryption key. Must be provided if the x-ms-encryption-key header is provided. */
   xMsEncryptionKeySha256?: string | undefined;
   /** The algorithm used to produce the encryption key hash. Currently, the only accepted value is "AES256". Must be provided if the x-ms-encryption-key header is provided. */
@@ -1636,7 +1636,7 @@ export interface CreatePageBlobRequest {
   /** Optional. Sets the blob's Content-Disposition header. */
   xMsBlobContentDisposition?: string | undefined;
   /** Optional. Specifies the encryption key to use to encrypt the data provided in the request. If not specified, encryption is performed with the root account encryption key. For more information, see Encryption at Rest for Azure Storage Services. */
-  xMsEncryptionKey?: string | undefined;
+  xMsEncryptionKey?: string | Redacted.Redacted<string> | undefined;
   /** The SHA-256 hash of the provided encryption key. Must be provided if the x-ms-encryption-key header is provided. */
   xMsEncryptionKeySha256?: string | undefined;
   /** The algorithm used to produce the encryption key hash. Currently, the only accepted value is "AES256". Must be provided if the x-ms-encryption-key header is provided. */
@@ -1822,7 +1822,7 @@ export interface DownloadBlobRequest {
   /** Specifies the response content should be returned as a structured message and specifies the message schema version and properties. */
   xMsStructuredBody?: string | undefined;
   /** Optional. Specifies the encryption key to use to encrypt the data provided in the request. If not specified, encryption is performed with the root account encryption key. For more information, see Encryption at Rest for Azure Storage Services. */
-  xMsEncryptionKey?: string | undefined;
+  xMsEncryptionKey?: string | Redacted.Redacted<string> | undefined;
   /** The SHA-256 hash of the provided encryption key. Must be provided if the x-ms-encryption-key header is provided. */
   xMsEncryptionKeySha256?: string | undefined;
   /** The algorithm used to produce the encryption key hash. Currently, the only accepted value is "AES256". Must be provided if the x-ms-encryption-key header is provided. */
@@ -2005,7 +2005,7 @@ export interface GetBlobLayoutRequest {
   /** Specify an ETag value to operate only on blobs without a matching value. */
   ifNoneMatch?: string | undefined;
   /** Optional. Specifies the encryption key to use to encrypt the data provided in the request. If not specified, encryption is performed with the root account encryption key. For more information, see Encryption at Rest for Azure Storage Services. */
-  xMsEncryptionKey?: string | undefined;
+  xMsEncryptionKey?: string | Redacted.Redacted<string> | undefined;
   /** The SHA-256 hash of the provided encryption key. Must be provided if the x-ms-encryption-key header is provided. */
   xMsEncryptionKeySha256?: string | undefined;
   /** The algorithm used to produce the encryption key hash. Currently, the only accepted value is "AES256". Must be provided if the x-ms-encryption-key header is provided. */
@@ -2171,7 +2171,7 @@ export interface GetBlobPropertiesRequest {
   /** If specified, the operation only succeeds if the resource's lease is active and matches this ID. */
   xMsLeaseId?: string | undefined;
   /** Optional. Specifies the encryption key to use to encrypt the data provided in the request. If not specified, encryption is performed with the root account encryption key. For more information, see Encryption at Rest for Azure Storage Services. */
-  xMsEncryptionKey?: string | undefined;
+  xMsEncryptionKey?: string | Redacted.Redacted<string> | undefined;
   /** The SHA-256 hash of the provided encryption key. Must be provided if the x-ms-encryption-key header is provided. */
   xMsEncryptionKeySha256?: string | undefined;
   /** The algorithm used to produce the encryption key hash. Currently, the only accepted value is "AES256". Must be provided if the x-ms-encryption-key header is provided. */
@@ -2776,7 +2776,7 @@ export interface ListBlockBlobCommitBlockRequest {
   /** Optional. Sets the blob's Content-Disposition header. */
   xMsBlobContentDisposition?: string | undefined;
   /** Optional. Specifies the encryption key to use to encrypt the data provided in the request. If not specified, encryption is performed with the root account encryption key. For more information, see Encryption at Rest for Azure Storage Services. */
-  xMsEncryptionKey?: string | undefined;
+  xMsEncryptionKey?: string | Redacted.Redacted<string> | undefined;
   /** The SHA-256 hash of the provided encryption key. Must be provided if the x-ms-encryption-key header is provided. */
   xMsEncryptionKeySha256?: string | undefined;
   /** The algorithm used to produce the encryption key hash. Currently, the only accepted value is "AES256". Must be provided if the x-ms-encryption-key header is provided. */
@@ -3278,7 +3278,7 @@ export interface PutBlockBlobBlobFromUrlRequest {
   /** Optional. Sets the blob's Content-Disposition header. */
   xMsBlobContentDisposition?: string | undefined;
   /** Optional. Specifies the encryption key to use to encrypt the data provided in the request. If not specified, encryption is performed with the root account encryption key. For more information, see Encryption at Rest for Azure Storage Services. */
-  xMsEncryptionKey?: string | undefined;
+  xMsEncryptionKey?: string | Redacted.Redacted<string> | undefined;
   /** The SHA-256 hash of the provided encryption key. Must be provided if the x-ms-encryption-key header is provided. */
   xMsEncryptionKeySha256?: string | undefined;
   /** The algorithm used to produce the encryption key hash. Currently, the only accepted value is "AES256". Must be provided if the x-ms-encryption-key header is provided. */
@@ -3321,7 +3321,7 @@ export interface PutBlockBlobBlobFromUrlRequest {
   /** Optional, default is true. Indicates if properties from the source blob should be copied. */
   xMsCopySourceBlobProperties?: boolean | undefined;
   /** Only Bearer type is supported. Credentials should be a valid OAuth access token to copy source. */
-  xMsCopySourceAuthorization?: string | undefined;
+  xMsCopySourceAuthorization?: string | Redacted.Redacted<string> | undefined;
   /** Optional, default 'replace'. Indicates if source tags should be copied or replaced with the tags specified by x-ms-tags. */
   xMsCopySourceTagOption?:
     | PutBlockBlobBlobFromUrlRequestXMsCopySourceTagOption
@@ -3333,7 +3333,7 @@ export interface PutBlockBlobBlobFromUrlRequest {
     | (string & {})
     | undefined;
   /** Optional. Specifies the source encryption key to use to encrypt the source data provided in the request. */
-  xMsSourceEncryptionKey?: string | undefined;
+  xMsSourceEncryptionKey?: string | Redacted.Redacted<string> | undefined;
   /** The SHA-256 hash of the provided source encryption key. Must be provided if the x-ms-source-encryption-key header is provided. */
   xMsSourceEncryptionKeySha256?: string | undefined;
   /** The algorithm used to produce the source encryption key hash. Currently, the only accepted value is "AES256". Must be provided if the x-ms-source-encryption-key is provided. */
@@ -3479,7 +3479,7 @@ export interface ResizePageBlobRequest {
   /** If specified, the operation only succeeds if the resource's lease is active and matches this ID. */
   xMsLeaseId?: string | undefined;
   /** Optional. Specifies the encryption key to use to encrypt the data provided in the request. If not specified, encryption is performed with the root account encryption key. For more information, see Encryption at Rest for Azure Storage Services. */
-  xMsEncryptionKey?: string | undefined;
+  xMsEncryptionKey?: string | Redacted.Redacted<string> | undefined;
   /** The SHA-256 hash of the provided encryption key. Must be provided if the x-ms-encryption-key header is provided. */
   xMsEncryptionKeySha256?: string | undefined;
   /** The algorithm used to produce the encryption key hash. Currently, the only accepted value is "AES256". Must be provided if the x-ms-encryption-key header is provided. */
@@ -3786,7 +3786,7 @@ export interface SetBlobMetadataRequest {
   /** If specified, the operation only succeeds if the resource's lease is active and matches this ID. */
   xMsLeaseId?: string | undefined;
   /** Optional. Specifies the encryption key to use to encrypt the data provided in the request. If not specified, encryption is performed with the root account encryption key. For more information, see Encryption at Rest for Azure Storage Services. */
-  xMsEncryptionKey?: string | undefined;
+  xMsEncryptionKey?: string | Redacted.Redacted<string> | undefined;
   /** The SHA-256 hash of the provided encryption key. Must be provided if the x-ms-encryption-key header is provided. */
   xMsEncryptionKeySha256?: string | undefined;
   /** The algorithm used to produce the encryption key hash. Currently, the only accepted value is "AES256". Must be provided if the x-ms-encryption-key header is provided. */
@@ -4175,7 +4175,7 @@ export interface UploadBlockBlobRequest {
   /** Optional. Sets the blob's Content-Disposition header. */
   xMsBlobContentDisposition?: string | undefined;
   /** Optional. Specifies the encryption key to use to encrypt the data provided in the request. If not specified, encryption is performed with the root account encryption key. For more information, see Encryption at Rest for Azure Storage Services. */
-  xMsEncryptionKey?: string | undefined;
+  xMsEncryptionKey?: string | Redacted.Redacted<string> | undefined;
   /** The SHA-256 hash of the provided encryption key. Must be provided if the x-ms-encryption-key header is provided. */
   xMsEncryptionKeySha256?: string | undefined;
   /** The algorithm used to produce the encryption key hash. Currently, the only accepted value is "AES256". Must be provided if the x-ms-encryption-key header is provided. */
@@ -4264,7 +4264,7 @@ export interface UploadPageBlobPagesRequest {
   /** If specified, the operation only succeeds if the resource's lease is active and matches this ID. */
   xMsLeaseId?: string | undefined;
   /** Optional. Specifies the encryption key to use to encrypt the data provided in the request. If not specified, encryption is performed with the root account encryption key. For more information, see Encryption at Rest for Azure Storage Services. */
-  xMsEncryptionKey?: string | undefined;
+  xMsEncryptionKey?: string | Redacted.Redacted<string> | undefined;
   /** The SHA-256 hash of the provided encryption key. Must be provided if the x-ms-encryption-key header is provided. */
   xMsEncryptionKeySha256?: string | undefined;
   /** The algorithm used to produce the encryption key hash. Currently, the only accepted value is "AES256". Must be provided if the x-ms-encryption-key header is provided. */
@@ -4349,7 +4349,7 @@ export interface UploadPageBlobPagesFromURLRequest {
   /** The range of bytes to which the source range would be written. The range should be 512 aligned and range-end is required. */
   xMsRange: string;
   /** Optional. Specifies the encryption key to use to encrypt the data provided in the request. If not specified, encryption is performed with the root account encryption key. For more information, see Encryption at Rest for Azure Storage Services. */
-  xMsEncryptionKey?: string | undefined;
+  xMsEncryptionKey?: string | Redacted.Redacted<string> | undefined;
   /** The SHA-256 hash of the provided encryption key. Must be provided if the x-ms-encryption-key header is provided. */
   xMsEncryptionKeySha256?: string | undefined;
   /** The algorithm used to produce the encryption key hash. Currently, the only accepted value is "AES256". Must be provided if the x-ms-encryption-key header is provided. */
@@ -4388,14 +4388,14 @@ export interface UploadPageBlobPagesFromURLRequest {
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   xMsClientRequestId?: string | undefined;
   /** Only Bearer type is supported. Credentials should be a valid OAuth access token to copy source. */
-  xMsCopySourceAuthorization?: string | undefined;
+  xMsCopySourceAuthorization?: string | Redacted.Redacted<string> | undefined;
   /** Valid value is backup */
   xMsFileRequestIntent?:
     | UploadPageBlobPagesFromURLRequestXMsFileRequestIntent
     | (string & {})
     | undefined;
   /** Optional. Specifies the source encryption key to use to encrypt the source data provided in the request. */
-  xMsSourceEncryptionKey?: string | undefined;
+  xMsSourceEncryptionKey?: string | Redacted.Redacted<string> | undefined;
   /** The SHA-256 hash of the provided source encryption key. Must be provided if the x-ms-source-encryption-key header is provided. */
   xMsSourceEncryptionKeySha256?: string | undefined;
   /** The algorithm used to produce the source encryption key hash. Currently, the only accepted value is "AES256". Must be provided if the x-ms-source-encryption-key is provided. */
@@ -7552,7 +7552,9 @@ function __c0(j: number): any {
           xMsSourceContentMd5: S.optional(S.String.pipe(T.Header("x-ms-source-content-md5"))),
           xMsSourceContentCrc64: S.optional(S.String.pipe(T.Header("x-ms-source-content-crc64"))),
           contentMD5: S.optional(S.String.pipe(T.Header("Content-MD5"))),
-          xMsEncryptionKey: S.optional(S.String.pipe(T.Header("x-ms-encryption-key"))),
+          xMsEncryptionKey: S.optional(
+            S.String.pipe(T.Header("x-ms-encryption-key"), T.SensitiveValue({})),
+          ),
           xMsEncryptionKeySha256: S.optional(S.String.pipe(T.Header("x-ms-encryption-key-sha256"))),
           xMsEncryptionAlgorithm: S.optional(S.String.pipe(T.Header("x-ms-encryption-algorithm"))),
           xMsEncryptionScope: S.optional(S.String.pipe(T.Header("x-ms-encryption-scope"))),
@@ -7578,10 +7580,12 @@ function __c0(j: number): any {
           xMsSourceIfNoneMatch: S.optional(S.String.pipe(T.Header("x-ms-source-if-none-match"))),
           xMsClientRequestId: S.optional(S.String.pipe(T.Header("x-ms-client-request-id"))),
           xMsCopySourceAuthorization: S.optional(
-            S.String.pipe(T.Header("x-ms-copy-source-authorization")),
+            S.String.pipe(T.Header("x-ms-copy-source-authorization"), T.SensitiveValue({})),
           ),
           xMsFileRequestIntent: S.optional(S.String.pipe(T.Header("x-ms-file-request-intent"))),
-          xMsSourceEncryptionKey: S.optional(S.String.pipe(T.Header("x-ms-source-encryption-key"))),
+          xMsSourceEncryptionKey: S.optional(
+            S.String.pipe(T.Header("x-ms-source-encryption-key"), T.SensitiveValue({})),
+          ),
           xMsSourceEncryptionKeySha256: S.optional(
             S.String.pipe(T.Header("x-ms-source-encryption-key-sha256")),
           ),
@@ -7877,7 +7881,9 @@ function __c8(j: number): any {
           snapshot: S.optional(S.String.pipe(T.Query())),
           timeout: S.optional(S.Number.pipe(T.Query())),
           xMsLeaseId: S.optional(S.String.pipe(T.Header("x-ms-lease-id"))),
-          xMsEncryptionKey: S.optional(S.String.pipe(T.Header("x-ms-encryption-key"))),
+          xMsEncryptionKey: S.optional(
+            S.String.pipe(T.Header("x-ms-encryption-key"), T.SensitiveValue({})),
+          ),
           xMsEncryptionKeySha256: S.optional(S.String.pipe(T.Header("x-ms-encryption-key-sha256"))),
           xMsEncryptionAlgorithm: S.optional(S.String.pipe(T.Header("x-ms-encryption-algorithm"))),
           ifModifiedSince: S.optional(S.String.pipe(T.Header("If-Modified-Since"))),
@@ -8092,7 +8098,9 @@ function __c13(j: number): any {
           xMsBlobConditionAppendpos: S.optional(
             S.Number.pipe(T.Header("x-ms-blob-condition-appendpos")),
           ),
-          xMsEncryptionKey: S.optional(S.String.pipe(T.Header("x-ms-encryption-key"))),
+          xMsEncryptionKey: S.optional(
+            S.String.pipe(T.Header("x-ms-encryption-key"), T.SensitiveValue({})),
+          ),
           xMsEncryptionKeySha256: S.optional(S.String.pipe(T.Header("x-ms-encryption-key-sha256"))),
           xMsEncryptionAlgorithm: S.optional(S.String.pipe(T.Header("x-ms-encryption-algorithm"))),
           xMsEncryptionScope: S.optional(S.String.pipe(T.Header("x-ms-encryption-scope"))),
@@ -8215,7 +8223,9 @@ function __c15(j: number): any {
           contentMD5: S.optional(S.String.pipe(T.Header("Content-MD5"))),
           xMsContentCrc64: S.optional(S.String.pipe(T.Header("x-ms-content-crc64"))),
           xMsLeaseId: S.optional(S.String.pipe(T.Header("x-ms-lease-id"))),
-          xMsEncryptionKey: S.optional(S.String.pipe(T.Header("x-ms-encryption-key"))),
+          xMsEncryptionKey: S.optional(
+            S.String.pipe(T.Header("x-ms-encryption-key"), T.SensitiveValue({})),
+          ),
           xMsEncryptionKeySha256: S.optional(S.String.pipe(T.Header("x-ms-encryption-key-sha256"))),
           xMsEncryptionAlgorithm: S.optional(S.String.pipe(T.Header("x-ms-encryption-algorithm"))),
           xMsEncryptionScope: S.optional(S.String.pipe(T.Header("x-ms-encryption-scope"))),
@@ -8273,7 +8283,9 @@ function __c16(j: number): any {
           xMsSourceRange: S.optional(S.String.pipe(T.Header("x-ms-source-range"))),
           xMsSourceContentMd5: S.optional(S.String.pipe(T.Header("x-ms-source-content-md5"))),
           xMsSourceContentCrc64: S.optional(S.String.pipe(T.Header("x-ms-source-content-crc64"))),
-          xMsEncryptionKey: S.optional(S.String.pipe(T.Header("x-ms-encryption-key"))),
+          xMsEncryptionKey: S.optional(
+            S.String.pipe(T.Header("x-ms-encryption-key"), T.SensitiveValue({})),
+          ),
           xMsEncryptionKeySha256: S.optional(S.String.pipe(T.Header("x-ms-encryption-key-sha256"))),
           xMsEncryptionAlgorithm: S.optional(S.String.pipe(T.Header("x-ms-encryption-algorithm"))),
           xMsEncryptionScope: S.optional(S.String.pipe(T.Header("x-ms-encryption-scope"))),
@@ -8288,10 +8300,12 @@ function __c16(j: number): any {
           xMsSourceIfNoneMatch: S.optional(S.String.pipe(T.Header("x-ms-source-if-none-match"))),
           xMsClientRequestId: S.optional(S.String.pipe(T.Header("x-ms-client-request-id"))),
           xMsCopySourceAuthorization: S.optional(
-            S.String.pipe(T.Header("x-ms-copy-source-authorization")),
+            S.String.pipe(T.Header("x-ms-copy-source-authorization"), T.SensitiveValue({})),
           ),
           xMsFileRequestIntent: S.optional(S.String.pipe(T.Header("x-ms-file-request-intent"))),
-          xMsSourceEncryptionKey: S.optional(S.String.pipe(T.Header("x-ms-source-encryption-key"))),
+          xMsSourceEncryptionKey: S.optional(
+            S.String.pipe(T.Header("x-ms-source-encryption-key"), T.SensitiveValue({})),
+          ),
           xMsSourceEncryptionKeySha256: S.optional(
             S.String.pipe(T.Header("x-ms-source-encryption-key-sha256")),
           ),
@@ -8342,7 +8356,9 @@ function __c17(j: number): any {
           timeout: S.optional(S.Number.pipe(T.Query())),
           xMsRange: S.optional(S.String.pipe(T.Header("x-ms-range"))),
           xMsLeaseId: S.optional(S.String.pipe(T.Header("x-ms-lease-id"))),
-          xMsEncryptionKey: S.optional(S.String.pipe(T.Header("x-ms-encryption-key"))),
+          xMsEncryptionKey: S.optional(
+            S.String.pipe(T.Header("x-ms-encryption-key"), T.SensitiveValue({})),
+          ),
           xMsEncryptionKeySha256: S.optional(S.String.pipe(T.Header("x-ms-encryption-key-sha256"))),
           xMsEncryptionAlgorithm: S.optional(S.String.pipe(T.Header("x-ms-encryption-algorithm"))),
           xMsEncryptionScope: S.optional(S.String.pipe(T.Header("x-ms-encryption-scope"))),
@@ -8633,7 +8649,7 @@ function __c27(j: number): any {
           ),
           xMsLegalHold: S.optional(S.Boolean.pipe(T.Header("x-ms-legal-hold"))),
           xMsCopySourceAuthorization: S.optional(
-            S.String.pipe(T.Header("x-ms-copy-source-authorization")),
+            S.String.pipe(T.Header("x-ms-copy-source-authorization"), T.SensitiveValue({})),
           ),
           xMsEncryptionScope: S.optional(S.String.pipe(T.Header("x-ms-encryption-scope"))),
           xMsCopySourceTagOption: S.optional(
@@ -8739,7 +8755,9 @@ function __c29(j: number): any {
           xMsBlobContentDisposition: S.optional(
             S.String.pipe(T.Header("x-ms-blob-content-disposition")),
           ),
-          xMsEncryptionKey: S.optional(S.String.pipe(T.Header("x-ms-encryption-key"))),
+          xMsEncryptionKey: S.optional(
+            S.String.pipe(T.Header("x-ms-encryption-key"), T.SensitiveValue({})),
+          ),
           xMsEncryptionKeySha256: S.optional(S.String.pipe(T.Header("x-ms-encryption-key-sha256"))),
           xMsEncryptionAlgorithm: S.optional(S.String.pipe(T.Header("x-ms-encryption-algorithm"))),
           xMsEncryptionScope: S.optional(S.String.pipe(T.Header("x-ms-encryption-scope"))),
@@ -8806,7 +8824,9 @@ function __c31(j: number): any {
           containerName: S.String.pipe(T.Label()),
           blob: S.String.pipe(T.Label()),
           timeout: S.optional(S.Number.pipe(T.Query())),
-          xMsEncryptionKey: S.optional(S.String.pipe(T.Header("x-ms-encryption-key"))),
+          xMsEncryptionKey: S.optional(
+            S.String.pipe(T.Header("x-ms-encryption-key"), T.SensitiveValue({})),
+          ),
           xMsEncryptionKeySha256: S.optional(S.String.pipe(T.Header("x-ms-encryption-key-sha256"))),
           xMsEncryptionAlgorithm: S.optional(S.String.pipe(T.Header("x-ms-encryption-algorithm"))),
           xMsEncryptionScope: S.optional(S.String.pipe(T.Header("x-ms-encryption-scope"))),
@@ -8948,7 +8968,9 @@ function __c34(j: number): any {
           xMsBlobContentDisposition: S.optional(
             S.String.pipe(T.Header("x-ms-blob-content-disposition")),
           ),
-          xMsEncryptionKey: S.optional(S.String.pipe(T.Header("x-ms-encryption-key"))),
+          xMsEncryptionKey: S.optional(
+            S.String.pipe(T.Header("x-ms-encryption-key"), T.SensitiveValue({})),
+          ),
           xMsEncryptionKeySha256: S.optional(S.String.pipe(T.Header("x-ms-encryption-key-sha256"))),
           xMsEncryptionAlgorithm: S.optional(S.String.pipe(T.Header("x-ms-encryption-algorithm"))),
           xMsEncryptionScope: S.optional(S.String.pipe(T.Header("x-ms-encryption-scope"))),
@@ -9104,7 +9126,9 @@ function __c38(j: number): any {
             S.Boolean.pipe(T.Header("x-ms-range-get-content-crc64")),
           ),
           xMsStructuredBody: S.optional(S.String.pipe(T.Header("x-ms-structured-body"))),
-          xMsEncryptionKey: S.optional(S.String.pipe(T.Header("x-ms-encryption-key"))),
+          xMsEncryptionKey: S.optional(
+            S.String.pipe(T.Header("x-ms-encryption-key"), T.SensitiveValue({})),
+          ),
           xMsEncryptionKeySha256: S.optional(S.String.pipe(T.Header("x-ms-encryption-key-sha256"))),
           xMsEncryptionAlgorithm: S.optional(S.String.pipe(T.Header("x-ms-encryption-algorithm"))),
           ifModifiedSince: S.optional(S.String.pipe(T.Header("If-Modified-Since"))),
@@ -9261,7 +9285,9 @@ function __c41(j: number): any {
           ifUnmodifiedSince: S.optional(S.String.pipe(T.Header("If-Unmodified-Since"))),
           ifMatch: S.optional(S.String.pipe(T.Header("If-Match"))),
           ifNoneMatch: S.optional(S.String.pipe(T.Header("If-None-Match"))),
-          xMsEncryptionKey: S.optional(S.String.pipe(T.Header("x-ms-encryption-key"))),
+          xMsEncryptionKey: S.optional(
+            S.String.pipe(T.Header("x-ms-encryption-key"), T.SensitiveValue({})),
+          ),
           xMsEncryptionKeySha256: S.optional(S.String.pipe(T.Header("x-ms-encryption-key-sha256"))),
           xMsEncryptionAlgorithm: S.optional(S.String.pipe(T.Header("x-ms-encryption-algorithm"))),
           xMsClientRequestId: S.optional(S.String.pipe(T.Header("x-ms-client-request-id"))),
@@ -9402,7 +9428,9 @@ function __c42(j: number): any {
           versionid: S.optional(S.String.pipe(T.Query())),
           timeout: S.optional(S.Number.pipe(T.Query())),
           xMsLeaseId: S.optional(S.String.pipe(T.Header("x-ms-lease-id"))),
-          xMsEncryptionKey: S.optional(S.String.pipe(T.Header("x-ms-encryption-key"))),
+          xMsEncryptionKey: S.optional(
+            S.String.pipe(T.Header("x-ms-encryption-key"), T.SensitiveValue({})),
+          ),
           xMsEncryptionKeySha256: S.optional(S.String.pipe(T.Header("x-ms-encryption-key-sha256"))),
           xMsEncryptionAlgorithm: S.optional(S.String.pipe(T.Header("x-ms-encryption-algorithm"))),
           ifModifiedSince: S.optional(S.String.pipe(T.Header("If-Modified-Since"))),
@@ -10012,7 +10040,9 @@ function __c56(j: number): any {
           xMsBlobContentDisposition: S.optional(
             S.String.pipe(T.Header("x-ms-blob-content-disposition")),
           ),
-          xMsEncryptionKey: S.optional(S.String.pipe(T.Header("x-ms-encryption-key"))),
+          xMsEncryptionKey: S.optional(
+            S.String.pipe(T.Header("x-ms-encryption-key"), T.SensitiveValue({})),
+          ),
           xMsEncryptionKeySha256: S.optional(S.String.pipe(T.Header("x-ms-encryption-key-sha256"))),
           xMsEncryptionAlgorithm: S.optional(S.String.pipe(T.Header("x-ms-encryption-algorithm"))),
           xMsEncryptionScope: S.optional(S.String.pipe(T.Header("x-ms-encryption-scope"))),
@@ -10457,7 +10487,9 @@ function __c65(j: number): any {
           xMsBlobContentDisposition: S.optional(
             S.String.pipe(T.Header("x-ms-blob-content-disposition")),
           ),
-          xMsEncryptionKey: S.optional(S.String.pipe(T.Header("x-ms-encryption-key"))),
+          xMsEncryptionKey: S.optional(
+            S.String.pipe(T.Header("x-ms-encryption-key"), T.SensitiveValue({})),
+          ),
           xMsEncryptionKeySha256: S.optional(S.String.pipe(T.Header("x-ms-encryption-key-sha256"))),
           xMsEncryptionAlgorithm: S.optional(S.String.pipe(T.Header("x-ms-encryption-algorithm"))),
           xMsEncryptionScope: S.optional(S.String.pipe(T.Header("x-ms-encryption-scope"))),
@@ -10484,13 +10516,15 @@ function __c65(j: number): any {
             S.Boolean.pipe(T.Header("x-ms-copy-source-blob-properties")),
           ),
           xMsCopySourceAuthorization: S.optional(
-            S.String.pipe(T.Header("x-ms-copy-source-authorization")),
+            S.String.pipe(T.Header("x-ms-copy-source-authorization"), T.SensitiveValue({})),
           ),
           xMsCopySourceTagOption: S.optional(
             S.String.pipe(T.Header("x-ms-copy-source-tag-option")),
           ),
           xMsFileRequestIntent: S.optional(S.String.pipe(T.Header("x-ms-file-request-intent"))),
-          xMsSourceEncryptionKey: S.optional(S.String.pipe(T.Header("x-ms-source-encryption-key"))),
+          xMsSourceEncryptionKey: S.optional(
+            S.String.pipe(T.Header("x-ms-source-encryption-key"), T.SensitiveValue({})),
+          ),
           xMsSourceEncryptionKeySha256: S.optional(
             S.String.pipe(T.Header("x-ms-source-encryption-key-sha256")),
           ),
@@ -10617,7 +10651,9 @@ function __c69(j: number): any {
           blob: S.String.pipe(T.Label()),
           timeout: S.optional(S.Number.pipe(T.Query())),
           xMsLeaseId: S.optional(S.String.pipe(T.Header("x-ms-lease-id"))),
-          xMsEncryptionKey: S.optional(S.String.pipe(T.Header("x-ms-encryption-key"))),
+          xMsEncryptionKey: S.optional(
+            S.String.pipe(T.Header("x-ms-encryption-key"), T.SensitiveValue({})),
+          ),
           xMsEncryptionKeySha256: S.optional(S.String.pipe(T.Header("x-ms-encryption-key-sha256"))),
           xMsEncryptionAlgorithm: S.optional(S.String.pipe(T.Header("x-ms-encryption-algorithm"))),
           xMsEncryptionScope: S.optional(S.String.pipe(T.Header("x-ms-encryption-scope"))),
@@ -10940,7 +10976,9 @@ function __c78(j: number): any {
           blob: S.String.pipe(T.Label()),
           timeout: S.optional(S.Number.pipe(T.Query())),
           xMsLeaseId: S.optional(S.String.pipe(T.Header("x-ms-lease-id"))),
-          xMsEncryptionKey: S.optional(S.String.pipe(T.Header("x-ms-encryption-key"))),
+          xMsEncryptionKey: S.optional(
+            S.String.pipe(T.Header("x-ms-encryption-key"), T.SensitiveValue({})),
+          ),
           xMsEncryptionKeySha256: S.optional(S.String.pipe(T.Header("x-ms-encryption-key-sha256"))),
           xMsEncryptionAlgorithm: S.optional(S.String.pipe(T.Header("x-ms-encryption-algorithm"))),
           xMsEncryptionScope: S.optional(S.String.pipe(T.Header("x-ms-encryption-scope"))),
@@ -11317,7 +11355,9 @@ function __c90(j: number): any {
           xMsBlobContentDisposition: S.optional(
             S.String.pipe(T.Header("x-ms-blob-content-disposition")),
           ),
-          xMsEncryptionKey: S.optional(S.String.pipe(T.Header("x-ms-encryption-key"))),
+          xMsEncryptionKey: S.optional(
+            S.String.pipe(T.Header("x-ms-encryption-key"), T.SensitiveValue({})),
+          ),
           xMsEncryptionKeySha256: S.optional(S.String.pipe(T.Header("x-ms-encryption-key-sha256"))),
           xMsEncryptionAlgorithm: S.optional(S.String.pipe(T.Header("x-ms-encryption-algorithm"))),
           xMsEncryptionScope: S.optional(S.String.pipe(T.Header("x-ms-encryption-scope"))),
@@ -11393,7 +11433,9 @@ function __c91(j: number): any {
           xMsContentCrc64: S.optional(S.String.pipe(T.Header("x-ms-content-crc64"))),
           xMsRange: S.optional(S.String.pipe(T.Header("x-ms-range"))),
           xMsLeaseId: S.optional(S.String.pipe(T.Header("x-ms-lease-id"))),
-          xMsEncryptionKey: S.optional(S.String.pipe(T.Header("x-ms-encryption-key"))),
+          xMsEncryptionKey: S.optional(
+            S.String.pipe(T.Header("x-ms-encryption-key"), T.SensitiveValue({})),
+          ),
           xMsEncryptionKeySha256: S.optional(S.String.pipe(T.Header("x-ms-encryption-key-sha256"))),
           xMsEncryptionAlgorithm: S.optional(S.String.pipe(T.Header("x-ms-encryption-algorithm"))),
           xMsEncryptionScope: S.optional(S.String.pipe(T.Header("x-ms-encryption-scope"))),
@@ -11463,7 +11505,9 @@ function __c92(j: number): any {
           xMsSourceContentMd5: S.optional(S.String.pipe(T.Header("x-ms-source-content-md5"))),
           xMsSourceContentCrc64: S.optional(S.String.pipe(T.Header("x-ms-source-content-crc64"))),
           xMsRange: S.String.pipe(T.Header("x-ms-range")),
-          xMsEncryptionKey: S.optional(S.String.pipe(T.Header("x-ms-encryption-key"))),
+          xMsEncryptionKey: S.optional(
+            S.String.pipe(T.Header("x-ms-encryption-key"), T.SensitiveValue({})),
+          ),
           xMsEncryptionKeySha256: S.optional(S.String.pipe(T.Header("x-ms-encryption-key-sha256"))),
           xMsEncryptionAlgorithm: S.optional(S.String.pipe(T.Header("x-ms-encryption-algorithm"))),
           xMsEncryptionScope: S.optional(S.String.pipe(T.Header("x-ms-encryption-scope"))),
@@ -11486,10 +11530,12 @@ function __c92(j: number): any {
           xMsSourceIfNoneMatch: S.optional(S.String.pipe(T.Header("x-ms-source-if-none-match"))),
           xMsClientRequestId: S.optional(S.String.pipe(T.Header("x-ms-client-request-id"))),
           xMsCopySourceAuthorization: S.optional(
-            S.String.pipe(T.Header("x-ms-copy-source-authorization")),
+            S.String.pipe(T.Header("x-ms-copy-source-authorization"), T.SensitiveValue({})),
           ),
           xMsFileRequestIntent: S.optional(S.String.pipe(T.Header("x-ms-file-request-intent"))),
-          xMsSourceEncryptionKey: S.optional(S.String.pipe(T.Header("x-ms-source-encryption-key"))),
+          xMsSourceEncryptionKey: S.optional(
+            S.String.pipe(T.Header("x-ms-source-encryption-key"), T.SensitiveValue({})),
+          ),
           xMsSourceEncryptionKeySha256: S.optional(
             S.String.pipe(T.Header("x-ms-source-encryption-key-sha256")),
           ),

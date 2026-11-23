@@ -177,7 +177,7 @@ export interface ApiKeyList {
   /** The name of the API key */
   name: string;
   /** The masked API key value */
-  value: string;
+  value: string | Redacted.Redacted<string>;
   /** When the API key was created */
   createdAt: string;
   /** The list of organization resource permissions assigned to the API key */
@@ -385,7 +385,7 @@ function __c6(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          value: S.String,
+          value: S.String.pipe(T.SensitiveValue({})),
           createdAt: S.String,
           permissions: __S(4, __c1, 0),
           lastUsedAt: S.NullOr(S.String),

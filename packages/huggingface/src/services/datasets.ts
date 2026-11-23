@@ -268,7 +268,7 @@ export interface GenerateJwtResponse {
   /** Token expiration timestamp in seconds (JWT standard) */
   exp?: number | undefined;
   /** The JWT token */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** Encrypted JWT token and key ID (only if encrypted=true was requested) */
   encryptedToken?: GenerateJwtResponseEncryptedToken | undefined;
 }
@@ -2217,7 +2217,7 @@ function __c7(j: number): any {
         S.Struct({
           accessToken: S.String.pipe(T.SensitiveValue({})),
           exp: S.optional(S.Number),
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           encryptedToken: S.optional(__S(113, __c7, 1)),
         }),
       ).annotate({ identifier: "GenerateJwtResponse" });

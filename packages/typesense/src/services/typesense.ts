@@ -1007,7 +1007,7 @@ export interface MultiSearchCollectionParameters {
   /** The collection to search in. */
   collection?: string | undefined;
   /** A separate search API key for each search within a multi_search request */
-  x_typesense_api_key?: string | undefined;
+  x_typesense_api_key?: string | import("effect/Redacted").Redacted<string> | undefined;
 }
 export type MultiSearchSearchesParameterSearchesList = Array<MultiSearchCollectionParameters>;
 export interface MultiSearchSearchesParameter {
@@ -1383,7 +1383,7 @@ export interface GetKeysRequest {}
 export type ApiKeyActionsList = Array<string>;
 export type ApiKeyCollectionsList = Array<string>;
 export interface ApiKey {
-  value?: string | undefined;
+  value?: string | import("effect/Redacted").Redacted<string> | undefined;
   description: string;
   actions: ApiKeyActionsList;
   collections: ApiKeyCollectionsList;
@@ -3130,7 +3130,7 @@ export const getKeys: API.OperationMethod<
   TypesenseOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1632, __c51, 0) as any as S.Schema<GetKeysRequest>,
-  output: __S(1634, __c51, 2) as any as S.Schema<ApiKeysResponse>,
+  output: __S(1635, __c51, 3) as any as S.Schema<ApiKeysResponse>,
   errors: [],
   serviceErrors: TypesenseServiceErrors,
   protocol: TypesenseProtocol,
@@ -4630,11 +4630,23 @@ function __c51(j: number): any {
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/keys", code: 200 })),
       ).annotate({ identifier: "GetKeysRequest" });
     case 1:
-      return S.Array(__S(3232, __c101, 0));
-    case 2:
       return S.suspend(() =>
         S.Struct({
-          keys: __S(1633, __c51, 1),
+          value: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          description: S.String,
+          actions: __S(1792, __c56, 0),
+          collections: __S(1792, __c56, 0),
+          expires_at: S.optional(S.Number),
+          id: S.optional(S.Number),
+          value_prefix: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ApiKey" });
+    case 2:
+      return S.Array(__S(1633, __c51, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          keys: __S(1634, __c51, 2),
         }),
       ).annotate({ identifier: "ApiKeysResponse" });
   }
@@ -5413,7 +5425,9 @@ function __c78(j: number): any {
           conversation_id: S.optional(S.String),
           validate_field_names: S.optional(S.Boolean),
           collection: S.optional(S.String),
-          x_typesense_api_key: S.optional(S.String.pipe(T.Body("x-typesense-api-key"))),
+          x_typesense_api_key: S.optional(
+            S.String.pipe(T.Body("x-typesense-api-key"), T.SensitiveValue({})),
+          ),
         }),
       ).annotate({ identifier: "MultiSearchCollectionParameters" });
     case 1:

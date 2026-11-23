@@ -956,7 +956,7 @@ export interface CreateAccountServiceTokenRequest {
   id?: string | undefined;
 }
 export interface AccountCreateTokenResponse {
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
 }
 export interface CreateApplicationServiceRequest {
   upsert?: boolean | undefined;
@@ -1566,7 +1566,7 @@ export interface V1alpha1TLSClientConfig {
 export interface V1alpha1ClusterConfig {
   awsAuthConfig?: V1alpha1AWSAuthConfig | undefined;
   /** Server requires Bearer authentication. This client will not attempt to use refresh tokens for an OAuth2 flow. TODO: demonstrate an OAuth2 compatible client. */
-  bearerToken?: string | undefined;
+  bearerToken?: string | Redacted.Redacted<string> | undefined;
   /** Burst allows extra queries to accumulate for a rapid burst of requests to this cluster. */
   burst?: number | undefined;
   /** DisableCompression bypasses automatic GZip compression requests to the server. */
@@ -1822,29 +1822,29 @@ export interface CreateProjectServiceTokenRequest {
 }
 /** ProjectTokenResponse wraps the created token or returns an empty string if deleted. */
 export interface ProjectProjectTokenResponse {
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
 }
 export interface CreateRepoCredsServiceRepositoryCredentialsRequest {
   /** Whether to create in upsert mode. */
   upsert?: boolean | undefined;
   azureActiveDirectoryEndpoint?: string | undefined;
   azureServicePrincipalClientId?: string | undefined;
-  azureServicePrincipalClientSecret?: string | undefined;
+  azureServicePrincipalClientSecret?: string | Redacted.Redacted<string> | undefined;
   azureServicePrincipalTenantId?: string | undefined;
-  bearerToken?: string | undefined;
+  bearerToken?: string | Redacted.Redacted<string> | undefined;
   enableOCI?: boolean | undefined;
   forceHttpBasicAuth?: boolean | undefined;
-  gcpServiceAccountKey?: string | undefined;
+  gcpServiceAccountKey?: string | Redacted.Redacted<string> | undefined;
   githubAppEnterpriseBaseUrl?: string | undefined;
   githubAppID?: number | undefined;
   githubAppInstallationID?: number | undefined;
-  githubAppPrivateKey?: string | undefined;
+  githubAppPrivateKey?: string | Redacted.Redacted<string> | undefined;
   /** InsecureOCIForceHttp specifies whether the connection to the repository uses TLS at _all_. If true, no TLS. This flag is applicable for OCI repos only. */
   insecureOCIForceHttp?: boolean | undefined;
   noProxy?: string | undefined;
   password?: string | Redacted.Redacted<string> | undefined;
   proxy?: string | undefined;
-  sshPrivateKey?: string | undefined;
+  sshPrivateKey?: string | Redacted.Redacted<string> | undefined;
   tlsClientCertData?: string | undefined;
   tlsClientCertKey?: string | undefined;
   /** Type specifies the type of the repoCreds. Can be either "git", "helm" or "oci". "git" is assumed if empty or absent. */
@@ -1856,22 +1856,22 @@ export interface CreateRepoCredsServiceRepositoryCredentialsRequest {
 export interface V1alpha1RepoCreds {
   azureActiveDirectoryEndpoint?: string | undefined;
   azureServicePrincipalClientId?: string | undefined;
-  azureServicePrincipalClientSecret?: string | undefined;
+  azureServicePrincipalClientSecret?: string | Redacted.Redacted<string> | undefined;
   azureServicePrincipalTenantId?: string | undefined;
-  bearerToken?: string | undefined;
+  bearerToken?: string | Redacted.Redacted<string> | undefined;
   enableOCI?: boolean | undefined;
   forceHttpBasicAuth?: boolean | undefined;
-  gcpServiceAccountKey?: string | undefined;
+  gcpServiceAccountKey?: string | Redacted.Redacted<string> | undefined;
   githubAppEnterpriseBaseUrl?: string | undefined;
   githubAppID?: number | undefined;
   githubAppInstallationID?: number | undefined;
-  githubAppPrivateKey?: string | undefined;
+  githubAppPrivateKey?: string | Redacted.Redacted<string> | undefined;
   /** InsecureOCIForceHttp specifies whether the connection to the repository uses TLS at _all_. If true, no TLS. This flag is applicable for OCI repos only. */
   insecureOCIForceHttp?: boolean | undefined;
   noProxy?: string | undefined;
   password?: string | Redacted.Redacted<string> | undefined;
   proxy?: string | undefined;
-  sshPrivateKey?: string | undefined;
+  sshPrivateKey?: string | Redacted.Redacted<string> | undefined;
   tlsClientCertData?: string | undefined;
   tlsClientCertKey?: string | undefined;
   /** Type specifies the type of the repoCreds. Can be either "git", "helm" or "oci". "git" is assumed if empty or absent. */
@@ -1885,22 +1885,22 @@ export interface CreateRepoCredsServiceWriteRepositoryCredentialsRequest {
   upsert?: boolean | undefined;
   azureActiveDirectoryEndpoint?: string | undefined;
   azureServicePrincipalClientId?: string | undefined;
-  azureServicePrincipalClientSecret?: string | undefined;
+  azureServicePrincipalClientSecret?: string | Redacted.Redacted<string> | undefined;
   azureServicePrincipalTenantId?: string | undefined;
-  bearerToken?: string | undefined;
+  bearerToken?: string | Redacted.Redacted<string> | undefined;
   enableOCI?: boolean | undefined;
   forceHttpBasicAuth?: boolean | undefined;
-  gcpServiceAccountKey?: string | undefined;
+  gcpServiceAccountKey?: string | Redacted.Redacted<string> | undefined;
   githubAppEnterpriseBaseUrl?: string | undefined;
   githubAppID?: number | undefined;
   githubAppInstallationID?: number | undefined;
-  githubAppPrivateKey?: string | undefined;
+  githubAppPrivateKey?: string | Redacted.Redacted<string> | undefined;
   /** InsecureOCIForceHttp specifies whether the connection to the repository uses TLS at _all_. If true, no TLS. This flag is applicable for OCI repos only. */
   insecureOCIForceHttp?: boolean | undefined;
   noProxy?: string | undefined;
   password?: string | Redacted.Redacted<string> | undefined;
   proxy?: string | undefined;
-  sshPrivateKey?: string | undefined;
+  sshPrivateKey?: string | Redacted.Redacted<string> | undefined;
   tlsClientCertData?: string | undefined;
   tlsClientCertKey?: string | undefined;
   /** Type specifies the type of the repoCreds. Can be either "git", "helm" or "oci". "git" is assumed if empty or absent. */
@@ -1916,9 +1916,9 @@ export interface CreateRepositoryServiceRepositoryRequest {
   credsOnly?: boolean | undefined;
   azureActiveDirectoryEndpoint?: string | undefined;
   azureServicePrincipalClientId?: string | undefined;
-  azureServicePrincipalClientSecret?: string | undefined;
+  azureServicePrincipalClientSecret?: string | Redacted.Redacted<string> | undefined;
   azureServicePrincipalTenantId?: string | undefined;
-  bearerToken?: string | undefined;
+  bearerToken?: string | Redacted.Redacted<string> | undefined;
   connectionState?: V1alpha1ConnectionState | undefined;
   /** Depth specifies the depth for shallow clones. A value of 0 or omitting the field indicates a full clone. */
   depth?: number | undefined;
@@ -1926,11 +1926,11 @@ export interface CreateRepositoryServiceRepositoryRequest {
   enableLfs?: boolean | undefined;
   enableOCI?: boolean | undefined;
   forceHttpBasicAuth?: boolean | undefined;
-  gcpServiceAccountKey?: string | undefined;
+  gcpServiceAccountKey?: string | Redacted.Redacted<string> | undefined;
   githubAppEnterpriseBaseUrl?: string | undefined;
   githubAppID?: number | undefined;
   githubAppInstallationID?: number | undefined;
-  githubAppPrivateKey?: string | undefined;
+  githubAppPrivateKey?: string | Redacted.Redacted<string> | undefined;
   inheritedCreds?: boolean | undefined;
   insecure?: boolean | undefined;
   insecureIgnoreHostKey?: boolean | undefined;
@@ -1943,7 +1943,7 @@ export interface CreateRepositoryServiceRepositoryRequest {
   proxy?: string | undefined;
   repo?: string | undefined;
   /** SSHPrivateKey contains the PEM data for authenticating at the repo server. Only used with Git repos. */
-  sshPrivateKey?: string | undefined;
+  sshPrivateKey?: string | Redacted.Redacted<string> | undefined;
   tlsClientCertData?: string | undefined;
   tlsClientCertKey?: string | undefined;
   /** Type specifies the type of the repo. Can be either "git" or "helm. "git" is assumed if empty or absent. */
@@ -1956,9 +1956,9 @@ export interface CreateRepositoryServiceRepositoryRequest {
 export interface V1alpha1Repository {
   azureActiveDirectoryEndpoint?: string | undefined;
   azureServicePrincipalClientId?: string | undefined;
-  azureServicePrincipalClientSecret?: string | undefined;
+  azureServicePrincipalClientSecret?: string | Redacted.Redacted<string> | undefined;
   azureServicePrincipalTenantId?: string | undefined;
-  bearerToken?: string | undefined;
+  bearerToken?: string | Redacted.Redacted<string> | undefined;
   connectionState?: V1alpha1ConnectionState | undefined;
   /** Depth specifies the depth for shallow clones. A value of 0 or omitting the field indicates a full clone. */
   depth?: number | undefined;
@@ -1966,11 +1966,11 @@ export interface V1alpha1Repository {
   enableLfs?: boolean | undefined;
   enableOCI?: boolean | undefined;
   forceHttpBasicAuth?: boolean | undefined;
-  gcpServiceAccountKey?: string | undefined;
+  gcpServiceAccountKey?: string | Redacted.Redacted<string> | undefined;
   githubAppEnterpriseBaseUrl?: string | undefined;
   githubAppID?: number | undefined;
   githubAppInstallationID?: number | undefined;
-  githubAppPrivateKey?: string | undefined;
+  githubAppPrivateKey?: string | Redacted.Redacted<string> | undefined;
   inheritedCreds?: boolean | undefined;
   insecure?: boolean | undefined;
   insecureIgnoreHostKey?: boolean | undefined;
@@ -1983,7 +1983,7 @@ export interface V1alpha1Repository {
   proxy?: string | undefined;
   repo?: string | undefined;
   /** SSHPrivateKey contains the PEM data for authenticating at the repo server. Only used with Git repos. */
-  sshPrivateKey?: string | undefined;
+  sshPrivateKey?: string | Redacted.Redacted<string> | undefined;
   tlsClientCertData?: string | undefined;
   tlsClientCertKey?: string | undefined;
   /** Type specifies the type of the repo. Can be either "git" or "helm. "git" is assumed if empty or absent. */
@@ -2000,9 +2000,9 @@ export interface CreateRepositoryServiceWriteRepositoryRequest {
   credsOnly?: boolean | undefined;
   azureActiveDirectoryEndpoint?: string | undefined;
   azureServicePrincipalClientId?: string | undefined;
-  azureServicePrincipalClientSecret?: string | undefined;
+  azureServicePrincipalClientSecret?: string | Redacted.Redacted<string> | undefined;
   azureServicePrincipalTenantId?: string | undefined;
-  bearerToken?: string | undefined;
+  bearerToken?: string | Redacted.Redacted<string> | undefined;
   connectionState?: V1alpha1ConnectionState | undefined;
   /** Depth specifies the depth for shallow clones. A value of 0 or omitting the field indicates a full clone. */
   depth?: number | undefined;
@@ -2010,11 +2010,11 @@ export interface CreateRepositoryServiceWriteRepositoryRequest {
   enableLfs?: boolean | undefined;
   enableOCI?: boolean | undefined;
   forceHttpBasicAuth?: boolean | undefined;
-  gcpServiceAccountKey?: string | undefined;
+  gcpServiceAccountKey?: string | Redacted.Redacted<string> | undefined;
   githubAppEnterpriseBaseUrl?: string | undefined;
   githubAppID?: number | undefined;
   githubAppInstallationID?: number | undefined;
-  githubAppPrivateKey?: string | undefined;
+  githubAppPrivateKey?: string | Redacted.Redacted<string> | undefined;
   inheritedCreds?: boolean | undefined;
   insecure?: boolean | undefined;
   insecureIgnoreHostKey?: boolean | undefined;
@@ -2027,7 +2027,7 @@ export interface CreateRepositoryServiceWriteRepositoryRequest {
   proxy?: string | undefined;
   repo?: string | undefined;
   /** SSHPrivateKey contains the PEM data for authenticating at the repo server. Only used with Git repos. */
-  sshPrivateKey?: string | undefined;
+  sshPrivateKey?: string | Redacted.Redacted<string> | undefined;
   tlsClientCertData?: string | undefined;
   tlsClientCertKey?: string | undefined;
   /** Type specifies the type of the repo. Can be either "git" or "helm. "git" is assumed if empty or absent. */
@@ -2039,12 +2039,12 @@ export interface CreateRepositoryServiceWriteRepositoryRequest {
 }
 export interface CreateSessionServiceRequest {
   password?: string | Redacted.Redacted<string> | undefined;
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   username?: string | undefined;
 }
 /** SessionResponse wraps the created token or returns an empty string if deleted. */
 export interface SessionSessionResponse {
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
 }
 export interface DeleteAccountServiceTokenRequest {
   name: string;
@@ -3054,22 +3054,22 @@ export interface UpdateRepoCredsServiceRepositoryCredentialsRequest {
   creds_url: string;
   azureActiveDirectoryEndpoint?: string | undefined;
   azureServicePrincipalClientId?: string | undefined;
-  azureServicePrincipalClientSecret?: string | undefined;
+  azureServicePrincipalClientSecret?: string | Redacted.Redacted<string> | undefined;
   azureServicePrincipalTenantId?: string | undefined;
-  bearerToken?: string | undefined;
+  bearerToken?: string | Redacted.Redacted<string> | undefined;
   enableOCI?: boolean | undefined;
   forceHttpBasicAuth?: boolean | undefined;
-  gcpServiceAccountKey?: string | undefined;
+  gcpServiceAccountKey?: string | Redacted.Redacted<string> | undefined;
   githubAppEnterpriseBaseUrl?: string | undefined;
   githubAppID?: number | undefined;
   githubAppInstallationID?: number | undefined;
-  githubAppPrivateKey?: string | undefined;
+  githubAppPrivateKey?: string | Redacted.Redacted<string> | undefined;
   /** InsecureOCIForceHttp specifies whether the connection to the repository uses TLS at _all_. If true, no TLS. This flag is applicable for OCI repos only. */
   insecureOCIForceHttp?: boolean | undefined;
   noProxy?: string | undefined;
   password?: string | Redacted.Redacted<string> | undefined;
   proxy?: string | undefined;
-  sshPrivateKey?: string | undefined;
+  sshPrivateKey?: string | Redacted.Redacted<string> | undefined;
   tlsClientCertData?: string | undefined;
   tlsClientCertKey?: string | undefined;
   /** Type specifies the type of the repoCreds. Can be either "git", "helm" or "oci". "git" is assumed if empty or absent. */
@@ -3083,22 +3083,22 @@ export interface UpdateRepoCredsServiceWriteRepositoryCredentialsRequest {
   creds_url: string;
   azureActiveDirectoryEndpoint?: string | undefined;
   azureServicePrincipalClientId?: string | undefined;
-  azureServicePrincipalClientSecret?: string | undefined;
+  azureServicePrincipalClientSecret?: string | Redacted.Redacted<string> | undefined;
   azureServicePrincipalTenantId?: string | undefined;
-  bearerToken?: string | undefined;
+  bearerToken?: string | Redacted.Redacted<string> | undefined;
   enableOCI?: boolean | undefined;
   forceHttpBasicAuth?: boolean | undefined;
-  gcpServiceAccountKey?: string | undefined;
+  gcpServiceAccountKey?: string | Redacted.Redacted<string> | undefined;
   githubAppEnterpriseBaseUrl?: string | undefined;
   githubAppID?: number | undefined;
   githubAppInstallationID?: number | undefined;
-  githubAppPrivateKey?: string | undefined;
+  githubAppPrivateKey?: string | Redacted.Redacted<string> | undefined;
   /** InsecureOCIForceHttp specifies whether the connection to the repository uses TLS at _all_. If true, no TLS. This flag is applicable for OCI repos only. */
   insecureOCIForceHttp?: boolean | undefined;
   noProxy?: string | undefined;
   password?: string | Redacted.Redacted<string> | undefined;
   proxy?: string | undefined;
-  sshPrivateKey?: string | undefined;
+  sshPrivateKey?: string | Redacted.Redacted<string> | undefined;
   tlsClientCertData?: string | undefined;
   tlsClientCertKey?: string | undefined;
   /** Type specifies the type of the repoCreds. Can be either "git", "helm" or "oci". "git" is assumed if empty or absent. */
@@ -3112,9 +3112,9 @@ export interface UpdateRepositoryServiceRepositoryRequest {
   repo_repo: string;
   azureActiveDirectoryEndpoint?: string | undefined;
   azureServicePrincipalClientId?: string | undefined;
-  azureServicePrincipalClientSecret?: string | undefined;
+  azureServicePrincipalClientSecret?: string | Redacted.Redacted<string> | undefined;
   azureServicePrincipalTenantId?: string | undefined;
-  bearerToken?: string | undefined;
+  bearerToken?: string | Redacted.Redacted<string> | undefined;
   connectionState?: V1alpha1ConnectionState | undefined;
   /** Depth specifies the depth for shallow clones. A value of 0 or omitting the field indicates a full clone. */
   depth?: number | undefined;
@@ -3122,11 +3122,11 @@ export interface UpdateRepositoryServiceRepositoryRequest {
   enableLfs?: boolean | undefined;
   enableOCI?: boolean | undefined;
   forceHttpBasicAuth?: boolean | undefined;
-  gcpServiceAccountKey?: string | undefined;
+  gcpServiceAccountKey?: string | Redacted.Redacted<string> | undefined;
   githubAppEnterpriseBaseUrl?: string | undefined;
   githubAppID?: number | undefined;
   githubAppInstallationID?: number | undefined;
-  githubAppPrivateKey?: string | undefined;
+  githubAppPrivateKey?: string | Redacted.Redacted<string> | undefined;
   inheritedCreds?: boolean | undefined;
   insecure?: boolean | undefined;
   insecureIgnoreHostKey?: boolean | undefined;
@@ -3139,7 +3139,7 @@ export interface UpdateRepositoryServiceRepositoryRequest {
   proxy?: string | undefined;
   repo?: string | undefined;
   /** SSHPrivateKey contains the PEM data for authenticating at the repo server. Only used with Git repos. */
-  sshPrivateKey?: string | undefined;
+  sshPrivateKey?: string | Redacted.Redacted<string> | undefined;
   tlsClientCertData?: string | undefined;
   tlsClientCertKey?: string | undefined;
   /** Type specifies the type of the repo. Can be either "git" or "helm. "git" is assumed if empty or absent. */
@@ -3154,9 +3154,9 @@ export interface UpdateRepositoryServiceWriteRepositoryRequest {
   repo_repo: string;
   azureActiveDirectoryEndpoint?: string | undefined;
   azureServicePrincipalClientId?: string | undefined;
-  azureServicePrincipalClientSecret?: string | undefined;
+  azureServicePrincipalClientSecret?: string | Redacted.Redacted<string> | undefined;
   azureServicePrincipalTenantId?: string | undefined;
-  bearerToken?: string | undefined;
+  bearerToken?: string | Redacted.Redacted<string> | undefined;
   connectionState?: V1alpha1ConnectionState | undefined;
   /** Depth specifies the depth for shallow clones. A value of 0 or omitting the field indicates a full clone. */
   depth?: number | undefined;
@@ -3164,11 +3164,11 @@ export interface UpdateRepositoryServiceWriteRepositoryRequest {
   enableLfs?: boolean | undefined;
   enableOCI?: boolean | undefined;
   forceHttpBasicAuth?: boolean | undefined;
-  gcpServiceAccountKey?: string | undefined;
+  gcpServiceAccountKey?: string | Redacted.Redacted<string> | undefined;
   githubAppEnterpriseBaseUrl?: string | undefined;
   githubAppID?: number | undefined;
   githubAppInstallationID?: number | undefined;
-  githubAppPrivateKey?: string | undefined;
+  githubAppPrivateKey?: string | Redacted.Redacted<string> | undefined;
   inheritedCreds?: boolean | undefined;
   insecure?: boolean | undefined;
   insecureIgnoreHostKey?: boolean | undefined;
@@ -3181,7 +3181,7 @@ export interface UpdateRepositoryServiceWriteRepositoryRequest {
   proxy?: string | undefined;
   repo?: string | undefined;
   /** SSHPrivateKey contains the PEM data for authenticating at the repo server. Only used with Git repos. */
-  sshPrivateKey?: string | undefined;
+  sshPrivateKey?: string | Redacted.Redacted<string> | undefined;
   tlsClientCertData?: string | undefined;
   tlsClientCertKey?: string | undefined;
   /** Type specifies the type of the repo. Can be either "git" or "helm. "git" is assumed if empty or absent. */
@@ -3197,9 +3197,9 @@ export interface ValidateRepositoryServiceAccessRequest {
   /** Username for accessing repo. */
   username?: string | undefined;
   /** Password for accessing repo. */
-  password?: string | undefined;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** Private key data for accessing SSH repository. */
-  sshPrivateKey?: string | undefined;
+  sshPrivateKey?: string | Redacted.Redacted<string> | undefined;
   /** Whether to skip certificate or host key validation. */
   insecure?: boolean | undefined;
   /** TLS client cert data for accessing HTTPS repository. */
@@ -3213,7 +3213,7 @@ export interface ValidateRepositoryServiceAccessRequest {
   /** Whether helm-oci support should be enabled for this repo. */
   enableOci?: boolean | undefined;
   /** Github App Private Key PEM data. */
-  githubAppPrivateKey?: string | undefined;
+  githubAppPrivateKey?: string | Redacted.Redacted<string> | undefined;
   /** Github App ID of the app used to access the repo. */
   githubAppID?: string | undefined;
   /** Github App Installation ID of the installed GitHub App. */
@@ -3225,19 +3225,19 @@ export interface ValidateRepositoryServiceAccessRequest {
   /** Reference between project and repository that allow you automatically to be added as item inside SourceRepos project entity. */
   project?: string | undefined;
   /** Google Cloud Platform service account key. */
-  gcpServiceAccountKey?: string | undefined;
+  gcpServiceAccountKey?: string | Redacted.Redacted<string> | undefined;
   /** Whether to force HTTP basic auth. */
   forceHttpBasicAuth?: boolean | undefined;
   /** Whether to use azure workload identity for authentication. */
   useAzureWorkloadIdentity?: boolean | undefined;
   /** BearerToken contains the bearer token used for Git auth at the repo server. */
-  bearerToken?: string | undefined;
+  bearerToken?: string | Redacted.Redacted<string> | undefined;
   /** Whether https should be disabled for an OCI repo. */
   insecureOciForceHttp?: boolean | undefined;
   /** Azure Service Principal Client ID. */
   azureServicePrincipalClientId?: string | undefined;
   /** Azure Service Principal Client Secret. */
-  azureServicePrincipalClientSecret?: string | undefined;
+  azureServicePrincipalClientSecret?: string | Redacted.Redacted<string> | undefined;
   /** Azure Service Principal Tenant ID. */
   azureServicePrincipalTenantId?: string | undefined;
   /** Azure Active Directory Endpoint. */
@@ -3251,9 +3251,9 @@ export interface ValidateRepositoryServiceWriteAccessRequest {
   /** Username for accessing repo. */
   username?: string | undefined;
   /** Password for accessing repo. */
-  password?: string | undefined;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** Private key data for accessing SSH repository. */
-  sshPrivateKey?: string | undefined;
+  sshPrivateKey?: string | Redacted.Redacted<string> | undefined;
   /** Whether to skip certificate or host key validation. */
   insecure?: boolean | undefined;
   /** TLS client cert data for accessing HTTPS repository. */
@@ -3267,7 +3267,7 @@ export interface ValidateRepositoryServiceWriteAccessRequest {
   /** Whether helm-oci support should be enabled for this repo. */
   enableOci?: boolean | undefined;
   /** Github App Private Key PEM data. */
-  githubAppPrivateKey?: string | undefined;
+  githubAppPrivateKey?: string | Redacted.Redacted<string> | undefined;
   /** Github App ID of the app used to access the repo. */
   githubAppID?: string | undefined;
   /** Github App Installation ID of the installed GitHub App. */
@@ -3279,19 +3279,19 @@ export interface ValidateRepositoryServiceWriteAccessRequest {
   /** Reference between project and repository that allow you automatically to be added as item inside SourceRepos project entity. */
   project?: string | undefined;
   /** Google Cloud Platform service account key. */
-  gcpServiceAccountKey?: string | undefined;
+  gcpServiceAccountKey?: string | Redacted.Redacted<string> | undefined;
   /** Whether to force HTTP basic auth. */
   forceHttpBasicAuth?: boolean | undefined;
   /** Whether to use azure workload identity for authentication. */
   useAzureWorkloadIdentity?: boolean | undefined;
   /** BearerToken contains the bearer token used for Git auth at the repo server. */
-  bearerToken?: string | undefined;
+  bearerToken?: string | Redacted.Redacted<string> | undefined;
   /** Whether https should be disabled for an OCI repo. */
   insecureOciForceHttp?: boolean | undefined;
   /** Azure Service Principal Client ID. */
   azureServicePrincipalClientId?: string | undefined;
   /** Azure Service Principal Client Secret. */
-  azureServicePrincipalClientSecret?: string | undefined;
+  azureServicePrincipalClientSecret?: string | Redacted.Redacted<string> | undefined;
   /** Azure Service Principal Tenant ID. */
   azureServicePrincipalTenantId?: string | undefined;
   /** Azure Active Directory Endpoint. */
@@ -5406,7 +5406,7 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "AccountCreateTokenResponse" });
   }
@@ -5418,27 +5418,29 @@ function __c5(j: number): any {
         S.Struct({
           repo: S.String.pipe(T.Label()),
           username: S.optional(S.String.pipe(T.Query())),
-          password: S.optional(S.String.pipe(T.Query())),
-          sshPrivateKey: S.optional(S.String.pipe(T.Query())),
+          password: S.optional(S.String.pipe(T.Query(), T.SensitiveValue({}))),
+          sshPrivateKey: S.optional(S.String.pipe(T.Query(), T.SensitiveValue({}))),
           insecure: S.optional(S.Boolean.pipe(T.Query())),
           tlsClientCertData: S.optional(S.String.pipe(T.Query())),
           tlsClientCertKey: S.optional(S.String.pipe(T.Query())),
           type: S.optional(S.String.pipe(T.Query())),
           name: S.optional(S.String.pipe(T.Query())),
           enableOci: S.optional(S.Boolean.pipe(T.Query())),
-          githubAppPrivateKey: S.optional(S.String.pipe(T.Query())),
+          githubAppPrivateKey: S.optional(S.String.pipe(T.Query(), T.SensitiveValue({}))),
           githubAppID: S.optional(S.String.pipe(T.Query())),
           githubAppInstallationID: S.optional(S.String.pipe(T.Query())),
           githubAppEnterpriseBaseUrl: S.optional(S.String.pipe(T.Query())),
           proxy: S.optional(S.String.pipe(T.Query())),
           project: S.optional(S.String.pipe(T.Query())),
-          gcpServiceAccountKey: S.optional(S.String.pipe(T.Query())),
+          gcpServiceAccountKey: S.optional(S.String.pipe(T.Query(), T.SensitiveValue({}))),
           forceHttpBasicAuth: S.optional(S.Boolean.pipe(T.Query())),
           useAzureWorkloadIdentity: S.optional(S.Boolean.pipe(T.Query())),
-          bearerToken: S.optional(S.String.pipe(T.Query())),
+          bearerToken: S.optional(S.String.pipe(T.Query(), T.SensitiveValue({}))),
           insecureOciForceHttp: S.optional(S.Boolean.pipe(T.Query())),
           azureServicePrincipalClientId: S.optional(S.String.pipe(T.Query())),
-          azureServicePrincipalClientSecret: S.optional(S.String.pipe(T.Query())),
+          azureServicePrincipalClientSecret: S.optional(
+            S.String.pipe(T.Query(), T.SensitiveValue({})),
+          ),
           azureServicePrincipalTenantId: S.optional(S.String.pipe(T.Query())),
           azureActiveDirectoryEndpoint: S.optional(S.String.pipe(T.Query())),
           body: S.String.pipe(T.HttpBody()),
@@ -5453,27 +5455,29 @@ function __c6(j: number): any {
         S.Struct({
           repo: S.String.pipe(T.Label()),
           username: S.optional(S.String.pipe(T.Query())),
-          password: S.optional(S.String.pipe(T.Query())),
-          sshPrivateKey: S.optional(S.String.pipe(T.Query())),
+          password: S.optional(S.String.pipe(T.Query(), T.SensitiveValue({}))),
+          sshPrivateKey: S.optional(S.String.pipe(T.Query(), T.SensitiveValue({}))),
           insecure: S.optional(S.Boolean.pipe(T.Query())),
           tlsClientCertData: S.optional(S.String.pipe(T.Query())),
           tlsClientCertKey: S.optional(S.String.pipe(T.Query())),
           type: S.optional(S.String.pipe(T.Query())),
           name: S.optional(S.String.pipe(T.Query())),
           enableOci: S.optional(S.Boolean.pipe(T.Query())),
-          githubAppPrivateKey: S.optional(S.String.pipe(T.Query())),
+          githubAppPrivateKey: S.optional(S.String.pipe(T.Query(), T.SensitiveValue({}))),
           githubAppID: S.optional(S.String.pipe(T.Query())),
           githubAppInstallationID: S.optional(S.String.pipe(T.Query())),
           githubAppEnterpriseBaseUrl: S.optional(S.String.pipe(T.Query())),
           proxy: S.optional(S.String.pipe(T.Query())),
           project: S.optional(S.String.pipe(T.Query())),
-          gcpServiceAccountKey: S.optional(S.String.pipe(T.Query())),
+          gcpServiceAccountKey: S.optional(S.String.pipe(T.Query(), T.SensitiveValue({}))),
           forceHttpBasicAuth: S.optional(S.Boolean.pipe(T.Query())),
           useAzureWorkloadIdentity: S.optional(S.Boolean.pipe(T.Query())),
-          bearerToken: S.optional(S.String.pipe(T.Query())),
+          bearerToken: S.optional(S.String.pipe(T.Query(), T.SensitiveValue({}))),
           insecureOciForceHttp: S.optional(S.Boolean.pipe(T.Query())),
           azureServicePrincipalClientId: S.optional(S.String.pipe(T.Query())),
-          azureServicePrincipalClientSecret: S.optional(S.String.pipe(T.Query())),
+          azureServicePrincipalClientSecret: S.optional(
+            S.String.pipe(T.Query(), T.SensitiveValue({})),
+          ),
           azureServicePrincipalTenantId: S.optional(S.String.pipe(T.Query())),
           azureActiveDirectoryEndpoint: S.optional(S.String.pipe(T.Query())),
           body: S.String.pipe(T.HttpBody()),
@@ -6272,7 +6276,7 @@ function __c21(j: number): any {
       return S.suspend(() =>
         S.Struct({
           awsAuthConfig: S.optional(__S(672, __c21, 0)),
-          bearerToken: S.optional(S.String),
+          bearerToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           burst: S.optional(S.Number),
           disableCompression: S.optional(S.Boolean),
           execProviderConfig: S.optional(__S(673, __c21, 1)),
@@ -6584,21 +6588,21 @@ function __c29(j: number): any {
           upsert: S.optional(S.Boolean.pipe(T.Query())),
           azureActiveDirectoryEndpoint: S.optional(S.String),
           azureServicePrincipalClientId: S.optional(S.String),
-          azureServicePrincipalClientSecret: S.optional(S.String),
+          azureServicePrincipalClientSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           azureServicePrincipalTenantId: S.optional(S.String),
-          bearerToken: S.optional(S.String),
+          bearerToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           enableOCI: S.optional(S.Boolean),
           forceHttpBasicAuth: S.optional(S.Boolean),
-          gcpServiceAccountKey: S.optional(S.String),
+          gcpServiceAccountKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           githubAppEnterpriseBaseUrl: S.optional(S.String),
           githubAppID: S.optional(S.Number),
           githubAppInstallationID: S.optional(S.Number),
-          githubAppPrivateKey: S.optional(S.String),
+          githubAppPrivateKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           insecureOCIForceHttp: S.optional(S.Boolean),
           noProxy: S.optional(S.String),
           password: S.optional(S.String.pipe(T.SensitiveValue({}))),
           proxy: S.optional(S.String),
-          sshPrivateKey: S.optional(S.String),
+          sshPrivateKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           tlsClientCertData: S.optional(S.String),
           tlsClientCertKey: S.optional(S.String),
           type: S.optional(S.String),
@@ -6616,21 +6620,21 @@ function __c30(j: number): any {
         S.Struct({
           azureActiveDirectoryEndpoint: S.optional(S.String),
           azureServicePrincipalClientId: S.optional(S.String),
-          azureServicePrincipalClientSecret: S.optional(S.String),
+          azureServicePrincipalClientSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           azureServicePrincipalTenantId: S.optional(S.String),
-          bearerToken: S.optional(S.String),
+          bearerToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           enableOCI: S.optional(S.Boolean),
           forceHttpBasicAuth: S.optional(S.Boolean),
-          gcpServiceAccountKey: S.optional(S.String),
+          gcpServiceAccountKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           githubAppEnterpriseBaseUrl: S.optional(S.String),
           githubAppID: S.optional(S.Number),
           githubAppInstallationID: S.optional(S.Number),
-          githubAppPrivateKey: S.optional(S.String),
+          githubAppPrivateKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           insecureOCIForceHttp: S.optional(S.Boolean),
           noProxy: S.optional(S.String),
           password: S.optional(S.String.pipe(T.SensitiveValue({}))),
           proxy: S.optional(S.String),
-          sshPrivateKey: S.optional(S.String),
+          sshPrivateKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           tlsClientCertData: S.optional(S.String),
           tlsClientCertKey: S.optional(S.String),
           type: S.optional(S.String),
@@ -6649,21 +6653,21 @@ function __c31(j: number): any {
           upsert: S.optional(S.Boolean.pipe(T.Query())),
           azureActiveDirectoryEndpoint: S.optional(S.String),
           azureServicePrincipalClientId: S.optional(S.String),
-          azureServicePrincipalClientSecret: S.optional(S.String),
+          azureServicePrincipalClientSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           azureServicePrincipalTenantId: S.optional(S.String),
-          bearerToken: S.optional(S.String),
+          bearerToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           enableOCI: S.optional(S.Boolean),
           forceHttpBasicAuth: S.optional(S.Boolean),
-          gcpServiceAccountKey: S.optional(S.String),
+          gcpServiceAccountKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           githubAppEnterpriseBaseUrl: S.optional(S.String),
           githubAppID: S.optional(S.Number),
           githubAppInstallationID: S.optional(S.Number),
-          githubAppPrivateKey: S.optional(S.String),
+          githubAppPrivateKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           insecureOCIForceHttp: S.optional(S.Boolean),
           noProxy: S.optional(S.String),
           password: S.optional(S.String.pipe(T.SensitiveValue({}))),
           proxy: S.optional(S.String),
-          sshPrivateKey: S.optional(S.String),
+          sshPrivateKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           tlsClientCertData: S.optional(S.String),
           tlsClientCertKey: S.optional(S.String),
           type: S.optional(S.String),
@@ -6760,19 +6764,19 @@ function __c35(j: number): any {
           credsOnly: S.optional(S.Boolean.pipe(T.Query())),
           azureActiveDirectoryEndpoint: S.optional(S.String),
           azureServicePrincipalClientId: S.optional(S.String),
-          azureServicePrincipalClientSecret: S.optional(S.String),
+          azureServicePrincipalClientSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           azureServicePrincipalTenantId: S.optional(S.String),
-          bearerToken: S.optional(S.String),
+          bearerToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           connectionState: S.optional(__S(640, __c20, 0)),
           depth: S.optional(S.Number),
           enableLfs: S.optional(S.Boolean),
           enableOCI: S.optional(S.Boolean),
           forceHttpBasicAuth: S.optional(S.Boolean),
-          gcpServiceAccountKey: S.optional(S.String),
+          gcpServiceAccountKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           githubAppEnterpriseBaseUrl: S.optional(S.String),
           githubAppID: S.optional(S.Number),
           githubAppInstallationID: S.optional(S.Number),
-          githubAppPrivateKey: S.optional(S.String),
+          githubAppPrivateKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           inheritedCreds: S.optional(S.Boolean),
           insecure: S.optional(S.Boolean),
           insecureIgnoreHostKey: S.optional(S.Boolean),
@@ -6783,7 +6787,7 @@ function __c35(j: number): any {
           project: S.optional(S.String),
           proxy: S.optional(S.String),
           repo: S.optional(S.String),
-          sshPrivateKey: S.optional(S.String),
+          sshPrivateKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           tlsClientCertData: S.optional(S.String),
           tlsClientCertKey: S.optional(S.String),
           type: S.optional(S.String),
@@ -6801,19 +6805,19 @@ function __c36(j: number): any {
         S.Struct({
           azureActiveDirectoryEndpoint: S.optional(S.String),
           azureServicePrincipalClientId: S.optional(S.String),
-          azureServicePrincipalClientSecret: S.optional(S.String),
+          azureServicePrincipalClientSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           azureServicePrincipalTenantId: S.optional(S.String),
-          bearerToken: S.optional(S.String),
+          bearerToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           connectionState: S.optional(__S(640, __c20, 0)),
           depth: S.optional(S.Number),
           enableLfs: S.optional(S.Boolean),
           enableOCI: S.optional(S.Boolean),
           forceHttpBasicAuth: S.optional(S.Boolean),
-          gcpServiceAccountKey: S.optional(S.String),
+          gcpServiceAccountKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           githubAppEnterpriseBaseUrl: S.optional(S.String),
           githubAppID: S.optional(S.Number),
           githubAppInstallationID: S.optional(S.Number),
-          githubAppPrivateKey: S.optional(S.String),
+          githubAppPrivateKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           inheritedCreds: S.optional(S.Boolean),
           insecure: S.optional(S.Boolean),
           insecureIgnoreHostKey: S.optional(S.Boolean),
@@ -6824,7 +6828,7 @@ function __c36(j: number): any {
           project: S.optional(S.String),
           proxy: S.optional(S.String),
           repo: S.optional(S.String),
-          sshPrivateKey: S.optional(S.String),
+          sshPrivateKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           tlsClientCertData: S.optional(S.String),
           tlsClientCertKey: S.optional(S.String),
           type: S.optional(S.String),
@@ -6844,19 +6848,19 @@ function __c37(j: number): any {
           credsOnly: S.optional(S.Boolean.pipe(T.Query())),
           azureActiveDirectoryEndpoint: S.optional(S.String),
           azureServicePrincipalClientId: S.optional(S.String),
-          azureServicePrincipalClientSecret: S.optional(S.String),
+          azureServicePrincipalClientSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           azureServicePrincipalTenantId: S.optional(S.String),
-          bearerToken: S.optional(S.String),
+          bearerToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           connectionState: S.optional(__S(640, __c20, 0)),
           depth: S.optional(S.Number),
           enableLfs: S.optional(S.Boolean),
           enableOCI: S.optional(S.Boolean),
           forceHttpBasicAuth: S.optional(S.Boolean),
-          gcpServiceAccountKey: S.optional(S.String),
+          gcpServiceAccountKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           githubAppEnterpriseBaseUrl: S.optional(S.String),
           githubAppID: S.optional(S.Number),
           githubAppInstallationID: S.optional(S.Number),
-          githubAppPrivateKey: S.optional(S.String),
+          githubAppPrivateKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           inheritedCreds: S.optional(S.Boolean),
           insecure: S.optional(S.Boolean),
           insecureIgnoreHostKey: S.optional(S.Boolean),
@@ -6867,7 +6871,7 @@ function __c37(j: number): any {
           project: S.optional(S.String),
           proxy: S.optional(S.String),
           repo: S.optional(S.String),
-          sshPrivateKey: S.optional(S.String),
+          sshPrivateKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           tlsClientCertData: S.optional(S.String),
           tlsClientCertKey: S.optional(S.String),
           type: S.optional(S.String),
@@ -6884,7 +6888,7 @@ function __c38(j: number): any {
       return S.suspend(() =>
         S.Struct({
           password: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           username: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/session", code: 200 })),
       ).annotate({ identifier: "CreateSessionServiceRequest" });
@@ -9483,21 +9487,21 @@ function __c148(j: number): any {
           creds_url: S.String.pipe(T.Label()),
           azureActiveDirectoryEndpoint: S.optional(S.String),
           azureServicePrincipalClientId: S.optional(S.String),
-          azureServicePrincipalClientSecret: S.optional(S.String),
+          azureServicePrincipalClientSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           azureServicePrincipalTenantId: S.optional(S.String),
-          bearerToken: S.optional(S.String),
+          bearerToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           enableOCI: S.optional(S.Boolean),
           forceHttpBasicAuth: S.optional(S.Boolean),
-          gcpServiceAccountKey: S.optional(S.String),
+          gcpServiceAccountKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           githubAppEnterpriseBaseUrl: S.optional(S.String),
           githubAppID: S.optional(S.Number),
           githubAppInstallationID: S.optional(S.Number),
-          githubAppPrivateKey: S.optional(S.String),
+          githubAppPrivateKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           insecureOCIForceHttp: S.optional(S.Boolean),
           noProxy: S.optional(S.String),
           password: S.optional(S.String.pipe(T.SensitiveValue({}))),
           proxy: S.optional(S.String),
-          sshPrivateKey: S.optional(S.String),
+          sshPrivateKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           tlsClientCertData: S.optional(S.String),
           tlsClientCertKey: S.optional(S.String),
           type: S.optional(S.String),
@@ -9516,21 +9520,21 @@ function __c149(j: number): any {
           creds_url: S.String.pipe(T.Label()),
           azureActiveDirectoryEndpoint: S.optional(S.String),
           azureServicePrincipalClientId: S.optional(S.String),
-          azureServicePrincipalClientSecret: S.optional(S.String),
+          azureServicePrincipalClientSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           azureServicePrincipalTenantId: S.optional(S.String),
-          bearerToken: S.optional(S.String),
+          bearerToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           enableOCI: S.optional(S.Boolean),
           forceHttpBasicAuth: S.optional(S.Boolean),
-          gcpServiceAccountKey: S.optional(S.String),
+          gcpServiceAccountKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           githubAppEnterpriseBaseUrl: S.optional(S.String),
           githubAppID: S.optional(S.Number),
           githubAppInstallationID: S.optional(S.Number),
-          githubAppPrivateKey: S.optional(S.String),
+          githubAppPrivateKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           insecureOCIForceHttp: S.optional(S.Boolean),
           noProxy: S.optional(S.String),
           password: S.optional(S.String.pipe(T.SensitiveValue({}))),
           proxy: S.optional(S.String),
-          sshPrivateKey: S.optional(S.String),
+          sshPrivateKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           tlsClientCertData: S.optional(S.String),
           tlsClientCertKey: S.optional(S.String),
           type: S.optional(S.String),
@@ -9549,19 +9553,19 @@ function __c150(j: number): any {
           repo_repo: S.String.pipe(T.Label()),
           azureActiveDirectoryEndpoint: S.optional(S.String),
           azureServicePrincipalClientId: S.optional(S.String),
-          azureServicePrincipalClientSecret: S.optional(S.String),
+          azureServicePrincipalClientSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           azureServicePrincipalTenantId: S.optional(S.String),
-          bearerToken: S.optional(S.String),
+          bearerToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           connectionState: S.optional(__S(640, __c20, 0)),
           depth: S.optional(S.Number),
           enableLfs: S.optional(S.Boolean),
           enableOCI: S.optional(S.Boolean),
           forceHttpBasicAuth: S.optional(S.Boolean),
-          gcpServiceAccountKey: S.optional(S.String),
+          gcpServiceAccountKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           githubAppEnterpriseBaseUrl: S.optional(S.String),
           githubAppID: S.optional(S.Number),
           githubAppInstallationID: S.optional(S.Number),
-          githubAppPrivateKey: S.optional(S.String),
+          githubAppPrivateKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           inheritedCreds: S.optional(S.Boolean),
           insecure: S.optional(S.Boolean),
           insecureIgnoreHostKey: S.optional(S.Boolean),
@@ -9572,7 +9576,7 @@ function __c150(j: number): any {
           project: S.optional(S.String),
           proxy: S.optional(S.String),
           repo: S.optional(S.String),
-          sshPrivateKey: S.optional(S.String),
+          sshPrivateKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           tlsClientCertData: S.optional(S.String),
           tlsClientCertKey: S.optional(S.String),
           type: S.optional(S.String),
@@ -9591,19 +9595,19 @@ function __c151(j: number): any {
           repo_repo: S.String.pipe(T.Label()),
           azureActiveDirectoryEndpoint: S.optional(S.String),
           azureServicePrincipalClientId: S.optional(S.String),
-          azureServicePrincipalClientSecret: S.optional(S.String),
+          azureServicePrincipalClientSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           azureServicePrincipalTenantId: S.optional(S.String),
-          bearerToken: S.optional(S.String),
+          bearerToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           connectionState: S.optional(__S(640, __c20, 0)),
           depth: S.optional(S.Number),
           enableLfs: S.optional(S.Boolean),
           enableOCI: S.optional(S.Boolean),
           forceHttpBasicAuth: S.optional(S.Boolean),
-          gcpServiceAccountKey: S.optional(S.String),
+          gcpServiceAccountKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           githubAppEnterpriseBaseUrl: S.optional(S.String),
           githubAppID: S.optional(S.Number),
           githubAppInstallationID: S.optional(S.Number),
-          githubAppPrivateKey: S.optional(S.String),
+          githubAppPrivateKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           inheritedCreds: S.optional(S.Boolean),
           insecure: S.optional(S.Boolean),
           insecureIgnoreHostKey: S.optional(S.Boolean),
@@ -9614,7 +9618,7 @@ function __c151(j: number): any {
           project: S.optional(S.String),
           proxy: S.optional(S.String),
           repo: S.optional(S.String),
-          sshPrivateKey: S.optional(S.String),
+          sshPrivateKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           tlsClientCertData: S.optional(S.String),
           tlsClientCertKey: S.optional(S.String),
           type: S.optional(S.String),

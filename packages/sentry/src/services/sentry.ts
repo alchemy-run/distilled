@@ -867,7 +867,7 @@ export interface AddProjectSymbolSourceResponseBodyCase4 {
   /** The key ID of the App Store Connect API key. */
   appconnectKey: string;
   /** The private key of the App Store Connect API key. */
-  appconnectPrivateKey: string;
+  appconnectPrivateKey: string | Redacted.Redacted<string>;
   /** The name of the app in App Store Connect. */
   appName: string;
   /** The ID of the app in App Store Connect. */
@@ -1512,7 +1512,7 @@ export interface CreateOrganizationAuthTokenResponse {
   /** ID of the project the token was last used with, or null */
   projectLastUsedId: string | null;
   /** The full token. Only included in the response that creates the token, and can't be retrieved again */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
 }
 export interface CreateOrganizationCodeMappingRequest {
   /** The ID or slug of the organization the resource belongs to. */
@@ -17454,7 +17454,7 @@ export interface GetProjectResponse {
   /** Email subject used for individual alerts, excluding the prefix */
   subjectTemplate: string;
   /** Token sent with security reports (CSP, Expect-CT, HPKP) so Sentry can verify their origin */
-  securityToken: string;
+  securityToken: string | Redacted.Redacted<string>;
   /** Name of the header carrying the security token on inbound security reports */
   securityTokenHeader: string | null;
   /** Whether SSL certificates are verified when delivering outbound webhooks and service hooks */
@@ -20380,7 +20380,7 @@ export interface ListOrganizationAuthTokensResponseBodyItem {
   /** ID of the project the token was last used with, or null */
   projectLastUsedId: string | null;
   /** The full token. Only included in the response that creates the token, and can't be retrieved again */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
 }
 export type ListOrganizationAuthTokensResponseBodyList =
   Array<ListOrganizationAuthTokensResponseBodyItem>;
@@ -29724,7 +29724,7 @@ export interface ListProjectSymbolSourcesResponseBodyItemCase4 {
   /** The key ID of the App Store Connect API key. */
   appconnectKey: string;
   /** The private key of the App Store Connect API key. */
-  appconnectPrivateKey: string;
+  appconnectPrivateKey: string | Redacted.Redacted<string>;
   /** The name of the app in App Store Connect. */
   appName: string;
   /** The ID of the app in App Store Connect. */
@@ -38505,7 +38505,7 @@ export interface UpdateProjectRequest {
   /** Maximum time in seconds to wait before sending an issue digest email. */
   digestsMaxDelay: number;
   /** Token sent with security reports (CSP, Expect-CT, HPKP) so Sentry can verify their origin. */
-  securityToken: string;
+  securityToken: string | Redacted.Redacted<string>;
   /** Name of the header carrying the security token on inbound security reports. */
   securityTokenHeader: string;
   /** Enables starring the project within the projects tab. Can be updated with **`project:read`** permission. */
@@ -38881,7 +38881,7 @@ export interface UpdateProjectResponse {
   /** Email subject used for individual alerts, excluding the prefix */
   subjectTemplate: string;
   /** Token sent with security reports (CSP, Expect-CT, HPKP) so Sentry can verify their origin */
-  securityToken: string;
+  securityToken: string | Redacted.Redacted<string>;
   /** Name of the header carrying the security token on inbound security reports */
   securityTokenHeader: string | null;
   /** Whether SSL certificates are verified when delivering outbound webhooks and service hooks */
@@ -40648,7 +40648,7 @@ export interface UpdateProjectSymbolSourceResponseBodyCase4 {
   /** The key ID of the App Store Connect API key. */
   appconnectKey: string;
   /** The private key of the App Store Connect API key. */
-  appconnectPrivateKey: string;
+  appconnectPrivateKey: string | Redacted.Redacted<string>;
   /** The name of the app in App Store Connect. */
   appName: string;
   /** The ID of the app in App Store Connect. */
@@ -48196,7 +48196,7 @@ function __c39(j: number): any {
           storeCrashReports: S.NullOr(S.Number),
           sensitiveFields: __S(4928, __c308, 0),
           subjectTemplate: S.String,
-          securityToken: S.String,
+          securityToken: S.String.pipe(T.SensitiveValue({})),
           securityTokenHeader: S.NullOr(S.String),
           verifySSL: S.Boolean,
           scrubIPAddresses: S.Boolean,
@@ -50973,7 +50973,7 @@ function __c114(j: number): any {
           dateCreated: S.String,
           dateLastUsed: S.NullOr(S.String),
           projectLastUsedId: S.NullOr(S.String),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "CreateOrganizationAuthTokenResponse" });
   }
@@ -55820,7 +55820,7 @@ function __c237(j: number): any {
           project_id_or_slug: S.String.pipe(T.Label()),
           digestsMinDelay: S.Number,
           digestsMaxDelay: S.Number,
-          securityToken: S.String,
+          securityToken: S.String.pipe(T.SensitiveValue({})),
           securityTokenHeader: S.String,
           isBookmarked: S.optional(S.Boolean),
           autofixAutomationTuning: S.optional(S.String),
@@ -55948,7 +55948,7 @@ function __c237(j: number): any {
           storeCrashReports: S.NullOr(S.Number),
           sensitiveFields: __S(4928, __c308, 0),
           subjectTemplate: S.String,
-          securityToken: S.String,
+          securityToken: S.String.pipe(T.SensitiveValue({})),
           securityTokenHeader: S.NullOr(S.String),
           verifySSL: S.Boolean,
           scrubIPAddresses: S.Boolean,

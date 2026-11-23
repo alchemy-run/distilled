@@ -69,7 +69,7 @@ export interface UserCodexAuthTokens {
   /** The single-use ChatGPT refresh token from the same `tokens` object. */
   refresh_token: string | Redacted.Redacted<string>;
   /** The OpenID id token from the same `tokens` object, when present. Used to read the account email. */
-  id_token?: string | null | undefined;
+  id_token?: string | Redacted.Redacted<string> | null | undefined;
 }
 export interface CreateUsersIntegrationsCodexRequest {
   uuid: string;
@@ -967,7 +967,7 @@ export type UserPushTokenPlatformEnum = "ios" | "android" | "web";
 export interface CreateUsersPushTokenRequest {
   uuid: string;
   /** Opaque push token issued by the device's platform push service (e.g. an Expo push token). */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** Device platform the token was issued for. One of `ios`, `android`, or `web`. * `ios` - iOS * `android` - Android * `web` - Web */
   platform: UserPushTokenPlatformEnum | (string & {});
 }
@@ -1719,7 +1719,7 @@ export interface RevokeOtherSessionsResponse {
 export interface UsersPushTokensUnregisterCreateRequest {
   uuid: string;
   /** The opaque push token to remove for the authenticated user. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 export interface UsersPushTokensUnregisterCreateResponse {}
 /** Map of notification preferences. Keys include `plugin_disabled`, `all_weekly_report_disabled`, `project_weekly_digest_disabled`, `error_tracking_weekly_digest_project_enabled`, `web_analytics_weekly_digest_project_enabled`, `organization_member_join_email_disabled`, `data_pipeline_error_threshold` (number between 0.0 and 1.0), and other per-topic switches. Values are either booleans, or (for per-project/per-resource keys) a map of IDs to booleans. Only the keys you send are updated -- other preferences stay as-is. */
@@ -3426,7 +3426,7 @@ function __c34(j: number): any {
         S.Struct({
           access_token: S.String.pipe(T.SensitiveValue({})),
           refresh_token: S.String.pipe(T.SensitiveValue({})),
-          id_token: S.optional(S.NullOr(S.String)),
+          id_token: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "UserCodexAuthTokens" });
     case 1:
@@ -3518,7 +3518,7 @@ function __c39(j: number): any {
       return S.suspend(() =>
         S.Struct({
           uuid: S.String.pipe(T.Label()),
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/users/{uuid}/push_tokens/unregister/", code: 200 }),
         ),
@@ -3867,7 +3867,7 @@ function __c49(j: number): any {
       return S.suspend(() =>
         S.Struct({
           uuid: S.String.pipe(T.Label()),
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           platform: S.String,
         }).pipe(T.Http({ method: "POST", uri: "/api/users/{uuid}/push_tokens/", code: 200 })),
       ).annotate({ identifier: "CreateUsersPushTokenRequest" });

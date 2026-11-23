@@ -49,7 +49,7 @@ export interface ConnectTokenResponse {
   ok: boolean;
   access_token: string | Redacted.Redacted<string>;
   token_type: ConnectTokenResponseTokenType;
-  id_token?: string | undefined;
+  id_token?: string | Redacted.Redacted<string> | undefined;
   state?: string | undefined;
   /** Time until this credential expires, if it expires at all */
   expires_in?: number | undefined;
@@ -156,7 +156,7 @@ function __c0(j: number): any {
           ok: S.Boolean,
           access_token: S.String.pipe(T.SensitiveValue({})),
           token_type: S.String,
-          id_token: S.optional(S.String),
+          id_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           state: S.optional(S.String),
           expires_in: S.optional(S.Number),
           refresh_token: S.optional(S.String.pipe(T.SensitiveValue({}))),

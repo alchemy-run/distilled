@@ -987,7 +987,7 @@ export interface DockerBuildStepInput {
   /** The URL(absolute or relative) of the source context for the task step. */
   contextPath?: string | undefined;
   /** The token (git PAT or SAS token of storage account blob) associated with the context for a step. */
-  contextAccessToken?: string | undefined;
+  contextAccessToken?: string | Redacted.Redacted<string> | undefined;
   /** The fully qualified image names including the repository and tag. */
   imageNames?: DockerBuildStepInputImageNamesList | undefined;
   /** The value of this property indicates whether the image built should be pushed to the registry or not. */
@@ -1021,7 +1021,7 @@ export interface FileTaskStepInput {
   /** The URL(absolute or relative) of the source context for the task step. */
   contextPath?: string | undefined;
   /** The token (git PAT or SAS token of storage account blob) associated with the context for a step. */
-  contextAccessToken?: string | undefined;
+  contextAccessToken?: string | Redacted.Redacted<string> | undefined;
   /** The task template/definition file path relative to the source context. */
   taskFilePath: string;
   /** The task values/parameters file path relative to the source context. */
@@ -1040,7 +1040,7 @@ export interface EncodedTaskStepInput {
   /** The URL(absolute or relative) of the source context for the task step. */
   contextPath?: string | undefined;
   /** The token (git PAT or SAS token of storage account blob) associated with the context for a step. */
-  contextAccessToken?: string | undefined;
+  contextAccessToken?: string | Redacted.Redacted<string> | undefined;
   /** Base64 encoded value of the template/definition file content. */
   encodedTaskContent: string;
   /** Base64 encoded value of the parameters/values file content. */
@@ -1075,7 +1075,7 @@ export interface AuthInfo {
   /** The type of Auth token. */
   tokenType: AuthInfoTokenType | (string & {});
   /** The access token used to access the source control provider. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The refresh token used to refresh the access token. */
   refreshToken?: string | Redacted.Redacted<string> | undefined;
   /** The scope of the access token. */
@@ -1148,7 +1148,7 @@ export type SecretObjectType = "Opaque" | "Vaultsecret";
 /** Describes the properties of a secret object value. */
 export interface SecretObject {
   /** The value of the secret. The format of this value will be determined based on the type of the secret object. If the type is Opaque, the value will be used as is without any modification. */
-  value?: string | undefined;
+  value?: string | Redacted.Redacted<string> | undefined;
   /** The type of the secret object which determines how the value of the secret object has to be interpreted. */
   type?: SecretObjectType | (string & {}) | undefined;
 }
@@ -1251,7 +1251,7 @@ export interface DockerBuildStep {
   /** The URL(absolute or relative) of the source context for the task step. */
   contextPath?: string | undefined;
   /** The token (git PAT or SAS token of storage account blob) associated with the context for a step. */
-  contextAccessToken?: string | undefined;
+  contextAccessToken?: string | Redacted.Redacted<string> | undefined;
   /** The fully qualified image names including the repository and tag. */
   imageNames?: DockerBuildStepImageNamesList | undefined;
   /** The value of this property indicates whether the image built should be pushed to the registry or not. */
@@ -1280,7 +1280,7 @@ export interface FileTaskStep {
   /** The URL(absolute or relative) of the source context for the task step. */
   contextPath?: string | undefined;
   /** The token (git PAT or SAS token of storage account blob) associated with the context for a step. */
-  contextAccessToken?: string | undefined;
+  contextAccessToken?: string | Redacted.Redacted<string> | undefined;
   /** The task template/definition file path relative to the source context. */
   taskFilePath: string;
   /** The task values/parameters file path relative to the source context. */
@@ -1303,7 +1303,7 @@ export interface EncodedTaskStep {
   /** The URL(absolute or relative) of the source context for the task step. */
   contextPath?: string | undefined;
   /** The token (git PAT or SAS token of storage account blob) associated with the context for a step. */
-  contextAccessToken?: string | undefined;
+  contextAccessToken?: string | Redacted.Redacted<string> | undefined;
   /** Base64 encoded value of the template/definition file content. */
   encodedTaskContent: string;
   /** Base64 encoded value of the parameters/values file content. */
@@ -1412,7 +1412,7 @@ export interface TokenPassword {
   /** The password name "password1" or "password2" */
   name?: TokenPasswordName | undefined;
   /** The password value. */
-  value?: string | undefined;
+  value?: string | Redacted.Redacted<string> | undefined;
 }
 export type TokenCredentialsPropertiesPasswordsList = Array<TokenPassword>;
 /** The properties of the credentials that can be used for authenticating the token. */
@@ -1453,7 +1453,7 @@ export interface CreateTokenResponse {
 export type CreateWebhookRequestTagsMap = { [key: string]: string | undefined };
 /** Custom headers that will be added to the webhook notifications. */
 export type WebhookPropertiesCreateParametersCustomHeadersMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | Redacted.Redacted<string> | undefined;
 };
 /** The status of the webhook at the time the operation was called. */
 export type WebhookStatus = "enabled" | "disabled";
@@ -1463,7 +1463,7 @@ export type WebhookPropertiesCreateParametersActionsList = Array<WebhookAction |
 /** The parameters for creating the properties of a webhook. */
 export interface WebhookPropertiesCreateParameters {
   /** The service URI for the webhook to post notifications. */
-  serviceUri: string;
+  serviceUri: string | Redacted.Redacted<string>;
   /** Custom headers that will be added to the webhook notifications. */
   customHeaders?: WebhookPropertiesCreateParametersCustomHeadersMap | undefined;
   /** The status of the webhook at the time the operation was called. */
@@ -2500,7 +2500,7 @@ export interface RegistryPassword {
   /** The password name. */
   name?: PasswordName | undefined;
   /** The password value. */
-  value?: string | undefined;
+  value?: string | Redacted.Redacted<string> | undefined;
 }
 /** The list of passwords for a container registry. */
 export type RegistryListCredentialsResultPasswordsList = Array<RegistryPassword>;
@@ -3444,7 +3444,7 @@ export interface DockerBuildStepUpdateParameters {
   /** The URL(absolute or relative) of the source context for the task step. */
   contextPath?: string | undefined;
   /** The token (git PAT or SAS token of storage account blob) associated with the context for a step. */
-  contextAccessToken?: string | undefined;
+  contextAccessToken?: string | Redacted.Redacted<string> | undefined;
   /** The fully qualified image names including the repository and tag. */
   imageNames?: DockerBuildStepUpdateParametersImageNamesList | undefined;
   /** The value of this property indicates whether the image built should be pushed to the registry or not. */
@@ -3469,7 +3469,7 @@ export interface FileTaskStepUpdateParameters {
   /** The URL(absolute or relative) of the source context for the task step. */
   contextPath?: string | undefined;
   /** The token (git PAT or SAS token of storage account blob) associated with the context for a step. */
-  contextAccessToken?: string | undefined;
+  contextAccessToken?: string | Redacted.Redacted<string> | undefined;
   /** The task template/definition file path relative to the source context. */
   taskFilePath?: string | undefined;
   /** The values/parameters file path relative to the source context. */
@@ -3488,7 +3488,7 @@ export interface EncodedTaskStepUpdateParameters {
   /** The URL(absolute or relative) of the source context for the task step. */
   contextPath?: string | undefined;
   /** The token (git PAT or SAS token of storage account blob) associated with the context for a step. */
-  contextAccessToken?: string | undefined;
+  contextAccessToken?: string | Redacted.Redacted<string> | undefined;
   /** Base64 encoded value of the template/definition file content. */
   encodedTaskContent?: string | undefined;
   /** Base64 encoded value of the parameters/values file content. */
@@ -3523,7 +3523,7 @@ export interface AuthInfoUpdateParameters {
   /** The type of Auth token. */
   tokenType?: AuthInfoUpdateParametersTokenType | (string & {}) | undefined;
   /** The access token used to access the source control provider. */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   /** The refresh token used to refresh the access token. */
   refreshToken?: string | Redacted.Redacted<string> | undefined;
   /** The scope of the access token. */
@@ -3681,14 +3681,14 @@ export interface UpdateTokenResponse {
 export type UpdateWebhookRequestTagsMap = { [key: string]: string | undefined };
 /** Custom headers that will be added to the webhook notifications. */
 export type WebhookPropertiesUpdateParametersCustomHeadersMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | Redacted.Redacted<string> | undefined;
 };
 /** The list of actions that trigger the webhook to post notifications. */
 export type WebhookPropertiesUpdateParametersActionsList = Array<WebhookAction | (string & {})>;
 /** The parameters for updating the properties of a webhook. */
 export interface WebhookPropertiesUpdateParameters {
   /** The service URI for the webhook to post notifications. */
-  serviceUri?: string | undefined;
+  serviceUri?: string | Redacted.Redacted<string> | undefined;
   /** Custom headers that will be added to the webhook notifications. */
   customHeaders?: WebhookPropertiesUpdateParametersCustomHeadersMap | undefined;
   /** The status of the webhook at the time the operation was called. */
@@ -3923,7 +3923,7 @@ export const CreateWebhook: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(49, __c3, 1) as any as S.Schema<CreateWebhookRequest>,
-  output: __S(80, __c5, 0) as any as S.Schema<CreateWebhookResponse>,
+  output: __S(81, __c5, 1) as any as S.Schema<CreateWebhookResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -5108,7 +5108,7 @@ export const UpdateWebhook: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1713, __c107, 1) as any as S.Schema<UpdateWebhookRequest>,
-  output: __S(80, __c5, 0) as any as S.Schema<UpdateWebhookResponse>,
+  output: __S(81, __c5, 1) as any as S.Schema<UpdateWebhookResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -5176,8 +5176,8 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          serviceUri: S.String,
-          customHeaders: S.optional(__S(1264, __c79, 0)),
+          serviceUri: S.String.pipe(T.SensitiveValue({})),
+          customHeaders: S.optional(__S(80, __c5, 0)),
           status: S.optional(S.String),
           scope: S.optional(S.String),
           actions: __S(1744, __c109, 0),
@@ -5220,6 +5220,8 @@ function __c4(j: number): any {
 function __c5(j: number): any {
   switch (j) {
     case 0:
+      return S.Record(S.String, /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.SensitiveValue({})));
+    case 1:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
@@ -6698,7 +6700,7 @@ function __c68(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          value: S.optional(S.String),
+          value: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "RegistryPassword" });
     case 1:
@@ -7803,7 +7805,7 @@ function __c102(j: number): any {
         S.Struct({
           type: S.String,
           contextPath: S.optional(S.String),
-          contextAccessToken: S.optional(S.String),
+          contextAccessToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           imageNames: S.optional(__S(624, __c39, 0)),
           isPushEnabled: S.optional(S.Boolean),
           noCache: S.optional(S.Boolean),
@@ -7817,7 +7819,7 @@ function __c102(j: number): any {
         S.Struct({
           type: S.String,
           contextPath: S.optional(S.String),
-          contextAccessToken: S.optional(S.String),
+          contextAccessToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           taskFilePath: S.optional(S.String),
           valuesFilePath: S.optional(S.String),
           values: S.optional(__S(1777, __c111, 1)),
@@ -7828,7 +7830,7 @@ function __c102(j: number): any {
         S.Struct({
           type: S.String,
           contextPath: S.optional(S.String),
-          contextAccessToken: S.optional(S.String),
+          contextAccessToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           encodedTaskContent: S.optional(S.String),
           encodedValuesContent: S.optional(S.String),
           values: S.optional(__S(1777, __c111, 1)),
@@ -7850,7 +7852,7 @@ function __c102(j: number): any {
       return S.suspend(() =>
         S.Struct({
           tokenType: S.optional(S.String),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           refreshToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           scope: S.optional(S.String),
           expiresIn: S.optional(S.Number),
@@ -8017,8 +8019,8 @@ function __c107(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          serviceUri: S.optional(S.String),
-          customHeaders: S.optional(__S(1264, __c79, 0)),
+          serviceUri: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          customHeaders: S.optional(__S(80, __c5, 0)),
           status: S.optional(S.String),
           scope: S.optional(S.String),
           actions: S.optional(__S(1744, __c109, 0)),
@@ -8051,7 +8053,7 @@ function __c108(j: number): any {
         S.Struct({
           type: S.String,
           contextPath: S.optional(S.String),
-          contextAccessToken: S.optional(S.String),
+          contextAccessToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           imageNames: S.optional(__S(624, __c39, 0)),
           isPushEnabled: S.optional(S.Boolean),
           noCache: S.optional(S.Boolean),
@@ -8065,7 +8067,7 @@ function __c108(j: number): any {
         S.Struct({
           type: S.String,
           contextPath: S.optional(S.String),
-          contextAccessToken: S.optional(S.String),
+          contextAccessToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           taskFilePath: S.String,
           valuesFilePath: S.optional(S.String),
           values: S.optional(__S(1777, __c111, 1)),
@@ -8076,7 +8078,7 @@ function __c108(j: number): any {
         S.Struct({
           type: S.String,
           contextPath: S.optional(S.String),
-          contextAccessToken: S.optional(S.String),
+          contextAccessToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           encodedTaskContent: S.String,
           encodedValuesContent: S.optional(S.String),
           values: S.optional(__S(1777, __c111, 1)),
@@ -8163,7 +8165,7 @@ function __c111(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(S.String),
+          value: S.optional(S.String.pipe(T.SensitiveValue({}))),
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "SecretObject" });
@@ -8202,7 +8204,7 @@ function __c112(j: number): any {
       return S.suspend(() =>
         S.Struct({
           tokenType: S.String,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           refreshToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           scope: S.optional(S.String),
           expiresIn: S.optional(S.Number),
@@ -8262,7 +8264,7 @@ function __c112(j: number): any {
           type: S.String,
           baseImageDependencies: S.optional(__S(1801, __c112, 9)),
           contextPath: S.optional(S.String),
-          contextAccessToken: S.optional(S.String),
+          contextAccessToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           imageNames: S.optional(__S(624, __c39, 0)),
           isPushEnabled: S.optional(S.Boolean),
           noCache: S.optional(S.Boolean),
@@ -8277,7 +8279,7 @@ function __c112(j: number): any {
           type: S.String,
           baseImageDependencies: S.optional(__S(1801, __c112, 9)),
           contextPath: S.optional(S.String),
-          contextAccessToken: S.optional(S.String),
+          contextAccessToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           taskFilePath: S.String,
           valuesFilePath: S.optional(S.String),
           values: S.optional(__S(1777, __c111, 1)),
@@ -8289,7 +8291,7 @@ function __c112(j: number): any {
           type: S.String,
           baseImageDependencies: S.optional(__S(1801, __c112, 9)),
           contextPath: S.optional(S.String),
-          contextAccessToken: S.optional(S.String),
+          contextAccessToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           encodedTaskContent: S.String,
           encodedValuesContent: S.optional(S.String),
           values: S.optional(__S(1777, __c111, 1)),
@@ -8362,7 +8364,7 @@ function __c114(j: number): any {
           creationTime: S.optional(S.String),
           expiry: S.optional(S.String),
           name: S.optional(S.String),
-          value: S.optional(S.String),
+          value: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "TokenPassword" });
     case 1:

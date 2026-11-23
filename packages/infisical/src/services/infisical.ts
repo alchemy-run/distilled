@@ -112,7 +112,7 @@ export interface AccessSharedSecretResponse {
   identityId?: string | null | undefined;
   allowExternalEmails?: boolean | null | undefined;
   orgName?: string | undefined;
-  secretValue?: string | undefined;
+  secretValue?: string | Redacted.Redacted<string> | undefined;
 }
 /** The IDs of the users to grant the access bundle to. */
 export type AddAgentVaultAccessBundleMembersRequestUserIdsList = Array<string>;
@@ -641,7 +641,7 @@ export interface AdminBootstrapResponseOrganization {
   slug: string;
 }
 export interface AdminBootstrapResponseIdentityCredentials {
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 export interface AdminBootstrapResponseIdentity {
   id: string;
@@ -2206,7 +2206,7 @@ export interface CreateAgentVaultProxyResponseProxy {
 export interface CreateAgentVaultProxyResponse {
   proxy: CreateAgentVaultProxyResponseProxy;
   /** The token the proxy starts with, on as many machines as you need. Shown once, and works until it is rotated or the proxy's access is revoked. */
-  proxyToken: string;
+  proxyToken: string | Redacted.Redacted<string>;
 }
 /** The service type: `http` for an HTTP API, or `mcp` for a remote MCP server. Can't be changed after the service is created. */
 export type CreateAgentVaultServiceRequestBodyCase0Type = "http";
@@ -2340,7 +2340,7 @@ export interface CreateAgentVaultServiceRequestBodyCase1Credential {
   /** Written before the credential value, separated by one space. Leave empty for a header that carries the value alone, such as DD-API-KEY. Can't contain `{{` or `}}`. On update a field left out keeps its stored value, so send an empty string to clear the prefix when changing the header. */
   headerPrefix?: string | undefined;
   /** The secret. Can use up to 3 references to Agent Vault's variables, written as `{{KEY}}`. A reference that repeats counts each time. Never returned once saved. */
-  value?: string | undefined;
+  value?: string | Redacted.Redacted<string> | undefined;
   /** Leave the token to each member: send `credential-value` here and no `value`. Every member sets their own, and a session uses the token of the member who started it. A session a machine identity started on behalf of a user uses that user's token instead. Omit on update to keep the current setting; send an empty list to set the token yourself again, which then needs a `value`. Changing this clears every member's saved values for the service. */
   memberProvidedFields?:
     | CreateAgentVaultServiceRequestBodyCase1CredentialMemberProvidedFieldsList
@@ -2692,7 +2692,7 @@ export interface CreateAgentVaultSessionRequestServicesItemCase1Credential {
   /** Written before the credential value, separated by one space. Leave empty for a header that carries the value alone, such as DD-API-KEY. Can't contain `{{` or `}}`. On update a field left out keeps its stored value, so send an empty string to clear the prefix when changing the header. */
   headerPrefix?: string | undefined;
   /** The secret, sent exactly as given. Services sent with a session can't use variables, so it can't wrap text in double braces. Never returned. */
-  value: string;
+  value: string | Redacted.Redacted<string>;
 }
 export type CreateAgentVaultSessionRequestServicesItemCase1CustomHeadersItem =
   CreateAgentVaultSessionRequestServicesItemCase0CustomHeadersItem;
@@ -2843,7 +2843,7 @@ export interface CreateAgentVaultSessionResponseSession {
   /** A short description of what the session is for, such as `nightly deploy` or `support ticket triage`. Up to 128 characters, without line breaks, tabs, or invisible characters. Shown wherever the session is listed. */
   label: string | null;
   /** The session token. Returned once, at mint, and never again. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** When the session expires, or null when it never does. */
   expiresAt: string | null;
   createdAt: string;
@@ -8231,7 +8231,7 @@ export interface CreateChefAppConnectionRequestCredentials {
   /** The private key used to access Chef. */
   privateKey: string | Redacted.Redacted<string>;
   /** The shared secret (the contents of your encrypted_data_bag_secret file) used to encrypt and decrypt Chef encrypted data bag items. Required by secret syncs that encrypt secrets or read a data bag item that's already encrypted. */
-  dataBagSecret?: string | undefined;
+  dataBagSecret?: string | Redacted.Redacted<string> | undefined;
 }
 export type CreateChefAppConnectionRequestRotationCase1 = "null";
 /** Not supported for Chef Connections. */
@@ -10541,7 +10541,7 @@ export interface CreateDatadogAppConnectionRequestCredentials {
   /** The Datadog site URL to connect to (e.g., 'https://api.datadoghq.com'). */
   url?: string | undefined;
   /** The Datadog Service Access Token used to authenticate. */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   /** The Datadog API key used to authenticate. */
   apiKey?: string | Redacted.Redacted<string> | undefined;
   /** The Datadog Application key used to authenticate. */
@@ -11110,7 +11110,7 @@ export interface CreateDBTServiceTokenRotationRequestParameters {
 }
 export interface CreateDBTServiceTokenRotationRequestSecretsMapping {
   /** The name of the secret that the service token will be mapped to. */
-  serviceToken: string;
+  serviceToken: string | Redacted.Redacted<string>;
 }
 export interface CreateDBTServiceTokenRotationRequest {
   /** The name of the DBT Service Token Rotation to create. Must be slug-friendly. */
@@ -12240,7 +12240,7 @@ export interface CreateDynamicSecretRequestProviderCase9Inputs {
   /** Admin user public api key */
   adminPublicKey: string;
   /** Admin user private api key */
-  adminPrivateKey: string;
+  adminPrivateKey: string | Redacted.Redacted<string>;
   /** Unique 24-hexadecimal digit string that identifies your project. This is same as project id */
   groupId: string;
   roles: CreateDynamicSecretRequestProviderCase9InputsRolesList;
@@ -12446,7 +12446,7 @@ export type CreateDynamicSecretRequestProviderCase18InputsCase0AudiencesList = A
 export type CreateDynamicSecretRequestProviderCase18InputsCase0AuthMethod = "gateway" | "api";
 export interface CreateDynamicSecretRequestProviderCase18InputsCase0 {
   url?: string | undefined;
-  clusterToken?: string | undefined;
+  clusterToken?: string | Redacted.Redacted<string> | undefined;
   ca?: string | undefined;
   sslEnabled?: boolean | undefined;
   sslRejectUnauthorized?: boolean | undefined;
@@ -12467,7 +12467,7 @@ export type CreateDynamicSecretRequestProviderCase18InputsCase1RoleType = "clust
 export type CreateDynamicSecretRequestProviderCase18InputsCase1AuthMethod = "gateway" | "api";
 export interface CreateDynamicSecretRequestProviderCase18InputsCase1 {
   url?: string | undefined;
-  clusterToken?: string | undefined;
+  clusterToken?: string | Redacted.Redacted<string> | undefined;
   ca?: string | undefined;
   sslEnabled?: boolean | undefined;
   sslRejectUnauthorized?: boolean | undefined;
@@ -13152,7 +13152,7 @@ export type CreateExternalInfisicalAppConnectionRequestMethod = "machine-identit
 export interface CreateExternalInfisicalAppConnectionRequestCredentials {
   instanceUrl: string;
   machineIdentityClientId: string;
-  machineIdentityClientSecret: string;
+  machineIdentityClientSecret: string | Redacted.Redacted<string>;
 }
 export type CreateExternalInfisicalAppConnectionRequestGatewayIdCase1 = "null";
 /** Not supported for Infisical Connections. */
@@ -14783,7 +14783,7 @@ export interface CreateGCPServiceAccountKeyRotationRequestParameters {
 }
 export interface CreateGCPServiceAccountKeyRotationRequestSecretsMapping {
   /** The name of the secret that the rotated service account key (the JSON key file) will be mapped to. */
-  serviceAccountKey: string;
+  serviceAccountKey: string | Redacted.Redacted<string>;
 }
 export interface CreateGCPServiceAccountKeyRotationRequest {
   /** The name of the GCP Service Account Key Rotation to create. Must be slug-friendly. */
@@ -15754,7 +15754,7 @@ export interface CreateGodaddyAppConnectionRequestCredentials {
   /** The GoDaddy API Key used to authenticate with the GoDaddy API. */
   apiKey: string | Redacted.Redacted<string>;
   /** The GoDaddy API Secret used to authenticate with the GoDaddy API. */
-  apiSecret: string;
+  apiSecret: string | Redacted.Redacted<string>;
 }
 export type CreateGodaddyAppConnectionRequestGatewayIdCase1 = "null";
 /** Not supported for GoDaddy Connections. */
@@ -16360,7 +16360,7 @@ export interface CreateHasuraCloudSecretSyncResponse {
 export type CreateHerokuAppConnectionRequestMethod = "auth-token";
 /** The credentials used to connect with Heroku. */
 export interface CreateHerokuAppConnectionRequestCredentials {
-  authToken: string;
+  authToken: string | Redacted.Redacted<string>;
 }
 export type CreateHerokuAppConnectionRequestGatewayIdCase1 = "null";
 /** Not supported for Heroku Connections. */
@@ -21132,7 +21132,7 @@ export interface CreateJiraAppConnectionRequestCredentials {
   /** The Atlassian API token used to authenticate with Jira Cloud. */
   apiToken?: string | Redacted.Redacted<string> | undefined;
   /** The personal access token used to authenticate with Jira Data Center. */
-  personalAccessToken?: string | undefined;
+  personalAccessToken?: string | Redacted.Redacted<string> | undefined;
   /** Whether or not to reject untrusted SSL certificates (true/false). Set to false for Jira Data Center sites using self-signed certificates. */
   sslRejectUnauthorized?: boolean | undefined;
   /** The CA certificate (PEM format) used to verify the Jira Data Center site's TLS certificate. */
@@ -22622,7 +22622,7 @@ export interface CreateManySecretsV4RequestSecretsItem {
   /** The name of the secret to create. */
   secretKey: string | Redacted.Redacted<string>;
   /** The value of the secret to create. */
-  secretValue: string;
+  secretValue: string | Redacted.Redacted<string>;
   /** Attach a comment to the secret. */
   secretComment?: string | undefined;
   /** Skip multiline encoding for the secret value. */
@@ -22657,7 +22657,7 @@ export interface CreateManySecretsV4ResponseBodyCase0SecretsItem {
   version: number;
   type: string;
   secretKey: string | Redacted.Redacted<string>;
-  secretValue: string;
+  secretValue: string | Redacted.Redacted<string>;
   secretComment: string;
   secretReminderNote?: string | null | undefined;
   secretReminderRepeatDays?: number | null | undefined;
@@ -24896,7 +24896,7 @@ export type CreateOnaAppConnectionRequestMethod = "personal-access-token";
 /** The credentials used to connect with Ona. */
 export interface CreateOnaAppConnectionRequestCredentials {
   /** The Personal Access Token used to authenticate with Ona. */
-  personalAccessToken: string;
+  personalAccessToken: string | Redacted.Redacted<string>;
 }
 export type CreateOnaAppConnectionRequestGatewayIdCase1 = "null";
 /** Not supported for Ona Connections. */
@@ -26820,7 +26820,7 @@ export interface CreateOvhAppConnectionRequestCredentials {
   /** The OVHcloud KMS instance identifier from the OVH Control Panel, used as a path segment in all API calls. */
   okmsId?: string | undefined;
   /** The access token used to authenticate to the OVHcloud KMS REST API */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
 }
 export type CreateOvhAppConnectionRequestGatewayIdCase1 = "null";
 /** Not supported for OVHcloud Connections. */
@@ -39910,7 +39910,7 @@ export interface CreateSalesforceAppConnectionRequestCredentials {
   /** The Consumer Key of your Salesforce External App. */
   consumerKey: string;
   /** The Consumer Secret of your Salesforce External App. */
-  consumerSecret: string;
+  consumerSecret: string | Redacted.Redacted<string>;
 }
 export type CreateSalesforceAppConnectionRequestGatewayIdCase1 = "null";
 /** Not supported for Salesforce Connections. */
@@ -40014,7 +40014,7 @@ export interface CreateSalesforceOAuthCredentialsRotationRequestSecretsMapping {
   /** The name of the secret that the rotated Salesforce consumer key will be mapped to. */
   consumerKey: string;
   /** The name of the secret that the rotated Salesforce consumer secret will be mapped to. */
-  consumerSecret: string;
+  consumerSecret: string | Redacted.Redacted<string>;
 }
 export interface CreateSalesforceOAuthCredentialsRotationRequest {
   /** The name of the Salesforce OAuth Credentials Rotation to create. Must be slug-friendly. */
@@ -40541,7 +40541,7 @@ export interface CreateSecretV4Request {
   /** The path to create the secret in. */
   secretPath?: string | undefined;
   /** The value of the secret to create. */
-  secretValue: string;
+  secretValue: string | Redacted.Redacted<string>;
   /** Attach a comment to the secret. */
   secretComment?: string | undefined;
   secretMetadata?: CreateSecretV4RequestSecretMetadataList | undefined;
@@ -40681,7 +40681,7 @@ export interface CreateSharedSecretRequest {
   /** An optional password to protect the shared secret. Recipients will need to provide this password to access the secret. */
   password?: string | Redacted.Redacted<string> | undefined;
   /** The secret value to share. */
-  secretValue: string;
+  secretValue: string | Redacted.Redacted<string>;
   /** The duration after which the shared secret will expire. Accepts formats like '30d', '24h', '1w'. Maximum is 30 days, minimum is 5 minutes. */
   expiresIn?: string | undefined;
   /** The maximum number of times the shared secret can be viewed before it expires. If not provided, unlimited views are allowed. */
@@ -41459,7 +41459,7 @@ export interface CreateSshAppConnectionRequestCredentials {
   /** The private key in PEM format for SSH authentication (required when authMethod is 'ssh-key'). */
   privateKey?: string | Redacted.Redacted<string> | undefined;
   /** The passphrase for the private key, if encrypted (optional, only for 'ssh-key' authMethod). */
-  passphrase?: string | undefined;
+  passphrase?: string | Redacted.Redacted<string> | undefined;
 }
 export interface CreateSshAppConnectionRequestConfiguration {
   /** A comma-separated list of usernames that are blocked from being used in operations like secret rotation (e.g., 'root,admin,ubuntu'). */
@@ -54753,7 +54753,7 @@ export interface DeleteManySecretsV4ResponseBodyCase0SecretsItem {
   version: number;
   type: string;
   secretKey: string | Redacted.Redacted<string>;
-  secretValue: string;
+  secretValue: string | Redacted.Redacted<string>;
   secretComment: string;
   secretReminderNote?: string | null | undefined;
   secretReminderRepeatDays?: number | null | undefined;
@@ -73357,7 +73357,7 @@ export interface GetDBTServiceTokenRotationGeneratedCredentialsRequest {
   rotationId: string;
 }
 export interface GetDBTServiceTokenRotationGeneratedCredentialsResponseGeneratedCredentialsItem {
-  serviceToken: string;
+  serviceToken: string | Redacted.Redacted<string>;
   tokenId: number;
   tokenName: string;
 }
@@ -76119,7 +76119,7 @@ export interface GetGCPServiceAccountKeyRotationGeneratedCredentialsRequest {
 }
 export interface GetGCPServiceAccountKeyRotationGeneratedCredentialsResponseGeneratedCredentialsItem {
   keyId: string;
-  serviceAccountKey: string;
+  serviceAccountKey: string | Redacted.Redacted<string>;
 }
 export type GetGCPServiceAccountKeyRotationGeneratedCredentialsResponseGeneratedCredentialsList =
   Array<GetGCPServiceAccountKeyRotationGeneratedCredentialsResponseGeneratedCredentialsItem>;
@@ -86250,7 +86250,7 @@ export interface GetPkiCertificateProfileAcmeEabSecretRevealRequest {
 }
 export interface GetPkiCertificateProfileAcmeEabSecretRevealResponse {
   eabKid: string;
-  eabSecret: string;
+  eabSecret: string | Redacted.Redacted<string>;
 }
 export interface GetPkiCertificateProfileCertificateLatestActiveBundleRequest {
   id: string;
@@ -90680,7 +90680,7 @@ export interface GetSalesforceOAuthCredentialsRotationGeneratedCredentialsReques
 }
 export interface GetSalesforceOAuthCredentialsRotationGeneratedCredentialsResponseGeneratedCredentialsItem {
   consumerKey: string;
-  consumerSecret: string;
+  consumerSecret: string | Redacted.Redacted<string>;
   stagedCredentialUrl: string;
 }
 export type GetSalesforceOAuthCredentialsRotationGeneratedCredentialsResponseGeneratedCredentialsList =
@@ -90736,7 +90736,7 @@ export interface GetSecretByIdV4ResponseSecret {
   version: number;
   type: string;
   secretKey: string | Redacted.Redacted<string>;
-  secretValue: string;
+  secretValue: string | Redacted.Redacted<string>;
   secretComment: string;
   secretReminderNote?: string | null | undefined;
   secretReminderRepeatDays?: number | null | undefined;
@@ -90790,7 +90790,7 @@ export interface GetSecretByNameV4ResponseSecret {
   version: number;
   type: string;
   secretKey: string | Redacted.Redacted<string>;
-  secretValue: string;
+  secretValue: string | Redacted.Redacted<string>;
   secretComment: string;
   secretReminderNote?: string | null | undefined;
   secretReminderRepeatDays?: number | null | undefined;
@@ -113075,7 +113075,7 @@ export interface ListCertificateProfilesResponseCertificateProfilesItemMetrics {
 export interface ListCertificateProfilesResponseCertificateProfilesItemEstConfig {
   id: string;
   disableBootstrapCaValidation: boolean;
-  passphrase?: string | undefined;
+  passphrase?: string | Redacted.Redacted<string> | undefined;
   caChain?: string | undefined;
 }
 export type ListCertificateProfilesResponseCertificateProfilesItemApiConfig =
@@ -122783,7 +122783,7 @@ export interface ListOrganizationAuditLogsRequest {
   /** The path of the secret to query audit logs for. Note that the projectId parameter must also be provided. */
   secretPath?: string | undefined;
   /** The key of the secret to query audit logs for. Note that the projectId parameter must also be provided. */
-  secretKey?: string | undefined;
+  secretKey?: string | Redacted.Redacted<string> | undefined;
   eventType?: unknown | undefined;
   /** Filter by event class, comma-separated for multiple values (management, authentication, authorization, data-access). Combined with eventType, only event types in both are returned. If the selected classes include secret events, the environment, secretPath, and secretKey filters drop every event whose metadata doesn't match, including events that aren't about secrets. If they don't, those filters are ignored. */
   eventClass?: unknown | undefined;
@@ -128324,7 +128324,7 @@ export type ListSecretRotationOptionsResponseSecretRotationOptionsItemCase13Conn
 export type ListSecretRotationOptionsResponseSecretRotationOptionsItemCase13Type =
   "dbt-service-token";
 export interface ListSecretRotationOptionsResponseSecretRotationOptionsItemCase13TemplateSecretsMapping {
-  serviceToken: string;
+  serviceToken: string | Redacted.Redacted<string>;
 }
 export interface ListSecretRotationOptionsResponseSecretRotationOptionsItemCase13Template {
   secretsMapping: ListSecretRotationOptionsResponseSecretRotationOptionsItemCase13TemplateSecretsMapping;
@@ -128537,7 +128537,7 @@ export type ListSecretRotationOptionsResponseSecretRotationOptionsItemCase20Type
   "salesforce-oauth-credentials";
 export interface ListSecretRotationOptionsResponseSecretRotationOptionsItemCase20TemplateSecretsMapping {
   consumerKey: string;
-  consumerSecret: string;
+  consumerSecret: string | Redacted.Redacted<string>;
 }
 export interface ListSecretRotationOptionsResponseSecretRotationOptionsItemCase20Template {
   secretsMapping: ListSecretRotationOptionsResponseSecretRotationOptionsItemCase20TemplateSecretsMapping;
@@ -128705,7 +128705,7 @@ export type ListSecretRotationOptionsResponseSecretRotationOptionsItemCase29Conn
 export type ListSecretRotationOptionsResponseSecretRotationOptionsItemCase29Type =
   "gcp-service-account-key";
 export interface ListSecretRotationOptionsResponseSecretRotationOptionsItemCase29TemplateSecretsMapping {
-  serviceAccountKey: string;
+  serviceAccountKey: string | Redacted.Redacted<string>;
 }
 export interface ListSecretRotationOptionsResponseSecretRotationOptionsItemCase29Template {
   secretsMapping: ListSecretRotationOptionsResponseSecretRotationOptionsItemCase29TemplateSecretsMapping;
@@ -130733,7 +130733,7 @@ export interface ListSecretsV4ResponseSecretsItem {
   version: number;
   type: string;
   secretKey: string | Redacted.Redacted<string>;
-  secretValue: string;
+  secretValue: string | Redacted.Redacted<string>;
   secretComment: string;
   secretReminderNote?: string | null | undefined;
   secretReminderRepeatDays?: number | null | undefined;
@@ -130763,7 +130763,7 @@ export interface ListSecretsV4ResponseImportsItemSecretsItem {
   version: number;
   type: string;
   secretKey: string | Redacted.Redacted<string>;
-  secretValue: string;
+  secretValue: string | Redacted.Redacted<string>;
   secretComment: string;
   secretReminderNote?: string | null | undefined;
   secretReminderRepeatDays?: number | null | undefined;
@@ -138969,7 +138969,7 @@ export interface MintGatewayEnrollmentTokenRequest {
   gatewayId: string;
 }
 export interface MintGatewayEnrollmentTokenResponse {
-  token: string;
+  token: string | Redacted.Redacted<string>;
   expiresAt: string;
 }
 export interface MoveAuth0ClientSecretRotationRequest {
@@ -146292,7 +146292,7 @@ export interface RevealCertificateProfileAcmeEabSecretRequest {
 }
 export interface RevealCertificateProfileAcmeEabSecretResponse {
   eabKid: string;
-  eabSecret: string;
+  eabSecret: string | Redacted.Redacted<string>;
 }
 export interface RevealPkiApplicationAcmeEabSecretRequest {
   applicationId: string;
@@ -146302,7 +146302,7 @@ export interface RevealPkiApplicationAcmeEabSecretResponse {
   applicationId: string;
   profileId: string;
   eabKid: string;
-  eabSecret: string;
+  eabSecret: string | Redacted.Redacted<string>;
 }
 /** The IDs of the users to revoke the access bundle from. */
 export type RevokeAgentVaultAccessBundleMembersRequestUserIdsList = Array<string>;
@@ -146760,7 +146760,7 @@ export interface RotateAgentVaultProxyTokenResponseProxy {
 export interface RotateAgentVaultProxyTokenResponse {
   proxy: RotateAgentVaultProxyTokenResponseProxy;
   /** The token the proxy starts with, on as many machines as you need. Shown once, and works until it is rotated or the proxy's access is revoked. */
-  proxyToken: string;
+  proxyToken: string | Redacted.Redacted<string>;
 }
 export interface RotateAnthropicAppConnectionCredentialsRequest {
   /** The ID of the Anthropic Connection to rotate credentials for. */
@@ -156045,7 +156045,7 @@ export interface SetPkiApplicationApiEnrollmentResponse {
 export interface SetPkiApplicationEstEnrollmentRequest {
   applicationId: string;
   profileId: string;
-  passphrase: string;
+  passphrase: string | Redacted.Redacted<string>;
   disableBootstrapCaValidation?: boolean | undefined;
   caChain?: string | undefined;
 }
@@ -161617,7 +161617,7 @@ export interface UpdateAgentVaultServiceRequestBodyCase1Credential {
   /** Written before the credential value, separated by one space. Leave empty for a header that carries the value alone, such as DD-API-KEY. Can't contain `{{` or `}}`. On update a field left out keeps its stored value, so send an empty string to clear the prefix when changing the header. */
   headerPrefix?: string | undefined;
   /** The secret. Can use up to 3 references to Agent Vault's variables, written as `{{KEY}}`. A reference that repeats counts each time. Omit to keep the stored secret. */
-  value?: string | undefined;
+  value?: string | Redacted.Redacted<string> | undefined;
   /** Leave the token to each member: send `credential-value` here and no `value`. Every member sets their own, and a session uses the token of the member who started it. A session a machine identity started on behalf of a user uses that user's token instead. Omit on update to keep the current setting; send an empty list to set the token yourself again, which then needs a `value`. Changing this clears every member's saved values for the service. */
   memberProvidedFields?:
     | UpdateAgentVaultServiceRequestBodyCase1CredentialMemberProvidedFieldsList
@@ -166855,7 +166855,7 @@ export interface UpdateCertManagerAcmeProfileAuthorizationResponseChallengesItem
   type: UpdateCertManagerAcmeProfileAuthorizationResponseChallengesItemType;
   url: string;
   status: string;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   validated?: string | undefined;
 }
 export type UpdateCertManagerAcmeProfileAuthorizationResponseChallengesList =
@@ -166885,7 +166885,7 @@ export interface UpdateCertManagerAcmeProfileAuthorizationChallengeResponse {
   type: UpdateCertManagerAcmeProfileAuthorizationChallengeResponseType;
   url: string;
   status: string;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   validated?: string | undefined;
   error?: UpdateCertManagerAcmeProfileAuthorizationChallengeResponseError | undefined;
 }
@@ -169226,7 +169226,7 @@ export interface UpdateDatadogAppConnectionRequestCredentialsCase1 {
   /** The Datadog site URL to connect to (e.g., 'https://api.datadoghq.com'). */
   url: string;
   /** The Datadog Service Access Token used to authenticate. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 /** The credentials used to connect with Datadog. */
 export type UpdateDatadogAppConnectionRequestCredentials =
@@ -172394,13 +172394,13 @@ export type UpdateGitHubAppConnectionRequestCredentialsCase1 =
   | UpdateGitHubAppConnectionRequestCredentialsCase1Case1;
 export type UpdateGitHubAppConnectionRequestCredentialsCase2Case0InstanceType = "server";
 export interface UpdateGitHubAppConnectionRequestCredentialsCase2Case0 {
-  personalAccessToken: string;
+  personalAccessToken: string | Redacted.Redacted<string>;
   instanceType: UpdateGitHubAppConnectionRequestCredentialsCase2Case0InstanceType;
   host: string;
 }
 export type UpdateGitHubAppConnectionRequestCredentialsCase2Case1InstanceType = "cloud";
 export interface UpdateGitHubAppConnectionRequestCredentialsCase2Case1 {
-  personalAccessToken: string;
+  personalAccessToken: string | Redacted.Redacted<string>;
   instanceType?:
     | UpdateGitHubAppConnectionRequestCredentialsCase2Case1InstanceType
     | (string & {})
@@ -173881,7 +173881,7 @@ export interface UpdateHasuraCloudSecretSyncResponse {
 export type UpdateHerokuAppConnectionRequestCredentialsCase0 =
   CreateHerokuAppConnectionRequestCredentials;
 export interface UpdateHerokuAppConnectionRequestCredentialsCase1 {
-  authToken: string;
+  authToken: string | Redacted.Redacted<string>;
   refreshToken: string | Redacted.Redacted<string>;
   expiresAt: string;
 }
@@ -178408,7 +178408,7 @@ export interface UpdateJiraAppConnectionRequestCredentialsCase1 {
   /** The URL of your Jira site (e.g., 'https://your-domain.atlassian.net' for Jira Cloud or 'https://jira.example.com' for Jira Data Center). */
   instanceUrl: string;
   /** The personal access token used to authenticate with Jira Data Center. */
-  personalAccessToken: string;
+  personalAccessToken: string | Redacted.Redacted<string>;
   /** Whether or not to reject untrusted SSL certificates (true/false). Set to false for Jira Data Center sites using self-signed certificates. */
   sslRejectUnauthorized?: boolean | undefined;
   /** The CA certificate (PEM format) used to verify the Jira Data Center site's TLS certificate. */
@@ -179901,7 +179901,7 @@ export interface UpdateManySecretsV4RequestSecretsItem {
   /** The name of the secret to update. */
   secretKey: string | Redacted.Redacted<string>;
   /** The new value of the secret. */
-  secretValue?: string | undefined;
+  secretValue?: string | Redacted.Redacted<string> | undefined;
   /** The default path for secrets to update or upsert, if not provided in the secret details. */
   secretPath?: string | undefined;
   /** Update comment to the secret. */
@@ -183974,7 +183974,7 @@ export interface UpdateOvhAppConnectionRequestCredentialsCase0 {
 }
 export interface UpdateOvhAppConnectionRequestCredentialsCase1 {
   /** The access token used to authenticate to the OVHcloud KMS REST API */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The OVHcloud KMS base URL (e.g., 'https://ca-east-bhs.okms.ovh.net'). */
   okmsDomain: string;
   /** The OVHcloud KMS instance identifier from the OVH Control Panel, used as a path segment in all API calls. */
@@ -197281,7 +197281,7 @@ export interface UpdateSecretV4Request {
   /** The slug of the environment where the secret is located. */
   environment: string;
   /** The new value of the secret. */
-  secretValue?: string | undefined;
+  secretValue?: string | Redacted.Redacted<string> | undefined;
   /** The default path for secrets to update or upsert, if not provided in the secret details. */
   secretPath?: string | undefined;
   /** Skip multiline encoding for the secret value. */
@@ -198198,7 +198198,7 @@ export interface UpdateSshAppConnectionRequestCredentialsCase1 {
   /** The private key in PEM format for SSH authentication (required when authMethod is 'ssh-key'). */
   privateKey: string | Redacted.Redacted<string>;
   /** The passphrase for the private key, if encrypted (optional, only for 'ssh-key' authMethod). */
-  passphrase?: string | undefined;
+  passphrase?: string | Redacted.Redacted<string> | undefined;
 }
 /** The credentials used to connect with SSH. */
 export type UpdateSshAppConnectionRequestCredentials =
@@ -263338,7 +263338,7 @@ function __c106(j: number): any {
       return S.suspend(() =>
         S.Struct({
           eabKid: S.String,
-          eabSecret: S.String,
+          eabSecret: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "GetPkiCertificateProfileAcmeEabSecretRevealResponse" });
   }
@@ -265347,7 +265347,7 @@ function __c198(j: number): any {
           version: S.Number,
           type: S.String,
           secretKey: S.String.pipe(T.SensitiveValue({})),
-          secretValue: S.String,
+          secretValue: S.String.pipe(T.SensitiveValue({})),
           secretComment: S.String,
           secretReminderNote: S.optional(S.NullOr(S.String)),
           secretReminderRepeatDays: S.optional(S.NullOr(S.Number)),
@@ -265960,7 +265960,7 @@ function __c226(j: number): any {
       return S.suspend(() =>
         S.Struct({
           consumerKey: S.String,
-          consumerSecret: S.String,
+          consumerSecret: S.String.pipe(T.SensitiveValue({})),
           stagedCredentialUrl: S.String,
         }),
       ).annotate({
@@ -266027,7 +266027,7 @@ function __c228(j: number): any {
           version: S.Number,
           type: S.String,
           secretKey: S.String.pipe(T.SensitiveValue({})),
-          secretValue: S.String,
+          secretValue: S.String.pipe(T.SensitiveValue({})),
           secretComment: S.String,
           secretReminderNote: S.optional(S.NullOr(S.String)),
           secretReminderRepeatDays: S.optional(S.NullOr(S.Number)),
@@ -266091,7 +266091,7 @@ function __c230(j: number): any {
           version: S.Number,
           type: S.String,
           secretKey: S.String.pipe(T.SensitiveValue({})),
-          secretValue: S.String,
+          secretValue: S.String.pipe(T.SensitiveValue({})),
           secretComment: S.String,
           secretReminderNote: S.optional(S.NullOr(S.String)),
           secretReminderRepeatDays: S.optional(S.NullOr(S.Number)),
@@ -270687,7 +270687,7 @@ function __c442(j: number): any {
           orgName: S.String,
           userName: S.String,
           privateKey: S.String.pipe(T.SensitiveValue({})),
-          dataBagSecret: S.optional(S.String),
+          dataBagSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "CreateChefAppConnectionRequestCredentials" });
   }
@@ -273337,7 +273337,7 @@ function __c564(j: number): any {
         S.Struct({
           id: S.String,
           disableBootstrapCaValidation: S.Boolean,
-          passphrase: S.optional(S.String),
+          passphrase: S.optional(S.String.pipe(T.SensitiveValue({}))),
           caChain: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListCertificateProfilesResponseCertificateProfilesItemEstConfig" });
@@ -277180,7 +277180,7 @@ function __c764(j: number): any {
       return S.suspend(() =>
         S.Struct({
           url: S.optional(S.String),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           apiKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           applicationKey: S.optional(S.String),
         }),
@@ -278307,7 +278307,7 @@ function __c831(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          serviceToken: S.String,
+          serviceToken: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "CreateDBTServiceTokenRotationRequestSecretsMapping" });
     case 4:
@@ -278425,7 +278425,7 @@ function __c838(j: number): any {
           environment: S.optional(S.String.pipe(T.Query())),
           actorType: S.optional(S.String.pipe(T.Query())),
           secretPath: S.optional(S.String.pipe(T.Query())),
-          secretKey: S.optional(S.String.pipe(T.Query())),
+          secretKey: S.optional(S.String.pipe(T.Query(), T.SensitiveValue({}))),
           eventType: S.optional(S.Unknown.pipe(T.Query())),
           eventClass: S.optional(S.Unknown.pipe(T.Query())),
           userAgentType: S.optional(S.String.pipe(T.Query())),
@@ -281602,7 +281602,7 @@ function __c990(j: number): any {
           version: S.Number,
           type: S.String,
           secretKey: S.String.pipe(T.SensitiveValue({})),
-          secretValue: S.String,
+          secretValue: S.String.pipe(T.SensitiveValue({})),
           secretComment: S.String,
           secretReminderNote: S.optional(S.NullOr(S.String)),
           secretReminderRepeatDays: S.optional(S.NullOr(S.Number)),
@@ -281630,7 +281630,7 @@ function __c990(j: number): any {
           version: S.Number,
           type: S.String,
           secretKey: S.String.pipe(T.SensitiveValue({})),
-          secretValue: S.String,
+          secretValue: S.String.pipe(T.SensitiveValue({})),
           secretComment: S.String,
           secretReminderNote: S.optional(S.NullOr(S.String)),
           secretReminderRepeatDays: S.optional(S.NullOr(S.Number)),
@@ -282127,7 +282127,7 @@ function __c1016(j: number): any {
         S.Struct({
           instanceUrl: S.String,
           machineIdentityClientId: S.String,
-          machineIdentityClientSecret: S.String,
+          machineIdentityClientSecret: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "CreateExternalInfisicalAppConnectionRequestCredentials" });
   }
@@ -283920,7 +283920,7 @@ function __c1115(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           expiresAt: S.String,
         }),
       ).annotate({ identifier: "MintGatewayEnrollmentTokenResponse" });
@@ -285386,7 +285386,7 @@ function __c1183(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          serviceAccountKey: S.String,
+          serviceAccountKey: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "CreateGCPServiceAccountKeyRotationRequestSecretsMapping" });
     case 1:
@@ -286578,7 +286578,7 @@ function __c1241(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "AdminBootstrapResponseIdentityCredentials" });
     case 3:
@@ -286873,7 +286873,7 @@ function __c1255(j: number): any {
       return S.suspend(() =>
         S.Struct({
           apiKey: S.String.pipe(T.SensitiveValue({})),
-          apiSecret: S.String,
+          apiSecret: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "CreateGodaddyAppConnectionRequestCredentials" });
   }
@@ -287678,7 +287678,7 @@ function __c1295(j: number): any {
           applicationId: S.String,
           profileId: S.String,
           eabKid: S.String,
-          eabSecret: S.String,
+          eabSecret: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "RevealPkiApplicationAcmeEabSecretResponse" });
   }
@@ -288575,7 +288575,7 @@ function __c1344(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          authToken: S.String,
+          authToken: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "CreateHerokuAppConnectionRequestCredentials" });
     case 1:
@@ -291869,7 +291869,7 @@ function __c1501(j: number): any {
         S.Struct({
           applicationId: S.String.pipe(T.Label()),
           profileId: S.String.pipe(T.Label()),
-          passphrase: S.String,
+          passphrase: S.String.pipe(T.SensitiveValue({})),
           disableBootstrapCaValidation: S.optional(S.Boolean),
           caChain: S.optional(S.String),
         }).pipe(
@@ -292628,7 +292628,7 @@ function __c1537(j: number): any {
           instanceUrl: S.optional(S.String),
           email: S.optional(S.String),
           apiToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          personalAccessToken: S.optional(S.String),
+          personalAccessToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           sslRejectUnauthorized: S.optional(S.Boolean),
           sslCertificate: S.optional(S.String),
         }),
@@ -296405,7 +296405,7 @@ function __c1705(j: number): any {
           type: S.String,
           url: S.String,
           status: S.String,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           validated: S.optional(S.String),
         }),
       ).annotate({ identifier: "UpdateCertManagerAcmeProfileAuthorizationResponseChallengesItem" });
@@ -296453,7 +296453,7 @@ function __c1706(j: number): any {
           type: S.String,
           url: S.String,
           status: S.String,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           validated: S.optional(S.String),
           error: S.optional(__S(27297, __c1706, 1)),
         }),
@@ -297318,7 +297318,7 @@ function __c1744(j: number): any {
       return S.suspend(() =>
         S.Struct({
           secretKey: S.String.pipe(T.SensitiveValue({})),
-          secretValue: S.String,
+          secretValue: S.String.pipe(T.SensitiveValue({})),
           secretComment: S.optional(S.String),
           skipMultilineEncoding: S.optional(S.NullOr(S.Boolean)),
           metadata: S.optional(__S(34048, __c2128, 0)),
@@ -299742,7 +299742,7 @@ function __c1837(j: number): any {
       return S.suspend(() =>
         S.Struct({
           secretKey: S.String.pipe(T.SensitiveValue({})),
-          secretValue: S.optional(S.String),
+          secretValue: S.optional(S.String.pipe(T.SensitiveValue({}))),
           secretPath: S.optional(S.String),
           secretComment: S.optional(S.String),
           skipMultilineEncoding: S.optional(S.Boolean),
@@ -303047,7 +303047,7 @@ function __c1976(j: number): any {
           secretName: S.String.pipe(T.Label()),
           projectId: S.String,
           environment: S.String,
-          secretValue: S.optional(S.String),
+          secretValue: S.optional(S.String.pipe(T.SensitiveValue({}))),
           secretPath: S.optional(S.String),
           skipMultilineEncoding: S.optional(S.Boolean),
           type: S.optional(S.String),
@@ -304512,7 +304512,7 @@ function __c2035(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          personalAccessToken: S.String,
+          personalAccessToken: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "CreateOnaAppConnectionRequestCredentials" });
   }
@@ -305395,7 +305395,7 @@ function __c2072(j: number): any {
           certificate: S.optional(S.String),
           okmsDomain: S.optional(S.String),
           okmsId: S.optional(S.String),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "CreateOvhAppConnectionRequestCredentials" });
     case 1:
@@ -308336,7 +308336,7 @@ function __c2198(j: number): any {
         S.Struct({
           instanceUrl: S.String,
           consumerKey: S.String,
-          consumerSecret: S.String,
+          consumerSecret: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "CreateSalesforceAppConnectionRequestCredentials" });
   }
@@ -308373,7 +308373,7 @@ function __c2200(j: number): any {
       return S.suspend(() =>
         S.Struct({
           consumerKey: S.String,
-          consumerSecret: S.String,
+          consumerSecret: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "CreateSalesforceOAuthCredentialsRotationRequestSecretsMapping" });
     case 1:
@@ -308784,7 +308784,7 @@ function __c2220(j: number): any {
           projectId: S.String,
           environment: S.String,
           secretPath: S.optional(S.String),
-          secretValue: S.String,
+          secretValue: S.String.pipe(T.SensitiveValue({})),
           secretComment: S.optional(S.String),
           secretMetadata: S.optional(__S(27921, __c1745, 1)),
           tagIds: S.optional(__S(39680, __c2480, 0)),
@@ -308926,7 +308926,7 @@ function __c2227(j: number): any {
         S.Struct({
           name: S.optional(S.String),
           password: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          secretValue: S.String,
+          secretValue: S.String.pipe(T.SensitiveValue({})),
           expiresIn: S.optional(S.String),
           maxViews: S.optional(S.Number),
           accessType: S.optional(S.String),
@@ -309548,7 +309548,7 @@ function __c2251(j: number): any {
           username: S.optional(S.String),
           password: S.optional(S.String.pipe(T.SensitiveValue({}))),
           privateKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          passphrase: S.optional(S.String),
+          passphrase: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "CreateSshAppConnectionRequestCredentials" });
     case 1:
@@ -312039,7 +312039,7 @@ function __c2366(j: number): any {
           identityId: S.optional(S.NullOr(S.String)),
           allowExternalEmails: S.optional(S.NullOr(S.Boolean)),
           orgName: S.optional(S.String),
-          secretValue: S.optional(S.String),
+          secretValue: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "AccessSharedSecretResponse" });
   }
@@ -322122,7 +322122,7 @@ function __c2900(j: number): any {
       return S.suspend(() =>
         S.Struct({
           proxy: __S(46384, __c2899, 0),
-          proxyToken: S.String,
+          proxyToken: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "CreateAgentVaultProxyResponse" });
   }
@@ -322627,7 +322627,7 @@ function __c2924(j: number): any {
           id: S.String,
           projectId: S.String,
           label: S.NullOr(S.String),
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           expiresAt: S.NullOr(S.String),
           createdAt: S.String,
           accessBundle: S.NullOr(__S(46800, __c2925, 0)),
@@ -322711,7 +322711,7 @@ function __c2927(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          serviceToken: S.String,
+          serviceToken: S.String.pipe(T.SensitiveValue({})),
           tokenId: S.Number,
           tokenName: S.String,
         }),
@@ -323956,7 +323956,7 @@ function __c2993(j: number): any {
       return S.suspend(() =>
         S.Struct({
           keyId: S.String,
-          serviceAccountKey: S.String,
+          serviceAccountKey: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({
         identifier:

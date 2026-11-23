@@ -287,7 +287,7 @@ export interface ProvisionalTokenResponse {
   access_token: string | Redacted.Redacted<string>;
   expires_in: number;
   scope: string;
-  id_token: string;
+  id_token: string | Redacted.Redacted<string>;
   refresh_token?: string | Redacted.Redacted<string> | null | undefined;
   scopes?: ProvisionalTokenResponseScopesList | null | undefined;
   expires_at_s?: number | null | undefined;
@@ -6088,13 +6088,13 @@ export type ApplicationIdentityProviderAuthType =
 export interface PartnerSdkTokenRequest {
   client_id: string;
   client_secret?: string | Redacted.Redacted<string> | null | undefined;
-  external_auth_token: string;
+  external_auth_token: string | Redacted.Redacted<string>;
   external_auth_type: ApplicationIdentityProviderAuthType | (string & {});
 }
 export interface PartnerSdkUnmergeProvisionalAccountRequest {
   client_id: string;
   client_secret?: string | Redacted.Redacted<string> | null | undefined;
-  external_auth_token: string;
+  external_auth_token: string | Redacted.Redacted<string>;
   external_auth_type: ApplicationIdentityProviderAuthType | (string & {});
 }
 export interface PartnerSdkUnmergeProvisionalAccountResponse {}
@@ -12262,7 +12262,7 @@ function __c34(j: number): any {
           access_token: S.String.pipe(T.SensitiveValue({})),
           expires_in: S.Number,
           scope: S.String,
-          id_token: S.String,
+          id_token: S.String.pipe(T.SensitiveValue({})),
           refresh_token: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           scopes: S.optional(S.NullOr(__S(8416, __c263, 0))),
           expires_at_s: S.optional(S.NullOr(S.Number)),
@@ -15131,7 +15131,7 @@ function __c141(j: number): any {
         S.Struct({
           client_id: S.String,
           client_secret: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
-          external_auth_token: S.String,
+          external_auth_token: S.String.pipe(T.SensitiveValue({})),
           external_auth_type: S.String,
         }).pipe(T.Http({ method: "POST", uri: "/partner-sdk/token", code: 200 })),
       ).annotate({ identifier: "PartnerSdkTokenRequest" });
@@ -15144,7 +15144,7 @@ function __c142(j: number): any {
         S.Struct({
           client_id: S.String,
           client_secret: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
-          external_auth_token: S.String,
+          external_auth_token: S.String.pipe(T.SensitiveValue({})),
           external_auth_type: S.String,
         }).pipe(
           T.Http({ method: "POST", uri: "/partner-sdk/provisional-accounts/unmerge", code: 200 }),

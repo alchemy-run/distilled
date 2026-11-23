@@ -3759,7 +3759,7 @@ export interface WebhookCallback {
   /** The unique identifier (UUID) of the webhook callback. */
   id: string;
   /** This key will be used to sign the signature provided with webhook requests we send to the `url` you provided for this webhook callback. The webhook signature will be included in a custom header, `X-Remote-Signature`. You can use this signature to verify that requests are coming from Remote and not some unauthorized third-party. */
-  signing_key?: string | undefined;
+  signing_key?: string | Redacted.Redacted<string> | undefined;
   /** When true, this callback is subscribed to all current and future event types. `subscribed_events` then lists every currently supported event. */
   subscribe_to_all_events?: boolean | undefined;
   subscribed_events?: WebhookCallbackSubscribedEventsList | undefined;
@@ -26070,7 +26070,7 @@ function __c383(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          signing_key: S.optional(S.String),
+          signing_key: S.optional(S.String.pipe(T.SensitiveValue({}))),
           subscribe_to_all_events: S.optional(S.Boolean),
           subscribed_events: S.optional(__S(10688, __c334, 0)),
           url: S.String,

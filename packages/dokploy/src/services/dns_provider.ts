@@ -85,7 +85,7 @@ export interface CreateDnsProviderRequestConfigCase1 {
 export interface CreateDnsProviderRequestConfigCase2 {
   providerType: string;
   apiKey: string | Redacted.Redacted<string>;
-  secretApiKey: string;
+  secretApiKey: string | Redacted.Redacted<string>;
 }
 export type CreateDnsProviderRequestConfigCase3 = CreateDnsProviderRequestConfigCase0;
 export type CreateDnsProviderRequestConfigCase4Endpoint =
@@ -100,7 +100,7 @@ export interface CreateDnsProviderRequestConfigCase4 {
   providerType: string;
   endpoint?: CreateDnsProviderRequestConfigCase4Endpoint | (string & {}) | undefined;
   applicationKey: string;
-  applicationSecret: string;
+  applicationSecret: string | Redacted.Redacted<string>;
   consumerKey: string;
   zone?: string | undefined;
 }
@@ -176,7 +176,7 @@ export interface TestDnsProviderConnectionRequestConfigCase4 {
   providerType: string;
   endpoint?: TestDnsProviderConnectionRequestConfigCase4Endpoint | (string & {}) | undefined;
   applicationKey: string;
-  applicationSecret: string;
+  applicationSecret: string | Redacted.Redacted<string>;
   consumerKey: string;
   zone?: string | undefined;
 }
@@ -207,7 +207,7 @@ export interface UpdateDnsProviderRequestConfigCase4 {
   providerType: string;
   endpoint?: UpdateDnsProviderRequestConfigCase4Endpoint | (string & {}) | undefined;
   applicationKey: string;
-  applicationSecret: string;
+  applicationSecret: string | Redacted.Redacted<string>;
   consumerKey: string;
   zone?: string | undefined;
 }

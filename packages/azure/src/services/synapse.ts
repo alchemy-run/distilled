@@ -1627,7 +1627,7 @@ export interface ExtendedSqlPoolBlobAuditingPolicyProperties {
   /** Specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). If state is Enabled, storageEndpoint or isAzureMonitorTargetEnabled is required. */
   storageEndpoint?: string | undefined;
   /** Specifies the identifier key of the auditing storage account. If state is Enabled and storageEndpoint is specified, not specifying the storageAccountAccessKey will use SQL server system-assigned managed identity to access the storage. Prerequisites for using managed identity authentication: 1. Assign SQL Server a system-assigned managed identity in Azure Active Directory (AAD). 2. Grant SQL Server identity access to the storage account by adding 'Storage Blob Data Contributor' RBAC role to the server identity. For more information, see [Auditing to storage using Managed Identity authentication](https://go.microsoft.com/fwlink/?linkid=2114355) */
-  storageAccountAccessKey?: string | undefined;
+  storageAccountAccessKey?: string | Redacted.Redacted<string> | undefined;
   /** Specifies the number of days to keep in the audit logs in the storage account. */
   retentionDays?: number | undefined;
   /** Specifies the Actions-Groups and Actions to audit. The recommended set of action groups to use is the following combination - this will audit all the queries and stored procedures executed against the database, as well as successful and failed logins: BATCH_COMPLETED_GROUP, SUCCESSFUL_DATABASE_AUTHENTICATION_GROUP, FAILED_DATABASE_AUTHENTICATION_GROUP. This above combination is also the set that is configured by default when enabling auditing from the Azure portal. The supported action groups to audit are (note: choose only specific groups that cover your auditing needs. Using unnecessary groups could lead to very large quantities of audit records): APPLICATION_ROLE_CHANGE_PASSWORD_GROUP BACKUP_RESTORE_GROUP DATABASE_LOGOUT_GROUP DATABASE_OBJECT_CHANGE_GROUP DATABASE_OBJECT_OWNERSHIP_CHANGE_GROUP DATABASE_OBJECT_PERMISSION_CHANGE_GROUP DATABASE_OPERATION_GROUP DATABASE_PERMISSION_CHANGE_GROUP DATABASE_PRINCIPAL_CHANGE_GROUP DATABASE_PRINCIPAL_IMPERSONATION_GROUP DATABASE_ROLE_MEMBER_CHANGE_GROUP FAILED_DATABASE_AUTHENTICATION_GROUP SCHEMA_OBJECT_ACCESS_GROUP SCHEMA_OBJECT_CHANGE_GROUP SCHEMA_OBJECT_OWNERSHIP_CHANGE_GROUP SCHEMA_OBJECT_PERMISSION_CHANGE_GROUP SUCCESSFUL_DATABASE_AUTHENTICATION_GROUP USER_CHANGE_PASSWORD_GROUP BATCH_STARTED_GROUP BATCH_COMPLETED_GROUP These are groups that cover all sql statements and stored procedures executed against the database, and should not be used in combination with other groups as this will result in duplicate audit logs. For more information, see [Database-Level Audit Action Groups](https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-action-groups). For Database auditing policy, specific Actions can also be specified (note that Actions cannot be specified for Server auditing policy). The supported actions to audit are: SELECT UPDATE INSERT DELETE EXECUTE RECEIVE REFERENCES The general form for defining an action to be audited is: {action} ON {object} BY {principal} Note that <object> in the above format can refer to an object like a table, view, or stored procedure, or an entire database or schema. For the latter cases, the forms DATABASE::{db_name} and SCHEMA::{schema_name} are used, respectively. For example: SELECT on dbo.myTable by public SELECT on DATABASE::myDatabase by public SELECT on SCHEMA::mySchema by public For more information, see [Database-Level Audit Actions](https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-actions) */
@@ -1836,7 +1836,7 @@ export interface GetIntegrationRuntimeConnectionInfosRequest {
 /** Connection information for encrypting the on-premises data source credentials. */
 export interface IntegrationRuntimeConnectionInfo {
   /** The token generated in service. Callers use this token to authenticate to integration runtime. */
-  serviceToken?: string | undefined;
+  serviceToken?: string | Redacted.Redacted<string> | undefined;
   /** The integration runtime SSL certificate thumbprint. Click-Once application uses it to do server validation. */
   identityCertThumbprint?: string | undefined;
   /** The on-premises integration runtime host URL. */
@@ -2500,7 +2500,7 @@ export interface SqlPoolBlobAuditingPolicyProperties {
   /** Specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). If state is Enabled, storageEndpoint is required. */
   storageEndpoint?: string | undefined;
   /** Specifies the identifier key of the auditing storage account. If state is Enabled and storageEndpoint is specified, storageAccountAccessKey is required. */
-  storageAccountAccessKey?: string | undefined;
+  storageAccountAccessKey?: string | Redacted.Redacted<string> | undefined;
   /** Specifies the number of days to keep in the audit logs in the storage account. */
   retentionDays?: number | undefined;
   /** Specifies the Actions-Groups and Actions to audit. The recommended set of action groups to use is the following combination - this will audit all the queries and stored procedures executed against the database, as well as successful and failed logins: BATCH_COMPLETED_GROUP, SUCCESSFUL_DATABASE_AUTHENTICATION_GROUP, FAILED_DATABASE_AUTHENTICATION_GROUP. This above combination is also the set that is configured by default when enabling auditing from the Azure portal. The supported action groups to audit are (note: choose only specific groups that cover your auditing needs. Using unnecessary groups could lead to very large quantities of audit records): APPLICATION_ROLE_CHANGE_PASSWORD_GROUP BACKUP_RESTORE_GROUP DATABASE_LOGOUT_GROUP DATABASE_OBJECT_CHANGE_GROUP DATABASE_OBJECT_OWNERSHIP_CHANGE_GROUP DATABASE_OBJECT_PERMISSION_CHANGE_GROUP DATABASE_OPERATION_GROUP DATABASE_PERMISSION_CHANGE_GROUP DATABASE_PRINCIPAL_CHANGE_GROUP DATABASE_PRINCIPAL_IMPERSONATION_GROUP DATABASE_ROLE_MEMBER_CHANGE_GROUP FAILED_DATABASE_AUTHENTICATION_GROUP SCHEMA_OBJECT_ACCESS_GROUP SCHEMA_OBJECT_CHANGE_GROUP SCHEMA_OBJECT_OWNERSHIP_CHANGE_GROUP SCHEMA_OBJECT_PERMISSION_CHANGE_GROUP SUCCESSFUL_DATABASE_AUTHENTICATION_GROUP USER_CHANGE_PASSWORD_GROUP BATCH_STARTED_GROUP BATCH_COMPLETED_GROUP These are groups that cover all sql statements and stored procedures executed against the database, and should not be used in combination with other groups as this will result in duplicate audit logs. For more information, see [Database-Level Audit Action Groups](https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-action-groups). For Database auditing policy, specific Actions can also be specified (note that Actions cannot be specified for Server auditing policy). The supported actions to audit are: SELECT UPDATE INSERT DELETE EXECUTE RECEIVE REFERENCES The general form for defining an action to be audited is: {action} ON {object} BY {principal} Note that <object> in the above format can refer to an object like a table, view, or stored procedure, or an entire database or schema. For the latter cases, the forms DATABASE::{db_name} and SCHEMA::{schema_name} are used, respectively. For example: SELECT on dbo.myTable by public SELECT on DATABASE::myDatabase by public SELECT on SCHEMA::mySchema by public For more information, see [Database-Level Audit Actions](https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-actions) */
@@ -2925,7 +2925,7 @@ export interface SecurityAlertPolicyProperties {
   /** Specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). This blob storage will hold all Threat Detection audit logs. */
   storageEndpoint?: string | undefined;
   /** Specifies the identifier key of the Threat Detection audit storage account. */
-  storageAccountAccessKey?: string | undefined;
+  storageAccountAccessKey?: string | Redacted.Redacted<string> | undefined;
   /** Specifies the number of days to keep in the Threat Detection audit logs. */
   retentionDays?: number | undefined;
   /** Specifies the UTC creation time of the policy. */
@@ -3082,7 +3082,7 @@ export interface SqlPoolVulnerabilityAssessmentProperties {
   /** A shared access signature (SAS Key) that has write access to the blob container specified in 'storageContainerPath' parameter. If 'storageAccountAccessKey' isn't specified, StorageContainerSasKey is required. */
   storageContainerSasKey?: string | undefined;
   /** Specifies the identifier key of the storage account for vulnerability assessment scan results. If 'StorageContainerSasKey' isn't specified, storageAccountAccessKey is required. */
-  storageAccountAccessKey?: string | undefined;
+  storageAccountAccessKey?: string | Redacted.Redacted<string> | undefined;
   /** The recurring scans settings */
   recurringScans?: VulnerabilityAssessmentRecurringScansProperties | undefined;
 }
@@ -3408,7 +3408,7 @@ export interface ServerBlobAuditingPolicyProperties {
   /** Specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). If state is Enabled, storageEndpoint or isAzureMonitorTargetEnabled is required. */
   storageEndpoint?: string | undefined;
   /** Specifies the identifier key of the auditing storage account. If state is Enabled and storageEndpoint is specified, not specifying the storageAccountAccessKey will use SQL server system-assigned managed identity to access the storage. Prerequisites for using managed identity authentication: 1. Assign SQL Server a system-assigned managed identity in Azure Active Directory (AAD). 2. Grant SQL Server identity access to the storage account by adding 'Storage Blob Data Contributor' RBAC role to the server identity. For more information, see [Auditing to storage using Managed Identity authentication](https://go.microsoft.com/fwlink/?linkid=2114355) */
-  storageAccountAccessKey?: string | undefined;
+  storageAccountAccessKey?: string | Redacted.Redacted<string> | undefined;
   /** Specifies the number of days to keep in the audit logs in the storage account. */
   retentionDays?: number | undefined;
   /** Specifies the Actions-Groups and Actions to audit. The recommended set of action groups to use is the following combination - this will audit all the queries and stored procedures executed against the database, as well as successful and failed logins: BATCH_COMPLETED_GROUP, SUCCESSFUL_DATABASE_AUTHENTICATION_GROUP, FAILED_DATABASE_AUTHENTICATION_GROUP. This above combination is also the set that is configured by default when enabling auditing from the Azure portal. The supported action groups to audit are (note: choose only specific groups that cover your auditing needs. Using unnecessary groups could lead to very large quantities of audit records): APPLICATION_ROLE_CHANGE_PASSWORD_GROUP BACKUP_RESTORE_GROUP DATABASE_LOGOUT_GROUP DATABASE_OBJECT_CHANGE_GROUP DATABASE_OBJECT_OWNERSHIP_CHANGE_GROUP DATABASE_OBJECT_PERMISSION_CHANGE_GROUP DATABASE_OPERATION_GROUP DATABASE_PERMISSION_CHANGE_GROUP DATABASE_PRINCIPAL_CHANGE_GROUP DATABASE_PRINCIPAL_IMPERSONATION_GROUP DATABASE_ROLE_MEMBER_CHANGE_GROUP FAILED_DATABASE_AUTHENTICATION_GROUP SCHEMA_OBJECT_ACCESS_GROUP SCHEMA_OBJECT_CHANGE_GROUP SCHEMA_OBJECT_OWNERSHIP_CHANGE_GROUP SCHEMA_OBJECT_PERMISSION_CHANGE_GROUP SUCCESSFUL_DATABASE_AUTHENTICATION_GROUP USER_CHANGE_PASSWORD_GROUP BATCH_STARTED_GROUP BATCH_COMPLETED_GROUP These are groups that cover all sql statements and stored procedures executed against the database, and should not be used in combination with other groups as this will result in duplicate audit logs. For more information, see [Database-Level Audit Action Groups](https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-action-groups). For Database auditing policy, specific Actions can also be specified (note that Actions cannot be specified for Server auditing policy). The supported actions to audit are: SELECT UPDATE INSERT DELETE EXECUTE RECEIVE REFERENCES The general form for defining an action to be audited is: {action} ON {object} BY {principal} Note that <object> in the above format can refer to an object like a table, view, or stored procedure, or an entire database or schema. For the latter cases, the forms DATABASE::{db_name} and SCHEMA::{schema_name} are used, respectively. For example: SELECT on dbo.myTable by public SELECT on DATABASE::myDatabase by public SELECT on SCHEMA::mySchema by public For more information, see [Database-Level Audit Actions](https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-actions) */
@@ -3531,7 +3531,7 @@ export interface ExtendedServerBlobAuditingPolicyProperties {
   /** Specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). If state is Enabled, storageEndpoint or isAzureMonitorTargetEnabled is required. */
   storageEndpoint?: string | undefined;
   /** Specifies the identifier key of the auditing storage account. If state is Enabled and storageEndpoint is specified, not specifying the storageAccountAccessKey will use SQL server system-assigned managed identity to access the storage. Prerequisites for using managed identity authentication: 1. Assign SQL Server a system-assigned managed identity in Azure Active Directory (AAD). 2. Grant SQL Server identity access to the storage account by adding 'Storage Blob Data Contributor' RBAC role to the server identity. For more information, see [Auditing to storage using Managed Identity authentication](https://go.microsoft.com/fwlink/?linkid=2114355) */
-  storageAccountAccessKey?: string | undefined;
+  storageAccountAccessKey?: string | Redacted.Redacted<string> | undefined;
   /** Specifies the number of days to keep in the audit logs in the storage account. */
   retentionDays?: number | undefined;
   /** Specifies the Actions-Groups and Actions to audit. The recommended set of action groups to use is the following combination - this will audit all the queries and stored procedures executed against the database, as well as successful and failed logins: BATCH_COMPLETED_GROUP, SUCCESSFUL_DATABASE_AUTHENTICATION_GROUP, FAILED_DATABASE_AUTHENTICATION_GROUP. This above combination is also the set that is configured by default when enabling auditing from the Azure portal. The supported action groups to audit are (note: choose only specific groups that cover your auditing needs. Using unnecessary groups could lead to very large quantities of audit records): APPLICATION_ROLE_CHANGE_PASSWORD_GROUP BACKUP_RESTORE_GROUP DATABASE_LOGOUT_GROUP DATABASE_OBJECT_CHANGE_GROUP DATABASE_OBJECT_OWNERSHIP_CHANGE_GROUP DATABASE_OBJECT_PERMISSION_CHANGE_GROUP DATABASE_OPERATION_GROUP DATABASE_PERMISSION_CHANGE_GROUP DATABASE_PRINCIPAL_CHANGE_GROUP DATABASE_PRINCIPAL_IMPERSONATION_GROUP DATABASE_ROLE_MEMBER_CHANGE_GROUP FAILED_DATABASE_AUTHENTICATION_GROUP SCHEMA_OBJECT_ACCESS_GROUP SCHEMA_OBJECT_CHANGE_GROUP SCHEMA_OBJECT_OWNERSHIP_CHANGE_GROUP SCHEMA_OBJECT_PERMISSION_CHANGE_GROUP SUCCESSFUL_DATABASE_AUTHENTICATION_GROUP USER_CHANGE_PASSWORD_GROUP BATCH_STARTED_GROUP BATCH_COMPLETED_GROUP These are groups that cover all sql statements and stored procedures executed against the database, and should not be used in combination with other groups as this will result in duplicate audit logs. For more information, see [Database-Level Audit Action Groups](https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-action-groups). For Database auditing policy, specific Actions can also be specified (note that Actions cannot be specified for Server auditing policy). The supported actions to audit are: SELECT UPDATE INSERT DELETE EXECUTE RECEIVE REFERENCES The general form for defining an action to be audited is: {action} ON {object} BY {principal} Note that <object> in the above format can refer to an object like a table, view, or stored procedure, or an entire database or schema. For the latter cases, the forms DATABASE::{db_name} and SCHEMA::{schema_name} are used, respectively. For example: SELECT on dbo.myTable by public SELECT on DATABASE::myDatabase by public SELECT on SCHEMA::mySchema by public For more information, see [Database-Level Audit Actions](https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-actions) */
@@ -3623,7 +3623,7 @@ export interface ServerSecurityAlertPolicyProperties {
   /** Specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). This blob storage will hold all Threat Detection audit logs. */
   storageEndpoint?: string | undefined;
   /** Specifies the identifier key of the Threat Detection audit storage account. */
-  storageAccountAccessKey?: string | undefined;
+  storageAccountAccessKey?: string | Redacted.Redacted<string> | undefined;
   /** Specifies the number of days to keep in the Threat Detection audit logs. */
   retentionDays?: number | undefined;
   /** Specifies the UTC creation time of the policy. */
@@ -3660,7 +3660,7 @@ export interface ServerVulnerabilityAssessmentProperties {
   /** A shared access signature (SAS Key) that has read and write access to the blob container specified in 'storageContainerPath' parameter. If 'storageAccountAccessKey' isn't specified, StorageContainerSasKey is required. */
   storageContainerSasKey?: string | undefined;
   /** Specifies the identifier key of the storage account for vulnerability assessment scan results. If 'StorageContainerSasKey' isn't specified, storageAccountAccessKey is required. */
-  storageAccountAccessKey?: string | undefined;
+  storageAccountAccessKey?: string | Redacted.Redacted<string> | undefined;
   /** The recurring scans settings */
   recurringScans?: VulnerabilityAssessmentRecurringScansProperties | undefined;
 }
@@ -5700,7 +5700,7 @@ export interface SecurityAlertPolicyPropertiesInput {
   /** Specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). This blob storage will hold all Threat Detection audit logs. */
   storageEndpoint?: string | undefined;
   /** Specifies the identifier key of the Threat Detection audit storage account. */
-  storageAccountAccessKey?: string | undefined;
+  storageAccountAccessKey?: string | Redacted.Redacted<string> | undefined;
   /** Specifies the number of days to keep in the Threat Detection audit logs. */
   retentionDays?: number | undefined;
 }
@@ -6504,7 +6504,7 @@ export interface ServerSecurityAlertPolicyPropertiesInput {
   /** Specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). This blob storage will hold all Threat Detection audit logs. */
   storageEndpoint?: string | undefined;
   /** Specifies the identifier key of the Threat Detection audit storage account. */
-  storageAccountAccessKey?: string | undefined;
+  storageAccountAccessKey?: string | Redacted.Redacted<string> | undefined;
   /** Specifies the number of days to keep in the Threat Detection audit logs. */
   retentionDays?: number | undefined;
 }
@@ -12140,7 +12140,7 @@ function __c65(j: number): any {
           emailAddresses: S.optional(__S(3744, __c117, 0)),
           emailAccountAdmins: S.optional(S.Boolean),
           storageEndpoint: S.optional(S.String),
-          storageAccountAccessKey: S.optional(S.String),
+          storageAccountAccessKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           retentionDays: S.optional(S.Number),
         }),
       ).annotate({ identifier: "SecurityAlertPolicyPropertiesInput" });
@@ -13787,7 +13787,7 @@ function __c122(j: number): any {
           predicateExpression: S.optional(S.String),
           state: S.String,
           storageEndpoint: S.optional(S.String),
-          storageAccountAccessKey: S.optional(S.String),
+          storageAccountAccessKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           retentionDays: S.optional(S.Number),
           auditActionsAndGroups: S.optional(__S(3744, __c117, 0)),
           storageAccountSubscriptionId: S.optional(S.String),
@@ -13953,7 +13953,7 @@ function __c129(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            serviceToken: S.optional(S.String),
+            serviceToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
             identityCertThumbprint: S.optional(S.String),
             hostServiceUri: S.optional(S.String),
             version: S.optional(S.String),
@@ -14771,7 +14771,7 @@ function __c161(j: number): any {
         S.Struct({
           state: S.String,
           storageEndpoint: S.optional(S.String),
-          storageAccountAccessKey: S.optional(S.String),
+          storageAccountAccessKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           retentionDays: S.optional(S.Number),
           auditActionsAndGroups: S.optional(__S(3744, __c117, 0)),
           storageAccountSubscriptionId: S.optional(S.String),
@@ -15209,7 +15209,7 @@ function __c180(j: number): any {
           emailAddresses: S.optional(__S(3744, __c117, 0)),
           emailAccountAdmins: S.optional(S.Boolean),
           storageEndpoint: S.optional(S.String),
-          storageAccountAccessKey: S.optional(S.String),
+          storageAccountAccessKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           retentionDays: S.optional(S.Number),
           creationTime: S.optional(S.String),
         }),
@@ -15368,7 +15368,7 @@ function __c187(j: number): any {
         S.Struct({
           storageContainerPath: S.optional(S.String),
           storageContainerSasKey: S.optional(S.String),
-          storageAccountAccessKey: S.optional(S.String),
+          storageAccountAccessKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           recurringScans: S.optional(__S(6016, __c188, 0)),
         }),
       ).annotate({ identifier: "SqlPoolVulnerabilityAssessmentProperties" });
@@ -15782,7 +15782,7 @@ function __c205(j: number): any {
         S.Struct({
           state: S.String,
           storageEndpoint: S.optional(S.String),
-          storageAccountAccessKey: S.optional(S.String),
+          storageAccountAccessKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           retentionDays: S.optional(S.Number),
           auditActionsAndGroups: S.optional(__S(3744, __c117, 0)),
           storageAccountSubscriptionId: S.optional(S.String),
@@ -15991,7 +15991,7 @@ function __c213(j: number): any {
           predicateExpression: S.optional(S.String),
           state: S.String,
           storageEndpoint: S.optional(S.String),
-          storageAccountAccessKey: S.optional(S.String),
+          storageAccountAccessKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           retentionDays: S.optional(S.Number),
           auditActionsAndGroups: S.optional(__S(3744, __c117, 0)),
           storageAccountSubscriptionId: S.optional(S.String),
@@ -16101,7 +16101,7 @@ function __c218(j: number): any {
         S.Struct({
           storageContainerPath: S.String,
           storageContainerSasKey: S.optional(S.String),
-          storageAccountAccessKey: S.optional(S.String),
+          storageAccountAccessKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           recurringScans: S.optional(__S(6016, __c188, 0)),
         }),
       ).annotate({ identifier: "ServerVulnerabilityAssessmentProperties" });

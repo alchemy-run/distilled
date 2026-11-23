@@ -243,7 +243,7 @@ export interface GenerateJwtResponse {
   /** Token expiration timestamp in seconds (JWT standard) */
   exp?: number | undefined;
   /** The JWT token */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** Encrypted JWT token and key ID (only if encrypted=true was requested) */
   encryptedToken?: GenerateJwtResponseEncryptedToken | undefined;
 }
@@ -1188,7 +1188,7 @@ export interface UpsertSecretRequest {
   repo: string;
   key: string;
   description?: string | undefined;
-  value?: string | undefined;
+  value?: string | Redacted.Redacted<string> | undefined;
 }
 export interface UpsertSecretResponse {}
 export interface UpsertVariableRequest {
@@ -2245,7 +2245,7 @@ function __c6(j: number): any {
         S.Struct({
           accessToken: S.String.pipe(T.SensitiveValue({})),
           exp: S.optional(S.Number),
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           encryptedToken: S.optional(__S(49, __c6, 1)),
         }),
       ).annotate({ identifier: "GenerateJwtResponse" });
@@ -3200,7 +3200,7 @@ function __c43(j: number): any {
           repo: S.String.pipe(T.Label()),
           key: S.String,
           description: S.optional(S.String),
-          value: S.optional(S.String),
+          value: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/spaces/{namespace}/{repo}/secrets", code: 200 }),
         ),
