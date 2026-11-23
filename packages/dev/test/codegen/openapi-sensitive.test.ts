@@ -3,6 +3,7 @@ import {
   convertOpenApiToSmithy,
   isSecretName,
   isSecretParentName,
+  isSensitiveMemberName,
 } from "../../src/codegen/openapi.ts";
 
 const SENSITIVE = "smithy.api#sensitive";
@@ -33,6 +34,9 @@ describe("isSecretName", () => {
     "hashed_token",
     "publicKey",
     "Authorization",
+    "ScrollToken",
+    "ContinueToken",
+    "MaxOutputToken",
   ])("%s is not a secret", (name) => expect(isSecretName(name)).toBe(false));
 
   test("headers also match auth, authorization and cookie", () => {
@@ -54,6 +58,16 @@ describe("isSecretParentName", () => {
   test.each(["EnvVar", "Label", "SecretMetadata"])("%s does not", (name) =>
     expect(isSecretParentName(name)).toBe(false),
   );
+});
+
+describe("isSensitiveMemberName", () => {
+  test("combines the patterns, the head noun and the parent", () => {
+    expect(isSensitiveMemberName("cipassword")).toBe(true);
+    expect(isSensitiveMemberName("TmpSecretKey")).toBe(true);
+    expect(isSensitiveMemberName("Value", { parent: "BuildSecret" })).toBe(true);
+    expect(isSensitiveMemberName("Value", { parent: "Tag" })).toBe(false);
+    expect(isSensitiveMemberName("Value")).toBe(false);
+  });
 });
 
 describe("convertOpenApiToSmithy sensitive marks", () => {

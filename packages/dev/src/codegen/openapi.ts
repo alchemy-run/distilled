@@ -211,6 +211,14 @@ const NOT_SECRET_TOKEN = new Set([
   "color",
   "from",
   "to",
+  "scroll",
+  "continue",
+  // LLM usage counts and limits: `MaxOutputToken`, `TotalToken`.
+  "max",
+  "total",
+  "input",
+  "output",
+  "cache",
 ]);
 
 /** Forms of a secret that are safe to show: `masked_api_key`, `hashed_token`, `publicKey`. */
@@ -301,6 +309,36 @@ export const isSecretParentName = (
     noun === "password" ||
     noun === "credential" ||
     endsWithPhrase(ws, last)
+  );
+};
+
+/**
+ * The converter's whole name rule for one string member: a
+ * {@link SENSITIVE_FIELD_PATTERNS} match, a secret head noun
+ * ({@link isSecretName}), or a bare `value` / `data` body member inside an
+ * object named as a secret ({@link isSecretParentName}). Converters that do
+ * not read OpenAPI (TencentCloud, Proxmox) call it so every SDK marks the
+ * same names.
+ */
+export const isSensitiveMemberName = (
+  name: string,
+  options: {
+    readonly where?: "body" | "query" | "header";
+    /** The name of the structure that holds the member. */
+    readonly parent?: string;
+    readonly patterns?: readonly RegExp[];
+    readonly notSecret?: ReadonlySet<string>;
+  } = {},
+): boolean => {
+  const where = options.where ?? "body";
+  const notSecret = options.notSecret ?? new Set<string>();
+  return (
+    (options.patterns ?? SENSITIVE_FIELD_PATTERNS).some((p) => p.test(name)) ||
+    isSecretName(name, where, notSecret) ||
+    (where === "body" &&
+      options.parent !== undefined &&
+      nameWords(name).every((w) => CARRIER_WORDS.has(w)) &&
+      isSecretParentName(options.parent, notSecret))
   );
 };
 
@@ -1418,11 +1456,12 @@ const markIfSensitive = (
       : member.parent;
   const byName =
     ctx.sensitivePatterns.length > 0 &&
-    (ctx.sensitivePatterns.some((p) => p.test(member.name)) ||
-      isSecretName(member.name, member.where, ctx.notSecretNouns) ||
-      (member.where === "body" &&
-        nameWords(member.name).every((w) => CARRIER_WORDS.has(w)) &&
-        isSecretParentName(parent, ctx.notSecretNouns)));
+    isSensitiveMemberName(member.name, {
+      where: member.where,
+      parent,
+      patterns: ctx.sensitivePatterns,
+      notSecret: ctx.notSecretNouns,
+    });
   if (!byName && !specMarksSecret(ctx, member.def)) return;
   if (carrier === "string") {
     traits["smithy.api#sensitive"] = {};
