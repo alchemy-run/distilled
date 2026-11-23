@@ -1,3 +1,4 @@
+import { setOwnKey } from "@distilled.cloud/core/plain-values";
 import type { ErrorOf } from "@distilled.cloud/core/protocol";
 import {
   restProtocol,
@@ -56,12 +57,12 @@ export type AxiomOpContext = Credentials | HttpClient.HttpClient;
 export const stripNulls = (value: unknown): unknown => {
   if (Array.isArray(value)) return value.map(stripNulls);
   if (value && typeof value === "object") {
-    // fromEntries keeps a `__proto__` key an entry instead of the prototype.
-    return Object.fromEntries(
-      Object.entries(value as Record<string, unknown>)
-        .filter(([, v]) => v !== null)
-        .map(([k, v]) => [k, stripNulls(v)]),
-    );
+    const out: Record<string, unknown> = {};
+    for (const [k, v] of Object.entries(value as Record<string, unknown>)) {
+      // setOwnKey keeps a `__proto__` key a key instead of the prototype.
+      if (v !== null) setOwnKey(out, k, stripNulls(v));
+    }
+    return out;
   }
   return value;
 };

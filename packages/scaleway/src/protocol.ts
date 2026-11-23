@@ -4,6 +4,7 @@ import {
   type ConfigError,
   type InvalidInput,
 } from "@distilled.cloud/core/errors";
+import { setOwnKey } from "@distilled.cloud/core/plain-values";
 import type {
   DeclaredError,
   DeclaredErrorClass,
@@ -336,12 +337,12 @@ const withLocality = (input: unknown, uri: string, creds: Config): unknown => {
 export const stripNulls = (value: unknown): unknown => {
   if (Array.isArray(value)) return value.map(stripNulls);
   if (isObject(value)) {
-    // fromEntries keeps a `__proto__` key an entry instead of the prototype.
-    return Object.fromEntries(
-      Object.entries(value)
-        .filter(([, v]) => v !== null)
-        .map(([k, v]) => [k, stripNulls(v)]),
-    );
+    const out: Json = {};
+    for (const [k, v] of Object.entries(value)) {
+      // setOwnKey keeps a `__proto__` key a key instead of the prototype.
+      if (v !== null) setOwnKey(out, k, stripNulls(v));
+    }
+    return out;
   }
   return value;
 };
