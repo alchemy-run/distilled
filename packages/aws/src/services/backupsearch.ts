@@ -7,6 +7,7 @@ import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { awsServiceErrorsWith } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -444,13 +445,13 @@ export const getSearchJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c10, 0) as any as S.Schema<GetSearchJobInput>,
   output: __S(162, __c10, 2) as any as S.Schema<GetSearchJobOutput>,
-  errors: [
-    ResourceNotFoundException,
+  errors: [ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSearchJob",
@@ -480,13 +481,13 @@ export const getSearchResultExportJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(240, __c15, 0) as any as S.Schema<GetSearchResultExportJobInput>,
   output: __S(241, __c15, 1) as any as S.Schema<GetSearchResultExportJobOutput>,
-  errors: [
-    ResourceNotFoundException,
+  errors: [ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSearchResultExportJob",
@@ -517,13 +518,13 @@ export const listSearchJobBackups: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(272, __c17, 0) as any as S.Schema<ListSearchJobBackupsInput>,
   output: __S(275, __c17, 3) as any as S.Schema<ListSearchJobBackupsOutput>,
-  errors: [
-    ResourceNotFoundException,
+  errors: [ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSearchJobBackups",
@@ -556,13 +557,13 @@ export const listSearchJobResults: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<ListSearchJobResultsInput>,
   output: __S(5, __c0, 5) as any as S.Schema<ListSearchJobResultsOutput>,
-  errors: [
-    ResourceNotFoundException,
+  errors: [ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSearchJobResults",
@@ -594,12 +595,13 @@ export const listSearchJobs: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(16, __c1, 0) as any as S.Schema<ListSearchJobsInput>,
   output: __S(19, __c1, 3) as any as S.Schema<ListSearchJobsOutput>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSearchJobs",
@@ -633,14 +635,13 @@ export const listSearchResultExportJobs: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(32, __c2, 0) as any as S.Schema<ListSearchResultExportJobsInput>,
   output: __S(35, __c2, 3) as any as S.Schema<ListSearchResultExportJobsOutput>,
-  errors: [
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
+  errors: [ResourceNotFoundException, ServiceQuotaExceededException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSearchResultExportJobs",
@@ -672,13 +673,13 @@ export const listTagsForResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c3, 0) as any as S.Schema<ListTagsForResourceRequest>,
   output: __S(49, __c3, 1) as any as S.Schema<ListTagsForResourceResponse>,
-  errors: [
-    ResourceNotFoundException,
+  errors: [ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -708,15 +709,13 @@ export const startSearchJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c4, 0) as any as S.Schema<StartSearchJobInput>,
   output: __S(65, __c4, 1) as any as S.Schema<StartSearchJobOutput>,
-  errors: [
-    ConflictException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
+  errors: [ConflictException, ResourceNotFoundException, ServiceQuotaExceededException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSearchJob",
@@ -744,15 +743,13 @@ export const startSearchResultExportJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c5, 0) as any as S.Schema<StartSearchResultExportJobInput>,
   output: __S(81, __c5, 1) as any as S.Schema<StartSearchResultExportJobOutput>,
-  errors: [
-    ConflictException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
+  errors: [ConflictException, ResourceNotFoundException, ServiceQuotaExceededException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSearchResultExportJob",
@@ -781,14 +778,13 @@ export const stopSearchJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c6, 0) as any as S.Schema<StopSearchJobInput>,
   output: __S(112, __c7, 0) as any as S.Schema<StopSearchJobOutput>,
-  errors: [
-    ConflictException,
-    ResourceNotFoundException,
+  errors: [ConflictException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopSearchJob",
@@ -814,13 +810,13 @@ export const tagResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c8, 0) as any as S.Schema<TagResourceRequest>,
   output: __S(112, __c7, 0) as any as S.Schema<TagResourceResponse>,
-  errors: [
-    ResourceNotFoundException,
+  errors: [ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -846,13 +842,13 @@ export const untagResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c9, 0) as any as S.Schema<UntagResourceRequest>,
   output: __S(112, __c7, 0) as any as S.Schema<UntagResourceResponse>,
-  errors: [
-    ResourceNotFoundException,
+  errors: [ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",

@@ -37,7 +37,7 @@ export {
 export { UnsignableBody } from "@distilled.cloud/aws4signer/AwsClient";
 
 import * as Category from "@distilled.cloud/core/category";
-import { UnknownErrorFields } from "@distilled.cloud/core/errors";
+import { API_ERRORS, UnknownErrorFields } from "@distilled.cloud/core/errors";
 import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
 /** Unknown OpenSearch error -- returned when nothing else matches the failure. */
@@ -53,3 +53,12 @@ export class OpenSearchParseError
     body: Schema.Unknown,
     cause: Schema.Unknown,
   }).pipe(Category.withParseError) {}
+
+/**
+ * The errors declared on the OpenSearch service: any operation can return
+ * them, and every generated operation lists them as its `serviceErrors`.
+ * Each of core's status classes: the protocol builds the one for a failed
+ * response's status when the operation's own classes do not match.
+ */
+export const OpenSearchServiceErrors = API_ERRORS;
+export type OpenSearchServiceError = InstanceType<(typeof OpenSearchServiceErrors)[number]>;

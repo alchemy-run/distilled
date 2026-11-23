@@ -4,6 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
+import { VercelServiceErrors } from "../errors.ts";
 import { VercelProtocol, type VercelOpError, type VercelOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -1984,6 +1985,7 @@ export const createDrain: API.OperationMethod<
   input: __S(1, __c0, 1) as any as S.Schema<CreateDrainRequest>,
   output: __S(2, __c0, 2) as any as S.Schema<CreateDrainResponse>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2001,6 +2003,7 @@ export const deleteDrain: API.OperationMethod<
   input: __S(32, __c4, 0) as any as S.Schema<DeleteDrainRequest>,
   output: __S(33, __c4, 1) as any as S.Schema<DeleteDrainResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2018,6 +2021,7 @@ export const getDrain: API.OperationMethod<
   input: __S(44, __c5, 4) as any as S.Schema<GetDrainRequest>,
   output: __S(46, __c5, 6) as any as S.Schema<GetDrainResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2035,6 +2039,7 @@ export const getDrains: API.OperationMethod<
   input: __S(48, __c6, 0) as any as S.Schema<GetDrainsRequest>,
   output: __S(49, __c6, 1) as any as S.Schema<GetDrainsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2052,6 +2057,7 @@ export const testDrain: API.OperationMethod<
   input: __S(56, __c7, 0) as any as S.Schema<TestDrainRequest>,
   output: __S(57, __c7, 1) as any as S.Schema<TestDrainResponse>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2069,6 +2075,7 @@ export const updateDrain: API.OperationMethod<
   input: __S(64, __c8, 0) as any as S.Schema<UpdateDrainRequest>,
   output: __S(65, __c8, 1) as any as S.Schema<UpdateDrainResponse>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

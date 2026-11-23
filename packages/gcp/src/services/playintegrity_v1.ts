@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownGCPError } from "../errors.ts";
+import { GcpServiceErrors } from "../errors.ts";
 import { GcpProtocol, type GcpOpError, type GcpOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -368,7 +368,8 @@ export const decodeIntegrityTokenV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<DecodeIntegrityTokenV1Request>,
   output: __S(14, __c0, 14) as any as S.Schema<DecodeIntegrityTokenResponse>,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [NotFound, Forbidden, BadRequest, Conflict],
+  serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -390,7 +391,8 @@ export const decodePcIntegrityTokenV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c3, 0) as any as S.Schema<DecodePcIntegrityTokenV1Request>,
   output: __S(53, __c3, 5) as any as S.Schema<DecodePcIntegrityTokenResponse>,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [NotFound, Forbidden, BadRequest, Conflict],
+  serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -407,7 +409,8 @@ export const writeDeviceRecall: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(65, __c4, 1) as any as S.Schema<WriteDeviceRecallRequest_>,
   output: __S(66, __c4, 2) as any as S.Schema<WriteDeviceRecallResponse>,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [NotFound, Forbidden, BadRequest, Conflict],
+  serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

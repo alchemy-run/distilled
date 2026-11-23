@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownHetznerError } from "../errors.ts";
+import { HetznerServiceErrors } from "../errors.ts";
 import { paginatePageNumber } from "../pagination.ts";
 import { HetznerProtocol, type HetznerOpError, type HetznerOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
@@ -1167,7 +1167,8 @@ export const addServerToPlacementGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<AddServerToPlacementGroupRequest>,
   output: __S(16, __c2, 0) as any as S.Schema<AddServerToPlacementGroupResponse>,
-  errors: [UnknownHetznerError],
+  errors: [],
+  serviceErrors: HetznerServiceErrors,
   protocol: HetznerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1184,7 +1185,8 @@ export const attachServerIso: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c3, 0) as any as S.Schema<AttachServerIsoRequest>,
   output: __S(16, __c2, 0) as any as S.Schema<AttachServerIsoResponse>,
-  errors: [UnknownHetznerError],
+  errors: [],
+  serviceErrors: HetznerServiceErrors,
   protocol: HetznerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1201,7 +1203,8 @@ export const attachServerToNetwork: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(136, __c17, 0) as any as S.Schema<AttachServerToNetworkRequest>,
   output: __S(16, __c2, 0) as any as S.Schema<AttachServerToNetworkResponse>,
-  errors: [UnknownHetznerError],
+  errors: [],
+  serviceErrors: HetznerServiceErrors,
   protocol: HetznerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1218,7 +1221,8 @@ export const changeServerAliasIps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(200, __c25, 0) as any as S.Schema<ChangeServerAliasIpsRequest>,
   output: __S(16, __c2, 0) as any as S.Schema<ChangeServerAliasIpsResponse>,
-  errors: [UnknownHetznerError],
+  errors: [],
+  serviceErrors: HetznerServiceErrors,
   protocol: HetznerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1235,7 +1239,8 @@ export const changeServerDnsPtr: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c26, 0) as any as S.Schema<ChangeServerDnsPtrRequest>,
   output: __S(16, __c2, 0) as any as S.Schema<ChangeServerDnsPtrResponse>,
-  errors: [UnknownHetznerError],
+  errors: [],
+  serviceErrors: HetznerServiceErrors,
   protocol: HetznerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1252,7 +1257,8 @@ export const changeServerProtection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(216, __c27, 0) as any as S.Schema<ChangeServerProtectionRequest>,
   output: __S(16, __c2, 0) as any as S.Schema<ChangeServerProtectionResponse>,
-  errors: [UnknownHetznerError],
+  errors: [],
+  serviceErrors: HetznerServiceErrors,
   protocol: HetznerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1269,7 +1275,8 @@ export const changeServerType: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c28, 0) as any as S.Schema<ChangeServerTypeRequest>,
   output: __S(16, __c2, 0) as any as S.Schema<ChangeServerTypeResponse>,
-  errors: [UnknownHetznerError],
+  errors: [],
+  serviceErrors: HetznerServiceErrors,
   protocol: HetznerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1286,7 +1293,8 @@ export const createServerImage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(233, __c29, 1) as any as S.Schema<CreateServerImageRequest>,
   output: __S(238, __c29, 6) as any as S.Schema<CreateServerImageResponse>,
-  errors: [UnknownHetznerError],
+  errors: [],
+  serviceErrors: HetznerServiceErrors,
   protocol: HetznerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1303,7 +1311,8 @@ export const detachServerFromNetwork: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(240, __c30, 0) as any as S.Schema<DetachServerFromNetworkRequest>,
   output: __S(16, __c2, 0) as any as S.Schema<DetachServerFromNetworkResponse>,
-  errors: [UnknownHetznerError],
+  errors: [],
+  serviceErrors: HetznerServiceErrors,
   protocol: HetznerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1320,7 +1329,8 @@ export const detachServerIso: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(248, __c31, 0) as any as S.Schema<DetachServerIsoRequest>,
   output: __S(16, __c2, 0) as any as S.Schema<DetachServerIsoResponse>,
-  errors: [UnknownHetznerError],
+  errors: [],
+  serviceErrors: HetznerServiceErrors,
   protocol: HetznerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1337,7 +1347,8 @@ export const disableServerBackup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c4, 0) as any as S.Schema<DisableServerBackupRequest>,
   output: __S(16, __c2, 0) as any as S.Schema<DisableServerBackupResponse>,
-  errors: [UnknownHetznerError],
+  errors: [],
+  serviceErrors: HetznerServiceErrors,
   protocol: HetznerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1354,7 +1365,8 @@ export const disableServerRescue: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c5, 0) as any as S.Schema<DisableServerRescueRequest>,
   output: __S(16, __c2, 0) as any as S.Schema<DisableServerRescueResponse>,
-  errors: [UnknownHetznerError],
+  errors: [],
+  serviceErrors: HetznerServiceErrors,
   protocol: HetznerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1371,7 +1383,8 @@ export const enableServerBackup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c6, 0) as any as S.Schema<EnableServerBackupRequest>,
   output: __S(16, __c2, 0) as any as S.Schema<EnableServerBackupResponse>,
-  errors: [UnknownHetznerError],
+  errors: [],
+  serviceErrors: HetznerServiceErrors,
   protocol: HetznerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1388,7 +1401,8 @@ export const enableServerRescue: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56, __c7, 0) as any as S.Schema<EnableServerRescueRequest>,
   output: __S(72, __c9, 0) as any as S.Schema<EnableServerRescueResponse>,
-  errors: [UnknownHetznerError],
+  errors: [],
+  serviceErrors: HetznerServiceErrors,
   protocol: HetznerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1405,7 +1419,8 @@ export const getServersAction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c10, 0) as any as S.Schema<GetServersActionRequest>,
   output: __S(16, __c2, 0) as any as S.Schema<GetServersActionResponse>,
-  errors: [UnknownHetznerError],
+  errors: [],
+  serviceErrors: HetznerServiceErrors,
   protocol: HetznerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1424,7 +1439,8 @@ export const listServerActions: API.PaginatedOperationMethod<
   () => ({
     input: __S(88, __c11, 0) as any as S.Schema<ListServerActionsRequest>,
     output: __S(100, __c12, 4) as any as S.Schema<ListServerActionsResponse>,
-    errors: [UnknownHetznerError],
+    errors: [],
+    serviceErrors: HetznerServiceErrors,
     protocol: HetznerProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -1452,7 +1468,8 @@ export const listServersActions: API.PaginatedOperationMethod<
   () => ({
     input: __S(104, __c13, 0) as any as S.Schema<ListServersActionsRequest>,
     output: __S(100, __c12, 4) as any as S.Schema<ListServersActionsResponse>,
-    errors: [UnknownHetznerError],
+    errors: [],
+    serviceErrors: HetznerServiceErrors,
     protocol: HetznerProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -1478,7 +1495,8 @@ export const poweroffServer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c14, 0) as any as S.Schema<PoweroffServerRequest>,
   output: __S(16, __c2, 0) as any as S.Schema<PoweroffServerResponse>,
-  errors: [UnknownHetznerError],
+  errors: [],
+  serviceErrors: HetznerServiceErrors,
   protocol: HetznerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1495,7 +1513,8 @@ export const poweronServer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(120, __c15, 0) as any as S.Schema<PoweronServerRequest>,
   output: __S(16, __c2, 0) as any as S.Schema<PoweronServerResponse>,
-  errors: [UnknownHetznerError],
+  errors: [],
+  serviceErrors: HetznerServiceErrors,
   protocol: HetznerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1512,7 +1531,8 @@ export const rebootServer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c16, 0) as any as S.Schema<RebootServerRequest>,
   output: __S(16, __c2, 0) as any as S.Schema<RebootServerResponse>,
-  errors: [UnknownHetznerError],
+  errors: [],
+  serviceErrors: HetznerServiceErrors,
   protocol: HetznerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1529,7 +1549,8 @@ export const rebuildServer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(152, __c19, 0) as any as S.Schema<RebuildServerRequest>,
   output: __S(153, __c19, 1) as any as S.Schema<RebuildServerResponse>,
-  errors: [UnknownHetznerError],
+  errors: [],
+  serviceErrors: HetznerServiceErrors,
   protocol: HetznerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1546,7 +1567,8 @@ export const removeServerFromPlacementGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c20, 0) as any as S.Schema<RemoveServerFromPlacementGroupRequest>,
   output: __S(16, __c2, 0) as any as S.Schema<RemoveServerFromPlacementGroupResponse>,
-  errors: [UnknownHetznerError],
+  errors: [],
+  serviceErrors: HetznerServiceErrors,
   protocol: HetznerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1563,7 +1585,8 @@ export const requestServerConsole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(168, __c21, 0) as any as S.Schema<RequestServerConsoleRequest>,
   output: __S(169, __c21, 1) as any as S.Schema<RequestServerConsoleResponse>,
-  errors: [UnknownHetznerError],
+  errors: [],
+  serviceErrors: HetznerServiceErrors,
   protocol: HetznerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1580,7 +1603,8 @@ export const resetServer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c22, 0) as any as S.Schema<ResetServerRequest>,
   output: __S(16, __c2, 0) as any as S.Schema<ResetServerResponse>,
-  errors: [UnknownHetznerError],
+  errors: [],
+  serviceErrors: HetznerServiceErrors,
   protocol: HetznerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1597,7 +1621,8 @@ export const resetServerPassword: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(184, __c23, 0) as any as S.Schema<ResetServerPasswordRequest>,
   output: __S(72, __c9, 0) as any as S.Schema<ResetServerPasswordResponse>,
-  errors: [UnknownHetznerError],
+  errors: [],
+  serviceErrors: HetznerServiceErrors,
   protocol: HetznerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1614,7 +1639,8 @@ export const shutdownServer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c24, 0) as any as S.Schema<ShutdownServerRequest>,
   output: __S(16, __c2, 0) as any as S.Schema<ShutdownServerResponse>,
-  errors: [UnknownHetznerError],
+  errors: [],
+  serviceErrors: HetznerServiceErrors,
   protocol: HetznerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

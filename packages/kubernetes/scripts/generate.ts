@@ -97,7 +97,7 @@ const kubernetesSpec: SdkSpec = {
   operationDecl: {
     contextType: "KubernetesOpContext",
     commonErrorType: "KubernetesOpError",
-    commonErrorClasses: ["UnknownKubernetesError"],
+    serviceErrors: "KubernetesServiceErrors",
     protocol: "KubernetesProtocol",
     retry: "Retry.Retry",
   },

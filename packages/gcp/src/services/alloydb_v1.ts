@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownGCPError } from "../errors.ts";
+import { GcpServiceErrors } from "../errors.ts";
 import { GcpProtocol, type GcpOpError, type GcpOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -1692,7 +1692,8 @@ export const cancelProjectsLocationsOperations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c38, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
   output: __S(1248, __c39, 0) as any as S.Schema<Empty>,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [NotFound, Forbidden, BadRequest, Conflict],
+  serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1715,7 +1716,8 @@ export const createProjectsLocationsBackups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1280, __c40, 0) as any as S.Schema<CreateProjectsLocationsBackupsRequest>,
   output: __S(1410, __c44, 2) as any as S.Schema<Operation>,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, ClusterNotReadyForBackup, UnknownGCPError],
+  errors: [NotFound, Forbidden, BadRequest, Conflict, ClusterNotReadyForBackup],
+  serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1738,7 +1740,8 @@ export const createProjectsLocationsClusters: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1504, __c47, 0) as any as S.Schema<CreateProjectsLocationsClustersRequest>,
   output: __S(1410, __c44, 2) as any as S.Schema<Operation>,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [NotFound, Forbidden, BadRequest, Conflict],
+  serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1761,7 +1764,8 @@ export const createProjectsLocationsClustersInstances: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1632, __c51, 0) as any as S.Schema<CreateProjectsLocationsClustersInstancesRequest>,
   output: __S(1410, __c44, 2) as any as S.Schema<Operation>,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [NotFound, Forbidden, BadRequest, Conflict],
+  serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1784,7 +1788,8 @@ export const createProjectsLocationsClustersUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1696, __c53, 0) as any as S.Schema<CreateProjectsLocationsClustersUsersRequest>,
   output: __S(1728, __c54, 0) as any as S.Schema<User>,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [NotFound, Forbidden, BadRequest, Conflict],
+  serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1807,7 +1812,8 @@ export const createsecondaryProjectsLocationsClusters: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreatesecondaryProjectsLocationsClustersRequest>,
   output: __S(1410, __c44, 2) as any as S.Schema<Operation>,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [NotFound, Forbidden, BadRequest, Conflict],
+  serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1834,7 +1840,8 @@ export const createsecondaryProjectsLocationsClustersInstances: API.OperationMet
     0,
   ) as any as S.Schema<CreatesecondaryProjectsLocationsClustersInstancesRequest>,
   output: __S(1410, __c44, 2) as any as S.Schema<Operation>,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [NotFound, Forbidden, BadRequest, Conflict],
+  serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1857,7 +1864,8 @@ export const deleteProjectsLocationsBackups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c2, 0) as any as S.Schema<DeleteProjectsLocationsBackupsRequest>,
   output: __S(1410, __c44, 2) as any as S.Schema<Operation>,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [NotFound, Forbidden, BadRequest, Conflict],
+  serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1880,7 +1888,8 @@ export const deleteProjectsLocationsClusters: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c3, 0) as any as S.Schema<DeleteProjectsLocationsClustersRequest>,
   output: __S(1410, __c44, 2) as any as S.Schema<Operation>,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [NotFound, Forbidden, BadRequest, Conflict],
+  serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1903,7 +1912,8 @@ export const deleteProjectsLocationsClustersInstances: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c4, 0) as any as S.Schema<DeleteProjectsLocationsClustersInstancesRequest>,
   output: __S(1410, __c44, 2) as any as S.Schema<Operation>,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [NotFound, Forbidden, BadRequest, Conflict],
+  serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1926,7 +1936,8 @@ export const deleteProjectsLocationsClustersUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c5, 0) as any as S.Schema<DeleteProjectsLocationsClustersUsersRequest>,
   output: __S(1248, __c39, 0) as any as S.Schema<Empty>,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [NotFound, Forbidden, BadRequest, Conflict],
+  serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1949,7 +1960,8 @@ export const deleteProjectsLocationsOperations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c6, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
   output: __S(1248, __c39, 0) as any as S.Schema<Empty>,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [NotFound, Forbidden, BadRequest, Conflict],
+  serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1971,7 +1983,8 @@ export const executeSqlProjectsLocationsClustersInstances: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(225, __c7, 1) as any as S.Schema<ExecuteSqlProjectsLocationsClustersInstancesRequest>,
   output: __S(235, __c7, 11) as any as S.Schema<ExecuteSqlResponse>,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [NotFound, Forbidden, BadRequest, Conflict],
+  serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1993,7 +2006,8 @@ export const exportProjectsLocationsClusters: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(260, __c8, 4) as any as S.Schema<ExportProjectsLocationsClustersRequest>,
   output: __S(1410, __c44, 2) as any as S.Schema<Operation>,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [NotFound, Forbidden, BadRequest, Conflict],
+  serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2016,7 +2030,8 @@ export const failoverProjectsLocationsClustersInstances: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c9, 0) as any as S.Schema<FailoverProjectsLocationsClustersInstancesRequest>,
   output: __S(1410, __c44, 2) as any as S.Schema<Operation>,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [NotFound, Forbidden, BadRequest, Conflict],
+  serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2041,7 +2056,8 @@ export const getConnectionInfoProjectsLocationsClustersInstances: API.OperationM
     0,
   ) as any as S.Schema<GetConnectionInfoProjectsLocationsClustersInstancesRequest>,
   output: __S(353, __c11, 1) as any as S.Schema<ConnectionInfo>,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden],
+  serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2058,7 +2074,8 @@ export const getProjectsLocations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c12, 0) as any as S.Schema<GetProjectsLocationsRequest>,
   output: __S(416, __c13, 0) as any as S.Schema<GoogleCloudLocationLocation>,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden],
+  serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2075,7 +2092,8 @@ export const getProjectsLocationsBackups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c14, 0) as any as S.Schema<GetProjectsLocationsBackupsRequest>,
   output: __S(1313, __c41, 1) as any as S.Schema<Backup>,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden],
+  serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2092,7 +2110,8 @@ export const getProjectsLocationsClusters: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c15, 0) as any as S.Schema<GetProjectsLocationsClustersRequest>,
   output: __S(1597, __c49, 29) as any as S.Schema<Cluster>,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden],
+  serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2109,7 +2128,8 @@ export const getProjectsLocationsClustersInstances: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c16, 0) as any as S.Schema<GetProjectsLocationsClustersInstancesRequest>,
   output: __S(1691, __c52, 27) as any as S.Schema<Instance>,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden],
+  serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2126,7 +2146,8 @@ export const getProjectsLocationsClustersUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c17, 0) as any as S.Schema<GetProjectsLocationsClustersUsersRequest>,
   output: __S(1728, __c54, 0) as any as S.Schema<User>,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden],
+  serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2143,7 +2164,8 @@ export const getProjectsLocationsOperations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c18, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
   output: __S(1410, __c44, 2) as any as S.Schema<Operation>,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden],
+  serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2165,7 +2187,8 @@ export const importProjectsLocationsClusters: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(610, __c19, 2) as any as S.Schema<ImportProjectsLocationsClustersRequest>,
   output: __S(1410, __c44, 2) as any as S.Schema<Operation>,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [NotFound, Forbidden, BadRequest, Conflict],
+  serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2192,7 +2215,8 @@ export const injectFaultProjectsLocationsClustersInstances: API.OperationMethod<
     1,
   ) as any as S.Schema<InjectFaultProjectsLocationsClustersInstancesRequest>,
   output: __S(1410, __c44, 2) as any as S.Schema<Operation>,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [NotFound, Forbidden, BadRequest, Conflict],
+  serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2211,7 +2235,8 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(672, __c21, 0) as any as S.Schema<ListProjectsLocationsRequest>,
   output: __S(674, __c21, 2) as any as S.Schema<GoogleCloudLocationListLocationsResponse>,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden],
+  serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2230,7 +2255,8 @@ export const listProjectsLocationsBackups: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(704, __c22, 0) as any as S.Schema<ListProjectsLocationsBackupsRequest>,
   output: __S(706, __c22, 2) as any as S.Schema<ListBackupsResponse>,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden],
+  serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2249,7 +2275,8 @@ export const listProjectsLocationsClusters: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(736, __c23, 0) as any as S.Schema<ListProjectsLocationsClustersRequest>,
   output: __S(738, __c23, 2) as any as S.Schema<ListClustersResponse>,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden],
+  serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2268,7 +2295,8 @@ export const listProjectsLocationsClustersInstances: API.PaginatedOperationMetho
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(768, __c24, 0) as any as S.Schema<ListProjectsLocationsClustersInstancesRequest>,
   output: __S(770, __c24, 2) as any as S.Schema<ListInstancesResponse>,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden],
+  serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2287,7 +2315,8 @@ export const listProjectsLocationsClustersUsers: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(800, __c25, 0) as any as S.Schema<ListProjectsLocationsClustersUsersRequest>,
   output: __S(802, __c25, 2) as any as S.Schema<ListUsersResponse>,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden],
+  serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2306,7 +2335,8 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(832, __c26, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
   output: __S(834, __c26, 2) as any as S.Schema<ListOperationsResponse>,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden],
+  serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2325,7 +2355,8 @@ export const listProjectsLocationsSupportedDatabaseFlags: API.PaginatedOperation
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(864, __c27, 0) as any as S.Schema<ListProjectsLocationsSupportedDatabaseFlagsRequest>,
   output: __S(869, __c27, 5) as any as S.Schema<ListSupportedDatabaseFlagsResponse>,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden],
+  serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2348,7 +2379,8 @@ export const patchProjectsLocationsBackups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(896, __c28, 0) as any as S.Schema<PatchProjectsLocationsBackupsRequest>,
   output: __S(1410, __c44, 2) as any as S.Schema<Operation>,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [NotFound, Forbidden, BadRequest, Conflict],
+  serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2371,7 +2403,8 @@ export const patchProjectsLocationsClusters: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c29, 0) as any as S.Schema<PatchProjectsLocationsClustersRequest>,
   output: __S(1410, __c44, 2) as any as S.Schema<Operation>,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [NotFound, Forbidden, BadRequest, Conflict],
+  serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2394,7 +2427,8 @@ export const patchProjectsLocationsClustersInstances: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c30, 0) as any as S.Schema<PatchProjectsLocationsClustersInstancesRequest>,
   output: __S(1410, __c44, 2) as any as S.Schema<Operation>,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [NotFound, Forbidden, BadRequest, Conflict],
+  serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2417,7 +2451,8 @@ export const patchProjectsLocationsClustersUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c31, 0) as any as S.Schema<PatchProjectsLocationsClustersUsersRequest>,
   output: __S(1728, __c54, 0) as any as S.Schema<User>,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [NotFound, Forbidden, BadRequest, Conflict],
+  serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2440,7 +2475,8 @@ export const promoteProjectsLocationsClusters: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1025, __c32, 1) as any as S.Schema<PromoteProjectsLocationsClustersRequest>,
   output: __S(1410, __c44, 2) as any as S.Schema<Operation>,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [NotFound, Forbidden, BadRequest, Conflict],
+  serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2463,7 +2499,8 @@ export const restartProjectsLocationsClustersInstances: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1057, __c33, 1) as any as S.Schema<RestartProjectsLocationsClustersInstancesRequest>,
   output: __S(1410, __c44, 2) as any as S.Schema<Operation>,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [NotFound, Forbidden, BadRequest, Conflict],
+  serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2490,7 +2527,8 @@ export const restoreFromCloudSQLProjectsLocationsClusters: API.OperationMethod<
     1,
   ) as any as S.Schema<RestoreFromCloudSQLProjectsLocationsClustersRequest>,
   output: __S(1410, __c44, 2) as any as S.Schema<Operation>,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [NotFound, Forbidden, BadRequest, Conflict],
+  serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2512,7 +2550,8 @@ export const restoreProjectsLocationsClusters: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1123, __c35, 3) as any as S.Schema<RestoreProjectsLocationsClustersRequest>,
   output: __S(1410, __c44, 2) as any as S.Schema<Operation>,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [NotFound, Forbidden, BadRequest, Conflict],
+  serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2535,7 +2574,8 @@ export const switchoverProjectsLocationsClusters: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c36, 0) as any as S.Schema<SwitchoverProjectsLocationsClustersRequest>,
   output: __S(1410, __c44, 2) as any as S.Schema<Operation>,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [NotFound, Forbidden, BadRequest, Conflict],
+  serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2558,7 +2598,8 @@ export const upgradeProjectsLocationsClusters: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1185, __c37, 1) as any as S.Schema<UpgradeProjectsLocationsClustersRequest>,
   output: __S(1410, __c44, 2) as any as S.Schema<Operation>,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [NotFound, Forbidden, BadRequest, Conflict],
+  serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

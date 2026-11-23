@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownStarburstGalaxyError } from "../errors.ts";
+import { StarburstGalaxyServiceErrors } from "../errors.ts";
 import { paginateToken } from "../pagination.ts";
 import {
   StarburstGalaxyProtocol,
@@ -266,7 +266,8 @@ export const createKafkaIngestSource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4, __c0, 4) as any as S.Schema<CreateKafkaIngestSourceRequest>,
   output: __S(9, __c1, 1) as any as S.Schema<KafkaIngestSource>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStarburstGalaxyError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -287,7 +288,8 @@ export const deleteKafkaIngestSource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c3, 0) as any as S.Schema<DeleteKafkaIngestSourceRequest>,
   output: __S(32, __c4, 0) as any as S.Schema<DeleteKafkaIngestSourceResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStarburstGalaxyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -304,7 +306,8 @@ export const getKafkaIngestSource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c5, 0) as any as S.Schema<GetKafkaIngestSourceRequest>,
   output: __S(9, __c1, 1) as any as S.Schema<KafkaIngestSource>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStarburstGalaxyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -327,7 +330,8 @@ export const listKafkaIngestSources: API.PaginatedOperationMethod<
   () => ({
     input: __S(48, __c6, 0) as any as S.Schema<ListKafkaIngestSourcesRequest>,
     output: __S(50, __c6, 2) as any as S.Schema<PaginatedKafkaIngestSource>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownStarburstGalaxyError],
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: StarburstGalaxyServiceErrors,
     protocol: StarburstGalaxyProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -358,7 +362,8 @@ export const updateKafkaIngestSource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(60, __c7, 4) as any as S.Schema<UpdateKafkaIngestSourceRequest>,
   output: __S(32, __c4, 0) as any as S.Schema<UpdateKafkaIngestSourceResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStarburstGalaxyError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

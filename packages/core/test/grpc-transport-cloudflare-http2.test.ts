@@ -19,6 +19,7 @@ import * as Stream from "effect/Stream";
 import * as Tracer from "effect/Tracer";
 import { afterAll, beforeAll, beforeEach, describe, expect, test, vi } from "vitest";
 import * as API from "../src/api.ts";
+import { API_ERRORS } from "../src/errors.ts";
 import * as CloudflareHttp2 from "../src/grpc-transport-cloudflare-http2.ts";
 import {
   GrpcTransport,
@@ -36,7 +37,7 @@ import {
   unframe,
   type ProtoDescriptors,
 } from "../src/protobuf.ts";
-import { makeGrpcProtocol } from "../src/protocol-grpc.ts";
+import { grpcProtocol } from "../src/protocol-grpc.ts";
 import * as S from "../src/schema.ts";
 import * as T from "../src/trait.ts";
 
@@ -170,7 +171,7 @@ class Gone extends T.applyErrorMatchers(
   [{ code: 5 }],
 ) {}
 
-const Protocol = makeGrpcProtocol({
+const Protocol = grpcProtocol({
   descriptors,
   credentials: Effect.gen(function* () {
     return yield* Endpoint;
@@ -190,6 +191,7 @@ const get: API.OperationMethod<Request, Reply, any, Endpoint> = API.make(() => (
   input: Request.pipe(T.Http({ method: "POST", uri: "/test.Svc/Get" })),
   output: Reply,
   errors: [Gone] as const,
+  serviceErrors: API_ERRORS,
   protocol: Protocol,
 })) as any;
 
@@ -202,6 +204,7 @@ const count: API.StreamingOperationMethod<
   input: Request.pipe(T.Http({ method: "POST", uri: "/test.Svc/Count" })),
   output: S.Struct({ items: S.Array(Reply) }),
   errors: [Gone] as const,
+  serviceErrors: API_ERRORS,
   protocol: Protocol,
 })) as any;
 

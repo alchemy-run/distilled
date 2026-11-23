@@ -1,7 +1,6 @@
-import type * as API from "@distilled.cloud/core/api";
-import { ConfigError, type InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
-import type { SdkError } from "@distilled.cloud/core/sdk-error";
+import { ConfigError } from "@distilled.cloud/core/errors";
+import type { ErrorOf } from "@distilled.cloud/core/protocol";
+import { restProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
 /**
  * DaytonaProtocol -- the shared bearer-REST protocol instantiated for Daytona.
  *
@@ -27,25 +26,19 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
  */
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import { Credentials, type Config } from "./credentials.ts";
 import { ANALYTICS_PREFIX, TOOLBOX_ROOTS } from "./endpoints.ts";
-import { UnknownDaytonaError, type DefaultErrors, DaytonaParseError } from "./errors.ts";
+import { UnknownDaytonaError, DaytonaParseError, type DaytonaServiceError } from "./errors.ts";
 
 /**
- * Error channel shared by every generated Daytona operation. Generated
- * service files annotate operations with `API.OperationMethod<I, O,
- * DaytonaOpError, DaytonaOpContext>` explicitly so the compiler never infers
- * these back out of the schema generics.
+ * What every generated Daytona operation fails with besides its own errors:
+ * the service's errors, the protocol's, and what resolving the credentials
+ * fails with. Generated service files annotate operations with
+ * `API.OperationMethod<I, O, DaytonaOpError, DaytonaOpContext>` explicitly so
+ * the compiler never infers these back out of the schema generics.
  */
-export type DaytonaOpError =
-  | DefaultErrors
-  | ConfigError
-  | HttpClientError.HttpClientError
-  | InvalidInput
-  | SdkError;
+export type DaytonaOpError = DaytonaServiceError | ErrorOf<typeof DaytonaProtocol>;
 
 /** Context (requirements) shared by every generated Daytona operation. */
 export type DaytonaOpContext = Credentials | HttpClient.HttpClient;
@@ -77,12 +70,12 @@ export const toolboxBaseUrl = (creds: Config): string | ConfigError => {
   return creds.toolboxBaseUrl.replaceAll("{sandboxId}", creds.sandboxId);
 };
 
-const baseUrlFor = (creds: Config, uri: string): string => {
+const baseUrlFor = (creds: Config, uri: string): string | Effect.Effect<never, ConfigError> => {
   if (isAnalytics(uri)) return creds.analyticsBaseUrl;
   if (!isToolbox(uri)) return creds.apiBaseUrl;
   const base = toolboxBaseUrl(creds);
-  if (typeof base !== "string") throw base;
-  return base;
+  // Refuses the route: the call fails with this error.
+  return typeof base === "string" ? base : Effect.fail(base);
 };
 
 /**
@@ -120,11 +113,10 @@ export const stripNulls = (value: unknown): unknown => {
   return value;
 };
 
-export const DaytonaProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
-  // Resolved on the CALLING fiber per request (the layer is memoized per
-  // process); the Credentials service holds an effect, so a key rotated
-  // between calls is picked up without rebuilding the layer.
-  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
+export const DaytonaProtocol = /*@__PURE__*/ restProtocol({
+  // Resolved on the CALLING fiber per request; the Credentials service holds
+  // an effect, so a key rotated between calls is picked up.
+  credentials: /*@__PURE__*/ Effect.flatten(Credentials),
   baseUrl: (creds, target) => baseUrlFor(creds, target.uri),
   headers: requestHeaders,
   transformResponse: stripNulls,

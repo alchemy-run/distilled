@@ -27,7 +27,7 @@ export {
 } from "@distilled.cloud/core/errors";
 import * as Category from "@distilled.cloud/core/category";
 import type { DefaultErrors as CoreDefaultErrors } from "@distilled.cloud/core/errors";
-import { UnknownErrorFields } from "@distilled.cloud/core/errors";
+import { API_ERRORS, UnknownErrorFields } from "@distilled.cloud/core/errors";
 import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 import { applyErrorMatchers } from "@distilled.cloud/core/trait";
 
@@ -75,3 +75,13 @@ export type ClientErrors = UnknownFlyIoError | FlyIoParseError;
  * plus the client-level fallback/decode errors.
  */
 export type DefaultErrors = CoreDefaultErrors | ClientErrors;
+
+/**
+ * The errors declared on the Fly.io services (Machines, MPG and Sprites):
+ * any operation can return them, and every generated operation lists them
+ * as its `serviceErrors`. Each of core's status classes: the protocols build
+ * the one for a failed response's status when the operation's own classes
+ * do not match.
+ */
+export const FlyIoServiceErrors = API_ERRORS;
+export type FlyIoServiceError = InstanceType<(typeof FlyIoServiceErrors)[number]>;

@@ -9,8 +9,8 @@ import * as Schema from "effect/Schema";
 import * as TestClock from "effect/testing/TestClock";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import * as API from "../src/api.ts";
-import { RETRYABLE_HTTP_STATUSES } from "../src/errors.ts";
-import { makeRestProtocol } from "../src/protocol-rest.ts";
+import { API_ERRORS, RETRYABLE_HTTP_STATUSES } from "../src/errors.ts";
+import { restProtocol } from "../src/protocol-rest.ts";
 import {
   parseRatelimit,
   parseRetryAfter,
@@ -194,7 +194,7 @@ class UnknownTestError extends Schema.TaggedError<UnknownTestError>()("UnknownTe
   message: Schema.String,
 }) {}
 
-const TestProtocol = makeRestProtocol<{}>({
+const TestProtocol = restProtocol({
   credentials: Effect.succeed({}),
   baseUrl: () => "https://api.test",
   headers: () => ({}),
@@ -205,6 +205,7 @@ const TestProtocol = makeRestProtocol<{}>({
 const getThing = API.make(() => ({
   input: S.Struct({}).pipe(T.Http({ method: "GET", uri: "/thing" })),
   output: S.Struct({ ok: S.optional(S.Boolean) }),
+  serviceErrors: API_ERRORS,
   protocol: TestProtocol,
   retry: TestRetry,
 })) as unknown as (input: Record<string, unknown>) => Effect.Effect<any, any, any>;

@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { AzureProtocol, type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -4648,7 +4648,8 @@ export const AddSqlServerAvailabilityGroupDatabases: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<AddSqlServerAvailabilityGroupDatabasesRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<AddSqlServerAvailabilityGroupDatabasesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4665,7 +4666,8 @@ export const CreateActiveDirectoryConnector: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(193, __c6, 1) as any as S.Schema<CreateActiveDirectoryConnectorRequest>,
   output: __S(232, __c7, 8) as any as S.Schema<CreateActiveDirectoryConnectorResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4682,7 +4684,8 @@ export const CreateFailoverGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(801, __c25, 1) as any as S.Schema<CreateFailoverGroupRequest>,
   output: __S(834, __c26, 2) as any as S.Schema<CreateFailoverGroupResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4699,7 +4702,8 @@ export const CreatePostgresInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c38, 0) as any as S.Schema<CreatePostgresInstanceRequest>,
   output: __S(1250, __c39, 2) as any as S.Schema<CreatePostgresInstanceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4716,7 +4720,8 @@ export const CreateSqlManagedInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1793, __c56, 1) as any as S.Schema<CreateSqlManagedInstanceRequest>,
   output: __S(1839, __c57, 15) as any as S.Schema<CreateSqlManagedInstanceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4733,7 +4738,8 @@ export const CreateSqlServerAvailabilityGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2272, __c71, 0) as any as S.Schema<CreateSqlServerAvailabilityGroupRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<CreateSqlServerAvailabilityGroupResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4758,7 +4764,8 @@ export const CreateSqlServerAvailabilityGroupAvailabilityGroup: API.OperationMet
     __c88,
     0,
   ) as any as S.Schema<CreateSqlServerAvailabilityGroupAvailabilityGroupResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4783,7 +4790,8 @@ export const CreateSqlServerAvailabilityGroupDistributedAvailabilityGroup: API.O
     __c88,
     0,
   ) as any as S.Schema<CreateSqlServerAvailabilityGroupDistributedAvailabilityGroupResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4808,7 +4816,8 @@ export const CreateSqlServerAvailabilityGroupManagedInstanceLink: API.OperationM
     __c107,
     0,
   ) as any as S.Schema<CreateSqlServerAvailabilityGroupManagedInstanceLinkResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4825,7 +4834,8 @@ export const CreateSqlServerDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3456, __c108, 0) as any as S.Schema<CreateSqlServerDatabaseRequest>,
   output: __S(3520, __c110, 0) as any as S.Schema<CreateSqlServerDatabaseResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4842,7 +4852,8 @@ export const CreateSqlServerEsuLicense: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(289, __c9, 1) as any as S.Schema<CreateSqlServerEsuLicenseRequest>,
   output: __S(321, __c10, 1) as any as S.Schema<CreateSqlServerEsuLicenseResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4859,7 +4870,8 @@ export const CreateSqlServerInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(353, __c11, 1) as any as S.Schema<CreateSqlServerInstanceRequest>,
   output: __S(384, __c12, 0) as any as S.Schema<CreateSqlServerInstanceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4876,7 +4888,8 @@ export const CreateSqlServerLicense: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(481, __c15, 1) as any as S.Schema<CreateSqlServerLicenseRequest>,
   output: __S(513, __c16, 1) as any as S.Schema<CreateSqlServerLicenseResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4893,7 +4906,8 @@ export const DeleteActiveDirectoryConnector: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c17, 0) as any as S.Schema<DeleteActiveDirectoryConnectorRequest>,
   output: __S(2336, __c73, 0) as any as S.Schema<DeleteActiveDirectoryConnectorResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4910,7 +4924,8 @@ export const DeleteDataControllerDataController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c18, 0) as any as S.Schema<DeleteDataControllerDataControllerRequest>,
   output: __S(2336, __c73, 0) as any as S.Schema<DeleteDataControllerDataControllerResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4927,7 +4942,8 @@ export const DeleteFailoverGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c19, 0) as any as S.Schema<DeleteFailoverGroupRequest>,
   output: __S(2336, __c73, 0) as any as S.Schema<DeleteFailoverGroupResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4944,7 +4960,8 @@ export const DeletePostgresInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c20, 0) as any as S.Schema<DeletePostgresInstanceRequest>,
   output: __S(2336, __c73, 0) as any as S.Schema<DeletePostgresInstanceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4961,7 +4978,8 @@ export const DeleteSqlManagedInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c21, 0) as any as S.Schema<DeleteSqlManagedInstanceRequest>,
   output: __S(2336, __c73, 0) as any as S.Schema<DeleteSqlManagedInstanceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4978,7 +4996,8 @@ export const DeleteSqlServerAvailabilityGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c22, 0) as any as S.Schema<DeleteSqlServerAvailabilityGroupRequest>,
   output: __S(736, __c23, 0) as any as S.Schema<DeleteSqlServerAvailabilityGroupResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4995,7 +5014,8 @@ export const DeleteSqlServerAvailabilityGroupMiLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c24, 0) as any as S.Schema<DeleteSqlServerAvailabilityGroupMiLinkRequest>,
   output: __S(769, __c24, 1) as any as S.Schema<DeleteSqlServerAvailabilityGroupMiLinkResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5012,7 +5032,8 @@ export const DeleteSqlServerDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c27, 0) as any as S.Schema<DeleteSqlServerDatabaseRequest>,
   output: __S(736, __c23, 0) as any as S.Schema<DeleteSqlServerDatabaseResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5029,7 +5050,8 @@ export const DeleteSqlServerEsuLicense: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(896, __c28, 0) as any as S.Schema<DeleteSqlServerEsuLicenseRequest>,
   output: __S(2336, __c73, 0) as any as S.Schema<DeleteSqlServerEsuLicenseResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5046,7 +5068,8 @@ export const DeleteSqlServerInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c29, 0) as any as S.Schema<DeleteSqlServerInstanceRequest>,
   output: __S(2336, __c73, 0) as any as S.Schema<DeleteSqlServerInstanceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5063,7 +5086,8 @@ export const DeleteSqlServerLicense: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c30, 0) as any as S.Schema<DeleteSqlServerLicenseRequest>,
   output: __S(2336, __c73, 0) as any as S.Schema<DeleteSqlServerLicenseResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5080,7 +5104,8 @@ export const GetActiveDirectoryConnector: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c31, 0) as any as S.Schema<GetActiveDirectoryConnectorRequest>,
   output: __S(232, __c7, 8) as any as S.Schema<GetActiveDirectoryConnectorResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5097,7 +5122,8 @@ export const GetDataControllerDataController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c32, 0) as any as S.Schema<GetDataControllerDataControllerRequest>,
   output: __S(1061, __c33, 5) as any as S.Schema<GetDataControllerDataControllerResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5114,7 +5140,8 @@ export const GetFailoverGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c34, 0) as any as S.Schema<GetFailoverGroupRequest>,
   output: __S(834, __c26, 2) as any as S.Schema<GetFailoverGroupResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5131,7 +5158,8 @@ export const GetPostgresInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c35, 0) as any as S.Schema<GetPostgresInstanceRequest>,
   output: __S(1250, __c39, 2) as any as S.Schema<GetPostgresInstanceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5148,7 +5176,8 @@ export const GetSqlManagedInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c36, 0) as any as S.Schema<GetSqlManagedInstanceRequest>,
   output: __S(1839, __c57, 15) as any as S.Schema<GetSqlManagedInstanceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5165,7 +5194,8 @@ export const GetSqlServerAvailabilityGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c37, 0) as any as S.Schema<GetSqlServerAvailabilityGroupRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<GetSqlServerAvailabilityGroupResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5182,7 +5212,8 @@ export const GetSqlServerDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1344, __c42, 0) as any as S.Schema<GetSqlServerDatabaseRequest>,
   output: __S(3520, __c110, 0) as any as S.Schema<GetSqlServerDatabaseResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5199,7 +5230,8 @@ export const GetSqlServerEsuLicense: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1376, __c43, 0) as any as S.Schema<GetSqlServerEsuLicenseRequest>,
   output: __S(321, __c10, 1) as any as S.Schema<GetSqlServerEsuLicenseResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5216,7 +5248,8 @@ export const GetSqlServerInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c44, 0) as any as S.Schema<GetSqlServerInstanceRequest>,
   output: __S(384, __c12, 0) as any as S.Schema<GetSqlServerInstanceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5234,7 +5267,8 @@ export const GetSqlServerInstanceAllAvailabilityGroups: API.PaginatedOperationMe
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1440, __c45, 0) as any as S.Schema<GetSqlServerInstanceAllAvailabilityGroupsRequest>,
   output: __S(1473, __c46, 1) as any as S.Schema<ArcSqlServerAvailabilityGroupListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5261,7 +5295,8 @@ export const GetSqlServerInstanceBestPracticesAssessment: API.OperationMethod<
     __c47,
     1,
   ) as any as S.Schema<GetSqlServerInstanceBestPracticesAssessmentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5278,7 +5313,8 @@ export const GetSqlServerInstanceJobsStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1568, __c49, 0) as any as S.Schema<GetSqlServerInstanceJobsStatusRequest>,
   output: __S(1570, __c49, 2) as any as S.Schema<GetSqlServerInstanceJobsStatusResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5295,7 +5331,8 @@ export const GetSqlServerInstanceTelemetry: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1632, __c51, 0) as any as S.Schema<GetSqlServerInstanceTelemetryRequest>,
   output: __S(1633, __c51, 1) as any as S.Schema<GetSqlServerInstanceTelemetryResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5312,7 +5349,8 @@ export const GetSqlServerLicense: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1664, __c52, 0) as any as S.Schema<GetSqlServerLicenseRequest>,
   output: __S(513, __c16, 1) as any as S.Schema<GetSqlServerLicenseResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5330,7 +5368,8 @@ export const ListActiveDirectoryConnectors: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1696, __c53, 0) as any as S.Schema<ListActiveDirectoryConnectorsRequest>,
   output: __S(1698, __c53, 2) as any as S.Schema<ListActiveDirectoryConnectorsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5354,7 +5393,8 @@ export const ListDataControllerInGroup: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1728, __c54, 0) as any as S.Schema<ListDataControllerInGroupRequest>,
   output: __S(1761, __c55, 1) as any as S.Schema<ListDataControllerInGroupResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5378,7 +5418,8 @@ export const ListDataControllerInSubscription: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1856, __c58, 0) as any as S.Schema<ListDataControllerInSubscriptionRequest>,
   output: __S(1761, __c55, 1) as any as S.Schema<ListDataControllerInSubscriptionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5402,7 +5443,8 @@ export const ListFailoverGroups: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1888, __c59, 0) as any as S.Schema<ListFailoverGroupsRequest>,
   output: __S(1890, __c59, 2) as any as S.Schema<ListFailoverGroupsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5426,7 +5468,8 @@ export const ListOperations: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1920, __c60, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(1925, __c60, 5) as any as S.Schema<ListOperationsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5450,7 +5493,8 @@ export const ListPostgresInstanceByResourceGroup: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1952, __c61, 0) as any as S.Schema<ListPostgresInstanceByResourceGroupRequest>,
   output: __S(1985, __c62, 1) as any as S.Schema<ListPostgresInstanceByResourceGroupResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5474,7 +5518,8 @@ export const ListPostgresInstances: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2016, __c63, 0) as any as S.Schema<ListPostgresInstancesRequest>,
   output: __S(1985, __c62, 1) as any as S.Schema<ListPostgresInstancesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5498,7 +5543,8 @@ export const ListSqlManagedInstanceByResourceGroup: API.PaginatedOperationMethod
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2048, __c64, 0) as any as S.Schema<ListSqlManagedInstanceByResourceGroupRequest>,
   output: __S(2081, __c65, 1) as any as S.Schema<ListSqlManagedInstanceByResourceGroupResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5522,7 +5568,8 @@ export const ListSqlManagedInstances: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2112, __c66, 0) as any as S.Schema<ListSqlManagedInstancesRequest>,
   output: __S(2081, __c65, 1) as any as S.Schema<ListSqlManagedInstancesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5546,7 +5593,8 @@ export const ListSqlServerAvailabilityGroups: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2144, __c67, 0) as any as S.Schema<ListSqlServerAvailabilityGroupsRequest>,
   output: __S(1473, __c46, 1) as any as S.Schema<ArcSqlServerAvailabilityGroupListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5570,7 +5618,8 @@ export const ListSqlServerDatabases: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2176, __c68, 0) as any as S.Schema<ListSqlServerDatabasesRequest>,
   output: __S(2178, __c68, 2) as any as S.Schema<ArcSqlServerDatabaseListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5594,7 +5643,8 @@ export const ListSqlServerEsuLicenseByResourceGroup: API.PaginatedOperationMetho
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2208, __c69, 0) as any as S.Schema<ListSqlServerEsuLicenseByResourceGroupRequest>,
   output: __S(2241, __c70, 1) as any as S.Schema<SqlServerEsuLicenseListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5618,7 +5668,8 @@ export const ListSqlServerEsuLicenses: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2368, __c74, 0) as any as S.Schema<ListSqlServerEsuLicensesRequest>,
   output: __S(2241, __c70, 1) as any as S.Schema<SqlServerEsuLicenseListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5642,7 +5693,8 @@ export const ListSqlServerInstanceByResourceGroup: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2400, __c75, 0) as any as S.Schema<ListSqlServerInstanceByResourceGroupRequest>,
   output: __S(2433, __c76, 1) as any as S.Schema<ListSqlServerInstanceByResourceGroupResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5666,7 +5718,8 @@ export const ListSqlServerInstances: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2464, __c77, 0) as any as S.Schema<ListSqlServerInstancesRequest>,
   output: __S(2433, __c76, 1) as any as S.Schema<ListSqlServerInstancesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5690,7 +5743,8 @@ export const ListSqlServerLicenseByResourceGroup: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2496, __c78, 0) as any as S.Schema<ListSqlServerLicenseByResourceGroupRequest>,
   output: __S(2529, __c79, 1) as any as S.Schema<ListSqlServerLicenseByResourceGroupResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5714,7 +5768,8 @@ export const ListSqlServerLicenses: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2560, __c80, 0) as any as S.Schema<ListSqlServerLicensesRequest>,
   output: __S(2529, __c79, 1) as any as S.Schema<ListSqlServerLicensesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5737,7 +5792,8 @@ export const PatchDataControllerDataController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2592, __c81, 0) as any as S.Schema<PatchDataControllerDataControllerRequest>,
   output: __S(1061, __c33, 5) as any as S.Schema<PatchDataControllerDataControllerResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5754,7 +5810,8 @@ export const PostSqlServerInstanceUpgrade: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2656, __c83, 0) as any as S.Schema<PostSqlServerInstanceUpgradeRequest>,
   output: __S(384, __c12, 0) as any as S.Schema<PostSqlServerInstanceUpgradeResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5771,7 +5828,8 @@ export const PutDataControllerDataController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2688, __c84, 0) as any as S.Schema<PutDataControllerDataControllerRequest>,
   output: __S(1061, __c33, 5) as any as S.Schema<PutDataControllerDataControllerResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5788,7 +5846,8 @@ export const RemoveSqlServerAvailabilityGroupDatabases: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2720, __c85, 0) as any as S.Schema<RemoveSqlServerAvailabilityGroupDatabasesRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<RemoveSqlServerAvailabilityGroupDatabasesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5809,7 +5868,8 @@ export const RunSqlServerInstanceBestPracticesAssessment: API.OperationMethod<
     __c50,
     3,
   ) as any as S.Schema<RunSqlServerInstanceBestPracticesAssessmentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5834,7 +5894,8 @@ export const RunSqlServerInstanceManagedInstanceLinkAssessment: API.OperationMet
     __c90,
     4,
   ) as any as S.Schema<RunSqlServerInstanceManagedInstanceLinkAssessmentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5851,7 +5912,8 @@ export const RunSqlServerInstanceMigrationAssessment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2912, __c91, 0) as any as S.Schema<RunSqlServerInstanceMigrationAssessmentRequest>,
   output: __S(1603, __c50, 3) as any as S.Schema<RunSqlServerInstanceMigrationAssessmentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5868,7 +5930,8 @@ export const SqlServerAvailabilityGroupsDetailView: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2944, __c92, 0) as any as S.Schema<SqlServerAvailabilityGroupsDetailViewRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<SqlServerAvailabilityGroupsDetailViewResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5885,7 +5948,8 @@ export const SqlServerAvailabilityGroupsFailover: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2976, __c93, 0) as any as S.Schema<SqlServerAvailabilityGroupsFailoverRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<SqlServerAvailabilityGroupsFailoverResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5906,7 +5970,8 @@ export const SqlServerAvailabilityGroupsFailoverMiLink: API.OperationMethod<
     __c107,
     0,
   ) as any as S.Schema<SqlServerAvailabilityGroupsFailoverMiLinkResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5931,7 +5996,8 @@ export const SqlServerAvailabilityGroupsForceFailoverAllowDataLoss: API.Operatio
     __c4,
     0,
   ) as any as S.Schema<SqlServerAvailabilityGroupsForceFailoverAllowDataLossResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5948,7 +6014,8 @@ export const SqlServerInstancesPreUpgrade: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3072, __c96, 0) as any as S.Schema<SqlServerInstancesPreUpgradeRequest>,
   output: __S(384, __c12, 0) as any as S.Schema<SqlServerInstancesPreUpgradeResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5965,7 +6032,8 @@ export const UpdatePostgresInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3104, __c97, 0) as any as S.Schema<UpdatePostgresInstanceRequest>,
   output: __S(1250, __c39, 2) as any as S.Schema<UpdatePostgresInstanceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5982,7 +6050,8 @@ export const UpdateSqlManagedInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3136, __c98, 0) as any as S.Schema<UpdateSqlManagedInstanceRequest>,
   output: __S(1839, __c57, 15) as any as S.Schema<UpdateSqlManagedInstanceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5999,7 +6068,8 @@ export const UpdateSqlServerAvailabilityGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3168, __c99, 0) as any as S.Schema<UpdateSqlServerAvailabilityGroupRequest>,
   output: __S(2816, __c88, 0) as any as S.Schema<UpdateSqlServerAvailabilityGroupResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6016,7 +6086,8 @@ export const UpdateSqlServerDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3264, __c102, 0) as any as S.Schema<UpdateSqlServerDatabaseRequest>,
   output: __S(3265, __c102, 1) as any as S.Schema<UpdateSqlServerDatabaseResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6033,7 +6104,8 @@ export const UpdateSqlServerEsuLicense: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3297, __c103, 1) as any as S.Schema<UpdateSqlServerEsuLicenseRequest>,
   output: __S(321, __c10, 1) as any as S.Schema<UpdateSqlServerEsuLicenseResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6050,7 +6122,8 @@ export const UpdateSqlServerInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3329, __c104, 1) as any as S.Schema<UpdateSqlServerInstanceRequest>,
   output: __S(3330, __c104, 2) as any as S.Schema<UpdateSqlServerInstanceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6067,7 +6140,8 @@ export const UpdateSqlServerLicense: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3361, __c105, 1) as any as S.Schema<UpdateSqlServerLicenseRequest>,
   output: __S(513, __c16, 1) as any as S.Schema<UpdateSqlServerLicenseResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

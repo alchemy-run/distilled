@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownScalewayError } from "../errors.ts";
+import { ScalewayServiceErrors } from "../errors.ts";
 import { paginateByTotalCount } from "../pagination.ts";
 import { ScalewayProtocol, type ScalewayOpError, type ScalewayOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
@@ -191,7 +191,8 @@ export const createNatsAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateNatsAccountRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<NatsAccount>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -208,7 +209,8 @@ export const createNatsCredentials: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c2, 0) as any as S.Schema<CreateNatsCredentialsRequest>,
   output: __S(13, __c3, 1) as any as S.Schema<NatsCredentials>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -225,7 +227,8 @@ export const deleteNatsAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c4, 0) as any as S.Schema<DeleteNatsAccountRequest>,
   output: __S(20, __c5, 0) as any as S.Schema<DeleteNatsAccountResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -242,7 +245,8 @@ export const deleteNatsCredentials: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c6, 0) as any as S.Schema<DeleteNatsCredentialsRequest>,
   output: __S(20, __c5, 0) as any as S.Schema<DeleteNatsCredentialsResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -259,7 +263,8 @@ export const getNatsAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28, __c7, 0) as any as S.Schema<GetNatsAccountRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<NatsAccount>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -276,7 +281,8 @@ export const getNatsCredentials: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c8, 0) as any as S.Schema<GetNatsCredentialsRequest>,
   output: __S(13, __c3, 1) as any as S.Schema<NatsCredentials>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -295,7 +301,8 @@ export const listNatsAccounts: API.PaginatedOperationMethod<
   () => ({
     input: __S(36, __c9, 0) as any as S.Schema<ListNatsAccountsRequest>,
     output: __S(38, __c9, 2) as any as S.Schema<ListNatsAccountsResponse>,
-    errors: [UnknownScalewayError],
+    errors: [],
+    serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -323,7 +330,8 @@ export const listNatsCredentials: API.PaginatedOperationMethod<
   () => ({
     input: __S(40, __c10, 0) as any as S.Schema<ListNatsCredentialsRequest>,
     output: __S(42, __c10, 2) as any as S.Schema<ListNatsCredentialsResponse>,
-    errors: [UnknownScalewayError],
+    errors: [],
+    serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -349,7 +357,8 @@ export const updateNatsAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(44, __c11, 0) as any as S.Schema<UpdateNatsAccountRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<NatsAccount>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

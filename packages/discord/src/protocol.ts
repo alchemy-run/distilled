@@ -1,11 +1,9 @@
-import type * as API from "@distilled.cloud/core/api";
-import type { ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
+import type { ErrorOf } from "@distilled.cloud/core/protocol";
 import {
-  makeRestProtocol,
+  restProtocol,
   type RestErrorEnvelope,
   unknownErrorProps,
 } from "@distilled.cloud/core/protocol-rest";
-import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * DiscordProtocol -- the shared bearer-REST protocol instantiated for Discord.
  *
@@ -22,24 +20,18 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
  */
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config } from "./credentials.ts";
-import { UnknownDiscordError, type DefaultErrors, DiscordParseError } from "./errors.ts";
+import { Credentials } from "./credentials.ts";
+import { UnknownDiscordError, DiscordParseError, type DiscordServiceError } from "./errors.ts";
 
 /**
- * Error channel shared by every generated Discord operation. Generated
- * service files annotate operations with `API.OperationMethod<I, O,
- * DiscordOpError, DiscordOpContext>` explicitly so the compiler never infers
- * these back out of the schema generics.
+ * What every generated Discord operation fails with besides its own errors:
+ * the service's errors, the protocol's, and what resolving the credentials
+ * fails with. Generated service files annotate operations with
+ * `API.OperationMethod<I, O, DiscordOpError, DiscordOpContext>` explicitly so
+ * the compiler never infers these back out of the schema generics.
  */
-export type DiscordOpError =
-  | DefaultErrors
-  | ConfigError
-  | HttpClientError.HttpClientError
-  | InvalidInput
-  | SdkError;
+export type DiscordOpError = DiscordServiceError | ErrorOf<typeof DiscordProtocol>;
 
 /** Context (requirements) shared by every generated Discord operation. */
 export type DiscordOpContext = Credentials | HttpClient.HttpClient;
@@ -83,11 +75,10 @@ const numericCode = (code: string | number | undefined): number | undefined => {
   return Number.isFinite(n) ? n : undefined;
 };
 
-export const DiscordProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
-  // Resolved on the CALLING fiber per request (the layer is memoized per
-  // process); the Credentials service holds an effect so rotating tokens
-  // Just Work.
-  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
+export const DiscordProtocol = /*@__PURE__*/ restProtocol({
+  // Resolved on the CALLING fiber per request; the Credentials service holds
+  // an effect so rotating tokens Just Work.
+  credentials: /*@__PURE__*/ Effect.flatten(Credentials),
   baseUrl: (creds) => creds.apiBaseUrl,
   headers: (creds) => ({
     Authorization: `${creds.tokenType} ${Redacted.value(creds.token)}`,

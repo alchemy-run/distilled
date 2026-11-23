@@ -70,7 +70,7 @@ const squarespaceSpec: SdkSpec = {
   operationDecl: {
     contextType: "SquarespaceOpContext",
     commonErrorType: "SquarespaceOpError",
-    commonErrorClasses: ["UnknownSquarespaceError"],
+    serviceErrors: "SquarespaceServiceErrors",
     protocol: "SquarespaceProtocol",
     retry: "Retry.Retry",
   },

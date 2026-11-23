@@ -37,7 +37,7 @@ import type {
   NotFound as CoreNotFound,
   UnprocessableEntity as CoreUnprocessableEntity,
 } from "@distilled.cloud/core/errors";
-import { UnknownErrorFields } from "@distilled.cloud/core/errors";
+import { API_ERRORS, UnknownErrorFields } from "@distilled.cloud/core/errors";
 import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
 /** Unknown E2B error -- a failed response whose status has no mapped error class. */
@@ -81,3 +81,11 @@ export type DefaultErrors =
   | CoreUnprocessableEntity
   | CoreLocked
   | ClientErrors;
+
+/**
+ * The errors declared on the E2B service: any operation can return them, and
+ * every generated operation lists them as its `serviceErrors`. Today that is
+ * each of core's status classes (401, 403, 404, 429, the 5xx ...).
+ */
+export const E2BServiceErrors = API_ERRORS;
+export type E2BServiceError = InstanceType<(typeof E2BServiceErrors)[number]>;

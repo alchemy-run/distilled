@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownAnthropicError } from "../errors.ts";
+import { AnthropicServiceErrors } from "../errors.ts";
 import { paginateCursor } from "../pagination.ts";
 import { AnthropicProtocol, type AnthropicOpError, type AnthropicOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
@@ -2514,7 +2514,8 @@ export const addSessionResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1, __c0, 1) as any as S.Schema<AddSessionResourceRequest>,
   output: __S(3, __c0, 3) as any as S.Schema<AddSessionResourceResponse>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2531,7 +2532,8 @@ export const archiveSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c2, 0) as any as S.Schema<ArchiveSessionRequest>,
   output: __S(93, __c5, 13) as any as S.Schema<BetaManagedAgentsSession>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2548,7 +2550,8 @@ export const archiveSessionThread: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c13, 0) as any as S.Schema<ArchiveSessionThreadRequest>,
   output: __S(226, __c14, 2) as any as S.Schema<BetaManagedAgentsSessionThread>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2565,7 +2568,8 @@ export const createSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(242, __c15, 2) as any as S.Schema<CreateSessionRequest>,
   output: __S(93, __c5, 13) as any as S.Schema<BetaManagedAgentsSession>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2582,7 +2586,8 @@ export const deleteSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c16, 0) as any as S.Schema<DeleteSessionRequest>,
   output: __S(272, __c17, 0) as any as S.Schema<BetaManagedAgentsDeletedSession>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2599,7 +2604,8 @@ export const deleteSessionResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c18, 0) as any as S.Schema<DeleteSessionResourceRequest>,
   output: __S(272, __c17, 0) as any as S.Schema<BetaManagedAgentsDeleteSessionResource>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2616,7 +2622,8 @@ export const getSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(304, __c19, 0) as any as S.Schema<GetSessionRequest>,
   output: __S(93, __c5, 13) as any as S.Schema<BetaManagedAgentsSession>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2633,7 +2640,8 @@ export const getSessionResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c20, 0) as any as S.Schema<GetSessionResourceRequest>,
   output: __S(321, __c20, 1) as any as S.Schema<GetSessionResourceResponse>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2650,7 +2658,8 @@ export const getSessionThread: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(336, __c21, 0) as any as S.Schema<GetSessionThreadRequest>,
   output: __S(226, __c14, 2) as any as S.Schema<BetaManagedAgentsSessionThread>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2669,7 +2678,8 @@ export const listSessionEvents: API.PaginatedOperationMethod<
   () => ({
     input: __S(352, __c22, 0) as any as S.Schema<ListSessionEventsRequest>,
     output: __S(385, __c24, 1) as any as S.Schema<BetaManagedAgentsListSessionEvents>,
-    errors: [UnknownAnthropicError],
+    errors: [],
+    serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2697,7 +2707,8 @@ export const listSessionResources: API.PaginatedOperationMethod<
   () => ({
     input: __S(96, __c6, 0) as any as S.Schema<ListSessionResourcesRequest>,
     output: __S(97, __c6, 1) as any as S.Schema<BetaManagedAgentsListSessionResources>,
-    errors: [UnknownAnthropicError],
+    errors: [],
+    serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2725,7 +2736,8 @@ export const listSessions: API.PaginatedOperationMethod<
   () => ({
     input: __S(112, __c7, 0) as any as S.Schema<ListSessionsRequest>,
     output: __S(114, __c7, 2) as any as S.Schema<BetaManagedAgentsListSessions>,
-    errors: [UnknownAnthropicError],
+    errors: [],
+    serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2753,7 +2765,8 @@ export const listSessionThreadEvents: API.PaginatedOperationMethod<
   () => ({
     input: __S(128, __c8, 0) as any as S.Schema<ListSessionThreadEventsRequest>,
     output: __S(385, __c24, 1) as any as S.Schema<BetaManagedAgentsListSessionThreadEvents>,
-    errors: [UnknownAnthropicError],
+    errors: [],
+    serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2781,7 +2794,8 @@ export const listSessionThreads: API.PaginatedOperationMethod<
   () => ({
     input: __S(144, __c9, 0) as any as S.Schema<ListSessionThreadsRequest>,
     output: __S(146, __c9, 2) as any as S.Schema<BetaManagedAgentsListSessionThreads>,
-    errors: [UnknownAnthropicError],
+    errors: [],
+    serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2807,7 +2821,8 @@ export const sendSessionEvents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(161, __c10, 1) as any as S.Schema<SendSessionEventsRequest>,
   output: __S(163, __c10, 3) as any as S.Schema<BetaManagedAgentsSendSessionEvents>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2824,7 +2839,8 @@ export const updateSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(179, __c11, 3) as any as S.Schema<UpdateSessionRequest>,
   output: __S(93, __c5, 13) as any as S.Schema<BetaManagedAgentsSession>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2841,7 +2857,8 @@ export const updateSessionResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c12, 0) as any as S.Schema<UpdateSessionResourceRequest>,
   output: __S(193, __c12, 1) as any as S.Schema<UpdateSessionResourceResponse>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

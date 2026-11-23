@@ -78,7 +78,7 @@ const spec: SdkSpec = {
     commonErrorType: "TwitchOpError",
     // No per-operation error classes: failures dispatch by status through
     // core's shared map (src/errors.ts).
-    commonErrorClasses: ["UnknownTwitchError"],
+    serviceErrors: "TwitchServiceErrors",
     protocol: "TwitchProtocol",
     retry: "Retry.Retry",
   },

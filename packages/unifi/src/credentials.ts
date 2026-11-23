@@ -59,10 +59,13 @@ export interface CloudConfig {
 
 /**
  * Base URL (everything before `/v1/...`) of one application on a console.
- * Throws {@link ConfigError} for a console ID that can't be a path segment
+ * Returns a {@link ConfigError} for a console ID that can't be a path segment
  * (`.`, `..`, a lone UTF-16 surrogate); the protocol fails the call with it.
  */
-export const consoleBaseUrl = (location: ConsoleLocation, app: ConsoleApp): string => {
+export const consoleBaseUrl = (
+  location: ConsoleLocation,
+  app: ConsoleApp,
+): string | ConfigError => {
   if (location._tag === "Local") {
     const origin = location.host.includes("://") ? location.host : `https://${location.host}`;
     return `${origin.replace(/\/+$/, "")}/proxy/${app}/integration`;
@@ -70,7 +73,7 @@ export const consoleBaseUrl = (location: ConsoleLocation, app: ConsoleApp): stri
   const origin = (location.apiBaseUrl ?? DEFAULT_CLOUD_BASE_URL).replace(/\/+$/, "");
   const encoded = encodeLabel("consoleId", location.consoleId);
   if (encoded instanceof InvalidInput) {
-    throw new ConfigError({
+    return new ConfigError({
       message: `The configured UniFi console ID ${JSON.stringify(location.consoleId)} cannot be a URL path segment`,
     });
   }

@@ -3,7 +3,7 @@ import { ConfigError } from "@distilled.cloud/core/errors";
  * PayPal credentials -- hand-written.
  *
  * The `Credentials` service holds an *effect* that resolves the current
- * credentials on every request (the protocol layer resolves it per request
+ * credentials on every request (the protocol resolves it per request
  * on the calling fiber). PayPal REST is OAuth 2.0 client-credentials: callers
  * hand an already-fetched access token; the protocol sends it as
  * `Authorization: Bearer <token>`.

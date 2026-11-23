@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import { AzureDataPlaneProtocol } from "../data-plane-protocol.ts";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -986,7 +986,8 @@ export const AddCallConnectionParticipant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c24, 0) as any as S.Schema<AddCallConnectionParticipantRequest>,
   output: __S(193, __c24, 1) as any as S.Schema<AddParticipantResponse>,
-  errors: [CallConnectionNotFound, UnknownAzureError],
+  errors: [CallConnectionNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1003,7 +1004,8 @@ export const AnswerCall: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(280, __c35, 0) as any as S.Schema<AnswerCallRequest>,
   output: __S(298, __c37, 2) as any as S.Schema<CallConnectionProperties>,
-  errors: [InvalidIncomingCallContext, UnknownAzureError],
+  errors: [InvalidIncomingCallContext],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1020,7 +1022,8 @@ export const CallConnectionCancelAddParticipant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c40, 0) as any as S.Schema<CallConnectionCancelAddParticipantRequest>,
   output: __S(321, __c40, 1) as any as S.Schema<CancelAddParticipantResponse>,
-  errors: [CallConnectionNotFound, UnknownAzureError],
+  errors: [CallConnectionNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1037,7 +1040,8 @@ export const CallConnectionHangupCall: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(328, __c41, 0) as any as S.Schema<CallConnectionHangupCallRequest>,
   output: __S(336, __c42, 0) as any as S.Schema<CallConnectionHangupCallResponse>,
-  errors: [CallConnectionNotFound, UnknownAzureError],
+  errors: [CallConnectionNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1054,7 +1058,8 @@ export const CallMediaHold: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(344, __c43, 0) as any as S.Schema<CallMediaHoldRequest>,
   output: __S(336, __c42, 0) as any as S.Schema<CallMediaHoldResponse>,
-  errors: [CallConnectionNotFound, UnknownAzureError],
+  errors: [CallConnectionNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1071,7 +1076,8 @@ export const CallMediaPlay: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(361, __c45, 1) as any as S.Schema<CallMediaPlayRequest>,
   output: __S(336, __c42, 0) as any as S.Schema<CallMediaPlayResponse>,
-  errors: [CallConnectionNotFound, UnknownAzureError],
+  errors: [CallConnectionNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1088,7 +1094,8 @@ export const CallMediaRecognize: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(382, __c47, 6) as any as S.Schema<CallMediaRecognizeRequest>,
   output: __S(336, __c42, 0) as any as S.Schema<CallMediaRecognizeResponse>,
-  errors: [CallConnectionNotFound, UnknownAzureError],
+  errors: [CallConnectionNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1105,7 +1112,8 @@ export const CallMediaUnhold: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CallMediaUnholdRequest>,
   output: __S(336, __c42, 0) as any as S.Schema<CallMediaUnholdResponse>,
-  errors: [CallConnectionNotFound, UnknownAzureError],
+  errors: [CallConnectionNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1122,7 +1130,8 @@ export const CancelCallMediaAllMediaOperations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c1, 0) as any as S.Schema<CancelCallMediaAllMediaOperationsRequest>,
   output: __S(336, __c42, 0) as any as S.Schema<CancelCallMediaAllMediaOperationsResponse>,
-  errors: [CallConnectionNotFound, UnknownAzureError],
+  errors: [CallConnectionNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1139,7 +1148,8 @@ export const Connect: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c2, 0) as any as S.Schema<ConnectRequest>,
   output: __S(298, __c37, 2) as any as S.Schema<CallConnectionProperties>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1156,7 +1166,8 @@ export const CreateCall: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c4, 0) as any as S.Schema<CreateCallRequest>,
   output: __S(298, __c37, 2) as any as S.Schema<CallConnectionProperties>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1173,7 +1184,8 @@ export const GetCallConnectionCall: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c5, 0) as any as S.Schema<GetCallConnectionCallRequest>,
   output: __S(298, __c37, 2) as any as S.Schema<CallConnectionProperties>,
-  errors: [CallConnectionNotFound, UnknownAzureError],
+  errors: [CallConnectionNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1190,7 +1202,8 @@ export const GetCallConnectionParticipant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c6, 0) as any as S.Schema<GetCallConnectionParticipantRequest>,
   output: __S(200, __c25, 0) as any as S.Schema<CallParticipant>,
-  errors: [CallConnectionNotFound, UnknownAzureError],
+  errors: [CallConnectionNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1208,7 +1221,8 @@ export const GetCallConnectionParticipants: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(56, __c7, 0) as any as S.Schema<GetCallConnectionParticipantsRequest>,
   output: __S(57, __c7, 1) as any as S.Schema<GetParticipantsResponse>,
-  errors: [CallConnectionNotFound, UnknownAzureError],
+  errors: [CallConnectionNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1231,7 +1245,8 @@ export const GetCallRecordingRecordingProperties: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(72, __c9, 0) as any as S.Schema<GetCallRecordingRecordingPropertiesRequest>,
   output: __S(80, __c10, 0) as any as S.Schema<RecordingStateResponse>,
-  errors: [RecordingNotFound, UnknownAzureError],
+  errors: [RecordingNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1248,7 +1263,8 @@ export const MoveCallConnectionParticipants: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(88, __c11, 0) as any as S.Schema<MoveCallConnectionParticipantsRequest>,
   output: __S(89, __c11, 1) as any as S.Schema<MoveParticipantsResponse>,
-  errors: [CallConnectionNotFound, UnknownAzureError],
+  errors: [CallConnectionNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1265,7 +1281,8 @@ export const MuteCallConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c12, 0) as any as S.Schema<MuteCallConnectionRequest>,
   output: __S(104, __c13, 0) as any as S.Schema<MuteParticipantsResult>,
-  errors: [CallConnectionNotFound, UnknownAzureError],
+  errors: [CallConnectionNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1282,7 +1299,8 @@ export const PauseCallRecordingRecording: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c14, 0) as any as S.Schema<PauseCallRecordingRecordingRequest>,
   output: __S(336, __c42, 0) as any as S.Schema<PauseCallRecordingRecordingResponse>,
-  errors: [RecordingNotFound, UnknownAzureError],
+  errors: [RecordingNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1299,7 +1317,8 @@ export const RedirectCall: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(120, __c15, 0) as any as S.Schema<RedirectCallRequest>,
   output: __S(336, __c42, 0) as any as S.Schema<RedirectCallResponse>,
-  errors: [InvalidIncomingCallContext, UnknownAzureError],
+  errors: [InvalidIncomingCallContext],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1316,7 +1335,8 @@ export const RejectCall: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c16, 0) as any as S.Schema<RejectCallRequest>,
   output: __S(336, __c42, 0) as any as S.Schema<RejectCallResponse>,
-  errors: [InvalidIncomingCallContext, UnknownAzureError],
+  errors: [InvalidIncomingCallContext],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1333,7 +1353,8 @@ export const RemoveCallConnectionParticipant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(136, __c17, 0) as any as S.Schema<RemoveCallConnectionParticipantRequest>,
   output: __S(104, __c13, 0) as any as S.Schema<RemoveParticipantResponse>,
-  errors: [CallConnectionNotFound, UnknownAzureError],
+  errors: [CallConnectionNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1350,7 +1371,8 @@ export const ResumeCallRecordingRecording: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c18, 0) as any as S.Schema<ResumeCallRecordingRecordingRequest>,
   output: __S(336, __c42, 0) as any as S.Schema<ResumeCallRecordingRecordingResponse>,
-  errors: [RecordingNotFound, UnknownAzureError],
+  errors: [RecordingNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1367,7 +1389,8 @@ export const SendCallMediaDtmfTones: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(152, __c19, 0) as any as S.Schema<SendCallMediaDtmfTonesRequest>,
   output: __S(104, __c13, 0) as any as S.Schema<SendDtmfTonesResult>,
-  errors: [CallConnectionNotFound, UnknownAzureError],
+  errors: [CallConnectionNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1384,7 +1407,8 @@ export const StartCallMediaContinuousDtmfRecognition: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c20, 0) as any as S.Schema<StartCallMediaContinuousDtmfRecognitionRequest>,
   output: __S(336, __c42, 0) as any as S.Schema<StartCallMediaContinuousDtmfRecognitionResponse>,
-  errors: [CallConnectionNotFound, UnknownAzureError],
+  errors: [CallConnectionNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1401,7 +1425,8 @@ export const StartCallMediaMediaStreaming: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(168, __c21, 0) as any as S.Schema<StartCallMediaMediaStreamingRequest>,
   output: __S(336, __c42, 0) as any as S.Schema<StartCallMediaMediaStreamingResponse>,
-  errors: [CallConnectionNotFound, UnknownAzureError],
+  errors: [CallConnectionNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1418,7 +1443,8 @@ export const StartCallMediaTranscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c22, 0) as any as S.Schema<StartCallMediaTranscriptionRequest>,
   output: __S(336, __c42, 0) as any as S.Schema<StartCallMediaTranscriptionResponse>,
-  errors: [CallConnectionNotFound, UnknownAzureError],
+  errors: [CallConnectionNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1435,7 +1461,8 @@ export const StartCallRecordingRecording: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(187, __c23, 3) as any as S.Schema<StartCallRecordingRecordingRequest>,
   output: __S(80, __c10, 0) as any as S.Schema<RecordingStateResponse>,
-  errors: [CallConnectionNotFound, UnknownAzureError],
+  errors: [CallConnectionNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1452,7 +1479,8 @@ export const StopCallMediaContinuousDtmfRecognition: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c28, 0) as any as S.Schema<StopCallMediaContinuousDtmfRecognitionRequest>,
   output: __S(336, __c42, 0) as any as S.Schema<StopCallMediaContinuousDtmfRecognitionResponse>,
-  errors: [CallConnectionNotFound, UnknownAzureError],
+  errors: [CallConnectionNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1469,7 +1497,8 @@ export const StopCallMediaMediaStreaming: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(232, __c29, 0) as any as S.Schema<StopCallMediaMediaStreamingRequest>,
   output: __S(336, __c42, 0) as any as S.Schema<StopCallMediaMediaStreamingResponse>,
-  errors: [CallConnectionNotFound, UnknownAzureError],
+  errors: [CallConnectionNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1486,7 +1515,8 @@ export const StopCallMediaTranscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(240, __c30, 0) as any as S.Schema<StopCallMediaTranscriptionRequest>,
   output: __S(336, __c42, 0) as any as S.Schema<StopCallMediaTranscriptionResponse>,
-  errors: [CallConnectionNotFound, UnknownAzureError],
+  errors: [CallConnectionNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1503,7 +1533,8 @@ export const StopCallRecordingRecording: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(248, __c31, 0) as any as S.Schema<StopCallRecordingRecordingRequest>,
   output: __S(336, __c42, 0) as any as S.Schema<StopCallRecordingRecordingResponse>,
-  errors: [RecordingNotFound, UnknownAzureError],
+  errors: [RecordingNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1520,7 +1551,8 @@ export const TerminateCallConnectionCall: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c32, 0) as any as S.Schema<TerminateCallConnectionCallRequest>,
   output: __S(336, __c42, 0) as any as S.Schema<TerminateCallConnectionCallResponse>,
-  errors: [CallConnectionNotFound, UnknownAzureError],
+  errors: [CallConnectionNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1537,7 +1569,8 @@ export const TransferCallConnectionToParticipant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(264, __c33, 0) as any as S.Schema<TransferCallConnectionToParticipantRequest>,
   output: __S(104, __c13, 0) as any as S.Schema<TransferCallResponse>,
-  errors: [CallConnectionNotFound, UnknownAzureError],
+  errors: [CallConnectionNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1554,7 +1587,8 @@ export const UpdateCallMediaTranscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(272, __c34, 0) as any as S.Schema<UpdateCallMediaTranscriptionRequest>,
   output: __S(336, __c42, 0) as any as S.Schema<UpdateCallMediaTranscriptionResponse>,
-  errors: [CallConnectionNotFound, UnknownAzureError],
+  errors: [CallConnectionNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

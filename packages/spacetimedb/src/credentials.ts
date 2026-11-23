@@ -3,7 +3,7 @@ import { ConfigError } from "@distilled.cloud/core/errors";
  * SpacetimeDB credentials -- hand-written.
  *
  * The `Credentials` service holds an *effect* that resolves the current
- * credentials on every request (the protocol layer resolves it per request
+ * credentials on every request (the protocol resolves it per request
  * on the calling fiber). Auth is an OpenID Connect JWT sent as
  * `Authorization: Bearer <token>`. An empty token omits the header so
  * `/v1/database` anonymous access still works.

@@ -5,6 +5,7 @@ import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -177,6 +178,7 @@ export const batchGetMetrics: API.OperationMethod<
   input: __S(2, __c0, 2) as any as S.Schema<BatchGetMetricsRequest>,
   output: __S(6, __c0, 6) as any as S.Schema<BatchGetMetricsResponse>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetMetrics",
@@ -197,6 +199,7 @@ export const batchPutMetrics: API.OperationMethod<
   input: __S(10, __c1, 2) as any as S.Schema<BatchPutMetricsRequest>,
   output: __S(13, __c1, 5) as any as S.Schema<BatchPutMetricsResponse>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchPutMetrics",

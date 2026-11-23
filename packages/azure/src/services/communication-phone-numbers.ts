@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import { AzureDataPlaneProtocol } from "../data-plane-protocol.ts";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -766,7 +766,8 @@ export const CancelPhoneNumberOperation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(168, __c21, 0) as any as S.Schema<CancelPhoneNumberOperationRequest>,
   output: __S(176, __c22, 0) as any as S.Schema<CancelPhoneNumberOperationResponse>,
-  errors: [PhoneNumberOperationNotFound, UnknownAzureError],
+  errors: [PhoneNumberOperationNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -786,7 +787,8 @@ export const DeletePhoneNumberReservation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(184, __c23, 0) as any as S.Schema<DeletePhoneNumberReservationRequest>,
   output: __S(176, __c22, 0) as any as S.Schema<DeletePhoneNumberReservationResponse>,
-  errors: [PhoneNumberReservationNotFound, PhoneNumberReservationNotActive, UnknownAzureError],
+  errors: [PhoneNumberReservationNotFound, PhoneNumberReservationNotActive],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -803,7 +805,8 @@ export const GetPhoneNumberByNumber: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c24, 0) as any as S.Schema<GetPhoneNumberByNumberRequest>,
   output: __S(216, __c27, 0) as any as S.Schema<PurchasedPhoneNumber>,
-  errors: [PhoneNumberNotFound, UnknownAzureError],
+  errors: [PhoneNumberNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -820,7 +823,8 @@ export const GetPhoneNumberOperation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c28, 0) as any as S.Schema<GetPhoneNumberOperationRequest>,
   output: __S(229, __c28, 5) as any as S.Schema<PhoneNumberOperation>,
-  errors: [PhoneNumberOperationNotFound, UnknownAzureError],
+  errors: [PhoneNumberOperationNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -837,7 +841,8 @@ export const GetPhoneNumberReservation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<GetPhoneNumberReservationRequest>,
   output: __S(17, __c2, 1) as any as S.Schema<PhoneNumbersReservation>,
-  errors: [PhoneNumberReservationNotFound, UnknownAzureError],
+  errors: [PhoneNumberReservationNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -855,7 +860,8 @@ export const ListPhoneNumberAreaCodes: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(24, __c3, 0) as any as S.Schema<ListPhoneNumberAreaCodesRequest>,
   output: __S(27, __c3, 3) as any as S.Schema<PhoneNumberAreaCodes>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -879,7 +885,8 @@ export const ListPhoneNumberAvailableCountries: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(32, __c4, 0) as any as S.Schema<ListPhoneNumberAvailableCountriesRequest>,
   output: __S(35, __c4, 3) as any as S.Schema<PhoneNumberCountries>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -903,7 +910,8 @@ export const ListPhoneNumberAvailableLocalities: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(40, __c5, 0) as any as S.Schema<ListPhoneNumberAvailableLocalitiesRequest>,
   output: __S(44, __c5, 4) as any as S.Schema<PhoneNumberLocalities>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -927,7 +935,8 @@ export const ListPhoneNumberOfferings: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(48, __c6, 0) as any as S.Schema<ListPhoneNumberOfferingsRequest>,
   output: __S(51, __c6, 3) as any as S.Schema<OfferingsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -951,7 +960,8 @@ export const ListPhoneNumberPhoneNumbers: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(56, __c7, 0) as any as S.Schema<ListPhoneNumberPhoneNumbersRequest>,
   output: __S(58, __c7, 2) as any as S.Schema<PurchasedPhoneNumbers>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -975,7 +985,8 @@ export const ListPhoneNumberReservations: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(64, __c8, 0) as any as S.Schema<ListPhoneNumberReservationsRequest>,
   output: __S(66, __c8, 2) as any as S.Schema<PhoneNumbersReservations>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -998,7 +1009,8 @@ export const PhoneNumbersBrowseAvailableNumbers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(73, __c9, 1) as any as S.Schema<PhoneNumbersBrowseAvailableNumbersRequest>,
   output: __S(75, __c9, 3) as any as S.Schema<PhoneNumbersBrowseResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1017,7 +1029,8 @@ export const PhoneNumbersCreateOrUpdateReservation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(90, __c11, 2) as any as S.Schema<PhoneNumbersCreateOrUpdateReservationRequest>,
   output: __S(17, __c2, 1) as any as S.Schema<PhoneNumbersReservation>,
-  errors: [PhoneNumberReservationNotActive, UnknownAzureError],
+  errors: [PhoneNumberReservationNotActive],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1034,7 +1047,8 @@ export const PhoneNumbersGetSearchResult: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c12, 0) as any as S.Schema<PhoneNumbersGetSearchResultRequest>,
   output: __S(97, __c12, 1) as any as S.Schema<PhoneNumberSearchResult>,
-  errors: [PhoneNumberSearchNotFound, UnknownAzureError],
+  errors: [PhoneNumberSearchNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1051,7 +1065,8 @@ export const PhoneNumbersPurchasePhoneNumbers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(104, __c13, 0) as any as S.Schema<PhoneNumbersPurchasePhoneNumbersRequest>,
   output: __S(112, __c14, 0) as any as S.Schema<PhoneNumbersPurchasePhoneNumbersResponse>,
-  errors: [PhoneNumberSearchNotFound, UnknownAzureError],
+  errors: [PhoneNumberSearchNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1071,7 +1086,8 @@ export const PhoneNumbersPurchaseReservation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(120, __c15, 0) as any as S.Schema<PhoneNumbersPurchaseReservationRequest>,
   output: __S(112, __c14, 0) as any as S.Schema<PhoneNumbersPurchaseReservationResponse>,
-  errors: [PhoneNumberReservationNotFound, PhoneNumberReservationNotActive, UnknownAzureError],
+  errors: [PhoneNumberReservationNotFound, PhoneNumberReservationNotActive],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1088,7 +1104,8 @@ export const PhoneNumbersReleasePhoneNumber: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c16, 0) as any as S.Schema<PhoneNumbersReleasePhoneNumberRequest>,
   output: __S(112, __c14, 0) as any as S.Schema<PhoneNumbersReleasePhoneNumberResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1105,7 +1122,8 @@ export const SearchPhoneNumberAvailablePhoneNumbers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(136, __c17, 0) as any as S.Schema<SearchPhoneNumberAvailablePhoneNumbersRequest>,
   output: __S(144, __c18, 0) as any as S.Schema<SearchPhoneNumberAvailablePhoneNumbersResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1122,7 +1140,8 @@ export const SearchPhoneNumbersOperatorInformation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(153, __c19, 1) as any as S.Schema<SearchPhoneNumbersOperatorInformationRequest>,
   output: __S(157, __c19, 5) as any as S.Schema<OperatorInformationResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1142,7 +1161,8 @@ export const UpdatePhoneNumberCapabilities: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c20, 0) as any as S.Schema<UpdatePhoneNumberCapabilitiesRequest>,
   output: __S(144, __c18, 0) as any as S.Schema<UpdatePhoneNumberCapabilitiesResponse>,
-  errors: [PhoneNumberNotOwned, PhoneNumberNotFound, UnknownAzureError],
+  errors: [PhoneNumberNotOwned, PhoneNumberNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

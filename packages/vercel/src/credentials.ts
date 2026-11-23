@@ -2,7 +2,7 @@
  * Vercel credentials -- hand-written.
  *
  * The `Credentials` service resolves `{ token, apiBaseUrl }` per request; the
- * protocol layer formats the `Authorization: Bearer <token>` header from it.
+ * protocol formats the `Authorization: Bearer <token>` header from it.
  * The token is a Vercel access token -- personal, team, or an OAuth
  * integration's -- the REST API accepts all of them as bearer tokens.
  *

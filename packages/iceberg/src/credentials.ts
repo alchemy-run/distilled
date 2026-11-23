@@ -3,7 +3,7 @@ import * as EffectConfig from "@distilled.cloud/core/config";
  * Iceberg REST Catalog credentials -- hand-written.
  *
  * The `Credentials` service resolves `{ uri, token, prefix }` per request;
- * the protocol layer builds every URL from it.
+ * the protocol builds every URL from it.
  *
  * - `uri` is the catalog's REST endpoint -- what Iceberg clients call the
  *   catalog URI (`https://catalog.cloudflarestorage.com/<account>/<bucket>`

@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownBoatError } from "../errors.ts";
+import { BoatServiceErrors } from "../errors.ts";
 import { paginateCursor } from "../pagination.ts";
 import { BoatProtocol, type BoatOpError, type BoatOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
@@ -4119,7 +4119,8 @@ export const addCredentialAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2016, __c63, 0) as any as S.Schema<AddCredentialAccountRequest>,
   output: __S(2080, __c65, 0) as any as S.Schema<AddCredentialAccountResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownBoatError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4136,7 +4137,8 @@ export const addEnvironmentRepo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2144, __c67, 0) as any as S.Schema<AddEnvironmentRepoRequest>,
   output: __S(2176, __c68, 0) as any as S.Schema<EnvironmentItemChangeResponse>,
-  errors: [BadRequest, NotFound, AmbiguousOrg, UnknownBoatError],
+  errors: [BadRequest, NotFound, AmbiguousOrg],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4153,7 +4155,8 @@ export const attachCommand: API.StreamingOperationMethod<
 > = /*@__PURE__*/ API.makeStreaming(() => ({
   input: __S(2208, __c69, 0) as any as S.Schema<AttachCommandRequest>,
   output: __S(2211, __c69, 3) as any as S.Schema<AttachCommandResponse>,
-  errors: [BadRequest, NotFound, Conflict, SandboxNotRunning, UnknownBoatError],
+  errors: [BadRequest, NotFound, Conflict, SandboxNotRunning],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   framing: T.ndjson,
@@ -4171,7 +4174,8 @@ export const commandHistory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2240, __c70, 0) as any as S.Schema<CommandHistoryRequest>,
   output: __S(2242, __c70, 2) as any as S.Schema<CommandHistoryResponse>,
-  errors: [BadRequest, NotFound, UnknownBoatError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4188,7 +4192,8 @@ export const commandLogs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2304, __c72, 0) as any as S.Schema<CommandLogsRequest>,
   output: __S(2305, __c72, 1) as any as S.Schema<CommandLogsResponse>,
-  errors: [BadRequest, NotFound, UnknownBoatError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4205,7 +4210,8 @@ export const configureSshKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2336, __c73, 0) as any as S.Schema<ConfigureSshKeyRequest>,
   output: __S(2337, __c73, 1) as any as S.Schema<ConfigureSshKeyResponse>,
-  errors: [BadRequest, NotFound, UnknownBoatError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4222,7 +4228,8 @@ export const connectCiGithub: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2368, __c74, 0) as any as S.Schema<ConnectCiGithubRequest>,
   output: __S(2369, __c74, 1) as any as S.Schema<ConnectCiGithubResponse>,
-  errors: [UnknownBoatError],
+  errors: [],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4239,7 +4246,8 @@ export const createCredentialProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2400, __c75, 0) as any as S.Schema<CreateCredentialProfileRequest>,
   output: __S(2560, __c80, 0) as any as S.Schema<CreateCredentialProfileResponse>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownBoatError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4261,7 +4269,8 @@ export const createDownloadUrl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2592, __c81, 0) as any as S.Schema<CreateDownloadUrlRequest>,
   output: __S(2624, __c82, 0) as any as S.Schema<CreateDownloadUrlResponse>,
-  errors: [BadRequest, NotFound, Conflict, SandboxNotRunning, UnknownBoatError],
+  errors: [BadRequest, NotFound, Conflict, SandboxNotRunning],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4278,7 +4287,8 @@ export const createEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2656, __c83, 0) as any as S.Schema<CreateEnvironmentRequest>,
   output: __S(2689, __c84, 1) as any as S.Schema<SandboxEnvironmentListResponse>,
-  errors: [BadRequest, Conflict, AmbiguousOrg, UnknownBoatError],
+  errors: [BadRequest, Conflict, AmbiguousOrg],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4295,7 +4305,8 @@ export const createFolder: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2816, __c88, 0) as any as S.Schema<CreateFolderRequest>,
   output: __S(2848, __c89, 0) as any as S.Schema<CreateFolderResponse>,
-  errors: [BadRequest, FileNotFound, SandboxNotRunning, UnknownBoatError],
+  errors: [BadRequest, FileNotFound, SandboxNotRunning],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4356,8 +4367,8 @@ export const createSandbox: API.OperationMethod<
     MemberSandboxLimitReached,
     SandboxStartLimitExceeded,
     SnapshotsOffForAccount,
-    UnknownBoatError,
   ],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4374,7 +4385,8 @@ export const createScopedApiKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3040, __c95, 0) as any as S.Schema<CreateScopedApiKeyRequest>,
   output: __S(3104, __c97, 0) as any as S.Schema<CreateScopedApiKeyResponse>,
-  errors: [BadRequest, Forbidden, ApiKeyOutlivesSigner, UnknownBoatError],
+  errors: [BadRequest, Forbidden, ApiKeyOutlivesSigner],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4391,7 +4403,8 @@ export const createSnapshotShare: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3168, __c99, 0) as any as S.Schema<CreateSnapshotShareRequest>,
   output: __S(3169, __c99, 1) as any as S.Schema<CreateSnapshotShareResponse>,
-  errors: [NotFound, UnknownBoatError],
+  errors: [NotFound],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4413,7 +4426,8 @@ export const createUploadUrl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3232, __c101, 0) as any as S.Schema<CreateUploadUrlRequest>,
   output: __S(2624, __c82, 0) as any as S.Schema<CreateUploadUrlResponse>,
-  errors: [BadRequest, NotFound, Conflict, SandboxNotRunning, UnknownBoatError],
+  errors: [BadRequest, NotFound, Conflict, SandboxNotRunning],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4430,7 +4444,8 @@ export const createWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3264, __c102, 0) as any as S.Schema<CreateWebhookRequest>,
   output: __S(3328, __c104, 0) as any as S.Schema<CreateWebhookResponse>,
-  errors: [BadRequest, Conflict, UnknownBoatError],
+  errors: [BadRequest, Conflict],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4447,7 +4462,8 @@ export const deleteCredentialAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3360, __c105, 0) as any as S.Schema<DeleteCredentialAccountRequest>,
   output: __S(2080, __c65, 0) as any as S.Schema<DeleteCredentialAccountResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownBoatError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4464,7 +4480,8 @@ export const deleteCredentialProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3392, __c106, 0) as any as S.Schema<DeleteCredentialProfileRequest>,
   output: __S(3393, __c106, 1) as any as S.Schema<DeleteCredentialProfileResponse>,
-  errors: [Forbidden, NotFound, Conflict, UnknownBoatError],
+  errors: [Forbidden, NotFound, Conflict],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4481,7 +4498,8 @@ export const deleteCredentialProfileCustomApi: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3424, __c107, 0) as any as S.Schema<DeleteCredentialProfileCustomApiRequest>,
   output: __S(2560, __c80, 0) as any as S.Schema<DeleteCredentialProfileCustomApiResponse>,
-  errors: [Forbidden, NotFound, UnknownBoatError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4498,7 +4516,8 @@ export const deleteCredentialProfileKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3456, __c108, 0) as any as S.Schema<DeleteCredentialProfileKeyRequest>,
   output: __S(2560, __c80, 0) as any as S.Schema<DeleteCredentialProfileKeyResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownBoatError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4515,7 +4534,8 @@ export const deleteEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3488, __c109, 0) as any as S.Schema<DeleteEnvironmentRequest>,
   output: __S(3520, __c110, 0) as any as S.Schema<SandboxEnvironmentResponse>,
-  errors: [NotFound, Conflict, AmbiguousOrg, UnknownBoatError],
+  errors: [NotFound, Conflict, AmbiguousOrg],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4532,7 +4552,8 @@ export const deleteEnvironmentRepo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3552, __c111, 0) as any as S.Schema<DeleteEnvironmentRepoRequest>,
   output: __S(2176, __c68, 0) as any as S.Schema<EnvironmentItemChangeResponse>,
-  errors: [NotFound, AmbiguousOrg, UnknownBoatError],
+  errors: [NotFound, AmbiguousOrg],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4549,7 +4570,8 @@ export const deleteEnvironmentSecretFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3584, __c112, 0) as any as S.Schema<DeleteEnvironmentSecretFileRequest>,
   output: __S(2176, __c68, 0) as any as S.Schema<EnvironmentItemChangeResponse>,
-  errors: [NotFound, AmbiguousOrg, UnknownBoatError],
+  errors: [NotFound, AmbiguousOrg],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4566,7 +4588,8 @@ export const deleteEnvironmentVar: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3616, __c113, 0) as any as S.Schema<DeleteEnvironmentVarRequest>,
   output: __S(2176, __c68, 0) as any as S.Schema<EnvironmentItemChangeResponse>,
-  errors: [NotFound, AmbiguousOrg, UnknownBoatError],
+  errors: [NotFound, AmbiguousOrg],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4583,7 +4606,8 @@ export const deleteFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3648, __c114, 0) as any as S.Schema<DeleteFileRequest>,
   output: __S(3649, __c114, 1) as any as S.Schema<DeleteFileResponse>,
-  errors: [BadRequest, FileNotFound, SandboxNotRunning, UnknownBoatError],
+  errors: [BadRequest, FileNotFound, SandboxNotRunning],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4600,7 +4624,8 @@ export const deleteSandbox: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3680, __c115, 0) as any as S.Schema<DeleteSandboxRequest>,
   output: __S(3744, __c117, 0) as any as S.Schema<DeleteSandboxResponse>,
-  errors: [Forbidden, NotFound, Conflict, UnknownBoatError],
+  errors: [Forbidden, NotFound, Conflict],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4617,7 +4642,8 @@ export const deleteSandboxSnapshots: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3776, __c118, 0) as any as S.Schema<DeleteSandboxSnapshotsRequest>,
   output: __S(3778, __c118, 2) as any as S.Schema<DeleteSandboxSnapshotsResponse>,
-  errors: [Forbidden, NotFound, Conflict, UnknownBoatError],
+  errors: [Forbidden, NotFound, Conflict],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4634,7 +4660,8 @@ export const deleteSavedSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3808, __c119, 0) as any as S.Schema<DeleteSavedSnapshotRequest>,
   output: __S(3809, __c119, 1) as any as S.Schema<DeleteSavedSnapshotResponse>,
-  errors: [NotFound, Conflict, SaveInProgress, UnknownBoatError],
+  errors: [NotFound, Conflict, SaveInProgress],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4651,7 +4678,8 @@ export const deleteSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3840, __c120, 0) as any as S.Schema<DeleteSnapshotRequest>,
   output: __S(3744, __c117, 0) as any as S.Schema<DeleteSnapshotResponse>,
-  errors: [Forbidden, NotFound, Conflict, UnknownBoatError],
+  errors: [Forbidden, NotFound, Conflict],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4668,7 +4696,8 @@ export const deleteTelemetry: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3872, __c121, 0) as any as S.Schema<DeleteTelemetryRequest>,
   output: __S(3904, __c122, 0) as any as S.Schema<DeleteTelemetryResponse>,
-  errors: [NotFound, UnknownBoatError],
+  errors: [NotFound],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4685,7 +4714,8 @@ export const deleteWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3968, __c124, 0) as any as S.Schema<DeleteWebhookRequest>,
   output: __S(3969, __c124, 1) as any as S.Schema<DeleteWebhookResponse>,
-  errors: [NotFound, UnknownBoatError],
+  errors: [NotFound],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4702,7 +4732,8 @@ export const downloadSandboxArtifact: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4000, __c125, 0) as any as S.Schema<DownloadSandboxArtifactRequest>,
   output: __S(4032, __c126, 0) as any as S.Schema<DownloadSandboxArtifactResponse>,
-  errors: [UnknownBoatError],
+  errors: [],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4725,7 +4756,8 @@ export const executeSandboxCommand: API.StreamingOperationMethod<
 > = /*@__PURE__*/ API.makeStreaming(() => ({
   input: __S(4064, __c127, 0) as any as S.Schema<ExecuteSandboxCommandRequest>,
   output: __S(4065, __c127, 1) as any as S.Schema<ExecuteSandboxCommandResponse>,
-  errors: [BadRequest, NotFound, Conflict, SandboxNotRunning, UnknownBoatError],
+  errors: [BadRequest, NotFound, Conflict, SandboxNotRunning],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   framing: T.ndjson,
@@ -4745,7 +4777,8 @@ export const findInFiles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4096, __c128, 0) as any as S.Schema<FindInFilesRequest>,
   output: __S(4099, __c128, 3) as any as S.Schema<FindInFilesResponse>,
-  errors: [BadRequest, FileNotFound, SandboxNotRunning, UnknownBoatError],
+  errors: [BadRequest, FileNotFound, SandboxNotRunning],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4792,8 +4825,8 @@ export const forkSandbox: API.OperationMethod<
     MemberSandboxLimitReached,
     SandboxStartLimitExceeded,
     SnapshotsOffForAccount,
-    UnknownBoatError,
   ],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4810,7 +4843,8 @@ export const getAiProxy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4192, __c131, 0) as any as S.Schema<GetAiProxyRequest>,
   output: __S(4225, __c132, 1) as any as S.Schema<GetAiProxyResponse>,
-  errors: [AmbiguousOrg, UnknownBoatError],
+  errors: [AmbiguousOrg],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4827,7 +4861,8 @@ export const getAiUsage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4256, __c133, 0) as any as S.Schema<GetAiUsageRequest>,
   output: __S(4259, __c133, 3) as any as S.Schema<GetAiUsageResponse>,
-  errors: [AmbiguousOrg, UnknownBoatError],
+  errors: [AmbiguousOrg],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4844,7 +4879,8 @@ export const getApiKeyUsage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4320, __c135, 0) as any as S.Schema<GetApiKeyUsageRequest>,
   output: __S(4324, __c135, 4) as any as S.Schema<GetApiKeyUsageResponse>,
-  errors: [NotFound, UnknownBoatError],
+  errors: [NotFound],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4861,7 +4897,8 @@ export const getCiJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4352, __c136, 0) as any as S.Schema<GetCiJobRequest>,
   output: __S(4353, __c136, 1) as any as S.Schema<GetCiJobResponse>,
-  errors: [NotFound, UnknownBoatError],
+  errors: [NotFound],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4878,7 +4915,8 @@ export const getCiJobLog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4416, __c138, 0) as any as S.Schema<GetCiJobLogRequest>,
   output: __S(4417, __c138, 1) as any as S.Schema<GetCiJobLogResponse>,
-  errors: [NotFound, UnknownBoatError],
+  errors: [NotFound],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4895,7 +4933,8 @@ export const getCiOverview: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4448, __c139, 0) as any as S.Schema<GetCiOverviewRequest>,
   output: __S(4464, __c139, 16) as any as S.Schema<GetCiOverviewResponse>,
-  errors: [BadRequest, UnknownBoatError],
+  errors: [BadRequest],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4912,7 +4951,8 @@ export const getCommand: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4480, __c140, 0) as any as S.Schema<GetCommandRequest>,
   output: __S(4481, __c140, 1) as any as S.Schema<GetCommandResponse>,
-  errors: [NotFound, UnknownBoatError],
+  errors: [NotFound],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4935,7 +4975,8 @@ export const getCommandStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4512, __c141, 0) as any as S.Schema<GetCommandStatusRequest>,
   output: __S(4513, __c141, 1) as any as S.Schema<GetCommandStatusResponse>,
-  errors: [BadRequest, NotFound, Conflict, AgentOutdated, SandboxNotRunning, UnknownBoatError],
+  errors: [BadRequest, NotFound, Conflict, AgentOutdated, SandboxNotRunning],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4952,7 +4993,8 @@ export const getCurrentUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4544, __c142, 0) as any as S.Schema<GetCurrentUserRequest>,
   output: __S(4546, __c142, 2) as any as S.Schema<GetCurrentUserResponse>,
-  errors: [UnknownBoatError],
+  errors: [],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4969,7 +5011,8 @@ export const getDataRetention: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4576, __c143, 0) as any as S.Schema<GetDataRetentionRequest>,
   output: __S(4608, __c144, 0) as any as S.Schema<GetDataRetentionResponse>,
-  errors: [Forbidden, UnknownBoatError],
+  errors: [Forbidden],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4986,7 +5029,8 @@ export const getDeletionOperation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4640, __c145, 0) as any as S.Schema<GetDeletionOperationRequest>,
   output: __S(3744, __c117, 0) as any as S.Schema<GetDeletionOperationResponse>,
-  errors: [NotFound, UnknownBoatError],
+  errors: [NotFound],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5003,7 +5047,8 @@ export const getDesktopStreamingUrl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4672, __c146, 0) as any as S.Schema<GetDesktopStreamingUrlRequest>,
   output: __S(4673, __c146, 1) as any as S.Schema<GetDesktopStreamingUrlResponse>,
-  errors: [BadRequest, NotFound, UnknownBoatError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5020,7 +5065,8 @@ export const getFileInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4704, __c147, 0) as any as S.Schema<GetFileInfoRequest>,
   output: __S(2848, __c89, 0) as any as S.Schema<GetFileInfoResponse>,
-  errors: [BadRequest, FileNotFound, SandboxNotRunning, UnknownBoatError],
+  errors: [BadRequest, FileNotFound, SandboxNotRunning],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5037,7 +5083,8 @@ export const getLatestSandboxSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4736, __c148, 0) as any as S.Schema<GetLatestSandboxSnapshotRequest>,
   output: __S(4737, __c148, 1) as any as S.Schema<GetLatestSandboxSnapshotResponse>,
-  errors: [NotFound, UnknownBoatError],
+  errors: [NotFound],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5054,7 +5101,8 @@ export const getLimits: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4800, __c150, 0) as any as S.Schema<GetLimitsRequest>,
   output: __S(4815, __c150, 15) as any as S.Schema<GetLimitsResponse>,
-  errors: [AmbiguousOrg, UnknownBoatError],
+  errors: [AmbiguousOrg],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5071,7 +5119,8 @@ export const getPromptRunStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4832, __c151, 0) as any as S.Schema<GetPromptRunStatusRequest>,
   output: __S(4833, __c151, 1) as any as S.Schema<GetPromptRunStatusResponse>,
-  errors: [NotFound, UnknownBoatError],
+  errors: [NotFound],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5088,7 +5137,8 @@ export const getSandbox: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4896, __c153, 0) as any as S.Schema<GetSandboxRequest>,
   output: __S(4928, __c154, 0) as any as S.Schema<GetSandboxResponse>,
-  errors: [NotFound, UnknownBoatError],
+  errors: [NotFound],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5105,7 +5155,8 @@ export const getSandboxAiUsage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4960, __c155, 0) as any as S.Schema<GetSandboxAiUsageRequest>,
   output: __S(4961, __c155, 1) as any as S.Schema<GetSandboxAiUsageResponse>,
-  errors: [NotFound, UnknownBoatError],
+  errors: [NotFound],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5122,7 +5173,8 @@ export const getSandboxUsage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4992, __c156, 0) as any as S.Schema<GetSandboxUsageRequest>,
   output: __S(4993, __c156, 1) as any as S.Schema<GetSandboxUsageResponse>,
-  errors: [BadRequest, NotFound, UnknownBoatError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5139,7 +5191,8 @@ export const getSavedSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5024, __c157, 0) as any as S.Schema<GetSavedSnapshotRequest>,
   output: __S(5025, __c157, 1) as any as S.Schema<GetSavedSnapshotResponse>,
-  errors: [NotFound, UnknownBoatError],
+  errors: [NotFound],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5156,7 +5209,8 @@ export const getSecrets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5088, __c159, 0) as any as S.Schema<GetSecretsRequest>,
   output: __S(5120, __c160, 0) as any as S.Schema<GetSecretsResponse>,
-  errors: [UnknownBoatError],
+  errors: [],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5173,7 +5227,8 @@ export const getSnapshotDownload: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5152, __c161, 0) as any as S.Schema<GetSnapshotDownloadRequest>,
   output: __S(5156, __c161, 4) as any as S.Schema<GetSnapshotDownloadResponse>,
-  errors: [NotFound, SnapshotCompacted, UnknownBoatError],
+  errors: [NotFound, SnapshotCompacted],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5190,7 +5245,8 @@ export const getSnapshotFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5184, __c162, 0) as any as S.Schema<GetSnapshotFileRequest>,
   output: __S(4032, __c126, 0) as any as S.Schema<GetSnapshotFileResponse>,
-  errors: [NotFound, Conflict, UnknownBoatError],
+  errors: [NotFound, Conflict],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5207,7 +5263,8 @@ export const getSnapshotTree: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5216, __c163, 0) as any as S.Schema<GetSnapshotTreeRequest>,
   output: __S(5219, __c163, 3) as any as S.Schema<GetSnapshotTreeResponse>,
-  errors: [NotFound, UnknownBoatError],
+  errors: [NotFound],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5224,7 +5281,8 @@ export const getStop: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5248, __c164, 0) as any as S.Schema<GetStopRequest>,
   output: __S(5249, __c164, 1) as any as S.Schema<GetStopResponse>,
-  errors: [NotFound, UnknownBoatError],
+  errors: [NotFound],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5241,7 +5299,8 @@ export const getTelemetry: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5280, __c165, 0) as any as S.Schema<GetTelemetryRequest>,
   output: __S(3904, __c122, 0) as any as S.Schema<GetTelemetryResponse>,
-  errors: [UnknownBoatError],
+  errors: [],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5258,7 +5317,8 @@ export const getWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c2, 0) as any as S.Schema<GetWebhookRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<GetWebhookResponse>,
-  errors: [NotFound, UnknownBoatError],
+  errors: [NotFound],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5275,7 +5335,8 @@ export const hostPort: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c4, 0) as any as S.Schema<HostPortRequest2>,
   output: __S(129, __c4, 1) as any as S.Schema<HostPortResponse>,
-  errors: [BadRequest, NotFound, SandboxNotRunning, UnknownBoatError],
+  errors: [BadRequest, NotFound, SandboxNotRunning],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5292,7 +5353,8 @@ export const interruptSandbox: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c5, 0) as any as S.Schema<InterruptSandboxRequest>,
   output: __S(4160, __c130, 0) as any as S.Schema<InterruptSandboxResponse>,
-  errors: [NotFound, Conflict, UnknownBoatError],
+  errors: [NotFound, Conflict],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5309,7 +5371,8 @@ export const listApiKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c6, 0) as any as S.Schema<ListApiKeysRequest>,
   output: __S(198, __c6, 6) as any as S.Schema<ListApiKeysResponse>,
-  errors: [Forbidden, UnknownBoatError],
+  errors: [Forbidden],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5326,7 +5389,8 @@ export const listCredentialAccounts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c7, 0) as any as S.Schema<ListCredentialAccountsRequest>,
   output: __S(2080, __c65, 0) as any as S.Schema<ListCredentialAccountsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownBoatError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5343,7 +5407,8 @@ export const listCredentialProfiles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c8, 0) as any as S.Schema<ListCredentialProfilesRequest>,
   output: __S(258, __c8, 2) as any as S.Schema<ListCredentialProfilesResponse>,
-  errors: [UnknownBoatError],
+  errors: [],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5360,7 +5425,8 @@ export const listEnvironments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c9, 0) as any as S.Schema<ListEnvironmentsRequest>,
   output: __S(2689, __c84, 1) as any as S.Schema<SandboxEnvironmentListResponse>,
-  errors: [AmbiguousOrg, UnknownBoatError],
+  errors: [AmbiguousOrg],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5377,7 +5443,8 @@ export const listFiles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c10, 0) as any as S.Schema<ListFilesRequest>,
   output: __S(323, __c10, 3) as any as S.Schema<ListFilesResponse>,
-  errors: [BadRequest, FileNotFound, SandboxNotRunning, UnknownBoatError],
+  errors: [BadRequest, FileNotFound, SandboxNotRunning],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5394,7 +5461,8 @@ export const listOrganizations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c11, 0) as any as S.Schema<ListOrganizationsRequest>,
   output: __S(355, __c11, 3) as any as S.Schema<ListOrganizationsResponse>,
-  errors: [UnknownBoatError],
+  errors: [],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5413,7 +5481,8 @@ export const listRepos: API.PaginatedOperationMethod<
   () => ({
     input: __S(384, __c12, 0) as any as S.Schema<ListReposRequest>,
     output: __S(389, __c12, 5) as any as S.Schema<ListReposResponse>,
-    errors: [Conflict, UnknownBoatError],
+    errors: [Conflict],
+    serviceErrors: BoatServiceErrors,
     protocol: BoatProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -5440,7 +5509,8 @@ export const listSandboxConversations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c14, 0) as any as S.Schema<ListSandboxConversationsRequest>,
   output: __S(451, __c14, 3) as any as S.Schema<ListSandboxConversationsResponse>,
-  errors: [NotFound, UnknownBoatError],
+  errors: [NotFound],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5459,7 +5529,8 @@ export const listSandboxes: API.PaginatedOperationMethod<
   () => ({
     input: __S(480, __c15, 0) as any as S.Schema<ListSandboxesRequest>,
     output: __S(481, __c15, 1) as any as S.Schema<ListSandboxesResponse>,
-    errors: [AmbiguousOrg, UnknownBoatError],
+    errors: [AmbiguousOrg],
+    serviceErrors: BoatServiceErrors,
     protocol: BoatProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -5488,7 +5559,8 @@ export const listSandboxEvents: API.PaginatedOperationMethod<
   () => ({
     input: __S(512, __c16, 0) as any as S.Schema<ListSandboxEventsRequest>,
     output: __S(515, __c16, 3) as any as S.Schema<ListSandboxEventsResponse>,
-    errors: [NotFound, UnknownBoatError],
+    errors: [NotFound],
+    serviceErrors: BoatServiceErrors,
     protocol: BoatProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -5515,7 +5587,8 @@ export const listSandboxProcesses: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c17, 0) as any as S.Schema<ListSandboxProcessesRequest>,
   output: __S(547, __c17, 3) as any as S.Schema<ListSandboxProcessesResponse>,
-  errors: [NotFound, UnknownBoatError],
+  errors: [NotFound],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5534,7 +5607,8 @@ export const listSandboxSnapshots: API.PaginatedOperationMethod<
   () => ({
     input: __S(576, __c18, 0) as any as S.Schema<ListSandboxSnapshotsRequest>,
     output: __S(609, __c19, 1) as any as S.Schema<ListSandboxSnapshotsResponse>,
-    errors: [BadRequest, NotFound, UnknownBoatError],
+    errors: [BadRequest, NotFound],
+    serviceErrors: BoatServiceErrors,
     protocol: BoatProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -5561,7 +5635,8 @@ export const listSavedSnapshots: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c20, 0) as any as S.Schema<ListSavedSnapshotsRequest>,
   output: __S(643, __c20, 3) as any as S.Schema<ListSavedSnapshotsResponse>,
-  errors: [UnknownBoatError],
+  errors: [],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5580,7 +5655,8 @@ export const listSnapshots: API.PaginatedOperationMethod<
   () => ({
     input: __S(672, __c21, 0) as any as S.Schema<ListSnapshotsRequest>,
     output: __S(609, __c19, 1) as any as S.Schema<ListSnapshotsResponse>,
-    errors: [BadRequest, UnknownBoatError],
+    errors: [BadRequest],
+    serviceErrors: BoatServiceErrors,
     protocol: BoatProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -5607,7 +5683,8 @@ export const listSnapshotShares: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c22, 0) as any as S.Schema<ListSnapshotSharesRequest>,
   output: __S(706, __c22, 2) as any as S.Schema<ListSnapshotSharesResponse>,
-  errors: [NotFound, UnknownBoatError],
+  errors: [NotFound],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5624,7 +5701,8 @@ export const listWebhooks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c23, 0) as any as S.Schema<ListWebhooksRequest>,
   output: __S(738, __c23, 2) as any as S.Schema<ListWebhooksResponse>,
-  errors: [UnknownBoatError],
+  errors: [],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5641,7 +5719,8 @@ export const moveFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c24, 0) as any as S.Schema<MoveFileRequest>,
   output: __S(769, __c24, 1) as any as S.Schema<MoveFileResponse>,
-  errors: [BadRequest, FileNotFound, SandboxNotRunning, UnknownBoatError],
+  errors: [BadRequest, FileNotFound, SandboxNotRunning],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5663,7 +5742,8 @@ export const promptSandbox: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c25, 0) as any as S.Schema<PromptSandboxRequest>,
   output: __S(801, __c25, 1) as any as S.Schema<PromptSandboxResponse>,
-  errors: [BadRequest, NotFound, Conflict, FastModeNotSupported, UnknownBoatError],
+  errors: [BadRequest, NotFound, Conflict, FastModeNotSupported],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5680,7 +5760,8 @@ export const readSandboxFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c26, 0) as any as S.Schema<ReadSandboxFileRequest>,
   output: __S(833, __c26, 1) as any as S.Schema<ReadSandboxFileResponse>,
-  errors: [BadRequest, FileNotFound, SandboxNotRunning, UnknownBoatError],
+  errors: [BadRequest, FileNotFound, SandboxNotRunning],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5713,8 +5794,8 @@ export const recoverSandbox: API.OperationMethod<
     SandboxHasNoMachine,
     RecoverUnsupported,
     RecoverResetFailed,
-    UnknownBoatError,
   ],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5731,7 +5812,8 @@ export const replaceInFiles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(896, __c28, 0) as any as S.Schema<ReplaceInFilesRequest>,
   output: __S(899, __c28, 3) as any as S.Schema<ReplaceInFilesResponse>,
-  errors: [BadRequest, FileNotFound, SandboxNotRunning, UnknownBoatError],
+  errors: [BadRequest, FileNotFound, SandboxNotRunning],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5766,8 +5848,8 @@ export const resumeSandbox: API.OperationMethod<
     SandboxLimitReached,
     MemberSandboxLimitReached,
     SandboxStartLimitExceeded,
-    UnknownBoatError,
   ],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5784,7 +5866,8 @@ export const revokeApiKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c30, 0) as any as S.Schema<RevokeApiKeyRequest>,
   output: __S(961, __c30, 1) as any as S.Schema<RevokeApiKeyResponse>,
-  errors: [Forbidden, NotFound, UnknownBoatError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5801,7 +5884,8 @@ export const revokeSnapshotShare: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c31, 0) as any as S.Schema<RevokeSnapshotShareRequest>,
   output: __S(993, __c31, 1) as any as S.Schema<RevokeSnapshotShareResponse>,
-  errors: [NotFound, UnknownBoatError],
+  errors: [NotFound],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5818,7 +5902,8 @@ export const rotateApiKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c32, 0) as any as S.Schema<RotateApiKeyRequest>,
   output: __S(3104, __c97, 0) as any as S.Schema<RotateApiKeyResponse>,
-  errors: [Forbidden, NotFound, Conflict, UnknownBoatError],
+  errors: [Forbidden, NotFound, Conflict],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5835,7 +5920,8 @@ export const rotateWebhookSigningSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c33, 0) as any as S.Schema<RotateWebhookSigningSecretRequest>,
   output: __S(3328, __c104, 0) as any as S.Schema<RotateWebhookSigningSecretResponse>,
-  errors: [NotFound, UnknownBoatError],
+  errors: [NotFound],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5857,7 +5943,8 @@ export const saveSavedSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c34, 0) as any as S.Schema<SaveSavedSnapshotRequest>,
   output: __S(1089, __c34, 1) as any as S.Schema<SaveSavedSnapshotResponse>,
-  errors: [BadRequest, NotFound, Conflict, SaveInProgress, UnknownBoatError],
+  errors: [BadRequest, NotFound, Conflict, SaveInProgress],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5874,7 +5961,8 @@ export const searchFiles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c35, 0) as any as S.Schema<SearchFilesRequest>,
   output: __S(1121, __c35, 1) as any as S.Schema<SearchFilesResponse>,
-  errors: [BadRequest, FileNotFound, SandboxNotRunning, UnknownBoatError],
+  errors: [BadRequest, FileNotFound, SandboxNotRunning],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5891,7 +5979,8 @@ export const selectRepo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c36, 0) as any as S.Schema<SelectRepoRequest>,
   output: __S(1153, __c36, 1) as any as S.Schema<SelectRepoResponse>,
-  errors: [BadRequest, Conflict, UnknownBoatError],
+  errors: [BadRequest, Conflict],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5913,7 +6002,8 @@ export const setActiveOrganization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c37, 0) as any as S.Schema<SetActiveOrganizationRequest>,
   output: __S(1186, __c37, 2) as any as S.Schema<SetActiveOrganizationResponse>,
-  errors: [BadRequest, Forbidden, Conflict, AmbiguousOrg, UnknownBoatError],
+  errors: [BadRequest, Forbidden, Conflict, AmbiguousOrg],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5930,7 +6020,8 @@ export const setCiPublicRepos: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c38, 0) as any as S.Schema<SetCiPublicReposRequest>,
   output: __S(1219, __c38, 3) as any as S.Schema<SetCiPublicReposResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownBoatError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5947,7 +6038,8 @@ export const setCredentialProfileCustomApi: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c39, 0) as any as S.Schema<SetCredentialProfileCustomApiRequest>,
   output: __S(2560, __c80, 0) as any as S.Schema<SetCredentialProfileCustomApiResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownBoatError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5964,7 +6056,8 @@ export const setCredentialProfileKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1280, __c40, 0) as any as S.Schema<SetCredentialProfileKeyRequest>,
   output: __S(2560, __c80, 0) as any as S.Schema<SetCredentialProfileKeyResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownBoatError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5981,7 +6074,8 @@ export const setEnvironmentSecretFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1312, __c41, 0) as any as S.Schema<SetEnvironmentSecretFileRequest>,
   output: __S(2176, __c68, 0) as any as S.Schema<EnvironmentItemChangeResponse>,
-  errors: [BadRequest, NotFound, AmbiguousOrg, UnknownBoatError],
+  errors: [BadRequest, NotFound, AmbiguousOrg],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5998,7 +6092,8 @@ export const setEnvironmentVar: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1344, __c42, 0) as any as S.Schema<SetEnvironmentVarRequest>,
   output: __S(2176, __c68, 0) as any as S.Schema<EnvironmentItemChangeResponse>,
-  errors: [BadRequest, NotFound, AmbiguousOrg, UnknownBoatError],
+  errors: [BadRequest, NotFound, AmbiguousOrg],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6015,7 +6110,8 @@ export const setFilePermissions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1376, __c43, 0) as any as S.Schema<SetFilePermissionsRequest>,
   output: __S(2848, __c89, 0) as any as S.Schema<SetFilePermissionsResponse>,
-  errors: [BadRequest, FileNotFound, SandboxNotRunning, UnknownBoatError],
+  errors: [BadRequest, FileNotFound, SandboxNotRunning],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6032,7 +6128,8 @@ export const setSandboxAiAccess: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c44, 0) as any as S.Schema<SetSandboxAiAccessRequest>,
   output: __S(1409, __c44, 1) as any as S.Schema<SetSandboxAiAccessResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownBoatError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6049,7 +6146,8 @@ export const setTelemetry: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c45, 0) as any as S.Schema<SetTelemetryRequest>,
   output: __S(1442, __c45, 2) as any as S.Schema<SetTelemetryResponse>,
-  errors: [BadRequest, UnknownBoatError],
+  errors: [BadRequest],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6066,7 +6164,8 @@ export const shareSandbox: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1472, __c46, 0) as any as S.Schema<ShareSandboxRequest>,
   output: __S(1473, __c46, 1) as any as S.Schema<ShareSandboxResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownBoatError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6083,7 +6182,8 @@ export const steerSandbox: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1504, __c47, 0) as any as S.Schema<SteerSandboxRequest>,
   output: __S(1505, __c47, 1) as any as S.Schema<SteerSandboxResponse>,
-  errors: [BadRequest, NotFound, Conflict, NoRunningTurn, UnknownBoatError],
+  errors: [BadRequest, NotFound, Conflict, NoRunningTurn],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6100,7 +6200,8 @@ export const stopCommand: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1536, __c48, 0) as any as S.Schema<StopCommandRequest>,
   output: __S(1537, __c48, 1) as any as S.Schema<StopCommandResponse>,
-  errors: [BadRequest, NotFound, Conflict, SandboxNotRunning, UnknownBoatError],
+  errors: [BadRequest, NotFound, Conflict, SandboxNotRunning],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6117,7 +6218,8 @@ export const stopSandbox: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1568, __c49, 0) as any as S.Schema<StopSandboxRequest>,
   output: __S(4160, __c130, 0) as any as S.Schema<StopSandboxResponse>,
-  errors: [BadRequest, NotFound, SandboxAlreadyStopped, UnknownBoatError],
+  errors: [BadRequest, NotFound, SandboxAlreadyStopped],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6134,7 +6236,8 @@ export const switchCredentialAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1600, __c50, 0) as any as S.Schema<SwitchCredentialAccountRequest>,
   output: __S(2080, __c65, 0) as any as S.Schema<SwitchCredentialAccountResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownBoatError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6151,7 +6254,8 @@ export const unshareSandbox: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1632, __c51, 0) as any as S.Schema<UnshareSandboxRequest>,
   output: __S(1633, __c51, 1) as any as S.Schema<UnshareSandboxResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownBoatError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6168,7 +6272,8 @@ export const updateAiProxy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1664, __c52, 0) as any as S.Schema<UpdateAiProxyRequest>,
   output: __S(4225, __c132, 1) as any as S.Schema<UpdateAiProxyResponse>,
-  errors: [BadRequest, Forbidden, AmbiguousOrg, UnknownBoatError],
+  errors: [BadRequest, Forbidden, AmbiguousOrg],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6190,7 +6295,8 @@ export const updateCredentialProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1696, __c53, 0) as any as S.Schema<UpdateCredentialProfileRequest>,
   output: __S(2560, __c80, 0) as any as S.Schema<UpdateCredentialProfileResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownBoatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6207,7 +6313,8 @@ export const updateDataRetention: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1760, __c55, 0) as any as S.Schema<UpdateDataRetentionRequest>,
   output: __S(4608, __c144, 0) as any as S.Schema<UpdateDataRetentionResponse>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownBoatError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6224,7 +6331,8 @@ export const updateEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1794, __c56, 2) as any as S.Schema<UpdateEnvironmentRequest>,
   output: __S(3520, __c110, 0) as any as S.Schema<SandboxEnvironmentResponse>,
-  errors: [BadRequest, NotFound, AmbiguousOrg, UnknownBoatError],
+  errors: [BadRequest, NotFound, AmbiguousOrg],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6241,7 +6349,8 @@ export const updateOrganization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1824, __c57, 0) as any as S.Schema<UpdateOrganizationRequest>,
   output: __S(1825, __c57, 1) as any as S.Schema<UpdateOrganizationResponse>,
-  errors: [BadRequest, Forbidden, UnknownBoatError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6258,7 +6367,8 @@ export const updateSandbox: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1856, __c58, 0) as any as S.Schema<UpdateSandboxRequest>,
   output: __S(4928, __c154, 0) as any as S.Schema<UpdateSandboxResponse>,
-  errors: [BadRequest, NotFound, GatewayError, UnknownBoatError],
+  errors: [BadRequest, NotFound, GatewayError],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6275,7 +6385,8 @@ export const updateSecrets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1888, __c59, 0) as any as S.Schema<UpdateSecretsRequest>,
   output: __S(5120, __c160, 0) as any as S.Schema<UpdateSecretsResponse>,
-  errors: [UnknownBoatError],
+  errors: [],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6292,7 +6403,8 @@ export const updateWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1920, __c60, 0) as any as S.Schema<UpdateWebhookRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<UpdateWebhookResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownBoatError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6309,7 +6421,8 @@ export const upgradeEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1952, __c61, 0) as any as S.Schema<UpgradeEnvironmentRequest>,
   output: __S(1953, __c61, 1) as any as S.Schema<UpgradeSandboxEnvironmentResponse>,
-  errors: [NotFound, AmbiguousOrg, UnknownBoatError],
+  errors: [NotFound, AmbiguousOrg],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6326,7 +6439,8 @@ export const writeSandboxFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1984, __c62, 0) as any as S.Schema<WriteSandboxFileRequest>,
   output: __S(1985, __c62, 1) as any as S.Schema<WriteSandboxFileResponse>,
-  errors: [BadRequest, FileNotFound, SandboxNotRunning, UnknownBoatError],
+  errors: [BadRequest, FileNotFound, SandboxNotRunning],
+  serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

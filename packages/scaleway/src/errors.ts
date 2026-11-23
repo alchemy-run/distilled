@@ -45,6 +45,7 @@ import type {
   NotFound as CoreNotFound,
   UnprocessableEntity as CoreUnprocessableEntity,
 } from "@distilled.cloud/core/errors";
+import { API_ERRORS } from "@distilled.cloud/core/errors";
 import * as Schema from "effect/Schema";
 
 /** One rejected argument of an `invalid_arguments` failure. */
@@ -280,3 +281,27 @@ export type DefaultErrors =
   | ScalewayErrors
   | UnknownScalewayError
   | ScalewayParseError;
+
+/**
+ * The errors declared on the Scaleway services: any operation can return
+ * them, and every generated operation lists them as its `serviceErrors`.
+ * The specs declare no failures, and any Scaleway API can answer with any
+ * `type`: each class the `type` envelope names ({@link ScalewayErrors}), and
+ * each of core's status classes, for a failure whose body has no recognised
+ * `type` (and `TooManyRequests` for `too_many_requests`).
+ */
+export const ScalewayServiceErrors = [
+  ...API_ERRORS,
+  InvalidArgumentsError,
+  DeniedAuthenticationError,
+  PermissionsDeniedError,
+  QuotasExceededError,
+  ResourceNotFoundError,
+  ResourceExpiredError,
+  ResourceLockedError,
+  TransientStateError,
+  AlreadyExistsError,
+  PreconditionFailedError,
+  OutOfStockError,
+] as const;
+export type ScalewayServiceError = InstanceType<(typeof ScalewayServiceErrors)[number]>;

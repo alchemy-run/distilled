@@ -7,6 +7,7 @@ import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { awsServiceErrorsWith } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -354,7 +355,8 @@ export const acceptConnectionProposal: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(52, __c13, 0) as any as S.Schema<AcceptConnectionProposalRequest>,
   output: __S(56, __c14, 0) as any as S.Schema<AcceptConnectionProposalResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InterconnectClientException,
     InterconnectServerException,
@@ -362,7 +364,7 @@ export const acceptConnectionProposal: API.OperationMethod<
     ResourceNotFoundException,
     ServiceQuotaExceededException,
     ThrottlingException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptConnectionProposal",
@@ -396,7 +398,8 @@ export const createConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(77, __c19, 1) as any as S.Schema<CreateConnectionRequest>,
   output: __S(56, __c14, 0) as any as S.Schema<CreateConnectionResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InterconnectClientException,
     InterconnectServerException,
@@ -404,7 +407,7 @@ export const createConnection: API.OperationMethod<
     ResourceNotFoundException,
     ServiceQuotaExceededException,
     ThrottlingException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConnection",
@@ -434,7 +437,8 @@ export const deleteConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c20, 0) as any as S.Schema<DeleteConnectionRequest>,
   output: __S(81, __c20, 1) as any as S.Schema<DeleteConnectionResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InterconnectClientException,
     InterconnectServerException,
@@ -442,7 +446,7 @@ export const deleteConnection: API.OperationMethod<
     ResourceNotFoundException,
     ServiceQuotaExceededException,
     ThrottlingException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnection",
@@ -470,7 +474,8 @@ export const describeConnectionProposal: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<DescribeConnectionProposalRequest>,
   output: __S(1, __c0, 1) as any as S.Schema<DescribeConnectionProposalResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InterconnectClientException,
     InterconnectServerException,
@@ -478,7 +483,7 @@ export const describeConnectionProposal: API.OperationMethod<
     ResourceNotFoundException,
     ServiceQuotaExceededException,
     ThrottlingException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConnectionProposal",
@@ -506,7 +511,8 @@ export const getConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4, __c1, 0) as any as S.Schema<GetConnectionRequest>,
   output: __S(56, __c14, 0) as any as S.Schema<GetConnectionResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InterconnectClientException,
     InterconnectServerException,
@@ -514,7 +520,7 @@ export const getConnection: API.OperationMethod<
     ResourceNotFoundException,
     ServiceQuotaExceededException,
     ThrottlingException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnection",
@@ -542,7 +548,8 @@ export const getEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c2, 0) as any as S.Schema<GetEnvironmentRequest>,
   output: __S(9, __c2, 1) as any as S.Schema<GetEnvironmentResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InterconnectClientException,
     InterconnectServerException,
@@ -550,7 +557,7 @@ export const getEnvironment: API.OperationMethod<
     ResourceNotFoundException,
     ServiceQuotaExceededException,
     ThrottlingException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEnvironment",
@@ -579,7 +586,8 @@ export const listAttachPoints: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(20, __c5, 0) as any as S.Schema<ListAttachPointsRequest>,
   output: __S(23, __c5, 3) as any as S.Schema<ListAttachPointsResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InterconnectClientException,
     InterconnectServerException,
@@ -587,7 +595,7 @@ export const listAttachPoints: API.PaginatedOperationMethod<
     ResourceNotFoundException,
     ServiceQuotaExceededException,
     ThrottlingException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAttachPoints",
@@ -634,7 +642,8 @@ export const listConnections: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(24, __c6, 0) as any as S.Schema<ListConnectionsRequest>,
   output: __S(27, __c6, 3) as any as S.Schema<ListConnectionsResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InterconnectClientException,
     InterconnectServerException,
@@ -642,7 +651,7 @@ export const listConnections: API.PaginatedOperationMethod<
     ResourceNotFoundException,
     ServiceQuotaExceededException,
     ThrottlingException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListConnections",
@@ -677,7 +686,8 @@ export const listEnvironments: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(28, __c7, 0) as any as S.Schema<ListEnvironmentsRequest>,
   output: __S(30, __c7, 2) as any as S.Schema<ListEnvironmentsResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InterconnectClientException,
     InterconnectServerException,
@@ -685,7 +695,7 @@ export const listEnvironments: API.PaginatedOperationMethod<
     ResourceNotFoundException,
     ServiceQuotaExceededException,
     ThrottlingException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListEnvironments",
@@ -719,7 +729,8 @@ export const listTagsForResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c8, 0) as any as S.Schema<ListTagsForResourceRequest>,
   output: __S(33, __c8, 1) as any as S.Schema<ListTagsForResourceResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InterconnectClientException,
     InterconnectServerException,
@@ -727,7 +738,7 @@ export const listTagsForResource: API.OperationMethod<
     ResourceNotFoundException,
     ServiceQuotaExceededException,
     ThrottlingException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -755,7 +766,8 @@ export const tagResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(36, __c9, 0) as any as S.Schema<TagResourceRequest>,
   output: __S(40, __c10, 0) as any as S.Schema<TagResourceResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InterconnectClientException,
     InterconnectServerException,
@@ -763,7 +775,7 @@ export const tagResource: API.OperationMethod<
     ResourceNotFoundException,
     ServiceQuotaExceededException,
     ThrottlingException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -791,7 +803,8 @@ export const untagResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(44, __c11, 0) as any as S.Schema<UntagResourceRequest>,
   output: __S(40, __c10, 0) as any as S.Schema<UntagResourceResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InterconnectClientException,
     InterconnectServerException,
@@ -799,7 +812,7 @@ export const untagResource: API.OperationMethod<
     ResourceNotFoundException,
     ServiceQuotaExceededException,
     ThrottlingException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
@@ -827,7 +840,8 @@ export const updateConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c12, 0) as any as S.Schema<UpdateConnectionRequest>,
   output: __S(56, __c14, 0) as any as S.Schema<UpdateConnectionResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InterconnectClientException,
     InterconnectServerException,
@@ -835,7 +849,7 @@ export const updateConnection: API.OperationMethod<
     ResourceNotFoundException,
     ServiceQuotaExceededException,
     ThrottlingException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConnection",

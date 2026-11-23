@@ -25,10 +25,10 @@ can read runs without knowing this code.
 
 Every suite measures the same small programs: **one credentials layer +
 one operation**, once for **every protocol the SDK uses**. A protocol is
-each distinct `protocol:` layer in the generated operations (Cloudflare's
-plain and paginated layers, Doppler's public layer, Fly.io's Machines /
-API / Sprites / GraphQL layers) and, for AWS, each wire family the single
-`AwsProtocol` layer dispatches on (`restXml`, `restJson1`, `awsJson1_0`,
+each distinct `protocol:` in the generated operations (Cloudflare's plain
+and paginated protocols, Doppler's public protocol, Fly.io's Machines /
+API / Sprites / GraphQL protocols) and, for AWS, each wire family the
+single `AwsProtocol` dispatches on (`restXml`, `restJson1`, `awsJson1_0`,
 `awsJson1_1`, `awsQuery`, `ec2Query`). 87 SDKs give 97 programs today.
 
 `targets.json` (committed) holds them as `pkg → protocol → target`, each

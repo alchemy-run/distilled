@@ -1,7 +1,5 @@
-import type * as API from "@distilled.cloud/core/api";
-import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
-import type { SdkError } from "@distilled.cloud/core/sdk-error";
+import type { ErrorOf } from "@distilled.cloud/core/protocol";
+import { restProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
 /**
  * BoatProtocol -- hand-written.
  *
@@ -22,34 +20,26 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
  */
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config } from "./credentials.ts";
-import { UnknownBoatError, BoatParseError } from "./errors.ts";
+import { Credentials } from "./credentials.ts";
+import { UnknownBoatError, BoatParseError, type BoatServiceError } from "./errors.ts";
 
 /**
- * Error channel shared by every generated Boat operation. Generated service
- * files annotate operations with `API.OperationMethod<I, O, BoatOpError,
- * BoatOpContext>` explicitly so the compiler never infers these back out of
- * the schema generics.
+ * What every generated Boat operation fails with besides its own errors: the
+ * service's errors, the protocol's, and what resolving the credentials fails
+ * with. Generated service files annotate operations with
+ * `API.OperationMethod<I, O, BoatOpError, BoatOpContext>` explicitly so the
+ * compiler never infers these back out of the schema generics.
  */
-export type BoatOpError =
-  | InstanceType<(typeof API_ERRORS)[number]>
-  | UnknownBoatError
-  | ConfigError
-  | HttpClientError.HttpClientError
-  | BoatParseError
-  | InvalidInput
-  | SdkError;
+export type BoatOpError = BoatServiceError | ErrorOf<typeof BoatProtocol>;
 
 /** Context (requirements) shared by every generated Boat operation. */
 export type BoatOpContext = Credentials | HttpClient.HttpClient;
 
-export const BoatProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
+export const BoatProtocol = /*@__PURE__*/ restProtocol({
   // The Credentials service holds an effect -- resolving it here (per
   // request, on the calling fiber) picks up context-provided credentials.
-  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
+  credentials: /*@__PURE__*/ Effect.flatten(Credentials),
   baseUrl: (creds) => creds.apiBaseUrl,
   headers: (creds) => ({
     Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,

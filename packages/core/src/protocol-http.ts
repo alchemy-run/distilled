@@ -3,7 +3,7 @@ import * as Headers from "effect/http/Headers";
 import * as HttpBody from "effect/http/HttpBody";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
 /**
- * Generic REST protocol machinery, shared by SDK protocol layers.
+ * Generic REST protocol machinery, shared by SDK protocols.
  *
  * Everything here is driven purely by the trait annotations in
  * `core/trait.ts` -- nothing is provider-specific. An SDK protocol (e.g.
@@ -1249,13 +1249,15 @@ export const responseErrorFields = (
  * declared `retryAfter` gets the `Retry-After` / `RateLimit` header hint. The
  * matched `code` and `message` always win over the body's.
  */
-export const matchTypedError = (
-  errorClasses: ReadonlyArray<unknown>,
+export function matchTypedError<E>(
+  errorClasses: ReadonlyArray<new (...args: any[]) => E>,
   status: number,
   errors: ReadonlyArray<{ code?: number; message: string }>,
   response: ErrorResponse = {},
-): unknown | undefined => {
-  let best: { cls: unknown; specificity: number; code?: number; message: string } | undefined;
+): E | undefined {
+  let best:
+    | { cls: new (...args: any[]) => E; specificity: number; code?: number; message: string }
+    | undefined;
   const wireErrors = errors.length > 0 ? errors : [{ message: `HTTP ${status}` }];
   for (const cls of errorClasses) {
     const matchers = getErrorMatchers(cls);
@@ -1274,7 +1276,7 @@ export const matchTypedError = (
   const fields = (best.cls as { fields?: Record<string, unknown> }).fields;
   const saved = suppressStack();
   try {
-    return new (best.cls as new (args: any) => unknown)({
+    return new best.cls({
       ...declaredBodyFields(fields, response.body, response.fieldsAt),
       code: best.code ?? 0,
       message: best.message,
@@ -1283,5 +1285,5 @@ export const matchTypedError = (
   } finally {
     restoreStack(saved);
   }
-};
+}
 //#endregion

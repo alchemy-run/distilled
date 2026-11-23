@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import { AzureDataPlaneProtocol } from "../data-plane-protocol.ts";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -1173,7 +1173,8 @@ export const CancelTextAuthoringProjectTrainingJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CancelTextAuthoringProjectTrainingJobRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CancelTextAuthoringProjectTrainingJobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1190,7 +1191,8 @@ export const CreateTextAuthoringProjectProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c2, 0) as any as S.Schema<CreateTextAuthoringProjectProjectRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<TextAnalysisAuthoringProjectMetadata>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1207,7 +1209,8 @@ export const DeleteTextAuthoringDeploymentDeployment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c18, 0) as any as S.Schema<DeleteTextAuthoringDeploymentDeploymentRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteTextAuthoringDeploymentDeploymentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1224,7 +1227,8 @@ export const DeleteTextAuthoringProjectProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(896, __c28, 0) as any as S.Schema<DeleteTextAuthoringProjectProjectRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteTextAuthoringProjectProjectResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1245,7 +1249,8 @@ export const DeleteTextAuthoringTrainedModelTrainedModel: API.OperationMethod<
     __c29,
     1,
   ) as any as S.Schema<DeleteTextAuthoringTrainedModelTrainedModelResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1262,7 +1267,8 @@ export const DeployTextAuthoringDeploymentProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c30, 0) as any as S.Schema<DeployTextAuthoringDeploymentProjectRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeployTextAuthoringDeploymentProjectResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1279,7 +1285,8 @@ export const ExportTextAuthoringProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c31, 0) as any as S.Schema<ExportTextAuthoringProjectRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<ExportTextAuthoringProjectResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1296,7 +1303,8 @@ export const GetTextAuthoringDeploymentDeployment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c32, 0) as any as S.Schema<GetTextAuthoringDeploymentDeploymentRequest>,
   output: __S(1056, __c33, 0) as any as S.Schema<TextAnalysisAuthoringProjectDeployment>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1313,7 +1321,8 @@ export const GetTextAuthoringDeploymentDeploymentStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c34, 0) as any as S.Schema<GetTextAuthoringDeploymentDeploymentStatusRequest>,
   output: __S(1152, __c36, 0) as any as S.Schema<TextAnalysisAuthoringDeploymentJobState>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1330,7 +1339,8 @@ export const GetTextAuthoringProjectProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c37, 0) as any as S.Schema<GetTextAuthoringProjectProjectRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<TextAnalysisAuthoringProjectMetadata>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1347,7 +1357,8 @@ export const GetTextAuthoringProjectProjectDeletionStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c5, 0) as any as S.Schema<GetTextAuthoringProjectProjectDeletionStatusRequest>,
   output: __S(1152, __c36, 0) as any as S.Schema<TextAnalysisAuthoringProjectDeletionJobState>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1364,7 +1375,8 @@ export const GetTextAuthoringProjectSwapDeploymentsStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c6, 0) as any as S.Schema<GetTextAuthoringProjectSwapDeploymentsStatusRequest>,
   output: __S(1152, __c36, 0) as any as S.Schema<TextAnalysisAuthoringSwapDeploymentsJobState>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1381,7 +1393,8 @@ export const GetTextAuthoringProjectTrainingStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c7, 0) as any as S.Schema<GetTextAuthoringProjectTrainingStatusRequest>,
   output: __S(258, __c8, 2) as any as S.Schema<TextAnalysisAuthoringTrainingJobState>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1402,7 +1415,8 @@ export const GetTextAuthoringTrainedModelLoadSnapshotStatus: API.OperationMethod
     0,
   ) as any as S.Schema<GetTextAuthoringTrainedModelLoadSnapshotStatusRequest>,
   output: __S(1152, __c36, 0) as any as S.Schema<TextAnalysisAuthoringLoadSnapshotJobState>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1428,7 +1442,8 @@ export const GetTextAuthoringTrainedModelModelEvaluationResults: API.PaginatedOp
     __c10,
     14,
   ) as any as S.Schema<PagedTextAnalysisAuthoringDocumentEvaluationResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1459,7 +1474,8 @@ export const GetTextAuthoringTrainedModelModelEvaluationSummary: API.OperationMe
     __c11,
     13,
   ) as any as S.Schema<GetTextAuthoringTrainedModelModelEvaluationSummaryResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1476,7 +1492,8 @@ export const GetTextAuthoringTrainedModelTrainedModel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c13, 0) as any as S.Schema<GetTextAuthoringTrainedModelTrainedModelRequest>,
   output: __S(448, __c14, 0) as any as S.Schema<TextAnalysisAuthoringProjectTrainedModel>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1493,7 +1510,8 @@ export const ImportTextAuthoringProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(497, __c15, 17) as any as S.Schema<ImportTextAuthoringProjectRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<ImportTextAuthoringProjectResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1510,7 +1528,8 @@ export const SwapTextAuthoringProjectDeployments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c16, 0) as any as S.Schema<SwapTextAuthoringProjectDeploymentsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<SwapTextAuthoringProjectDeploymentsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1528,7 +1547,8 @@ export const TextAnalysisAuthoringGetSupportedLanguages: API.PaginatedOperationM
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(544, __c17, 0) as any as S.Schema<TextAnalysisAuthoringGetSupportedLanguagesRequest>,
   output: __S(547, __c17, 3) as any as S.Schema<PagedTextAnalysisAuthoringSupportedLanguage>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1552,7 +1572,8 @@ export const TextAnalysisAuthoringListDeployments: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(608, __c19, 0) as any as S.Schema<TextAnalysisAuthoringListDeploymentsRequest>,
   output: __S(610, __c19, 2) as any as S.Schema<PagedTextAnalysisAuthoringProjectDeployment>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1576,7 +1597,8 @@ export const TextAnalysisAuthoringListProjects: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(640, __c20, 0) as any as S.Schema<TextAnalysisAuthoringListProjectsRequest>,
   output: __S(642, __c20, 2) as any as S.Schema<PagedTextAnalysisAuthoringProjectMetadata>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1600,7 +1622,8 @@ export const TextAnalysisAuthoringListTrainedModels: API.PaginatedOperationMetho
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(672, __c21, 0) as any as S.Schema<TextAnalysisAuthoringListTrainedModelsRequest>,
   output: __S(674, __c21, 2) as any as S.Schema<PagedTextAnalysisAuthoringProjectTrainedModel>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1628,7 +1651,8 @@ export const TextAnalysisAuthoringListTrainingConfigVersions: API.PaginatedOpera
     0,
   ) as any as S.Schema<TextAnalysisAuthoringListTrainingConfigVersionsRequest>,
   output: __S(707, __c22, 3) as any as S.Schema<PagedTextAnalysisAuthoringTrainingConfigVersion>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1652,7 +1676,8 @@ export const TextAnalysisAuthoringListTrainingJobs: API.PaginatedOperationMethod
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(736, __c23, 0) as any as S.Schema<TextAnalysisAuthoringListTrainingJobsRequest>,
   output: __S(738, __c23, 2) as any as S.Schema<PagedTextAnalysisAuthoringTrainingJobState>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1675,7 +1700,8 @@ export const TextAuthoringProjectGetExportStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c24, 0) as any as S.Schema<TextAuthoringProjectGetExportStatusRequest>,
   output: __S(769, __c24, 1) as any as S.Schema<TextAnalysisAuthoringExportProjectJobState>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1692,7 +1718,8 @@ export const TextAuthoringProjectGetImportStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c25, 0) as any as S.Schema<TextAuthoringProjectGetImportStatusRequest>,
   output: __S(1152, __c36, 0) as any as S.Schema<TextAnalysisAuthoringImportProjectJobState>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1709,7 +1736,8 @@ export const TextAuthoringProjectTrain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c26, 0) as any as S.Schema<TextAuthoringProjectTrainRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<TextAuthoringProjectTrainResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1726,7 +1754,8 @@ export const TextAuthoringTrainedModelLoadSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c27, 0) as any as S.Schema<TextAuthoringTrainedModelLoadSnapshotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<TextAuthoringTrainedModelLoadSnapshotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

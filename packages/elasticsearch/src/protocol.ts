@@ -1,12 +1,10 @@
-import type * as API from "@distilled.cloud/core/api";
-import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
-import type { SdkError } from "@distilled.cloud/core/sdk-error";
+import type { ErrorOf } from "@distilled.cloud/core/protocol";
+import { restProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
 /**
  * ElasticsearchProtocol -- hand-written.
  *
  * Elasticsearch speaks API-key-authenticated JSON REST (no response
- * envelope), so the whole protocol is one `makeRestProtocol` call from
+ * envelope), so the whole protocol is one `restProtocol` call from
  * `core/protocol-rest`:
  *
  *   request:  credentials -> `Authorization: ApiKey <apiKey>` + base URL
@@ -21,41 +19,39 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
  */
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config } from "./credentials.ts";
-import { UnknownElasticsearchError, ElasticsearchParseError } from "./errors.ts";
+import { Credentials } from "./credentials.ts";
+import {
+  UnknownElasticsearchError,
+  ElasticsearchParseError,
+  type ElasticsearchServiceError,
+} from "./errors.ts";
 
 /**
- * Error channel shared by every generated Elasticsearch operation. Generated
- * service files annotate operations with `API.OperationMethod<I, O,
- * ElasticsearchOpError, ElasticsearchOpContext>` explicitly so the compiler
- * never infers these back out of the schema generics.
+ * What every generated Elasticsearch operation fails with besides its own
+ * errors: the service's errors, the protocol's, and what resolving the
+ * credentials fails with. Generated service files annotate operations with
+ * `API.OperationMethod<I, O, ElasticsearchOpError, ElasticsearchOpContext>`
+ * explicitly so the compiler never infers these back out of the schema
+ * generics.
  */
 export type ElasticsearchOpError =
-  | InstanceType<(typeof API_ERRORS)[number]>
-  | UnknownElasticsearchError
-  | ConfigError
-  | HttpClientError.HttpClientError
-  | ElasticsearchParseError
-  | InvalidInput
-  | SdkError;
+  | ElasticsearchServiceError
+  | ErrorOf<typeof ElasticsearchProtocol>;
 
 /** Context (requirements) shared by every generated Elasticsearch operation. */
 export type ElasticsearchOpContext = Credentials | HttpClient.HttpClient;
 
-export const ElasticsearchProtocol: Layer.Layer<API.Protocol> =
-  /*@__PURE__*/ makeRestProtocol<Config>({
-    // The Credentials service holds an effect -- resolving it here (per
-    // request, on the calling fiber) picks up context-provided credentials.
-    credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
-    baseUrl: (creds) => creds.apiBaseUrl,
-    headers: (creds) => ({
-      Authorization: `ApiKey ${Redacted.value(creds.apiKey)}`,
-    }),
-    // Elasticsearch's error body is `{ error?: { type, reason }, status? }`
-    // -- the factory's default lenient envelope covers `message`/`reason`.
-    unknownError: (info) => new UnknownElasticsearchError(unknownErrorProps(info)),
-    parseError: ({ body, cause }) => new ElasticsearchParseError({ body, cause }),
-  });
+export const ElasticsearchProtocol = /*@__PURE__*/ restProtocol({
+  // The Credentials service holds an effect -- resolving it here (per
+  // request, on the calling fiber) picks up context-provided credentials.
+  credentials: /*@__PURE__*/ Effect.flatten(Credentials),
+  baseUrl: (creds) => creds.apiBaseUrl,
+  headers: (creds) => ({
+    Authorization: `ApiKey ${Redacted.value(creds.apiKey)}`,
+  }),
+  // Elasticsearch's error body is `{ error?: { type, reason }, status? }`
+  // -- the factory's default lenient envelope covers `message`/`reason`.
+  unknownError: (info) => new UnknownElasticsearchError(unknownErrorProps(info)),
+  parseError: ({ body, cause }) => new ElasticsearchParseError({ body, cause }),
+});

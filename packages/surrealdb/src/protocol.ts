@@ -1,12 +1,10 @@
-import type * as API from "@distilled.cloud/core/api";
-import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
-import type { SdkError } from "@distilled.cloud/core/sdk-error";
+import type { ErrorOf } from "@distilled.cloud/core/protocol";
+import { restProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
 /**
  * SurrealdbProtocol -- hand-written.
  *
  * SurrealDB speaks bearer-authenticated JSON REST (no response envelope),
- * so the whole protocol is one `makeRestProtocol` call from
+ * so the whole protocol is one `restProtocol` call from
  * `core/protocol-rest`:
  *
  *   request:  credentials -> `Authorization: Bearer <apiKey>` +
@@ -22,34 +20,30 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
  */
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config } from "./credentials.ts";
-import { UnknownSurrealdbError, SurrealdbParseError } from "./errors.ts";
+import { Credentials } from "./credentials.ts";
+import {
+  UnknownSurrealdbError,
+  SurrealdbParseError,
+  type SurrealdbServiceError,
+} from "./errors.ts";
 
 /**
- * Error channel shared by every generated SurrealDB operation. Generated
- * service files annotate operations with `API.OperationMethod<I, O,
- * SurrealdbOpError, SurrealdbOpContext>` explicitly so the compiler never
- * infers these back out of the schema generics.
+ * What every generated SurrealDB operation fails with besides its own errors:
+ * the service's errors, the protocol's, and what resolving the credentials
+ * fails with. Generated service files annotate operations with
+ * `API.OperationMethod<I, O, SurrealdbOpError, SurrealdbOpContext>` explicitly
+ * so the compiler never infers these back out of the schema generics.
  */
-export type SurrealdbOpError =
-  | InstanceType<(typeof API_ERRORS)[number]>
-  | UnknownSurrealdbError
-  | ConfigError
-  | HttpClientError.HttpClientError
-  | SurrealdbParseError
-  | InvalidInput
-  | SdkError;
+export type SurrealdbOpError = SurrealdbServiceError | ErrorOf<typeof SurrealdbProtocol>;
 
 /** Context (requirements) shared by every generated SurrealDB operation. */
 export type SurrealdbOpContext = Credentials | HttpClient.HttpClient;
 
-export const SurrealdbProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
+export const SurrealdbProtocol = /*@__PURE__*/ restProtocol({
   // The Credentials service holds an effect -- resolving it here (per
   // request, on the calling fiber) picks up context-provided credentials.
-  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
+  credentials: /*@__PURE__*/ Effect.flatten(Credentials),
   baseUrl: (creds) => creds.apiBaseUrl,
   headers: (creds) => ({
     Accept: "application/json",

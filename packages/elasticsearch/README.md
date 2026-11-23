@@ -23,7 +23,6 @@ const program = Effect.gen(function* () {
 const Live = Layer.mergeAll(
   FetchHttpClient.layer,
   Elasticsearch.CredentialsFromEnv,
-  Elasticsearch.ElasticsearchProtocol,
 );
 
 program.pipe(Effect.provide(Live), Effect.runPromise);

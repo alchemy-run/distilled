@@ -7,8 +7,7 @@ import * as Redacted from "effect/Redacted";
 import * as Result from "effect/Result";
 import * as Schema from "effect/Schema";
 import { describe, expect, test } from "vitest";
-import * as API from "../src/api.ts";
-import { makeRestProtocol, SensitiveValue, validateSuccess } from "../src/protocol-rest.ts";
+import { restProtocol, SensitiveValue, validateSuccess } from "../src/protocol-rest.ts";
 import * as ResponseValidation from "../src/response-validation.ts";
 
 class TestParseError extends Schema.TaggedError<TestParseError>()("TestParseError", {
@@ -20,7 +19,7 @@ class TestUnknownError extends Schema.TaggedError<TestUnknownError>()("TestUnkno
   message: Schema.String,
 }) {}
 
-const TestProtocol = makeRestProtocol<{}>({
+const TestProtocol = restProtocol({
   credentials: Effect.succeed({}),
   baseUrl: () => "https://api.test",
   headers: () => ({}),
@@ -31,21 +30,20 @@ const TestProtocol = makeRestProtocol<{}>({
 const Output = Schema.Struct({ id: Schema.String });
 
 const decode = (body: string, outputAst = Output.ast) =>
-  Effect.gen(function* () {
-    const protocol = yield* API.Protocol;
+  Effect.suspend(() => {
     const request = HttpClientRequest.get("https://api.test/thing");
-    return yield* protocol.decode({
+    return TestProtocol.decode({
       response: HttpClientResponse.fromWeb(request, new Response(body, { status: 200 })),
       outputAst,
       errors: [],
       config: {},
     });
-  }).pipe(Effect.provide(TestProtocol));
+  });
 
 const run = <A, E>(effect: Effect.Effect<A, E>, layer?: Layer.Layer<never>) =>
   Effect.runPromise(Effect.result(layer ? effect.pipe(Effect.provide(layer)) : effect));
 
-describe("makeRestProtocol response validation", () => {
+describe("restProtocol response validation", () => {
   test("lenient (default) returns a non-JSON 2xx body as text", async () => {
     const result = await run(decode("not json"));
     expect(result).toMatchObject({ _tag: "Success", success: "not json" });
@@ -130,7 +128,7 @@ describe("makeRestProtocol response validation", () => {
   });
 });
 
-describe("makeRestProtocol with sensitive output members", () => {
+describe("restProtocol with sensitive output members", () => {
   const SECRET = "sentinel-secret-7f3a";
   const Secret = Schema.Struct({
     id: Schema.String,

@@ -4,7 +4,7 @@ import { ConfigError } from "@distilled.cloud/core/errors";
  * OpenSearch credentials -- hand-written.
  *
  * The `Credentials` service holds an *effect* that resolves the cluster's
- * endpoint and how to authenticate; the protocol layer resolves it per
+ * endpoint and how to authenticate; the protocol resolves it per
  * request on the calling fiber, so the effect can refresh credentials.
  *
  * A cluster authenticates in one of these ways:

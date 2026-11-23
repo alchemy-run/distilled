@@ -13,7 +13,7 @@ import { refreshing } from "@distilled.cloud/core/token-cache";
  * (https://docs.starburst.io/starburst-galaxy/developer-tools/api/api-auth-token.html).
  *
  * The `Credentials` service holds an *effect* that resolves the current
- * credentials; the protocol layer resolves it per request on the calling
+ * credentials; the protocol resolves it per request on the calling
  * fiber. The client-credentials layers exchange through the provided
  * `HttpClient` on first use, reuse the token, and exchange again shortly
  * before it expires, so long-running programs keep working past the token

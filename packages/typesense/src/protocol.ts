@@ -1,7 +1,5 @@
-import type * as API from "@distilled.cloud/core/api";
-import type { ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
-import type { SdkError } from "@distilled.cloud/core/sdk-error";
+import type { ErrorOf } from "@distilled.cloud/core/protocol";
+import { restProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
 /**
  * TypesenseProtocol -- the shared bearer/header-auth REST factory from core,
  * instantiated with Typesense's specifics:
@@ -17,31 +15,29 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
  */
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
-import { type Config, Credentials, formatHeaders } from "./credentials.ts";
-import { type DefaultErrors, UnknownTypesenseError, TypesenseParseError } from "./errors.ts";
+import { Credentials, formatHeaders } from "./credentials.ts";
+import {
+  UnknownTypesenseError,
+  TypesenseParseError,
+  type TypesenseServiceError,
+} from "./errors.ts";
 
 /**
- * Error channel shared by every generated Typesense operation. Generated
- * service files annotate operations with `API.OperationMethod<I, O,
- * TypesenseOpError, TypesenseOpContext>` explicitly so the compiler never
- * infers these back out of the schema generics.
+ * What every generated Typesense operation fails with besides its own errors:
+ * the service's errors, the protocol's, and what resolving the credentials
+ * fails with. Generated service files annotate operations with
+ * `API.OperationMethod<I, O, TypesenseOpError, TypesenseOpContext>` explicitly
+ * so the compiler never infers these back out of the schema generics.
  */
-export type TypesenseOpError =
-  | DefaultErrors
-  | ConfigError
-  | HttpClientError.HttpClientError
-  | InvalidInput
-  | SdkError;
+export type TypesenseOpError = TypesenseServiceError | ErrorOf<typeof TypesenseProtocol>;
 
 /** Context (requirements) shared by every generated Typesense operation. */
 export type TypesenseOpContext = Credentials | HttpClient.HttpClient;
 
-export const TypesenseProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
+export const TypesenseProtocol = /*@__PURE__*/ restProtocol({
   // Resolved on the calling fiber, per request -- the Credentials service
   // holds an effect, so lazily-resolved keys Just Work.
-  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
+  credentials: /*@__PURE__*/ Effect.flatten(Credentials),
   baseUrl: (creds) => creds.apiBaseUrl,
   headers: formatHeaders,
   // Typesense's ApiResponse error body is `{ message }` -- covered by the

@@ -4,6 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
+import { VercelServiceErrors } from "../errors.ts";
 import { VercelProtocol, type VercelOpError, type VercelOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -565,6 +566,7 @@ export const assignAlias: API.OperationMethod<
   input: __S(8, __c1, 0) as any as S.Schema<AssignAliasRequest>,
   output: __S(9, __c1, 1) as any as S.Schema<AssignAliasResponse>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -582,6 +584,7 @@ export const deleteAlias: API.OperationMethod<
   input: __S(16, __c2, 0) as any as S.Schema<DeleteAliasRequest>,
   output: __S(17, __c2, 1) as any as S.Schema<DeleteAliasResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -599,6 +602,7 @@ export const getAlias: API.OperationMethod<
   input: __S(24, __c3, 0) as any as S.Schema<GetAliasRequest>,
   output: __S(27, __c3, 3) as any as S.Schema<GetAliasResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -616,6 +620,7 @@ export const listAliases: API.OperationMethod<
   input: __S(40, __c5, 0) as any as S.Schema<ListAliasesRequest>,
   output: __S(46, __c5, 6) as any as S.Schema<ListAliasesResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -633,6 +638,7 @@ export const listDeploymentAliases: API.OperationMethod<
   input: __S(48, __c6, 0) as any as S.Schema<ListDeploymentAliasesRequest>,
   output: __S(52, __c6, 4) as any as S.Schema<ListDeploymentAliasesResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -655,6 +661,7 @@ export const patchUrlProtectionBypass: API.OperationMethod<
   input: __S(0, __c0, 0) as any as S.Schema<PatchUrlProtectionBypassRequest>,
   output: __S(2, __c0, 2) as any as S.Schema<PatchUrlProtectionBypassResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

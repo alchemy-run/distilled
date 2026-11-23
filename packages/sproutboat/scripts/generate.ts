@@ -82,7 +82,7 @@ const spec: SdkSpec = {
   operationDecl: {
     contextType: "SproutboatOpContext",
     commonErrorType: "SproutboatOpError",
-    commonErrorClasses: ["UnknownSproutboatError"],
+    serviceErrors: "SproutboatServiceErrors",
     protocol: "SproutboatProtocol",
     retry: "Retry.Retry",
   },

@@ -4,7 +4,7 @@
  * API-compatible port of the distilled repo's cloudflare credentials module:
  * the `Credentials` service holds an *effect* that resolves the current
  * credentials (apiToken / apiKey+email / OAuth with refresh) on every
- * request, so rotating or refreshing tokens Just Works. The protocol layer
+ * request, so rotating or refreshing tokens Just Works. The protocol
  * resolves it per request and formats the auth headers via
  * {@link formatHeaders}.
  */
@@ -95,13 +95,14 @@ export class OAuthRefreshError
     cause?: unknown;
   }> {}
 
-export type CredentialsError = ConfigError | OAuthRefreshError;
-
 export class Credentials
   extends /*@__PURE__*/ Context.Service<
     Credentials,
-    Effect.Effect<ResolvedCredentials, CredentialsError, never>
+    Effect.Effect<ResolvedCredentials, ConfigError | OAuthRefreshError>
   >()("CloudflareCredentials") {}
+
+/** What resolving the credentials can fail with: declared on {@link Credentials}. */
+export type CredentialsError = Effect.Error<(typeof Credentials)["Service"]>;
 
 const resolveApiBaseUrl = (apiBaseUrl?: string): string => apiBaseUrl ?? DEFAULT_API_BASE_URL;
 

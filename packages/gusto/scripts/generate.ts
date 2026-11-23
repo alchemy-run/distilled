@@ -64,7 +64,7 @@ const gustoSpec: SdkSpec = {
   operationDecl: {
     contextType: "GustoOpContext",
     commonErrorType: "GustoOpError",
-    commonErrorClasses: ["UnknownGustoError"],
+    serviceErrors: "GustoServiceErrors",
     protocol: "GustoProtocol",
     retry: "Retry.Retry",
   },

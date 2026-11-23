@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownE2BError } from "../errors.ts";
+import { E2BServiceErrors } from "../errors.ts";
 import { E2BProtocol, type E2BOpError, type E2BOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -94,7 +94,8 @@ export const createApiKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateApiKeyRequest>,
   output: __S(1, __c0, 1) as any as S.Schema<CreatedTeamAPIKey>,
-  errors: [UnknownE2BError],
+  errors: [],
+  serviceErrors: E2BServiceErrors,
   protocol: E2BProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -111,7 +112,8 @@ export const deleteApiKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c2, 0) as any as S.Schema<DeleteApiKeyRequest>,
   output: __S(12, __c3, 0) as any as S.Schema<DeleteApiKeyResponse>,
-  errors: [UnknownE2BError],
+  errors: [],
+  serviceErrors: E2BServiceErrors,
   protocol: E2BProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -128,7 +130,8 @@ export const listApiKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c4, 0) as any as S.Schema<ListApiKeysRequest>,
   output: __S(19, __c4, 3) as any as S.Schema<ListApiKeysResponse>,
-  errors: [UnknownE2BError],
+  errors: [],
+  serviceErrors: E2BServiceErrors,
   protocol: E2BProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -145,7 +148,8 @@ export const updateApiKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20, __c5, 0) as any as S.Schema<UpdateApiKeyRequest>,
   output: __S(12, __c3, 0) as any as S.Schema<UpdateApiKeyResponse>,
-  errors: [UnknownE2BError],
+  errors: [],
+  serviceErrors: E2BServiceErrors,
   protocol: E2BProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

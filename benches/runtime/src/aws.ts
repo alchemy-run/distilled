@@ -32,7 +32,7 @@ import * as Layer from "effect/Layer";
 import type { Operation } from "../../../packages/s3/src/client/operation.ts";
 // The request builder is internal to @distilled.cloud/s3 (not in its export map);
 // reach it through the workspace so the "build" stage times the real
-// serializer the protocol layer uses.
+// serializer the protocol uses.
 import { makeRequestBuilder } from "../../../packages/s3/src/client/request-builder.ts";
 import { makeResponseParser } from "../../../packages/s3/src/client/response-parser.ts";
 import {

@@ -1,7 +1,5 @@
-import type * as API from "@distilled.cloud/core/api";
-import type { ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
-import type { SdkError } from "@distilled.cloud/core/sdk-error";
+import type { ErrorOf } from "@distilled.cloud/core/protocol";
+import { restProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
 /**
  * DokployProtocol -- the shared REST protocol instantiated for the Dokploy
  * API.
@@ -19,32 +17,25 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
  */
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config } from "./credentials.ts";
-import { DokployParseError, UnknownDokployError, type DefaultErrors } from "./errors.ts";
+import { Credentials } from "./credentials.ts";
+import { DokployParseError, UnknownDokployError, type DokployServiceError } from "./errors.ts";
 
 /**
- * Error channel shared by every generated Dokploy operation. Generated
- * service files annotate operations with `API.OperationMethod<I, O,
- * DokployOpError, DokployOpContext>` explicitly so the compiler never infers
- * these back out of the schema generics.
+ * What every generated Dokploy operation fails with besides its own errors:
+ * the service's errors, the protocol's, and what resolving the credentials
+ * fails with. Generated service files annotate operations with
+ * `API.OperationMethod<I, O, DokployOpError, DokployOpContext>` explicitly so
+ * the compiler never infers these back out of the schema generics.
  */
-export type DokployOpError =
-  | DefaultErrors
-  | ConfigError
-  | HttpClientError.HttpClientError
-  | InvalidInput
-  | SdkError;
+export type DokployOpError = DokployServiceError | ErrorOf<typeof DokployProtocol>;
 
 /** Context (requirements) shared by every generated Dokploy operation. */
 export type DokployOpContext = Credentials | HttpClient.HttpClient;
 
-export const DokployProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
-  // Resolved on the calling fiber per request, so a rotated key is picked up
-  // without rebuilding the layer.
-  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
+export const DokployProtocol = /*@__PURE__*/ restProtocol({
+  // Resolved on the calling fiber per request, so a rotated key is picked up.
+  credentials: /*@__PURE__*/ Effect.flatten(Credentials),
   baseUrl: (creds) => `${creds.url}/api`,
   headers: (creds) => ({
     "x-api-key": Redacted.value(creds.apiKey),

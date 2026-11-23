@@ -8,10 +8,10 @@
  * typecheck fixtures, so every suite measures the same program.
  *
  * Every SDK gets one target per protocol its operations use: each distinct
- * `protocol:` layer in the generated operations (Cloudflare's paginated
- * layer, Fly.io's Machines / API / Sprites / GraphQL layers, …) and, for
- * AWS, each wire family (`restXml`, `restJson1`, `awsJson1_0`,
- * `awsJson1_1`, `awsQuery`, `ec2Query`) the single AwsProtocol layer
+ * `protocol:` in the generated operations (Cloudflare's paginated
+ * protocol, Fly.io's Machines / API / Sprites / GraphQL protocols, …) and,
+ * for AWS, each wire family (`restXml`, `restJson1`, `awsJson1_0`,
+ * `awsJson1_1`, `awsQuery`, `ec2Query`) the single AwsProtocol
  * dispatches on. One target per SDK is `primary`: its numbers are the
  * SDK-level numbers, so history stays comparable when protocols are added.
  *
@@ -88,8 +88,8 @@ const OP_RE = /^export const (\w+): API\.(?:Paginated)?OperationMethod<\s*(\w+),
 const AWS_FAMILY_RE = /^const proto = (?:\/\*[@#]__PURE__\*\/ )?T\.AwsProtocols(\w+)\(/m;
 const awsFamily = (trait: string): string => trait.charAt(0).toLowerCase() + trait.slice(1);
 
-/** Name of the `protocol:` layer in the operation definition that starts at `index`. */
-const protocolLayerAt = (source: string, index: number): string | undefined => {
+/** Name of the `protocol:` in the operation definition that starts at `index`. */
+const protocolAt = (source: string, index: number): string | undefined => {
   const end = source.indexOf("\nexport const ", index + 1);
   const block = source.slice(index, end === -1 ? index + 4000 : Math.min(end, index + 4000));
   return /\bprotocol: (\w+),/.exec(block)?.[1];
@@ -150,7 +150,7 @@ export const listOperations = (pkg: string): OpInfo[] => {
         required,
         requiredCount: Object.keys(required).length,
         method,
-        protocol: family ? awsFamily(family) : (protocolLayerAt(source, m.index) ?? "unknown"),
+        protocol: family ? awsFamily(family) : (protocolAt(source, m.index) ?? "unknown"),
       });
     }
   }

@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownUniFiError } from "../errors.ts";
+import { UniFiServiceErrors } from "../errors.ts";
 import { paginateOffset } from "../pagination.ts";
 import {
   UniFiNetworkProtocol,
@@ -3653,7 +3653,8 @@ export const adoptDevice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<AdoptDeviceRequest>,
   output: __S(27, __c1, 11) as any as S.Schema<AdoptedDeviceDetails>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3670,7 +3671,8 @@ export const createAclRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c3, 0) as any as S.Schema<CreateAclRuleRequest>,
   output: __S(64, __c4, 0) as any as S.Schema<CreateAclRuleResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3687,7 +3689,8 @@ export const createDnsPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(272, __c17, 0) as any as S.Schema<CreateDnsPolicyRequest>,
   output: __S(288, __c18, 0) as any as S.Schema<CreateDnsPolicyResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3704,7 +3707,8 @@ export const createFirewallPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c30, 0) as any as S.Schema<CreateFirewallPolicyRequest>,
   output: __S(514, __c32, 2) as any as S.Schema<FirewallPolicy>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3721,7 +3725,8 @@ export const createFirewallZone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(720, __c45, 0) as any as S.Schema<CreateFirewallZoneRequest>,
   output: __S(752, __c47, 0) as any as S.Schema<FirewallZone>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3738,7 +3743,8 @@ export const createNetwork: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(944, __c59, 0) as any as S.Schema<CreateNetworkRequest>,
   output: __S(960, __c60, 0) as any as S.Schema<CreateNetworkResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3755,7 +3761,8 @@ export const createTrafficMatchingList: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c72, 0) as any as S.Schema<CreateTrafficMatchingListRequest>,
   output: __S(1168, __c73, 0) as any as S.Schema<CreateTrafficMatchingListResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3772,7 +3779,8 @@ export const createVouchers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1344, __c84, 0) as any as S.Schema<CreateVouchersRequest>,
   output: __S(1345, __c84, 1) as any as S.Schema<IntegrationVoucherCreationResultDto>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3789,7 +3797,8 @@ export const createWifiBroadcast: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c90, 0) as any as S.Schema<CreateWifiBroadcastRequest>,
   output: __S(1456, __c91, 0) as any as S.Schema<CreateWifiBroadcastResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3806,7 +3815,8 @@ export const deleteAclRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1472, __c92, 0) as any as S.Schema<DeleteAclRuleRequest>,
   output: __S(1488, __c93, 0) as any as S.Schema<DeleteAclRuleResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3823,7 +3833,8 @@ export const deleteDnsPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c5, 0) as any as S.Schema<DeleteDnsPolicyRequest>,
   output: __S(1488, __c93, 0) as any as S.Schema<DeleteDnsPolicyResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3840,7 +3851,8 @@ export const deleteFirewallPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c6, 0) as any as S.Schema<DeleteFirewallPolicyRequest>,
   output: __S(1488, __c93, 0) as any as S.Schema<DeleteFirewallPolicyResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3857,7 +3869,8 @@ export const deleteFirewallZone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c7, 0) as any as S.Schema<DeleteFirewallZoneRequest>,
   output: __S(1488, __c93, 0) as any as S.Schema<DeleteFirewallZoneResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3874,7 +3887,8 @@ export const deleteNetwork: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c8, 0) as any as S.Schema<DeleteNetworkRequest>,
   output: __S(1488, __c93, 0) as any as S.Schema<DeleteNetworkResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3891,7 +3905,8 @@ export const deleteTrafficMatchingList: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c9, 0) as any as S.Schema<DeleteTrafficMatchingListRequest>,
   output: __S(1488, __c93, 0) as any as S.Schema<DeleteTrafficMatchingListResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3908,7 +3923,8 @@ export const deleteVoucher: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c10, 0) as any as S.Schema<DeleteVoucherRequest>,
   output: __S(176, __c11, 0) as any as S.Schema<VoucherDeletionResults>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3925,7 +3941,8 @@ export const deleteVouchers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c12, 0) as any as S.Schema<DeleteVouchersRequest>,
   output: __S(176, __c11, 0) as any as S.Schema<VoucherDeletionResults>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3942,7 +3959,8 @@ export const deleteWifiBroadcast: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c13, 0) as any as S.Schema<DeleteWifiBroadcastRequest>,
   output: __S(1488, __c93, 0) as any as S.Schema<DeleteWifiBroadcastResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3959,7 +3977,8 @@ export const executeAdoptedDeviceAction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c14, 0) as any as S.Schema<ExecuteAdoptedDeviceActionRequest>,
   output: __S(1488, __c93, 0) as any as S.Schema<ExecuteAdoptedDeviceActionResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3976,7 +3995,8 @@ export const executeConnectedClientAction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c16, 0) as any as S.Schema<ExecuteConnectedClientActionRequest>,
   output: __S(257, __c16, 1) as any as S.Schema<ExecuteConnectedClientActionResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3993,7 +4013,8 @@ export const executePortAction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(304, __c19, 0) as any as S.Schema<ExecutePortActionRequest>,
   output: __S(1488, __c93, 0) as any as S.Schema<ExecutePortActionResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4010,7 +4031,8 @@ export const getAclRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c20, 0) as any as S.Schema<GetAclRuleRequest>,
   output: __S(64, __c4, 0) as any as S.Schema<GetAclRuleResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4027,7 +4049,8 @@ export const getAclRuleOrdering: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(336, __c21, 0) as any as S.Schema<GetAclRuleOrderingRequest>,
   output: __S(352, __c22, 0) as any as S.Schema<ACLRuleOrdering>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4046,7 +4069,8 @@ export const getAclRulePage: API.PaginatedOperationMethod<
   () => ({
     input: __S(368, __c23, 0) as any as S.Schema<GetAclRulePageRequest>,
     output: __S(370, __c23, 2) as any as S.Schema<IntegrationAclRulePageDto>,
-    errors: [UnknownUniFiError],
+    errors: [],
+    serviceErrors: UniFiServiceErrors,
     protocol: UniFiNetworkProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4071,7 +4095,8 @@ export const getAdoptedDeviceDetails: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c24, 0) as any as S.Schema<GetAdoptedDeviceDetailsRequest>,
   output: __S(27, __c1, 11) as any as S.Schema<AdoptedDeviceDetails>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4088,7 +4113,8 @@ export const getAdoptedDeviceLatestStatistics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(400, __c25, 0) as any as S.Schema<GetAdoptedDeviceLatestStatisticsRequest>,
   output: __S(405, __c25, 5) as any as S.Schema<LatestStatisticsForADevice>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4107,7 +4133,8 @@ export const getAdoptedDeviceOverviewPage: API.PaginatedOperationMethod<
   () => ({
     input: __S(416, __c26, 0) as any as S.Schema<GetAdoptedDeviceOverviewPageRequest>,
     output: __S(419, __c26, 3) as any as S.Schema<AdoptedDeviceOverviewPage>,
-    errors: [UnknownUniFiError],
+    errors: [],
+    serviceErrors: UniFiServiceErrors,
     protocol: UniFiNetworkProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4132,7 +4159,8 @@ export const getConnectedClientDetails: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(432, __c27, 0) as any as S.Schema<GetConnectedClientDetailsRequest>,
   output: __S(433, __c27, 1) as any as S.Schema<GetConnectedClientDetailsResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4151,7 +4179,8 @@ export const getConnectedClientOverviewPage: API.PaginatedOperationMethod<
   () => ({
     input: __S(448, __c28, 0) as any as S.Schema<GetConnectedClientOverviewPageRequest>,
     output: __S(450, __c28, 2) as any as S.Schema<ClientOverviewPage>,
-    errors: [UnknownUniFiError],
+    errors: [],
+    serviceErrors: UniFiServiceErrors,
     protocol: UniFiNetworkProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4178,7 +4207,8 @@ export const getCountries: API.PaginatedOperationMethod<
   () => ({
     input: __S(464, __c29, 0) as any as S.Schema<GetCountriesRequest>,
     output: __S(467, __c29, 3) as any as S.Schema<CountryDefinitionPage>,
-    errors: [UnknownUniFiError],
+    errors: [],
+    serviceErrors: UniFiServiceErrors,
     protocol: UniFiNetworkProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4205,7 +4235,8 @@ export const getDeviceTagPage: API.PaginatedOperationMethod<
   () => ({
     input: __S(535, __c33, 7) as any as S.Schema<GetDeviceTagPageRequest>,
     output: __S(538, __c33, 10) as any as S.Schema<IntegrationDeviceTagPageDto>,
-    errors: [UnknownUniFiError],
+    errors: [],
+    serviceErrors: UniFiServiceErrors,
     protocol: UniFiNetworkProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4230,7 +4261,8 @@ export const getDnsPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c34, 0) as any as S.Schema<GetDnsPolicyRequest>,
   output: __S(288, __c18, 0) as any as S.Schema<GetDnsPolicyResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4249,7 +4281,8 @@ export const getDnsPolicyPage: API.PaginatedOperationMethod<
   () => ({
     input: __S(560, __c35, 0) as any as S.Schema<GetDnsPolicyPageRequest>,
     output: __S(562, __c35, 2) as any as S.Schema<IntegrationDnsPolicyPageDto>,
-    errors: [UnknownUniFiError],
+    errors: [],
+    serviceErrors: UniFiServiceErrors,
     protocol: UniFiNetworkProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4276,7 +4309,8 @@ export const getDpiApplicationCategories: API.PaginatedOperationMethod<
   () => ({
     input: __S(576, __c36, 0) as any as S.Schema<GetDpiApplicationCategoriesRequest>,
     output: __S(594, __c37, 2) as any as S.Schema<DPICategoryPage>,
-    errors: [UnknownUniFiError],
+    errors: [],
+    serviceErrors: UniFiServiceErrors,
     protocol: UniFiNetworkProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4303,7 +4337,8 @@ export const getDpiApplications: API.PaginatedOperationMethod<
   () => ({
     input: __S(608, __c38, 0) as any as S.Schema<GetDpiApplicationsRequest>,
     output: __S(594, __c37, 2) as any as S.Schema<DPIApplicationPage>,
-    errors: [UnknownUniFiError],
+    errors: [],
+    serviceErrors: UniFiServiceErrors,
     protocol: UniFiNetworkProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4330,7 +4365,8 @@ export const getFirewallPolicies: API.PaginatedOperationMethod<
   () => ({
     input: __S(624, __c39, 0) as any as S.Schema<GetFirewallPoliciesRequest>,
     output: __S(626, __c39, 2) as any as S.Schema<FirewallPolicyPage>,
-    errors: [UnknownUniFiError],
+    errors: [],
+    serviceErrors: UniFiServiceErrors,
     protocol: UniFiNetworkProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4355,7 +4391,8 @@ export const getFirewallPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c40, 0) as any as S.Schema<GetFirewallPolicyRequest>,
   output: __S(514, __c32, 2) as any as S.Schema<FirewallPolicy>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4372,7 +4409,8 @@ export const getFirewallPolicyOrdering: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(656, __c41, 0) as any as S.Schema<GetFirewallPolicyOrderingRequest>,
   output: __S(673, __c42, 1) as any as S.Schema<IntegrationFirewallPolicyOrderingDto>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4389,7 +4427,8 @@ export const getFirewallZone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(688, __c43, 0) as any as S.Schema<GetFirewallZoneRequest>,
   output: __S(752, __c47, 0) as any as S.Schema<FirewallZone>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4408,7 +4447,8 @@ export const getFirewallZones: API.PaginatedOperationMethod<
   () => ({
     input: __S(704, __c44, 0) as any as S.Schema<GetFirewallZonesRequest>,
     output: __S(706, __c44, 2) as any as S.Schema<FirewallZonesPage>,
-    errors: [UnknownUniFiError],
+    errors: [],
+    serviceErrors: UniFiServiceErrors,
     protocol: UniFiNetworkProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4433,7 +4473,8 @@ export const getInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c48, 0) as any as S.Schema<GetInfoRequest>,
   output: __S(769, __c48, 1) as any as S.Schema<ApplicationInfo>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4450,7 +4491,8 @@ export const getLag: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(784, __c49, 0) as any as S.Schema<GetLagRequest>,
   output: __S(785, __c49, 1) as any as S.Schema<GetLagResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4469,7 +4511,8 @@ export const getLagPage: API.PaginatedOperationMethod<
   () => ({
     input: __S(800, __c50, 0) as any as S.Schema<GetLagPageRequest>,
     output: __S(802, __c50, 2) as any as S.Schema<IntegrationLagPageDto>,
-    errors: [UnknownUniFiError],
+    errors: [],
+    serviceErrors: UniFiServiceErrors,
     protocol: UniFiNetworkProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4494,7 +4537,8 @@ export const getMcLagDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(816, __c51, 0) as any as S.Schema<GetMcLagDomainRequest>,
   output: __S(838, __c52, 6) as any as S.Schema<IntegrationMcLagDomainDto>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4513,7 +4557,8 @@ export const getMcLagDomainPage: API.PaginatedOperationMethod<
   () => ({
     input: __S(848, __c53, 0) as any as S.Schema<GetMcLagDomainPageRequest>,
     output: __S(850, __c53, 2) as any as S.Schema<IntegrationMcLagDomainDtoPageDto>,
-    errors: [UnknownUniFiError],
+    errors: [],
+    serviceErrors: UniFiServiceErrors,
     protocol: UniFiNetworkProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4538,7 +4583,8 @@ export const getNetworkDetails: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c54, 0) as any as S.Schema<GetNetworkDetailsRequest>,
   output: __S(960, __c60, 0) as any as S.Schema<GetNetworkDetailsResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4555,7 +4601,8 @@ export const getNetworkReferences: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(880, __c55, 0) as any as S.Schema<GetNetworkReferencesRequest>,
   output: __S(885, __c55, 5) as any as S.Schema<NetworkReferences>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4574,7 +4621,8 @@ export const getNetworksOverviewPage: API.PaginatedOperationMethod<
   () => ({
     input: __S(896, __c56, 0) as any as S.Schema<GetNetworksOverviewPageRequest>,
     output: __S(898, __c56, 2) as any as S.Schema<NetworkOverviewPage>,
-    errors: [UnknownUniFiError],
+    errors: [],
+    serviceErrors: UniFiServiceErrors,
     protocol: UniFiNetworkProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4601,7 +4649,8 @@ export const getPendingDevicePage: API.PaginatedOperationMethod<
   () => ({
     input: __S(912, __c57, 0) as any as S.Schema<GetPendingDevicePageRequest>,
     output: __S(915, __c57, 3) as any as S.Schema<DevicePendingAdoptionPage>,
-    errors: [UnknownUniFiError],
+    errors: [],
+    serviceErrors: UniFiServiceErrors,
     protocol: UniFiNetworkProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4628,7 +4677,8 @@ export const getRadiusProfileOverviewPage: API.PaginatedOperationMethod<
   () => ({
     input: __S(928, __c58, 0) as any as S.Schema<GetRadiusProfileOverviewPageRequest>,
     output: __S(931, __c58, 3) as any as S.Schema<RadiusProfileOverviewPage>,
-    errors: [UnknownUniFiError],
+    errors: [],
+    serviceErrors: UniFiServiceErrors,
     protocol: UniFiNetworkProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4655,7 +4705,8 @@ export const getSiteOverviewPage: API.PaginatedOperationMethod<
   () => ({
     input: __S(976, __c61, 0) as any as S.Schema<GetSiteOverviewPageRequest>,
     output: __S(979, __c61, 3) as any as S.Schema<SiteOverviewPage>,
-    errors: [UnknownUniFiError],
+    errors: [],
+    serviceErrors: UniFiServiceErrors,
     protocol: UniFiNetworkProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4682,7 +4733,8 @@ export const getSiteToSiteVpnTunnelPage: API.PaginatedOperationMethod<
   () => ({
     input: __S(992, __c62, 0) as any as S.Schema<GetSiteToSiteVpnTunnelPageRequest>,
     output: __S(994, __c62, 2) as any as S.Schema<IntegrationSiteToSiteVpnTunnelOverviewPageDto>,
-    errors: [UnknownUniFiError],
+    errors: [],
+    serviceErrors: UniFiServiceErrors,
     protocol: UniFiNetworkProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4707,7 +4759,8 @@ export const getSwitchStack: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1008, __c63, 0) as any as S.Schema<GetSwitchStackRequest>,
   output: __S(1030, __c64, 6) as any as S.Schema<IntegrationSwitchStackDto>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4726,7 +4779,8 @@ export const getSwitchStackPage: API.PaginatedOperationMethod<
   () => ({
     input: __S(1040, __c65, 0) as any as S.Schema<GetSwitchStackPageRequest>,
     output: __S(1042, __c65, 2) as any as S.Schema<IntegrationSwitchStackDtoPageDto>,
-    errors: [UnknownUniFiError],
+    errors: [],
+    serviceErrors: UniFiServiceErrors,
     protocol: UniFiNetworkProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4751,7 +4805,8 @@ export const getTrafficMatchingList: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c66, 0) as any as S.Schema<GetTrafficMatchingListRequest>,
   output: __S(1168, __c73, 0) as any as S.Schema<GetTrafficMatchingListResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4770,7 +4825,8 @@ export const getTrafficMatchingLists: API.PaginatedOperationMethod<
   () => ({
     input: __S(1072, __c67, 0) as any as S.Schema<GetTrafficMatchingListsRequest>,
     output: __S(1074, __c67, 2) as any as S.Schema<TrafficMatchingListsPage>,
-    errors: [UnknownUniFiError],
+    errors: [],
+    serviceErrors: UniFiServiceErrors,
     protocol: UniFiNetworkProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4795,7 +4851,8 @@ export const getVoucher: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c68, 0) as any as S.Schema<GetVoucherRequest>,
   output: __S(1360, __c85, 0) as any as S.Schema<HotspotVoucherDetails>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4814,7 +4871,8 @@ export const getVouchers: API.PaginatedOperationMethod<
   () => ({
     input: __S(1104, __c69, 0) as any as S.Schema<GetVouchersRequest>,
     output: __S(1105, __c69, 1) as any as S.Schema<HotspotVoucherDetailPage>,
-    errors: [UnknownUniFiError],
+    errors: [],
+    serviceErrors: UniFiServiceErrors,
     protocol: UniFiNetworkProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4841,7 +4899,8 @@ export const getVpnServerPage: API.PaginatedOperationMethod<
   () => ({
     input: __S(1120, __c70, 0) as any as S.Schema<GetVpnServerPageRequest>,
     output: __S(1122, __c70, 2) as any as S.Schema<IntegrationVpnServerOverviewPageDto>,
-    errors: [UnknownUniFiError],
+    errors: [],
+    serviceErrors: UniFiServiceErrors,
     protocol: UniFiNetworkProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4868,7 +4927,8 @@ export const getWansOverviewPage: API.PaginatedOperationMethod<
   () => ({
     input: __S(1136, __c71, 0) as any as S.Schema<GetWansOverviewPageRequest>,
     output: __S(1139, __c71, 3) as any as S.Schema<WANOverviewPage>,
-    errors: [UnknownUniFiError],
+    errors: [],
+    serviceErrors: UniFiServiceErrors,
     protocol: UniFiNetworkProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4893,7 +4953,8 @@ export const getWifiBroadcastDetails: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c74, 0) as any as S.Schema<GetWifiBroadcastDetailsRequest>,
   output: __S(1456, __c91, 0) as any as S.Schema<GetWifiBroadcastDetailsResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4912,7 +4973,8 @@ export const getWifiBroadcastPage: API.PaginatedOperationMethod<
   () => ({
     input: __S(1200, __c75, 0) as any as S.Schema<GetWifiBroadcastPageRequest>,
     output: __S(1202, __c75, 2) as any as S.Schema<IntegrationWifiBroadcastPageDto>,
-    errors: [UnknownUniFiError],
+    errors: [],
+    serviceErrors: UniFiServiceErrors,
     protocol: UniFiNetworkProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4937,7 +4999,8 @@ export const patchFirewallPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c76, 0) as any as S.Schema<PatchFirewallPolicyRequest>,
   output: __S(514, __c32, 2) as any as S.Schema<FirewallPolicy>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4954,7 +5017,8 @@ export const removeDevice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1232, __c77, 0) as any as S.Schema<RemoveDeviceRequest>,
   output: __S(1488, __c93, 0) as any as S.Schema<RemoveDeviceResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4971,7 +5035,8 @@ export const updateAclRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c78, 0) as any as S.Schema<UpdateAclRuleRequest>,
   output: __S(64, __c4, 0) as any as S.Schema<UpdateAclRuleResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4988,7 +5053,8 @@ export const updateAclRuleOrdering: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1264, __c79, 0) as any as S.Schema<UpdateAclRuleOrderingRequest>,
   output: __S(352, __c22, 0) as any as S.Schema<ACLRuleOrdering>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5005,7 +5071,8 @@ export const updateDnsPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1280, __c80, 0) as any as S.Schema<UpdateDnsPolicyRequest>,
   output: __S(288, __c18, 0) as any as S.Schema<UpdateDnsPolicyResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5022,7 +5089,8 @@ export const updateFirewallPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1296, __c81, 0) as any as S.Schema<UpdateFirewallPolicyRequest>,
   output: __S(514, __c32, 2) as any as S.Schema<FirewallPolicy>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5039,7 +5107,8 @@ export const updateFirewallPolicyOrdering: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1312, __c82, 0) as any as S.Schema<UpdateFirewallPolicyOrderingRequest>,
   output: __S(673, __c42, 1) as any as S.Schema<IntegrationFirewallPolicyOrderingDto>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5056,7 +5125,8 @@ export const updateFirewallZone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1328, __c83, 0) as any as S.Schema<UpdateFirewallZoneRequest>,
   output: __S(752, __c47, 0) as any as S.Schema<FirewallZone>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5073,7 +5143,8 @@ export const updateNetwork: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1392, __c87, 0) as any as S.Schema<UpdateNetworkRequest>,
   output: __S(960, __c60, 0) as any as S.Schema<UpdateNetworkResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5090,7 +5161,8 @@ export const updateTrafficMatchingList: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c88, 0) as any as S.Schema<UpdateTrafficMatchingListRequest>,
   output: __S(1168, __c73, 0) as any as S.Schema<UpdateTrafficMatchingListResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5107,7 +5179,8 @@ export const updateWifiBroadcast: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1424, __c89, 0) as any as S.Schema<UpdateWifiBroadcastRequest>,
   output: __S(1456, __c91, 0) as any as S.Schema<UpdateWifiBroadcastResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

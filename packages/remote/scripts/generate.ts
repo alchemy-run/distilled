@@ -64,7 +64,7 @@ const remoteSpec: SdkSpec = {
   operationDecl: {
     contextType: "RemoteOpContext",
     commonErrorType: "RemoteOpError",
-    commonErrorClasses: ["UnknownRemoteError"],
+    serviceErrors: "RemoteServiceErrors",
     protocol: "RemoteProtocol",
     retry: "Retry.Retry",
   },

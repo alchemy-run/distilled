@@ -86,7 +86,7 @@ const spec: SdkSpec = {
   operationDecl: {
     contextType: "NpmOpContext",
     commonErrorType: "NpmOpError",
-    commonErrorClasses: ["UnknownNpmError"],
+    serviceErrors: "NpmServiceErrors",
     protocol: "NpmProtocol",
     retry: "Retry.Retry",
   },

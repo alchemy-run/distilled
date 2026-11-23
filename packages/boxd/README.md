@@ -26,7 +26,7 @@ const program = Effect.gen(function* () {
   return machine.status;
 });
 
-const Live = Layer.mergeAll(FetchHttpClient.layer, Boxd.CredentialsFromEnv, Boxd.BoxdProtocol);
+const Live = Layer.mergeAll(FetchHttpClient.layer, Boxd.CredentialsFromEnv);
 
 program.pipe(Effect.provide(Live), Effect.runPromise);
 ```

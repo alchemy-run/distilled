@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import { AzureDataPlaneProtocol } from "../data-plane-protocol.ts";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -323,7 +323,8 @@ export const LookupTranslatorDictionary: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<LookupTranslatorDictionaryRequest>,
   output: __S(7, __c0, 7) as any as S.Schema<LookupTranslatorDictionaryResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -340,7 +341,8 @@ export const TranslatorBreakSentence: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c2, 0) as any as S.Schema<TranslatorBreakSentenceRequest>,
   output: __S(35, __c2, 3) as any as S.Schema<TranslatorBreakSentenceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -357,7 +359,8 @@ export const TranslatorDetect: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c4, 0) as any as S.Schema<TranslatorDetectRequest>,
   output: __S(69, __c4, 5) as any as S.Schema<TranslatorDetectResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -374,7 +377,8 @@ export const TranslatorDictionaryExamples: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(82, __c5, 2) as any as S.Schema<TranslatorDictionaryExamplesRequest>,
   output: __S(87, __c5, 7) as any as S.Schema<TranslatorDictionaryExamplesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -391,7 +395,8 @@ export const TranslatorLanguages: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(97, __c6, 1) as any as S.Schema<TranslatorLanguagesRequest>,
   output: __S(110, __c6, 14) as any as S.Schema<LanguagesResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -408,7 +413,8 @@ export const TranslatorTranslate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(113, __c7, 1) as any as S.Schema<TranslatorTranslateRequest>,
   output: __S(121, __c7, 9) as any as S.Schema<TranslatorTranslateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -425,7 +431,8 @@ export const TranslatorTransliterate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c9, 0) as any as S.Schema<TranslatorTransliterateRequest>,
   output: __S(146, __c9, 2) as any as S.Schema<TranslatorTransliterateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

@@ -75,7 +75,7 @@ const dopplerSpec: SdkSpec = {
   operationDecl: {
     contextType: "DopplerOpContext",
     commonErrorType: "DopplerOpError",
-    commonErrorClasses: ["UnknownDopplerError"],
+    serviceErrors: "DopplerServiceErrors",
     protocol: "DopplerProtocol",
     retry: "Retry.Retry",
     // The browser-login endpoints are public (`security: []` in the

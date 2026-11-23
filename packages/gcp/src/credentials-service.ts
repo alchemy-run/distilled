@@ -35,6 +35,9 @@ export class Credentials
     "GCPCredentials",
   ) {}
 
+/** What resolving the credentials can fail with: declared on {@link Credentials}. */
+export type CredentialsError = Effect.Error<(typeof Credentials)["Service"]>;
+
 /** An access token a provider minted, and what it learned on the way. */
 export interface Token {
   readonly accessToken: Redacted.Redacted<string>;

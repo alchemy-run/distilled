@@ -2,7 +2,7 @@
  * Discord credentials -- hand-written.
  *
  * The `Credentials` service resolves `{ token, tokenType, apiBaseUrl }` per
- * request; the protocol layer formats the `Authorization: <tokenType> <token>`
+ * request; the protocol formats the `Authorization: <tokenType> <token>`
  * header from it.
  *
  * Discord authorizes HTTP API calls two ways, distinguished by the token

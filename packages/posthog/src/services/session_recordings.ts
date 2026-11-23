@@ -4,6 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
+import { PosthogServiceErrors } from "../errors.ts";
 import { PosthogProtocol, type PosthogOpError, type PosthogOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -124,6 +125,7 @@ export const createSessionRecordingsSharingPassword: API.OperationMethod<
   input: __S(0, __c0, 0) as any as S.Schema<CreateSessionRecordingsSharingPasswordRequest>,
   output: __S(6, __c1, 2) as any as S.Schema<SharingConfiguration>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -140,6 +142,7 @@ export const listSessionRecordingsSharing: API.OperationMethod<
   input: __S(8, __c2, 0) as any as S.Schema<ListSessionRecordingsSharingRequest>,
   output: __S(10, __c2, 2) as any as S.Schema<ListSessionRecordingsSharingResponse>,
   errors: [Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -157,6 +160,7 @@ export const sessionRecordingsSharingPasswordsDestroy: API.OperationMethod<
   input: __S(12, __c3, 0) as any as S.Schema<SessionRecordingsSharingPasswordsDestroyRequest>,
   output: __S(13, __c3, 1) as any as S.Schema<SessionRecordingsSharingPasswordsDestroyResponse>,
   errors: [Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -177,6 +181,7 @@ export const sessionRecordingsSharingRefreshCreate: API.OperationMethod<
   input: __S(16, __c4, 0) as any as S.Schema<SessionRecordingsSharingRefreshCreateRequest>,
   output: __S(6, __c1, 2) as any as S.Schema<SharingConfiguration>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

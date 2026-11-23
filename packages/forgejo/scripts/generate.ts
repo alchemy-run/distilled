@@ -98,6 +98,7 @@ const spec: SdkSpec = {
     // Per-op error lists carry exactly the statuses the spec declares
     // (400/403/404/409/422/423); everything else rides ForgejoOpError.
     commonErrorClasses: [],
+    serviceErrors: "ForgejoServiceErrors",
     protocol: "ForgejoProtocol",
     retry: "Retry.Retry",
   },

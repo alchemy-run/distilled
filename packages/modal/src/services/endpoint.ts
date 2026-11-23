@@ -4,7 +4,7 @@ import type { MaxMessageBytesInput } from "@distilled.cloud/core/max-message-byt
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownModalError } from "../errors.ts";
+import { ModalServiceErrors } from "../errors.ts";
 import { ModalProtocol, type ModalOpError, type ModalOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -288,7 +288,8 @@ export const createEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7, __c0, 7) as any as S.Schema<CreateEndpointRequest>,
   output: __S(8, __c0, 8) as any as S.Schema<CreateEndpointResponse>,
-  errors: [EndpointAlreadyExists, EndpointProxyTokenRequired, UnknownModalError],
+  errors: [EndpointAlreadyExists, EndpointProxyTokenRequired],
+  serviceErrors: ModalServiceErrors,
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -304,7 +305,8 @@ export const endpointGetByName: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c3, 0) as any as S.Schema<EndpointGetByNameRequest>,
   output: __S(49, __c3, 1) as any as S.Schema<EndpointGetByNameResponse>,
-  errors: [EndpointNotFound, UnknownModalError],
+  errors: [EndpointNotFound],
+  serviceErrors: ModalServiceErrors,
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -320,7 +322,8 @@ export const endpointGetInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c4, 0) as any as S.Schema<EndpointGetInfoRequest>,
   output: __S(67, __c4, 3) as any as S.Schema<EndpointGetInfoResponse>,
-  errors: [EndpointNotFound, UnknownModalError],
+  errors: [EndpointNotFound],
+  serviceErrors: ModalServiceErrors,
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -336,7 +339,8 @@ export const endpointGetLibrary: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c6, 0) as any as S.Schema<EndpointGetLibraryRequest>,
   output: __S(99, __c6, 3) as any as S.Schema<EndpointGetLibraryResponse>,
-  errors: [UnknownModalError],
+  errors: [],
+  serviceErrors: ModalServiceErrors,
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -352,7 +356,8 @@ export const endpointGetLifecycle: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c7, 0) as any as S.Schema<EndpointGetLifecycleRequest>,
   output: __S(113, __c7, 1) as any as S.Schema<EndpointGetLifecycleResponse>,
-  errors: [EndpointNotFound, UnknownModalError],
+  errors: [EndpointNotFound],
+  serviceErrors: ModalServiceErrors,
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -369,7 +374,8 @@ export const listEndpoint: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(130, __c8, 2) as any as S.Schema<ListEndpointRequest>,
   output: __S(135, __c8, 7) as any as S.Schema<ListEndpointResponse>,
-  errors: [UnknownModalError],
+  errors: [],
+  serviceErrors: ModalServiceErrors,
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -392,7 +398,8 @@ export const stopEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c9, 0) as any as S.Schema<StopEndpointRequest>,
   output: __S(32, __c2, 0) as any as S.Schema<StopEndpointResponse>,
-  errors: [EndpointNotFound, UnknownModalError],
+  errors: [EndpointNotFound],
+  serviceErrors: ModalServiceErrors,
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

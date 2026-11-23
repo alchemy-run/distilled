@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownElasticsearchError } from "../errors.ts";
+import { ElasticsearchServiceErrors } from "../errors.ts";
 import {
   ElasticsearchProtocol,
   type ElasticsearchOpError,
@@ -44775,7 +44775,8 @@ export const archiveNodesClearRepositoriesMetering: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11072, __c346, 0) as any as S.Schema<ArchiveNodesClearRepositoriesMeteringRequest>,
   output: __S(11172, __c349, 4) as any as S.Schema<ArchiveNodesClearRepositoriesMeteringResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44792,7 +44793,8 @@ export const asyncSearchDelete: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16032, __c501, 0) as any as S.Schema<AsyncSearchDeleteRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44809,7 +44811,8 @@ export const asyncSearchGet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21216, __c663, 0) as any as S.Schema<AsyncSearchGetRequest>,
   output: __S(21248, __c664, 0) as any as S.Schema<AsyncSearchGetResponse>,
-  errors: [BadRequest, NotFound, UnknownElasticsearchError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44826,7 +44829,8 @@ export const asyncSearchStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25664, __c802, 0) as any as S.Schema<AsyncSearchStatusRequest>,
   output: __S(25665, __c802, 1) as any as S.Schema<AsyncSearchStatusResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44843,7 +44847,8 @@ export const asyncSearchSubmit: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30560, __c955, 0) as any as S.Schema<AsyncSearchSubmitRequest>,
   output: __S(21248, __c664, 0) as any as S.Schema<AsyncSearchSubmitResponse>,
-  errors: [BadRequest, NotFound, UnknownElasticsearchError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44860,7 +44865,8 @@ export const asyncSearchSubmit1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(35040, __c1095, 0) as any as S.Schema<AsyncSearchSubmit1Request>,
   output: __S(21248, __c664, 0) as any as S.Schema<AsyncSearchSubmit1Response>,
-  errors: [BadRequest, NotFound, UnknownElasticsearchError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44877,7 +44883,8 @@ export const authenticateSecurity: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(37024, __c1157, 0) as any as S.Schema<AuthenticateSecurityRequest>,
   output: __S(37025, __c1157, 1) as any as S.Schema<AuthenticateSecurityResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44894,7 +44901,8 @@ export const authenticateSecurityOidc: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c35, 0) as any as S.Schema<AuthenticateSecurityOidcRequest>,
   output: __S(1121, __c35, 1) as any as S.Schema<AuthenticateSecurityOidcResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44911,7 +44919,8 @@ export const authenticateSecuritySaml: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1696, __c53, 0) as any as S.Schema<AuthenticateSecuritySamlRequest>,
   output: __S(1697, __c53, 1) as any as S.Schema<AuthenticateSecuritySamlResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44928,7 +44937,8 @@ export const bulk: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2209, __c69, 1) as any as S.Schema<BulkRequest>,
   output: __S(2244, __c70, 4) as any as S.Schema<BulkResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44945,7 +44955,8 @@ export const bulk1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2721, __c85, 1) as any as S.Schema<Bulk1Request>,
   output: __S(2244, __c70, 4) as any as S.Schema<Bulk1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44962,7 +44973,8 @@ export const bulk2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3169, __c99, 1) as any as S.Schema<Bulk2Request>,
   output: __S(2244, __c70, 4) as any as S.Schema<Bulk2Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44979,7 +44991,8 @@ export const bulk3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3649, __c114, 1) as any as S.Schema<Bulk3Request>,
   output: __S(2244, __c70, 4) as any as S.Schema<Bulk3Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44996,7 +45009,8 @@ export const cancelConnectorSyncJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4064, __c127, 0) as any as S.Schema<CancelConnectorSyncJobRequest>,
   output: __S(4096, __c128, 0) as any as S.Schema<CancelConnectorSyncJobResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45013,7 +45027,8 @@ export const cancelReindex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4736, __c148, 0) as any as S.Schema<CancelReindexRequest>,
   output: __S(4737, __c148, 1) as any as S.Schema<CancelReindexResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45030,7 +45045,8 @@ export const cancelTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5312, __c166, 0) as any as S.Schema<CancelTaskRequest>,
   output: __S(5410, __c169, 2) as any as S.Schema<TasksTypesTaskListResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45047,7 +45063,8 @@ export const catAliases: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5952, __c186, 0) as any as S.Schema<CatAliasesRequest>,
   output: __S(5986, __c187, 2) as any as S.Schema<CatAliasesResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45064,7 +45081,8 @@ export const catAliases1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6560, __c205, 0) as any as S.Schema<CatAliases1Request>,
   output: __S(5986, __c187, 2) as any as S.Schema<CatAliases1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45081,7 +45099,8 @@ export const catAllocation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7072, __c221, 0) as any as S.Schema<CatAllocationRequest>,
   output: __S(7106, __c222, 2) as any as S.Schema<CatAllocationResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45098,7 +45117,8 @@ export const catAllocation1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7744, __c242, 0) as any as S.Schema<CatAllocation1Request>,
   output: __S(7106, __c222, 2) as any as S.Schema<CatAllocation1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45115,7 +45135,8 @@ export const catCircuitBreaker: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8160, __c255, 0) as any as S.Schema<CatCircuitBreakerRequest>,
   output: __S(8194, __c256, 2) as any as S.Schema<CatCircuitBreakerResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45132,7 +45153,8 @@ export const catCircuitBreaker1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8576, __c268, 0) as any as S.Schema<CatCircuitBreaker1Request>,
   output: __S(8194, __c256, 2) as any as S.Schema<CatCircuitBreaker1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45149,7 +45171,8 @@ export const catComponentTemplates: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8992, __c281, 0) as any as S.Schema<CatComponentTemplatesRequest>,
   output: __S(9026, __c282, 2) as any as S.Schema<CatComponentTemplatesResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45166,7 +45189,8 @@ export const catComponentTemplates1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9440, __c295, 0) as any as S.Schema<CatComponentTemplates1Request>,
   output: __S(9026, __c282, 2) as any as S.Schema<CatComponentTemplates1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45183,7 +45207,8 @@ export const catCount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9856, __c308, 0) as any as S.Schema<CatCountRequest>,
   output: __S(9890, __c309, 2) as any as S.Schema<CatCountResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45200,7 +45225,8 @@ export const catCount1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10336, __c323, 0) as any as S.Schema<CatCount1Request>,
   output: __S(9890, __c309, 2) as any as S.Schema<CatCount1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45217,7 +45243,8 @@ export const catCount2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10688, __c334, 0) as any as S.Schema<CatCount2Request>,
   output: __S(9890, __c309, 2) as any as S.Schema<CatCount2Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45234,7 +45261,8 @@ export const catCount3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11200, __c350, 0) as any as S.Schema<CatCount3Request>,
   output: __S(9890, __c309, 2) as any as S.Schema<CatCount3Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45251,7 +45279,8 @@ export const catFielddata: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11680, __c365, 0) as any as S.Schema<CatFielddataRequest>,
   output: __S(11714, __c366, 2) as any as S.Schema<CatFielddataResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45268,7 +45297,8 @@ export const catFielddata1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12256, __c383, 0) as any as S.Schema<CatFielddata1Request>,
   output: __S(11714, __c366, 2) as any as S.Schema<CatFielddata1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45285,7 +45315,8 @@ export const catHealth: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12704, __c397, 0) as any as S.Schema<CatHealthRequest>,
   output: __S(12707, __c397, 3) as any as S.Schema<CatHealthResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45302,7 +45333,8 @@ export const catHelp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13152, __c411, 0) as any as S.Schema<CatHelpRequest>,
   output: __S(13184, __c412, 0) as any as S.Schema<CatHelpResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45319,7 +45351,8 @@ export const catIndices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13760, __c430, 0) as any as S.Schema<CatIndicesRequest>,
   output: __S(13794, __c431, 2) as any as S.Schema<CatIndicesResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45336,7 +45369,8 @@ export const catIndices1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14176, __c443, 0) as any as S.Schema<CatIndices1Request>,
   output: __S(13794, __c431, 2) as any as S.Schema<CatIndices1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45353,7 +45387,8 @@ export const catMaster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14560, __c455, 0) as any as S.Schema<CatMasterRequest>,
   output: __S(14563, __c455, 3) as any as S.Schema<CatMasterResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45370,7 +45405,8 @@ export const catMlDatafeeds: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14912, __c466, 0) as any as S.Schema<CatMlDatafeedsRequest>,
   output: __S(14946, __c467, 2) as any as S.Schema<CatMlDatafeedsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45387,7 +45423,8 @@ export const catMlDatafeeds1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15584, __c487, 0) as any as S.Schema<CatMlDatafeeds1Request>,
   output: __S(14946, __c467, 2) as any as S.Schema<CatMlDatafeeds1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45404,7 +45441,8 @@ export const catMlDataFrameAnalytics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16096, __c503, 0) as any as S.Schema<CatMlDataFrameAnalyticsRequest>,
   output: __S(16130, __c504, 2) as any as S.Schema<CatMlDataFrameAnalyticsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45421,7 +45459,8 @@ export const catMlDataFrameAnalytics1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16512, __c516, 0) as any as S.Schema<CatMlDataFrameAnalytics1Request>,
   output: __S(16130, __c504, 2) as any as S.Schema<CatMlDataFrameAnalytics1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45438,7 +45477,8 @@ export const catMlJobs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16992, __c531, 0) as any as S.Schema<CatMlJobsRequest>,
   output: __S(17026, __c532, 2) as any as S.Schema<CatMlJobsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45455,7 +45495,8 @@ export const catMlJobs1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17440, __c545, 0) as any as S.Schema<CatMlJobs1Request>,
   output: __S(17026, __c532, 2) as any as S.Schema<CatMlJobs1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45472,7 +45513,8 @@ export const catMlTrainedModels: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17824, __c557, 0) as any as S.Schema<CatMlTrainedModelsRequest>,
   output: __S(17858, __c558, 2) as any as S.Schema<CatMlTrainedModelsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45489,7 +45531,8 @@ export const catMlTrainedModels1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18464, __c577, 0) as any as S.Schema<CatMlTrainedModels1Request>,
   output: __S(17858, __c558, 2) as any as S.Schema<CatMlTrainedModels1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45506,7 +45549,8 @@ export const catNodeattrs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18912, __c591, 0) as any as S.Schema<CatNodeattrsRequest>,
   output: __S(18915, __c591, 3) as any as S.Schema<CatNodeattrsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45523,7 +45567,8 @@ export const catNodes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19552, __c611, 0) as any as S.Schema<CatNodesRequest>,
   output: __S(19555, __c611, 3) as any as S.Schema<CatNodesResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45540,7 +45585,8 @@ export const catPendingTasks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20192, __c631, 0) as any as S.Schema<CatPendingTasksRequest>,
   output: __S(20195, __c631, 3) as any as S.Schema<CatPendingTasksResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45557,7 +45603,8 @@ export const catPlugins: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20704, __c647, 0) as any as S.Schema<CatPluginsRequest>,
   output: __S(20707, __c647, 3) as any as S.Schema<CatPluginsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45574,7 +45621,8 @@ export const catRecovery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21280, __c665, 0) as any as S.Schema<CatRecoveryRequest>,
   output: __S(21314, __c666, 2) as any as S.Schema<CatRecoveryResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45591,7 +45639,8 @@ export const catRecovery1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21824, __c682, 0) as any as S.Schema<CatRecovery1Request>,
   output: __S(21314, __c666, 2) as any as S.Schema<CatRecovery1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45608,7 +45657,8 @@ export const catRepositories: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22208, __c694, 0) as any as S.Schema<CatRepositoriesRequest>,
   output: __S(22211, __c694, 3) as any as S.Schema<CatRepositoriesResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45625,7 +45675,8 @@ export const catSegments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22592, __c706, 0) as any as S.Schema<CatSegmentsRequest>,
   output: __S(22626, __c707, 2) as any as S.Schema<CatSegmentsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45642,7 +45693,8 @@ export const catSegments1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23104, __c722, 0) as any as S.Schema<CatSegments1Request>,
   output: __S(22626, __c707, 2) as any as S.Schema<CatSegments1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45659,7 +45711,8 @@ export const catShards: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23552, __c736, 0) as any as S.Schema<CatShardsRequest>,
   output: __S(23586, __c737, 2) as any as S.Schema<CatShardsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45676,7 +45729,8 @@ export const catShards1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24032, __c751, 0) as any as S.Schema<CatShards1Request>,
   output: __S(23586, __c737, 2) as any as S.Schema<CatShards1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45693,7 +45747,8 @@ export const catSnapshots: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24384, __c762, 0) as any as S.Schema<CatSnapshotsRequest>,
   output: __S(24418, __c763, 2) as any as S.Schema<CatSnapshotsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45710,7 +45765,8 @@ export const catSnapshots1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24832, __c776, 0) as any as S.Schema<CatSnapshots1Request>,
   output: __S(24418, __c763, 2) as any as S.Schema<CatSnapshots1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45727,7 +45783,8 @@ export const catTasks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25280, __c790, 0) as any as S.Schema<CatTasksRequest>,
   output: __S(25283, __c790, 3) as any as S.Schema<CatTasksResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45744,7 +45801,8 @@ export const catTemplates: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25696, __c803, 0) as any as S.Schema<CatTemplatesRequest>,
   output: __S(25730, __c804, 2) as any as S.Schema<CatTemplatesResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45761,7 +45819,8 @@ export const catTemplates1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26112, __c816, 0) as any as S.Schema<CatTemplates1Request>,
   output: __S(25730, __c804, 2) as any as S.Schema<CatTemplates1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45778,7 +45837,8 @@ export const catThreadPool: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26528, __c829, 0) as any as S.Schema<CatThreadPoolRequest>,
   output: __S(26562, __c830, 2) as any as S.Schema<CatThreadPoolResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45795,7 +45855,8 @@ export const catThreadPool1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26944, __c842, 0) as any as S.Schema<CatThreadPool1Request>,
   output: __S(26562, __c830, 2) as any as S.Schema<CatThreadPool1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45812,7 +45873,8 @@ export const catTransforms: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27680, __c865, 0) as any as S.Schema<CatTransformsRequest>,
   output: __S(27714, __c866, 2) as any as S.Schema<CatTransformsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45829,7 +45891,8 @@ export const catTransforms1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28160, __c880, 0) as any as S.Schema<CatTransforms1Request>,
   output: __S(27714, __c866, 2) as any as S.Schema<CatTransforms1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45846,7 +45909,8 @@ export const ccrDeleteAutoFollowPattern: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28640, __c895, 0) as any as S.Schema<CcrDeleteAutoFollowPatternRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45863,7 +45927,8 @@ export const ccrFollowInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28992, __c906, 0) as any as S.Schema<CcrFollowInfoRequest>,
   output: __S(28996, __c906, 4) as any as S.Schema<CcrFollowInfoResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45880,7 +45945,8 @@ export const ccrFollowStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29504, __c922, 0) as any as S.Schema<CcrFollowStatsRequest>,
   output: __S(29542, __c923, 6) as any as S.Schema<CcrFollowStatsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45897,7 +45963,8 @@ export const ccrForgetFollower: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30080, __c940, 0) as any as S.Schema<CcrForgetFollowerRequest>,
   output: __S(30112, __c941, 0) as any as S.Schema<CcrForgetFollowerResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45914,7 +45981,8 @@ export const ccrGetAutoFollowPattern: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30592, __c956, 0) as any as S.Schema<CcrGetAutoFollowPatternRequest>,
   output: __S(30627, __c957, 3) as any as S.Schema<CcrGetAutoFollowPatternResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45931,7 +45999,8 @@ export const ccrGetAutoFollowPattern1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31104, __c972, 0) as any as S.Schema<CcrGetAutoFollowPattern1Request>,
   output: __S(30627, __c957, 3) as any as S.Schema<CcrGetAutoFollowPattern1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45948,7 +46017,8 @@ export const ccrPauseAutoFollowPattern: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31584, __c987, 0) as any as S.Schema<CcrPauseAutoFollowPatternRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45965,7 +46035,8 @@ export const ccrPutAutoFollowPattern: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32032, __c1001, 0) as any as S.Schema<CcrPutAutoFollowPatternRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45982,7 +46053,8 @@ export const ccrResumeAutoFollowPattern: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32480, __c1015, 0) as any as S.Schema<CcrResumeAutoFollowPatternRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45999,7 +46071,8 @@ export const ccrResumeFollow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32896, __c1028, 0) as any as S.Schema<CcrResumeFollowRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46016,7 +46089,8 @@ export const ccrStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(33344, __c1042, 0) as any as S.Schema<CcrStatsRequest>,
   output: __S(33348, __c1042, 4) as any as S.Schema<CcrStatsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46033,7 +46107,8 @@ export const claimConnectorSyncJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(33696, __c1053, 0) as any as S.Schema<ClaimConnectorSyncJobRequest>,
   output: __S(13184, __c412, 0) as any as S.Schema<ClaimConnectorSyncJobResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46050,7 +46125,8 @@ export const clearScroll: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(34176, __c1068, 0) as any as S.Schema<ClearScrollRequest>,
   output: __S(6528, __c204, 0) as any as S.Schema<ClearScrollResponse>,
-  errors: [NotFound, UnknownElasticsearchError],
+  errors: [NotFound],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46067,7 +46143,8 @@ export const clearScroll1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(34592, __c1081, 0) as any as S.Schema<ClearScroll1Request>,
   output: __S(6528, __c204, 0) as any as S.Schema<ClearScroll1Response>,
-  errors: [NotFound, UnknownElasticsearchError],
+  errors: [NotFound],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46084,7 +46161,8 @@ export const cloneIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(35072, __c1096, 0) as any as S.Schema<CloneIndexRequest>,
   output: __S(35104, __c1097, 0) as any as S.Schema<CloneIndexResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46101,7 +46179,8 @@ export const cloneSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(35648, __c1114, 0) as any as S.Schema<CloneSnapshotRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46118,7 +46197,8 @@ export const closePointInTime: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(36096, __c1128, 0) as any as S.Schema<ClosePointInTimeRequest>,
   output: __S(6528, __c204, 0) as any as S.Schema<ClosePointInTimeResponse>,
-  errors: [NotFound, UnknownElasticsearchError],
+  errors: [NotFound],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46135,7 +46215,8 @@ export const clusterAllocationExplain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(36256, __c1133, 0) as any as S.Schema<ClusterAllocationExplainRequest>,
   output: __S(36300, __c1134, 12) as any as S.Schema<ClusterAllocationExplainResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46152,7 +46233,8 @@ export const clusterAllocationExplain1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(36384, __c1137, 0) as any as S.Schema<ClusterAllocationExplain1Request>,
   output: __S(36300, __c1134, 12) as any as S.Schema<ClusterAllocationExplain1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46169,7 +46251,8 @@ export const clusterDeleteComponentTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(36416, __c1138, 0) as any as S.Schema<ClusterDeleteComponentTemplateRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46186,7 +46269,8 @@ export const clusterDeleteVotingConfigExclusions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(36448, __c1139, 0) as any as S.Schema<ClusterDeleteVotingConfigExclusionsRequest>,
   output: __S(224, __c7, 0) as any as S.Schema<ClusterDeleteVotingConfigExclusionsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46203,7 +46287,8 @@ export const clusterGetComponentTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(36480, __c1140, 0) as any as S.Schema<ClusterGetComponentTemplateRequest>,
   output: __S(36516, __c1141, 4) as any as S.Schema<ClusterGetComponentTemplateResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46220,7 +46305,8 @@ export const clusterGetComponentTemplate1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(36960, __c1155, 0) as any as S.Schema<ClusterGetComponentTemplate1Request>,
   output: __S(36516, __c1141, 4) as any as S.Schema<ClusterGetComponentTemplate1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46237,7 +46323,8 @@ export const clusterGetSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(36992, __c1156, 0) as any as S.Schema<ClusterGetSettingsRequest>,
   output: __S(36993, __c1156, 1) as any as S.Schema<ClusterGetSettingsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46254,7 +46341,8 @@ export const clusterHealth: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(37120, __c1160, 0) as any as S.Schema<ClusterHealthRequest>,
   output: __S(37156, __c1161, 4) as any as S.Schema<ClusterHealthHealthResponseBody>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46271,7 +46359,8 @@ export const clusterHealth1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(37184, __c1162, 0) as any as S.Schema<ClusterHealth1Request>,
   output: __S(37156, __c1161, 4) as any as S.Schema<ClusterHealthHealthResponseBody>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46288,7 +46377,8 @@ export const clusterInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(37216, __c1163, 0) as any as S.Schema<ClusterInfoRequest>,
   output: __S(37217, __c1163, 1) as any as S.Schema<ClusterInfoResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46305,7 +46395,8 @@ export const clusterPendingTasks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(37312, __c1166, 0) as any as S.Schema<ClusterPendingTasksRequest>,
   output: __S(37315, __c1166, 3) as any as S.Schema<ClusterPendingTasksResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46322,7 +46413,8 @@ export const clusterPostVotingConfigExclusions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(37344, __c1167, 0) as any as S.Schema<ClusterPostVotingConfigExclusionsRequest>,
   output: __S(224, __c7, 0) as any as S.Schema<ClusterPostVotingConfigExclusionsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46339,7 +46431,8 @@ export const clusterPutComponentTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(37376, __c1168, 0) as any as S.Schema<ClusterPutComponentTemplateRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46356,7 +46449,8 @@ export const clusterPutComponentTemplate1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(37472, __c1171, 0) as any as S.Schema<ClusterPutComponentTemplate1Request>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46373,7 +46467,8 @@ export const clusterPutSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(37504, __c1172, 0) as any as S.Schema<ClusterPutSettingsRequest>,
   output: __S(37505, __c1172, 1) as any as S.Schema<ClusterPutSettingsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46390,7 +46485,8 @@ export const clusterRemoteInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(37536, __c1173, 0) as any as S.Schema<ClusterRemoteInfoRequest>,
   output: __S(37538, __c1173, 2) as any as S.Schema<ClusterRemoteInfoResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46407,7 +46503,8 @@ export const clusterReroute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(37574, __c1174, 6) as any as S.Schema<ClusterRerouteRequest>,
   output: __S(37580, __c1174, 12) as any as S.Schema<ClusterRerouteResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46424,7 +46521,8 @@ export const clusterState: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c36, 0) as any as S.Schema<ClusterStateRequest>,
   output: __S(13184, __c412, 0) as any as S.Schema<ClusterStateResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46441,7 +46539,8 @@ export const clusterState1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c37, 0) as any as S.Schema<ClusterState1Request>,
   output: __S(13184, __c412, 0) as any as S.Schema<ClusterState1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46458,7 +46557,8 @@ export const clusterState2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c38, 0) as any as S.Schema<ClusterState2Request>,
   output: __S(13184, __c412, 0) as any as S.Schema<ClusterState2Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46475,7 +46575,8 @@ export const clusterStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c39, 0) as any as S.Schema<ClusterStatsRequest>,
   output: __S(1335, __c41, 23) as any as S.Schema<ClusterStatsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46492,7 +46593,8 @@ export const clusterStats1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1472, __c46, 0) as any as S.Schema<ClusterStats1Request>,
   output: __S(1335, __c41, 23) as any as S.Schema<ClusterStats1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46509,7 +46611,8 @@ export const connectorCheckIn: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1504, __c47, 0) as any as S.Schema<ConnectorCheckInRequest>,
   output: __S(4096, __c128, 0) as any as S.Schema<ConnectorCheckInResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46526,7 +46629,8 @@ export const connectorPut1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1536, __c48, 0) as any as S.Schema<ConnectorPut1Request>,
   output: __S(1568, __c49, 0) as any as S.Schema<ConnectorPut1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46543,7 +46647,8 @@ export const connectorSyncJobCheckIn: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1600, __c50, 0) as any as S.Schema<ConnectorSyncJobCheckInRequest>,
   output: __S(13184, __c412, 0) as any as S.Schema<ConnectorSyncJobCheckInResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46560,7 +46665,8 @@ export const connectorSyncJobError: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1632, __c51, 0) as any as S.Schema<ConnectorSyncJobErrorRequest>,
   output: __S(13184, __c412, 0) as any as S.Schema<ConnectorSyncJobErrorResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46577,7 +46683,8 @@ export const connectorSyncJobUpdateStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1664, __c52, 0) as any as S.Schema<ConnectorSyncJobUpdateStatsRequest>,
   output: __S(13184, __c412, 0) as any as S.Schema<ConnectorSyncJobUpdateStatsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46594,7 +46701,8 @@ export const connectorUpdateActiveFiltering: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1728, __c54, 0) as any as S.Schema<ConnectorUpdateActiveFilteringRequest>,
   output: __S(4096, __c128, 0) as any as S.Schema<ConnectorUpdateActiveFilteringResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46611,7 +46719,8 @@ export const connectorUpdateApiKeyId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1760, __c55, 0) as any as S.Schema<ConnectorUpdateApiKeyIdRequest>,
   output: __S(4096, __c128, 0) as any as S.Schema<ConnectorUpdateApiKeyIdResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46628,7 +46737,8 @@ export const connectorUpdateConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1792, __c56, 0) as any as S.Schema<ConnectorUpdateConfigurationRequest>,
   output: __S(4096, __c128, 0) as any as S.Schema<ConnectorUpdateConfigurationResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46645,7 +46755,8 @@ export const connectorUpdateError: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1856, __c58, 0) as any as S.Schema<ConnectorUpdateErrorRequest>,
   output: __S(4096, __c128, 0) as any as S.Schema<ConnectorUpdateErrorResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46662,7 +46773,8 @@ export const connectorUpdateFeatures: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1888, __c59, 0) as any as S.Schema<ConnectorUpdateFeaturesRequest>,
   output: __S(4096, __c128, 0) as any as S.Schema<ConnectorUpdateFeaturesResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46679,7 +46791,8 @@ export const connectorUpdateFiltering: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1952, __c61, 0) as any as S.Schema<ConnectorUpdateFilteringRequest>,
   output: __S(4096, __c128, 0) as any as S.Schema<ConnectorUpdateFilteringResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46696,7 +46809,8 @@ export const connectorUpdateFilteringValidation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2080, __c65, 0) as any as S.Schema<ConnectorUpdateFilteringValidationRequest>,
   output: __S(4096, __c128, 0) as any as S.Schema<ConnectorUpdateFilteringValidationResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46713,7 +46827,8 @@ export const connectorUpdateIndexName: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2112, __c66, 0) as any as S.Schema<ConnectorUpdateIndexNameRequest>,
   output: __S(4096, __c128, 0) as any as S.Schema<ConnectorUpdateIndexNameResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46730,7 +46845,8 @@ export const connectorUpdateName: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2144, __c67, 0) as any as S.Schema<ConnectorUpdateNameRequest>,
   output: __S(4096, __c128, 0) as any as S.Schema<ConnectorUpdateNameResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46747,7 +46863,8 @@ export const connectorUpdateNative: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2176, __c68, 0) as any as S.Schema<ConnectorUpdateNativeRequest>,
   output: __S(4096, __c128, 0) as any as S.Schema<ConnectorUpdateNativeResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46764,7 +46881,8 @@ export const connectorUpdatePipeline: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2272, __c71, 0) as any as S.Schema<ConnectorUpdatePipelineRequest>,
   output: __S(4096, __c128, 0) as any as S.Schema<ConnectorUpdatePipelineResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46781,7 +46899,8 @@ export const connectorUpdateScheduling: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2336, __c73, 0) as any as S.Schema<ConnectorUpdateSchedulingRequest>,
   output: __S(4096, __c128, 0) as any as S.Schema<ConnectorUpdateSchedulingResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46798,7 +46917,8 @@ export const connectorUpdateServiceType: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2400, __c75, 0) as any as S.Schema<ConnectorUpdateServiceTypeRequest>,
   output: __S(4096, __c128, 0) as any as S.Schema<ConnectorUpdateServiceTypeResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46815,7 +46935,8 @@ export const connectorUpdateStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2432, __c76, 0) as any as S.Schema<ConnectorUpdateStatusRequest>,
   output: __S(4096, __c128, 0) as any as S.Schema<ConnectorUpdateStatusResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46832,7 +46953,8 @@ export const count: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2464, __c77, 0) as any as S.Schema<CountRequest>,
   output: __S(2496, __c78, 0) as any as S.Schema<CountResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46849,7 +46971,8 @@ export const count1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2528, __c79, 0) as any as S.Schema<Count1Request>,
   output: __S(2496, __c78, 0) as any as S.Schema<Count1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46866,7 +46989,8 @@ export const count2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2560, __c80, 0) as any as S.Schema<Count2Request>,
   output: __S(2496, __c78, 0) as any as S.Schema<Count2Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46883,7 +47007,8 @@ export const count3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2592, __c81, 0) as any as S.Schema<Count3Request>,
   output: __S(2496, __c78, 0) as any as S.Schema<Count3Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46900,7 +47025,8 @@ export const create: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2624, __c82, 0) as any as S.Schema<CreateRequest>,
   output: __S(2656, __c83, 0) as any as S.Schema<TypesWriteResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46917,7 +47043,8 @@ export const create1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2688, __c84, 0) as any as S.Schema<Create1Request>,
   output: __S(2656, __c83, 0) as any as S.Schema<TypesWriteResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46934,7 +47061,8 @@ export const createIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2752, __c86, 0) as any as S.Schema<CreateIndexRequest>,
   output: __S(2753, __c86, 1) as any as S.Schema<CreateIndexResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46951,7 +47079,8 @@ export const createSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2784, __c87, 0) as any as S.Schema<CreateSnapshotRequest>,
   output: __S(2848, __c89, 0) as any as S.Schema<CreateSnapshotResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46968,7 +47097,8 @@ export const danglingIndicesDeleteDanglingIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2880, __c90, 0) as any as S.Schema<DanglingIndicesDeleteDanglingIndexRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46985,7 +47115,8 @@ export const danglingIndicesImportDanglingIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2912, __c91, 0) as any as S.Schema<DanglingIndicesImportDanglingIndexRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47002,7 +47133,8 @@ export const danglingIndicesListDanglingIndices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2944, __c92, 0) as any as S.Schema<DanglingIndicesListDanglingIndicesRequest>,
   output: __S(2947, __c92, 3) as any as S.Schema<DanglingIndicesListDanglingIndicesResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47019,7 +47151,8 @@ export const Delete: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2976, __c93, 0) as any as S.Schema<DeleteRequest>,
   output: __S(2656, __c83, 0) as any as S.Schema<TypesWriteResponseBase>,
-  errors: [NotFound, UnknownElasticsearchError],
+  errors: [NotFound],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47036,7 +47169,8 @@ export const deleteByQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3008, __c94, 0) as any as S.Schema<DeleteByQueryRequest>,
   output: __S(3009, __c94, 1) as any as S.Schema<DeleteByQueryResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47053,7 +47187,8 @@ export const deleteByQueryRethrottle: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3072, __c96, 0) as any as S.Schema<DeleteByQueryRethrottleRequest>,
   output: __S(5410, __c169, 2) as any as S.Schema<TasksTypesTaskListResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47070,7 +47205,8 @@ export const deleteConnector: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3104, __c97, 0) as any as S.Schema<DeleteConnectorRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47087,7 +47223,8 @@ export const deleteConnectorSyncJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3136, __c98, 0) as any as S.Schema<DeleteConnectorSyncJobRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47104,7 +47241,8 @@ export const deleteEql: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3200, __c100, 0) as any as S.Schema<DeleteEqlRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47121,7 +47259,8 @@ export const deleteEsqlAsyncQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3232, __c101, 0) as any as S.Schema<DeleteEsqlAsyncQueryRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47138,7 +47277,8 @@ export const deleteIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3264, __c102, 0) as any as S.Schema<DeleteIndexRequest>,
   output: __S(3296, __c103, 0) as any as S.Schema<DeleteIndexResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47155,7 +47295,8 @@ export const deleteIndexTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3328, __c104, 0) as any as S.Schema<DeleteIndexTemplateRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47172,7 +47313,8 @@ export const deleteInference: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3360, __c105, 0) as any as S.Schema<DeleteInferenceRequest>,
   output: __S(3392, __c106, 0) as any as S.Schema<DeleteInferenceResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47189,7 +47331,8 @@ export const deleteLicense: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3424, __c107, 0) as any as S.Schema<DeleteLicenseRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47206,7 +47349,8 @@ export const deleteScript: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3456, __c108, 0) as any as S.Schema<DeleteScriptRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47223,7 +47367,8 @@ export const deleteSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3488, __c109, 0) as any as S.Schema<DeleteSnapshotRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47240,7 +47385,8 @@ export const deleteSynonym: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3520, __c110, 0) as any as S.Schema<DeleteSynonymRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47257,7 +47403,8 @@ export const deleteSynonymRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3552, __c111, 0) as any as S.Schema<DeleteSynonymRuleRequest>,
   output: __S(3616, __c113, 0) as any as S.Schema<SynonymsTypesSynonymsUpdateResult>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47274,7 +47421,8 @@ export const deleteTransform: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3680, __c115, 0) as any as S.Schema<DeleteTransformRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47291,7 +47439,8 @@ export const disableStreamsLog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3712, __c116, 0) as any as S.Schema<DisableStreamsLogRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47308,7 +47457,8 @@ export const enableStreamsLog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3744, __c117, 0) as any as S.Schema<EnableStreamsLogRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [Conflict, UnknownElasticsearchError],
+  errors: [Conflict],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47325,7 +47475,8 @@ export const enrichDeletePolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3776, __c118, 0) as any as S.Schema<EnrichDeletePolicyRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47342,7 +47493,8 @@ export const enrichExecutePolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3808, __c119, 0) as any as S.Schema<EnrichExecutePolicyRequest>,
   output: __S(3810, __c119, 2) as any as S.Schema<EnrichExecutePolicyResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47359,7 +47511,8 @@ export const enrichGetPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3840, __c120, 0) as any as S.Schema<EnrichGetPolicyRequest>,
   output: __S(3875, __c121, 3) as any as S.Schema<EnrichGetPolicyResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47376,7 +47529,8 @@ export const enrichGetPolicy1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3936, __c123, 0) as any as S.Schema<EnrichGetPolicy1Request>,
   output: __S(3875, __c121, 3) as any as S.Schema<EnrichGetPolicy1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47393,7 +47547,8 @@ export const enrichPutPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3968, __c124, 0) as any as S.Schema<EnrichPutPolicyRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47410,7 +47565,8 @@ export const enrichStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4000, __c125, 0) as any as S.Schema<EnrichStatsRequest>,
   output: __S(4007, __c125, 7) as any as S.Schema<EnrichStatsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47427,7 +47583,8 @@ export const eqlGetStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4032, __c126, 0) as any as S.Schema<EqlGetStatusRequest>,
   output: __S(4033, __c126, 1) as any as S.Schema<EqlGetStatusResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47444,7 +47601,8 @@ export const eqlSearch1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4128, __c129, 0) as any as S.Schema<EqlSearch1Request>,
   output: __S(4166, __c130, 6) as any as S.Schema<EqlTypesEqlSearchResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47461,7 +47619,8 @@ export const esqlAsyncQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4192, __c131, 0) as any as S.Schema<EsqlAsyncQueryRequest>,
   output: __S(4320, __c135, 0) as any as S.Schema<EsqlAsyncQueryResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47478,7 +47637,8 @@ export const esqlDeleteDataset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4352, __c136, 0) as any as S.Schema<EsqlDeleteDatasetRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47495,7 +47655,8 @@ export const esqlDeleteDataSource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4384, __c137, 0) as any as S.Schema<EsqlDeleteDataSourceRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47512,7 +47673,8 @@ export const esqlDeleteView: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4416, __c138, 0) as any as S.Schema<EsqlDeleteViewRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47529,7 +47691,8 @@ export const esqlGetDataset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4448, __c139, 0) as any as S.Schema<EsqlGetDatasetRequest>,
   output: __S(4482, __c140, 2) as any as S.Schema<EsqlGetDatasetResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47546,7 +47709,8 @@ export const esqlGetDataset1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4576, __c143, 0) as any as S.Schema<EsqlGetDataset1Request>,
   output: __S(4482, __c140, 2) as any as S.Schema<EsqlGetDataset1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47563,7 +47727,8 @@ export const esqlGetDataSource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4608, __c144, 0) as any as S.Schema<EsqlGetDataSourceRequest>,
   output: __S(4642, __c145, 2) as any as S.Schema<EsqlGetDataSourceResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47580,7 +47745,8 @@ export const esqlGetDataSource1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4672, __c146, 0) as any as S.Schema<EsqlGetDataSource1Request>,
   output: __S(4642, __c145, 2) as any as S.Schema<EsqlGetDataSource1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47597,7 +47763,8 @@ export const esqlGetQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4704, __c147, 0) as any as S.Schema<EsqlGetQueryRequest>,
   output: __S(4705, __c147, 1) as any as S.Schema<EsqlGetQueryResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47614,7 +47781,8 @@ export const esqlGetView: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4864, __c152, 0) as any as S.Schema<EsqlGetViewRequest>,
   output: __S(4898, __c153, 2) as any as S.Schema<EsqlGetViewResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47631,7 +47799,8 @@ export const esqlGetView1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4928, __c154, 0) as any as S.Schema<EsqlGetView1Request>,
   output: __S(4898, __c153, 2) as any as S.Schema<EsqlGetView1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47648,7 +47817,8 @@ export const esqlListQueries: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4960, __c155, 0) as any as S.Schema<EsqlListQueriesRequest>,
   output: __S(4963, __c155, 3) as any as S.Schema<EsqlListQueriesResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47665,7 +47835,8 @@ export const esqlPutDataset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4992, __c156, 0) as any as S.Schema<EsqlPutDatasetRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47682,7 +47853,8 @@ export const esqlPutDataSource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5024, __c157, 0) as any as S.Schema<EsqlPutDataSourceRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47699,7 +47871,8 @@ export const esqlPutView: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5056, __c158, 0) as any as S.Schema<EsqlPutViewRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47716,7 +47889,8 @@ export const esqlQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5088, __c159, 0) as any as S.Schema<EsqlQueryRequest>,
   output: __S(5089, __c159, 1) as any as S.Schema<EsqlTypesEsqlResult>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47733,7 +47907,8 @@ export const executeScriptsPainless: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5120, __c160, 0) as any as S.Schema<ExecuteScriptsPainlessRequest>,
   output: __S(5153, __c161, 1) as any as S.Schema<ExecuteScriptsPainlessResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47750,7 +47925,8 @@ export const explain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5184, __c162, 0) as any as S.Schema<ExplainRequest>,
   output: __S(5216, __c163, 0) as any as S.Schema<ExplainResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47767,7 +47943,8 @@ export const explain1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5280, __c165, 0) as any as S.Schema<Explain1Request>,
   output: __S(5216, __c163, 0) as any as S.Schema<Explain1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47784,7 +47961,8 @@ export const fieldCaps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5472, __c171, 0) as any as S.Schema<FieldCapsRequest>,
   output: __S(5507, __c172, 3) as any as S.Schema<FieldCapsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47801,7 +47979,8 @@ export const fieldCaps1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5536, __c173, 0) as any as S.Schema<FieldCaps1Request>,
   output: __S(5507, __c172, 3) as any as S.Schema<FieldCaps1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47818,7 +47997,8 @@ export const fieldCaps2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5568, __c174, 0) as any as S.Schema<FieldCaps2Request>,
   output: __S(5507, __c172, 3) as any as S.Schema<FieldCaps2Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47835,7 +48015,8 @@ export const fieldCaps3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5600, __c175, 0) as any as S.Schema<FieldCaps3Request>,
   output: __S(5507, __c172, 3) as any as S.Schema<FieldCaps3Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47852,7 +48033,8 @@ export const fleetGlobalCheckpoints: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5632, __c176, 0) as any as S.Schema<FleetGlobalCheckpointsRequest>,
   output: __S(5633, __c176, 1) as any as S.Schema<FleetGlobalCheckpointsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47869,7 +48051,8 @@ export const fleetMsearch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5664, __c177, 0) as any as S.Schema<FleetMsearchRequest>,
   output: __S(5696, __c178, 0) as any as S.Schema<FleetMsearchResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47886,7 +48069,8 @@ export const fleetMsearch1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5792, __c181, 0) as any as S.Schema<FleetMsearch1Request>,
   output: __S(5696, __c178, 0) as any as S.Schema<FleetMsearch1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47903,7 +48087,8 @@ export const fleetMsearch2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5824, __c182, 0) as any as S.Schema<FleetMsearch2Request>,
   output: __S(5696, __c178, 0) as any as S.Schema<FleetMsearch2Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47920,7 +48105,8 @@ export const fleetMsearch3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5856, __c183, 0) as any as S.Schema<FleetMsearch3Request>,
   output: __S(5696, __c178, 0) as any as S.Schema<FleetMsearch3Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47937,7 +48123,8 @@ export const fleetSearch1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5888, __c184, 0) as any as S.Schema<FleetSearch1Request>,
   output: __S(5920, __c185, 0) as any as S.Schema<FleetSearch1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47954,7 +48141,8 @@ export const flushIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6016, __c188, 0) as any as S.Schema<FlushIndexRequest>,
   output: __S(6048, __c189, 0) as any as S.Schema<TypesShardsOperationResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47971,7 +48159,8 @@ export const followCcr: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6080, __c190, 0) as any as S.Schema<FollowCcrRequest>,
   output: __S(6081, __c190, 1) as any as S.Schema<FollowCcrResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47988,7 +48177,8 @@ export const followCcrPause: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6112, __c191, 0) as any as S.Schema<FollowCcrPauseRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48005,7 +48195,8 @@ export const get: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6144, __c192, 0) as any as S.Schema<GetRequest>,
   output: __S(6145, __c192, 1) as any as S.Schema<GlobalGetGetResult>,
-  errors: [NotFound, UnknownElasticsearchError],
+  errors: [NotFound],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48022,7 +48213,8 @@ export const getConnector: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6176, __c193, 0) as any as S.Schema<GetConnectorRequest>,
   output: __S(6211, __c194, 3) as any as S.Schema<ConnectorTypesConnector>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48039,7 +48231,8 @@ export const getConnectorSyncJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6240, __c195, 0) as any as S.Schema<GetConnectorSyncJobRequest>,
   output: __S(6273, __c196, 1) as any as S.Schema<ConnectorTypesConnectorSyncJob>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48056,7 +48249,8 @@ export const getEql: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6304, __c197, 0) as any as S.Schema<GetEqlRequest>,
   output: __S(4166, __c130, 6) as any as S.Schema<EqlTypesEqlSearchResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48073,7 +48267,8 @@ export const getEsqlAsyncQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6336, __c198, 0) as any as S.Schema<GetEsqlAsyncQueryRequest>,
   output: __S(4320, __c135, 0) as any as S.Schema<GetEsqlAsyncQueryResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48090,7 +48285,8 @@ export const getFeatures: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6368, __c199, 0) as any as S.Schema<GetFeaturesRequest>,
   output: __S(6402, __c200, 2) as any as S.Schema<GetFeaturesResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48107,7 +48303,8 @@ export const getIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6432, __c201, 0) as any as S.Schema<GetIndexRequest>,
   output: __S(6465, __c202, 1) as any as S.Schema<GetIndexResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48124,7 +48321,8 @@ export const getIndexTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6592, __c206, 0) as any as S.Schema<GetIndexTemplateRequest>,
   output: __S(6628, __c207, 4) as any as S.Schema<GetIndexTemplateResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48141,7 +48339,8 @@ export const getIndexTemplate1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6688, __c209, 0) as any as S.Schema<GetIndexTemplate1Request>,
   output: __S(6628, __c207, 4) as any as S.Schema<GetIndexTemplate1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48158,7 +48357,8 @@ export const getInference: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6720, __c210, 0) as any as S.Schema<GetInferenceRequest>,
   output: __S(6753, __c211, 1) as any as S.Schema<GetInferenceResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48175,7 +48375,8 @@ export const getLicense: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6816, __c213, 0) as any as S.Schema<GetLicenseRequest>,
   output: __S(6818, __c213, 2) as any as S.Schema<GetLicenseResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48192,7 +48393,8 @@ export const getReindex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6848, __c214, 0) as any as S.Schema<GetReindexRequest>,
   output: __S(6849, __c214, 1) as any as S.Schema<GetReindexResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48209,7 +48411,8 @@ export const getScript: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6880, __c215, 0) as any as S.Schema<GetScriptRequest>,
   output: __S(6881, __c215, 1) as any as S.Schema<GetScriptResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48226,7 +48429,8 @@ export const getScriptContext: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6944, __c217, 0) as any as S.Schema<GetScriptContextRequest>,
   output: __S(6949, __c217, 5) as any as S.Schema<GetScriptContextResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48243,7 +48447,8 @@ export const getScriptLanguages: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6976, __c218, 0) as any as S.Schema<GetScriptLanguagesRequest>,
   output: __S(6979, __c218, 3) as any as S.Schema<GetScriptLanguagesResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48260,7 +48465,8 @@ export const getSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7008, __c219, 0) as any as S.Schema<GetSnapshotRequest>,
   output: __S(7012, __c219, 4) as any as S.Schema<GetSnapshotResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48277,7 +48483,8 @@ export const getSource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7040, __c220, 0) as any as S.Schema<GetSourceRequest>,
   output: __S(13184, __c412, 0) as any as S.Schema<GetSourceResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48294,7 +48501,8 @@ export const getSynonym: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7136, __c223, 0) as any as S.Schema<GetSynonymRequest>,
   output: __S(7138, __c223, 2) as any as S.Schema<GetSynonymResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48311,7 +48519,8 @@ export const getSynonymRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7200, __c225, 0) as any as S.Schema<GetSynonymRuleRequest>,
   output: __S(7168, __c224, 0) as any as S.Schema<SynonymsTypesSynonymRuleRead>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48328,7 +48537,8 @@ export const getSynonymsSets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7232, __c226, 0) as any as S.Schema<GetSynonymsSetsRequest>,
   output: __S(7235, __c226, 3) as any as S.Schema<GetSynonymsSetsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48345,7 +48555,8 @@ export const getTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7264, __c227, 0) as any as S.Schema<GetTaskRequest>,
   output: __S(7265, __c227, 1) as any as S.Schema<GetTaskResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48362,7 +48573,8 @@ export const getTransform: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7296, __c228, 0) as any as S.Schema<GetTransformRequest>,
   output: __S(7330, __c229, 2) as any as S.Schema<GetTransformResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48379,7 +48591,8 @@ export const getTransform1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7456, __c233, 0) as any as S.Schema<GetTransform1Request>,
   output: __S(7330, __c229, 2) as any as S.Schema<GetTransform1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48396,7 +48609,8 @@ export const getTransformStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7488, __c234, 0) as any as S.Schema<GetTransformStatsRequest>,
   output: __S(7498, __c234, 10) as any as S.Schema<GetTransformStatsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48413,7 +48627,8 @@ export const graphExplore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7552, __c236, 0) as any as S.Schema<GraphExploreRequest>,
   output: __S(7595, __c237, 11) as any as S.Schema<GraphExploreResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48430,7 +48645,8 @@ export const graphExplore1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7616, __c238, 0) as any as S.Schema<GraphExplore1Request>,
   output: __S(7595, __c237, 11) as any as S.Schema<GraphExplore1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48447,7 +48663,8 @@ export const healthReport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7648, __c239, 0) as any as S.Schema<HealthReportRequest>,
   output: __S(7719, __c241, 7) as any as S.Schema<HealthReportResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48464,7 +48681,8 @@ export const healthReport1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7776, __c243, 0) as any as S.Schema<HealthReport1Request>,
   output: __S(7719, __c241, 7) as any as S.Schema<HealthReport1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48481,7 +48699,8 @@ export const ilmDeleteLifecycle: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7808, __c244, 0) as any as S.Schema<IlmDeleteLifecycleRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48498,7 +48717,8 @@ export const ilmExplainLifecycle: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7840, __c245, 0) as any as S.Schema<IlmExplainLifecycleRequest>,
   output: __S(7842, __c245, 2) as any as S.Schema<IlmExplainLifecycleResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48515,7 +48735,8 @@ export const ilmGetLifecycle: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7872, __c246, 0) as any as S.Schema<IlmGetLifecycleRequest>,
   output: __S(7920, __c247, 16) as any as S.Schema<IlmGetLifecycleResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48532,7 +48753,8 @@ export const ilmGetLifecycle1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7936, __c248, 0) as any as S.Schema<IlmGetLifecycle1Request>,
   output: __S(7920, __c247, 16) as any as S.Schema<IlmGetLifecycle1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48549,7 +48771,8 @@ export const ilmGetStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7968, __c249, 0) as any as S.Schema<IlmGetStatusRequest>,
   output: __S(8000, __c250, 0) as any as S.Schema<IlmGetStatusResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48566,7 +48789,8 @@ export const ilmMigrateToDataTiers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8032, __c251, 0) as any as S.Schema<IlmMigrateToDataTiersRequest>,
   output: __S(8033, __c251, 1) as any as S.Schema<IlmMigrateToDataTiersResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48583,7 +48807,8 @@ export const ilmMoveToStep: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8065, __c252, 1) as any as S.Schema<IlmMoveToStepRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48600,7 +48825,8 @@ export const ilmPutLifecycle: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8096, __c253, 0) as any as S.Schema<IlmPutLifecycleRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48617,7 +48843,8 @@ export const ilmRemovePolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8128, __c254, 0) as any as S.Schema<IlmRemovePolicyRequest>,
   output: __S(8129, __c254, 1) as any as S.Schema<IlmRemovePolicyResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48634,7 +48861,8 @@ export const indicesAddBlock: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8224, __c257, 0) as any as S.Schema<IndicesAddBlockRequest>,
   output: __S(8227, __c257, 3) as any as S.Schema<IndicesAddBlockResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48651,7 +48879,8 @@ export const indicesAnalyze: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8256, __c258, 0) as any as S.Schema<IndicesAnalyzeRequest>,
   output: __S(8299, __c259, 11) as any as S.Schema<IndicesAnalyzeResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48668,7 +48897,8 @@ export const indicesAnalyze1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8320, __c260, 0) as any as S.Schema<IndicesAnalyze1Request>,
   output: __S(8299, __c259, 11) as any as S.Schema<IndicesAnalyze1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48685,7 +48915,8 @@ export const indicesAnalyze2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8352, __c261, 0) as any as S.Schema<IndicesAnalyze2Request>,
   output: __S(8299, __c259, 11) as any as S.Schema<IndicesAnalyze2Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48702,7 +48933,8 @@ export const indicesAnalyze3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8384, __c262, 0) as any as S.Schema<IndicesAnalyze3Request>,
   output: __S(8299, __c259, 11) as any as S.Schema<IndicesAnalyze3Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48719,7 +48951,8 @@ export const indicesCancelMigrateReindex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8416, __c263, 0) as any as S.Schema<IndicesCancelMigrateReindexRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48736,7 +48969,8 @@ export const indicesClearCache: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8448, __c264, 0) as any as S.Schema<IndicesClearCacheRequest>,
   output: __S(6048, __c189, 0) as any as S.Schema<TypesShardsOperationResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48753,7 +48987,8 @@ export const indicesClearCache1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8480, __c265, 0) as any as S.Schema<IndicesClearCache1Request>,
   output: __S(6048, __c189, 0) as any as S.Schema<TypesShardsOperationResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48770,7 +49005,8 @@ export const indicesClone1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8512, __c266, 0) as any as S.Schema<IndicesClone1Request>,
   output: __S(35104, __c1097, 0) as any as S.Schema<IndicesClone1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48787,7 +49023,8 @@ export const indicesClose: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8544, __c267, 0) as any as S.Schema<IndicesCloseRequest>,
   output: __S(8549, __c267, 5) as any as S.Schema<IndicesCloseResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48804,7 +49041,8 @@ export const indicesCreateDataStream: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8608, __c269, 0) as any as S.Schema<IndicesCreateDataStreamRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48821,7 +49059,8 @@ export const indicesCreateFrom: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8640, __c270, 0) as any as S.Schema<IndicesCreateFromRequest>,
   output: __S(35104, __c1097, 0) as any as S.Schema<IndicesCreateFromResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48838,7 +49077,8 @@ export const indicesCreateFrom1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8672, __c271, 0) as any as S.Schema<IndicesCreateFrom1Request>,
   output: __S(35104, __c1097, 0) as any as S.Schema<IndicesCreateFrom1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48855,7 +49095,8 @@ export const indicesDataStreamsStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8704, __c272, 0) as any as S.Schema<IndicesDataStreamsStatsRequest>,
   output: __S(8738, __c273, 2) as any as S.Schema<IndicesDataStreamsStatsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48872,7 +49113,8 @@ export const indicesDataStreamsStats1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8768, __c274, 0) as any as S.Schema<IndicesDataStreamsStats1Request>,
   output: __S(8738, __c273, 2) as any as S.Schema<IndicesDataStreamsStats1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48889,7 +49131,8 @@ export const indicesDeleteAlias: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8800, __c275, 0) as any as S.Schema<IndicesDeleteAliasRequest>,
   output: __S(8832, __c276, 0) as any as S.Schema<IndicesDeleteAliasResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48906,7 +49149,8 @@ export const indicesDeleteAlias1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8864, __c277, 0) as any as S.Schema<IndicesDeleteAlias1Request>,
   output: __S(8832, __c276, 0) as any as S.Schema<IndicesDeleteAlias1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48923,7 +49167,8 @@ export const indicesDeleteDataLifecycle: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8896, __c278, 0) as any as S.Schema<IndicesDeleteDataLifecycleRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48940,7 +49185,8 @@ export const indicesDeleteDataStream: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8928, __c279, 0) as any as S.Schema<IndicesDeleteDataStreamRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48957,7 +49203,8 @@ export const indicesDeleteDataStreamOptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8960, __c280, 0) as any as S.Schema<IndicesDeleteDataStreamOptionsRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48974,7 +49221,8 @@ export const indicesDiskUsage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9056, __c283, 0) as any as S.Schema<IndicesDiskUsageRequest>,
   output: __S(13184, __c412, 0) as any as S.Schema<IndicesDiskUsageResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48991,7 +49239,8 @@ export const indicesDownsample: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9088, __c284, 0) as any as S.Schema<IndicesDownsampleRequest>,
   output: __S(13184, __c412, 0) as any as S.Schema<IndicesDownsampleResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49008,7 +49257,8 @@ export const indicesExplainDataLifecycle: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9120, __c285, 0) as any as S.Schema<IndicesExplainDataLifecycleRequest>,
   output: __S(9123, __c285, 3) as any as S.Schema<IndicesExplainDataLifecycleResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49025,7 +49275,8 @@ export const indicesFieldUsageStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9152, __c286, 0) as any as S.Schema<IndicesFieldUsageStatsRequest>,
   output: __S(30112, __c941, 0) as any as S.Schema<IndicesFieldUsageStatsFieldsUsageBody>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49042,7 +49293,8 @@ export const indicesFlush1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9184, __c287, 0) as any as S.Schema<IndicesFlush1Request>,
   output: __S(6048, __c189, 0) as any as S.Schema<TypesShardsOperationResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49059,7 +49311,8 @@ export const indicesFlush2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9216, __c288, 0) as any as S.Schema<IndicesFlush2Request>,
   output: __S(6048, __c189, 0) as any as S.Schema<TypesShardsOperationResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49076,7 +49329,8 @@ export const indicesFlush3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9248, __c289, 0) as any as S.Schema<IndicesFlush3Request>,
   output: __S(6048, __c189, 0) as any as S.Schema<TypesShardsOperationResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49093,7 +49347,8 @@ export const indicesForcemerge: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9280, __c290, 0) as any as S.Schema<IndicesForcemergeRequest>,
   output: __S(9312, __c291, 0) as any as S.Schema<IndicesForcemergeResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49110,7 +49365,8 @@ export const indicesForcemerge1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9344, __c292, 0) as any as S.Schema<IndicesForcemerge1Request>,
   output: __S(9312, __c291, 0) as any as S.Schema<IndicesForcemerge1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49127,7 +49383,8 @@ export const indicesGetAlias: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9376, __c293, 0) as any as S.Schema<IndicesGetAliasRequest>,
   output: __S(9410, __c294, 2) as any as S.Schema<IndicesGetAliasResponse>,
-  errors: [NotFound, UnknownElasticsearchError],
+  errors: [NotFound],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49144,7 +49401,8 @@ export const indicesGetAlias1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9472, __c296, 0) as any as S.Schema<IndicesGetAlias1Request>,
   output: __S(9410, __c294, 2) as any as S.Schema<IndicesGetAlias1Response>,
-  errors: [NotFound, UnknownElasticsearchError],
+  errors: [NotFound],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49161,7 +49419,8 @@ export const indicesGetAlias2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9504, __c297, 0) as any as S.Schema<IndicesGetAlias2Request>,
   output: __S(9410, __c294, 2) as any as S.Schema<IndicesGetAlias2Response>,
-  errors: [NotFound, UnknownElasticsearchError],
+  errors: [NotFound],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49178,7 +49437,8 @@ export const indicesGetAlias3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9536, __c298, 0) as any as S.Schema<IndicesGetAlias3Request>,
   output: __S(9410, __c294, 2) as any as S.Schema<IndicesGetAlias3Response>,
-  errors: [NotFound, UnknownElasticsearchError],
+  errors: [NotFound],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49195,7 +49455,8 @@ export const indicesGetDataLifecycle: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9568, __c299, 0) as any as S.Schema<IndicesGetDataLifecycleRequest>,
   output: __S(9572, __c299, 4) as any as S.Schema<IndicesGetDataLifecycleResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49212,7 +49473,8 @@ export const indicesGetDataLifecycleStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9600, __c300, 0) as any as S.Schema<IndicesGetDataLifecycleStatsRequest>,
   output: __S(9603, __c300, 3) as any as S.Schema<IndicesGetDataLifecycleStatsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49229,7 +49491,8 @@ export const indicesGetDataStream: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9632, __c301, 0) as any as S.Schema<IndicesGetDataStreamRequest>,
   output: __S(9669, __c302, 5) as any as S.Schema<IndicesGetDataStreamResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49246,7 +49509,8 @@ export const indicesGetDataStream1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9728, __c304, 0) as any as S.Schema<IndicesGetDataStream1Request>,
   output: __S(9669, __c302, 5) as any as S.Schema<IndicesGetDataStream1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49263,7 +49527,8 @@ export const indicesGetDataStreamMappings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9760, __c305, 0) as any as S.Schema<IndicesGetDataStreamMappingsRequest>,
   output: __S(9763, __c305, 3) as any as S.Schema<IndicesGetDataStreamMappingsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49280,7 +49545,8 @@ export const indicesGetDataStreamOptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9792, __c306, 0) as any as S.Schema<IndicesGetDataStreamOptionsRequest>,
   output: __S(9795, __c306, 3) as any as S.Schema<IndicesGetDataStreamOptionsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49297,7 +49563,8 @@ export const indicesGetDataStreamSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9824, __c307, 0) as any as S.Schema<IndicesGetDataStreamSettingsRequest>,
   output: __S(9827, __c307, 3) as any as S.Schema<IndicesGetDataStreamSettingsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49314,7 +49581,8 @@ export const indicesGetFieldMapping: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9920, __c310, 0) as any as S.Schema<IndicesGetFieldMappingRequest>,
   output: __S(9956, __c311, 4) as any as S.Schema<IndicesGetFieldMappingResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49331,7 +49599,8 @@ export const indicesGetFieldMapping1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9984, __c312, 0) as any as S.Schema<IndicesGetFieldMapping1Request>,
   output: __S(9956, __c311, 4) as any as S.Schema<IndicesGetFieldMapping1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49348,7 +49617,8 @@ export const indicesGetMapping: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10016, __c313, 0) as any as S.Schema<IndicesGetMappingRequest>,
   output: __S(10050, __c314, 2) as any as S.Schema<IndicesGetMappingResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49365,7 +49635,8 @@ export const indicesGetMapping1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10080, __c315, 0) as any as S.Schema<IndicesGetMapping1Request>,
   output: __S(10050, __c314, 2) as any as S.Schema<IndicesGetMapping1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49382,7 +49653,8 @@ export const indicesGetMigrateReindexStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10112, __c316, 0) as any as S.Schema<IndicesGetMigrateReindexStatusRequest>,
   output: __S(10117, __c316, 5) as any as S.Schema<IndicesGetMigrateReindexStatusResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49399,7 +49671,8 @@ export const indicesGetSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10144, __c317, 0) as any as S.Schema<IndicesGetSettingsRequest>,
   output: __S(6465, __c202, 1) as any as S.Schema<IndicesGetSettingsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49416,7 +49689,8 @@ export const indicesGetSettings1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10176, __c318, 0) as any as S.Schema<IndicesGetSettings1Request>,
   output: __S(6465, __c202, 1) as any as S.Schema<IndicesGetSettings1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49433,7 +49707,8 @@ export const indicesGetSettings2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10208, __c319, 0) as any as S.Schema<IndicesGetSettings2Request>,
   output: __S(6465, __c202, 1) as any as S.Schema<IndicesGetSettings2Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49450,7 +49725,8 @@ export const indicesGetSettings3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10240, __c320, 0) as any as S.Schema<IndicesGetSettings3Request>,
   output: __S(6465, __c202, 1) as any as S.Schema<IndicesGetSettings3Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49467,7 +49743,8 @@ export const indicesMigrateReindex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10272, __c321, 0) as any as S.Schema<IndicesMigrateReindexRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49484,7 +49761,8 @@ export const indicesMigrateToDataStream: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10368, __c324, 0) as any as S.Schema<IndicesMigrateToDataStreamRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49501,7 +49779,8 @@ export const indicesModifyDataStream: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10403, __c325, 3) as any as S.Schema<IndicesModifyDataStreamRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49518,7 +49797,8 @@ export const indicesOpen: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10432, __c326, 0) as any as S.Schema<IndicesOpenRequest>,
   output: __S(10433, __c326, 1) as any as S.Schema<IndicesOpenResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49535,7 +49815,8 @@ export const indicesPromoteDataStream: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10464, __c327, 0) as any as S.Schema<IndicesPromoteDataStreamRequest>,
   output: __S(13184, __c412, 0) as any as S.Schema<IndicesPromoteDataStreamResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49552,7 +49833,8 @@ export const indicesPutAlias: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10496, __c328, 0) as any as S.Schema<IndicesPutAliasRequest>,
   output: __S(8832, __c276, 0) as any as S.Schema<IndicesPutAliasResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49569,7 +49851,8 @@ export const indicesPutAlias1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10528, __c329, 0) as any as S.Schema<IndicesPutAlias1Request>,
   output: __S(8832, __c276, 0) as any as S.Schema<IndicesPutAlias1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49586,7 +49869,8 @@ export const indicesPutAlias2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10560, __c330, 0) as any as S.Schema<IndicesPutAlias2Request>,
   output: __S(8832, __c276, 0) as any as S.Schema<IndicesPutAlias2Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49603,7 +49887,8 @@ export const indicesPutAlias3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10592, __c331, 0) as any as S.Schema<IndicesPutAlias3Request>,
   output: __S(8832, __c276, 0) as any as S.Schema<IndicesPutAlias3Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49620,7 +49905,8 @@ export const indicesPutDataLifecycle: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10624, __c332, 0) as any as S.Schema<IndicesPutDataLifecycleRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49637,7 +49923,8 @@ export const indicesPutDataStreamMappings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10656, __c333, 0) as any as S.Schema<IndicesPutDataStreamMappingsRequest>,
   output: __S(10659, __c333, 3) as any as S.Schema<IndicesPutDataStreamMappingsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49654,7 +49941,8 @@ export const indicesPutDataStreamOptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10720, __c335, 0) as any as S.Schema<IndicesPutDataStreamOptionsRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49671,7 +49959,8 @@ export const indicesPutDataStreamSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10752, __c336, 0) as any as S.Schema<IndicesPutDataStreamSettingsRequest>,
   output: __S(10758, __c336, 6) as any as S.Schema<IndicesPutDataStreamSettingsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49688,7 +49977,8 @@ export const indicesPutMapping: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10784, __c337, 0) as any as S.Schema<IndicesPutMappingRequest>,
   output: __S(3296, __c103, 0) as any as S.Schema<IndicesPutMappingResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49705,7 +49995,8 @@ export const indicesPutMapping1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10816, __c338, 0) as any as S.Schema<IndicesPutMapping1Request>,
   output: __S(3296, __c103, 0) as any as S.Schema<IndicesPutMapping1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49722,7 +50013,8 @@ export const indicesPutSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10848, __c339, 0) as any as S.Schema<IndicesPutSettingsRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49739,7 +50031,8 @@ export const indicesPutSettings1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10880, __c340, 0) as any as S.Schema<IndicesPutSettings1Request>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49756,7 +50049,8 @@ export const indicesRecovery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10912, __c341, 0) as any as S.Schema<IndicesRecoveryRequest>,
   output: __S(10956, __c342, 12) as any as S.Schema<IndicesRecoveryResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49773,7 +50067,8 @@ export const indicesRecovery1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10976, __c343, 0) as any as S.Schema<IndicesRecovery1Request>,
   output: __S(10956, __c342, 12) as any as S.Schema<IndicesRecovery1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49790,7 +50085,8 @@ export const indicesRefresh1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11008, __c344, 0) as any as S.Schema<IndicesRefresh1Request>,
   output: __S(6048, __c189, 0) as any as S.Schema<TypesShardsOperationResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49807,7 +50103,8 @@ export const indicesRefresh2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11040, __c345, 0) as any as S.Schema<IndicesRefresh2Request>,
   output: __S(6048, __c189, 0) as any as S.Schema<TypesShardsOperationResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49824,7 +50121,8 @@ export const indicesRefresh3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11232, __c351, 0) as any as S.Schema<IndicesRefresh3Request>,
   output: __S(6048, __c189, 0) as any as S.Schema<TypesShardsOperationResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49841,7 +50139,8 @@ export const indicesReloadSearchAnalyzers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11264, __c352, 0) as any as S.Schema<IndicesReloadSearchAnalyzersRequest>,
   output: __S(3586, __c112, 2) as any as S.Schema<IndicesReloadSearchAnalyzersReloadResult>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49858,7 +50157,8 @@ export const indicesReloadSearchAnalyzers1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11296, __c353, 0) as any as S.Schema<IndicesReloadSearchAnalyzers1Request>,
   output: __S(3586, __c112, 2) as any as S.Schema<IndicesReloadSearchAnalyzersReloadResult>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49875,7 +50175,8 @@ export const indicesRemoveBlock: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11328, __c354, 0) as any as S.Schema<IndicesRemoveBlockRequest>,
   output: __S(11331, __c354, 3) as any as S.Schema<IndicesRemoveBlockResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49892,7 +50193,8 @@ export const indicesResolveCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11360, __c355, 0) as any as S.Schema<IndicesResolveClusterRequest>,
   output: __S(11395, __c356, 3) as any as S.Schema<IndicesResolveClusterResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49909,7 +50211,8 @@ export const indicesResolveCluster1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11424, __c357, 0) as any as S.Schema<IndicesResolveCluster1Request>,
   output: __S(11395, __c356, 3) as any as S.Schema<IndicesResolveCluster1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49926,7 +50229,8 @@ export const indicesResolveIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11456, __c358, 0) as any as S.Schema<IndicesResolveIndexRequest>,
   output: __S(11494, __c359, 6) as any as S.Schema<IndicesResolveIndexResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49943,7 +50247,8 @@ export const indicesResolveIndex1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11520, __c360, 0) as any as S.Schema<IndicesResolveIndex1Request>,
   output: __S(11494, __c359, 6) as any as S.Schema<IndicesResolveIndex1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49960,7 +50265,8 @@ export const indicesRollover: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11552, __c361, 0) as any as S.Schema<IndicesRolloverRequest>,
   output: __S(11585, __c362, 1) as any as S.Schema<IndicesRolloverResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49977,7 +50283,8 @@ export const indicesRollover1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11648, __c364, 0) as any as S.Schema<IndicesRollover1Request>,
   output: __S(11585, __c362, 1) as any as S.Schema<IndicesRollover1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49994,7 +50301,8 @@ export const indicesSegments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11744, __c367, 0) as any as S.Schema<IndicesSegmentsRequest>,
   output: __S(11779, __c368, 3) as any as S.Schema<IndicesSegmentsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50011,7 +50319,8 @@ export const indicesSegments1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11808, __c369, 0) as any as S.Schema<IndicesSegments1Request>,
   output: __S(11779, __c368, 3) as any as S.Schema<IndicesSegments1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50028,7 +50337,8 @@ export const indicesShardStores: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11840, __c370, 0) as any as S.Schema<IndicesShardStoresRequest>,
   output: __S(11879, __c371, 7) as any as S.Schema<IndicesShardStoresResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50045,7 +50355,8 @@ export const indicesShardStores1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11904, __c372, 0) as any as S.Schema<IndicesShardStores1Request>,
   output: __S(11879, __c371, 7) as any as S.Schema<IndicesShardStores1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50062,7 +50373,8 @@ export const indicesShrink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11936, __c373, 0) as any as S.Schema<IndicesShrinkRequest>,
   output: __S(11968, __c374, 0) as any as S.Schema<IndicesShrinkResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50079,7 +50391,8 @@ export const indicesShrink1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12000, __c375, 0) as any as S.Schema<IndicesShrink1Request>,
   output: __S(11968, __c374, 0) as any as S.Schema<IndicesShrink1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50096,7 +50409,8 @@ export const indicesSimulateIndexTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12032, __c376, 0) as any as S.Schema<IndicesSimulateIndexTemplateRequest>,
   output: __S(12067, __c377, 3) as any as S.Schema<IndicesSimulateIndexTemplateResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50113,7 +50427,8 @@ export const indicesSimulateTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12128, __c379, 0) as any as S.Schema<IndicesSimulateTemplateRequest>,
   output: __S(12067, __c377, 3) as any as S.Schema<IndicesSimulateTemplateResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50130,7 +50445,8 @@ export const indicesSimulateTemplate1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12192, __c381, 0) as any as S.Schema<IndicesSimulateTemplate1Request>,
   output: __S(12067, __c377, 3) as any as S.Schema<IndicesSimulateTemplate1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50147,7 +50463,8 @@ export const indicesSplit: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12224, __c382, 0) as any as S.Schema<IndicesSplitRequest>,
   output: __S(11968, __c374, 0) as any as S.Schema<IndicesSplitResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50164,7 +50481,8 @@ export const indicesSplit1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12288, __c384, 0) as any as S.Schema<IndicesSplit1Request>,
   output: __S(11968, __c374, 0) as any as S.Schema<IndicesSplit1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50181,7 +50499,8 @@ export const indicesStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12320, __c385, 0) as any as S.Schema<IndicesStatsRequest>,
   output: __S(12357, __c386, 5) as any as S.Schema<IndicesStatsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50198,7 +50517,8 @@ export const indicesStats1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12416, __c388, 0) as any as S.Schema<IndicesStats1Request>,
   output: __S(12357, __c386, 5) as any as S.Schema<IndicesStats1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50215,7 +50535,8 @@ export const indicesStats2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12448, __c389, 0) as any as S.Schema<IndicesStats2Request>,
   output: __S(12357, __c386, 5) as any as S.Schema<IndicesStats2Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50232,7 +50553,8 @@ export const indicesStats3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12480, __c390, 0) as any as S.Schema<IndicesStats3Request>,
   output: __S(12357, __c386, 5) as any as S.Schema<IndicesStats3Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50249,7 +50571,8 @@ export const indicesUpdateAliases: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12517, __c391, 5) as any as S.Schema<IndicesUpdateAliasesRequest>,
   output: __S(12521, __c391, 9) as any as S.Schema<IndicesUpdateAliasesResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50266,7 +50589,8 @@ export const indicesValidateQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12544, __c392, 0) as any as S.Schema<IndicesValidateQueryRequest>,
   output: __S(12578, __c393, 2) as any as S.Schema<IndicesValidateQueryResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50283,7 +50607,8 @@ export const indicesValidateQuery1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12608, __c394, 0) as any as S.Schema<IndicesValidateQuery1Request>,
   output: __S(12578, __c393, 2) as any as S.Schema<IndicesValidateQuery1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50300,7 +50625,8 @@ export const indicesValidateQuery2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12640, __c395, 0) as any as S.Schema<IndicesValidateQuery2Request>,
   output: __S(12578, __c393, 2) as any as S.Schema<IndicesValidateQuery2Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50317,7 +50643,8 @@ export const indicesValidateQuery3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12672, __c396, 0) as any as S.Schema<IndicesValidateQuery3Request>,
   output: __S(12578, __c393, 2) as any as S.Schema<IndicesValidateQuery3Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50334,7 +50661,8 @@ export const inferenceChatCompletionUnified: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12736, __c398, 0) as any as S.Schema<InferenceChatCompletionUnifiedRequest>,
   output: __S(13184, __c412, 0) as any as S.Schema<InferenceChatCompletionUnifiedResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50351,7 +50679,8 @@ export const inferenceCompletion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12800, __c400, 0) as any as S.Schema<InferenceCompletionRequest>,
   output: __S(12801, __c400, 1) as any as S.Schema<InferenceTypesCompletionInferenceResult>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50368,7 +50697,8 @@ export const inferenceDecision: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12866, __c402, 2) as any as S.Schema<InferenceDecisionRequest>,
   output: __S(12869, __c402, 5) as any as S.Schema<InferenceTypesDecisionInferenceResult>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50385,7 +50715,8 @@ export const inferenceDelete1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12896, __c403, 0) as any as S.Schema<InferenceDelete1Request>,
   output: __S(3392, __c106, 0) as any as S.Schema<InferenceDelete1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50402,7 +50733,8 @@ export const inferenceDeleteRegionPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12928, __c404, 0) as any as S.Schema<InferenceDeleteRegionPolicyRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50419,7 +50751,8 @@ export const inferenceDocumentExtraction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12961, __c405, 1) as any as S.Schema<InferenceDocumentExtractionRequest>,
   output: __S(12964, __c405, 4) as any as S.Schema<InferenceTypesDocumentExtractionInferenceResult>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50436,7 +50769,8 @@ export const inferenceEmbedding: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12992, __c406, 0) as any as S.Schema<InferenceEmbeddingRequest>,
   output: __S(12993, __c406, 1) as any as S.Schema<InferenceTypesEmbeddingInferenceResult>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50453,7 +50787,8 @@ export const inferenceGet1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13056, __c408, 0) as any as S.Schema<InferenceGet1Request>,
   output: __S(6753, __c211, 1) as any as S.Schema<InferenceGet1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50470,7 +50805,8 @@ export const inferenceGet2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13088, __c409, 0) as any as S.Schema<InferenceGet2Request>,
   output: __S(6753, __c211, 1) as any as S.Schema<InferenceGet2Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50487,7 +50823,8 @@ export const inferenceGet3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13120, __c410, 0) as any as S.Schema<InferenceGet3Request>,
   output: __S(6753, __c211, 1) as any as S.Schema<InferenceGet3Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50504,7 +50841,8 @@ export const inferenceGetRegionPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13216, __c413, 0) as any as S.Schema<InferenceGetRegionPolicyRequest>,
   output: __S(13251, __c414, 3) as any as S.Schema<InferenceTypesRegionPolicyDoc>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50521,7 +50859,8 @@ export const inferenceInference: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13280, __c415, 0) as any as S.Schema<InferenceInferenceRequest>,
   output: __S(13312, __c416, 0) as any as S.Schema<InferenceTypesInferenceResult>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50538,7 +50877,8 @@ export const inferenceInference1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13408, __c419, 0) as any as S.Schema<InferenceInference1Request>,
   output: __S(13312, __c416, 0) as any as S.Schema<InferenceTypesInferenceResult>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50555,7 +50895,8 @@ export const inferenceNonStreamingChatCompletion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13440, __c420, 0) as any as S.Schema<InferenceNonStreamingChatCompletionRequest>,
   output: __S(13450, __c420, 10) as any as S.Schema<InferenceTypesChatCompletionInferenceResult>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50572,7 +50913,8 @@ export const inferencePut1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13472, __c421, 0) as any as S.Schema<InferencePut1Request>,
   output: __S(6785, __c212, 1) as any as S.Schema<InferencePut1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50589,7 +50931,8 @@ export const inferencePutAi21: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13504, __c422, 0) as any as S.Schema<InferencePutAi21Request>,
   output: __S(6785, __c212, 1) as any as S.Schema<InferencePutAi21Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50606,7 +50949,8 @@ export const inferencePutAlibabacloud: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13602, __c425, 2) as any as S.Schema<InferencePutAlibabacloudRequest>,
   output: __S(6785, __c212, 1) as any as S.Schema<InferencePutAlibabacloudResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50623,7 +50967,8 @@ export const inferencePutAmazonbedrock: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13634, __c426, 2) as any as S.Schema<InferencePutAmazonbedrockRequest>,
   output: __S(6785, __c212, 1) as any as S.Schema<InferencePutAmazonbedrockResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50640,7 +50985,8 @@ export const inferencePutAmazonsagemaker: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13666, __c427, 2) as any as S.Schema<InferencePutAmazonsagemakerRequest>,
   output: __S(6785, __c212, 1) as any as S.Schema<InferencePutAmazonsagemakerResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50657,7 +51003,8 @@ export const inferencePutAnthropic: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13697, __c428, 1) as any as S.Schema<InferencePutAnthropicRequest>,
   output: __S(6785, __c212, 1) as any as S.Schema<InferencePutAnthropicResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50674,7 +51021,8 @@ export const inferencePutAzureaistudio: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13826, __c432, 2) as any as S.Schema<InferencePutAzureaistudioRequest>,
   output: __S(6785, __c212, 1) as any as S.Schema<InferencePutAzureaistudioResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50691,7 +51039,8 @@ export const inferencePutAzureopenai: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13857, __c433, 1) as any as S.Schema<InferencePutAzureopenaiRequest>,
   output: __S(6785, __c212, 1) as any as S.Schema<InferencePutAzureopenaiResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50708,7 +51057,8 @@ export const inferencePutCohere: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13922, __c435, 2) as any as S.Schema<InferencePutCohereRequest>,
   output: __S(6785, __c212, 1) as any as S.Schema<InferencePutCohereResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50725,7 +51075,8 @@ export const inferencePutContextualai: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13953, __c436, 1) as any as S.Schema<InferencePutContextualaiRequest>,
   output: __S(6785, __c212, 1) as any as S.Schema<InferencePutContextualaiResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50742,7 +51093,8 @@ export const inferencePutCustom: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13990, __c437, 6) as any as S.Schema<InferencePutCustomRequest>,
   output: __S(6785, __c212, 1) as any as S.Schema<InferencePutCustomResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50759,7 +51111,8 @@ export const inferencePutDeepseek: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14017, __c438, 1) as any as S.Schema<InferencePutDeepseekRequest>,
   output: __S(6785, __c212, 1) as any as S.Schema<InferencePutDeepseekResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50776,7 +51129,8 @@ export const inferencePutElasticsearch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14051, __c439, 3) as any as S.Schema<InferencePutElasticsearchRequest>,
   output: __S(6785, __c212, 1) as any as S.Schema<InferencePutElasticsearchResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50793,7 +51147,8 @@ export const inferencePutFireworksai: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14081, __c440, 1) as any as S.Schema<InferencePutFireworksaiRequest>,
   output: __S(6785, __c212, 1) as any as S.Schema<InferencePutFireworksaiResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50810,7 +51165,8 @@ export const inferencePutGoogleaistudio: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14112, __c441, 0) as any as S.Schema<InferencePutGoogleaistudioRequest>,
   output: __S(6785, __c212, 1) as any as S.Schema<InferencePutGoogleaistudioResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50827,7 +51183,8 @@ export const inferencePutGooglevertexai: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14147, __c442, 3) as any as S.Schema<InferencePutGooglevertexaiRequest>,
   output: __S(6785, __c212, 1) as any as S.Schema<InferencePutGooglevertexaiResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50844,7 +51201,8 @@ export const inferencePutGroq: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14208, __c444, 0) as any as S.Schema<InferencePutGroqRequest>,
   output: __S(6785, __c212, 1) as any as S.Schema<InferencePutGroqResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50861,7 +51219,8 @@ export const inferencePutHuggingFace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14241, __c445, 1) as any as S.Schema<InferencePutHuggingFaceRequest>,
   output: __S(6785, __c212, 1) as any as S.Schema<InferencePutHuggingFaceResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50878,7 +51237,8 @@ export const inferencePutJinaai: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14306, __c447, 2) as any as S.Schema<InferencePutJinaaiRequest>,
   output: __S(6785, __c212, 1) as any as S.Schema<InferencePutJinaaiResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50895,7 +51255,8 @@ export const inferencePutLlama: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14337, __c448, 1) as any as S.Schema<InferencePutLlamaRequest>,
   output: __S(6785, __c212, 1) as any as S.Schema<InferencePutLlamaResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50912,7 +51273,8 @@ export const inferencePutMistral: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14369, __c449, 1) as any as S.Schema<InferencePutMistralRequest>,
   output: __S(6785, __c212, 1) as any as S.Schema<InferencePutMistralResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50929,7 +51291,8 @@ export const inferencePutNvidia: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14402, __c450, 2) as any as S.Schema<InferencePutNvidiaRequest>,
   output: __S(6785, __c212, 1) as any as S.Schema<InferencePutNvidiaResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50946,7 +51309,8 @@ export const inferencePutOpenai: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14433, __c451, 1) as any as S.Schema<InferencePutOpenaiRequest>,
   output: __S(6785, __c212, 1) as any as S.Schema<InferencePutOpenaiResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50963,7 +51327,8 @@ export const inferencePutOpenshiftAi: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14465, __c452, 1) as any as S.Schema<InferencePutOpenshiftAiRequest>,
   output: __S(6785, __c212, 1) as any as S.Schema<InferencePutOpenshiftAiResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50980,7 +51345,8 @@ export const inferencePutRegionPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14496, __c453, 0) as any as S.Schema<InferencePutRegionPolicyRequest>,
   output: __S(13251, __c414, 3) as any as S.Schema<InferenceTypesRegionPolicyDoc>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50997,7 +51363,8 @@ export const inferencePutVoyageai: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14530, __c454, 2) as any as S.Schema<InferencePutVoyageaiRequest>,
   output: __S(6785, __c212, 1) as any as S.Schema<InferencePutVoyageaiResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51014,7 +51381,8 @@ export const inferencePutWatsonx: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14593, __c456, 1) as any as S.Schema<InferencePutWatsonxRequest>,
   output: __S(6785, __c212, 1) as any as S.Schema<InferencePutWatsonxResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51031,7 +51399,8 @@ export const inferenceRerank: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14624, __c457, 0) as any as S.Schema<InferenceRerankRequest>,
   output: __S(14625, __c457, 1) as any as S.Schema<InferenceTypesRerankedInferenceResult>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51048,7 +51417,8 @@ export const inferenceSparseEmbedding: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14656, __c458, 0) as any as S.Schema<InferenceSparseEmbeddingRequest>,
   output: __S(14657, __c458, 1) as any as S.Schema<InferenceTypesSparseEmbeddingInferenceResult>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51065,7 +51435,8 @@ export const inferenceStreamCompletion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14688, __c459, 0) as any as S.Schema<InferenceStreamCompletionRequest>,
   output: __S(13184, __c412, 0) as any as S.Schema<InferenceStreamCompletionResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51082,7 +51453,8 @@ export const inferenceTextEmbedding: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14720, __c460, 0) as any as S.Schema<InferenceTextEmbeddingRequest>,
   output: __S(14721, __c460, 1) as any as S.Schema<InferenceTypesTextEmbeddingInferenceResult>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51099,7 +51471,8 @@ export const inferenceUpdate1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14752, __c461, 0) as any as S.Schema<InferenceUpdate1Request>,
   output: __S(6785, __c212, 1) as any as S.Schema<InferenceUpdate1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51116,7 +51489,8 @@ export const info: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14784, __c462, 0) as any as S.Schema<InfoRequest>,
   output: __S(14786, __c462, 2) as any as S.Schema<InfoResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51133,7 +51507,8 @@ export const ingestDeleteGeoipDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14816, __c463, 0) as any as S.Schema<IngestDeleteGeoipDatabaseRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51150,7 +51525,8 @@ export const ingestDeleteIpLocationDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14848, __c464, 0) as any as S.Schema<IngestDeleteIpLocationDatabaseRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51167,7 +51543,8 @@ export const ingestDeletePipeline: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14880, __c465, 0) as any as S.Schema<IngestDeletePipelineRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51184,7 +51561,8 @@ export const ingestGeoIpStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14976, __c468, 0) as any as S.Schema<IngestGeoIpStatsRequest>,
   output: __S(14981, __c468, 5) as any as S.Schema<IngestGeoIpStatsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51201,7 +51579,8 @@ export const ingestGetGeoipDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15008, __c469, 0) as any as S.Schema<IngestGetGeoipDatabaseRequest>,
   output: __S(15043, __c470, 3) as any as S.Schema<IngestGetGeoipDatabaseResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51218,7 +51597,8 @@ export const ingestGetGeoipDatabase1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15104, __c472, 0) as any as S.Schema<IngestGetGeoipDatabase1Request>,
   output: __S(15043, __c470, 3) as any as S.Schema<IngestGetGeoipDatabase1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51235,7 +51615,8 @@ export const ingestGetIpLocationDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15136, __c473, 0) as any as S.Schema<IngestGetIpLocationDatabaseRequest>,
   output: __S(15171, __c474, 3) as any as S.Schema<IngestGetIpLocationDatabaseResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51252,7 +51633,8 @@ export const ingestGetIpLocationDatabase1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15232, __c476, 0) as any as S.Schema<IngestGetIpLocationDatabase1Request>,
   output: __S(15171, __c474, 3) as any as S.Schema<IngestGetIpLocationDatabase1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51269,7 +51651,8 @@ export const ingestGetPipeline: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15264, __c477, 0) as any as S.Schema<IngestGetPipelineRequest>,
   output: __S(15296, __c478, 0) as any as S.Schema<IngestGetPipelineResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51286,7 +51669,8 @@ export const ingestGetPipeline1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15456, __c483, 0) as any as S.Schema<IngestGetPipeline1Request>,
   output: __S(15296, __c478, 0) as any as S.Schema<IngestGetPipeline1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51303,7 +51687,8 @@ export const ingestProcessorGrok: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15488, __c484, 0) as any as S.Schema<IngestProcessorGrokRequest>,
   output: __S(15489, __c484, 1) as any as S.Schema<IngestProcessorGrokResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51320,7 +51705,8 @@ export const ingestPutGeoipDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15520, __c485, 0) as any as S.Schema<IngestPutGeoipDatabaseRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51337,7 +51723,8 @@ export const ingestPutIpLocationDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15552, __c486, 0) as any as S.Schema<IngestPutIpLocationDatabaseRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51354,7 +51741,8 @@ export const ingestPutPipeline: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15616, __c488, 0) as any as S.Schema<IngestPutPipelineRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51371,7 +51759,8 @@ export const ingestSimulate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15648, __c489, 0) as any as S.Schema<IngestSimulateRequest>,
   output: __S(15687, __c490, 7) as any as S.Schema<IngestSimulateResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51388,7 +51777,8 @@ export const ingestSimulate1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15744, __c492, 0) as any as S.Schema<IngestSimulate1Request>,
   output: __S(15687, __c490, 7) as any as S.Schema<IngestSimulate1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51405,7 +51795,8 @@ export const ingestSimulate2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15776, __c493, 0) as any as S.Schema<IngestSimulate2Request>,
   output: __S(15687, __c490, 7) as any as S.Schema<IngestSimulate2Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51422,7 +51813,8 @@ export const ingestSimulate3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15808, __c494, 0) as any as S.Schema<IngestSimulate3Request>,
   output: __S(15687, __c490, 7) as any as S.Schema<IngestSimulate3Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51439,7 +51831,8 @@ export const invalidateSecuritySaml: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15840, __c495, 0) as any as S.Schema<InvalidateSecuritySamlRequest>,
   output: __S(15841, __c495, 1) as any as S.Schema<InvalidateSecuritySamlResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51456,7 +51849,8 @@ export const knnEval: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15872, __c496, 0) as any as S.Schema<KnnEvalRequest>,
   output: __S(15912, __c497, 8) as any as S.Schema<KnnEvalResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51473,7 +51867,8 @@ export const knnEval1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15936, __c498, 0) as any as S.Schema<KnnEval1Request>,
   output: __S(15912, __c497, 8) as any as S.Schema<KnnEval1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51490,7 +51885,8 @@ export const licenseGetBasicStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15968, __c499, 0) as any as S.Schema<LicenseGetBasicStatusRequest>,
   output: __S(15969, __c499, 1) as any as S.Schema<LicenseGetBasicStatusResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51507,7 +51903,8 @@ export const licenseGetTrialStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16000, __c500, 0) as any as S.Schema<LicenseGetTrialStatusRequest>,
   output: __S(16001, __c500, 1) as any as S.Schema<LicenseGetTrialStatusResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51524,7 +51921,8 @@ export const licensePost1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16160, __c505, 0) as any as S.Schema<LicensePost1Request>,
   output: __S(16195, __c506, 3) as any as S.Schema<LicensePost1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51541,7 +51939,8 @@ export const licensePostStartBasic: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16224, __c507, 0) as any as S.Schema<LicensePostStartBasicRequest>,
   output: __S(16226, __c507, 2) as any as S.Schema<LicensePostStartBasicResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51558,7 +51957,8 @@ export const licensePostStartTrial: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16256, __c508, 0) as any as S.Schema<LicensePostStartTrialRequest>,
   output: __S(16257, __c508, 1) as any as S.Schema<LicensePostStartTrialResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51575,7 +51975,8 @@ export const list: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16288, __c509, 0) as any as S.Schema<ListRequest>,
   output: __S(2656, __c83, 0) as any as S.Schema<TypesWriteResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51592,7 +51993,8 @@ export const list1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16320, __c510, 0) as any as S.Schema<List1Request>,
   output: __S(2656, __c83, 0) as any as S.Schema<TypesWriteResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51609,7 +52011,8 @@ export const list2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16352, __c511, 0) as any as S.Schema<List2Request>,
   output: __S(2656, __c83, 0) as any as S.Schema<TypesWriteResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51626,7 +52029,8 @@ export const listConnector: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16384, __c512, 0) as any as S.Schema<ListConnectorRequest>,
   output: __S(16386, __c512, 2) as any as S.Schema<ListConnectorResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51643,7 +52047,8 @@ export const listConnectorSyncJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16416, __c513, 0) as any as S.Schema<ListConnectorSyncJobRequest>,
   output: __S(16418, __c513, 2) as any as S.Schema<ListConnectorSyncJobResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51660,7 +52065,8 @@ export const listReindex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16448, __c514, 0) as any as S.Schema<ListReindexRequest>,
   output: __S(16451, __c514, 3) as any as S.Schema<ListReindexResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51677,7 +52083,8 @@ export const listTasks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16480, __c515, 0) as any as S.Schema<ListTasksRequest>,
   output: __S(5410, __c169, 2) as any as S.Schema<TasksTypesTaskListResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51694,7 +52101,8 @@ export const logoutSecurityOidc: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16544, __c517, 0) as any as S.Schema<LogoutSecurityOidcRequest>,
   output: __S(16576, __c518, 0) as any as S.Schema<LogoutSecurityOidcResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51711,7 +52119,8 @@ export const logoutSecuritySaml: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16608, __c519, 0) as any as S.Schema<LogoutSecuritySamlRequest>,
   output: __S(16576, __c518, 0) as any as S.Schema<LogoutSecuritySamlResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51728,7 +52137,8 @@ export const logoutSecuritySamlComplete: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16640, __c520, 0) as any as S.Schema<LogoutSecuritySamlCompleteRequest>,
   output: __S(224, __c7, 0) as any as S.Schema<LogoutSecuritySamlCompleteResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51745,7 +52155,8 @@ export const logstashDeletePipeline: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16672, __c521, 0) as any as S.Schema<LogstashDeletePipelineRequest>,
   output: __S(224, __c7, 0) as any as S.Schema<LogstashDeletePipelineResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51762,7 +52173,8 @@ export const logstashGetPipeline: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16704, __c522, 0) as any as S.Schema<LogstashGetPipelineRequest>,
   output: __S(16738, __c523, 2) as any as S.Schema<LogstashGetPipelineResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51779,7 +52191,8 @@ export const logstashGetPipeline1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16800, __c525, 0) as any as S.Schema<LogstashGetPipeline1Request>,
   output: __S(16738, __c523, 2) as any as S.Schema<LogstashGetPipeline1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51796,7 +52209,8 @@ export const logstashPutPipeline: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16832, __c526, 0) as any as S.Schema<LogstashPutPipelineRequest>,
   output: __S(224, __c7, 0) as any as S.Schema<LogstashPutPipelineResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51813,7 +52227,8 @@ export const mget: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16864, __c527, 0) as any as S.Schema<MgetRequest>,
   output: __S(16899, __c528, 3) as any as S.Schema<MgetResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51830,7 +52245,8 @@ export const mget1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16928, __c529, 0) as any as S.Schema<Mget1Request>,
   output: __S(16899, __c528, 3) as any as S.Schema<Mget1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51847,7 +52263,8 @@ export const mget2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16960, __c530, 0) as any as S.Schema<Mget2Request>,
   output: __S(16899, __c528, 3) as any as S.Schema<Mget2Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51864,7 +52281,8 @@ export const mget3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17056, __c533, 0) as any as S.Schema<Mget3Request>,
   output: __S(16899, __c528, 3) as any as S.Schema<Mget3Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51881,7 +52299,8 @@ export const migrationDeprecations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17088, __c534, 0) as any as S.Schema<MigrationDeprecationsRequest>,
   output: __S(17123, __c535, 3) as any as S.Schema<MigrationDeprecationsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51898,7 +52317,8 @@ export const migrationDeprecations1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17152, __c536, 0) as any as S.Schema<MigrationDeprecations1Request>,
   output: __S(17123, __c535, 3) as any as S.Schema<MigrationDeprecations1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51915,7 +52335,8 @@ export const migrationGetFeatureUpgradeStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17184, __c537, 0) as any as S.Schema<MigrationGetFeatureUpgradeStatusRequest>,
   output: __S(17189, __c537, 5) as any as S.Schema<MigrationGetFeatureUpgradeStatusResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51932,7 +52353,8 @@ export const migrationPostFeatureUpgrade: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17216, __c538, 0) as any as S.Schema<MigrationPostFeatureUpgradeRequest>,
   output: __S(17219, __c538, 3) as any as S.Schema<MigrationPostFeatureUpgradeResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51949,7 +52371,8 @@ export const mlClearTrainedModelDeploymentCache: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17248, __c539, 0) as any as S.Schema<MlClearTrainedModelDeploymentCacheRequest>,
   output: __S(17249, __c539, 1) as any as S.Schema<MlClearTrainedModelDeploymentCacheResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51966,7 +52389,8 @@ export const mlCloseJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17280, __c540, 0) as any as S.Schema<MlCloseJobRequest>,
   output: __S(17281, __c540, 1) as any as S.Schema<MlCloseJobResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51983,7 +52407,8 @@ export const mlDeleteCalendar: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17312, __c541, 0) as any as S.Schema<MlDeleteCalendarRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52000,7 +52425,8 @@ export const mlDeleteCalendarEvent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17344, __c542, 0) as any as S.Schema<MlDeleteCalendarEventRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52017,7 +52443,8 @@ export const mlDeleteCalendarJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17376, __c543, 0) as any as S.Schema<MlDeleteCalendarJobRequest>,
   output: __S(17408, __c544, 0) as any as S.Schema<MlDeleteCalendarJobResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52034,7 +52461,8 @@ export const mlDeleteDatafeed: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17472, __c546, 0) as any as S.Schema<MlDeleteDatafeedRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52051,7 +52479,8 @@ export const mlDeleteDataFrameAnalytics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17504, __c547, 0) as any as S.Schema<MlDeleteDataFrameAnalyticsRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52068,7 +52497,8 @@ export const mlDeleteExpiredData: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17536, __c548, 0) as any as S.Schema<MlDeleteExpiredDataRequest>,
   output: __S(17568, __c549, 0) as any as S.Schema<MlDeleteExpiredDataResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52085,7 +52515,8 @@ export const mlDeleteExpiredData1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17600, __c550, 0) as any as S.Schema<MlDeleteExpiredData1Request>,
   output: __S(17568, __c549, 0) as any as S.Schema<MlDeleteExpiredData1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52102,7 +52533,8 @@ export const mlDeleteFilter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17632, __c551, 0) as any as S.Schema<MlDeleteFilterRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52119,7 +52551,8 @@ export const mlDeleteForecast: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17664, __c552, 0) as any as S.Schema<MlDeleteForecastRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52136,7 +52569,8 @@ export const mlDeleteForecast1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17696, __c553, 0) as any as S.Schema<MlDeleteForecast1Request>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52153,7 +52587,8 @@ export const mlDeleteJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17728, __c554, 0) as any as S.Schema<MlDeleteJobRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52170,7 +52605,8 @@ export const mlDeleteModelSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17760, __c555, 0) as any as S.Schema<MlDeleteModelSnapshotRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52187,7 +52623,8 @@ export const mlDeleteTrainedModel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17792, __c556, 0) as any as S.Schema<MlDeleteTrainedModelRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52204,7 +52641,8 @@ export const mlDeleteTrainedModelAlias: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17888, __c559, 0) as any as S.Schema<MlDeleteTrainedModelAliasRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52221,7 +52659,8 @@ export const mlEstimateModelMemory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17920, __c560, 0) as any as S.Schema<MlEstimateModelMemoryRequest>,
   output: __S(17921, __c560, 1) as any as S.Schema<MlEstimateModelMemoryResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52238,7 +52677,8 @@ export const mlEvaluateDataFrame: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18026, __c563, 10) as any as S.Schema<MlEvaluateDataFrameRequest>,
   output: __S(18046, __c563, 30) as any as S.Schema<MlEvaluateDataFrameResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52255,7 +52695,8 @@ export const mlExplainDataFrameAnalytics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18048, __c564, 0) as any as S.Schema<MlExplainDataFrameAnalyticsRequest>,
   output: __S(18083, __c565, 3) as any as S.Schema<MlExplainDataFrameAnalyticsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52272,7 +52713,8 @@ export const mlExplainDataFrameAnalytics1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18208, __c569, 0) as any as S.Schema<MlExplainDataFrameAnalytics1Request>,
   output: __S(18083, __c565, 3) as any as S.Schema<MlExplainDataFrameAnalytics1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52289,7 +52731,8 @@ export const mlExplainDataFrameAnalytics2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18240, __c570, 0) as any as S.Schema<MlExplainDataFrameAnalytics2Request>,
   output: __S(18083, __c565, 3) as any as S.Schema<MlExplainDataFrameAnalytics2Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52306,7 +52749,8 @@ export const mlExplainDataFrameAnalytics3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18272, __c571, 0) as any as S.Schema<MlExplainDataFrameAnalytics3Request>,
   output: __S(18083, __c565, 3) as any as S.Schema<MlExplainDataFrameAnalytics3Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52323,7 +52767,8 @@ export const mlForecast: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18304, __c572, 0) as any as S.Schema<MlForecastRequest>,
   output: __S(18305, __c572, 1) as any as S.Schema<MlForecastResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52340,7 +52785,8 @@ export const mlGetBuckets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18336, __c573, 0) as any as S.Schema<MlGetBucketsRequest>,
   output: __S(18372, __c574, 4) as any as S.Schema<MlGetBucketsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52357,7 +52803,8 @@ export const mlGetBuckets1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18432, __c576, 0) as any as S.Schema<MlGetBuckets1Request>,
   output: __S(18372, __c574, 4) as any as S.Schema<MlGetBuckets1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52374,7 +52821,8 @@ export const mlGetBuckets2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18496, __c578, 0) as any as S.Schema<MlGetBuckets2Request>,
   output: __S(18372, __c574, 4) as any as S.Schema<MlGetBuckets2Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52391,7 +52839,8 @@ export const mlGetBuckets3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18528, __c579, 0) as any as S.Schema<MlGetBuckets3Request>,
   output: __S(18372, __c574, 4) as any as S.Schema<MlGetBuckets3Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52408,7 +52857,8 @@ export const mlGetCalendarEvents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18560, __c580, 0) as any as S.Schema<MlGetCalendarEventsRequest>,
   output: __S(18561, __c580, 1) as any as S.Schema<MlGetCalendarEventsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52425,7 +52875,8 @@ export const mlGetCalendars: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18624, __c582, 0) as any as S.Schema<MlGetCalendarsRequest>,
   output: __S(18658, __c583, 2) as any as S.Schema<MlGetCalendarsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52442,7 +52893,8 @@ export const mlGetCalendars1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18688, __c584, 0) as any as S.Schema<MlGetCalendars1Request>,
   output: __S(18658, __c583, 2) as any as S.Schema<MlGetCalendars1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52459,7 +52911,8 @@ export const mlGetCalendars2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18720, __c585, 0) as any as S.Schema<MlGetCalendars2Request>,
   output: __S(18658, __c583, 2) as any as S.Schema<MlGetCalendars2Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52476,7 +52929,8 @@ export const mlGetCalendars3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18752, __c586, 0) as any as S.Schema<MlGetCalendars3Request>,
   output: __S(18658, __c583, 2) as any as S.Schema<MlGetCalendars3Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52493,7 +52947,8 @@ export const mlGetCategories: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18784, __c587, 0) as any as S.Schema<MlGetCategoriesRequest>,
   output: __S(18818, __c588, 2) as any as S.Schema<MlGetCategoriesResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52510,7 +52965,8 @@ export const mlGetCategories1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18848, __c589, 0) as any as S.Schema<MlGetCategories1Request>,
   output: __S(18818, __c588, 2) as any as S.Schema<MlGetCategories1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52527,7 +52983,8 @@ export const mlGetCategories2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18880, __c590, 0) as any as S.Schema<MlGetCategories2Request>,
   output: __S(18818, __c588, 2) as any as S.Schema<MlGetCategories2Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52544,7 +53001,8 @@ export const mlGetCategories3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18944, __c592, 0) as any as S.Schema<MlGetCategories3Request>,
   output: __S(18818, __c588, 2) as any as S.Schema<MlGetCategories3Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52561,7 +53019,8 @@ export const mlGetDatafeeds: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18976, __c593, 0) as any as S.Schema<MlGetDatafeedsRequest>,
   output: __S(19009, __c594, 1) as any as S.Schema<MlGetDatafeedsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52578,7 +53037,8 @@ export const mlGetDatafeeds1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19136, __c598, 0) as any as S.Schema<MlGetDatafeeds1Request>,
   output: __S(19009, __c594, 1) as any as S.Schema<MlGetDatafeeds1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52595,7 +53055,8 @@ export const mlGetDatafeedStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19168, __c599, 0) as any as S.Schema<MlGetDatafeedStatsRequest>,
   output: __S(19206, __c600, 6) as any as S.Schema<MlGetDatafeedStatsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52612,7 +53073,8 @@ export const mlGetDatafeedStats1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19264, __c602, 0) as any as S.Schema<MlGetDatafeedStats1Request>,
   output: __S(19206, __c600, 6) as any as S.Schema<MlGetDatafeedStats1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52629,7 +53091,8 @@ export const mlGetDataFrameAnalytics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19296, __c603, 0) as any as S.Schema<MlGetDataFrameAnalyticsRequest>,
   output: __S(19330, __c604, 2) as any as S.Schema<MlGetDataFrameAnalyticsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52646,7 +53109,8 @@ export const mlGetDataFrameAnalytics1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19360, __c605, 0) as any as S.Schema<MlGetDataFrameAnalytics1Request>,
   output: __S(19330, __c604, 2) as any as S.Schema<MlGetDataFrameAnalytics1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52663,7 +53127,8 @@ export const mlGetDataFrameAnalyticsStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19392, __c606, 0) as any as S.Schema<MlGetDataFrameAnalyticsStatsRequest>,
   output: __S(19436, __c607, 12) as any as S.Schema<MlGetDataFrameAnalyticsStatsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52680,7 +53145,8 @@ export const mlGetDataFrameAnalyticsStats1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19456, __c608, 0) as any as S.Schema<MlGetDataFrameAnalyticsStats1Request>,
   output: __S(19436, __c607, 12) as any as S.Schema<MlGetDataFrameAnalyticsStats1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52697,7 +53163,8 @@ export const mlGetFilters: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19488, __c609, 0) as any as S.Schema<MlGetFiltersRequest>,
   output: __S(19522, __c610, 2) as any as S.Schema<MlGetFiltersResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52714,7 +53181,8 @@ export const mlGetFilters1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19584, __c612, 0) as any as S.Schema<MlGetFilters1Request>,
   output: __S(19522, __c610, 2) as any as S.Schema<MlGetFilters1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52731,7 +53199,8 @@ export const mlGetInfluencers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19616, __c613, 0) as any as S.Schema<MlGetInfluencersRequest>,
   output: __S(19650, __c614, 2) as any as S.Schema<MlGetInfluencersResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52748,7 +53217,8 @@ export const mlGetInfluencers1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19680, __c615, 0) as any as S.Schema<MlGetInfluencers1Request>,
   output: __S(19650, __c614, 2) as any as S.Schema<MlGetInfluencers1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52765,7 +53235,8 @@ export const mlGetJobs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19712, __c616, 0) as any as S.Schema<MlGetJobsRequest>,
   output: __S(19747, __c617, 3) as any as S.Schema<MlGetJobsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52782,7 +53253,8 @@ export const mlGetJobs1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19808, __c619, 0) as any as S.Schema<MlGetJobs1Request>,
   output: __S(19747, __c617, 3) as any as S.Schema<MlGetJobs1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52799,7 +53271,8 @@ export const mlGetJobStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19840, __c620, 0) as any as S.Schema<MlGetJobStatsRequest>,
   output: __S(19877, __c621, 5) as any as S.Schema<MlGetJobStatsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52816,7 +53289,8 @@ export const mlGetJobStats1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19968, __c624, 0) as any as S.Schema<MlGetJobStats1Request>,
   output: __S(19877, __c621, 5) as any as S.Schema<MlGetJobStats1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52833,7 +53307,8 @@ export const mlGetMemoryStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20000, __c625, 0) as any as S.Schema<MlGetMemoryStatsRequest>,
   output: __S(20037, __c626, 5) as any as S.Schema<MlGetMemoryStatsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52850,7 +53325,8 @@ export const mlGetMemoryStats1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20064, __c627, 0) as any as S.Schema<MlGetMemoryStats1Request>,
   output: __S(20037, __c626, 5) as any as S.Schema<MlGetMemoryStats1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52867,7 +53343,8 @@ export const mlGetModelSnapshots: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20096, __c628, 0) as any as S.Schema<MlGetModelSnapshotsRequest>,
   output: __S(20129, __c629, 1) as any as S.Schema<MlGetModelSnapshotsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52884,7 +53361,8 @@ export const mlGetModelSnapshots1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20224, __c632, 0) as any as S.Schema<MlGetModelSnapshots1Request>,
   output: __S(20129, __c629, 1) as any as S.Schema<MlGetModelSnapshots1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52901,7 +53379,8 @@ export const mlGetModelSnapshots2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20256, __c633, 0) as any as S.Schema<MlGetModelSnapshots2Request>,
   output: __S(20129, __c629, 1) as any as S.Schema<MlGetModelSnapshots2Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52918,7 +53397,8 @@ export const mlGetModelSnapshots3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20288, __c634, 0) as any as S.Schema<MlGetModelSnapshots3Request>,
   output: __S(20129, __c629, 1) as any as S.Schema<MlGetModelSnapshots3Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52935,7 +53415,8 @@ export const mlGetModelSnapshotUpgradeStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20320, __c635, 0) as any as S.Schema<MlGetModelSnapshotUpgradeStatsRequest>,
   output: __S(20323, __c635, 3) as any as S.Schema<MlGetModelSnapshotUpgradeStatsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52952,7 +53433,8 @@ export const mlGetOverallBuckets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20384, __c637, 0) as any as S.Schema<MlGetOverallBucketsRequest>,
   output: __S(20420, __c638, 4) as any as S.Schema<MlGetOverallBucketsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52969,7 +53451,8 @@ export const mlGetOverallBuckets1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20448, __c639, 0) as any as S.Schema<MlGetOverallBuckets1Request>,
   output: __S(20420, __c638, 4) as any as S.Schema<MlGetOverallBuckets1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52986,7 +53469,8 @@ export const mlGetRecords: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20480, __c640, 0) as any as S.Schema<MlGetRecordsRequest>,
   output: __S(20520, __c641, 8) as any as S.Schema<MlGetRecordsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53003,7 +53487,8 @@ export const mlGetRecords1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20544, __c642, 0) as any as S.Schema<MlGetRecords1Request>,
   output: __S(20520, __c641, 8) as any as S.Schema<MlGetRecords1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53020,7 +53505,8 @@ export const mlGetTrainedModels: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20576, __c643, 0) as any as S.Schema<MlGetTrainedModelsRequest>,
   output: __S(20609, __c644, 1) as any as S.Schema<MlGetTrainedModelsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53037,7 +53523,8 @@ export const mlGetTrainedModels1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20672, __c646, 0) as any as S.Schema<MlGetTrainedModels1Request>,
   output: __S(20609, __c644, 1) as any as S.Schema<MlGetTrainedModels1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53054,7 +53541,8 @@ export const mlGetTrainedModelsStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20736, __c648, 0) as any as S.Schema<MlGetTrainedModelsStatsRequest>,
   output: __S(20777, __c649, 9) as any as S.Schema<MlGetTrainedModelsStatsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53071,7 +53559,8 @@ export const mlGetTrainedModelsStats1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20832, __c651, 0) as any as S.Schema<MlGetTrainedModelsStats1Request>,
   output: __S(20777, __c649, 9) as any as S.Schema<MlGetTrainedModelsStats1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53088,7 +53577,8 @@ export const mlInferTrainedModel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20876, __c652, 12) as any as S.Schema<MlInferTrainedModelRequest>,
   output: __S(20883, __c652, 19) as any as S.Schema<MlInferTrainedModelResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53105,7 +53595,8 @@ export const mlInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20896, __c653, 0) as any as S.Schema<MlInfoRequest>,
   output: __S(20901, __c653, 5) as any as S.Schema<MlInfoResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53122,7 +53613,8 @@ export const mlOpenJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20960, __c655, 0) as any as S.Schema<MlOpenJobRequest>,
   output: __S(20961, __c655, 1) as any as S.Schema<MlOpenJobResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53139,7 +53631,8 @@ export const mlPostCalendarEvents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20992, __c656, 0) as any as S.Schema<MlPostCalendarEventsRequest>,
   output: __S(20993, __c656, 1) as any as S.Schema<MlPostCalendarEventsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53156,7 +53649,8 @@ export const mlPreviewDatafeed: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21024, __c657, 0) as any as S.Schema<MlPreviewDatafeedRequest>,
   output: __S(21057, __c658, 1) as any as S.Schema<MlPreviewDatafeedResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53173,7 +53667,8 @@ export const mlPreviewDatafeed1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21120, __c660, 0) as any as S.Schema<MlPreviewDatafeed1Request>,
   output: __S(21057, __c658, 1) as any as S.Schema<MlPreviewDatafeed1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53190,7 +53685,8 @@ export const mlPreviewDatafeed2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21152, __c661, 0) as any as S.Schema<MlPreviewDatafeed2Request>,
   output: __S(21057, __c658, 1) as any as S.Schema<MlPreviewDatafeed2Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53207,7 +53703,8 @@ export const mlPreviewDatafeed3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21184, __c662, 0) as any as S.Schema<MlPreviewDatafeed3Request>,
   output: __S(21057, __c658, 1) as any as S.Schema<MlPreviewDatafeed3Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53224,7 +53721,8 @@ export const mlPreviewDataFrameAnalytics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21344, __c667, 0) as any as S.Schema<MlPreviewDataFrameAnalyticsRequest>,
   output: __S(21377, __c668, 1) as any as S.Schema<MlPreviewDataFrameAnalyticsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53241,7 +53739,8 @@ export const mlPreviewDataFrameAnalytics1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21440, __c670, 0) as any as S.Schema<MlPreviewDataFrameAnalytics1Request>,
   output: __S(21377, __c668, 1) as any as S.Schema<MlPreviewDataFrameAnalytics1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53258,7 +53757,8 @@ export const mlPreviewDataFrameAnalytics2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21472, __c671, 0) as any as S.Schema<MlPreviewDataFrameAnalytics2Request>,
   output: __S(21377, __c668, 1) as any as S.Schema<MlPreviewDataFrameAnalytics2Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53275,7 +53775,8 @@ export const mlPreviewDataFrameAnalytics3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21504, __c672, 0) as any as S.Schema<MlPreviewDataFrameAnalytics3Request>,
   output: __S(21377, __c668, 1) as any as S.Schema<MlPreviewDataFrameAnalytics3Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53292,7 +53793,8 @@ export const mlPutCalendar: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21536, __c673, 0) as any as S.Schema<MlPutCalendarRequest>,
   output: __S(17408, __c544, 0) as any as S.Schema<MlPutCalendarResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53309,7 +53811,8 @@ export const mlPutCalendarJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21568, __c674, 0) as any as S.Schema<MlPutCalendarJobRequest>,
   output: __S(17408, __c544, 0) as any as S.Schema<MlPutCalendarJobResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53326,7 +53829,8 @@ export const mlPutDatafeed: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21600, __c675, 0) as any as S.Schema<MlPutDatafeedRequest>,
   output: __S(21601, __c675, 1) as any as S.Schema<MlPutDatafeedResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53343,7 +53847,8 @@ export const mlPutDataFrameAnalytics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21664, __c677, 0) as any as S.Schema<MlPutDataFrameAnalyticsRequest>,
   output: __S(21665, __c677, 1) as any as S.Schema<MlPutDataFrameAnalyticsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53360,7 +53865,8 @@ export const mlPutFilter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21696, __c678, 0) as any as S.Schema<MlPutFilterRequest>,
   output: __S(21728, __c679, 0) as any as S.Schema<MlPutFilterResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53377,7 +53883,8 @@ export const mlPutJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21760, __c680, 0) as any as S.Schema<MlPutJobRequest>,
   output: __S(21761, __c680, 1) as any as S.Schema<MlPutJobResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53394,7 +53901,8 @@ export const mlPutTrainedModel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21871, __c683, 15) as any as S.Schema<MlPutTrainedModelRequest>,
   output: __S(20668, __c645, 28) as any as S.Schema<MlTypesTrainedModelConfig>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53411,7 +53919,8 @@ export const mlPutTrainedModelAlias: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21888, __c684, 0) as any as S.Schema<MlPutTrainedModelAliasRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53428,7 +53937,8 @@ export const mlPutTrainedModelDefinitionPart: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21920, __c685, 0) as any as S.Schema<MlPutTrainedModelDefinitionPartRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53445,7 +53955,8 @@ export const mlPutTrainedModelVocabulary: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21952, __c686, 0) as any as S.Schema<MlPutTrainedModelVocabularyRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53462,7 +53973,8 @@ export const mlResetJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21984, __c687, 0) as any as S.Schema<MlResetJobRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53479,7 +53991,8 @@ export const mlRevertModelSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22016, __c688, 0) as any as S.Schema<MlRevertModelSnapshotRequest>,
   output: __S(22017, __c688, 1) as any as S.Schema<MlRevertModelSnapshotResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53496,7 +54009,8 @@ export const mlSetUpgradeMode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22048, __c689, 0) as any as S.Schema<MlSetUpgradeModeRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53513,7 +54027,8 @@ export const mlStartDatafeed: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22080, __c690, 0) as any as S.Schema<MlStartDatafeedRequest>,
   output: __S(22081, __c690, 1) as any as S.Schema<MlStartDatafeedResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53530,7 +54045,8 @@ export const mlStartDataFrameAnalytics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22112, __c691, 0) as any as S.Schema<MlStartDataFrameAnalyticsRequest>,
   output: __S(22113, __c691, 1) as any as S.Schema<MlStartDataFrameAnalyticsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53547,7 +54063,8 @@ export const mlStartTrainedModelDeployment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22144, __c692, 0) as any as S.Schema<MlStartTrainedModelDeploymentRequest>,
   output: __S(22180, __c693, 4) as any as S.Schema<MlStartTrainedModelDeploymentResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53564,7 +54081,8 @@ export const mlStopDatafeed: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22240, __c695, 0) as any as S.Schema<MlStopDatafeedRequest>,
   output: __S(22272, __c696, 0) as any as S.Schema<MlStopDatafeedResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53581,7 +54099,8 @@ export const mlStopDataFrameAnalytics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22304, __c697, 0) as any as S.Schema<MlStopDataFrameAnalyticsRequest>,
   output: __S(22272, __c696, 0) as any as S.Schema<MlStopDataFrameAnalyticsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53598,7 +54117,8 @@ export const mlStopTrainedModelDeployment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22336, __c698, 0) as any as S.Schema<MlStopTrainedModelDeploymentRequest>,
   output: __S(22272, __c696, 0) as any as S.Schema<MlStopTrainedModelDeploymentResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53615,7 +54135,8 @@ export const mlUpdateDatafeed: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22368, __c699, 0) as any as S.Schema<MlUpdateDatafeedRequest>,
   output: __S(22369, __c699, 1) as any as S.Schema<MlUpdateDatafeedResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53632,7 +54153,8 @@ export const mlUpdateDataFrameAnalytics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22400, __c700, 0) as any as S.Schema<MlUpdateDataFrameAnalyticsRequest>,
   output: __S(22401, __c700, 1) as any as S.Schema<MlUpdateDataFrameAnalyticsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53649,7 +54171,8 @@ export const mlUpdateFilter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22432, __c701, 0) as any as S.Schema<MlUpdateFilterRequest>,
   output: __S(21728, __c679, 0) as any as S.Schema<MlUpdateFilterResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53666,7 +54189,8 @@ export const mlUpdateJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22465, __c702, 1) as any as S.Schema<MlUpdateJobRequest>,
   output: __S(22466, __c702, 2) as any as S.Schema<MlUpdateJobResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53683,7 +54207,8 @@ export const mlUpdateModelSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22496, __c703, 0) as any as S.Schema<MlUpdateModelSnapshotRequest>,
   output: __S(22497, __c703, 1) as any as S.Schema<MlUpdateModelSnapshotResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53700,7 +54225,8 @@ export const mlUpdateTrainedModelDeployment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22528, __c704, 0) as any as S.Schema<MlUpdateTrainedModelDeploymentRequest>,
   output: __S(22180, __c693, 4) as any as S.Schema<MlUpdateTrainedModelDeploymentResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53717,7 +54243,8 @@ export const mlUpgradeJobSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22560, __c705, 0) as any as S.Schema<MlUpgradeJobSnapshotRequest>,
   output: __S(22561, __c705, 1) as any as S.Schema<MlUpgradeJobSnapshotResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53734,7 +54261,8 @@ export const msearch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22656, __c708, 0) as any as S.Schema<MsearchRequest>,
   output: __S(22688, __c709, 0) as any as S.Schema<GlobalMsearchMultiSearchResult>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53751,7 +54279,8 @@ export const msearch1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22720, __c710, 0) as any as S.Schema<Msearch1Request>,
   output: __S(22688, __c709, 0) as any as S.Schema<GlobalMsearchMultiSearchResult>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53768,7 +54297,8 @@ export const msearch2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22752, __c711, 0) as any as S.Schema<Msearch2Request>,
   output: __S(22688, __c709, 0) as any as S.Schema<GlobalMsearchMultiSearchResult>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53785,7 +54315,8 @@ export const msearch3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22784, __c712, 0) as any as S.Schema<Msearch3Request>,
   output: __S(22688, __c709, 0) as any as S.Schema<GlobalMsearchMultiSearchResult>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53802,7 +54333,8 @@ export const msearchTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22816, __c713, 0) as any as S.Schema<MsearchTemplateRequest>,
   output: __S(22688, __c709, 0) as any as S.Schema<GlobalMsearchMultiSearchResult>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53819,7 +54351,8 @@ export const msearchTemplate1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22880, __c715, 0) as any as S.Schema<MsearchTemplate1Request>,
   output: __S(22688, __c709, 0) as any as S.Schema<GlobalMsearchMultiSearchResult>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53836,7 +54369,8 @@ export const msearchTemplate2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22912, __c716, 0) as any as S.Schema<MsearchTemplate2Request>,
   output: __S(22688, __c709, 0) as any as S.Schema<GlobalMsearchMultiSearchResult>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53853,7 +54387,8 @@ export const msearchTemplate3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22944, __c717, 0) as any as S.Schema<MsearchTemplate3Request>,
   output: __S(22688, __c709, 0) as any as S.Schema<GlobalMsearchMultiSearchResult>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53870,7 +54405,8 @@ export const mtermvectors: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22976, __c718, 0) as any as S.Schema<MtermvectorsRequest>,
   output: __S(23012, __c719, 4) as any as S.Schema<MtermvectorsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53887,7 +54423,8 @@ export const mtermvectors1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23072, __c721, 0) as any as S.Schema<Mtermvectors1Request>,
   output: __S(23012, __c719, 4) as any as S.Schema<Mtermvectors1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53904,7 +54441,8 @@ export const mtermvectors2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23136, __c723, 0) as any as S.Schema<Mtermvectors2Request>,
   output: __S(23012, __c719, 4) as any as S.Schema<Mtermvectors2Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53921,7 +54459,8 @@ export const mtermvectors3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23168, __c724, 0) as any as S.Schema<Mtermvectors3Request>,
   output: __S(23012, __c719, 4) as any as S.Schema<Mtermvectors3Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53938,7 +54477,8 @@ export const nodesGetRepositoriesMeteringInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23200, __c725, 0) as any as S.Schema<NodesGetRepositoriesMeteringInfoRequest>,
   output: __S(11172, __c349, 4) as any as S.Schema<NodesGetRepositoriesMeteringInfoResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53955,7 +54495,8 @@ export const nodesHotThreads: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23232, __c726, 0) as any as S.Schema<NodesHotThreadsRequest>,
   output: __S(13184, __c412, 0) as any as S.Schema<NodesHotThreadsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53972,7 +54513,8 @@ export const nodesHotThreads1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23264, __c727, 0) as any as S.Schema<NodesHotThreads1Request>,
   output: __S(13184, __c412, 0) as any as S.Schema<NodesHotThreads1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53989,7 +54531,8 @@ export const nodesInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23296, __c728, 0) as any as S.Schema<NodesInfoRequest>,
   output: __S(23376, __c730, 16) as any as S.Schema<NodesInfoResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54006,7 +54549,8 @@ export const nodesInfo1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23392, __c731, 0) as any as S.Schema<NodesInfo1Request>,
   output: __S(23376, __c730, 16) as any as S.Schema<NodesInfo1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54023,7 +54567,8 @@ export const nodesInfo2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23424, __c732, 0) as any as S.Schema<NodesInfo2Request>,
   output: __S(23376, __c730, 16) as any as S.Schema<NodesInfo2Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54040,7 +54585,8 @@ export const nodesInfo3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23456, __c733, 0) as any as S.Schema<NodesInfo3Request>,
   output: __S(23376, __c730, 16) as any as S.Schema<NodesInfo3Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54057,7 +54603,8 @@ export const nodesReloadSecureSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23488, __c734, 0) as any as S.Schema<NodesReloadSecureSettingsRequest>,
   output: __S(23522, __c735, 2) as any as S.Schema<NodesReloadSecureSettingsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54074,7 +54621,8 @@ export const nodesReloadSecureSettings1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23616, __c738, 0) as any as S.Schema<NodesReloadSecureSettings1Request>,
   output: __S(23522, __c735, 2) as any as S.Schema<NodesReloadSecureSettings1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54091,7 +54639,8 @@ export const nodesStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23648, __c739, 0) as any as S.Schema<NodesStatsRequest>,
   output: __S(23735, __c741, 23) as any as S.Schema<NodesStatsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54108,7 +54657,8 @@ export const nodesStats1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23744, __c742, 0) as any as S.Schema<NodesStats1Request>,
   output: __S(23735, __c741, 23) as any as S.Schema<NodesStats1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54125,7 +54675,8 @@ export const nodesStats2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23776, __c743, 0) as any as S.Schema<NodesStats2Request>,
   output: __S(23735, __c741, 23) as any as S.Schema<NodesStats2Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54142,7 +54693,8 @@ export const nodesStats3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23808, __c744, 0) as any as S.Schema<NodesStats3Request>,
   output: __S(23735, __c741, 23) as any as S.Schema<NodesStats3Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54159,7 +54711,8 @@ export const nodesStats4: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23840, __c745, 0) as any as S.Schema<NodesStats4Request>,
   output: __S(23735, __c741, 23) as any as S.Schema<NodesStats4Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54176,7 +54729,8 @@ export const nodesStats5: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23872, __c746, 0) as any as S.Schema<NodesStats5Request>,
   output: __S(23735, __c741, 23) as any as S.Schema<NodesStats5Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54193,7 +54747,8 @@ export const nodesUsage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23904, __c747, 0) as any as S.Schema<NodesUsageRequest>,
   output: __S(23938, __c748, 2) as any as S.Schema<NodesUsageResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54210,7 +54765,8 @@ export const nodesUsage1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23968, __c749, 0) as any as S.Schema<NodesUsage1Request>,
   output: __S(23938, __c748, 2) as any as S.Schema<NodesUsage1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54227,7 +54783,8 @@ export const nodesUsage2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24000, __c750, 0) as any as S.Schema<NodesUsage2Request>,
   output: __S(23938, __c748, 2) as any as S.Schema<NodesUsage2Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54244,7 +54801,8 @@ export const nodesUsage3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24064, __c752, 0) as any as S.Schema<NodesUsage3Request>,
   output: __S(23938, __c748, 2) as any as S.Schema<NodesUsage3Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54261,7 +54819,8 @@ export const openPointInTime: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24096, __c753, 0) as any as S.Schema<OpenPointInTimeRequest>,
   output: __S(24097, __c753, 1) as any as S.Schema<OpenPointInTimeResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54278,7 +54837,8 @@ export const postConnector: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24128, __c754, 0) as any as S.Schema<PostConnectorRequest>,
   output: __S(1568, __c49, 0) as any as S.Schema<PostConnectorResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54295,7 +54855,8 @@ export const postConnectorSyncJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24160, __c755, 0) as any as S.Schema<PostConnectorSyncJobRequest>,
   output: __S(24161, __c755, 1) as any as S.Schema<PostConnectorSyncJobResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54312,7 +54873,8 @@ export const postLicense: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24192, __c756, 0) as any as S.Schema<PostLicenseRequest>,
   output: __S(16195, __c506, 3) as any as S.Schema<PostLicenseResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54329,7 +54891,8 @@ export const putConnector: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24224, __c757, 0) as any as S.Schema<PutConnectorRequest>,
   output: __S(1568, __c49, 0) as any as S.Schema<PutConnectorResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54346,7 +54909,8 @@ export const putIndexTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24256, __c758, 0) as any as S.Schema<PutIndexTemplateRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54363,7 +54927,8 @@ export const putIndexTemplate1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24288, __c759, 0) as any as S.Schema<PutIndexTemplate1Request>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54380,7 +54945,8 @@ export const putInference: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24320, __c760, 0) as any as S.Schema<PutInferenceRequest>,
   output: __S(6785, __c212, 1) as any as S.Schema<PutInferenceResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54397,7 +54963,8 @@ export const putScript: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24352, __c761, 0) as any as S.Schema<PutScriptRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54414,7 +54981,8 @@ export const putScript1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24448, __c764, 0) as any as S.Schema<PutScript1Request>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54431,7 +54999,8 @@ export const putScript2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24480, __c765, 0) as any as S.Schema<PutScript2Request>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54448,7 +55017,8 @@ export const putScript3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24512, __c766, 0) as any as S.Schema<PutScript3Request>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54465,7 +55035,8 @@ export const putSynonym: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24544, __c767, 0) as any as S.Schema<PutSynonymRequest>,
   output: __S(3616, __c113, 0) as any as S.Schema<PutSynonymResponse>,
-  errors: [BadRequest, UnknownElasticsearchError],
+  errors: [BadRequest],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54482,7 +55053,8 @@ export const putSynonymRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24576, __c768, 0) as any as S.Schema<PutSynonymRuleRequest>,
   output: __S(3616, __c113, 0) as any as S.Schema<SynonymsTypesSynonymsUpdateResult>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54499,7 +55071,8 @@ export const putTransform: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24608, __c769, 0) as any as S.Schema<PutTransformRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54516,7 +55089,8 @@ export const queryRulesDeleteRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24640, __c770, 0) as any as S.Schema<QueryRulesDeleteRuleRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54533,7 +55107,8 @@ export const queryRulesDeleteRuleset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24672, __c771, 0) as any as S.Schema<QueryRulesDeleteRulesetRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54550,7 +55125,8 @@ export const queryRulesGetRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24704, __c772, 0) as any as S.Schema<QueryRulesGetRuleRequest>,
   output: __S(24736, __c773, 0) as any as S.Schema<QueryRulesTypesQueryRule>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54567,7 +55143,8 @@ export const queryRulesGetRuleset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24800, __c775, 0) as any as S.Schema<QueryRulesGetRulesetRequest>,
   output: __S(24802, __c775, 2) as any as S.Schema<QueryRulesTypesQueryRuleset>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54584,7 +55161,8 @@ export const queryRulesListRulesets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24864, __c777, 0) as any as S.Schema<QueryRulesListRulesetsRequest>,
   output: __S(24867, __c777, 3) as any as S.Schema<QueryRulesListRulesetsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54601,7 +55179,8 @@ export const queryRulesPutRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24896, __c778, 0) as any as S.Schema<QueryRulesPutRuleRequest>,
   output: __S(4096, __c128, 0) as any as S.Schema<QueryRulesPutRuleResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54618,7 +55197,8 @@ export const queryRulesPutRuleset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24928, __c779, 0) as any as S.Schema<QueryRulesPutRulesetRequest>,
   output: __S(4096, __c128, 0) as any as S.Schema<QueryRulesPutRulesetResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54635,7 +55215,8 @@ export const queryRulesTest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24960, __c780, 0) as any as S.Schema<QueryRulesTestRequest>,
   output: __S(24963, __c780, 3) as any as S.Schema<QueryRulesTestResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54652,7 +55233,8 @@ export const rankEval: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24992, __c781, 0) as any as S.Schema<RankEvalRequest>,
   output: __S(25043, __c782, 19) as any as S.Schema<RankEvalResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54669,7 +55251,8 @@ export const rankEval1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25088, __c784, 0) as any as S.Schema<RankEval1Request>,
   output: __S(25043, __c782, 19) as any as S.Schema<RankEval1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54686,7 +55269,8 @@ export const rankEval2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25120, __c785, 0) as any as S.Schema<RankEval2Request>,
   output: __S(25043, __c782, 19) as any as S.Schema<RankEval2Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54703,7 +55287,8 @@ export const rankEval3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25152, __c786, 0) as any as S.Schema<RankEval3Request>,
   output: __S(25043, __c782, 19) as any as S.Schema<RankEval3Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54720,7 +55305,8 @@ export const refreshIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25184, __c787, 0) as any as S.Schema<RefreshIndexRequest>,
   output: __S(6048, __c189, 0) as any as S.Schema<TypesShardsOperationResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54737,7 +55323,8 @@ export const reindex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25217, __c788, 1) as any as S.Schema<ReindexRequest>,
   output: __S(25218, __c788, 2) as any as S.Schema<ReindexResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54754,7 +55341,8 @@ export const reindexRethrottle: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25312, __c791, 0) as any as S.Schema<ReindexRethrottleRequest>,
   output: __S(25318, __c791, 6) as any as S.Schema<ReindexRethrottleResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54771,7 +55359,8 @@ export const renderSearchTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25344, __c792, 0) as any as S.Schema<RenderSearchTemplateRequest>,
   output: __S(25376, __c793, 0) as any as S.Schema<RenderSearchTemplateResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54788,7 +55377,8 @@ export const renderSearchTemplate1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25408, __c794, 0) as any as S.Schema<RenderSearchTemplate1Request>,
   output: __S(25376, __c793, 0) as any as S.Schema<RenderSearchTemplate1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54805,7 +55395,8 @@ export const renderSearchTemplate2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25440, __c795, 0) as any as S.Schema<RenderSearchTemplate2Request>,
   output: __S(25376, __c793, 0) as any as S.Schema<RenderSearchTemplate2Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54822,7 +55413,8 @@ export const renderSearchTemplate3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25472, __c796, 0) as any as S.Schema<RenderSearchTemplate3Request>,
   output: __S(25376, __c793, 0) as any as S.Schema<RenderSearchTemplate3Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54839,7 +55431,8 @@ export const resetEncryption: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25504, __c797, 0) as any as S.Schema<ResetEncryptionRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54856,7 +55449,8 @@ export const resetFeatures: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25536, __c798, 0) as any as S.Schema<ResetFeaturesRequest>,
   output: __S(6402, __c200, 2) as any as S.Schema<ResetFeaturesResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54873,7 +55467,8 @@ export const resetTransform: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25568, __c799, 0) as any as S.Schema<ResetTransformRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54890,7 +55485,8 @@ export const restoreSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25600, __c800, 0) as any as S.Schema<RestoreSnapshotRequest>,
   output: __S(25602, __c800, 2) as any as S.Schema<RestoreSnapshotResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54907,7 +55503,8 @@ export const retryIlm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25632, __c801, 0) as any as S.Schema<RetryIlmRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54924,7 +55521,8 @@ export const scriptsPainlessExecute1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25760, __c805, 0) as any as S.Schema<ScriptsPainlessExecute1Request>,
   output: __S(5153, __c161, 1) as any as S.Schema<ScriptsPainlessExecute1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54941,7 +55539,8 @@ export const scroll: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25792, __c806, 0) as any as S.Schema<ScrollRequest>,
   output: __S(5920, __c185, 0) as any as S.Schema<GlobalSearchResponseBody>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54958,7 +55557,8 @@ export const scroll1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25824, __c807, 0) as any as S.Schema<Scroll1Request>,
   output: __S(5920, __c185, 0) as any as S.Schema<GlobalSearchResponseBody>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54975,7 +55575,8 @@ export const scroll2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25856, __c808, 0) as any as S.Schema<Scroll2Request>,
   output: __S(5920, __c185, 0) as any as S.Schema<GlobalSearchResponseBody>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54992,7 +55593,8 @@ export const scroll3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25888, __c809, 0) as any as S.Schema<Scroll3Request>,
   output: __S(5920, __c185, 0) as any as S.Schema<GlobalSearchResponseBody>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55009,7 +55611,8 @@ export const search: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25920, __c810, 0) as any as S.Schema<SearchRequest>,
   output: __S(5920, __c185, 0) as any as S.Schema<GlobalSearchResponseBody>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55026,7 +55629,8 @@ export const search1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25952, __c811, 0) as any as S.Schema<Search1Request>,
   output: __S(5920, __c185, 0) as any as S.Schema<GlobalSearchResponseBody>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55043,7 +55647,8 @@ export const search2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25984, __c812, 0) as any as S.Schema<Search2Request>,
   output: __S(5920, __c185, 0) as any as S.Schema<GlobalSearchResponseBody>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55060,7 +55665,8 @@ export const search3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26016, __c813, 0) as any as S.Schema<Search3Request>,
   output: __S(5920, __c185, 0) as any as S.Schema<GlobalSearchResponseBody>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55077,7 +55683,8 @@ export const searchableSnapshotsCacheStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26048, __c814, 0) as any as S.Schema<SearchableSnapshotsCacheStatsRequest>,
   output: __S(26083, __c815, 3) as any as S.Schema<SearchableSnapshotsCacheStatsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55094,7 +55701,8 @@ export const searchableSnapshotsCacheStats1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26144, __c817, 0) as any as S.Schema<SearchableSnapshotsCacheStats1Request>,
   output: __S(26083, __c815, 3) as any as S.Schema<SearchableSnapshotsCacheStats1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55111,7 +55719,8 @@ export const searchableSnapshotsClearCache: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26176, __c818, 0) as any as S.Schema<SearchableSnapshotsClearCacheRequest>,
   output: __S(13184, __c412, 0) as any as S.Schema<SearchableSnapshotsClearCacheResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55128,7 +55737,8 @@ export const searchableSnapshotsClearCache1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26208, __c819, 0) as any as S.Schema<SearchableSnapshotsClearCache1Request>,
   output: __S(13184, __c412, 0) as any as S.Schema<SearchableSnapshotsClearCache1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55145,7 +55755,8 @@ export const searchableSnapshotsMount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26240, __c820, 0) as any as S.Schema<SearchableSnapshotsMountRequest>,
   output: __S(26242, __c820, 2) as any as S.Schema<SearchableSnapshotsMountResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55162,7 +55773,8 @@ export const searchableSnapshotsStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26272, __c821, 0) as any as S.Schema<SearchableSnapshotsStatsRequest>,
   output: __S(26304, __c822, 0) as any as S.Schema<SearchableSnapshotsStatsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55179,7 +55791,8 @@ export const searchableSnapshotsStats1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26336, __c823, 0) as any as S.Schema<SearchableSnapshotsStats1Request>,
   output: __S(26304, __c822, 0) as any as S.Schema<SearchableSnapshotsStats1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55196,7 +55809,8 @@ export const searchApplicationDelete: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26368, __c824, 0) as any as S.Schema<SearchApplicationDeleteRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55213,7 +55827,8 @@ export const searchApplicationGet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26400, __c825, 0) as any as S.Schema<SearchApplicationGetRequest>,
   output: __S(26432, __c826, 0) as any as S.Schema<SearchApplicationGetResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55230,7 +55845,8 @@ export const searchApplicationList: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26464, __c827, 0) as any as S.Schema<SearchApplicationListRequest>,
   output: __S(26466, __c827, 2) as any as S.Schema<SearchApplicationListResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55247,7 +55863,8 @@ export const searchApplicationPut: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26496, __c828, 0) as any as S.Schema<SearchApplicationPutRequest>,
   output: __S(4096, __c128, 0) as any as S.Schema<SearchApplicationPutResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55264,7 +55881,8 @@ export const searchApplicationRenderQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26592, __c831, 0) as any as S.Schema<SearchApplicationRenderQueryRequest>,
   output: __S(13184, __c412, 0) as any as S.Schema<SearchApplicationRenderQueryResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55281,7 +55899,8 @@ export const searchApplicationSearch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26624, __c832, 0) as any as S.Schema<SearchApplicationSearchRequest>,
   output: __S(5920, __c185, 0) as any as S.Schema<GlobalSearchResponseBody>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55298,7 +55917,8 @@ export const searchApplicationSearch1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26656, __c833, 0) as any as S.Schema<SearchApplicationSearch1Request>,
   output: __S(5920, __c185, 0) as any as S.Schema<GlobalSearchResponseBody>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55315,7 +55935,8 @@ export const searchEql: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26688, __c834, 0) as any as S.Schema<SearchEqlRequest>,
   output: __S(4166, __c130, 6) as any as S.Schema<EqlTypesEqlSearchResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55332,7 +55953,8 @@ export const searchFleet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26720, __c835, 0) as any as S.Schema<SearchFleetRequest>,
   output: __S(5920, __c185, 0) as any as S.Schema<SearchFleetResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55349,7 +55971,8 @@ export const searchMvt: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26752, __c836, 0) as any as S.Schema<SearchMvtRequest>,
   output: __S(13184, __c412, 0) as any as S.Schema<SearchMvtResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55366,7 +55989,8 @@ export const searchMvt1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26784, __c837, 0) as any as S.Schema<SearchMvt1Request>,
   output: __S(13184, __c412, 0) as any as S.Schema<SearchMvt1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55383,7 +56007,8 @@ export const searchShards: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26816, __c838, 0) as any as S.Schema<SearchShardsRequest>,
   output: __S(26856, __c839, 8) as any as S.Schema<SearchShardsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55400,7 +56025,8 @@ export const searchShards1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26880, __c840, 0) as any as S.Schema<SearchShards1Request>,
   output: __S(26856, __c839, 8) as any as S.Schema<SearchShards1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55417,7 +56043,8 @@ export const searchShards2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26912, __c841, 0) as any as S.Schema<SearchShards2Request>,
   output: __S(26856, __c839, 8) as any as S.Schema<SearchShards2Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55434,7 +56061,8 @@ export const searchShards3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26976, __c843, 0) as any as S.Schema<SearchShards3Request>,
   output: __S(26856, __c839, 8) as any as S.Schema<SearchShards3Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55451,7 +56079,8 @@ export const searchTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27008, __c844, 0) as any as S.Schema<SearchTemplateRequest>,
   output: __S(5920, __c185, 0) as any as S.Schema<SearchTemplateResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55468,7 +56097,8 @@ export const searchTemplate1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27040, __c845, 0) as any as S.Schema<SearchTemplate1Request>,
   output: __S(5920, __c185, 0) as any as S.Schema<SearchTemplate1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55485,7 +56115,8 @@ export const searchTemplate2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27072, __c846, 0) as any as S.Schema<SearchTemplate2Request>,
   output: __S(5920, __c185, 0) as any as S.Schema<SearchTemplate2Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55502,7 +56133,8 @@ export const searchTemplate3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27104, __c847, 0) as any as S.Schema<SearchTemplate3Request>,
   output: __S(5920, __c185, 0) as any as S.Schema<SearchTemplate3Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55519,7 +56151,8 @@ export const securityActivateUserProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27136, __c848, 0) as any as S.Schema<SecurityActivateUserProfileRequest>,
   output: __S(27169, __c849, 1) as any as S.Schema<SecurityActivateUserProfileResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55536,7 +56169,8 @@ export const securityBulkDeleteRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27232, __c851, 0) as any as S.Schema<SecurityBulkDeleteRoleRequest>,
   output: __S(27233, __c851, 1) as any as S.Schema<SecurityBulkDeleteRoleResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55553,7 +56187,8 @@ export const securityBulkPutRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27296, __c853, 0) as any as S.Schema<SecurityBulkPutRoleRequest>,
   output: __S(27297, __c853, 1) as any as S.Schema<SecurityBulkPutRoleResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55570,7 +56205,8 @@ export const securityBulkUpdateApiKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27616, __c863, 0) as any as S.Schema<SecurityBulkUpdateApiKeysRequest>,
   output: __S(27617, __c863, 1) as any as S.Schema<SecurityBulkUpdateApiKeysResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55587,7 +56223,8 @@ export const securityChangePassword: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27648, __c864, 0) as any as S.Schema<SecurityChangePasswordRequest>,
   output: __S(13184, __c412, 0) as any as S.Schema<SecurityChangePasswordResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55604,7 +56241,8 @@ export const securityChangePassword1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27744, __c867, 0) as any as S.Schema<SecurityChangePassword1Request>,
   output: __S(13184, __c412, 0) as any as S.Schema<SecurityChangePassword1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55621,7 +56259,8 @@ export const securityChangePassword2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27776, __c868, 0) as any as S.Schema<SecurityChangePassword2Request>,
   output: __S(13184, __c412, 0) as any as S.Schema<SecurityChangePassword2Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55638,7 +56277,8 @@ export const securityChangePassword3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27808, __c869, 0) as any as S.Schema<SecurityChangePassword3Request>,
   output: __S(13184, __c412, 0) as any as S.Schema<SecurityChangePassword3Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55655,7 +56295,8 @@ export const securityClearApiKeyCache: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27840, __c870, 0) as any as S.Schema<SecurityClearApiKeyCacheRequest>,
   output: __S(27872, __c871, 0) as any as S.Schema<SecurityClearApiKeyCacheResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55672,7 +56313,8 @@ export const securityClearCachedPrivileges: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27936, __c873, 0) as any as S.Schema<SecurityClearCachedPrivilegesRequest>,
   output: __S(27872, __c871, 0) as any as S.Schema<SecurityClearCachedPrivilegesResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55689,7 +56331,8 @@ export const securityClearCachedRealms: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27968, __c874, 0) as any as S.Schema<SecurityClearCachedRealmsRequest>,
   output: __S(27872, __c871, 0) as any as S.Schema<SecurityClearCachedRealmsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55706,7 +56349,8 @@ export const securityClearCachedRoles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28000, __c875, 0) as any as S.Schema<SecurityClearCachedRolesRequest>,
   output: __S(27872, __c871, 0) as any as S.Schema<SecurityClearCachedRolesResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55723,7 +56367,8 @@ export const securityClearCachedServiceTokens: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28032, __c876, 0) as any as S.Schema<SecurityClearCachedServiceTokensRequest>,
   output: __S(27872, __c871, 0) as any as S.Schema<SecurityClearCachedServiceTokensResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55740,7 +56385,8 @@ export const securityCloneApiKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28064, __c877, 0) as any as S.Schema<SecurityCloneApiKeyRequest>,
   output: __S(28096, __c878, 0) as any as S.Schema<SecurityCloneApiKeyResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55757,7 +56403,8 @@ export const securityCloneApiKey1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28128, __c879, 0) as any as S.Schema<SecurityCloneApiKey1Request>,
   output: __S(28096, __c878, 0) as any as S.Schema<SecurityCloneApiKey1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55774,7 +56421,8 @@ export const securityCreateApiKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28192, __c881, 0) as any as S.Schema<SecurityCreateApiKeyRequest>,
   output: __S(28096, __c878, 0) as any as S.Schema<SecurityCreateApiKeyResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55791,7 +56439,8 @@ export const securityCreateApiKey1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28224, __c882, 0) as any as S.Schema<SecurityCreateApiKey1Request>,
   output: __S(28096, __c878, 0) as any as S.Schema<SecurityCreateApiKey1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55808,7 +56457,8 @@ export const securityCreateCrossClusterApiKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28256, __c883, 0) as any as S.Schema<SecurityCreateCrossClusterApiKeyRequest>,
   output: __S(28096, __c878, 0) as any as S.Schema<SecurityCreateCrossClusterApiKeyResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55825,7 +56475,8 @@ export const securityCreateServiceToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28320, __c885, 0) as any as S.Schema<SecurityCreateServiceTokenRequest>,
   output: __S(28352, __c886, 0) as any as S.Schema<SecurityCreateServiceTokenResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55842,7 +56493,8 @@ export const securityCreateServiceToken1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28416, __c888, 0) as any as S.Schema<SecurityCreateServiceToken1Request>,
   output: __S(28352, __c886, 0) as any as S.Schema<SecurityCreateServiceToken1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55859,7 +56511,8 @@ export const securityCreateServiceToken2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28448, __c889, 0) as any as S.Schema<SecurityCreateServiceToken2Request>,
   output: __S(28352, __c886, 0) as any as S.Schema<SecurityCreateServiceToken2Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55876,7 +56529,8 @@ export const securityDelegatePki: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28480, __c890, 0) as any as S.Schema<SecurityDelegatePkiRequest>,
   output: __S(28483, __c890, 3) as any as S.Schema<SecurityDelegatePkiResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55893,7 +56547,8 @@ export const securityDeletePrivileges: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28512, __c891, 0) as any as S.Schema<SecurityDeletePrivilegesRequest>,
   output: __S(28515, __c891, 3) as any as S.Schema<SecurityDeletePrivilegesResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55910,7 +56565,8 @@ export const securityDeleteRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28576, __c893, 0) as any as S.Schema<SecurityDeleteRoleRequest>,
   output: __S(28544, __c892, 0) as any as S.Schema<SecurityDeleteRoleResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55927,7 +56583,8 @@ export const securityDeleteRoleMapping: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28608, __c894, 0) as any as S.Schema<SecurityDeleteRoleMappingRequest>,
   output: __S(28544, __c892, 0) as any as S.Schema<SecurityDeleteRoleMappingResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55944,7 +56601,8 @@ export const securityDeleteServiceToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28672, __c896, 0) as any as S.Schema<SecurityDeleteServiceTokenRequest>,
   output: __S(28544, __c892, 0) as any as S.Schema<SecurityDeleteServiceTokenResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55961,7 +56619,8 @@ export const securityDeleteUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28704, __c897, 0) as any as S.Schema<SecurityDeleteUserRequest>,
   output: __S(28544, __c892, 0) as any as S.Schema<SecurityDeleteUserResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55978,7 +56637,8 @@ export const securityDeleteUserManagedServiceAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28736, __c898, 0) as any as S.Schema<SecurityDeleteUserManagedServiceAccountRequest>,
   output: __S(28544, __c892, 0) as any as S.Schema<SecurityDeleteUserManagedServiceAccountResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55995,7 +56655,8 @@ export const securityDisableUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28768, __c899, 0) as any as S.Schema<SecurityDisableUserRequest>,
   output: __S(13184, __c412, 0) as any as S.Schema<SecurityDisableUserResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56012,7 +56673,8 @@ export const securityDisableUser1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28800, __c900, 0) as any as S.Schema<SecurityDisableUser1Request>,
   output: __S(13184, __c412, 0) as any as S.Schema<SecurityDisableUser1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56029,7 +56691,8 @@ export const securityDisableUserProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28832, __c901, 0) as any as S.Schema<SecurityDisableUserProfileRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56046,7 +56709,8 @@ export const securityDisableUserProfile1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28864, __c902, 0) as any as S.Schema<SecurityDisableUserProfile1Request>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56063,7 +56727,8 @@ export const securityEnableUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28896, __c903, 0) as any as S.Schema<SecurityEnableUserRequest>,
   output: __S(13184, __c412, 0) as any as S.Schema<SecurityEnableUserResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56080,7 +56745,8 @@ export const securityEnableUser1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28928, __c904, 0) as any as S.Schema<SecurityEnableUser1Request>,
   output: __S(13184, __c412, 0) as any as S.Schema<SecurityEnableUser1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56097,7 +56763,8 @@ export const securityEnableUserProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28960, __c905, 0) as any as S.Schema<SecurityEnableUserProfileRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56114,7 +56781,8 @@ export const securityEnableUserProfile1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29024, __c907, 0) as any as S.Schema<SecurityEnableUserProfile1Request>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56131,7 +56799,8 @@ export const securityEnrollKibana: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29056, __c908, 0) as any as S.Schema<SecurityEnrollKibanaRequest>,
   output: __S(29057, __c908, 1) as any as S.Schema<SecurityEnrollKibanaResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56148,7 +56817,8 @@ export const securityEnrollNode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29088, __c909, 0) as any as S.Schema<SecurityEnrollNodeRequest>,
   output: __S(29089, __c909, 1) as any as S.Schema<SecurityEnrollNodeResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56165,7 +56835,8 @@ export const securityGetApiKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29120, __c910, 0) as any as S.Schema<SecurityGetApiKeyRequest>,
   output: __S(29121, __c910, 1) as any as S.Schema<SecurityGetApiKeyResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56182,7 +56853,8 @@ export const securityGetBuiltinPrivileges: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29184, __c912, 0) as any as S.Schema<SecurityGetBuiltinPrivilegesRequest>,
   output: __S(29185, __c912, 1) as any as S.Schema<SecurityGetBuiltinPrivilegesResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56199,7 +56871,8 @@ export const securityGetPrivileges: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29216, __c913, 0) as any as S.Schema<SecurityGetPrivilegesRequest>,
   output: __S(29248, __c914, 0) as any as S.Schema<SecurityGetPrivilegesResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56216,7 +56889,8 @@ export const securityGetPrivileges1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29312, __c916, 0) as any as S.Schema<SecurityGetPrivileges1Request>,
   output: __S(29248, __c914, 0) as any as S.Schema<SecurityGetPrivileges1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56233,7 +56907,8 @@ export const securityGetPrivileges2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29344, __c917, 0) as any as S.Schema<SecurityGetPrivileges2Request>,
   output: __S(29248, __c914, 0) as any as S.Schema<SecurityGetPrivileges2Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56250,7 +56925,8 @@ export const securityGetRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29376, __c918, 0) as any as S.Schema<SecurityGetRoleRequest>,
   output: __S(29412, __c919, 4) as any as S.Schema<SecurityGetRoleResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56267,7 +56943,8 @@ export const securityGetRole1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29472, __c921, 0) as any as S.Schema<SecurityGetRole1Request>,
   output: __S(29412, __c919, 4) as any as S.Schema<SecurityGetRole1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56284,7 +56961,8 @@ export const securityGetRoleMapping: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29568, __c924, 0) as any as S.Schema<SecurityGetRoleMappingRequest>,
   output: __S(29602, __c925, 2) as any as S.Schema<SecurityGetRoleMappingResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56301,7 +56979,8 @@ export const securityGetRoleMapping1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29664, __c927, 0) as any as S.Schema<SecurityGetRoleMapping1Request>,
   output: __S(29602, __c925, 2) as any as S.Schema<SecurityGetRoleMapping1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56318,7 +56997,8 @@ export const securityGetServiceAccounts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29696, __c928, 0) as any as S.Schema<SecurityGetServiceAccountsRequest>,
   output: __S(29729, __c929, 1) as any as S.Schema<SecurityGetServiceAccountsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56335,7 +57015,8 @@ export const securityGetServiceAccounts1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29760, __c930, 0) as any as S.Schema<SecurityGetServiceAccounts1Request>,
   output: __S(29729, __c929, 1) as any as S.Schema<SecurityGetServiceAccounts1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56352,7 +57033,8 @@ export const securityGetServiceAccounts2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29792, __c931, 0) as any as S.Schema<SecurityGetServiceAccounts2Request>,
   output: __S(29729, __c929, 1) as any as S.Schema<SecurityGetServiceAccounts2Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56369,7 +57051,8 @@ export const securityGetServiceCredentials: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29824, __c932, 0) as any as S.Schema<SecurityGetServiceCredentialsRequest>,
   output: __S(29828, __c932, 4) as any as S.Schema<SecurityGetServiceCredentialsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56386,7 +57069,8 @@ export const securityGetSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29856, __c933, 0) as any as S.Schema<SecurityGetSettingsRequest>,
   output: __S(29857, __c933, 1) as any as S.Schema<SecurityGetSettingsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56403,7 +57087,8 @@ export const securityGetStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29920, __c935, 0) as any as S.Schema<SecurityGetStatsRequest>,
   output: __S(29924, __c935, 4) as any as S.Schema<SecurityGetStatsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56420,7 +57105,8 @@ export const securityGetToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29984, __c937, 0) as any as S.Schema<SecurityGetTokenRequest>,
   output: __S(29987, __c937, 3) as any as S.Schema<SecurityGetTokenResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56437,7 +57123,8 @@ export const securityGetUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30016, __c938, 0) as any as S.Schema<SecurityGetUserRequest>,
   output: __S(30050, __c939, 2) as any as S.Schema<SecurityGetUserResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56454,7 +57141,8 @@ export const securityGetUser1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30144, __c942, 0) as any as S.Schema<SecurityGetUser1Request>,
   output: __S(30050, __c939, 2) as any as S.Schema<SecurityGetUser1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56471,7 +57159,8 @@ export const securityGetUserPrivileges: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30176, __c943, 0) as any as S.Schema<SecurityGetUserPrivilegesRequest>,
   output: __S(30184, __c943, 8) as any as S.Schema<SecurityGetUserPrivilegesResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56488,7 +57177,8 @@ export const securityGetUserProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30208, __c944, 0) as any as S.Schema<SecurityGetUserProfileRequest>,
   output: __S(30210, __c944, 2) as any as S.Schema<SecurityGetUserProfileResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56505,7 +57195,8 @@ export const securityGrantApiKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30242, __c945, 2) as any as S.Schema<SecurityGrantApiKeyRequest>,
   output: __S(30243, __c945, 3) as any as S.Schema<SecurityGrantApiKeyResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56522,7 +57213,8 @@ export const securityHasPrivileges: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30272, __c946, 0) as any as S.Schema<SecurityHasPrivilegesRequest>,
   output: __S(30306, __c947, 2) as any as S.Schema<SecurityHasPrivilegesResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56539,7 +57231,8 @@ export const securityHasPrivileges1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30368, __c949, 0) as any as S.Schema<SecurityHasPrivileges1Request>,
   output: __S(30306, __c947, 2) as any as S.Schema<SecurityHasPrivileges1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56556,7 +57249,8 @@ export const securityHasPrivileges2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30400, __c950, 0) as any as S.Schema<SecurityHasPrivileges2Request>,
   output: __S(30306, __c947, 2) as any as S.Schema<SecurityHasPrivileges2Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56573,7 +57267,8 @@ export const securityHasPrivileges3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30432, __c951, 0) as any as S.Schema<SecurityHasPrivileges3Request>,
   output: __S(30306, __c947, 2) as any as S.Schema<SecurityHasPrivileges3Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56590,7 +57285,8 @@ export const securityHasPrivilegesUserProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30464, __c952, 0) as any as S.Schema<SecurityHasPrivilegesUserProfileRequest>,
   output: __S(30497, __c953, 1) as any as S.Schema<SecurityHasPrivilegesUserProfileResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56607,7 +57303,8 @@ export const securityHasPrivilegesUserProfile1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30528, __c954, 0) as any as S.Schema<SecurityHasPrivilegesUserProfile1Request>,
   output: __S(30497, __c953, 1) as any as S.Schema<SecurityHasPrivilegesUserProfile1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56624,7 +57321,8 @@ export const securityInvalidateApiKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30656, __c958, 0) as any as S.Schema<SecurityInvalidateApiKeyRequest>,
   output: __S(30657, __c958, 1) as any as S.Schema<SecurityInvalidateApiKeyResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56641,7 +57339,8 @@ export const securityInvalidateToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30688, __c959, 0) as any as S.Schema<SecurityInvalidateTokenRequest>,
   output: __S(30689, __c959, 1) as any as S.Schema<SecurityInvalidateTokenResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56658,7 +57357,8 @@ export const securityOidcPrepareAuthentication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30720, __c960, 0) as any as S.Schema<SecurityOidcPrepareAuthenticationRequest>,
   output: __S(30721, __c960, 1) as any as S.Schema<SecurityOidcPrepareAuthenticationResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56675,7 +57375,8 @@ export const securityPutPrivileges: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30752, __c961, 0) as any as S.Schema<SecurityPutPrivilegesRequest>,
   output: __S(30786, __c962, 2) as any as S.Schema<SecurityPutPrivilegesResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56692,7 +57393,8 @@ export const securityPutPrivileges1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30848, __c964, 0) as any as S.Schema<SecurityPutPrivileges1Request>,
   output: __S(30786, __c962, 2) as any as S.Schema<SecurityPutPrivileges1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56709,7 +57411,8 @@ export const securityPutRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30880, __c965, 0) as any as S.Schema<SecurityPutRoleRequest>,
   output: __S(30912, __c966, 0) as any as S.Schema<SecurityPutRoleResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56726,7 +57429,8 @@ export const securityPutRole1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30944, __c967, 0) as any as S.Schema<SecurityPutRole1Request>,
   output: __S(30912, __c966, 0) as any as S.Schema<SecurityPutRole1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56743,7 +57447,8 @@ export const securityPutRoleMapping: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30976, __c968, 0) as any as S.Schema<SecurityPutRoleMappingRequest>,
   output: __S(31008, __c969, 0) as any as S.Schema<SecurityPutRoleMappingResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56760,7 +57465,8 @@ export const securityPutRoleMapping1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31040, __c970, 0) as any as S.Schema<SecurityPutRoleMapping1Request>,
   output: __S(31008, __c969, 0) as any as S.Schema<SecurityPutRoleMapping1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56777,7 +57483,8 @@ export const securityPutUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31072, __c971, 0) as any as S.Schema<SecurityPutUserRequest>,
   output: __S(30816, __c963, 0) as any as S.Schema<SecurityPutUserResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56794,7 +57501,8 @@ export const securityPutUser1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31136, __c973, 0) as any as S.Schema<SecurityPutUser1Request>,
   output: __S(30816, __c963, 0) as any as S.Schema<SecurityPutUser1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56811,7 +57519,8 @@ export const securityPutUserManagedServiceAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31168, __c974, 0) as any as S.Schema<SecurityPutUserManagedServiceAccountRequest>,
   output: __S(30816, __c963, 0) as any as S.Schema<SecurityPutUserManagedServiceAccountResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56828,7 +57537,8 @@ export const securityQueryApiKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31200, __c975, 0) as any as S.Schema<SecurityQueryApiKeysRequest>,
   output: __S(31237, __c976, 5) as any as S.Schema<SecurityQueryApiKeysResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56845,7 +57555,8 @@ export const securityQueryApiKeys1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31296, __c978, 0) as any as S.Schema<SecurityQueryApiKeys1Request>,
   output: __S(31237, __c976, 5) as any as S.Schema<SecurityQueryApiKeys1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56862,7 +57573,8 @@ export const securityQueryRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31328, __c979, 0) as any as S.Schema<SecurityQueryRoleRequest>,
   output: __S(31362, __c980, 2) as any as S.Schema<SecurityQueryRoleResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56879,7 +57591,8 @@ export const securityQueryRole1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31392, __c981, 0) as any as S.Schema<SecurityQueryRole1Request>,
   output: __S(31362, __c980, 2) as any as S.Schema<SecurityQueryRole1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56896,7 +57609,8 @@ export const securityQueryUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31424, __c982, 0) as any as S.Schema<SecurityQueryUserRequest>,
   output: __S(31459, __c983, 3) as any as S.Schema<SecurityQueryUserResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56913,7 +57627,8 @@ export const securityQueryUser1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31488, __c984, 0) as any as S.Schema<SecurityQueryUser1Request>,
   output: __S(31459, __c983, 3) as any as S.Schema<SecurityQueryUser1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56930,7 +57645,8 @@ export const securitySamlPrepareAuthentication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31520, __c985, 0) as any as S.Schema<SecuritySamlPrepareAuthenticationRequest>,
   output: __S(31521, __c985, 1) as any as S.Schema<SecuritySamlPrepareAuthenticationResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56947,7 +57663,8 @@ export const securitySamlServiceProviderMetadata: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31552, __c986, 0) as any as S.Schema<SecuritySamlServiceProviderMetadataRequest>,
   output: __S(31553, __c986, 1) as any as S.Schema<SecuritySamlServiceProviderMetadataResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56964,7 +57681,8 @@ export const securitySuggestUserProfiles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31616, __c988, 0) as any as S.Schema<SecuritySuggestUserProfilesRequest>,
   output: __S(31653, __c989, 5) as any as S.Schema<SecuritySuggestUserProfilesResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56981,7 +57699,8 @@ export const securitySuggestUserProfiles1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31680, __c990, 0) as any as S.Schema<SecuritySuggestUserProfiles1Request>,
   output: __S(31653, __c989, 5) as any as S.Schema<SecuritySuggestUserProfiles1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56998,7 +57717,8 @@ export const securityUpdateApiKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31712, __c991, 0) as any as S.Schema<SecurityUpdateApiKeyRequest>,
   output: __S(31744, __c992, 0) as any as S.Schema<SecurityUpdateApiKeyResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57015,7 +57735,8 @@ export const securityUpdateCrossClusterApiKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31776, __c993, 0) as any as S.Schema<SecurityUpdateCrossClusterApiKeyRequest>,
   output: __S(31744, __c992, 0) as any as S.Schema<SecurityUpdateCrossClusterApiKeyResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57032,7 +57753,8 @@ export const securityUpdateSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31808, __c994, 0) as any as S.Schema<SecurityUpdateSettingsRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<SecurityUpdateSettingsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57049,7 +57771,8 @@ export const securityUpdateUserProfileData: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31840, __c995, 0) as any as S.Schema<SecurityUpdateUserProfileDataRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57066,7 +57789,8 @@ export const securityUpdateUserProfileData1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31872, __c996, 0) as any as S.Schema<SecurityUpdateUserProfileData1Request>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57083,7 +57807,8 @@ export const simulateIngest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31904, __c997, 0) as any as S.Schema<SimulateIngestRequest>,
   output: __S(31944, __c998, 8) as any as S.Schema<SimulateIngestResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57100,7 +57825,8 @@ export const simulateIngest1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31968, __c999, 0) as any as S.Schema<SimulateIngest1Request>,
   output: __S(31944, __c998, 8) as any as S.Schema<SimulateIngest1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57117,7 +57843,8 @@ export const simulateIngest2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32000, __c1000, 0) as any as S.Schema<SimulateIngest2Request>,
   output: __S(31944, __c998, 8) as any as S.Schema<SimulateIngest2Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57134,7 +57861,8 @@ export const simulateIngest3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32064, __c1002, 0) as any as S.Schema<SimulateIngest3Request>,
   output: __S(31944, __c998, 8) as any as S.Schema<SimulateIngest3Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57151,7 +57879,8 @@ export const slmDeleteLifecycle: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32096, __c1003, 0) as any as S.Schema<SlmDeleteLifecycleRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57168,7 +57897,8 @@ export const slmExecuteLifecycle: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32128, __c1004, 0) as any as S.Schema<SlmExecuteLifecycleRequest>,
   output: __S(32129, __c1004, 1) as any as S.Schema<SlmExecuteLifecycleResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57185,7 +57915,8 @@ export const slmExecuteRetention: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32160, __c1005, 0) as any as S.Schema<SlmExecuteRetentionRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57202,7 +57933,8 @@ export const slmGetLifecycle: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32192, __c1006, 0) as any as S.Schema<SlmGetLifecycleRequest>,
   output: __S(32229, __c1007, 5) as any as S.Schema<SlmGetLifecycleResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57219,7 +57951,8 @@ export const slmGetLifecycle1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32320, __c1010, 0) as any as S.Schema<SlmGetLifecycle1Request>,
   output: __S(32229, __c1007, 5) as any as S.Schema<SlmGetLifecycle1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57236,7 +57969,8 @@ export const slmGetStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32352, __c1011, 0) as any as S.Schema<SlmGetStatsRequest>,
   output: __S(32355, __c1011, 3) as any as S.Schema<SlmGetStatsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57253,7 +57987,8 @@ export const slmGetStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32384, __c1012, 0) as any as S.Schema<SlmGetStatusRequest>,
   output: __S(8000, __c250, 0) as any as S.Schema<SlmGetStatusResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57270,7 +58005,8 @@ export const slmPutLifecycle: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32416, __c1013, 0) as any as S.Schema<SlmPutLifecycleRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57287,7 +58023,8 @@ export const snapshotCleanupRepository: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32448, __c1014, 0) as any as S.Schema<SnapshotCleanupRepositoryRequest>,
   output: __S(32450, __c1014, 2) as any as S.Schema<SnapshotCleanupRepositoryResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57304,7 +58041,8 @@ export const snapshotCreate1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32512, __c1016, 0) as any as S.Schema<SnapshotCreate1Request>,
   output: __S(2848, __c89, 0) as any as S.Schema<SnapshotCreate1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57321,7 +58059,8 @@ export const snapshotCreateRepository: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32544, __c1017, 0) as any as S.Schema<SnapshotCreateRepositoryRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57338,7 +58077,8 @@ export const snapshotCreateRepository1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32576, __c1018, 0) as any as S.Schema<SnapshotCreateRepository1Request>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57355,7 +58095,8 @@ export const snapshotDeleteRepository: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32608, __c1019, 0) as any as S.Schema<SnapshotDeleteRepositoryRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57372,7 +58113,8 @@ export const snapshotGetRepository: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32640, __c1020, 0) as any as S.Schema<SnapshotGetRepositoryRequest>,
   output: __S(32673, __c1021, 1) as any as S.Schema<SnapshotGetRepositoryResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57389,7 +58131,8 @@ export const snapshotGetRepository1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32704, __c1022, 0) as any as S.Schema<SnapshotGetRepository1Request>,
   output: __S(32673, __c1021, 1) as any as S.Schema<SnapshotGetRepository1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57406,7 +58149,8 @@ export const snapshotRepositoryAnalyze: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32736, __c1023, 0) as any as S.Schema<SnapshotRepositoryAnalyzeRequest>,
   output: __S(32743, __c1023, 7) as any as S.Schema<SnapshotRepositoryAnalyzeResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57423,7 +58167,8 @@ export const snapshotRepositoryVerifyIntegrity: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32768, __c1024, 0) as any as S.Schema<SnapshotRepositoryVerifyIntegrityRequest>,
   output: __S(13184, __c412, 0) as any as S.Schema<SnapshotRepositoryVerifyIntegrityResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57440,7 +58185,8 @@ export const snapshotStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32800, __c1025, 0) as any as S.Schema<SnapshotStatusRequest>,
   output: __S(32842, __c1026, 10) as any as S.Schema<SnapshotStatusResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57457,7 +58203,8 @@ export const snapshotStatus1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32864, __c1027, 0) as any as S.Schema<SnapshotStatus1Request>,
   output: __S(32842, __c1026, 10) as any as S.Schema<SnapshotStatus1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57474,7 +58221,8 @@ export const snapshotStatus2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32928, __c1029, 0) as any as S.Schema<SnapshotStatus2Request>,
   output: __S(32842, __c1026, 10) as any as S.Schema<SnapshotStatus2Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57491,7 +58239,8 @@ export const snapshotVerifyRepository: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32960, __c1030, 0) as any as S.Schema<SnapshotVerifyRepositoryRequest>,
   output: __S(32961, __c1030, 1) as any as S.Schema<SnapshotVerifyRepositoryResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57508,7 +58257,8 @@ export const sqlClearCursor: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32992, __c1031, 0) as any as S.Schema<SqlClearCursorRequest>,
   output: __S(32993, __c1031, 1) as any as S.Schema<SqlClearCursorResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57525,7 +58275,8 @@ export const sqlDeleteAsync: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(33024, __c1032, 0) as any as S.Schema<SqlDeleteAsyncRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57542,7 +58293,8 @@ export const sqlGetAsync: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(33056, __c1033, 0) as any as S.Schema<SqlGetAsyncRequest>,
   output: __S(33057, __c1033, 1) as any as S.Schema<SqlGetAsyncResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57559,7 +58311,8 @@ export const sqlGetAsyncStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(33120, __c1035, 0) as any as S.Schema<SqlGetAsyncStatusRequest>,
   output: __S(33121, __c1035, 1) as any as S.Schema<SqlGetAsyncStatusResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57576,7 +58329,8 @@ export const sqlQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(33152, __c1036, 0) as any as S.Schema<SqlQueryRequest>,
   output: __S(33184, __c1037, 0) as any as S.Schema<SqlQueryResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57593,7 +58347,8 @@ export const sqlQuery1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(33216, __c1038, 0) as any as S.Schema<SqlQuery1Request>,
   output: __S(33184, __c1037, 0) as any as S.Schema<SqlQuery1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57610,7 +58365,8 @@ export const sqlTranslate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(33248, __c1039, 0) as any as S.Schema<SqlTranslateRequest>,
   output: __S(33280, __c1040, 0) as any as S.Schema<SqlTranslateResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57627,7 +58383,8 @@ export const sqlTranslate1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(33312, __c1041, 0) as any as S.Schema<SqlTranslate1Request>,
   output: __S(33280, __c1040, 0) as any as S.Schema<SqlTranslate1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57644,7 +58401,8 @@ export const sslCertificates: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(33376, __c1043, 0) as any as S.Schema<SslCertificatesRequest>,
   output: __S(33379, __c1043, 3) as any as S.Schema<SslCertificatesResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57661,7 +58419,8 @@ export const startIlm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(33408, __c1044, 0) as any as S.Schema<StartIlmRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57678,7 +58437,8 @@ export const startSlm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(33440, __c1045, 0) as any as S.Schema<StartSlmRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57695,7 +58455,8 @@ export const startTransform: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(33472, __c1046, 0) as any as S.Schema<StartTransformRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57712,7 +58473,8 @@ export const startWatcher: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(33504, __c1047, 0) as any as S.Schema<StartWatcherRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57729,7 +58491,8 @@ export const stopEsqlAsyncQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(33536, __c1048, 0) as any as S.Schema<StopEsqlAsyncQueryRequest>,
   output: __S(4320, __c135, 0) as any as S.Schema<StopEsqlAsyncQueryResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57746,7 +58509,8 @@ export const stopIlm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(33568, __c1049, 0) as any as S.Schema<StopIlmRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57763,7 +58527,8 @@ export const stopSlm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(33600, __c1050, 0) as any as S.Schema<StopSlmRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57780,7 +58545,8 @@ export const stopTransform: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(33632, __c1051, 0) as any as S.Schema<StopTransformRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57797,7 +58563,8 @@ export const stopWatcher: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(33664, __c1052, 0) as any as S.Schema<StopWatcherRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57814,7 +58581,8 @@ export const streamsStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(33728, __c1054, 0) as any as S.Schema<StreamsStatusRequest>,
   output: __S(33729, __c1054, 1) as any as S.Schema<StreamsStatusResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57831,7 +58599,8 @@ export const tasksCancel1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(33760, __c1055, 0) as any as S.Schema<TasksCancel1Request>,
   output: __S(5410, __c169, 2) as any as S.Schema<TasksTypesTaskListResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57848,7 +58617,8 @@ export const termsEnum: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(33792, __c1056, 0) as any as S.Schema<TermsEnumRequest>,
   output: __S(33824, __c1057, 0) as any as S.Schema<TermsEnumResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57865,7 +58635,8 @@ export const termsEnum1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(33856, __c1058, 0) as any as S.Schema<TermsEnum1Request>,
   output: __S(33824, __c1057, 0) as any as S.Schema<TermsEnum1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57882,7 +58653,8 @@ export const termvectors: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(33888, __c1059, 0) as any as S.Schema<TermvectorsRequest>,
   output: __S(33920, __c1060, 0) as any as S.Schema<TermvectorsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57899,7 +58671,8 @@ export const termvectors1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(33952, __c1061, 0) as any as S.Schema<Termvectors1Request>,
   output: __S(33920, __c1060, 0) as any as S.Schema<Termvectors1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57916,7 +58689,8 @@ export const termvectors2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(33984, __c1062, 0) as any as S.Schema<Termvectors2Request>,
   output: __S(33920, __c1060, 0) as any as S.Schema<Termvectors2Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57933,7 +58707,8 @@ export const termvectors3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(34016, __c1063, 0) as any as S.Schema<Termvectors3Request>,
   output: __S(33920, __c1060, 0) as any as S.Schema<Termvectors3Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57950,7 +58725,8 @@ export const textStructureFindFieldStructure: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(34048, __c1064, 0) as any as S.Schema<TextStructureFindFieldStructureRequest>,
   output: __S(34080, __c1065, 0) as any as S.Schema<TextStructureFindFieldStructureResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57967,7 +58743,8 @@ export const textStructureFindMessageStructure: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(34144, __c1067, 0) as any as S.Schema<TextStructureFindMessageStructureRequest>,
   output: __S(34080, __c1065, 0) as any as S.Schema<TextStructureFindMessageStructureResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57984,7 +58761,8 @@ export const textStructureFindMessageStructure1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(34208, __c1069, 0) as any as S.Schema<TextStructureFindMessageStructure1Request>,
   output: __S(34080, __c1065, 0) as any as S.Schema<TextStructureFindMessageStructure1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58001,7 +58779,8 @@ export const textStructureFindStructure: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(34240, __c1070, 0) as any as S.Schema<TextStructureFindStructureRequest>,
   output: __S(34241, __c1070, 1) as any as S.Schema<TextStructureFindStructureResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58018,7 +58797,8 @@ export const textStructureTestGrokPattern: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(34272, __c1071, 0) as any as S.Schema<TextStructureTestGrokPatternRequest>,
   output: __S(34309, __c1072, 5) as any as S.Schema<TextStructureTestGrokPatternResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58035,7 +58815,8 @@ export const textStructureTestGrokPattern1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(34336, __c1073, 0) as any as S.Schema<TextStructureTestGrokPattern1Request>,
   output: __S(34309, __c1072, 5) as any as S.Schema<TextStructureTestGrokPattern1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58052,7 +58833,8 @@ export const transformGetNodeStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(34368, __c1074, 0) as any as S.Schema<TransformGetNodeStatsRequest>,
   output: __S(34371, __c1074, 3) as any as S.Schema<TransformGetNodeStatsTransformNodeFullStats>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58069,7 +58851,8 @@ export const transformPreviewTransform: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(34400, __c1075, 0) as any as S.Schema<TransformPreviewTransformRequest>,
   output: __S(34432, __c1076, 0) as any as S.Schema<TransformPreviewTransformResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58086,7 +58869,8 @@ export const transformPreviewTransform1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(34464, __c1077, 0) as any as S.Schema<TransformPreviewTransform1Request>,
   output: __S(34432, __c1076, 0) as any as S.Schema<TransformPreviewTransform1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58103,7 +58887,8 @@ export const transformPreviewTransform2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(34496, __c1078, 0) as any as S.Schema<TransformPreviewTransform2Request>,
   output: __S(34432, __c1076, 0) as any as S.Schema<TransformPreviewTransform2Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58120,7 +58905,8 @@ export const transformPreviewTransform3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(34528, __c1079, 0) as any as S.Schema<TransformPreviewTransform3Request>,
   output: __S(34432, __c1076, 0) as any as S.Schema<TransformPreviewTransform3Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58137,7 +58923,8 @@ export const transformScheduleNowTransform: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(34560, __c1080, 0) as any as S.Schema<TransformScheduleNowTransformRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58154,7 +58941,8 @@ export const transformSetUpgradeMode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(34624, __c1082, 0) as any as S.Schema<TransformSetUpgradeModeRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58171,7 +58959,8 @@ export const transformUpgradeTransforms: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(34656, __c1083, 0) as any as S.Schema<TransformUpgradeTransformsRequest>,
   output: __S(34657, __c1083, 1) as any as S.Schema<TransformUpgradeTransformsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58188,7 +58977,8 @@ export const unfollowCcr: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(34688, __c1084, 0) as any as S.Schema<UnfollowCcrRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58205,7 +58995,8 @@ export const update: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(34720, __c1085, 0) as any as S.Schema<UpdateRequest>,
   output: __S(34721, __c1085, 1) as any as S.Schema<UpdateResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58222,7 +59013,8 @@ export const updateByQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(34752, __c1086, 0) as any as S.Schema<UpdateByQueryRequest>,
   output: __S(34753, __c1086, 1) as any as S.Schema<UpdateByQueryResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58239,7 +59031,8 @@ export const updateByQueryRethrottle: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(34784, __c1087, 0) as any as S.Schema<UpdateByQueryRethrottleRequest>,
   output: __S(34787, __c1087, 3) as any as S.Schema<UpdateByQueryRethrottleResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58256,7 +59049,8 @@ export const updateInference: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(34816, __c1088, 0) as any as S.Schema<UpdateInferenceRequest>,
   output: __S(6785, __c212, 1) as any as S.Schema<UpdateInferenceResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58273,7 +59067,8 @@ export const updateTransform: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(34848, __c1089, 0) as any as S.Schema<UpdateTransformRequest>,
   output: __S(34849, __c1089, 1) as any as S.Schema<UpdateTransformResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58290,7 +59085,8 @@ export const watcherAckWatch1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(34880, __c1090, 0) as any as S.Schema<WatcherAckWatch1Request>,
   output: __S(34976, __c1093, 0) as any as S.Schema<WatcherAckWatch1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58307,7 +59103,8 @@ export const watcherAckWatch2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(35008, __c1094, 0) as any as S.Schema<WatcherAckWatch2Request>,
   output: __S(34976, __c1093, 0) as any as S.Schema<WatcherAckWatch2Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58324,7 +59121,8 @@ export const watcherAckWatch3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(35168, __c1099, 0) as any as S.Schema<WatcherAckWatch3Request>,
   output: __S(34976, __c1093, 0) as any as S.Schema<WatcherAckWatch3Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58341,7 +59139,8 @@ export const watcherActivateWatch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(35200, __c1100, 0) as any as S.Schema<WatcherActivateWatchRequest>,
   output: __S(35233, __c1101, 1) as any as S.Schema<WatcherActivateWatchResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58358,7 +59157,8 @@ export const watcherActivateWatch1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(35264, __c1102, 0) as any as S.Schema<WatcherActivateWatch1Request>,
   output: __S(35233, __c1101, 1) as any as S.Schema<WatcherActivateWatch1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58375,7 +59175,8 @@ export const watcherDeactivateWatch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(35296, __c1103, 0) as any as S.Schema<WatcherDeactivateWatchRequest>,
   output: __S(35233, __c1101, 1) as any as S.Schema<WatcherDeactivateWatchResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58392,7 +59193,8 @@ export const watcherDeactivateWatch1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(35328, __c1104, 0) as any as S.Schema<WatcherDeactivateWatch1Request>,
   output: __S(35233, __c1101, 1) as any as S.Schema<WatcherDeactivateWatch1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58409,7 +59211,8 @@ export const watcherDeleteWatch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(35360, __c1105, 0) as any as S.Schema<WatcherDeleteWatchRequest>,
   output: __S(35361, __c1105, 1) as any as S.Schema<WatcherDeleteWatchResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58426,7 +59229,8 @@ export const watcherExecuteWatch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(35392, __c1106, 0) as any as S.Schema<WatcherExecuteWatchRequest>,
   output: __S(35450, __c1107, 26) as any as S.Schema<WatcherExecuteWatchResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58443,7 +59247,8 @@ export const watcherExecuteWatch1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(35552, __c1111, 0) as any as S.Schema<WatcherExecuteWatch1Request>,
   output: __S(35450, __c1107, 26) as any as S.Schema<WatcherExecuteWatch1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58460,7 +59265,8 @@ export const watcherExecuteWatch2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(35584, __c1112, 0) as any as S.Schema<WatcherExecuteWatch2Request>,
   output: __S(35450, __c1107, 26) as any as S.Schema<WatcherExecuteWatch2Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58477,7 +59283,8 @@ export const watcherExecuteWatch3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(35616, __c1113, 0) as any as S.Schema<WatcherExecuteWatch3Request>,
   output: __S(35450, __c1107, 26) as any as S.Schema<WatcherExecuteWatch3Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58494,7 +59301,8 @@ export const watcherGetSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(35680, __c1115, 0) as any as S.Schema<WatcherGetSettingsRequest>,
   output: __S(35681, __c1115, 1) as any as S.Schema<WatcherGetSettingsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58511,7 +59319,8 @@ export const watcherGetWatch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(35712, __c1116, 0) as any as S.Schema<WatcherGetWatchRequest>,
   output: __S(35713, __c1116, 1) as any as S.Schema<WatcherGetWatchResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58528,7 +59337,8 @@ export const watcherPutWatch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(35744, __c1117, 0) as any as S.Schema<WatcherPutWatchRequest>,
   output: __S(35776, __c1118, 0) as any as S.Schema<WatcherPutWatchResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58545,7 +59355,8 @@ export const watcherPutWatch1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(35808, __c1119, 0) as any as S.Schema<WatcherPutWatch1Request>,
   output: __S(35776, __c1118, 0) as any as S.Schema<WatcherPutWatch1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58562,7 +59373,8 @@ export const watcherQueryWatches: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(35840, __c1120, 0) as any as S.Schema<WatcherQueryWatchesRequest>,
   output: __S(35874, __c1121, 2) as any as S.Schema<WatcherQueryWatchesResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58579,7 +59391,8 @@ export const watcherQueryWatches1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(35904, __c1122, 0) as any as S.Schema<WatcherQueryWatches1Request>,
   output: __S(35874, __c1121, 2) as any as S.Schema<WatcherQueryWatches1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58596,7 +59409,8 @@ export const watcherStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(35936, __c1123, 0) as any as S.Schema<WatcherStatsRequest>,
   output: __S(35975, __c1124, 7) as any as S.Schema<WatcherStatsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58613,7 +59427,8 @@ export const watcherStats1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(36000, __c1125, 0) as any as S.Schema<WatcherStats1Request>,
   output: __S(35975, __c1124, 7) as any as S.Schema<WatcherStats1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58630,7 +59445,8 @@ export const watcherUpdateSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(36032, __c1126, 0) as any as S.Schema<WatcherUpdateSettingsRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<WatcherUpdateSettingsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58647,7 +59463,8 @@ export const watchWatcherAck: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(36064, __c1127, 0) as any as S.Schema<WatchWatcherAckRequest>,
   output: __S(34976, __c1093, 0) as any as S.Schema<WatchWatcherAckResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58664,7 +59481,8 @@ export const xpackInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(36128, __c1129, 0) as any as S.Schema<XpackInfoRequest>,
   output: __S(36133, __c1129, 5) as any as S.Schema<XpackInfoResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58681,7 +59499,8 @@ export const xpackUsage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(36160, __c1130, 0) as any as S.Schema<XpackUsageRequest>,
   output: __S(36244, __c1132, 20) as any as S.Schema<XpackUsageResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

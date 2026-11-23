@@ -27,8 +27,7 @@ import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
-import { Credentials } from "./credentials-service.ts";
-import type { GCPCredentialsError } from "./errors.ts";
+import { Credentials, type CredentialsError } from "./credentials-service.ts";
 import { REGIONAL_ENDPOINTS } from "./regional-endpoints.ts";
 
 /** A GCP region (`us-central1`) or multi-region (`us`, `eu`). */
@@ -52,7 +51,7 @@ export const of = (region: RegionName) => Layer.succeed(Region, Effect.succeed(r
  * The default region: the {@link Region} override, else the credentials'
  * region, else `undefined`.
  */
-export const current: Effect.Effect<RegionName | undefined, GCPCredentialsError> =
+export const current: Effect.Effect<RegionName | undefined, CredentialsError> =
   /*@__PURE__*/ Effect.gen(function* () {
     const override = yield* Effect.serviceOption(Region);
     if (Option.isSome(override)) {

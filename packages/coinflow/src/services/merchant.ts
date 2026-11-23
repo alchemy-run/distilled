@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownCoinflowError } from "../errors.ts";
+import { CoinflowServiceErrors } from "../errors.ts";
 import { CoinflowProtocol, type CoinflowOpError, type CoinflowOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -31,6 +31,7 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       message: S.String,
       body: S.Unknown,
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
   ) {}
@@ -40,6 +41,7 @@ export class NotFound
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       message: S.String,
       body: S.Unknown,
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
   ) {}
@@ -49,6 +51,7 @@ export class PaymentRequired
     /*@__PURE__*/ S.TaggedError<PaymentRequired>()("PaymentRequired", {
       message: S.String,
       body: S.Unknown,
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withQuotaError),
     [{ status: 402 }],
   ) {}
@@ -68,6 +71,7 @@ export class VerificationRequired
           readonly message?: string;
         }>,
       ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 451 }],
   ) {}
@@ -581,16 +585,12 @@ export interface CustomPayInFeeConfig {
   lineItemLabel: string;
 }
 export type CustomPayInFeesConfig = Array<CustomPayInFeeConfig>;
-export interface IMerchantStringWalletsStellar {
-  usdcPayer: string;
-}
 export interface IMerchantStringWalletsEvm {
   usdcPayer: string;
   feePayer: string;
 }
 export type IMerchantStringWalletsSolana = IMerchantStringWalletsEvm;
 export interface IMerchantStringWallets {
-  stellar: IMerchantStringWalletsStellar;
   evm: IMerchantStringWalletsEvm;
   solana: IMerchantStringWalletsEvm;
 }
@@ -598,6 +598,7 @@ export interface IMerchantStringWallets {
 export type MerchantScope =
   | "admin"
   | "editor"
+  | "payouts"
   | "chargeback"
   | "chargeback_analyst"
   | "chargeback_analyst_read"
@@ -861,15 +862,19 @@ export interface HighnoteMerchantSettings {
   /** Network-assigned MID (Visa Field 42), from the approved contract. */
   visaCardAcceptorId?: string | undefined;
   mastercardCardAcceptorId?: string | undefined;
+  /** Only set once this MID has Amex acceptance live at Highnote; without it Amex skips Highnote, since auths on an MID without Amex set up decline. */
+  amexEnabled?: boolean | undefined;
   /** Set when onboardBusiness (the ProductApplication submission) succeeded. A re-run while underwriting is still Pending must not re-submit the application -- Highnote rejects duplicates, which would overwrite a healthy Pending status with an error. */
   applicationSubmittedAt?: string | undefined;
 }
 /** From T, pick a set of properties whose keys are in the union K */
-export interface PickHighnoteMerchantSettingsMerchantAcceptorIdOrVisaCardAcceptorIdOrMastercardCardAcceptorId {
+export interface PickHighnoteMerchantSettingsMerchantAcceptorIdOrVisaCardAcceptorIdOrMastercardCardAcceptorIdOrAmexEnabled {
   merchantAcceptorId?: string | undefined;
   /** Network-assigned MID (Visa Field 42), from the approved contract. */
   visaCardAcceptorId?: string | undefined;
   mastercardCardAcceptorId?: string | undefined;
+  /** Only set once this MID has Amex acceptance live at Highnote; without it Amex skips Highnote, since auths on an MID without Amex set up decline. */
+  amexEnabled?: boolean | undefined;
 }
 export interface PayarcMerchantArgs {
   apiKey: string | Redacted.Redacted<string>;
@@ -1274,7 +1279,7 @@ export interface CardSettings {
   crbMerchantArgs?: CrbMerchantSettings | undefined;
   highnoteMerchantArgs?: HighnoteMerchantSettings | undefined;
   highnote2MerchantArgs?:
-    | PickHighnoteMerchantSettingsMerchantAcceptorIdOrVisaCardAcceptorIdOrMastercardCardAcceptorId
+    | PickHighnoteMerchantSettingsMerchantAcceptorIdOrVisaCardAcceptorIdOrMastercardCardAcceptorIdOrAmexEnabled
     | undefined;
   payarcMerchantArgs?: PayarcMerchantArgs | undefined;
   threeDSArgs?: ThreeDSArgs | undefined;
@@ -1721,6 +1726,14 @@ export interface IMerchantStringWithdrawFeePayment {
   paysSwapFees?: boolean | undefined;
   paysWithdrawFees?: boolean | undefined;
 }
+export type CardNameMatchResult =
+  | "match"
+  | "partial_match"
+  | "no_match"
+  | "unverified"
+  | "not_supported";
+/** ANI/MAV results that block push to card. Unset blocks only NoMatch; Match never blocks. */
+export type IMerchantStringAniBlockedResultsList = Array<CardNameMatchResult>;
 export type PayoutProviderOption = "aptpay" | "coinfx" | "checkbook" | "BRAID" | "brale" | "mock";
 export type IMerchantStringBankPayoutProviderList = Array<PayoutProviderOption>;
 export type IbanPayoutProvider = "merge" | "mock" | "ivy" | "conduit";
@@ -2239,6 +2252,8 @@ export interface IMerchantString {
   withdrawFeePayment?: IMerchantStringWithdrawFeePayment | undefined;
   pushToCardEnabled: boolean;
   requireAniCheck: boolean;
+  /** ANI/MAV results that block push to card. Unset blocks only NoMatch; Match never blocks. */
+  aniBlockedResults?: IMerchantStringAniBlockedResultsList | undefined;
   /** Opts AptPay push to card into credit cards; other providers stay debit-only. */
   allowCreditForPushToCard?: boolean | undefined;
   bankPayoutProvider?: IMerchantStringBankPayoutProviderList | undefined;
@@ -2921,7 +2936,6 @@ export type BlockchainETH = "eth";
 export type BlockchainPOLYGON = "polygon";
 export type BlockchainBASE = "base";
 export type BlockchainARBITRUM = "arbitrum";
-export type BlockchainSTELLAR = "stellar";
 export type BlockchainMONAD = "monad";
 export type BlockchainTEMPO = "tempo";
 export type OperationalBlockchain =
@@ -2930,7 +2944,6 @@ export type OperationalBlockchain =
   | BlockchainPOLYGON
   | BlockchainBASE
   | BlockchainARBITRUM
-  | BlockchainSTELLAR
   | BlockchainMONAD
   | BlockchainTEMPO;
 export interface PaymentListResponseOutstanding {
@@ -6290,6 +6303,7 @@ export interface PickIWithdrawExcludeKeyofIWithdrawProvider {
   /** Optional end-user address to send a failed-withdraw refund to instead of the originating wallet. Copied from the CryptoWithdrawSession at creation. */
   returnAddress?: string | undefined;
   returnCurrency?: string | undefined;
+  embeddedTransferId?: string | undefined;
   returnGlideSessionId?: string | undefined;
   userId?: string | undefined;
   detailMessage?: string | undefined;
@@ -7089,6 +7103,7 @@ export interface MerchantCapabilities {
   companyCardsEnabled: boolean;
   hasManagedAccounts: boolean;
   cryptoPayoutsEnabled: boolean;
+  firstPartyDirectCryptoPayoutsEnabled: boolean;
 }
 export interface AdditionalVerification {
   name: string;
@@ -7748,6 +7763,10 @@ export interface UpdateCustomWithdrawalFeesRequest {
   lineItemLabel: string;
   isBundled: boolean;
 }
+export interface PayoutFromDelegatedSettlementWalletRequestUnavailableForLegalReasonsError {
+  verificationLink: string;
+  message: string;
+}
 export type AcceptChargebackError = CoinflowOpError;
 /** Accept chargeback */
 export const acceptChargeback: API.OperationMethod<
@@ -7758,7 +7777,8 @@ export const acceptChargeback: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1888, __c59, 0) as any as S.Schema<AcceptChargebackRequest>,
   output: __S(1889, __c59, 1) as any as S.Schema<AcceptChargebackResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7775,7 +7795,8 @@ export const activatePassiveDepositAddress: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2240, __c70, 0) as any as S.Schema<ActivatePassiveDepositAddressRequest>,
   output: __S(2272, __c71, 0) as any as S.Schema<PassiveDepositAddressStatusResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7792,7 +7813,8 @@ export const batchRefundPayments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2624, __c82, 0) as any as S.Schema<BatchRefundPaymentsRequest>,
   output: __S(2627, __c82, 3) as any as S.Schema<BatchRefundResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7809,7 +7831,8 @@ export const blockMarketplaceSeller: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2752, __c86, 0) as any as S.Schema<BlockMarketplaceSellerRequest>,
   output: __S(2784, __c87, 0) as any as S.Schema<BlockMarketplaceSellerResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7826,7 +7849,8 @@ export const blockOrUnblockWithdrawer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2816, __c88, 0) as any as S.Schema<BlockOrUnblockWithdrawerRequest>,
   output: __S(2784, __c87, 0) as any as S.Schema<BlockOrUnblockWithdrawerResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7843,7 +7867,8 @@ export const createCryptoWithdrawDeposit: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2848, __c89, 0) as any as S.Schema<CreateCryptoWithdrawDepositRequest>,
   output: __S(2849, __c89, 1) as any as S.Schema<CryptoWithdrawDepositResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7860,7 +7885,8 @@ export const createExport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateExportRequest>,
   output: __S(68, __c2, 4) as any as S.Schema<IExport>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7877,7 +7903,8 @@ export const deactivatePassiveDepositAddress: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c3, 0) as any as S.Schema<DeactivatePassiveDepositAddressRequest>,
   output: __S(2272, __c71, 0) as any as S.Schema<PassiveDepositAddressStatusResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7894,7 +7921,8 @@ export const deleteExport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c4, 0) as any as S.Schema<DeleteExportRequest>,
   output: __S(2784, __c87, 0) as any as S.Schema<DeleteExportResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7911,7 +7939,8 @@ export const doPayout: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c5, 0) as any as S.Schema<DoPayoutRequest>,
   output: __S(161, __c5, 1) as any as S.Schema<GetWithdrawTransactionResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7928,7 +7957,8 @@ export const editMerchant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(227, __c7, 3) as any as S.Schema<EditMerchantRequest>,
   output: __S(346, __c10, 26) as any as S.Schema<ExternalMerchantResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7945,7 +7975,8 @@ export const failPayment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c12, 0) as any as S.Schema<FailPaymentRequest>,
   output: __S(2784, __c87, 0) as any as S.Schema<FailPaymentResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7962,7 +7993,8 @@ export const getAchReturnRate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c13, 0) as any as S.Schema<GetAchReturnRateRequest>,
   output: __S(417, __c13, 1) as any as S.Schema<AchReturnRate>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7979,7 +8011,8 @@ export const getAchReturns: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c14, 0) as any as S.Schema<GetAchReturnsRequest>,
   output: __S(653, __c20, 13) as any as S.Schema<GetAchReturnsResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7996,7 +8029,8 @@ export const getAllChargebacks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c26, 0) as any as S.Schema<GetAllChargebacksRequest>,
   output: __S(839, __c26, 7) as any as S.Schema<GetAllChargebacksResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8013,7 +8047,8 @@ export const getAllPayments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c31, 0) as any as S.Schema<GetAllPaymentsRequest>,
   output: __S(653, __c20, 13) as any as S.Schema<GetAllPaymentsResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8030,7 +8065,8 @@ export const getAllWebhooks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c32, 0) as any as S.Schema<GetAllWebhooksRequest>,
   output: __S(1027, __c32, 3) as any as S.Schema<GetAllWebhooksResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8047,7 +8083,8 @@ export const getAllWithdraws: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c33, 0) as any as S.Schema<GetAllWithdrawsRequest>,
   output: __S(1058, __c33, 2) as any as S.Schema<GetAllWithdrawsResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8064,7 +8101,8 @@ export const getChargeback: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1153, __c36, 1) as any as S.Schema<GetChargebackRequest>,
   output: __S(1191, __c37, 7) as any as S.Schema<MerchantGetChargebackResponse200>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8081,7 +8119,8 @@ export const getChargebackAnalyticsSummary: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c39, 0) as any as S.Schema<GetChargebackAnalyticsSummaryRequest>,
   output: __S(1257, __c39, 9) as any as S.Schema<ChargebackAnalyticsSummary>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8098,7 +8137,8 @@ export const getChargebackResponseDraft: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1280, __c40, 0) as any as S.Schema<GetChargebackResponseDraftRequest>,
   output: __S(1281, __c40, 1) as any as S.Schema<GetChargebackResponseDraftResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8115,7 +8155,8 @@ export const getCryptoPayoutTokens: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1312, __c41, 0) as any as S.Schema<GetCryptoPayoutTokensRequest>,
   output: __S(1317, __c41, 5) as any as S.Schema<CryptoPayoutTokensResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8132,7 +8173,8 @@ export const getCustomerAccounts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1357, __c42, 13) as any as S.Schema<GetCustomerAccountsRequest>,
   output: __S(1360, __c42, 16) as any as S.Schema<GetCustomerAccountsResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8149,7 +8191,8 @@ export const getDelegatedCryptoPayoutQuote: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1409, __c44, 1) as any as S.Schema<GetDelegatedCryptoPayoutQuoteRequest>,
   output: __S(1410, __c44, 2) as any as S.Schema<DelegatedCryptoPayoutQuote>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8166,7 +8209,8 @@ export const getDelegatedPayoutQuote: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c45, 0) as any as S.Schema<GetDelegatedPayoutQuoteRequest>,
   output: __S(1444, __c45, 4) as any as S.Schema<DelegatedPayoutQuote>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8183,7 +8227,8 @@ export const getEnhancedTxInformation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1504, __c47, 0) as any as S.Schema<GetEnhancedTxInformationRequest>,
   output: __S(1506, __c47, 2) as any as S.Schema<MerchantGetEnhancedTxInformationResponse200>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8200,7 +8245,8 @@ export const getExport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1568, __c49, 0) as any as S.Schema<GetExportRequest>,
   output: __S(68, __c2, 4) as any as S.Schema<IExport>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8217,7 +8263,8 @@ export const getExportDownloadUrl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1600, __c50, 0) as any as S.Schema<GetExportDownloadUrlRequest>,
   output: __S(1601, __c50, 1) as any as S.Schema<ExportDownloadResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8234,7 +8281,8 @@ export const getJobStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1632, __c51, 0) as any as S.Schema<GetJobStatusRequest>,
   output: __S(1633, __c51, 1) as any as S.Schema<GetJobStatusResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8251,7 +8299,8 @@ export const getMerchantV2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1664, __c52, 0) as any as S.Schema<GetMerchantV2Request>,
   output: __S(1669, __c52, 5) as any as S.Schema<MerchantGetMerchantV2Response200>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8268,7 +8317,8 @@ export const getPaymentById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1696, __c53, 0) as any as S.Schema<GetPaymentByIdRequest>,
   output: __S(1708, __c53, 12) as any as S.Schema<PaymentWithEnhancedResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8285,7 +8335,8 @@ export const getPayoutBalance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1728, __c54, 0) as any as S.Schema<GetPayoutBalanceRequest>,
   output: __S(1729, __c54, 1) as any as S.Schema<MerchantGetPayoutBalanceResponse200>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8302,7 +8353,8 @@ export const getSubmerchantsForMerchant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1760, __c55, 0) as any as S.Schema<GetSubmerchantsForMerchantRequest>,
   output: __S(1761, __c55, 1) as any as S.Schema<GetSubmerchantsForMerchantResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8319,7 +8371,8 @@ export const getSupportedChains: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1792, __c56, 0) as any as S.Schema<GetSupportedChainsRequest>,
   output: __S(1797, __c56, 5) as any as S.Schema<GetSupportedChainsResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8336,7 +8389,8 @@ export const getUrlWhitelistRequests: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1824, __c57, 0) as any as S.Schema<GetUrlWhitelistRequestsRequest>,
   output: __S(1827, __c57, 3) as any as S.Schema<MerchantGetUrlWhitelistRequestsResponse200>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8353,7 +8407,8 @@ export const getWithdrawal: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1856, __c58, 0) as any as S.Schema<GetWithdrawalRequest>,
   output: __S(1857, __c58, 1) as any as S.Schema<MerchantGetWithdrawalResponse200>,
-  errors: [NotFound, UnknownCoinflowError],
+  errors: [NotFound],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8370,7 +8425,8 @@ export const getWithdrawers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1922, __c60, 2) as any as S.Schema<GetWithdrawersRequest>,
   output: __S(1925, __c60, 5) as any as S.Schema<GetWithdrawersResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8387,7 +8443,8 @@ export const listExports: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1952, __c61, 0) as any as S.Schema<ListExportsRequest>,
   output: __S(1954, __c61, 2) as any as S.Schema<ListExportsResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8404,7 +8461,8 @@ export const listPassiveDepositAddresses: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1984, __c62, 0) as any as S.Schema<ListPassiveDepositAddressesRequest>,
   output: __S(1987, __c62, 3) as any as S.Schema<PassiveDepositAddressListResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8421,7 +8479,8 @@ export const mintCredits: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2016, __c63, 0) as any as S.Schema<MintCreditsRequest>,
   output: __S(2017, __c63, 1) as any as S.Schema<MerchantMintCreditsResponse200>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8438,7 +8497,8 @@ export const overrideChargebackProtection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2048, __c64, 0) as any as S.Schema<OverrideChargebackProtectionRequest>,
   output: __S(2784, __c87, 0) as any as S.Schema<OverrideChargebackProtectionResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8458,7 +8518,8 @@ export const payoutFromDelegatedSettlementWallet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2080, __c65, 0) as any as S.Schema<PayoutFromDelegatedSettlementWalletRequest>,
   output: __S(2081, __c65, 1) as any as S.Schema<DelegatedPayoutResponse>,
-  errors: [PaymentRequired, VerificationRequired, UnknownCoinflowError],
+  errors: [PaymentRequired, VerificationRequired],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8475,7 +8536,8 @@ export const refundPayment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2112, __c66, 0) as any as S.Schema<RefundPaymentRequest>,
   output: __S(2113, __c66, 1) as any as S.Schema<RefundPaymentResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8492,7 +8554,8 @@ export const refundQuote: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2144, __c67, 0) as any as S.Schema<RefundQuoteRequest>,
   output: __S(960, __c30, 0) as any as S.Schema<RefundTotals>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8509,7 +8572,8 @@ export const requestProgramApproval: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2176, __c68, 0) as any as S.Schema<RequestProgramApprovalRequest>,
   output: __S(2784, __c87, 0) as any as S.Schema<RequestProgramApprovalResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8526,7 +8590,8 @@ export const requestUrlWhitelist: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2208, __c69, 0) as any as S.Schema<RequestUrlWhitelistRequest>,
   output: __S(2784, __c87, 0) as any as S.Schema<RequestUrlWhitelistResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8543,7 +8608,8 @@ export const resendWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2304, __c72, 0) as any as S.Schema<ResendWebhookRequest>,
   output: __S(2305, __c72, 1) as any as S.Schema<MerchantResendWebhookResponse200>,
-  errors: [Forbidden, NotFound, UnknownCoinflowError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8560,7 +8626,8 @@ export const respond: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2336, __c73, 0) as any as S.Schema<RespondRequest>,
   output: __S(2784, __c87, 0) as any as S.Schema<RespondResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8577,7 +8644,8 @@ export const revokeUrlWhitelist: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2368, __c74, 0) as any as S.Schema<RevokeUrlWhitelistRequest>,
   output: __S(2784, __c87, 0) as any as S.Schema<RevokeUrlWhitelistResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8594,7 +8662,8 @@ export const saveDraftAndNotes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2400, __c75, 0) as any as S.Schema<SaveDraftAndNotesRequest>,
   output: __S(2784, __c87, 0) as any as S.Schema<SaveDraftAndNotesResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8611,7 +8680,8 @@ export const setCustomerOverrideLimit: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2432, __c76, 0) as any as S.Schema<SetCustomerOverrideLimitRequest>,
   output: __S(2784, __c87, 0) as any as S.Schema<SetCustomerOverrideLimitResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8628,7 +8698,8 @@ export const setSettlementAddress: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2464, __c77, 0) as any as S.Schema<SetSettlementAddressRequest>,
   output: __S(346, __c10, 26) as any as S.Schema<ExternalMerchantResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8645,7 +8716,8 @@ export const settlePayment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2496, __c78, 0) as any as S.Schema<SettlePaymentRequest>,
   output: __S(2497, __c78, 1) as any as S.Schema<SettlePaymentResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8662,7 +8734,8 @@ export const unblockAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2528, __c79, 0) as any as S.Schema<UnblockAccountRequest>,
   output: __S(2784, __c87, 0) as any as S.Schema<UnblockAccountResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8679,7 +8752,8 @@ export const unverifySeller: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2560, __c80, 0) as any as S.Schema<UnverifySellerRequest>,
   output: __S(2784, __c87, 0) as any as S.Schema<UnverifySellerResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8696,7 +8770,8 @@ export const update3DSExemption: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2592, __c81, 0) as any as S.Schema<Update3DSExemptionRequest>,
   output: __S(2784, __c87, 0) as any as S.Schema<Update3DSExemptionResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8713,7 +8788,8 @@ export const updateAttemptLimitSetting: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2688, __c84, 0) as any as S.Schema<UpdateAttemptLimitSettingRequest>,
   output: __S(2784, __c87, 0) as any as S.Schema<UpdateAttemptLimitSettingResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8730,7 +8806,8 @@ export const updateCustomWithdrawalFees: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2720, __c85, 0) as any as S.Schema<UpdateCustomWithdrawalFeesRequest>,
   output: __S(352, __c11, 0) as any as S.Schema<CustomWithdrawFeesConfig>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11560,6 +11637,7 @@ function __c36(j: number): any {
           returnedAt: S.optional(S.String),
           returnAddress: S.optional(S.String),
           returnCurrency: S.optional(S.String),
+          embeddedTransferId: S.optional(S.String),
           returnGlideSessionId: S.optional(S.String),
           userId: S.optional(S.String),
           detailMessage: S.optional(S.String),
@@ -12507,6 +12585,7 @@ function __c52(j: number): any {
           companyCardsEnabled: S.Boolean,
           hasManagedAccounts: S.Boolean,
           cryptoPayoutsEnabled: S.Boolean,
+          firstPartyDirectCryptoPayoutsEnabled: S.Boolean,
         }),
       ).annotate({ identifier: "MerchantCapabilities" });
     case 2:

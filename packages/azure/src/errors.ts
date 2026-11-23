@@ -34,7 +34,7 @@ export {
 export type { DefaultErrors } from "@distilled.cloud/core/errors";
 
 import * as Category from "@distilled.cloud/core/category";
-import { UnknownErrorFields } from "@distilled.cloud/core/errors";
+import { API_ERRORS, UnknownErrorFields } from "@distilled.cloud/core/errors";
 import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
 // ---------------------------------------------------------------------------
@@ -1604,7 +1604,7 @@ export class ContainerRegistryTokenExchangeFailed
     },
   ).pipe(Category.withAuthError) {}
 
-export const AZURE_ERROR_CODE_MAP: Record<string, new (props: any) => unknown> = {
+export const AZURE_ERROR_CODE_MAP: Record<string, new (props: any) => AzureApiError> = {
   TenantNotOnboardedToLegacy: DevBoxTenantNotOnboarded,
   MaxNumberOfGlobalEnvironmentsInSubExceeded: ContainerAppsEnvironmentQuotaExceeded,
   MaxNumberOfRegionalEnvironmentsInSubExceeded: ContainerAppsEnvironmentQuotaExceeded,
@@ -2545,7 +2545,7 @@ export class MachineLearningAssetVersionDeleted
 export const AZURE_ERROR_MESSAGE_MATCHERS: ReadonlyArray<{
   readonly code?: string;
   readonly includes: string;
-  readonly error: new (props: any) => unknown;
+  readonly error: new (props: any) => AzureApiError;
 }> = [
   {
     code: "409",
@@ -3387,3 +3387,20 @@ export type AzureApiError =
   | ContainerAppsImagePullDenied
   | WorkflowTriggerResetNotSupported
   | ContainerRegistryTokenExchangeFailed;
+
+/**
+ * The errors declared on the Azure services: any operation can return them,
+ * and every generated operation lists them as its `serviceErrors`. Each of
+ * core's status classes (the protocols build the one for a failed
+ * response's status), and every class an error code or message maps to
+ * ({@link AZURE_ERROR_CODE_MAP}, {@link AZURE_ERROR_MESSAGE_MATCHERS}). The
+ * ARM and the data-plane protocol return the same classes.
+ */
+export const AzureServiceErrors = /*@__PURE__*/ Array.from(
+  /*@__PURE__*/ new Set([
+    ...API_ERRORS,
+    .../*@__PURE__*/ Object.values(AZURE_ERROR_CODE_MAP),
+    .../*@__PURE__*/ AZURE_ERROR_MESSAGE_MATCHERS.map((matcher) => matcher.error),
+  ]),
+);
+export type AzureServiceError = InstanceType<(typeof AzureServiceErrors)[number]>;

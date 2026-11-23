@@ -108,7 +108,7 @@ const spec: SdkSpec = {
   operationDecl: {
     contextType: "MuxOpContext",
     commonErrorType: "MuxOpError",
-    commonErrorClasses: ["UnknownMuxError"],
+    serviceErrors: "MuxServiceErrors",
     protocol: "MuxProtocol",
     retry: "Retry.Retry",
   },

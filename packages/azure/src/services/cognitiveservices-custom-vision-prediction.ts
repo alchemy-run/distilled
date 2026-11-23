@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import { AzureDataPlaneProtocol } from "../data-plane-protocol.ts";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -170,7 +170,8 @@ export const ImageClassifierClassifyImage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<ImageClassifierClassifyImageRequest>,
   output: __S(7, __c1, 3) as any as S.Schema<ImagePrediction>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -187,7 +188,8 @@ export const ImageClassifierClassifyImageUrl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c2, 0) as any as S.Schema<ImageClassifierClassifyImageUrlRequest>,
   output: __S(7, __c1, 3) as any as S.Schema<ImagePrediction>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -204,7 +206,8 @@ export const ImageClassifierClassifyImageUrlWithoutSaving: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12, __c3, 0) as any as S.Schema<ImageClassifierClassifyImageUrlWithoutSavingRequest>,
   output: __S(7, __c1, 3) as any as S.Schema<ImagePrediction>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -221,7 +224,8 @@ export const ImageClassifierClassifyImageWithoutSaving: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c4, 0) as any as S.Schema<ImageClassifierClassifyImageWithoutSavingRequest>,
   output: __S(7, __c1, 3) as any as S.Schema<ImagePrediction>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -238,7 +242,8 @@ export const ObjectDetectorAnalyzeImage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20, __c5, 0) as any as S.Schema<ObjectDetectorAnalyzeImageRequest>,
   output: __S(7, __c1, 3) as any as S.Schema<ImagePrediction>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -255,7 +260,8 @@ export const ObjectDetectorAnalyzeImageUrl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c6, 0) as any as S.Schema<ObjectDetectorAnalyzeImageUrlRequest>,
   output: __S(7, __c1, 3) as any as S.Schema<ImagePrediction>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -272,7 +278,8 @@ export const ObjectDetectorAnalyzeImageUrlWithoutSaving: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28, __c7, 0) as any as S.Schema<ObjectDetectorAnalyzeImageUrlWithoutSavingRequest>,
   output: __S(7, __c1, 3) as any as S.Schema<ImagePrediction>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -289,7 +296,8 @@ export const ObjectDetectorAnalyzeImageWithoutSaving: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c8, 0) as any as S.Schema<ObjectDetectorAnalyzeImageWithoutSavingRequest>,
   output: __S(7, __c1, 3) as any as S.Schema<ImagePrediction>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

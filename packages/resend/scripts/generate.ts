@@ -70,21 +70,7 @@ const resendSpec: SdkSpec = {
   operationDecl: {
     contextType: "ResendOpContext",
     commonErrorType: "ResendOpError",
-    // Errors any operation can answer (src/errors.ts), then the fallback.
-    commonErrorClasses: [
-      "MissingApiKey",
-      "InvalidApiKey",
-      "RestrictedApiKey",
-      "InactiveApiKey",
-      "SuspendedApiKey",
-      "InvalidPermission",
-      "ValidationError",
-      "MissingRequiredField",
-      "MissingRequiredParameter",
-      "InvalidParameter",
-      "ResourceLocked",
-      "UnknownResendError",
-    ],
+    serviceErrors: "ResendServiceErrors",
     protocol: "ResendProtocol",
     retry: "Retry.Retry",
   },
@@ -134,8 +120,6 @@ const webhookEventsSpec = (model: any): SdkSpec => {
   ].join("\n");
   return {
     ...resendSpec,
-    // No operations, so nothing reads the error classes.
-    operationDecl: { ...resendSpec.operationDecl!, commonErrorClasses: [] },
     extraRoots: () => events.map(([, name]) => `com.resend.webhooks#${name}`),
     postProcess: (code) => resendSpec.postProcess!(code) + tail,
   };

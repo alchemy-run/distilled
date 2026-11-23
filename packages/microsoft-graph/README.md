@@ -46,7 +46,6 @@ const program = Effect.gen(function* () {
 const Live = Layer.mergeAll(
   FetchHttpClient.layer,
   Graph.CredentialsFromEnv,
-  Graph.MicrosoftGraphProtocol,
 );
 
 program.pipe(Effect.provide(Live), Effect.runPromise);

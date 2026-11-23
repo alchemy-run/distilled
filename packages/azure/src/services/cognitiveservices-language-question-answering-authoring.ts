@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import { AzureDataPlaneProtocol } from "../data-plane-protocol.ts";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -707,7 +707,8 @@ export const AddQuestionAnsweringProjectFeedback: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2, __c0, 2) as any as S.Schema<AddQuestionAnsweringProjectFeedbackRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<AddQuestionAnsweringProjectFeedbackResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -724,7 +725,8 @@ export const CreateQuestionAnsweringProjectProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c2, 0) as any as S.Schema<CreateQuestionAnsweringProjectProjectRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<QuestionAnsweringProjectMetadata>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -741,7 +743,8 @@ export const DeleteQuestionAnsweringProjectProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(272, __c17, 0) as any as S.Schema<DeleteQuestionAnsweringProjectProjectRequest>,
   output: __S(288, __c18, 0) as any as S.Schema<DeleteQuestionAnsweringProjectProjectResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -758,7 +761,8 @@ export const DeployQuestionAnsweringProjectProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c20, 0) as any as S.Schema<DeployQuestionAnsweringProjectProjectRequest>,
   output: __S(288, __c18, 0) as any as S.Schema<DeployQuestionAnsweringProjectProjectResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -775,7 +779,8 @@ export const ExportQuestionAnsweringProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(336, __c21, 0) as any as S.Schema<ExportQuestionAnsweringProjectRequest>,
   output: __S(288, __c18, 0) as any as S.Schema<ExportQuestionAnsweringProjectResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -792,7 +797,8 @@ export const GetQuestionAnsweringProjectProjectDetails: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c22, 0) as any as S.Schema<GetQuestionAnsweringProjectProjectDetailsRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<QuestionAnsweringProjectMetadata>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -810,7 +816,8 @@ export const GetQuestionAnsweringProjectQnas: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(368, __c23, 0) as any as S.Schema<GetQuestionAnsweringProjectQnasRequest>,
   output: __S(371, __c23, 3) as any as S.Schema<PagedRetrieveQnaRecord>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -834,7 +841,8 @@ export const GetQuestionAnsweringProjectSources: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(416, __c26, 0) as any as S.Schema<GetQuestionAnsweringProjectSourcesRequest>,
   output: __S(419, __c26, 3) as any as S.Schema<PagedQnaSourceRecord>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -858,7 +866,8 @@ export const GetQuestionAnsweringProjectSynonyms: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(432, __c27, 0) as any as S.Schema<GetQuestionAnsweringProjectSynonymsRequest>,
   output: __S(433, __c27, 1) as any as S.Schema<PagedWordAlterations>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -881,7 +890,8 @@ export const ImportQuestionAnsweringProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(468, __c29, 4) as any as S.Schema<ImportQuestionAnsweringProjectRequest>,
   output: __S(288, __c18, 0) as any as S.Schema<ImportQuestionAnsweringProjectResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -899,7 +909,8 @@ export const ListQuestionAnsweringProjectDeployments: API.PaginatedOperationMeth
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(80, __c5, 0) as any as S.Schema<ListQuestionAnsweringProjectDeploymentsRequest>,
   output: __S(83, __c5, 3) as any as S.Schema<PagedProjectDeployment>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -923,7 +934,8 @@ export const ListQuestionAnsweringProjectProjects: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(96, __c6, 0) as any as S.Schema<ListQuestionAnsweringProjectProjectsRequest>,
   output: __S(98, __c6, 2) as any as S.Schema<PagedQuestionAnsweringProjectMetadata>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -946,7 +958,8 @@ export const QuestionAnsweringProjectsGetDeleteStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c7, 0) as any as S.Schema<QuestionAnsweringProjectsGetDeleteStatusRequest>,
   output: __S(144, __c9, 0) as any as S.Schema<QuestionAnsweringAuthoringProjectDeletionJobState>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -963,7 +976,8 @@ export const QuestionAnsweringProjectsGetDeployStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c10, 0) as any as S.Schema<QuestionAnsweringProjectsGetDeployStatusRequest>,
   output: __S(144, __c9, 0) as any as S.Schema<QuestionAnsweringAuthoringProjectDeploymentJobState>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -980,7 +994,8 @@ export const QuestionAnsweringProjectsGetExportStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c11, 0) as any as S.Schema<QuestionAnsweringProjectsGetExportStatusRequest>,
   output: __S(177, __c11, 1) as any as S.Schema<QuestionAnsweringAuthoringExportJobState>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -997,7 +1012,8 @@ export const QuestionAnsweringProjectsGetImportStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c12, 0) as any as S.Schema<QuestionAnsweringProjectsGetImportStatusRequest>,
   output: __S(144, __c9, 0) as any as S.Schema<QuestionAnsweringAuthoringImportJobState>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1014,7 +1030,8 @@ export const QuestionAnsweringProjectsGetUpdateQnasStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c13, 0) as any as S.Schema<QuestionAnsweringProjectsGetUpdateQnasStatusRequest>,
   output: __S(144, __c9, 0) as any as S.Schema<QuestionAnsweringAuthoringUpdateQnasJobState>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1035,7 +1052,8 @@ export const QuestionAnsweringProjectsGetUpdateSourcesStatus: API.OperationMetho
     0,
   ) as any as S.Schema<QuestionAnsweringProjectsGetUpdateSourcesStatusRequest>,
   output: __S(144, __c9, 0) as any as S.Schema<QuestionAnsweringAuthoringUpdateSourcesJobState>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1052,7 +1070,8 @@ export const UpdateQuestionAnsweringProjectQnas: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(242, __c15, 2) as any as S.Schema<UpdateQuestionAnsweringProjectQnasRequest>,
   output: __S(288, __c18, 0) as any as S.Schema<UpdateQuestionAnsweringProjectQnasResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1069,7 +1088,8 @@ export const UpdateQuestionAnsweringProjectSources: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(259, __c16, 3) as any as S.Schema<UpdateQuestionAnsweringProjectSourcesRequest>,
   output: __S(288, __c18, 0) as any as S.Schema<UpdateQuestionAnsweringProjectSourcesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1086,7 +1106,8 @@ export const UpdateQuestionAnsweringProjectSynonyms: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(304, __c19, 0) as any as S.Schema<UpdateQuestionAnsweringProjectSynonymsRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<UpdateQuestionAnsweringProjectSynonymsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

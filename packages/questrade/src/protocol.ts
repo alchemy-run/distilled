@@ -1,7 +1,5 @@
-import type * as API from "@distilled.cloud/core/api";
-import type { ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
-import type { SdkError } from "@distilled.cloud/core/sdk-error";
+import type { ErrorOf } from "@distilled.cloud/core/protocol";
+import { restProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
 /**
  * Questrade protocol -- the shared REST protocol with Questrade's auth.
  *
@@ -17,32 +15,30 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
  */
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config } from "./credentials.ts";
-import { QuestradeParseError, UnknownQuestradeError, type DefaultErrors } from "./errors.ts";
+import { Credentials } from "./credentials.ts";
+import {
+  QuestradeParseError,
+  UnknownQuestradeError,
+  type QuestradeServiceError,
+} from "./errors.ts";
 
 /**
- * Error channel shared by every generated Questrade operation. Generated
- * service files annotate operations with `API.OperationMethod<I, O,
- * QuestradeOpError, QuestradeOpContext>` explicitly so the compiler never
- * infers these back out of the schema generics.
+ * What every generated Questrade operation fails with besides its own errors:
+ * the service's errors, the protocol's, and what resolving the credentials
+ * fails with. Generated service files annotate operations with
+ * `API.OperationMethod<I, O, QuestradeOpError, QuestradeOpContext>` explicitly
+ * so the compiler never infers these back out of the schema generics.
  */
-export type QuestradeOpError =
-  | DefaultErrors
-  | ConfigError
-  | HttpClientError.HttpClientError
-  | InvalidInput
-  | SdkError;
+export type QuestradeOpError = QuestradeServiceError | ErrorOf<typeof QuestradeProtocol>;
 
 /** Context (requirements) shared by every generated Questrade operation. */
 export type QuestradeOpContext = Credentials | HttpClient.HttpClient;
 
-export const QuestradeProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
-  // Resolved on the calling fiber per request, so a refreshed token is
-  // picked up without rebuilding the layer.
-  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
+export const QuestradeProtocol = /*@__PURE__*/ restProtocol({
+  // Resolved on the calling fiber per request, so a refreshed token is picked
+  // up.
+  credentials: /*@__PURE__*/ Effect.flatten(Credentials),
   baseUrl: (creds) => creds.apiServer,
   headers: (creds) => ({ authorization: `Bearer ${Redacted.value(creds.accessToken)}` }),
   unknownError: (info) => new UnknownQuestradeError(unknownErrorProps(info)),

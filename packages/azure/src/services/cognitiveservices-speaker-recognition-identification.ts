@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import { AzureDataPlaneProtocol } from "../data-plane-protocol.ts";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -188,7 +188,8 @@ export const CreateTextIndependentEnrollment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateTextIndependentEnrollmentRequest>,
   output: __S(1, __c0, 1) as any as S.Schema<TiEnrollmentInfo>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -205,7 +206,8 @@ export const CreateTextIndependentProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c1, 0) as any as S.Schema<CreateTextIndependentProfileRequest>,
   output: __S(16, __c2, 0) as any as S.Schema<CreateTextIndependentProfileResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -222,7 +224,8 @@ export const DeleteTextIndependentProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c3, 0) as any as S.Schema<DeleteTextIndependentProfileRequest>,
   output: __S(25, __c3, 1) as any as S.Schema<DeleteTextIndependentProfileResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -239,7 +242,8 @@ export const GetTextIndependentProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c4, 0) as any as S.Schema<GetTextIndependentProfileRequest>,
   output: __S(40, __c5, 0) as any as S.Schema<TiProfileInfo>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -256,7 +260,8 @@ export const ListTextIndependentActivationPhrases: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c6, 0) as any as S.Schema<ListTextIndependentActivationPhrasesRequest>,
   output: __S(51, __c6, 3) as any as S.Schema<ActivationPhraseInfo>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -274,7 +279,8 @@ export const ListTextIndependentProfiles: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(56, __c7, 0) as any as S.Schema<ListTextIndependentProfilesRequest>,
   output: __S(58, __c7, 2) as any as S.Schema<TiProfileInfoList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -297,7 +303,8 @@ export const ResetTextIndependentProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c8, 0) as any as S.Schema<ResetTextIndependentProfileRequest>,
   output: __S(16, __c2, 0) as any as S.Schema<ResetTextIndependentProfileResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -314,7 +321,8 @@ export const TextIndependentIdentifySingleSpeaker: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(73, __c9, 1) as any as S.Schema<TextIndependentIdentifySingleSpeakerRequest>,
   output: __S(76, __c9, 4) as any as S.Schema<IdentifiedSingleSpeakerInfo>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

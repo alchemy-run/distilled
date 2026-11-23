@@ -4,6 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
+import { VercelServiceErrors } from "../errors.ts";
 import { VercelProtocol, type VercelOpError, type VercelOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -1052,6 +1053,7 @@ export const createConfigurableLogDrain: API.OperationMethod<
   input: __S(0, __c0, 0) as any as S.Schema<CreateConfigurableLogDrainRequest>,
   output: __S(1, __c0, 1) as any as S.Schema<CreateConfigurableLogDrainResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1069,6 +1071,7 @@ export const createLogDrain: API.OperationMethod<
   input: __S(8, __c2, 0) as any as S.Schema<CreateLogDrainRequest>,
   output: __S(9, __c2, 1) as any as S.Schema<CreateLogDrainResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1086,6 +1089,7 @@ export const deleteConfigurableLogDrain: API.OperationMethod<
   input: __S(12, __c3, 0) as any as S.Schema<DeleteConfigurableLogDrainRequest>,
   output: __S(16, __c4, 0) as any as S.Schema<DeleteConfigurableLogDrainResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1103,6 +1107,7 @@ export const deleteIntegrationLogDrain: API.OperationMethod<
   input: __S(20, __c5, 0) as any as S.Schema<DeleteIntegrationLogDrainRequest>,
   output: __S(16, __c4, 0) as any as S.Schema<DeleteIntegrationLogDrainResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1120,6 +1125,7 @@ export const getAllLogDrains: API.OperationMethod<
   input: __S(24, __c6, 0) as any as S.Schema<GetAllLogDrainsRequest>,
   output: __S(25, __c6, 1) as any as S.Schema<GetAllLogDrainsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1137,6 +1143,7 @@ export const getConfigurableLogDrain: API.OperationMethod<
   input: __S(31, __c7, 3) as any as S.Schema<GetConfigurableLogDrainRequest>,
   output: __S(30, __c7, 2) as any as S.Schema<GetConfigurableLogDrainResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1154,6 +1161,7 @@ export const getIntegrationLogDrains: API.OperationMethod<
   input: __S(32, __c8, 0) as any as S.Schema<GetIntegrationLogDrainsRequest>,
   output: __S(35, __c8, 3) as any as S.Schema<GetIntegrationLogDrainsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

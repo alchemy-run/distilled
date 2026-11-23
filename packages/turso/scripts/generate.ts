@@ -63,6 +63,7 @@ const spec: SdkSpec = {
     contextType: "TursoOpContext",
     commonErrorType: "TursoOpError",
     commonErrorClasses: [],
+    serviceErrors: "TursoServiceErrors",
     protocol: "TursoProtocol",
     retry: "Retry.Retry",
   },

@@ -70,7 +70,7 @@ const unkeySpec: SdkSpec = {
   operationDecl: {
     contextType: "UnkeyOpContext",
     commonErrorType: "UnkeyOpError",
-    commonErrorClasses: ["UnknownUnkeyError"],
+    serviceErrors: "UnkeyServiceErrors",
     protocol: "UnkeyProtocol",
     retry: "Retry.Retry",
   },

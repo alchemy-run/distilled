@@ -6,6 +6,7 @@ import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { awsServiceErrorsWith } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -1284,13 +1285,13 @@ export const getListing: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c5, 0) as any as S.Schema<GetListingInput>,
   output: __S(166, __c5, 6) as any as S.Schema<GetListingOutput>,
-  errors: [
-    ResourceNotFoundException,
+  errors: [ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetListing",
@@ -1316,13 +1317,13 @@ export const getOffer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c14, 0) as any as S.Schema<GetOfferInput>,
   output: __S(451, __c14, 3) as any as S.Schema<GetOfferOutput>,
-  errors: [
-    ResourceNotFoundException,
+  errors: [ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOffer",
@@ -1348,13 +1349,13 @@ export const getOfferSet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c16, 0) as any as S.Schema<GetOfferSetInput>,
   output: __S(515, __c16, 3) as any as S.Schema<GetOfferSetOutput>,
-  errors: [
-    ResourceNotFoundException,
+  errors: [ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOfferSet",
@@ -1381,13 +1382,13 @@ export const getOfferTerms: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(544, __c17, 0) as any as S.Schema<GetOfferTermsInput>,
   output: __S(584, __c18, 8) as any as S.Schema<GetOfferTermsOutput>,
-  errors: [
-    ResourceNotFoundException,
+  errors: [ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOfferTerms",
@@ -1419,13 +1420,13 @@ export const getProduct: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c19, 0) as any as S.Schema<GetProductInput>,
   output: __S(609, __c19, 1) as any as S.Schema<GetProductOutput>,
-  errors: [
-    ResourceNotFoundException,
+  errors: [ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProduct",
@@ -1452,13 +1453,13 @@ export const listFulfillmentOptions: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<ListFulfillmentOptionsInput>,
   output: __S(28, __c0, 28) as any as S.Schema<ListFulfillmentOptionsOutput>,
-  errors: [
-    ResourceNotFoundException,
+  errors: [ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListFulfillmentOptions",
@@ -1492,12 +1493,13 @@ export const listPurchaseOptions: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(32, __c1, 0) as any as S.Schema<ListPurchaseOptionsInput>,
   output: __S(37, __c1, 5) as any as S.Schema<ListPurchaseOptionsOutput>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListPurchaseOptions",
@@ -1528,12 +1530,13 @@ export const searchFacets: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(97, __c3, 1) as any as S.Schema<SearchFacetsInput>,
   output: __S(101, __c3, 5) as any as S.Schema<SearchFacetsOutput>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SearchFacets",
@@ -1564,12 +1567,13 @@ export const searchListings: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(128, __c4, 0) as any as S.Schema<SearchListingsInput>,
   output: __S(133, __c4, 5) as any as S.Schema<SearchListingsOutput>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SearchListings",

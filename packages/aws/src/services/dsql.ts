@@ -6,6 +6,7 @@ import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { awsServiceErrorsWith } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -496,14 +497,13 @@ export const createCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c16, 0) as any as S.Schema<CreateClusterInput>,
   output: __S(65, __c16, 1) as any as S.Schema<CreateClusterOutput>,
-  errors: [
-    ConflictException,
-    ServiceQuotaExceededException,
-    ValidationException,
+  errors: [ConflictException, ServiceQuotaExceededException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
-  ],
+    ValidationException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCluster",
@@ -551,15 +551,13 @@ export const createStream: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(84, __c21, 0) as any as S.Schema<CreateStreamInput>,
   output: __S(85, __c21, 1) as any as S.Schema<CreateStreamOutput>,
-  errors: [
-    ConflictException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ValidationException,
+  errors: [ConflictException, ResourceNotFoundException, ServiceQuotaExceededException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
-  ],
+    ValidationException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStream",
@@ -586,14 +584,13 @@ export const deleteCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(92, __c23, 0) as any as S.Schema<DeleteClusterInput>,
   output: __S(96, __c24, 0) as any as S.Schema<DeleteClusterOutput>,
-  errors: [
-    ConflictException,
-    ResourceNotFoundException,
+  errors: [ConflictException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCluster",
@@ -620,14 +617,13 @@ export const deleteClusterPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<DeleteClusterPolicyInput>,
   output: __S(4, __c1, 0) as any as S.Schema<DeleteClusterPolicyOutput>,
-  errors: [
-    ConflictException,
-    ResourceNotFoundException,
-    ValidationException,
+  errors: [ConflictException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
-  ],
+    ValidationException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteClusterPolicy",
@@ -654,14 +650,13 @@ export const deleteStream: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c2, 0) as any as S.Schema<DeleteStreamInput>,
   output: __S(9, __c2, 1) as any as S.Schema<DeleteStreamOutput>,
-  errors: [
-    ConflictException,
-    ResourceNotFoundException,
+  errors: [ConflictException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteStream",
@@ -687,13 +682,13 @@ export const getCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12, __c3, 0) as any as S.Schema<GetClusterInput>,
   output: __S(13, __c3, 1) as any as S.Schema<GetClusterOutput>,
-  errors: [
-    ResourceNotFoundException,
+  errors: [ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCluster",
@@ -719,13 +714,13 @@ export const getClusterPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c4, 0) as any as S.Schema<GetClusterPolicyInput>,
   output: __S(17, __c4, 1) as any as S.Schema<GetClusterPolicyOutput>,
-  errors: [
-    ResourceNotFoundException,
-    ValidationException,
+  errors: [ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
-  ],
+    ValidationException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetClusterPolicy",
@@ -751,13 +746,13 @@ export const getStream: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20, __c5, 0) as any as S.Schema<GetStreamInput>,
   output: __S(22, __c5, 2) as any as S.Schema<GetStreamOutput>,
-  errors: [
-    ResourceNotFoundException,
+  errors: [ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStream",
@@ -783,13 +778,13 @@ export const getVpcEndpointServiceName: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c6, 0) as any as S.Schema<GetVpcEndpointServiceNameInput>,
   output: __S(25, __c6, 1) as any as S.Schema<GetVpcEndpointServiceNameOutput>,
-  errors: [
+  errors: [ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
     InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
-    AccessDeniedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVpcEndpointServiceName",
@@ -816,13 +811,13 @@ export const listClusters: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(28, __c7, 0) as any as S.Schema<ListClustersInput>,
   output: __S(31, __c7, 3) as any as S.Schema<ListClustersOutput>,
-  errors: [
-    ResourceNotFoundException,
+  errors: [ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListClusters",
@@ -855,13 +850,13 @@ export const listStreams: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(32, __c8, 0) as any as S.Schema<ListStreamsInput>,
   output: __S(35, __c8, 3) as any as S.Schema<ListStreamsOutput>,
-  errors: [
-    ResourceNotFoundException,
+  errors: [ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListStreams",
@@ -893,13 +888,13 @@ export const listTagsForResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(36, __c9, 0) as any as S.Schema<ListTagsForResourceInput>,
   output: __S(37, __c9, 1) as any as S.Schema<ListTagsForResourceOutput>,
-  errors: [
-    ResourceNotFoundException,
+  errors: [ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -926,14 +921,13 @@ export const putClusterPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c10, 0) as any as S.Schema<PutClusterPolicyInput>,
   output: __S(4, __c1, 0) as any as S.Schema<PutClusterPolicyOutput>,
-  errors: [
-    ConflictException,
-    ResourceNotFoundException,
-    ValidationException,
+  errors: [ConflictException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
-  ],
+    ValidationException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutClusterPolicy",
@@ -960,14 +954,13 @@ export const tagResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(44, __c11, 0) as any as S.Schema<TagResourceInput>,
   output: __S(48, __c12, 0) as any as S.Schema<TagResourceResponse>,
-  errors: [
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
+  errors: [ResourceNotFoundException, ServiceQuotaExceededException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -993,13 +986,13 @@ export const untagResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(52, __c13, 0) as any as S.Schema<UntagResourceInput>,
   output: __S(48, __c12, 0) as any as S.Schema<UntagResourceResponse>,
-  errors: [
-    ResourceNotFoundException,
+  errors: [ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
@@ -1080,14 +1073,13 @@ export const updateCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56, __c14, 0) as any as S.Schema<UpdateClusterInput>,
   output: __S(96, __c24, 0) as any as S.Schema<UpdateClusterOutput>,
-  errors: [
-    ConflictException,
-    ResourceNotFoundException,
-    ValidationException,
+  errors: [ConflictException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
-  ],
+    ValidationException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCluster",

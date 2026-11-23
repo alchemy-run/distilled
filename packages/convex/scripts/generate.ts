@@ -136,6 +136,7 @@ const makeSpec = (protocol: string): SdkSpec => ({
     contextType: "ConvexOpContext",
     commonErrorType: "ConvexOpError",
     commonErrorClasses: [],
+    serviceErrors: "ConvexServiceErrors",
     protocol,
     retry: "Retry.Retry",
   },

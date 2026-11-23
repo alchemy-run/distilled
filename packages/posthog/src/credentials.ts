@@ -4,7 +4,7 @@ import * as EffectConfig from "@distilled.cloud/core/config";
  *
  * API-compatible port of the distilled repo's posthog credentials module:
  * the `Credentials` service holds an *effect* that resolves the current
- * credentials on every request. The protocol layer resolves it per request
+ * credentials on every request. The protocol resolves it per request
  * and formats the `Authorization: Bearer <key>` header.
  */
 import { ConfigError } from "@distilled.cloud/core/errors";

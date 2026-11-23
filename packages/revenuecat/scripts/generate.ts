@@ -52,7 +52,7 @@ const revenueCatSpec: SdkSpec = {
   operationDecl: {
     contextType: "RevenueCatOpContext",
     commonErrorType: "RevenueCatOpError",
-    commonErrorClasses: ["UnknownRevenueCatError"],
+    serviceErrors: "RevenueCatServiceErrors",
     protocol: "RevenueCatProtocol",
     retry: "Retry.Retry",
   },

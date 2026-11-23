@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownHetznerError } from "../errors.ts";
+import { HetznerServiceErrors } from "../errors.ts";
 import { paginatePageNumber } from "../pagination.ts";
 import { HetznerProtocol, type HetznerOpError, type HetznerOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
@@ -417,7 +417,8 @@ export const createCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateCertificateRequest>,
   output: __S(3, __c0, 3) as any as S.Schema<CreateCertificateResponse>,
-  errors: [UnknownHetznerError],
+  errors: [],
+  serviceErrors: HetznerServiceErrors,
   protocol: HetznerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -434,7 +435,8 @@ export const deleteCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c2, 0) as any as S.Schema<DeleteCertificateRequest>,
   output: __S(17, __c2, 1) as any as S.Schema<DeleteCertificateResponse>,
-  errors: [UnknownHetznerError],
+  errors: [],
+  serviceErrors: HetznerServiceErrors,
   protocol: HetznerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -451,7 +453,8 @@ export const getCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c3, 0) as any as S.Schema<GetCertificateRequest>,
   output: __S(32, __c4, 0) as any as S.Schema<GetCertificateResponse>,
-  errors: [UnknownHetznerError],
+  errors: [],
+  serviceErrors: HetznerServiceErrors,
   protocol: HetznerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -470,7 +473,8 @@ export const listCertificates: API.PaginatedOperationMethod<
   () => ({
     input: __S(41, __c5, 1) as any as S.Schema<ListCertificatesRequest>,
     output: __S(45, __c5, 5) as any as S.Schema<ListCertificatesResponse>,
-    errors: [UnknownHetznerError],
+    errors: [],
+    serviceErrors: HetznerServiceErrors,
     protocol: HetznerProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -496,7 +500,8 @@ export const updateCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c6, 0) as any as S.Schema<UpdateCertificateRequest>,
   output: __S(32, __c4, 0) as any as S.Schema<UpdateCertificateResponse>,
-  errors: [UnknownHetznerError],
+  errors: [],
+  serviceErrors: HetznerServiceErrors,
   protocol: HetznerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

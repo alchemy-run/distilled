@@ -66,7 +66,7 @@ const meilisearchSpec: SdkSpec = {
   operationDecl: {
     contextType: "MeilisearchOpContext",
     commonErrorType: "MeilisearchOpError",
-    commonErrorClasses: ["UnknownMeilisearchError"],
+    serviceErrors: "MeilisearchServiceErrors",
     protocol: "MeilisearchProtocol",
     retry: "Retry.Retry",
   },

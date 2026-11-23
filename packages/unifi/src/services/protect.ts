@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownUniFiError } from "../errors.ts";
+import { UniFiServiceErrors } from "../errors.ts";
 import {
   UniFiProtectProtocol,
   type UniFiOpError,
@@ -2251,7 +2251,8 @@ export const activateRelayOutput: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c15, 0) as any as S.Schema<ActivateRelayOutputRequest>,
   output: __S(512, __c16, 0) as any as S.Schema<ActivateRelayOutputResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2268,7 +2269,8 @@ export const armExternalArmProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c32, 0) as any as S.Schema<ArmExternalArmProfileRequest>,
   output: __S(1089, __c34, 1) as any as S.Schema<ExternalArmProfile>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2285,7 +2287,8 @@ export const createArmProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1728, __c54, 0) as any as S.Schema<CreateArmProfileRequest>,
   output: __S(1762, __c55, 2) as any as S.Schema<ArmProfile>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2302,7 +2305,8 @@ export const createCameraRtspsStream: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2112, __c66, 0) as any as S.Schema<CreateCameraRtspsStreamRequest>,
   output: __S(2113, __c66, 1) as any as S.Schema<CreatedRtspsStreams>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2319,7 +2323,8 @@ export const createCameraTalkbackSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2496, __c78, 0) as any as S.Schema<CreateCameraTalkbackSessionRequest>,
   output: __S(2497, __c78, 1) as any as S.Schema<TalkbackSession>,
-  errors: [Conflict, UnknownUniFiError],
+  errors: [Conflict],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2336,7 +2341,8 @@ export const createExternalArmProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2849, __c89, 1) as any as S.Schema<CreateExternalArmProfileRequest>,
   output: __S(1089, __c34, 1) as any as S.Schema<ExternalArmProfile>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2353,7 +2359,8 @@ export const createLiveview: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3200, __c100, 0) as any as S.Schema<CreateLiveviewRequest>,
   output: __S(3234, __c101, 2) as any as S.Schema<Liveview>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2370,7 +2377,8 @@ export const createPosTransaction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3299, __c103, 3) as any as S.Schema<CreatePosTransactionRequest>,
   output: __S(3300, __c103, 4) as any as S.Schema<PosTransactionResponse>,
-  errors: [Conflict, UnknownUniFiError],
+  errors: [Conflict],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2387,7 +2395,8 @@ export const deleteArmProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c1, 0) as any as S.Schema<DeleteArmProfileRequest>,
   output: __S(512, __c16, 0) as any as S.Schema<DeleteArmProfileResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2404,7 +2413,8 @@ export const deleteCameraRtspsStream: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c2, 0) as any as S.Schema<DeleteCameraRtspsStreamRequest>,
   output: __S(512, __c16, 0) as any as S.Schema<DeleteCameraRtspsStreamResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2421,7 +2431,8 @@ export const deleteExternalArmProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c3, 0) as any as S.Schema<DeleteExternalArmProfileRequest>,
   output: __S(512, __c16, 0) as any as S.Schema<DeleteExternalArmProfileResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2438,7 +2449,8 @@ export const disableArmAlarm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c4, 0) as any as S.Schema<DisableArmAlarmRequest>,
   output: __S(512, __c16, 0) as any as S.Schema<DisableArmAlarmResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2455,7 +2467,8 @@ export const disableCameraMicPermanently: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c5, 0) as any as S.Schema<DisableCameraMicPermanentlyRequest>,
   output: __S(197, __c6, 5) as any as S.Schema<Camera>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2472,7 +2485,8 @@ export const disarmExternalArmProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c7, 0) as any as S.Schema<DisarmExternalArmProfileRequest>,
   output: __S(1089, __c34, 1) as any as S.Schema<ExternalArmProfile>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2489,7 +2503,8 @@ export const enableArmAlarm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c8, 0) as any as S.Schema<EnableArmAlarmRequest>,
   output: __S(512, __c16, 0) as any as S.Schema<EnableArmAlarmResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2506,7 +2521,8 @@ export const getAlarmHub: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c9, 0) as any as S.Schema<GetAlarmHubRequest>,
   output: __S(381, __c11, 29) as any as S.Schema<LinkStation>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2523,7 +2539,8 @@ export const getBridge: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c12, 0) as any as S.Schema<GetBridgeRequest>,
   output: __S(416, __c13, 0) as any as S.Schema<Bridge>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2540,7 +2557,8 @@ export const getCamera: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c14, 0) as any as S.Schema<GetCameraRequest>,
   output: __S(197, __c6, 5) as any as S.Schema<Camera>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2557,7 +2575,8 @@ export const getCameraRtspsStream: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c17, 0) as any as S.Schema<GetCameraRtspsStreamRequest>,
   output: __S(545, __c17, 1) as any as S.Schema<ExistingRtspsStreams>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2574,7 +2593,8 @@ export const getChime: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c18, 0) as any as S.Schema<GetChimeRequest>,
   output: __S(610, __c19, 2) as any as S.Schema<Chime>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2591,7 +2611,8 @@ export const getExternalArmProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c20, 0) as any as S.Schema<GetExternalArmProfileRequest>,
   output: __S(1089, __c34, 1) as any as S.Schema<ExternalArmProfile>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2608,7 +2629,8 @@ export const getFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c21, 0) as any as S.Schema<GetFileRequest>,
   output: __S(674, __c21, 2) as any as S.Schema<GetFileResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2621,7 +2643,8 @@ export const getFob: API.OperationMethod<GetFobRequest, Fob, GetFobError, UniFiC
   /*@__PURE__*/ API.make(() => ({
     input: __S(736, __c23, 0) as any as S.Schema<GetFobRequest>,
     output: __S(803, __c25, 3) as any as S.Schema<Fob>,
-    errors: [UnknownUniFiError],
+    errors: [],
+    serviceErrors: UniFiServiceErrors,
     protocol: UniFiProtectProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2638,7 +2661,8 @@ export const getLight: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c26, 0) as any as S.Schema<GetLightRequest>,
   output: __S(866, __c27, 2) as any as S.Schema<Light>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2655,7 +2679,8 @@ export const getLinkStation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(896, __c28, 0) as any as S.Schema<GetLinkStationRequest>,
   output: __S(381, __c11, 29) as any as S.Schema<LinkStation>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2672,7 +2697,8 @@ export const getLiveview: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c29, 0) as any as S.Schema<GetLiveviewRequest>,
   output: __S(3234, __c101, 2) as any as S.Schema<Liveview>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2689,7 +2715,8 @@ export const getMetaInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c30, 0) as any as S.Schema<GetMetaInfoRequest>,
   output: __S(961, __c30, 1) as any as S.Schema<GetMetaInfoResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2702,7 +2729,8 @@ export const getNvr: API.OperationMethod<GetNvrRequest, Nvr, GetNvrError, UniFiC
   /*@__PURE__*/ API.make(() => ({
     input: __S(992, __c31, 0) as any as S.Schema<GetNvrRequest>,
     output: __S(998, __c31, 6) as any as S.Schema<Nvr>,
-    errors: [UnknownUniFiError],
+    errors: [],
+    serviceErrors: UniFiServiceErrors,
     protocol: UniFiProtectProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2719,7 +2747,8 @@ export const getRelay: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c35, 0) as any as S.Schema<GetRelayRequest>,
   output: __S(1156, __c36, 4) as any as S.Schema<Relay>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2736,7 +2765,8 @@ export const getSensor: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c37, 0) as any as S.Schema<GetSensorRequest>,
   output: __S(1256, __c39, 8) as any as S.Schema<Sensor>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2753,7 +2783,8 @@ export const getSiren: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1280, __c40, 0) as any as S.Schema<GetSirenRequest>,
   output: __S(1313, __c41, 1) as any as S.Schema<Siren>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2770,7 +2801,8 @@ export const getSpeaker: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1344, __c42, 0) as any as S.Schema<GetSpeakerRequest>,
   output: __S(1378, __c43, 2) as any as S.Schema<Speaker>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2787,7 +2819,8 @@ export const getUlpUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c44, 0) as any as S.Schema<GetUlpUserRequest>,
   output: __S(1440, __c45, 0) as any as S.Schema<UlpUser>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2804,7 +2837,8 @@ export const getUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1472, __c46, 0) as any as S.Schema<GetUserRequest>,
   output: __S(1504, __c47, 0) as any as S.Schema<User>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2821,7 +2855,8 @@ export const getViewer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1536, __c48, 0) as any as S.Schema<GetViewerRequest>,
   output: __S(1568, __c49, 0) as any as S.Schema<Viewer>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2838,7 +2873,8 @@ export const gotoCameraPtzPreset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1600, __c50, 0) as any as S.Schema<GotoCameraPtzPresetRequest>,
   output: __S(512, __c16, 0) as any as S.Schema<GotoCameraPtzPresetResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2855,7 +2891,8 @@ export const listAlarmHubs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1632, __c51, 0) as any as S.Schema<ListAlarmHubsRequest>,
   output: __S(1665, __c52, 1) as any as S.Schema<ListAlarmHubsResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2872,7 +2909,8 @@ export const listArmProfiles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1696, __c53, 0) as any as S.Schema<ListArmProfilesRequest>,
   output: __S(1698, __c53, 2) as any as S.Schema<ListArmProfilesResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2889,7 +2927,8 @@ export const listBridges: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1792, __c56, 0) as any as S.Schema<ListBridgesRequest>,
   output: __S(1794, __c56, 2) as any as S.Schema<ListBridgesResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2906,7 +2945,8 @@ export const listCameras: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1824, __c57, 0) as any as S.Schema<ListCamerasRequest>,
   output: __S(1826, __c57, 2) as any as S.Schema<ListCamerasResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2923,7 +2963,8 @@ export const listChimes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1856, __c58, 0) as any as S.Schema<ListChimesRequest>,
   output: __S(1858, __c58, 2) as any as S.Schema<ListChimesResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2940,7 +2981,8 @@ export const listExternalArmProfiles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1888, __c59, 0) as any as S.Schema<ListExternalArmProfilesRequest>,
   output: __S(1890, __c59, 2) as any as S.Schema<ListExternalArmProfilesResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2957,7 +2999,8 @@ export const listFobs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1920, __c60, 0) as any as S.Schema<ListFobsRequest>,
   output: __S(1922, __c60, 2) as any as S.Schema<ListFobsResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2974,7 +3017,8 @@ export const listLights: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1952, __c61, 0) as any as S.Schema<ListLightsRequest>,
   output: __S(1954, __c61, 2) as any as S.Schema<ListLightsResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2991,7 +3035,8 @@ export const listLinkStations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1984, __c62, 0) as any as S.Schema<ListLinkStationsRequest>,
   output: __S(1665, __c52, 1) as any as S.Schema<ListLinkStationsResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3008,7 +3053,8 @@ export const listLiveviews: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2016, __c63, 0) as any as S.Schema<ListLiveviewsRequest>,
   output: __S(2018, __c63, 2) as any as S.Schema<ListLiveviewsResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3025,7 +3071,8 @@ export const listRelays: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2048, __c64, 0) as any as S.Schema<ListRelaysRequest>,
   output: __S(2050, __c64, 2) as any as S.Schema<ListRelaysResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3042,7 +3089,8 @@ export const listSensors: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2080, __c65, 0) as any as S.Schema<ListSensorsRequest>,
   output: __S(2082, __c65, 2) as any as S.Schema<ListSensorsResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3059,7 +3107,8 @@ export const listSirens: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2176, __c68, 0) as any as S.Schema<ListSirensRequest>,
   output: __S(2178, __c68, 2) as any as S.Schema<ListSirensResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3076,7 +3125,8 @@ export const listSpeakers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2208, __c69, 0) as any as S.Schema<ListSpeakersRequest>,
   output: __S(2210, __c69, 2) as any as S.Schema<ListSpeakersResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3093,7 +3143,8 @@ export const listUlpUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2240, __c70, 0) as any as S.Schema<ListUlpUsersRequest>,
   output: __S(2242, __c70, 2) as any as S.Schema<ListUlpUsersResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3110,7 +3161,8 @@ export const listUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2272, __c71, 0) as any as S.Schema<ListUsersRequest>,
   output: __S(2274, __c71, 2) as any as S.Schema<ListUsersResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3127,7 +3179,8 @@ export const listViewers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2304, __c72, 0) as any as S.Schema<ListViewersRequest>,
   output: __S(2306, __c72, 2) as any as S.Schema<ListViewersResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3144,7 +3197,8 @@ export const playSiren: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2336, __c73, 0) as any as S.Schema<PlaySirenRequest>,
   output: __S(512, __c16, 0) as any as S.Schema<PlaySirenResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3161,7 +3215,8 @@ export const sendAlarmManagerWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2368, __c74, 0) as any as S.Schema<SendAlarmManagerWebhookRequest>,
   output: __S(512, __c16, 0) as any as S.Schema<SendAlarmManagerWebhookResponse>,
-  errors: [BadRequest, UnknownUniFiError],
+  errors: [BadRequest],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3178,7 +3233,8 @@ export const setArmProfileSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2400, __c75, 0) as any as S.Schema<SetArmProfileSettingsRequest>,
   output: __S(512, __c16, 0) as any as S.Schema<SetArmProfileSettingsResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3195,7 +3251,8 @@ export const startCameraPtzPatrol: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2432, __c76, 0) as any as S.Schema<StartCameraPtzPatrolRequest>,
   output: __S(512, __c16, 0) as any as S.Schema<StartCameraPtzPatrolResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3212,7 +3269,8 @@ export const stopCameraPtzPatrol: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2464, __c77, 0) as any as S.Schema<StopCameraPtzPatrolRequest>,
   output: __S(512, __c16, 0) as any as S.Schema<StopCameraPtzPatrolResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3229,7 +3287,8 @@ export const stopSiren: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2528, __c79, 0) as any as S.Schema<StopSirenRequest>,
   output: __S(512, __c16, 0) as any as S.Schema<StopSirenResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3246,7 +3305,8 @@ export const stopSpeakerSiren: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2560, __c80, 0) as any as S.Schema<StopSpeakerSirenRequest>,
   output: __S(512, __c16, 0) as any as S.Schema<StopSpeakerSirenResponse>,
-  errors: [BadRequest, UnknownUniFiError],
+  errors: [BadRequest],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3263,7 +3323,8 @@ export const testSirenSound: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2592, __c81, 0) as any as S.Schema<TestSirenSoundRequest>,
   output: __S(512, __c16, 0) as any as S.Schema<TestSirenSoundResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3280,7 +3341,8 @@ export const testSpeakerSound: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2624, __c82, 0) as any as S.Schema<TestSpeakerSoundRequest>,
   output: __S(512, __c16, 0) as any as S.Schema<TestSpeakerSoundResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3297,7 +3359,8 @@ export const triggerAlarmHubOutput: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2656, __c83, 0) as any as S.Schema<TriggerAlarmHubOutputRequest>,
   output: __S(512, __c16, 0) as any as S.Schema<TriggerAlarmHubOutputResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3314,7 +3377,8 @@ export const updateAlarmHub: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2688, __c84, 0) as any as S.Schema<UpdateAlarmHubRequest>,
   output: __S(381, __c11, 29) as any as S.Schema<LinkStation>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3331,7 +3395,8 @@ export const updateArmProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2720, __c85, 0) as any as S.Schema<UpdateArmProfileRequest>,
   output: __S(1762, __c55, 2) as any as S.Schema<ArmProfile>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3348,7 +3413,8 @@ export const updateBridge: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2752, __c86, 0) as any as S.Schema<UpdateBridgeRequest>,
   output: __S(416, __c13, 0) as any as S.Schema<Bridge>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3365,7 +3431,8 @@ export const updateCamera: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2787, __c87, 3) as any as S.Schema<UpdateCameraRequest>,
   output: __S(197, __c6, 5) as any as S.Schema<Camera>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3382,7 +3449,8 @@ export const updateChime: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2816, __c88, 0) as any as S.Schema<UpdateChimeRequest>,
   output: __S(610, __c19, 2) as any as S.Schema<Chime>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3399,7 +3467,8 @@ export const updateExternalArmProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2881, __c90, 1) as any as S.Schema<UpdateExternalArmProfileRequest>,
   output: __S(1089, __c34, 1) as any as S.Schema<ExternalArmProfile>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3416,7 +3485,8 @@ export const updateFob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2912, __c91, 0) as any as S.Schema<UpdateFobRequest>,
   output: __S(803, __c25, 3) as any as S.Schema<Fob>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3433,7 +3503,8 @@ export const updateLight: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2944, __c92, 0) as any as S.Schema<UpdateLightRequest>,
   output: __S(866, __c27, 2) as any as S.Schema<Light>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3450,7 +3521,8 @@ export const updateLinkStation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2976, __c93, 0) as any as S.Schema<UpdateLinkStationRequest>,
   output: __S(381, __c11, 29) as any as S.Schema<LinkStation>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3467,7 +3539,8 @@ export const updateLiveview: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3008, __c94, 0) as any as S.Schema<UpdateLiveviewRequest>,
   output: __S(3234, __c101, 2) as any as S.Schema<Liveview>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3484,7 +3557,8 @@ export const updateRelay: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3040, __c95, 0) as any as S.Schema<UpdateRelayRequest>,
   output: __S(1156, __c36, 4) as any as S.Schema<Relay>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3501,7 +3575,8 @@ export const updateSensor: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3072, __c96, 0) as any as S.Schema<UpdateSensorRequest>,
   output: __S(1256, __c39, 8) as any as S.Schema<Sensor>,
-  errors: [Conflict, UnknownUniFiError],
+  errors: [Conflict],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3518,7 +3593,8 @@ export const updateSiren: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3104, __c97, 0) as any as S.Schema<UpdateSirenRequest>,
   output: __S(1313, __c41, 1) as any as S.Schema<Siren>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3535,7 +3611,8 @@ export const updateSpeaker: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3136, __c98, 0) as any as S.Schema<UpdateSpeakerRequest>,
   output: __S(1378, __c43, 2) as any as S.Schema<Speaker>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3552,7 +3629,8 @@ export const updateViewer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3168, __c99, 0) as any as S.Schema<UpdateViewerRequest>,
   output: __S(1568, __c49, 0) as any as S.Schema<Viewer>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3569,7 +3647,8 @@ export const uploadFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3264, __c102, 0) as any as S.Schema<UploadFileRequest>,
   output: __S(704, __c22, 0) as any as S.Schema<FileSchema>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

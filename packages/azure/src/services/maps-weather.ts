@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import { AzureDataPlaneProtocol } from "../data-plane-protocol.ts";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -1546,7 +1546,8 @@ export const GetWeatherAirQualityDailyForecasts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<GetWeatherAirQualityDailyForecastsRequest>,
   output: __S(3, __c0, 3) as any as S.Schema<DailyAirQualityForecastResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1563,7 +1564,8 @@ export const GetWeatherAirQualityHourlyForecasts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c2, 0) as any as S.Schema<GetWeatherAirQualityHourlyForecastsRequest>,
   output: __S(52, __c3, 4) as any as S.Schema<AirQualityResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1580,7 +1582,8 @@ export const GetWeatherCurrentAirQuality: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c14, 0) as any as S.Schema<GetWeatherCurrentAirQualityRequest>,
   output: __S(52, __c3, 4) as any as S.Schema<AirQualityResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1597,7 +1600,8 @@ export const GetWeatherCurrentConditions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(240, __c15, 0) as any as S.Schema<GetWeatherCurrentConditionsRequest>,
   output: __S(246, __c15, 6) as any as S.Schema<CurrentConditionsResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1614,7 +1618,8 @@ export const GetWeatherDailyForecast: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c18, 0) as any as S.Schema<GetWeatherDailyForecastRequest>,
   output: __S(297, __c18, 9) as any as S.Schema<DailyForecastResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1631,7 +1636,8 @@ export const GetWeatherDailyHistoricalActuals: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c20, 0) as any as S.Schema<GetWeatherDailyHistoricalActualsRequest>,
   output: __S(323, __c20, 3) as any as S.Schema<DailyHistoricalActualsResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1648,7 +1654,8 @@ export const GetWeatherDailyHistoricalNormals: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c22, 0) as any as S.Schema<GetWeatherDailyHistoricalNormalsRequest>,
   output: __S(355, __c22, 3) as any as S.Schema<DailyHistoricalNormalsResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1665,7 +1672,8 @@ export const GetWeatherDailyHistoricalRecords: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(368, __c23, 0) as any as S.Schema<GetWeatherDailyHistoricalRecordsRequest>,
   output: __S(374, __c23, 6) as any as S.Schema<DailyHistoricalRecordsResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1682,7 +1690,8 @@ export const GetWeatherDailyIndices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c24, 0) as any as S.Schema<GetWeatherDailyIndicesRequest>,
   output: __S(387, __c24, 3) as any as S.Schema<DailyIndicesResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1699,7 +1708,8 @@ export const GetWeatherHourlyForecast: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(400, __c25, 0) as any as S.Schema<GetWeatherHourlyForecastRequest>,
   output: __S(403, __c25, 3) as any as S.Schema<HourlyForecastResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1716,7 +1726,8 @@ export const GetWeatherMinuteForecast: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c5, 0) as any as S.Schema<GetWeatherMinuteForecastRequest>,
   output: __S(87, __c5, 7) as any as S.Schema<MinuteForecastResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1733,7 +1744,8 @@ export const GetWeatherQuarterDayForecast: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c6, 0) as any as S.Schema<GetWeatherQuarterDayForecastRequest>,
   output: __S(99, __c6, 3) as any as S.Schema<QuarterDayForecastResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1750,7 +1762,8 @@ export const GetWeatherSevereWeatherAlerts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c7, 0) as any as S.Schema<GetWeatherSevereWeatherAlertsRequest>,
   output: __S(119, __c7, 7) as any as S.Schema<SevereWeatherAlertsResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1767,7 +1780,8 @@ export const GetWeatherTropicalStormActive: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c8, 0) as any as S.Schema<GetWeatherTropicalStormActiveRequest>,
   output: __S(131, __c8, 3) as any as S.Schema<ActiveStormResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1784,7 +1798,8 @@ export const GetWeatherTropicalStormForecast: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c9, 0) as any as S.Schema<GetWeatherTropicalStormForecastRequest>,
   output: __S(148, __c9, 4) as any as S.Schema<StormForecastResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1801,7 +1816,8 @@ export const GetWeatherTropicalStormLocations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c11, 0) as any as S.Schema<GetWeatherTropicalStormLocationsRequest>,
   output: __S(179, __c11, 3) as any as S.Schema<StormLocationsResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1818,7 +1834,8 @@ export const GetWeatherWeatherAlongRoute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c12, 0) as any as S.Schema<GetWeatherWeatherAlongRouteRequest>,
   output: __S(203, __c12, 11) as any as S.Schema<WeatherAlongRouteResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1835,7 +1852,8 @@ export const WeatherGetTropicalStormSearch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c13, 0) as any as S.Schema<WeatherGetTropicalStormSearchRequest>,
   output: __S(211, __c13, 3) as any as S.Schema<StormSearchResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

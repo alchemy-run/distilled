@@ -75,7 +75,7 @@ const vantaSpec: SdkSpec = {
   operationDecl: {
     contextType: "VantaOpContext",
     commonErrorType: "VantaOpError",
-    commonErrorClasses: ["UnknownVantaError"],
+    serviceErrors: "VantaServiceErrors",
     protocol: "VantaProtocol",
     retry: "Retry.Retry",
   },

@@ -187,33 +187,79 @@ raise. A class in the operation error union that nothing constructs tells
 callers to handle a failure that never happens — that is how ~75 packages
 ended up declaring a `<Pkg>ParseError` no code path created.
 
-`src/errors.ts` declares, and the operation error union
-(`<Pkg>OpError` / `DefaultErrors`) includes:
+An operation's errors are declared in three places:
+
+1. on the operation: operation specific. Its `errors` list, generated from
+   the spec and the patches.
+2. on the service: service specific. The `<Pkg>ServiceErrors` list in
+   `src/errors.ts`, which every operation gets as its `serviceErrors`.
+3. on the protocol: protocol specific. What the protocol's code fails with.
+   Its type carries them, so nobody lists them.
+
+`ConfigError` is a setup error, not a runtime credentials error.
+
+Copy the three files of `packages/neon` that hold this:
+
+```ts
+// src/errors.ts
+export const <Pkg>ServiceErrors = API_ERRORS;
+export type <Pkg>ServiceError = InstanceType<(typeof <Pkg>ServiceErrors)[number]>;
+
+// src/protocol.ts
+export type <Pkg>OpError = <Pkg>ServiceError | ErrorOf<typeof <Pkg>Protocol>;
+export const <Pkg>Protocol = /*@__PURE__*/ restProtocol({
+  credentials: /*@__PURE__*/ Effect.flatten(Credentials),
+  baseUrl: (creds) => creds.apiBaseUrl,
+  headers: (creds) => ({ Authorization: `Bearer ${Redacted.value(creds.apiKey)}` }),
+  unknownError: (info) => new Unknown<Pkg>Error(unknownErrorProps(info)),
+  parseError: ({ body, cause }) => new <Pkg>ParseError({ body, cause }),
+});
+
+// scripts/generate.ts
+operationDecl: {
+  contextType: "<Pkg>OpContext",
+  commonErrorType: "<Pkg>OpError",
+  serviceErrors: "<Pkg>ServiceErrors",
+  protocol: "<Pkg>Protocol",
+  retry: "Retry.Retry",
+},
+```
+
+`restProtocol` and `unknownErrorProps` come from
+`@distilled.cloud/core/protocol-rest`, `ErrorOf` from
+`@distilled.cloud/core/protocol`, `API_ERRORS` (core's status classes) from
+`@distilled.cloud/core/errors`. Do not write the `<Pkg>OpError` union by
+hand, and do not set `commonErrorClasses`.
+
+`src/errors.ts` also declares, and the protocol builds:
 
 - `Unknown<Pkg>Error` — built by the protocol's `unknownError` fallback.
   Its fields are core's `UnknownErrorFields` (`status`, `code`, `message`,
   `body`), spread first, then any field the provider adds:
   `Schema.TaggedError<UnknownPkgError>()("UnknownPkgError",
-  UnknownErrorFields)`. With `makeRestProtocol`, build it as
-  `unknownError: (info) => new UnknownPkgError(unknownErrorProps(info))`.
-  Give it no `Category`. The protocol turns an unmapped 5xx into core
-  `InternalServerError` (retried), so only non-5xx statuses reach the
-  unknown error, and those must not be retried.
+  UnknownErrorFields)`. Give it no `Category`. The protocol turns a 5xx
+  that nothing declares into core `InternalServerError` (retried), so only
+  non-5xx statuses reach the unknown error, and those must not be retried.
 - `<Pkg>ParseError` with `{ body: Schema.Unknown, cause: Schema.Unknown }`,
   `.pipe(Category.withParseError)` — built by the protocol's `parseError`
   (copy `packages/s2/src/errors.ts`).
-- Any status classes the provider needs beyond core's `HTTP_STATUS_MAP`,
-  each wired into the protocol's `statusMap`.
 
-The protocol wires every one of them:
+A typed error that any operation of the SDK can return, such as a status
+class core does not have, is a class with a matcher in `<Pkg>ServiceErrors`
+(`AGENTS.md` rule 1): copy `Gone` (410) in `packages/github/src/errors.ts`,
+`[...API_ERRORS, Gone] as const`.
 
-- **`makeRestProtocol`** requires `parseError`:
-  `parseError: ({ body, cause }) => new <Pkg>ParseError({ body, cause })`.
+The protocol wires the parse error:
+
+- **`restProtocol`** requires `parseError`.
 - **A hand-written protocol** calls `validateResponse(outputAst, value,
   (cause) => new <Pkg>ParseError({ body, cause }))` from
   `@distilled.cloud/core/response-validation` on every 2xx path that returns
   the operation output — after wire→TS key mapping, before `wrapSensitive`.
-  `packages/core/src/protocol-rest.ts` is the reference.
+  `packages/core/src/protocol-rest.ts` is the reference. Its type is read
+  from its methods (copy `packages/gcp/src/protocol.ts`):
+  `const methods = { encode, decode } satisfies Protocol<unknown, unknown>;
+  export const <Pkg>Protocol: ProtocolOf<typeof methods> = methods;`
 
 `ResponseValidation` (`import { ResponseValidation } from
 "@distilled.cloud/core"`) is one context reference shared by every SDK, with
@@ -267,8 +313,8 @@ grep -rnE 'new \w+(ParseError|Unknown\w*Error)\(' packages/<pkg>/src \
 ```
 
 For every other class you add to `errors.ts`, find where the protocol
-raises it (`statusMap`, a code lookup table, or `new`). A class nothing
-raises comes out of `errors.ts` and the error union.
+raises it (its matcher in `<Pkg>ServiceErrors`, a code lookup table, or
+`new`). A class nothing raises comes out of `errors.ts`.
 
 ## Step 5 — iterate
 
@@ -425,7 +471,6 @@ const program = Effect.gen(function* () {
 const Live = Layer.mergeAll(
   FetchHttpClient.layer,
   Pkg.CredentialsFromEnv,
-  Pkg.PkgProtocol,
 );
 
 program.pipe(Effect.provide(Live), Effect.runPromise);
@@ -438,7 +483,7 @@ program.pipe(Effect.provide(Live), Effect.runPromise);
 
 The quick-start program must compile against the generated names:
 
-- `Layer.mergeAll(FetchHttpClient.layer, CredentialsFromEnv, <Pkg>Protocol)`
+- `Layer.mergeAll(FetchHttpClient.layer, CredentialsFromEnv)`: every operation names its own protocol, so a program provides only an `HttpClient` and credentials
 - at least one real call (`Vms.createVm` from a service subpath, or
   `Pkg.getX` for a single-service package; not `Pkg.Services.…` and not
   only `list*`)
@@ -483,7 +528,7 @@ Body, in order:
    tsconfig, website, lockfile). Note that `spec-mirror-<pkg>` is created by
    the distilled-submodules stack on merge to main.
 3. **The same complete example as the README** — `Layer.mergeAll`,
-   `CredentialsFromEnv`, `<Pkg>Protocol`, a real call, `Effect.runPromise`.
+   `CredentialsFromEnv`, a real call, `Effect.runPromise`.
    A PR whose only snippet is `listX({})` is incomplete; paste the README
    quick start.
 4. `Checks: pnpm specs:check` green, `tsrs -b packages/<pkg> --noCheck false`

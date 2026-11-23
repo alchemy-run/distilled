@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownTriggerDevError } from "../errors.ts";
+import { TriggerDevServiceErrors } from "../errors.ts";
 import {
   TriggerDevProtocol,
   type TriggerDevOpError,
@@ -3060,7 +3060,8 @@ export const activateScheduleV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(488, __c61, 0) as any as S.Schema<ActivateScheduleV1Request>,
   output: __S(507, __c63, 3) as any as S.Schema<ScheduleObject>,
-  errors: [NotFound, UnknownTriggerDevError],
+  errors: [NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3082,7 +3083,8 @@ export const addDashboardWidgetV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(656, __c82, 0) as any as S.Schema<AddDashboardWidgetV1Request>,
   output: __S(657, __c82, 1) as any as S.Schema<AddDashboardWidgetV1Response>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownTriggerDevError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3099,7 +3101,8 @@ export const addRunTagsV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(752, __c94, 0) as any as S.Schema<AddRunTagsV1Request>,
   output: __S(753, __c94, 1) as any as S.Schema<AddRunTagsV1Response>,
-  errors: [BadRequest, UnprocessableEntity, UnknownTriggerDevError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3116,7 +3119,8 @@ export const bulkAbortActionV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(856, __c107, 0) as any as S.Schema<BulkAbortActionV1Request>,
   output: __S(857, __c107, 1) as any as S.Schema<AbortBulkActionResponse>,
-  errors: [BadRequest, NotFound, UnknownTriggerDevError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3133,7 +3137,8 @@ export const cancelRunV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(944, __c118, 0) as any as S.Schema<CancelRunV1Request>,
   output: __S(952, __c119, 0) as any as S.Schema<CancelRunV1Response>,
-  errors: [BadRequest, NotFound, UnknownTriggerDevError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3150,7 +3155,8 @@ export const cancelWebhookWaiterV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c6, 0) as any as S.Schema<CancelWebhookWaiterV1Request>,
   output: __S(49, __c6, 1) as any as S.Schema<CancelWebhookWaiterResponse>,
-  errors: [NotFound, UnknownTriggerDevError],
+  errors: [NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3167,7 +3173,8 @@ export const closeSessionV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56, __c7, 0) as any as S.Schema<CloseSessionV1Request>,
   output: __S(80, __c10, 0) as any as S.Schema<SessionObject>,
-  errors: [NotFound, UnknownTriggerDevError],
+  errors: [NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3184,7 +3191,8 @@ export const completeWaitpointTokenCallbackV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(88, __c11, 0) as any as S.Schema<CompleteWaitpointTokenCallbackV1Request>,
   output: __S(96, __c12, 0) as any as S.Schema<CompleteWaitpointTokenResponse>,
-  errors: [NotFound, UnknownTriggerDevError],
+  errors: [NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3201,7 +3209,8 @@ export const completeWaitpointTokenV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(104, __c13, 0) as any as S.Schema<CompleteWaitpointTokenV1Request>,
   output: __S(96, __c12, 0) as any as S.Schema<CompleteWaitpointTokenResponse>,
-  errors: [NotFound, UnknownTriggerDevError],
+  errors: [NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3218,7 +3227,8 @@ export const createBulkActionV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c14, 0) as any as S.Schema<CreateBulkActionV1Request>,
   output: __S(120, __c15, 0) as any as S.Schema<CreateBulkActionV1Response>,
-  errors: [BadRequest, UnprocessableEntity, UnknownTriggerDevError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3235,7 +3245,8 @@ export const createDashboardV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c16, 0) as any as S.Schema<CreateDashboardV1Request>,
   output: __S(667, __c83, 3) as any as S.Schema<DashboardObject>,
-  errors: [BadRequest, Forbidden, UnknownTriggerDevError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3252,7 +3263,8 @@ export const createProjectEnvvarV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c18, 0) as any as S.Schema<CreateProjectEnvvarV1Request>,
   output: __S(96, __c12, 0) as any as S.Schema<SucceedResponse>,
-  errors: [BadRequest, NotFound, UnknownTriggerDevError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3269,7 +3281,8 @@ export const createScheduleV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(152, __c19, 0) as any as S.Schema<CreateScheduleV1Request>,
   output: __S(507, __c63, 3) as any as S.Schema<ScheduleObject>,
-  errors: [BadRequest, UnprocessableEntity, UnknownTriggerDevError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3286,7 +3299,8 @@ export const createSessionV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c20, 0) as any as S.Schema<CreateSessionV1Request>,
   output: __S(161, __c20, 1) as any as S.Schema<CreateSessionV1Response>,
-  errors: [Conflict, UnprocessableEntity, UnknownTriggerDevError],
+  errors: [Conflict, UnprocessableEntity],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3303,7 +3317,8 @@ export const createWaitpointTokenV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(168, __c21, 0) as any as S.Schema<CreateWaitpointTokenV1Request>,
   output: __S(169, __c21, 1) as any as S.Schema<CreateWaitpointTokenResponse>,
-  errors: [UnprocessableEntity, UnknownTriggerDevError],
+  errors: [UnprocessableEntity],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3320,7 +3335,8 @@ export const createWebhookWaiterV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(177, __c22, 1) as any as S.Schema<CreateWebhookWaiterV1Request>,
   output: __S(178, __c22, 2) as any as S.Schema<CreateWebhookWaiterResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownTriggerDevError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3337,7 +3353,8 @@ export const deactivateScheduleV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(184, __c23, 0) as any as S.Schema<DeactivateScheduleV1Request>,
   output: __S(507, __c63, 3) as any as S.Schema<ScheduleObject>,
-  errors: [NotFound, UnknownTriggerDevError],
+  errors: [NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3354,7 +3371,8 @@ export const deleteDashboardV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c24, 0) as any as S.Schema<DeleteDashboardV1Request>,
   output: __S(952, __c119, 0) as any as S.Schema<DeleteDashboardV1Response>,
-  errors: [NotFound, UnknownTriggerDevError],
+  errors: [NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3371,7 +3389,8 @@ export const deleteDashboardWidgetV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(200, __c25, 0) as any as S.Schema<DeleteDashboardWidgetV1Request>,
   output: __S(667, __c83, 3) as any as S.Schema<DashboardObject>,
-  errors: [NotFound, Conflict, UnknownTriggerDevError],
+  errors: [NotFound, Conflict],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3388,7 +3407,8 @@ export const deleteProjectEnvvarV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c26, 0) as any as S.Schema<DeleteProjectEnvvarV1Request>,
   output: __S(96, __c12, 0) as any as S.Schema<SucceedResponse>,
-  errors: [BadRequest, NotFound, UnknownTriggerDevError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3405,7 +3425,8 @@ export const deleteScheduleV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(216, __c27, 0) as any as S.Schema<DeleteScheduleV1Request>,
   output: __S(120, __c15, 0) as any as S.Schema<DeleteScheduleV1Response>,
-  errors: [NotFound, UnknownTriggerDevError],
+  errors: [NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3422,7 +3443,8 @@ export const disableWebhookEndpointV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c28, 0) as any as S.Schema<DisableWebhookEndpointV1Request>,
   output: __S(234, __c29, 2) as any as S.Schema<DisableWebhookEndpointV1Response>,
-  errors: [NotFound, UnknownTriggerDevError],
+  errors: [NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3439,7 +3461,8 @@ export const enableWebhookEndpointV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(240, __c30, 0) as any as S.Schema<EnableWebhookEndpointV1Request>,
   output: __S(234, __c29, 2) as any as S.Schema<EnableWebhookEndpointV1Response>,
-  errors: [NotFound, UnknownTriggerDevError],
+  errors: [NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3456,7 +3479,8 @@ export const executeQueryV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(248, __c31, 0) as any as S.Schema<ExecuteQueryV1Request>,
   output: __S(249, __c31, 1) as any as S.Schema<ExecuteQueryV1Response>,
-  errors: [BadRequest, UnknownTriggerDevError],
+  errors: [BadRequest],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3473,7 +3497,8 @@ export const getBatchResultsV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c32, 0) as any as S.Schema<GetBatchResultsV1Request>,
   output: __S(258, __c32, 2) as any as S.Schema<GetBatchResultsV1Response>,
-  errors: [NotFound, UnknownTriggerDevError],
+  errors: [NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3490,7 +3515,8 @@ export const getBatchV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(280, __c35, 0) as any as S.Schema<GetBatchV1Request>,
   output: __S(283, __c35, 3) as any as S.Schema<GetBatchV1Response>,
-  errors: [NotFound, UnknownTriggerDevError],
+  errors: [NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3507,7 +3533,8 @@ export const getBulkActionV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c36, 0) as any as S.Schema<GetBulkActionV1Request>,
   output: __S(297, __c37, 1) as any as S.Schema<BulkActionObject>,
-  errors: [NotFound, UnknownTriggerDevError],
+  errors: [NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3524,7 +3551,8 @@ export const getConcurrencyLimitV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(304, __c38, 0) as any as S.Schema<GetConcurrencyLimitV1Request>,
   output: __S(305, __c38, 1) as any as S.Schema<GetConcurrencyLimitV1Response>,
-  errors: [NotFound, UnknownTriggerDevError],
+  errors: [NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3541,7 +3569,8 @@ export const getDashboardV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(312, __c39, 0) as any as S.Schema<GetDashboardV1Request>,
   output: __S(667, __c83, 3) as any as S.Schema<DashboardObject>,
-  errors: [NotFound, UnknownTriggerDevError],
+  errors: [NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3558,7 +3587,8 @@ export const getDeploymentV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c40, 0) as any as S.Schema<GetDeploymentV1Request>,
   output: __S(324, __c40, 4) as any as S.Schema<GetDeploymentV1Response>,
-  errors: [NotFound, UnknownTriggerDevError],
+  errors: [NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3575,7 +3605,8 @@ export const getErrorV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(328, __c41, 0) as any as S.Schema<GetErrorV1Request>,
   output: __S(336, __c42, 0) as any as S.Schema<ErrorObject>,
-  errors: [NotFound, UnknownTriggerDevError],
+  errors: [NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3592,7 +3623,8 @@ export const getLatestDeploymentV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(344, __c43, 0) as any as S.Schema<GetLatestDeploymentV1Request>,
   output: __S(345, __c43, 1) as any as S.Schema<GetLatestDeploymentV1Response>,
-  errors: [NotFound, UnknownTriggerDevError],
+  errors: [NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3609,7 +3641,8 @@ export const getProjectEnvvarV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c44, 0) as any as S.Schema<GetProjectEnvvarV1Request>,
   output: __S(353, __c44, 1) as any as S.Schema<EnvVarValue>,
-  errors: [BadRequest, NotFound, UnknownTriggerDevError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3626,7 +3659,8 @@ export const getQuerySchemaV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(360, __c45, 0) as any as S.Schema<GetQuerySchemaV1Request>,
   output: __S(365, __c45, 5) as any as S.Schema<GetQuerySchemaV1Response>,
-  errors: [UnknownTriggerDevError],
+  errors: [],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3643,7 +3677,8 @@ export const getQueueV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(368, __c46, 0) as any as S.Schema<GetQueueV1Request>,
   output: __S(377, __c47, 1) as any as S.Schema<QueueObject>,
-  errors: [NotFound, UnknownTriggerDevError],
+  errors: [NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3660,7 +3695,8 @@ export const getRunEventsV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c48, 0) as any as S.Schema<GetRunEventsV1Request>,
   output: __S(391, __c48, 7) as any as S.Schema<GetRunEventsV1Response>,
-  errors: [NotFound, UnknownTriggerDevError],
+  errors: [NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3677,7 +3713,8 @@ export const getRunResultV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(392, __c49, 0) as any as S.Schema<GetRunResultV1Request>,
   output: __S(265, __c33, 1) as any as S.Schema<GetRunResultV1Response>,
-  errors: [NotFound, UnknownTriggerDevError],
+  errors: [NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3694,7 +3731,8 @@ export const getRunTraceV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(400, __c50, 0) as any as S.Schema<GetRunTraceV1Request>,
   output: __S(401, __c50, 1) as any as S.Schema<GetRunTraceV1Response>,
-  errors: [BadRequest, NotFound, UnknownTriggerDevError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3711,7 +3749,8 @@ export const getRunV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(408, __c51, 0) as any as S.Schema<GetRunV1Request>,
   output: __S(423, __c52, 7) as any as S.Schema<GetRunV1Response>,
-  errors: [BadRequest, NotFound, UnknownTriggerDevError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3728,7 +3767,8 @@ export const getScheduleV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(424, __c53, 0) as any as S.Schema<GetScheduleV1Request>,
   output: __S(507, __c63, 3) as any as S.Schema<ScheduleObject>,
-  errors: [NotFound, UnknownTriggerDevError],
+  errors: [NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3745,7 +3785,8 @@ export const getSessionV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(432, __c54, 0) as any as S.Schema<GetSessionV1Request>,
   output: __S(80, __c10, 0) as any as S.Schema<SessionObject>,
-  errors: [NotFound, UnknownTriggerDevError],
+  errors: [NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3762,7 +3803,8 @@ export const getTimezonesV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(440, __c55, 0) as any as S.Schema<GetTimezonesV1Request>,
   output: __S(441, __c55, 1) as any as S.Schema<GetTimezonesResult>,
-  errors: [UnknownTriggerDevError],
+  errors: [],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3779,7 +3821,8 @@ export const getWaitpointTokenV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c56, 0) as any as S.Schema<GetWaitpointTokenV1Request>,
   output: __S(456, __c57, 0) as any as S.Schema<WaitpointTokenObject>,
-  errors: [NotFound, UnknownTriggerDevError],
+  errors: [NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3796,7 +3839,8 @@ export const getWebhookDeliveryV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(465, __c58, 1) as any as S.Schema<GetWebhookDeliveryV1Request>,
   output: __S(469, __c58, 5) as any as S.Schema<GetWebhookDeliveryV1Response>,
-  errors: [NotFound, UnknownTriggerDevError],
+  errors: [NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3813,7 +3857,8 @@ export const getWebhookEndpointV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c60, 0) as any as S.Schema<GetWebhookEndpointV1Request>,
   output: __S(234, __c29, 2) as any as S.Schema<GetWebhookEndpointV1Response>,
-  errors: [NotFound, UnknownTriggerDevError],
+  errors: [NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3830,7 +3875,8 @@ export const ignoreErrorV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c64, 0) as any as S.Schema<IgnoreErrorV1Request>,
   output: __S(336, __c42, 0) as any as S.Schema<ErrorObject>,
-  errors: [NotFound, UnknownTriggerDevError],
+  errors: [NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3847,7 +3893,8 @@ export const listBulkActionsV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(520, __c65, 0) as any as S.Schema<ListBulkActionsV1Request>,
   output: __S(522, __c65, 2) as any as S.Schema<ListBulkActionsResult>,
-  errors: [BadRequest, UnknownTriggerDevError],
+  errors: [BadRequest],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3864,7 +3911,8 @@ export const listConcurrencyLimitsV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c68, 0) as any as S.Schema<ListConcurrencyLimitsV1Request>,
   output: __S(546, __c68, 2) as any as S.Schema<ListConcurrencyLimitsV1Response>,
-  errors: [UnknownTriggerDevError],
+  errors: [],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3881,7 +3929,8 @@ export const listDashboardsV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(568, __c71, 0) as any as S.Schema<ListDashboardsV1Request>,
   output: __S(573, __c71, 5) as any as S.Schema<ListDashboardsV1Response>,
-  errors: [UnknownTriggerDevError],
+  errors: [],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3898,7 +3947,8 @@ export const listDeploymentsV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c72, 0) as any as S.Schema<ListDeploymentsV1Request>,
   output: __S(580, __c72, 4) as any as S.Schema<ListDeploymentsV1Response>,
-  errors: [UnknownTriggerDevError],
+  errors: [],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3915,7 +3965,8 @@ export const listErrorsV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(585, __c73, 1) as any as S.Schema<ListErrorsV1Request>,
   output: __S(588, __c73, 4) as any as S.Schema<ListErrorsResult>,
-  errors: [BadRequest, UnknownTriggerDevError],
+  errors: [BadRequest],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3932,7 +3983,8 @@ export const listProjectEnvvarsV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(600, __c75, 0) as any as S.Schema<ListProjectEnvvarsV1Request>,
   output: __S(601, __c75, 1) as any as S.Schema<ListProjectEnvvarsV1Response>,
-  errors: [BadRequest, NotFound, UnknownTriggerDevError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3949,7 +4001,8 @@ export const listProjectRunsV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(617, __c77, 1) as any as S.Schema<ListProjectRunsV1Request>,
   output: __S(627, __c78, 3) as any as S.Schema<ListRunsResult>,
-  errors: [BadRequest, UnknownTriggerDevError],
+  errors: [BadRequest],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3966,7 +4019,8 @@ export const listQueuesV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c80, 0) as any as S.Schema<ListQueuesV1Request>,
   output: __S(642, __c80, 2) as any as S.Schema<ListQueuesResult>,
-  errors: [UnknownTriggerDevError],
+  errors: [],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3983,7 +4037,8 @@ export const listRunsV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(649, __c81, 1) as any as S.Schema<ListRunsV1Request>,
   output: __S(627, __c78, 3) as any as S.Schema<ListRunsResult>,
-  errors: [BadRequest, UnknownTriggerDevError],
+  errors: [BadRequest],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4000,7 +4055,8 @@ export const listSchedulesV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c84, 0) as any as S.Schema<ListSchedulesV1Request>,
   output: __S(674, __c84, 2) as any as S.Schema<ListSchedulesResult>,
-  errors: [UnknownTriggerDevError],
+  errors: [],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4017,7 +4073,8 @@ export const listSessionsV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(681, __c85, 1) as any as S.Schema<ListSessionsV1Request>,
   output: __S(683, __c85, 3) as any as S.Schema<ListSessionsResult>,
-  errors: [BadRequest, UnknownTriggerDevError],
+  errors: [BadRequest],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4034,7 +4091,8 @@ export const listWaitpointTokensV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(688, __c86, 0) as any as S.Schema<ListWaitpointTokensV1Request>,
   output: __S(691, __c86, 3) as any as S.Schema<ListWaitpointTokensResult>,
-  errors: [UnprocessableEntity, UnknownTriggerDevError],
+  errors: [UnprocessableEntity],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4051,7 +4109,8 @@ export const listWebhookDeliveriesV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(696, __c87, 0) as any as S.Schema<ListWebhookDeliveriesV1Request>,
   output: __S(699, __c87, 3) as any as S.Schema<ListWebhookDeliveriesResult>,
-  errors: [BadRequest, UnknownTriggerDevError],
+  errors: [BadRequest],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4068,7 +4127,8 @@ export const listWebhookEndpointsV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c88, 0) as any as S.Schema<ListWebhookEndpointsV1Request>,
   output: __S(707, __c88, 3) as any as S.Schema<ListWebhookEndpointsResult>,
-  errors: [UnknownTriggerDevError],
+  errors: [],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4085,7 +4145,8 @@ export const overrideConcurrencyLimitV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(712, __c89, 0) as any as S.Schema<OverrideConcurrencyLimitV1Request>,
   output: __S(713, __c89, 1) as any as S.Schema<OverrideConcurrencyLimitV1Response>,
-  errors: [BadRequest, NotFound, Conflict, UnknownTriggerDevError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4102,7 +4163,8 @@ export const overrideQueueConcurrencyV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(720, __c90, 0) as any as S.Schema<OverrideQueueConcurrencyV1Request>,
   output: __S(377, __c47, 1) as any as S.Schema<QueueObject>,
-  errors: [BadRequest, NotFound, UnknownTriggerDevError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4119,7 +4181,8 @@ export const pauseConcurrencyLimitV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(728, __c91, 0) as any as S.Schema<PauseConcurrencyLimitV1Request>,
   output: __S(561, __c70, 1) as any as S.Schema<ConcurrencyLimitObject>,
-  errors: [BadRequest, NotFound, Conflict, UnknownTriggerDevError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4136,7 +4199,8 @@ export const pauseQueueV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c92, 0) as any as S.Schema<PauseQueueV1Request>,
   output: __S(377, __c47, 1) as any as S.Schema<QueueObject>,
-  errors: [BadRequest, NotFound, UnknownTriggerDevError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4153,7 +4217,8 @@ export const promoteDeploymentV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(744, __c93, 0) as any as S.Schema<PromoteDeploymentV1Request>,
   output: __S(745, __c93, 1) as any as S.Schema<PromoteDeploymentV1Response>,
-  errors: [BadRequest, NotFound, UnknownTriggerDevError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4175,7 +4240,8 @@ export const replaceDashboardV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(760, __c95, 0) as any as S.Schema<ReplaceDashboardV1Request>,
   output: __S(667, __c83, 3) as any as S.Schema<DashboardObject>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownTriggerDevError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4192,7 +4258,8 @@ export const replayWebhookDeliveryV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c96, 0) as any as S.Schema<ReplayWebhookDeliveryV1Request>,
   output: __S(769, __c96, 1) as any as S.Schema<ReplayWebhookDeliveryResponse>,
-  errors: [Forbidden, NotFound, UnknownTriggerDevError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4209,7 +4276,8 @@ export const resetConcurrencyLimitV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(776, __c97, 0) as any as S.Schema<ResetConcurrencyLimitV1Request>,
   output: __S(777, __c97, 1) as any as S.Schema<ResetConcurrencyLimitV1Response>,
-  errors: [BadRequest, NotFound, Conflict, UnknownTriggerDevError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4226,7 +4294,8 @@ export const resetQueueConcurrencyV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(784, __c98, 0) as any as S.Schema<ResetQueueConcurrencyV1Request>,
   output: __S(377, __c47, 1) as any as S.Schema<QueueObject>,
-  errors: [BadRequest, NotFound, UnknownTriggerDevError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4243,7 +4312,8 @@ export const resolveErrorV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(792, __c99, 0) as any as S.Schema<ResolveErrorV1Request>,
   output: __S(336, __c42, 0) as any as S.Schema<ErrorObject>,
-  errors: [NotFound, UnknownTriggerDevError],
+  errors: [NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4260,7 +4330,8 @@ export const rotateWebhookEndpointSecretV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c100, 0) as any as S.Schema<RotateWebhookEndpointSecretV1Request>,
   output: __S(801, __c100, 1) as any as S.Schema<RotateWebhookEndpointSecretResponse>,
-  errors: [BadRequest, NotFound, UnknownTriggerDevError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4277,7 +4348,8 @@ export const runReplayV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(808, __c101, 0) as any as S.Schema<RunReplayV1Request>,
   output: __S(952, __c119, 0) as any as S.Schema<RunReplayV1Response>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownTriggerDevError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4294,7 +4366,8 @@ export const runRescheduleV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(816, __c102, 0) as any as S.Schema<RunRescheduleV1Request>,
   output: __S(423, __c52, 7) as any as S.Schema<RunRescheduleV1Response>,
-  errors: [BadRequest, NotFound, UnknownTriggerDevError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4311,7 +4384,8 @@ export const setWebhookEndpointSecretV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(824, __c103, 0) as any as S.Schema<SetWebhookEndpointSecretV1Request>,
   output: __S(825, __c103, 1) as any as S.Schema<SetWebhookEndpointSecretResponse>,
-  errors: [BadRequest, NotFound, UnknownTriggerDevError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4328,7 +4402,8 @@ export const triggerBatchTaskByIdV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(834, __c104, 2) as any as S.Schema<TriggerBatchTaskByIdV1Request>,
   output: __S(840, __c105, 0) as any as S.Schema<BatchTriggerTaskResponse>,
-  errors: [BadRequest, NotFound, UnknownTriggerDevError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4345,7 +4420,8 @@ export const triggerBatchTaskV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(866, __c108, 2) as any as S.Schema<TriggerBatchTaskV1Request>,
   output: __S(840, __c105, 0) as any as S.Schema<BatchTriggerTaskResponse>,
-  errors: [BadRequest, NotFound, UnknownTriggerDevError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4362,7 +4438,8 @@ export const triggerTaskV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(872, __c109, 0) as any as S.Schema<TriggerTaskV1Request>,
   output: __S(952, __c119, 0) as any as S.Schema<TriggerTaskResponse>,
-  errors: [BadRequest, NotFound, UnknownTriggerDevError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4379,7 +4456,8 @@ export const unresolveErrorV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(880, __c110, 0) as any as S.Schema<UnresolveErrorV1Request>,
   output: __S(336, __c42, 0) as any as S.Schema<ErrorObject>,
-  errors: [NotFound, UnknownTriggerDevError],
+  errors: [NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4396,7 +4474,8 @@ export const updateDashboardV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(888, __c111, 0) as any as S.Schema<UpdateDashboardV1Request>,
   output: __S(667, __c83, 3) as any as S.Schema<DashboardObject>,
-  errors: [NotFound, Conflict, UnknownTriggerDevError],
+  errors: [NotFound, Conflict],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4413,7 +4492,8 @@ export const updateDashboardWidgetV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(896, __c112, 0) as any as S.Schema<UpdateDashboardWidgetV1Request>,
   output: __S(667, __c83, 3) as any as S.Schema<DashboardObject>,
-  errors: [BadRequest, NotFound, Conflict, UnknownTriggerDevError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4430,7 +4510,8 @@ export const updateProjectEnvvarV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(904, __c113, 0) as any as S.Schema<UpdateProjectEnvvarV1Request>,
   output: __S(96, __c12, 0) as any as S.Schema<SucceedResponse>,
-  errors: [BadRequest, NotFound, UnknownTriggerDevError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4447,7 +4528,8 @@ export const updateRunMetadataV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(912, __c114, 0) as any as S.Schema<UpdateRunMetadataV1Request>,
   output: __S(913, __c114, 1) as any as S.Schema<UpdateRunMetadataV1Response>,
-  errors: [BadRequest, NotFound, UnknownTriggerDevError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4464,7 +4546,8 @@ export const updateScheduleV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(920, __c115, 0) as any as S.Schema<UpdateScheduleV1Request>,
   output: __S(507, __c63, 3) as any as S.Schema<ScheduleObject>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownTriggerDevError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4481,7 +4564,8 @@ export const updateSessionV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c116, 0) as any as S.Schema<UpdateSessionV1Request>,
   output: __S(80, __c10, 0) as any as S.Schema<SessionObject>,
-  errors: [NotFound, UnprocessableEntity, UnknownTriggerDevError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4498,7 +4582,8 @@ export const uploadProjectEnvvarsV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(936, __c117, 0) as any as S.Schema<UploadProjectEnvvarsV1Request>,
   output: __S(96, __c12, 0) as any as S.Schema<SucceedResponse>,
-  errors: [BadRequest, NotFound, UnknownTriggerDevError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
