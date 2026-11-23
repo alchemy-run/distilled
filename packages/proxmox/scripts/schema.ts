@@ -11,6 +11,8 @@
  * cannot reach a model even from a schema that still has it.
  */
 
+import { isSensitiveMemberName } from "@distilled.cloud/dev/codegen/openapi";
+
 export interface JsonSchema {
   readonly type?: string;
   readonly optional?: number | boolean;
@@ -212,7 +214,19 @@ export function convert(tree: ReadonlyArray<ApiNode>) {
               else if (method === "GET" || method === "DELETE")
                 traits["smithy.api#httpQuery"] = key;
             }
-            return [key, { target: shape(value, local + pascal(key)), traits }];
+            const target = shape(value, local + pascal(key));
+            // The same name rule as the OpenAPI converter (`password`, `token`, `secret`).
+            if (
+              target === "smithy.api#String" &&
+              !("smithy.api#httpLabel" in traits) &&
+              isSensitiveMemberName(key, {
+                where: "smithy.api#httpQuery" in traits ? "query" : "body",
+                parent: local,
+              })
+            ) {
+              traits["smithy.api#sensitive"] = {};
+            }
+            return [key, { target, traits }];
           }),
         );
       model.shapes[id + "Request"] = {

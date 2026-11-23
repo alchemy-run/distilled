@@ -3029,7 +3029,7 @@ export interface GetExactOutQuoteRequest {
   /** - The fiat payout amount (in cents) the withdrawer should receive. */
   exactAmountOut: number;
   /** - The token address or contract of the token which the user is withdrawing. */
-  inputToken: string | Redacted.Redacted<string>;
+  inputToken: string;
   /** - The merchant that this quote is for. */
   merchantId: string;
   /** - The currency of `exactAmountOut`. Defaults to the account/withdrawer currency. */
@@ -4742,7 +4742,7 @@ function __c27(j: number): any {
       return S.suspend(() =>
         S.Struct({
           exactAmountOut: S.Number.pipe(T.Query()),
-          inputToken: S.String.pipe(T.Query(), T.SensitiveValue({})),
+          inputToken: S.String.pipe(T.Query()),
           merchantId: S.String.pipe(T.Query()),
           currency: S.optional(S.String.pipe(T.Query())),
           usePermit: S.optional(S.Boolean.pipe(T.Query())),
