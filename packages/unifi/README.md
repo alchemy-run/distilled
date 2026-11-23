@@ -114,5 +114,3 @@ resolved by the calls that need it):
   operation is generated for them.
 - **Binary bodies.** Protect's camera snapshot and InnerSpace's floor-plan assets answer
   `image/*`, which the generator cannot model, so those two operations are not generated.
-- **Site Manager's `/v1/connector/consoles/{id}/*path`** passthrough is not generated:
-  Network, Protect and InnerSpace already go through the connector with typed operations.
