@@ -1266,6 +1266,8 @@ export interface SelfservicePermissions {
   ChangeComputeType?: ReconnectEnum | undefined;
   SwitchRunningMode?: ReconnectEnum | undefined;
   RebuildWorkspace?: ReconnectEnum | undefined;
+  NestedVirtualization?: ReconnectEnum | undefined;
+  EnableEndUserAdvisor?: ReconnectEnum | undefined;
 }
 export type SamlStatusEnum =
   | "DISABLED"
@@ -1341,6 +1343,12 @@ export interface StreamingProperties {
   StorageConnectors?: StorageConnector[] | undefined;
   GlobalAccelerator?: GlobalAcceleratorForDirectory | undefined;
 }
+export type WorkspaceOSUserMode =
+  | "LOCAL_USER"
+  | "DOMAIN_JOIN"
+  | "ENTRA_JOIN"
+  | "SELF_MANAGED"
+  | (string & {});
 export interface WorkspaceDirectory {
   DirectoryId?: string | undefined;
   Alias?: string | undefined;
@@ -1370,6 +1378,7 @@ export interface WorkspaceDirectory {
   IDCConfig?: IDCConfig | undefined;
   ActiveDirectoryConfig?: ActiveDirectoryConfig | undefined;
   StreamingProperties?: StreamingProperties | undefined;
+  WorkspaceOsUserMode?: WorkspaceOSUserMode | undefined;
   ErrorMessage?: string | undefined;
 }
 export type DirectoryList = WorkspaceDirectory[];
@@ -1832,6 +1841,7 @@ export interface RegisterWorkspaceDirectoryRequest {
   WorkspaceDirectoryName?: string | undefined;
   WorkspaceDirectoryDescription?: string | undefined;
   UserIdentityType?: UserIdentityType | undefined;
+  WorkspaceOsUserMode?: WorkspaceOSUserMode | undefined;
   IdcInstanceArn?: string | undefined;
   MicrosoftEntraConfig?: MicrosoftEntraConfig | undefined;
   WorkspaceType?: WorkspaceType | undefined;
@@ -6456,6 +6466,7 @@ function __c82(j: number): any {
           IDCConfig: S.optional(__S(1315, __c82, 3)),
           ActiveDirectoryConfig: S.optional(__S(1425, __c89, 1)),
           StreamingProperties: S.optional(__S(1380, __c86, 4)),
+          WorkspaceOsUserMode: S.optional(S.String),
           ErrorMessage: S.optional(S.String),
         }),
       ).annotate({ identifier: "WorkspaceDirectory" });
@@ -6500,6 +6511,8 @@ function __c85(j: number): any {
           ChangeComputeType: S.optional(S.String),
           SwitchRunningMode: S.optional(S.String),
           RebuildWorkspace: S.optional(S.String),
+          NestedVirtualization: S.optional(S.String),
+          EnableEndUserAdvisor: S.optional(S.String),
         }),
       ).annotate({ identifier: "SelfservicePermissions" });
   }
@@ -7162,6 +7175,7 @@ function __c122(j: number): any {
           WorkspaceDirectoryName: S.optional(S.String),
           WorkspaceDirectoryDescription: S.optional(S.String),
           UserIdentityType: S.optional(S.String),
+          WorkspaceOsUserMode: S.optional(S.String),
           IdcInstanceArn: S.optional(S.String),
           MicrosoftEntraConfig: S.optional(__S(1424, __c89, 0)),
           WorkspaceType: S.optional(S.String),

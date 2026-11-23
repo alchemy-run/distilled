@@ -292,6 +292,13 @@ export interface GetDeviceRequest {
 }
 export type DeviceType = string;
 export type DeviceStatus = string;
+export type DeviceStatusReasonCode = string;
+export interface DeviceStatusReason {
+  reason: string;
+  startedAt?: Date | undefined;
+  estimatedEndAt?: Date | undefined;
+  updatedAt: Date;
+}
 export type QueueName = string;
 export type QueuePriority = string;
 export interface DeviceQueueInfo {
@@ -306,6 +313,7 @@ export interface GetDeviceResponse {
   providerName: string;
   deviceType: string;
   deviceStatus: string;
+  deviceStatusReason?: DeviceStatusReason | undefined;
   deviceCapabilities: string;
   deviceQueueInfo?: DeviceQueueInfo[] | undefined;
 }
@@ -758,7 +766,7 @@ export const getDevice: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c11, 0) as any as S.Schema<GetDeviceRequest>,
-  output: __S(179, __c11, 3) as any as S.Schema<GetDeviceResponse>,
+  output: __S(180, __c11, 4) as any as S.Schema<GetDeviceResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceException,
@@ -1331,11 +1339,20 @@ function __c11(j: number): any {
       ).annotate({ identifier: "GetDeviceRequest" });
     case 1:
       return S.suspend(() =>
+        S.Struct({
+          reason: S.String,
+          startedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          estimatedEndAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+        }),
+      ).annotate({ identifier: "DeviceStatusReason" });
+    case 2:
+      return S.suspend(() =>
         S.Struct({ queue: S.String, queueSize: S.String, queuePriority: S.optional(S.String) }),
       ).annotate({ identifier: "DeviceQueueInfo" });
-    case 2:
-      return S.Array(__S(177, __c11, 1));
     case 3:
+      return S.Array(__S(178, __c11, 2));
+    case 4:
       return S.suspend(() =>
         S.Struct({
           deviceArn: S.String,
@@ -1343,8 +1360,9 @@ function __c11(j: number): any {
           providerName: S.String,
           deviceType: S.String,
           deviceStatus: S.String,
+          deviceStatusReason: S.optional(__S(177, __c11, 1)),
           deviceCapabilities: S.String,
-          deviceQueueInfo: S.optional(__S(178, __c11, 2)),
+          deviceQueueInfo: S.optional(__S(179, __c11, 3)),
         }),
       ).annotate({ identifier: "GetDeviceResponse" });
   }

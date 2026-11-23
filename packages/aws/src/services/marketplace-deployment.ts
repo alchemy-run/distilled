@@ -142,6 +142,70 @@ export class ValidationException
     { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()), fieldName: S.String },
     /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
+export type Catalog = string;
+export type ResourceId = string;
+export type DeliveryOptionType = "data-as-a-service" | (string & {});
+export interface GetDeploymentConfigurationRequest {
+  catalog: string;
+  productId: string;
+  deliveryOptionType: DeliveryOptionType;
+}
+export type DeploymentConfigurationFulfillmentUrl = string;
+export interface DataAsAServiceConfigurationDetail {
+  fulfillmentUrl: string;
+}
+export type DeploymentConfigurationDetail = { dataAsAService: DataAsAServiceConfigurationDetail };
+export interface GetDeploymentConfigurationResponse {
+  configuration: DeploymentConfigurationDetail;
+}
+export type DeploymentConfigurationJobId = string;
+export interface GetDeploymentConfigurationJobRequest {
+  catalog: string;
+  productId: string;
+  deliveryOptionType: DeliveryOptionType;
+  jobId: string;
+}
+export type DeploymentConfigurationJobStatus =
+  | "IN_PROGRESS"
+  | "SUCCEEDED"
+  | "FAILED"
+  | (string & {});
+export type ResourceArn = string;
+export type DeploymentConfigurationJobErrorCode =
+  | "FULFILLMENT_URL_UNREACHABLE"
+  | "INTERNAL_ERROR"
+  | "ENDPOINT_INVALID"
+  | (string & {});
+export interface GetDeploymentConfigurationJobResponse {
+  jobId: string;
+  configuration: DeploymentConfigurationDetail;
+  status: DeploymentConfigurationJobStatus;
+  createdAt: Date;
+  configurationArn?: string | undefined;
+  endedAt?: Date | undefined;
+  errorCode?: DeploymentConfigurationJobErrorCode | undefined;
+  message?: string | undefined;
+}
+export type DeploymentConfigurationMaxResults = number;
+export type DeploymentConfigurationNextToken = string;
+export interface ListDeploymentConfigurationJobsRequest {
+  catalog: string;
+  productId: string;
+  deliveryOptionType: DeliveryOptionType;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+}
+export interface DeploymentConfigurationJobSummary {
+  jobId: string;
+  status: DeploymentConfigurationJobStatus;
+  configuration: DeploymentConfigurationDetail;
+  createdAt: Date;
+}
+export type DeploymentConfigurationJobSummaries = DeploymentConfigurationJobSummary[];
+export interface ListDeploymentConfigurationJobsResponse {
+  jobs: DeploymentConfigurationJobSummary[];
+  nextToken?: string | undefined;
+}
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
@@ -149,8 +213,6 @@ export type Tags = { [key: string]: string | undefined };
 export interface ListTagsForResourceResponse {
   tags?: { [key: string]: string | undefined } | undefined;
 }
-export type Catalog = string;
-export type ResourceId = string;
 export type DeploymentParameterName = string;
 export type SecretString = string | redacted.Redacted<string>;
 export interface DeploymentParameterInput {
@@ -170,13 +232,26 @@ export interface PutDeploymentParameterRequest {
   expirationDate?: Date | undefined;
   clientToken?: string | undefined;
 }
-export type ResourceArn = string;
 export type DeploymentParameterResourceIdentifier = string;
 export interface PutDeploymentParameterResponse {
   resourceArn: string;
   agreementId: string;
   deploymentParameterId: string;
   tags?: { [key: string]: string | undefined } | undefined;
+}
+export interface StartDeploymentConfigurationJobRequest {
+  catalog: string;
+  productId: string;
+  deliveryOptionType: DeliveryOptionType;
+  configuration: DeploymentConfigurationDetail;
+  tags?: { [key: string]: string | undefined } | undefined;
+  clientToken?: string | undefined;
+}
+export interface StartDeploymentConfigurationJobResponse {
+  jobId: string;
+  configuration: DeploymentConfigurationDetail;
+  status: DeploymentConfigurationJobStatus;
+  createdAt: Date;
 }
 export interface TagResourceRequest {
   resourceArn: string;
@@ -189,6 +264,116 @@ export interface UntagResourceRequest {
   tagKeys: string[];
 }
 export interface UntagResourceResponse {}
+export type GetDeploymentConfigurationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Returns the active deployment configuration for a product and delivery option. The active deployment configuration is the configuration from the most recent successful deployment configuration job. The seller that owns the product and buyers entitled to the product can call this operation.
+ *
+ * If the product and delivery option have no active deployment configuration, the operation returns a `ResourceNotFoundException`.
+ */
+export const getDeploymentConfiguration: API.OperationMethod<
+  GetDeploymentConfigurationRequest & RegionInput,
+  GetDeploymentConfigurationResponse,
+  GetDeploymentConfigurationError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(28, __c7, 0) as any as S.Schema<GetDeploymentConfigurationRequest>,
+  output: __S(29, __c7, 1) as any as S.Schema<GetDeploymentConfigurationResponse>,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetDeploymentConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetDeploymentConfiguration",
+}));
+
+export type GetDeploymentConfigurationJobError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Returns the details of a deployment configuration job. Only the seller that started the job can call this operation.
+ *
+ * If the job doesn't belong to the product and delivery option in the request path, the operation returns a `ResourceNotFoundException`.
+ */
+export const getDeploymentConfigurationJob: API.OperationMethod<
+  GetDeploymentConfigurationJobRequest & RegionInput,
+  GetDeploymentConfigurationJobResponse,
+  GetDeploymentConfigurationJobError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(36, __c9, 0) as any as S.Schema<GetDeploymentConfigurationJobRequest>,
+  output: __S(37, __c9, 1) as any as S.Schema<GetDeploymentConfigurationJobResponse>,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetDeploymentConfigurationJob",
+  telemetry: TELEMETRY,
+  span: "GetDeploymentConfigurationJob",
+}));
+
+export type ListDeploymentConfigurationJobsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Lists the deployment configuration jobs that you started for a product and delivery option, ordered from newest to oldest. Results are paginated. Use the `nextToken` parameter to retrieve additional results.
+ *
+ * If you haven't started any jobs for the product and delivery option, the operation returns an empty `jobs` list.
+ */
+export const listDeploymentConfigurationJobs: API.PaginatedOperationMethod<
+  ListDeploymentConfigurationJobsRequest & RegionInput,
+  ListDeploymentConfigurationJobsResponse,
+  ListDeploymentConfigurationJobsError,
+  Credentials | HttpClient.HttpClient,
+  DeploymentConfigurationJobSummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: __S(40, __c10, 0) as any as S.Schema<ListDeploymentConfigurationJobsRequest>,
+  output: __S(43, __c10, 3) as any as S.Schema<ListDeploymentConfigurationJobsResponse>,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListDeploymentConfigurationJobs",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "jobs",
+    pageSize: "maxResults",
+  } as const,
+  telemetry: TELEMETRY,
+  span: "ListDeploymentConfigurationJobs",
+})) as any;
+
 export type ListTagsForResourceError =
   | AccessDeniedException
   | InternalServerException
@@ -197,7 +382,7 @@ export type ListTagsForResourceError =
   | ValidationException
   | CommonErrors;
 /**
- * Lists all tags that have been added to a deployment parameter resource.
+ * Lists all tags that have been added to a resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest & RegionInput,
@@ -205,8 +390,8 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4, __c1, 0) as any as S.Schema<ListTagsForResourceRequest>,
-  output: __S(5, __c1, 1) as any as S.Schema<ListTagsForResourceResponse>,
+  input: __S(0, __c0, 0) as any as S.Schema<ListTagsForResourceRequest>,
+  output: __S(1, __c0, 1) as any as S.Schema<ListTagsForResourceResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -240,8 +425,8 @@ export const putDeploymentParameter: API.OperationMethod<
   PutDeploymentParameterError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13, __c3, 1) as any as S.Schema<PutDeploymentParameterRequest>,
-  output: __S(14, __c3, 2) as any as S.Schema<PutDeploymentParameterResponse>,
+  input: __S(9, __c2, 1) as any as S.Schema<PutDeploymentParameterRequest>,
+  output: __S(10, __c2, 2) as any as S.Schema<PutDeploymentParameterResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -257,6 +442,43 @@ export const putDeploymentParameter: API.OperationMethod<
   operationName: "PutDeploymentParameter",
   telemetry: TELEMETRY,
   span: "PutDeploymentParameter",
+}));
+
+export type StartDeploymentConfigurationJobError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Starts a job that publishes a deployment configuration for a product and delivery option. The job runs asynchronously. Use `GetDeploymentConfigurationJob` to track its status. When the job reaches the `SUCCEEDED` status, its configuration becomes the active deployment configuration for the product and delivery option.
+ *
+ * The populated member of `configuration` must match the `deliveryOptionType` in the request path.
+ */
+export const startDeploymentConfigurationJob: API.OperationMethod<
+  StartDeploymentConfigurationJobRequest & RegionInput,
+  StartDeploymentConfigurationJobResponse,
+  StartDeploymentConfigurationJobError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(12, __c3, 0) as any as S.Schema<StartDeploymentConfigurationJobRequest>,
+  output: __S(13, __c3, 1) as any as S.Schema<StartDeploymentConfigurationJobResponse>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "StartDeploymentConfigurationJob",
+  telemetry: TELEMETRY,
+  span: "StartDeploymentConfigurationJob",
 }));
 
 export type TagResourceError =
@@ -311,7 +533,7 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1, __c0, 1) as any as S.Schema<UntagResourceRequest>,
+  input: __S(25, __c6, 1) as any as S.Schema<UntagResourceRequest>,
   output: __S(20, __c5, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [
     AccessDeniedException,
@@ -333,28 +555,6 @@ export const untagResource: API.OperationMethod<
 function __c0(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.String);
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-          tagKeys: __S(0, __c0, 0).pipe(T.HttpQuery("tagKeys")),
-        }).pipe(
-          T.all(
-            T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "UntagResourceRequest" });
-  }
-}
-function __c1(j: number): any {
-  switch (j) {
-    case 0:
       return S.suspend(() =>
         S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
           T.all(
@@ -368,18 +568,18 @@ function __c1(j: number): any {
         ),
       ).annotate({ identifier: "ListTagsForResourceRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ tags: S.optional(__S(8, __c2, 0)) })).annotate({
+      return S.suspend(() => S.Struct({ tags: S.optional(__S(4, __c1, 0)) })).annotate({
         identifier: "ListTagsForResourceResponse",
       });
   }
 }
-function __c2(j: number): any {
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
   }
 }
-function __c3(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ name: S.String, secretString: SensitiveString })).annotate({
@@ -391,8 +591,8 @@ function __c3(j: number): any {
           catalog: S.String.pipe(T.HttpLabel("catalog")),
           productId: S.String.pipe(T.HttpLabel("productId")),
           agreementId: S.String,
-          deploymentParameter: __S(12, __c3, 0),
-          tags: S.optional(__S(8, __c2, 0)),
+          deploymentParameter: __S(8, __c2, 0),
+          tags: S.optional(__S(4, __c1, 0)),
           expirationDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
@@ -415,9 +615,45 @@ function __c3(j: number): any {
           resourceArn: S.String,
           agreementId: S.String,
           deploymentParameterId: S.String,
-          tags: S.optional(__S(8, __c2, 0)),
+          tags: S.optional(__S(4, __c1, 0)),
         }),
       ).annotate({ identifier: "PutDeploymentParameterResponse" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          catalog: S.String.pipe(T.HttpLabel("catalog")),
+          productId: S.String.pipe(T.HttpLabel("productId")),
+          deliveryOptionType: S.String.pipe(T.HttpLabel("deliveryOptionType")),
+          configuration: __S(33, __c8, 1),
+          tags: S.optional(__S(4, __c1, 0)),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(
+          T.all(
+            T.Http({
+              method: "POST",
+              uri: "/catalogs/{catalog}/products/{productId}/delivery-options/{deliveryOptionType}/deployment-configuration/jobs",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "StartDeploymentConfigurationJobRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          jobId: S.String,
+          configuration: __S(33, __c8, 1),
+          status: S.String,
+          createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+        }),
+      ).annotate({ identifier: "StartDeploymentConfigurationJobResponse" });
   }
 }
 function __c4(j: number): any {
@@ -426,7 +662,7 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-          tags: S.optional(__S(8, __c2, 0)),
+          tags: S.optional(__S(4, __c1, 0)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
@@ -444,6 +680,145 @@ function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "TagResourceResponse" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
+          tagKeys: __S(24, __c6, 0).pipe(T.HttpQuery("tagKeys")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UntagResourceRequest" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          catalog: S.String.pipe(T.HttpLabel("catalog")),
+          productId: S.String.pipe(T.HttpLabel("productId")),
+          deliveryOptionType: S.String.pipe(T.HttpLabel("deliveryOptionType")),
+        }).pipe(
+          T.all(
+            T.Http({
+              method: "GET",
+              uri: "/catalogs/{catalog}/products/{productId}/delivery-options/{deliveryOptionType}/deployment-configuration",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetDeploymentConfigurationRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ configuration: __S(33, __c8, 1) })).annotate({
+        identifier: "GetDeploymentConfigurationResponse",
+      });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ fulfillmentUrl: S.String })).annotate({
+        identifier: "DataAsAServiceConfigurationDetail",
+      });
+    case 1:
+      return S.Union([/*@__PURE__*/ S.Struct({ dataAsAService: __S(32, __c8, 0) })]);
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          catalog: S.String.pipe(T.HttpLabel("catalog")),
+          productId: S.String.pipe(T.HttpLabel("productId")),
+          deliveryOptionType: S.String.pipe(T.HttpLabel("deliveryOptionType")),
+          jobId: S.String.pipe(T.HttpLabel("jobId")),
+        }).pipe(
+          T.all(
+            T.Http({
+              method: "GET",
+              uri: "/catalogs/{catalog}/products/{productId}/delivery-options/{deliveryOptionType}/deployment-configuration/jobs/{jobId}",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetDeploymentConfigurationJobRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          jobId: S.String,
+          configuration: __S(33, __c8, 1),
+          status: S.String,
+          createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          configurationArn: S.optional(S.String),
+          endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          errorCode: S.optional(S.String),
+          message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GetDeploymentConfigurationJobResponse" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          catalog: S.String.pipe(T.HttpLabel("catalog")),
+          productId: S.String.pipe(T.HttpLabel("productId")),
+          deliveryOptionType: S.String.pipe(T.HttpLabel("deliveryOptionType")),
+          maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+          nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+        }).pipe(
+          T.all(
+            T.Http({
+              method: "GET",
+              uri: "/catalogs/{catalog}/products/{productId}/delivery-options/{deliveryOptionType}/deployment-configuration/jobs",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListDeploymentConfigurationJobsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          jobId: S.String,
+          status: S.String,
+          configuration: __S(33, __c8, 1),
+          createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+        }),
+      ).annotate({ identifier: "DeploymentConfigurationJobSummary" });
+    case 2:
+      return S.Array(__S(41, __c10, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ jobs: __S(42, __c10, 2), nextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListDeploymentConfigurationJobsResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

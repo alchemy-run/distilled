@@ -774,8 +774,10 @@ export interface GetCaseAuditEventsResponse {
 export interface GetCaseEventConfigurationRequest {
   domainId: string;
 }
+export type AutoIncludeFields = string;
 export interface CaseEventIncludedData {
   fields: FieldIdentifier[];
+  autoIncludeFields?: string | undefined;
 }
 export interface RelatedItemEventIncludedData {
   includeContent: boolean;
@@ -1336,9 +1338,14 @@ export interface CommentUpdateContent {
 export interface CustomUpdateContent {
   fields: FieldValue[];
 }
+export interface SlaUpdateConfiguration {
+  targetSlaMinutes: number;
+}
+export type SlaUpdateContent = { slaUpdateConfiguration: SlaUpdateConfiguration };
 export type RelatedItemUpdateContent =
-  | { comment: CommentUpdateContent; custom?: undefined }
-  | { comment?: undefined; custom: CustomUpdateContent };
+  | { comment: CommentUpdateContent; custom?: undefined; sla?: undefined }
+  | { comment?: undefined; custom: CustomUpdateContent; sla?: undefined }
+  | { comment?: undefined; custom?: undefined; sla: SlaUpdateContent };
 export interface UpdateRelatedItemRequest {
   domainId: string;
   caseId: string;
@@ -1797,6 +1804,8 @@ export type CreateRelatedItemError =
  * Creates a related item (comments, tasks, and contacts) and associates it with a case.
  *
  * There's a quota for the number of fields allowed in a Custom type related item. See Connect Customer Cases quotas.
+ *
+ * There's a quota for the number of SLAs that can be attached to a case. See Connect Customer Cases quotas.
  *
  * **Use cases**
  *
@@ -3255,6 +3264,8 @@ export type UpdateRelatedItemError =
  *
  * - **Custom** - Update the fields of a custom related item. You can add, modify, and remove fields from a custom related item. There's a quota for the number of fields allowed in a Custom type related item. See Connect Customer Cases quotas.
  *
+ * - **Sla** - Update the target duration (`targetSlaMinutes`) of an SLA. The new deadline is counted from when the SLA was created. The SLA status is recalculated against the new deadline: an open SLA becomes Active or Overdue, and a completed SLA becomes Met or NotMet.
+ *
  * **Important things to know**
  *
  * - When updating a Custom related item, all existing and new fields, and their associated values should be included in the request. Fields not included as part of this request will be removed.
@@ -3273,8 +3284,8 @@ export const updateRelatedItem: API.OperationMethod<
   UpdateRelatedItemError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(817, __c51, 1) as any as S.Schema<UpdateRelatedItemRequest>,
-  output: __S(818, __c51, 2) as any as S.Schema<UpdateRelatedItemResponse>,
+  input: __S(819, __c51, 3) as any as S.Schema<UpdateRelatedItemRequest>,
+  output: __S(820, __c51, 4) as any as S.Schema<UpdateRelatedItemResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3920,9 +3931,9 @@ function __c23(j: number): any {
 function __c24(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ fields: __S(1041, __c65, 1) })).annotate({
-        identifier: "CaseEventIncludedData",
-      });
+      return S.suspend(() =>
+        S.Struct({ fields: __S(1041, __c65, 1), autoIncludeFields: S.optional(S.String) }),
+      ).annotate({ identifier: "CaseEventIncludedData" });
     case 1:
       return S.suspend(() => S.Struct({ includeContent: S.Boolean })).annotate({
         identifier: "RelatedItemEventIncludedData",
@@ -4762,17 +4773,24 @@ function __c50(j: number): any {
 function __c51(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() => S.Struct({ targetSlaMinutes: S.Number })).annotate({
+        identifier: "SlaUpdateConfiguration",
+      });
+    case 1:
+      return S.Union([/*@__PURE__*/ S.Struct({ slaUpdateConfiguration: __S(816, __c51, 0) })]);
+    case 2:
       return S.Union([
         /*@__PURE__*/ S.Struct({ comment: __S(944, __c59, 0) }),
         /*@__PURE__*/ S.Struct({ custom: __S(948, __c59, 4) }),
+        /*@__PURE__*/ S.Struct({ sla: __S(817, __c51, 1) }),
       ]);
-    case 1:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           domainId: S.String.pipe(T.HttpLabel("domainId")),
           caseId: S.String.pipe(T.HttpLabel("caseId")),
           relatedItemId: S.String.pipe(T.HttpLabel("relatedItemId")),
-          content: __S(816, __c51, 0),
+          content: __S(818, __c51, 2),
           performedBy: S.optional(__S(896, __c56, 0)),
         }).pipe(
           T.all(
@@ -4788,7 +4806,7 @@ function __c51(j: number): any {
           ),
         ),
       ).annotate({ identifier: "UpdateRelatedItemRequest" });
-    case 2:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           relatedItemId: S.String,

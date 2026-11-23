@@ -170,6 +170,7 @@ export interface IssueDetected {
   CharacterOffsets?: CharacterOffsets | undefined;
 }
 export type IssuesDetected = IssueDetected[];
+export type LanguageCode = string;
 export interface Transcript {
   Id?: string | undefined;
   ParticipantId?: string | undefined;
@@ -179,6 +180,7 @@ export interface Transcript {
   EndOffsetMillis?: number | undefined;
   Sentiment?: SentimentValue | undefined;
   IssuesDetected?: IssueDetected[] | undefined;
+  LanguageCode?: string | undefined;
 }
 export type CategoryName = string;
 export type MatchedCategories = string[];
@@ -400,6 +402,7 @@ function __c0(j: number): any {
           EndOffsetMillis: S.optional(S.Number),
           Sentiment: S.optional(S.String),
           IssuesDetected: S.optional(__S(9, __c0, 9)),
+          LanguageCode: S.optional(S.String),
         }),
       ).annotate({ identifier: "Transcript" });
     case 11:

@@ -183,11 +183,16 @@ export type NetworkConnectorSecurityGroupIds = string[];
 export type NetworkProtocol = "IPv4" | "DualStack" | (string & {});
 export type ComputeResourceType = "MicroVm" | "WebFunction" | (string & {});
 export type AssociatedComputeResourceTypesList = ComputeResourceType[];
+export type ElasticIpType = "None" | "ServiceManaged" | (string & {});
+export interface ElasticIpConfiguration {
+  Type: ElasticIpType;
+}
 export interface NetworkConnectorVpcEgressConfiguration {
   SubnetIds?: string[] | undefined;
   SecurityGroupIds?: string[] | undefined;
   NetworkProtocol?: NetworkProtocol | undefined;
   AssociatedComputeResourceTypes?: ComputeResourceType[] | undefined;
+  ElasticIpConfiguration?: ElasticIpConfiguration | undefined;
 }
 export type NetworkConnectorConfiguration = {
   VpcEgressConfiguration: NetworkConnectorVpcEgressConfiguration;
@@ -365,6 +370,7 @@ export type NetworkConnectorStateReasonCode =
   | "Ec2RequestLimitExceeded"
   | "InsufficientRolePermissions"
   | "InternalError"
+  | "InternetGatewayNotAttached"
   | "InvalidSecurityGroup"
   | "InvalidSubnet"
   | "SecurityGroupsPerInterfaceLimitExceeded"
@@ -381,6 +387,7 @@ export type NetworkConnectorLastUpdateStatusReasonCode =
   | "Ec2RequestLimitExceeded"
   | "InsufficientRolePermissions"
   | "InternalError"
+  | "InternetGatewayNotAttached"
   | "InvalidSecurityGroup"
   | "InvalidSubnet"
   | "SecurityGroupsPerInterfaceLimitExceeded"
@@ -1634,7 +1641,7 @@ function __c10(j: number): any {
           Version: S.optional(S.Number),
           LatestVersionArn: S.optional(S.String),
           LatestVersion: S.optional(S.Number),
-          Configuration: S.optional(__S(114, __c28, 2)),
+          Configuration: S.optional(__S(115, __c28, 3)),
           OperatorRole: S.optional(S.String),
           State: S.optional(S.String),
           StateReason: S.optional(S.String),
@@ -1982,7 +1989,7 @@ function __c21(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Identifier: S.String.pipe(T.HttpLabel("Identifier")),
-          Configuration: S.optional(__S(114, __c28, 2)),
+          Configuration: S.optional(__S(115, __c28, 3)),
           OperatorRole: S.optional(S.String),
           ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
@@ -2005,7 +2012,7 @@ function __c21(j: number): any {
           VersionArn: S.optional(S.String),
           Version: S.optional(S.Number),
           OperatorRole: S.optional(S.String),
-          Configuration: S.optional(__S(114, __c28, 2)),
+          Configuration: S.optional(__S(115, __c28, 3)),
           State: S.optional(S.String),
           LastUpdateStatus: S.optional(S.String),
           LastUpdateStatusReason: S.optional(S.String),
@@ -2102,7 +2109,7 @@ function __c25(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
-          Configuration: __S(114, __c28, 2),
+          Configuration: __S(115, __c28, 3),
           OperatorRole: S.optional(S.String),
           ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           Tags: S.optional(__S(116, __c29, 0)),
@@ -2135,7 +2142,7 @@ function __c27(j: number): any {
           Id: S.String,
           VersionArn: S.optional(S.String),
           Version: S.optional(S.Number),
-          Configuration: S.optional(__S(114, __c28, 2)),
+          Configuration: S.optional(__S(115, __c28, 3)),
           OperatorRole: S.optional(S.String),
           State: S.optional(S.String),
         }),
@@ -2147,16 +2154,21 @@ function __c28(j: number): any {
     case 0:
       return S.Array(S.String);
     case 1:
+      return S.suspend(() => S.Struct({ Type: S.String })).annotate({
+        identifier: "ElasticIpConfiguration",
+      });
+    case 2:
       return S.suspend(() =>
         S.Struct({
           SubnetIds: S.optional(__S(112, __c28, 0)),
           SecurityGroupIds: S.optional(__S(112, __c28, 0)),
           NetworkProtocol: S.optional(S.String),
           AssociatedComputeResourceTypes: S.optional(__S(104, __c26, 0)),
+          ElasticIpConfiguration: S.optional(__S(113, __c28, 1)),
         }),
       ).annotate({ identifier: "NetworkConnectorVpcEgressConfiguration" });
-    case 2:
-      return S.Union([/*@__PURE__*/ S.Struct({ VpcEgressConfiguration: __S(113, __c28, 1) })]);
+    case 3:
+      return S.Union([/*@__PURE__*/ S.Struct({ VpcEgressConfiguration: __S(114, __c28, 2) })]);
   }
 }
 function __c29(j: number): any {

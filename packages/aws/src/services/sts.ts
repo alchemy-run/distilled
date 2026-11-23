@@ -217,6 +217,15 @@ export class IDPRejectedClaimException
       /*@__PURE__*/ T.HttpError(403),
     ),
   ).pipe(C.withAuthError) {}
+export class InsufficientSessionLifetimeException
+  extends /*@__PURE__*/ S.TaggedError<InsufficientSessionLifetimeException>()(
+    "InsufficientSessionLifetimeException",
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "InsufficientSessionLifetime", httpResponseCode: 400 }),
+      /*@__PURE__*/ T.HttpError(400),
+    ),
+  ).pipe(C.withBadRequestError) {}
 export class InvalidAuthorizationMessageException
   extends /*@__PURE__*/ S.TaggedError<InvalidAuthorizationMessageException>()(
     "InvalidAuthorizationMessageException",
@@ -229,12 +238,30 @@ export class InvalidAuthorizationMessageException
       /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
+export class InvalidContextAssertionException
+  extends /*@__PURE__*/ S.TaggedError<InvalidContextAssertionException>()(
+    "InvalidContextAssertionException",
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "InvalidContextAssertion", httpResponseCode: 400 }),
+      /*@__PURE__*/ T.HttpError(400),
+    ),
+  ).pipe(C.withBadRequestError) {}
 export class InvalidIdentityTokenException
   extends /*@__PURE__*/ S.TaggedError<InvalidIdentityTokenException>()(
     "InvalidIdentityTokenException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.all(
       /*@__PURE__*/ T.AwsQueryError({ code: "InvalidIdentityToken", httpResponseCode: 400 }),
+      /*@__PURE__*/ T.HttpError(400),
+    ),
+  ).pipe(C.withBadRequestError) {}
+export class InvalidSubjectCredentialsException
+  extends /*@__PURE__*/ S.TaggedError<InvalidSubjectCredentialsException>()(
+    "InvalidSubjectCredentialsException",
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "InvalidSubjectCredentials", httpResponseCode: 400 }),
       /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -384,6 +411,27 @@ export type SubjectType = string;
 export type Issuer = string;
 export type Audience = string;
 export type NameQualifier = string;
+export type OriginIdentitySubjectType = string | redacted.Redacted<string>;
+export type OriginIdentitySubjectTypeType = string | redacted.Redacted<string>;
+export type OriginIdentityIssuerType = string | redacted.Redacted<string>;
+export interface OriginIdentity {
+  Subject?: string | redacted.Redacted<string> | undefined;
+  SubjectType?: string | redacted.Redacted<string> | undefined;
+  Issuer?: string | redacted.Redacted<string> | undefined;
+  FederatedProviderArn?: string | undefined;
+}
+export type TransactionContextKeyType = string;
+export type TransactionContextValueType = string | redacted.Redacted<string>;
+export type TransactionContextIdentityProviderMapType = {
+  [key: string]: string | redacted.Redacted<string> | undefined;
+};
+export interface TransactionContext {
+  IdentityProvider?: { [key: string]: string | redacted.Redacted<string> | undefined } | undefined;
+}
+export interface TrustedIdentityPropagationContext {
+  OriginIdentity?: OriginIdentity | undefined;
+  TransactionContext?: TransactionContext | undefined;
+}
 export interface AssumeRoleWithSAMLResponse {
   Credentials?: Credentials | undefined;
   AssumedRoleUser?: AssumedRoleUser | undefined;
@@ -396,6 +444,7 @@ export interface AssumeRoleWithSAMLResponse {
   SourceIdentity?: string | undefined;
   SessionTokenUtilization?: number | undefined;
   SessionTokenSize?: number | undefined;
+  TrustedIdentityPropagationContext?: TrustedIdentityPropagationContext | undefined;
 }
 export type ClientTokenType = string | redacted.Redacted<string>;
 export type UrlType = string;
@@ -420,6 +469,7 @@ export interface AssumeRoleWithWebIdentityResponse {
   SourceIdentity?: string | undefined;
   SessionTokenUtilization?: number | undefined;
   SessionTokenSize?: number | undefined;
+  TrustedIdentityPropagationContext?: TrustedIdentityPropagationContext | undefined;
 }
 export type TargetPrincipalType = string;
 export type RootDurationSecondsType = number;
@@ -488,6 +538,28 @@ export interface GetFederationTokenResponse {
   SessionTokenUtilization?: number | undefined;
   SessionTokenSize?: number | undefined;
 }
+export type ScopedCredentialDurationSecondsType = number;
+export type ScopedSessionDescriptionType = string;
+export interface GetScopedCredentialsRequest {
+  Policy?: string | undefined;
+  DurationSeconds?: number | undefined;
+  MinimumSessionTokenSize?: number | undefined;
+  ScopedSessionDescription?: string | undefined;
+}
+export type ScopedSessionIdType = string;
+export interface ScopedSession {
+  ScopedSessionId: string;
+  Arn: string;
+}
+export type ScopedPoliciesCountType = number;
+export interface GetScopedCredentialsResponse {
+  Credentials?: Credentials | undefined;
+  SessionInfo?: ScopedSession | undefined;
+  SessionTokenUtilization?: number | undefined;
+  SessionTokenSize?: number | undefined;
+  ScopedPoliciesCount?: number | undefined;
+  SourceIdentity?: string | undefined;
+}
 export interface GetSessionTokenRequest {
   DurationSeconds?: number | undefined;
   SerialNumber?: string | undefined;
@@ -503,10 +575,14 @@ export type WebIdentityTokenAudienceStringType = string;
 export type WebIdentityTokenAudienceListType = string[];
 export type WebIdentityTokenDurationSecondsType = number;
 export type JwtAlgorithmType = string;
+export type WebIdentityTokenScopeType = string;
+export type WebIdentityTokenSubjectModeType = "AWSIdentity" | "OriginIdentity" | (string & {});
 export interface GetWebIdentityTokenRequest {
   Audience: string[];
   DurationSeconds?: number | undefined;
   SigningAlgorithm: string;
+  Scope?: string | undefined;
+  SubjectMode?: WebIdentityTokenSubjectModeType | undefined;
   Tags?: Tag[] | undefined;
 }
 export type WebIdentityTokenType = string | redacted.Redacted<string>;
@@ -515,6 +591,7 @@ export interface GetWebIdentityTokenResponse {
   Expiration?: Date | undefined;
 }
 export type ExpiredIdentityTokenMessage = string;
+export type InvalidContextAssertionMessage = string;
 export type MalformedPolicyDocumentMessage = string;
 export type PackedPolicyTooLargeMessage = string;
 export type RegionDisabledMessage = string;
@@ -523,11 +600,14 @@ export type InvalidIdentityTokenMessage = string;
 export type IdpCommunicationErrorMessage = string;
 export type InvalidAuthorizationMessage = string;
 export type ExpiredTradeInTokenExceptionMessage = string;
+export type InsufficientSessionLifetimeMessage = string;
+export type InvalidSubjectCredentialsMessage = string;
 export type JWTPayloadSizeExceededException2 = string;
 export type OutboundWebIdentityFederationDisabledException2 = string;
 export type SessionDurationEscalationException2 = string;
 export type AssumeRoleError =
   | ExpiredTokenException
+  | InvalidContextAssertionException
   | MalformedPolicyDocumentException
   | PackedPolicyTooLargeException
   | RegionDisabledException
@@ -637,6 +717,7 @@ export const assumeRole: API.OperationMethod<
   output: __S(4, __c0, 4) as any as S.Schema<AssumeRoleResponse>,
   errors: [
     ExpiredTokenException,
+    InvalidContextAssertionException,
     MalformedPolicyDocumentException,
     PackedPolicyTooLargeException,
     RegionDisabledException,
@@ -741,12 +822,6 @@ export type AssumeRoleWithSAMLError =
  * characters and the values can't exceed 256 characters. For these and additional limits, see
  * IAM
  * and STS Character Limits in the *IAM User Guide*.
- *
- * An Amazon Web Services conversion compresses the passed inline session policy, managed policy ARNs,
- * and session tags into a packed binary format that has a separate limit. Your request can
- * fail for this limit even if your plaintext meets the other requirements. The
- * `PackedPolicySize` response element indicates by percentage how close the
- * policies and tags for your request are to the upper size limit.
  *
  * You can pass a session tag with the same key as a tag that is attached to the role. When
  * you do, session tags override the role's tags with the same key.
@@ -892,12 +967,6 @@ export type AssumeRoleWithWebIdentityError =
  * IAM
  * and STS Character Limits in the *IAM User Guide*.
  *
- * An Amazon Web Services conversion compresses the passed inline session policy, managed policy ARNs,
- * and session tags into a packed binary format that has a separate limit. Your request can
- * fail for this limit even if your plaintext meets the other requirements. The
- * `PackedPolicySize` response element indicates by percentage how close the
- * policies and tags for your request are to the upper size limit.
- *
  * You can pass a session tag with the same key as a tag that is attached to the role. When
  * you do, the session tag overrides the role tag with the same key.
  *
@@ -942,8 +1011,8 @@ export const assumeRoleWithWebIdentity: API.OperationMethod<
   AssumeRoleWithWebIdentityError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<AssumeRoleWithWebIdentityRequest>,
-  output: __S(57, __c7, 1) as any as S.Schema<AssumeRoleWithWebIdentityResponse>,
+  input: __S(64, __c8, 0) as any as S.Schema<AssumeRoleWithWebIdentityRequest>,
+  output: __S(65, __c8, 1) as any as S.Schema<AssumeRoleWithWebIdentityResponse>,
   errors: [
     ExpiredTokenException,
     IDPCommunicationErrorException,
@@ -991,8 +1060,8 @@ export const assumeRoot: API.OperationMethod<
   AssumeRootError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<AssumeRootRequest>,
-  output: __S(65, __c8, 1) as any as S.Schema<AssumeRootResponse>,
+  input: __S(72, __c9, 0) as any as S.Schema<AssumeRootRequest>,
+  output: __S(73, __c9, 1) as any as S.Schema<AssumeRootResponse>,
   errors: [ExpiredTokenException, RegionDisabledException],
   serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
@@ -1042,8 +1111,8 @@ export const decodeAuthorizationMessage: API.OperationMethod<
   DecodeAuthorizationMessageError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<DecodeAuthorizationMessageRequest>,
-  output: __S(73, __c9, 1) as any as S.Schema<DecodeAuthorizationMessageResponse>,
+  input: __S(80, __c10, 0) as any as S.Schema<DecodeAuthorizationMessageRequest>,
+  output: __S(81, __c10, 1) as any as S.Schema<DecodeAuthorizationMessageResponse>,
   errors: [InvalidAuthorizationMessageException],
   serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
@@ -1082,8 +1151,8 @@ export const getAccessKeyInfo: API.OperationMethod<
   GetAccessKeyInfoError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<GetAccessKeyInfoRequest>,
-  output: __S(81, __c10, 1) as any as S.Schema<GetAccessKeyInfoResponse>,
+  input: __S(88, __c11, 0) as any as S.Schema<GetAccessKeyInfoRequest>,
+  output: __S(89, __c11, 1) as any as S.Schema<GetAccessKeyInfoResponse>,
   errors: [],
   serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
@@ -1111,8 +1180,8 @@ export const getCallerIdentity: API.OperationMethod<
   GetCallerIdentityError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<GetCallerIdentityRequest>,
-  output: __S(89, __c11, 1) as any as S.Schema<GetCallerIdentityResponse>,
+  input: __S(96, __c12, 0) as any as S.Schema<GetCallerIdentityRequest>,
+  output: __S(97, __c12, 1) as any as S.Schema<GetCallerIdentityResponse>,
   errors: [],
   serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
@@ -1139,8 +1208,8 @@ export const getDelegatedAccessToken: API.OperationMethod<
   GetDelegatedAccessTokenError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<GetDelegatedAccessTokenRequest>,
-  output: __S(97, __c12, 1) as any as S.Schema<GetDelegatedAccessTokenResponse>,
+  input: __S(104, __c13, 0) as any as S.Schema<GetDelegatedAccessTokenRequest>,
+  output: __S(105, __c13, 1) as any as S.Schema<GetDelegatedAccessTokenResponse>,
   errors: [ExpiredTradeInTokenException, PackedPolicyTooLargeException, RegionDisabledException],
   serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
@@ -1196,7 +1265,8 @@ export type GetFederationTokenError =
  * - You cannot call any IAM operations using the CLI or the Amazon Web Services API. This
  * limitation does not apply to console sessions.
  *
- * - You cannot call any STS operations except `GetCallerIdentity`.
+ * - You cannot call any STS operations except `GetCallerIdentity`,
+ * `GetScopedCredentials`, or `GetDelegatedAccessToken`.
  *
  * You can use temporary credentials for single sign-on (SSO) to the console.
  *
@@ -1254,8 +1324,8 @@ export const getFederationToken: API.OperationMethod<
   GetFederationTokenError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<GetFederationTokenRequest>,
-  output: __S(106, __c13, 2) as any as S.Schema<GetFederationTokenResponse>,
+  input: __S(112, __c14, 0) as any as S.Schema<GetFederationTokenRequest>,
+  output: __S(114, __c14, 2) as any as S.Schema<GetFederationTokenResponse>,
   errors: [
     MalformedPolicyDocumentException,
     PackedPolicyTooLargeException,
@@ -1267,6 +1337,56 @@ export const getFederationToken: API.OperationMethod<
   operationName: "GetFederationToken",
   telemetry: TELEMETRY,
   span: "GetFederationToken",
+}));
+
+export type GetScopedCredentialsError =
+  | InsufficientSessionLifetimeException
+  | InvalidSubjectCredentialsException
+  | MalformedPolicyDocumentException
+  | PackedPolicyTooLargeException
+  | CommonErrors;
+/**
+ * Returns a set of temporary security credentials that are scoped down from the caller's
+ * existing temporary security credentials. `GetScopedCredentials` preserves the
+ * caller's identity while narrowing the permissions and optionally shortening the session
+ * lifetime.
+ *
+ * For a comparison of `GetScopedCredentials` with the other API operations that
+ * produce temporary security credentials, see Requesting Temporary Security
+ * Credentials and Compare STS
+ * credentials in the IAM User Guide.
+ *
+ * **Credential requirements**
+ *
+ * You can only call `GetScopedCredentials` with temporary security credentials,
+ * for example, credentials from an assumed role or a federated session. You cannot call it
+ * with IAM user credentials or root credentials. If you want to scope down IAM user
+ * credentials, first call `GetSessionToken` to get temporary security credentials,
+ * and then call `GetScopedCredentials` with those credentials.
+ *
+ * The `GetScopedCredentials` API is not available on the STS Global
+ * endpoint.
+ */
+export const getScopedCredentials: API.OperationMethod<
+  GetScopedCredentialsRequest & RegionInput,
+  GetScopedCredentialsResponse,
+  GetScopedCredentialsError,
+  Creds | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(120, __c15, 0) as any as S.Schema<GetScopedCredentialsRequest>,
+  output: __S(122, __c15, 2) as any as S.Schema<GetScopedCredentialsResponse>,
+  errors: [
+    InsufficientSessionLifetimeException,
+    InvalidSubjectCredentialsException,
+    MalformedPolicyDocumentException,
+    PackedPolicyTooLargeException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetScopedCredentials",
+  telemetry: TELEMETRY,
+  span: "GetScopedCredentials",
 }));
 
 export type GetSessionTokenError = RegionDisabledException | CommonErrors;
@@ -1309,7 +1429,9 @@ export type GetSessionTokenError = RegionDisabledException | CommonErrors;
  * included in the request.
  *
  * - You cannot call any STS API *except*
- * `AssumeRole` or `GetCallerIdentity`.
+ * `AssumeRole`, `GetCallerIdentity`,
+ * `GetScopedCredentials`, `GetWebIdentityToken`, or
+ * `GetDelegatedAccessToken`.
  *
  * The credentials that `GetSessionToken` returns are based on permissions
  * associated with the IAM user whose credentials were used to call the
@@ -1333,8 +1455,8 @@ export const getSessionToken: API.OperationMethod<
   GetSessionTokenError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<GetSessionTokenRequest>,
-  output: __S(113, __c14, 1) as any as S.Schema<GetSessionTokenResponse>,
+  input: __S(128, __c16, 0) as any as S.Schema<GetSessionTokenRequest>,
+  output: __S(129, __c16, 1) as any as S.Schema<GetSessionTokenResponse>,
   errors: [RegionDisabledException],
   serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
@@ -1350,9 +1472,15 @@ export type GetWebIdentityTokenError =
   | SessionDurationEscalationException
   | CommonErrors;
 /**
- * Returns a signed JSON Web Token (JWT) that represents the calling Amazon Web Services identity.
- * The returned JWT can be used to authenticate with external services that support OIDC discovery.
+ * Returns a signed JSON Web Token (JWT) that represents the calling Amazon Web Services identity or, if you set
+ * `SubjectMode` to `OriginIdentity`, the human user or workload on whose behalf the
+ * calling session acts. The returned JWT can be used to authenticate with external services that support OIDC discovery.
  * The token is signed by Amazon Web Services STS and can be publicly verified using the verification keys published at the issuer's JWKS endpoint.
+ *
+ * The `sub` (subject) claim contains the identity that `SubjectMode` selects. Whichever
+ * subject mode you use, the `principal_id` claim under the `https://sts.amazonaws.com/`
+ * namespace contains the ARN of the principal that requested the token, when that principal has an ARN. For a
+ * role session, this is the ARN of the role.
  *
  * The `GetWebIdentityToken` API is not available on the STS Global endpoint.
  */
@@ -1362,8 +1490,8 @@ export const getWebIdentityToken: API.OperationMethod<
   GetWebIdentityTokenError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(121, __c15, 1) as any as S.Schema<GetWebIdentityTokenRequest>,
-  output: __S(122, __c15, 2) as any as S.Schema<GetWebIdentityTokenResponse>,
+  input: __S(137, __c17, 1) as any as S.Schema<GetWebIdentityTokenRequest>,
+  output: __S(138, __c17, 2) as any as S.Schema<GetWebIdentityTokenResponse>,
   errors: [
     JWTPayloadSizeExceededException,
     OutboundWebIdentityFederationDisabledException,
@@ -1492,11 +1620,38 @@ function __c6(j: number): any {
           SourceIdentity: S.optional(S.String),
           SessionTokenUtilization: S.optional(S.Number),
           SessionTokenSize: S.optional(S.Number),
+          TrustedIdentityPropagationContext: S.optional(__S(59, __c7, 3)),
         }).pipe(ns),
       ).annotate({ identifier: "AssumeRoleWithSAMLResponse" });
   }
 }
 function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Subject: S.optional(SensitiveString),
+          SubjectType: S.optional(SensitiveString),
+          Issuer: S.optional(SensitiveString),
+          FederatedProviderArn: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "OriginIdentity" });
+    case 1:
+      return S.Record(S.String, /*@__PURE__*/ SensitiveString.pipe(S.optional));
+    case 2:
+      return S.suspend(() => S.Struct({ IdentityProvider: S.optional(__S(57, __c7, 1)) })).annotate(
+        { identifier: "TransactionContext" },
+      );
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          OriginIdentity: S.optional(__S(56, __c7, 0)),
+          TransactionContext: S.optional(__S(58, __c7, 2)),
+        }),
+      ).annotate({ identifier: "TrustedIdentityPropagationContext" });
+  }
+}
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1523,11 +1678,12 @@ function __c7(j: number): any {
           SourceIdentity: S.optional(S.String),
           SessionTokenUtilization: S.optional(S.Number),
           SessionTokenSize: S.optional(S.Number),
+          TrustedIdentityPropagationContext: S.optional(__S(59, __c7, 3)),
         }).pipe(ns),
       ).annotate({ identifier: "AssumeRoleWithWebIdentityResponse" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1549,7 +1705,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "AssumeRootResponse" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1563,7 +1719,7 @@ function __c9(j: number): any {
       });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1577,7 +1733,7 @@ function __c10(j: number): any {
       });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1595,7 +1751,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "GetCallerIdentityResponse" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1613,7 +1769,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "GetDelegatedAccessTokenResponse" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1634,7 +1790,7 @@ function __c13(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Credentials: S.optional(__S(16, __c2, 0)),
-          FederatedUser: S.optional(__S(105, __c13, 1)),
+          FederatedUser: S.optional(__S(113, __c14, 1)),
           PackedPolicySize: S.optional(S.Number),
           SessionTokenUtilization: S.optional(S.Number),
           SessionTokenSize: S.optional(S.Number),
@@ -1642,7 +1798,35 @@ function __c13(j: number): any {
       ).annotate({ identifier: "GetFederationTokenResponse" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Policy: S.optional(S.String),
+          DurationSeconds: S.optional(S.Number),
+          MinimumSessionTokenSize: S.optional(S.Number),
+          ScopedSessionDescription: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "GetScopedCredentialsRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ ScopedSessionId: S.String, Arn: S.String })).annotate({
+        identifier: "ScopedSession",
+      });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          Credentials: S.optional(__S(16, __c2, 0)),
+          SessionInfo: S.optional(__S(121, __c15, 1)),
+          SessionTokenUtilization: S.optional(S.Number),
+          SessionTokenSize: S.optional(S.Number),
+          ScopedPoliciesCount: S.optional(S.Number),
+          SourceIdentity: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "GetScopedCredentialsResponse" });
+  }
+}
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1663,16 +1847,18 @@ function __c14(j: number): any {
       ).annotate({ identifier: "GetSessionTokenResponse" });
   }
 }
-function __c15(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Audience: __S(120, __c15, 0),
+          Audience: __S(136, __c17, 0),
           DurationSeconds: S.optional(S.Number),
           SigningAlgorithm: S.String,
+          Scope: S.optional(S.String),
+          SubjectMode: S.optional(S.String),
           Tags: S.optional(__S(41, __c5, 1)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "GetWebIdentityTokenRequest" });

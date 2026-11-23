@@ -22,7 +22,16 @@ const auth = /*@__PURE__*/ T.AwsAuthSigv4({ name: "dynamodb" });
 const ver = /*@__PURE__*/ T.ServiceVersion("2012-08-10");
 const proto = /*@__PURE__*/ T.AwsProtocolsAwsJson1_0();
 const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
-  const { UseDualStack = false, UseFIPS = false, Endpoint, Region } = p;
+  const {
+    Region,
+    UseDualStack = false,
+    UseFIPS = false,
+    Endpoint,
+    AccountId,
+    AccountIdEndpointMode,
+    StreamArn,
+    ShardIterator,
+  } = p;
   const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
     type: "endpoint" as const,
     endpoint: { url: u as string, properties: p, headers: h },
@@ -38,101 +47,474 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
     if (UseDualStack === true) {
       return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
-    return e(Endpoint);
+    return e(`${Endpoint}`);
   }
   if (Region != null) {
     {
       const PartitionResult = _.partition(Region);
       if (PartitionResult != null && PartitionResult !== false) {
-        if (
-          _.getAttr(PartitionResult, "name") === "aws" &&
-          UseFIPS === false &&
-          UseDualStack === true
-        ) {
-          return e(
-            `https://streams-dynamodb.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-          );
-        }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws" &&
-          UseFIPS === true &&
-          UseDualStack === true
-        ) {
-          return e(
-            `https://streams-dynamodb-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-          );
-        }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws-cn" &&
-          UseFIPS === false &&
-          UseDualStack === true
-        ) {
-          return e(
-            `https://streams-dynamodb.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-          );
-        }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws-cn" &&
-          UseFIPS === true &&
-          UseDualStack === true
-        ) {
-          return e(
-            `https://streams-dynamodb-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-          );
-        }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws-us-gov" &&
-          UseFIPS === false &&
-          UseDualStack === true
-        ) {
-          return e(
-            `https://streams-dynamodb.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-          );
-        }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws-us-gov" &&
-          UseFIPS === true &&
-          UseDualStack === true
-        ) {
-          return e(
-            `https://streams-dynamodb-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-          );
-        }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws-us-gov" &&
-          UseFIPS === true &&
-          UseDualStack === false
-        ) {
-          return e(`https://streams.dynamodb.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
-        }
         if (UseFIPS === true && UseDualStack === true) {
           if (
-            true === _.getAttr(PartitionResult, "supportsFIPS") &&
-            true === _.getAttr(PartitionResult, "supportsDualStack")
+            _.getAttr(PartitionResult, "supportsFIPS") === true &&
+            _.getAttr(PartitionResult, "supportsDualStack") === true
           ) {
+            if (
+              !(_.getAttr(PartitionResult, "name") === "aws") &&
+              !(_.getAttr(PartitionResult, "name") === "aws-cn") &&
+              !(_.getAttr(PartitionResult, "name") === "aws-us-gov")
+            ) {
+              if (AccountIdEndpointMode != null && AccountIdEndpointMode === "required") {
+                return err(
+                  "Invalid Configuration: AccountIdEndpointMode is required but account endpoints are not supported in this region",
+                );
+              }
+              return e(
+                `https://streams-dynamodb-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            if (Region === "me-central-1") {
+              if (AccountIdEndpointMode != null && AccountIdEndpointMode === "required") {
+                return err(
+                  "Invalid Configuration: AccountIdEndpointMode is required but account endpoints are not supported in this region",
+                );
+              }
+              return e(
+                `https://streams-dynamodb-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            if (Region === "me-south-1") {
+              if (AccountIdEndpointMode != null && AccountIdEndpointMode === "required") {
+                return err(
+                  "Invalid Configuration: AccountIdEndpointMode is required but account endpoints are not supported in this region",
+                );
+              }
+              return e(
+                `https://streams-dynamodb-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            {
+              const ParsedArn = _.parseArn(StreamArn);
+              if (
+                AccountIdEndpointMode != null &&
+                !(AccountIdEndpointMode === "disabled") &&
+                StreamArn != null &&
+                ParsedArn != null &&
+                ParsedArn !== false &&
+                _.getAttr(ParsedArn, "service") === "dynamodb" &&
+                _.isValidHostLabel(_.getAttr(ParsedArn, "region"), false) &&
+                _.getAttr(ParsedArn, "region") === `${Region}` &&
+                _.isValidHostLabel(_.getAttr(ParsedArn, "accountId"), false)
+              ) {
+                return e(
+                  `https://${_.getAttr(ParsedArn, "accountId")}.streams-ddb-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+                );
+              }
+            }
+            {
+              const ParsedArn = _.parseArn(ShardIterator);
+              if (
+                AccountIdEndpointMode != null &&
+                !(AccountIdEndpointMode === "disabled") &&
+                ShardIterator != null &&
+                ParsedArn != null &&
+                ParsedArn !== false &&
+                _.getAttr(ParsedArn, "service") === "dynamodb" &&
+                _.isValidHostLabel(_.getAttr(ParsedArn, "region"), false) &&
+                _.getAttr(ParsedArn, "region") === `${Region}` &&
+                _.isValidHostLabel(_.getAttr(ParsedArn, "accountId"), false)
+              ) {
+                return e(
+                  `https://${_.getAttr(ParsedArn, "accountId")}.streams-ddb-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+                );
+              }
+            }
+            if (
+              AccountIdEndpointMode != null &&
+              !(AccountIdEndpointMode === "disabled") &&
+              AccountId != null
+            ) {
+              if (_.isValidHostLabel(AccountId, false)) {
+                return e(
+                  `https://${AccountId}.streams-ddb-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+                );
+              }
+              return err("Credentials-sourced account ID parameter is invalid");
+            }
+            if (AccountIdEndpointMode != null && AccountIdEndpointMode === "required") {
+              return err(
+                "AccountIdEndpointMode is required but no AccountID was provided or able to be loaded",
+              );
+            }
             return e(
-              `https://streams.dynamodb-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              `https://streams-dynamodb-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
           return err(
             "FIPS and DualStack are enabled, but this partition does not support one or both",
           );
         }
-        if (UseFIPS === true && UseDualStack === false) {
+        if (UseFIPS === true) {
           if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+            if (_.getAttr(PartitionResult, "name") === "aws-us-gov") {
+              if (
+                !(_.getAttr(PartitionResult, "name") === "aws") &&
+                !(_.getAttr(PartitionResult, "name") === "aws-cn") &&
+                !(_.getAttr(PartitionResult, "name") === "aws-us-gov")
+              ) {
+                if (AccountIdEndpointMode != null && AccountIdEndpointMode === "required") {
+                  return err(
+                    "Invalid Configuration: AccountIdEndpointMode is required but account endpoints are not supported in this region",
+                  );
+                }
+                return e(
+                  `https://streams.dynamodb.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+                );
+              }
+              if (Region === "me-central-1") {
+                if (AccountIdEndpointMode != null && AccountIdEndpointMode === "required") {
+                  return err(
+                    "Invalid Configuration: AccountIdEndpointMode is required but account endpoints are not supported in this region",
+                  );
+                }
+                return e(
+                  `https://streams.dynamodb.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+                );
+              }
+              if (Region === "me-south-1") {
+                if (AccountIdEndpointMode != null && AccountIdEndpointMode === "required") {
+                  return err(
+                    "Invalid Configuration: AccountIdEndpointMode is required but account endpoints are not supported in this region",
+                  );
+                }
+                return e(
+                  `https://streams.dynamodb.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+                );
+              }
+              {
+                const ParsedArn = _.parseArn(StreamArn);
+                if (
+                  AccountIdEndpointMode != null &&
+                  !(AccountIdEndpointMode === "disabled") &&
+                  StreamArn != null &&
+                  ParsedArn != null &&
+                  ParsedArn !== false &&
+                  _.getAttr(ParsedArn, "service") === "dynamodb" &&
+                  _.isValidHostLabel(_.getAttr(ParsedArn, "region"), false) &&
+                  _.getAttr(ParsedArn, "region") === `${Region}` &&
+                  _.isValidHostLabel(_.getAttr(ParsedArn, "accountId"), false)
+                ) {
+                  return e(
+                    `https://${_.getAttr(ParsedArn, "accountId")}.streams-ddb-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+                  );
+                }
+              }
+              {
+                const ParsedArn = _.parseArn(ShardIterator);
+                if (
+                  AccountIdEndpointMode != null &&
+                  !(AccountIdEndpointMode === "disabled") &&
+                  ShardIterator != null &&
+                  ParsedArn != null &&
+                  ParsedArn !== false &&
+                  _.getAttr(ParsedArn, "service") === "dynamodb" &&
+                  _.isValidHostLabel(_.getAttr(ParsedArn, "region"), false) &&
+                  _.getAttr(ParsedArn, "region") === `${Region}` &&
+                  _.isValidHostLabel(_.getAttr(ParsedArn, "accountId"), false)
+                ) {
+                  return e(
+                    `https://${_.getAttr(ParsedArn, "accountId")}.streams-ddb-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+                  );
+                }
+              }
+              if (
+                AccountIdEndpointMode != null &&
+                !(AccountIdEndpointMode === "disabled") &&
+                AccountId != null
+              ) {
+                if (_.isValidHostLabel(AccountId, false)) {
+                  return e(
+                    `https://${AccountId}.streams-ddb-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+                  );
+                }
+                return err("Credentials-sourced account ID parameter is invalid");
+              }
+              if (AccountIdEndpointMode != null && AccountIdEndpointMode === "required") {
+                return err(
+                  "AccountIdEndpointMode is required but no AccountID was provided or able to be loaded",
+                );
+              }
+              return e(
+                `https://streams.dynamodb.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+              );
+            }
+            if (
+              !(_.getAttr(PartitionResult, "name") === "aws") &&
+              !(_.getAttr(PartitionResult, "name") === "aws-cn") &&
+              !(_.getAttr(PartitionResult, "name") === "aws-us-gov")
+            ) {
+              if (AccountIdEndpointMode != null && AccountIdEndpointMode === "required") {
+                return err(
+                  "Invalid Configuration: AccountIdEndpointMode is required but account endpoints are not supported in this region",
+                );
+              }
+              return e(
+                `https://streams.dynamodb-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+              );
+            }
+            if (Region === "me-central-1") {
+              if (AccountIdEndpointMode != null && AccountIdEndpointMode === "required") {
+                return err(
+                  "Invalid Configuration: AccountIdEndpointMode is required but account endpoints are not supported in this region",
+                );
+              }
+              return e(
+                `https://streams.dynamodb-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+              );
+            }
+            if (Region === "me-south-1") {
+              if (AccountIdEndpointMode != null && AccountIdEndpointMode === "required") {
+                return err(
+                  "Invalid Configuration: AccountIdEndpointMode is required but account endpoints are not supported in this region",
+                );
+              }
+              return e(
+                `https://streams.dynamodb-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+              );
+            }
+            {
+              const ParsedArn = _.parseArn(StreamArn);
+              if (
+                AccountIdEndpointMode != null &&
+                !(AccountIdEndpointMode === "disabled") &&
+                StreamArn != null &&
+                ParsedArn != null &&
+                ParsedArn !== false &&
+                _.getAttr(ParsedArn, "service") === "dynamodb" &&
+                _.isValidHostLabel(_.getAttr(ParsedArn, "region"), false) &&
+                _.getAttr(ParsedArn, "region") === `${Region}` &&
+                _.isValidHostLabel(_.getAttr(ParsedArn, "accountId"), false)
+              ) {
+                return e(
+                  `https://${_.getAttr(ParsedArn, "accountId")}.streams-ddb-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+                );
+              }
+            }
+            {
+              const ParsedArn = _.parseArn(ShardIterator);
+              if (
+                AccountIdEndpointMode != null &&
+                !(AccountIdEndpointMode === "disabled") &&
+                ShardIterator != null &&
+                ParsedArn != null &&
+                ParsedArn !== false &&
+                _.getAttr(ParsedArn, "service") === "dynamodb" &&
+                _.isValidHostLabel(_.getAttr(ParsedArn, "region"), false) &&
+                _.getAttr(ParsedArn, "region") === `${Region}` &&
+                _.isValidHostLabel(_.getAttr(ParsedArn, "accountId"), false)
+              ) {
+                return e(
+                  `https://${_.getAttr(ParsedArn, "accountId")}.streams-ddb-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+                );
+              }
+            }
+            if (
+              AccountIdEndpointMode != null &&
+              !(AccountIdEndpointMode === "disabled") &&
+              AccountId != null
+            ) {
+              if (_.isValidHostLabel(AccountId, false)) {
+                return e(
+                  `https://${AccountId}.streams-ddb-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+                );
+              }
+              return err("Credentials-sourced account ID parameter is invalid");
+            }
+            if (AccountIdEndpointMode != null && AccountIdEndpointMode === "required") {
+              return err(
+                "AccountIdEndpointMode is required but no AccountID was provided or able to be loaded",
+              );
+            }
             return e(
               `https://streams.dynamodb-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
           return err("FIPS is enabled but this partition does not support FIPS");
         }
-        if (UseFIPS === false && UseDualStack === true) {
-          if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
+        if (UseDualStack === true) {
+          if (_.getAttr(PartitionResult, "supportsDualStack") === true) {
+            if (
+              !(_.getAttr(PartitionResult, "name") === "aws") &&
+              !(_.getAttr(PartitionResult, "name") === "aws-cn") &&
+              !(_.getAttr(PartitionResult, "name") === "aws-us-gov")
+            ) {
+              if (AccountIdEndpointMode != null && AccountIdEndpointMode === "required") {
+                return err(
+                  "Invalid Configuration: AccountIdEndpointMode is required but account endpoints are not supported in this region",
+                );
+              }
+              return e(
+                `https://streams-dynamodb.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            if (Region === "me-central-1") {
+              if (AccountIdEndpointMode != null && AccountIdEndpointMode === "required") {
+                return err(
+                  "Invalid Configuration: AccountIdEndpointMode is required but account endpoints are not supported in this region",
+                );
+              }
+              return e(
+                `https://streams-dynamodb.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            if (Region === "me-south-1") {
+              if (AccountIdEndpointMode != null && AccountIdEndpointMode === "required") {
+                return err(
+                  "Invalid Configuration: AccountIdEndpointMode is required but account endpoints are not supported in this region",
+                );
+              }
+              return e(
+                `https://streams-dynamodb.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            {
+              const ParsedArn = _.parseArn(StreamArn);
+              if (
+                AccountIdEndpointMode != null &&
+                !(AccountIdEndpointMode === "disabled") &&
+                StreamArn != null &&
+                ParsedArn != null &&
+                ParsedArn !== false &&
+                _.getAttr(ParsedArn, "service") === "dynamodb" &&
+                _.isValidHostLabel(_.getAttr(ParsedArn, "region"), false) &&
+                _.getAttr(ParsedArn, "region") === `${Region}` &&
+                _.isValidHostLabel(_.getAttr(ParsedArn, "accountId"), false)
+              ) {
+                return e(
+                  `https://${_.getAttr(ParsedArn, "accountId")}.streams-ddb.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+                );
+              }
+            }
+            {
+              const ParsedArn = _.parseArn(ShardIterator);
+              if (
+                AccountIdEndpointMode != null &&
+                !(AccountIdEndpointMode === "disabled") &&
+                ShardIterator != null &&
+                ParsedArn != null &&
+                ParsedArn !== false &&
+                _.getAttr(ParsedArn, "service") === "dynamodb" &&
+                _.isValidHostLabel(_.getAttr(ParsedArn, "region"), false) &&
+                _.getAttr(ParsedArn, "region") === `${Region}` &&
+                _.isValidHostLabel(_.getAttr(ParsedArn, "accountId"), false)
+              ) {
+                return e(
+                  `https://${_.getAttr(ParsedArn, "accountId")}.streams-ddb.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+                );
+              }
+            }
+            if (
+              AccountIdEndpointMode != null &&
+              !(AccountIdEndpointMode === "disabled") &&
+              AccountId != null
+            ) {
+              if (_.isValidHostLabel(AccountId, false)) {
+                return e(
+                  `https://${AccountId}.streams-ddb.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+                );
+              }
+              return err("Credentials-sourced account ID parameter is invalid");
+            }
+            if (AccountIdEndpointMode != null && AccountIdEndpointMode === "required") {
+              return err(
+                "AccountIdEndpointMode is required but no AccountID was provided or able to be loaded",
+              );
+            }
             return e(
-              `https://streams.dynamodb.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              `https://streams-dynamodb.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
           return err("DualStack is enabled but this partition does not support DualStack");
+        }
+        if (
+          !(_.getAttr(PartitionResult, "name") === "aws") &&
+          !(_.getAttr(PartitionResult, "name") === "aws-cn") &&
+          !(_.getAttr(PartitionResult, "name") === "aws-us-gov")
+        ) {
+          if (AccountIdEndpointMode != null && AccountIdEndpointMode === "required") {
+            return err(
+              "Invalid Configuration: AccountIdEndpointMode is required but account endpoints are not supported in this region",
+            );
+          }
+          return e(`https://streams.dynamodb.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
+        }
+        if (Region === "me-central-1") {
+          if (AccountIdEndpointMode != null && AccountIdEndpointMode === "required") {
+            return err(
+              "Invalid Configuration: AccountIdEndpointMode is required but account endpoints are not supported in this region",
+            );
+          }
+          return e(`https://streams.dynamodb.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
+        }
+        if (Region === "me-south-1") {
+          if (AccountIdEndpointMode != null && AccountIdEndpointMode === "required") {
+            return err(
+              "Invalid Configuration: AccountIdEndpointMode is required but account endpoints are not supported in this region",
+            );
+          }
+          return e(`https://streams.dynamodb.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
+        }
+        {
+          const ParsedArn = _.parseArn(StreamArn);
+          if (
+            AccountIdEndpointMode != null &&
+            !(AccountIdEndpointMode === "disabled") &&
+            StreamArn != null &&
+            ParsedArn != null &&
+            ParsedArn !== false &&
+            _.getAttr(ParsedArn, "service") === "dynamodb" &&
+            _.isValidHostLabel(_.getAttr(ParsedArn, "region"), false) &&
+            _.getAttr(ParsedArn, "region") === `${Region}` &&
+            _.isValidHostLabel(_.getAttr(ParsedArn, "accountId"), false)
+          ) {
+            return e(
+              `https://${_.getAttr(ParsedArn, "accountId")}.streams-ddb.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+            );
+          }
+        }
+        {
+          const ParsedArn = _.parseArn(ShardIterator);
+          if (
+            AccountIdEndpointMode != null &&
+            !(AccountIdEndpointMode === "disabled") &&
+            ShardIterator != null &&
+            ParsedArn != null &&
+            ParsedArn !== false &&
+            _.getAttr(ParsedArn, "service") === "dynamodb" &&
+            _.isValidHostLabel(_.getAttr(ParsedArn, "region"), false) &&
+            _.getAttr(ParsedArn, "region") === `${Region}` &&
+            _.isValidHostLabel(_.getAttr(ParsedArn, "accountId"), false)
+          ) {
+            return e(
+              `https://${_.getAttr(ParsedArn, "accountId")}.streams-ddb.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+            );
+          }
+        }
+        if (
+          AccountIdEndpointMode != null &&
+          !(AccountIdEndpointMode === "disabled") &&
+          AccountId != null
+        ) {
+          if (_.isValidHostLabel(AccountId, false)) {
+            return e(
+              `https://${AccountId}.streams-ddb.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+            );
+          }
+          return err("Credentials-sourced account ID parameter is invalid");
+        }
+        if (AccountIdEndpointMode != null && AccountIdEndpointMode === "required") {
+          return err(
+            "AccountIdEndpointMode is required but no AccountID was provided or able to be loaded",
+          );
         }
         return e(`https://streams.dynamodb.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
@@ -567,7 +949,7 @@ function __c0(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          StreamArn: S.String,
+          StreamArn: S.String.pipe(T.ContextParam("StreamArn")),
           Limit: S.optional(S.Number),
           ExclusiveStartShardId: S.optional(S.String),
           ShardFilter: S.optional(__S(0, __c0, 0)),
@@ -620,9 +1002,10 @@ function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ ShardIterator: S.String, Limit: S.optional(S.Number) }).pipe(
-          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-        ),
+        S.Struct({
+          ShardIterator: S.String.pipe(T.ContextParam("ShardIterator")),
+          Limit: S.optional(S.Number),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "GetRecordsInput" });
     case 1:
       return S.Array(S.String);
@@ -711,7 +1094,7 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          StreamArn: S.String,
+          StreamArn: S.String.pipe(T.ContextParam("StreamArn")),
           ShardId: S.String,
           ShardIteratorType: S.String,
           SequenceNumber: S.optional(S.String),

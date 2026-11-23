@@ -181,6 +181,8 @@ export type LinkStatus =
   | "PENDING_ISOLATION"
   | "ISOLATED"
   | "PENDING_RESTORATION"
+  | "CREATE_FAILED"
+  | "DELETE_FAILED"
   | (string & {});
 export type LinkDirection = "RESPONSE" | "REQUEST" | (string & {});
 export type Version = string;
@@ -242,6 +244,22 @@ export type ConnectivityType =
   | "PUBLIC_EGRESS"
   | "EXTERNAL_INBOUND"
   | (string & {});
+export type ErrorCode =
+  | "VPC_NOT_FOUND"
+  | "EC2_SUBNET_NOT_FOUND"
+  | "EC2_SECURITY_GROUP_NOT_FOUND"
+  | "EC2_SUBNET_IP_EXHAUSTION"
+  | "IAM_ASSUME_ROLE_ACCESS_DENIED"
+  | "INTERNAL_ERROR"
+  | (string & {});
+export type AwsResourceId = string;
+export type AwsResourceIdList = string[];
+export interface ErrorDetail {
+  code: ErrorCode;
+  message: string;
+  resourceIds?: string[] | undefined;
+}
+export type ErrorDetails = ErrorDetail[];
 export interface AcceptLinkResponse {
   gatewayId: string;
   peerGatewayId: string;
@@ -254,6 +272,7 @@ export interface AcceptLinkResponse {
   attributes?: LinkAttributes | undefined;
   logSettings?: LinkLogSettings | undefined;
   connectivityType?: ConnectivityType | undefined;
+  errorDetails?: ErrorDetail[] | undefined;
   linkId: string;
 }
 export type AcmCertificateArn = string;
@@ -312,6 +331,7 @@ export interface CreateLinkResponse {
   attributes?: LinkAttributes | undefined;
   logSettings?: LinkLogSettings | undefined;
   connectivityType?: ConnectivityType | undefined;
+  errorDetails?: ErrorDetail[] | undefined;
   linkId: string;
   customerProvidedId?: string | undefined;
 }
@@ -344,6 +364,8 @@ export type RuleStatus =
   | "DELETION_IN_PROGRESS"
   | "DELETED"
   | "FAILED"
+  | "CREATE_FAILED"
+  | "DELETE_FAILED"
   | (string & {});
 export interface CreateLinkRoutingRuleResponse {
   ruleId: string;
@@ -387,6 +409,8 @@ export type RequesterGatewayStatus =
   | "ISOLATED"
   | "PENDING_ISOLATION"
   | "PENDING_RESTORATION"
+  | "CREATE_FAILED"
+  | "DELETE_FAILED"
   | (string & {});
 export interface CreateRequesterGatewayResponse {
   gatewayId: string;
@@ -467,6 +491,8 @@ export type ResponderGatewayStatus =
   | "ISOLATED"
   | "PENDING_ISOLATION"
   | "PENDING_RESTORATION"
+  | "CREATE_FAILED"
+  | "DELETE_FAILED"
   | (string & {});
 export interface CreateResponderGatewayResponse {
   gatewayId: string;
@@ -531,6 +557,67 @@ export interface DisassociateCertificateResponse {
   acmCertificateArn: string;
   status: CertificateAssociationStatus;
 }
+export type ModuleId = string;
+export interface GetAvailableModuleRequest {
+  moduleId: string;
+}
+export type ModuleArn = string;
+export type ModuleName = string;
+export type ModuleDescription = string;
+export type SubscriptionType = "MARKETPLACE" | "PRIVATE" | "AWS_BUILT_IN" | (string & {});
+export type SubscriptionStatus = "ACTIVE" | "EXPIRED" | (string & {});
+export interface GetAvailableModuleResponse {
+  moduleId: string;
+  moduleArn: string;
+  moduleName: string;
+  description?: string | undefined;
+  subscriptionType: SubscriptionType;
+  subscriptionStatus: SubscriptionStatus;
+  marketplaceProductId?: string | undefined;
+  createdAt: Date;
+}
+export type SemanticVersion = string;
+export interface GetAvailableModuleVersionRequest {
+  moduleId: string;
+  version: string;
+}
+export type ModuleVersionArn = string;
+export type ModuleVersionStatus =
+  | "CREATING"
+  | "CREATE_FAILED"
+  | "ACTIVE"
+  | "DEPRECATED"
+  | (string & {});
+export type ModulePermission =
+  | "READ_REQUEST_BODY"
+  | "READ_REQUEST_HEADERS"
+  | "MUTATE_REQUEST_BODY"
+  | "ENRICH_REQUEST_HEADERS"
+  | "ENRICH_REQUEST_EXT"
+  | "FILTER"
+  | (string & {});
+export type ModulePermissionList = ModulePermission[];
+export type ConfigurableAction =
+  | "FILTER"
+  | "ENRICH_REQUEST_EXT"
+  | "ENRICH_REQUEST_HEADERS"
+  | "OBSERVE"
+  | (string & {});
+export type ConfigurableActionList = ConfigurableAction[];
+export type ConfigurationSchema = string;
+export type ReleaseNotes = string;
+export interface GetAvailableModuleVersionResponse {
+  moduleId: string;
+  version: string;
+  moduleVersionArn: string;
+  status: ModuleVersionStatus;
+  permissions: ModulePermission[];
+  configurableActions: ConfigurableAction[];
+  configurationSchema?: string | undefined;
+  releaseNotes?: string | undefined;
+  createdAt: Date;
+  updatedAt: Date;
+}
 export interface GetCertificateAssociationRequest {
   gatewayId: string;
   acmCertificateArn: string;
@@ -541,11 +628,45 @@ export interface GetCertificateAssociationResponse {
   status: CertificateAssociationStatus;
   associatedAt?: Date | undefined;
   updatedAt?: Date | undefined;
+  errorDetails?: ErrorDetail[] | undefined;
 }
 export interface GetInboundExternalLinkRequest {
   gatewayId: string;
   linkId: string;
 }
+export type LockToken = string;
+export type FlowName = string;
+export type SelectedActionList = ConfigurableAction[];
+export type FailureMode = "OPEN" | "CLOSED" | (string & {});
+export type ActivationPercentage = number;
+export type ConfigurationValues = string;
+export interface FlowModule {
+  name: string;
+  moduleVersionArn: string;
+  selectedActions?: ConfigurableAction[] | undefined;
+  failureMode?: FailureMode | undefined;
+  activationPercentage?: number | undefined;
+  configurationValues?: string | undefined;
+}
+export type FlowModuleList = FlowModule[];
+export interface SequentialPipeline {
+  modules: FlowModule[];
+}
+export interface FlowPhase {
+  modules: FlowModule[];
+}
+export type FlowPhaseList = FlowPhase[];
+export interface PhasedPipeline {
+  phases: FlowPhase[];
+}
+export type FlowPipeline =
+  | { sequential: SequentialPipeline; phased?: undefined }
+  | { sequential?: undefined; phased: PhasedPipeline };
+export interface Flow {
+  name: string;
+  pipeline: FlowPipeline;
+}
+export type FlowList = Flow[];
 export interface GetInboundExternalLinkResponse {
   gatewayId: string;
   linkId: string;
@@ -559,6 +680,9 @@ export interface GetInboundExternalLinkResponse {
   tags?: { [key: string]: string | undefined } | undefined;
   logSettings?: LinkLogSettings | undefined;
   connectivityType?: ConnectivityType | undefined;
+  errorDetails?: ErrorDetail[] | undefined;
+  lockToken?: string | undefined;
+  flows?: Flow[] | undefined;
 }
 export interface GetLinkRequest {
   gatewayId: string;
@@ -576,10 +700,13 @@ export interface GetLinkResponse {
   attributes?: LinkAttributes | undefined;
   logSettings?: LinkLogSettings | undefined;
   connectivityType?: ConnectivityType | undefined;
+  errorDetails?: ErrorDetail[] | undefined;
   linkId: string;
   tags?: { [key: string]: string | undefined } | undefined;
   httpResponderAllowed?: boolean | undefined;
   timeoutInMillis?: number | undefined;
+  lockToken?: string | undefined;
+  flows?: Flow[] | undefined;
 }
 export interface GetLinkRoutingRuleRequest {
   gatewayId: string;
@@ -596,6 +723,7 @@ export interface GetLinkRoutingRuleResponse {
   createdAt: Date;
   updatedAt: Date;
   tags?: { [key: string]: string | undefined } | undefined;
+  errorDetails?: ErrorDetail[] | undefined;
 }
 export interface GetOutboundExternalLinkRequest {
   gatewayId: string;
@@ -614,6 +742,9 @@ export interface GetOutboundExternalLinkResponse {
   tags?: { [key: string]: string | undefined } | undefined;
   logSettings?: LinkLogSettings | undefined;
   connectivityType?: ConnectivityType | undefined;
+  errorDetails?: ErrorDetail[] | undefined;
+  lockToken?: string | undefined;
+  flows?: Flow[] | undefined;
 }
 export interface GetRequesterGatewayRequest {
   gatewayId: string;
@@ -624,6 +755,7 @@ export interface GetRequesterGatewayResponse {
   description?: string | undefined;
   createdAt?: Date | undefined;
   updatedAt?: Date | undefined;
+  errorDetails?: ErrorDetail[] | undefined;
   vpcId: string;
   subnetIds: string[];
   securityGroupIds: string[];
@@ -643,6 +775,7 @@ export interface GetResponderGatewayResponse {
   description?: string | undefined;
   createdAt?: Date | undefined;
   updatedAt?: Date | undefined;
+  errorDetails?: ErrorDetail[] | undefined;
   domainName?: string | undefined;
   port: number;
   protocol: Protocol;
@@ -657,6 +790,123 @@ export interface GetResponderGatewayResponse {
   gatewayType?: GatewayType | undefined;
   externalInboundEndpoint?: string | undefined;
   clientRoutingPolicy?: ClientRoutingPolicy | undefined;
+}
+export type UpdateId = string;
+export interface GetUpdateRequest {
+  gatewayId: string;
+  updateId: string;
+}
+export type UpdateType =
+  | "GATEWAY_CONFIG_UPDATE"
+  | "LINK_CONFIG_UPDATE"
+  | "LINK_FLOW_UPDATE"
+  | "ROUTING_RULE_UPDATE"
+  | (string & {});
+export type UpdateStatus = "IN_PROGRESS" | "SUCCESSFUL" | "FAILED" | (string & {});
+export interface LinkTarget {
+  linkId: string;
+}
+export interface RoutingRuleTarget {
+  linkId: string;
+  ruleId: string;
+}
+export type UpdateTarget =
+  | { gateway: Record<string, never>; link?: undefined; routingRule?: undefined }
+  | { gateway?: undefined; link: LinkTarget; routingRule?: undefined }
+  | { gateway?: undefined; link?: undefined; routingRule: RoutingRuleTarget };
+export interface ResponderGatewayConfigParameters {
+  description?: string | undefined;
+  clientRoutingPolicy?: ClientRoutingPolicy | undefined;
+  domainName?: string | undefined;
+  port: number;
+  protocol: Protocol;
+  listenerConfig?: ListenerConfig | undefined;
+  trustStoreConfiguration?: TrustStoreConfiguration | undefined;
+  managedEndpointConfiguration?: ManagedEndpointConfiguration | undefined;
+}
+export interface LinkConfigParameters {
+  logSettings?: LinkLogSettings | undefined;
+  timeoutInMillis?: number | undefined;
+}
+export type LinkFlowParameters =
+  | { modules: ModuleConfiguration[]; flows?: undefined }
+  | { modules?: undefined; flows: Flow[] };
+export interface RoutingRuleParameters {
+  priority: number;
+  conditions: RuleCondition;
+}
+export type UpdateParameters =
+  | {
+      responderGatewayConfig: ResponderGatewayConfigParameters;
+      linkConfig?: undefined;
+      linkFlow?: undefined;
+      routingRule?: undefined;
+    }
+  | {
+      responderGatewayConfig?: undefined;
+      linkConfig: LinkConfigParameters;
+      linkFlow?: undefined;
+      routingRule?: undefined;
+    }
+  | {
+      responderGatewayConfig?: undefined;
+      linkConfig?: undefined;
+      linkFlow: LinkFlowParameters;
+      routingRule?: undefined;
+    }
+  | {
+      responderGatewayConfig?: undefined;
+      linkConfig?: undefined;
+      linkFlow?: undefined;
+      routingRule: RoutingRuleParameters;
+    };
+export interface Update {
+  updateId: string;
+  type: UpdateType;
+  status: UpdateStatus;
+  target: UpdateTarget;
+  createdAt: Date;
+  parameters?: UpdateParameters | undefined;
+  errorDetails?: ErrorDetail[] | undefined;
+}
+export interface GetUpdateResponse {
+  update: Update;
+}
+export interface ListAvailableModulesRequest {
+  subscriptionType?: SubscriptionType | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+}
+export interface AvailableModuleSummary {
+  moduleId: string;
+  moduleArn: string;
+  moduleName: string;
+  subscriptionType: SubscriptionType;
+  subscriptionStatus: SubscriptionStatus;
+  marketplaceProductId?: string | undefined;
+}
+export type AvailableModuleSummaryList = AvailableModuleSummary[];
+export interface ListAvailableModulesResponse {
+  modules: AvailableModuleSummary[];
+  nextToken?: string | undefined;
+}
+export interface ListAvailableModuleVersionsRequest {
+  moduleId: string;
+  status?: ModuleVersionStatus | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+}
+export interface AvailableModuleVersionSummary {
+  version: string;
+  moduleVersionArn: string;
+  status: ModuleVersionStatus;
+  createdAt: Date;
+}
+export type AvailableModuleVersionSummaryList = AvailableModuleVersionSummary[];
+export interface ListAvailableModuleVersionsResponse {
+  moduleId: string;
+  versions: AvailableModuleVersionSummary[];
+  nextToken?: string | undefined;
 }
 export interface ListCertificateAssociationsRequest {
   gatewayId: string;
@@ -687,6 +937,7 @@ export interface LinkRoutingRuleSummary {
   status: RuleStatus;
   createdAt: Date;
   updatedAt: Date;
+  errorDetails?: ErrorDetail[] | undefined;
 }
 export type LinkRoutingRuleList = LinkRoutingRuleSummary[];
 export interface ListLinkRoutingRulesResponse {
@@ -710,6 +961,7 @@ export interface ListLinksResponseStructure {
   attributes?: LinkAttributes | undefined;
   logSettings?: LinkLogSettings | undefined;
   connectivityType?: ConnectivityType | undefined;
+  errorDetails?: ErrorDetail[] | undefined;
   linkId: string;
   tags?: { [key: string]: string | undefined } | undefined;
   publicEndpoint?: string | undefined;
@@ -743,6 +995,40 @@ export interface ListTagsForResourceRequest {
 export interface ListTagsForResourceResponse {
   tags?: { [key: string]: string | undefined } | undefined;
 }
+export interface ListUpdatesRequest {
+  gatewayId: string;
+  linkId?: string | undefined;
+  ruleId?: string | undefined;
+  type?: UpdateType | undefined;
+  status?: UpdateStatus | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+}
+export interface UpdateSummary {
+  updateId: string;
+  type: UpdateType;
+  status: UpdateStatus;
+  createdAt: Date;
+}
+export type UpdateSummaryList = UpdateSummary[];
+export interface ListUpdatesResponse {
+  updates: UpdateSummary[];
+  nextToken?: string | undefined;
+}
+export type ClientToken = string;
+export interface PutLinkFlowsRequest {
+  gatewayId: string;
+  linkId: string;
+  clientToken?: string | undefined;
+  lockToken: string;
+  flows: Flow[];
+}
+export interface PutLinkFlowsResponse {
+  gatewayId: string;
+  linkId: string;
+  status: LinkStatus;
+  updateId: string;
+}
 export interface RejectLinkRequest {
   gatewayId: string;
   linkId: string;
@@ -759,6 +1045,7 @@ export interface RejectLinkResponse {
   attributes?: LinkAttributes | undefined;
   logSettings?: LinkLogSettings | undefined;
   connectivityType?: ConnectivityType | undefined;
+  errorDetails?: ErrorDetail[] | undefined;
   linkId: string;
 }
 export interface TagResourceRequest {
@@ -777,10 +1064,12 @@ export interface UpdateLinkRequest {
   linkId: string;
   logSettings?: LinkLogSettings | undefined;
   timeoutInMillis?: number | undefined;
+  clientToken?: string | undefined;
 }
 export interface UpdateLinkResponse {
   linkId: string;
   status: LinkStatus;
+  updateId: string;
 }
 export interface UpdateLinkModuleFlowRequest {
   clientToken?: string | undefined;
@@ -792,6 +1081,7 @@ export interface UpdateLinkModuleFlowResponse {
   gatewayId: string;
   linkId: string;
   status: LinkStatus;
+  updateId: string;
 }
 export interface UpdateLinkRoutingRuleRequest {
   gatewayId: string;
@@ -799,11 +1089,13 @@ export interface UpdateLinkRoutingRuleRequest {
   ruleId: string;
   priority: number;
   conditions: RuleCondition;
+  clientToken?: string | undefined;
 }
 export interface UpdateLinkRoutingRuleResponse {
   ruleId: string;
   status: RuleStatus;
   updatedAt: Date;
+  updateId: string;
 }
 export interface UpdateRequesterGatewayRequest {
   clientToken?: string | undefined;
@@ -830,6 +1122,7 @@ export interface UpdateResponderGatewayResponse {
   gatewayId: string;
   status: ResponderGatewayStatus;
   clientRoutingPolicy?: ClientRoutingPolicy | undefined;
+  updateId: string;
 }
 export type AcceptLinkError =
   | AccessDeniedException
@@ -850,8 +1143,8 @@ export const acceptLink: API.OperationMethod<
   AcceptLinkError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c40, 0) as any as S.Schema<AcceptLinkRequest>,
-  output: __S(688, __c43, 0) as any as S.Schema<AcceptLinkResponse>,
+  input: __S(752, __c47, 0) as any as S.Schema<AcceptLinkRequest>,
+  output: __S(816, __c51, 0) as any as S.Schema<AcceptLinkResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -886,8 +1179,8 @@ export const associateCertificate: API.OperationMethod<
   AssociateCertificateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(752, __c47, 0) as any as S.Schema<AssociateCertificateRequest>,
-  output: __S(768, __c48, 0) as any as S.Schema<AssociateCertificateResponse>,
+  input: __S(880, __c55, 0) as any as S.Schema<AssociateCertificateRequest>,
+  output: __S(896, __c56, 0) as any as S.Schema<AssociateCertificateResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -923,8 +1216,8 @@ export const createInboundExternalLink: API.OperationMethod<
   CreateInboundExternalLinkError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(784, __c49, 0) as any as S.Schema<CreateInboundExternalLinkRequest>,
-  output: __S(785, __c49, 1) as any as S.Schema<CreateInboundExternalLinkResponse>,
+  input: __S(912, __c57, 0) as any as S.Schema<CreateInboundExternalLinkRequest>,
+  output: __S(913, __c57, 1) as any as S.Schema<CreateInboundExternalLinkResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1039,7 +1332,7 @@ export const createOutboundExternalLink: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c3, 0) as any as S.Schema<CreateOutboundExternalLinkRequest>,
-  output: __S(64, __c4, 0) as any as S.Schema<CreateOutboundExternalLinkResponse>,
+  output: __S(49, __c3, 1) as any as S.Schema<CreateOutboundExternalLinkResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1074,8 +1367,8 @@ export const createRequesterGateway: API.OperationMethod<
   CreateRequesterGatewayError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c5, 0) as any as S.Schema<CreateRequesterGatewayRequest>,
-  output: __S(81, __c5, 1) as any as S.Schema<CreateRequesterGatewayResponse>,
+  input: __S(64, __c4, 0) as any as S.Schema<CreateRequesterGatewayRequest>,
+  output: __S(65, __c4, 1) as any as S.Schema<CreateRequesterGatewayResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1111,8 +1404,8 @@ export const createResponderGateway: API.OperationMethod<
   CreateResponderGatewayError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<CreateResponderGatewayRequest>,
-  output: __S(97, __c6, 1) as any as S.Schema<CreateResponderGatewayResponse>,
+  input: __S(80, __c5, 0) as any as S.Schema<CreateResponderGatewayRequest>,
+  output: __S(81, __c5, 1) as any as S.Schema<CreateResponderGatewayResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1146,8 +1439,8 @@ export const deleteInboundExternalLink: API.OperationMethod<
   DeleteInboundExternalLinkError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c8, 0) as any as S.Schema<DeleteInboundExternalLinkRequest>,
-  output: __S(144, __c9, 0) as any as S.Schema<DeleteInboundExternalLinkResponse>,
+  input: __S(112, __c7, 0) as any as S.Schema<DeleteInboundExternalLinkRequest>,
+  output: __S(128, __c8, 0) as any as S.Schema<DeleteInboundExternalLinkResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1183,8 +1476,8 @@ export const deleteLink: API.OperationMethod<
   DeleteLinkError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<DeleteLinkRequest>,
-  output: __S(144, __c9, 0) as any as S.Schema<DeleteLinkResponse>,
+  input: __S(144, __c9, 0) as any as S.Schema<DeleteLinkRequest>,
+  output: __S(128, __c8, 0) as any as S.Schema<DeleteLinkResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1218,8 +1511,8 @@ export const deleteLinkRoutingRule: API.OperationMethod<
   DeleteLinkRoutingRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<DeleteLinkRoutingRuleRequest>,
-  output: __S(177, __c11, 1) as any as S.Schema<DeleteLinkRoutingRuleResponse>,
+  input: __S(160, __c10, 0) as any as S.Schema<DeleteLinkRoutingRuleRequest>,
+  output: __S(161, __c10, 1) as any as S.Schema<DeleteLinkRoutingRuleResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1253,8 +1546,8 @@ export const deleteOutboundExternalLink: API.OperationMethod<
   DeleteOutboundExternalLinkError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<DeleteOutboundExternalLinkRequest>,
-  output: __S(144, __c9, 0) as any as S.Schema<DeleteOutboundExternalLinkResponse>,
+  input: __S(176, __c11, 0) as any as S.Schema<DeleteOutboundExternalLinkRequest>,
+  output: __S(128, __c8, 0) as any as S.Schema<DeleteOutboundExternalLinkResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1288,8 +1581,8 @@ export const deleteRequesterGateway: API.OperationMethod<
   DeleteRequesterGatewayError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<DeleteRequesterGatewayRequest>,
-  output: __S(224, __c14, 0) as any as S.Schema<DeleteRequesterGatewayResponse>,
+  input: __S(192, __c12, 0) as any as S.Schema<DeleteRequesterGatewayRequest>,
+  output: __S(208, __c13, 0) as any as S.Schema<DeleteRequesterGatewayResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1323,8 +1616,8 @@ export const deleteResponderGateway: API.OperationMethod<
   DeleteResponderGatewayError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<DeleteResponderGatewayRequest>,
-  output: __S(224, __c14, 0) as any as S.Schema<DeleteResponderGatewayResponse>,
+  input: __S(224, __c14, 0) as any as S.Schema<DeleteResponderGatewayRequest>,
+  output: __S(208, __c13, 0) as any as S.Schema<DeleteResponderGatewayResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1359,8 +1652,8 @@ export const disassociateCertificate: API.OperationMethod<
   DisassociateCertificateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<DisassociateCertificateRequest>,
-  output: __S(768, __c48, 0) as any as S.Schema<DisassociateCertificateResponse>,
+  input: __S(240, __c15, 0) as any as S.Schema<DisassociateCertificateRequest>,
+  output: __S(896, __c56, 0) as any as S.Schema<DisassociateCertificateResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1376,6 +1669,72 @@ export const disassociateCertificate: API.OperationMethod<
   operationName: "DisassociateCertificate",
   telemetry: TELEMETRY,
   span: "DisassociateCertificate",
+}));
+
+export type GetAvailableModuleError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Returns a module that you can attach. If you can't attach the module, the operation returns ResourceNotFoundException, the same as for a missing one.
+ */
+export const getAvailableModule: API.OperationMethod<
+  GetAvailableModuleRequest & RegionInput,
+  GetAvailableModuleResponse,
+  GetAvailableModuleError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(256, __c16, 0) as any as S.Schema<GetAvailableModuleRequest>,
+  output: __S(257, __c16, 1) as any as S.Schema<GetAvailableModuleResponse>,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetAvailableModule",
+  telemetry: TELEMETRY,
+  span: "GetAvailableModule",
+}));
+
+export type GetAvailableModuleVersionError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Returns an ACTIVE or DEPRECATED version of a module that you can attach. If you can't attach the module, or the version is in another status, the operation returns ResourceNotFoundException, the same as for a missing one.
+ */
+export const getAvailableModuleVersion: API.OperationMethod<
+  GetAvailableModuleVersionRequest & RegionInput,
+  GetAvailableModuleVersionResponse,
+  GetAvailableModuleVersionError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(272, __c17, 0) as any as S.Schema<GetAvailableModuleVersionRequest>,
+  output: __S(273, __c17, 1) as any as S.Schema<GetAvailableModuleVersionResponse>,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetAvailableModuleVersion",
+  telemetry: TELEMETRY,
+  span: "GetAvailableModuleVersion",
 }));
 
 export type GetCertificateAssociationError =
@@ -1394,8 +1753,8 @@ export const getCertificateAssociation: API.OperationMethod<
   GetCertificateAssociationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<GetCertificateAssociationRequest>,
-  output: __S(273, __c17, 1) as any as S.Schema<GetCertificateAssociationResponse>,
+  input: __S(288, __c18, 0) as any as S.Schema<GetCertificateAssociationRequest>,
+  output: __S(289, __c18, 1) as any as S.Schema<GetCertificateAssociationResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1427,8 +1786,8 @@ export const getInboundExternalLink: API.OperationMethod<
   GetInboundExternalLinkError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<GetInboundExternalLinkRequest>,
-  output: __S(289, __c18, 1) as any as S.Schema<GetInboundExternalLinkResponse>,
+  input: __S(304, __c19, 0) as any as S.Schema<GetInboundExternalLinkRequest>,
+  output: __S(305, __c19, 1) as any as S.Schema<GetInboundExternalLinkResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1463,8 +1822,8 @@ export const getLink: API.OperationMethod<
   GetLinkError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<GetLinkRequest>,
-  output: __S(305, __c19, 1) as any as S.Schema<GetLinkResponse>,
+  input: __S(336, __c21, 0) as any as S.Schema<GetLinkRequest>,
+  output: __S(337, __c21, 1) as any as S.Schema<GetLinkResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1497,8 +1856,8 @@ export const getLinkRoutingRule: API.OperationMethod<
   GetLinkRoutingRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<GetLinkRoutingRuleRequest>,
-  output: __S(321, __c20, 1) as any as S.Schema<GetLinkRoutingRuleResponse>,
+  input: __S(352, __c22, 0) as any as S.Schema<GetLinkRoutingRuleRequest>,
+  output: __S(353, __c22, 1) as any as S.Schema<GetLinkRoutingRuleResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1530,8 +1889,8 @@ export const getOutboundExternalLink: API.OperationMethod<
   GetOutboundExternalLinkError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<GetOutboundExternalLinkRequest>,
-  output: __S(337, __c21, 1) as any as S.Schema<GetOutboundExternalLinkResponse>,
+  input: __S(368, __c23, 0) as any as S.Schema<GetOutboundExternalLinkRequest>,
+  output: __S(369, __c23, 1) as any as S.Schema<GetOutboundExternalLinkResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1563,8 +1922,8 @@ export const getRequesterGateway: API.OperationMethod<
   GetRequesterGatewayError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c22, 0) as any as S.Schema<GetRequesterGatewayRequest>,
-  output: __S(353, __c22, 1) as any as S.Schema<GetRequesterGatewayResponse>,
+  input: __S(384, __c24, 0) as any as S.Schema<GetRequesterGatewayRequest>,
+  output: __S(385, __c24, 1) as any as S.Schema<GetRequesterGatewayResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1596,8 +1955,8 @@ export const getResponderGateway: API.OperationMethod<
   GetResponderGatewayError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c23, 0) as any as S.Schema<GetResponderGatewayRequest>,
-  output: __S(369, __c23, 1) as any as S.Schema<GetResponderGatewayResponse>,
+  input: __S(400, __c25, 0) as any as S.Schema<GetResponderGatewayRequest>,
+  output: __S(401, __c25, 1) as any as S.Schema<GetResponderGatewayResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1612,6 +1971,117 @@ export const getResponderGateway: API.OperationMethod<
   telemetry: TELEMETRY,
   span: "GetResponderGateway",
 }));
+
+export type GetUpdateError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Returns ResourceNotFoundException for an updateId past the 90-day retention window, indistinguishable in the response from an id that never existed.
+ */
+export const getUpdate: API.OperationMethod<
+  GetUpdateRequest & RegionInput,
+  GetUpdateResponse,
+  GetUpdateError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(416, __c26, 0) as any as S.Schema<GetUpdateRequest>,
+  output: __S(426, __c26, 10) as any as S.Schema<GetUpdateResponse>,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetUpdate",
+  telemetry: TELEMETRY,
+  span: "GetUpdate",
+}));
+
+export type ListAvailableModulesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Lists the modules that you can attach, newest first by `createdAt`. Results are paginated. Use `nextToken` to get the next page.
+ */
+export const listAvailableModules: API.PaginatedOperationMethod<
+  ListAvailableModulesRequest & RegionInput,
+  ListAvailableModulesResponse,
+  ListAvailableModulesError,
+  Credentials | HttpClient.HttpClient,
+  AvailableModuleSummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: __S(432, __c27, 0) as any as S.Schema<ListAvailableModulesRequest>,
+  output: __S(435, __c27, 3) as any as S.Schema<ListAvailableModulesResponse>,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListAvailableModules",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "modules",
+    pageSize: "maxResults",
+  } as const,
+  telemetry: TELEMETRY,
+  span: "ListAvailableModules",
+})) as any;
+
+export type ListAvailableModuleVersionsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Lists the ACTIVE and DEPRECATED versions of a module that you can attach, highest version first (numerically by MAJOR, then MINOR, then PATCH). If you can't attach the module, the operation returns ResourceNotFoundException, the same as for a missing one. If the module has no ACTIVE or DEPRECATED versions, the operation returns an empty list. The operation lists DEPRECATED versions so that you can inspect one that you've attached, but you can't attach them. Results are paginated. Use `nextToken` to get the next page.
+ */
+export const listAvailableModuleVersions: API.PaginatedOperationMethod<
+  ListAvailableModuleVersionsRequest & RegionInput,
+  ListAvailableModuleVersionsResponse,
+  ListAvailableModuleVersionsError,
+  Credentials | HttpClient.HttpClient,
+  AvailableModuleVersionSummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: __S(448, __c28, 0) as any as S.Schema<ListAvailableModuleVersionsRequest>,
+  output: __S(451, __c28, 3) as any as S.Schema<ListAvailableModuleVersionsResponse>,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListAvailableModuleVersions",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "versions",
+    pageSize: "maxResults",
+  } as const,
+  telemetry: TELEMETRY,
+  span: "ListAvailableModuleVersions",
+})) as any;
 
 export type ListCertificateAssociationsError =
   | AccessDeniedException
@@ -1630,8 +2100,8 @@ export const listCertificateAssociations: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   CertificateAssociationSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(384, __c24, 0) as any as S.Schema<ListCertificateAssociationsRequest>,
-  output: __S(387, __c24, 3) as any as S.Schema<ListCertificateAssociationsResponse>,
+  input: __S(464, __c29, 0) as any as S.Schema<ListCertificateAssociationsRequest>,
+  output: __S(467, __c29, 3) as any as S.Schema<ListCertificateAssociationsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1670,8 +2140,8 @@ export const listLinkRoutingRules: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   LinkRoutingRuleSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(400, __c25, 0) as any as S.Schema<ListLinkRoutingRulesRequest>,
-  output: __S(403, __c25, 3) as any as S.Schema<ListLinkRoutingRulesResponse>,
+  input: __S(480, __c30, 0) as any as S.Schema<ListLinkRoutingRulesRequest>,
+  output: __S(483, __c30, 3) as any as S.Schema<ListLinkRoutingRulesResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1712,8 +2182,8 @@ export const listLinks: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ListLinksResponseStructure
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(416, __c26, 0) as any as S.Schema<ListLinksRequest>,
-  output: __S(419, __c26, 3) as any as S.Schema<ListLinksResponse>,
+  input: __S(496, __c31, 0) as any as S.Schema<ListLinksRequest>,
+  output: __S(499, __c31, 3) as any as S.Schema<ListLinksResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1749,8 +2219,8 @@ export const listRequesterGateways: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   GatewayId
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<ListRequesterGatewaysRequest>,
-  output: __S(448, __c28, 0) as any as S.Schema<ListRequesterGatewaysResponse>,
+  input: __S(512, __c32, 0) as any as S.Schema<ListRequesterGatewaysRequest>,
+  output: __S(528, __c33, 0) as any as S.Schema<ListRequesterGatewaysResponse>,
   errors: [InternalServerException, ValidationException],
   serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
@@ -1780,8 +2250,8 @@ export const listResponderGateways: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   GatewayId
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(464, __c29, 0) as any as S.Schema<ListResponderGatewaysRequest>,
-  output: __S(448, __c28, 0) as any as S.Schema<ListResponderGatewaysResponse>,
+  input: __S(544, __c34, 0) as any as S.Schema<ListResponderGatewaysRequest>,
+  output: __S(528, __c33, 0) as any as S.Schema<ListResponderGatewaysResponse>,
   errors: [InternalServerException, ValidationException],
   serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
@@ -1813,8 +2283,8 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c30, 0) as any as S.Schema<ListTagsForResourceRequest>,
-  output: __S(481, __c30, 1) as any as S.Schema<ListTagsForResourceResponse>,
+  input: __S(560, __c35, 0) as any as S.Schema<ListTagsForResourceRequest>,
+  output: __S(561, __c35, 1) as any as S.Schema<ListTagsForResourceResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1828,6 +2298,83 @@ export const listTagsForResource: API.OperationMethod<
   operationName: "ListTagsForResource",
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
+}));
+
+export type ListUpdatesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Lists the updates on a gateway. Results are paginated. Use `nextToken` to get the next page.
+ */
+export const listUpdates: API.PaginatedOperationMethod<
+  ListUpdatesRequest & RegionInput,
+  ListUpdatesResponse,
+  ListUpdatesError,
+  Credentials | HttpClient.HttpClient,
+  UpdateSummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: __S(576, __c36, 0) as any as S.Schema<ListUpdatesRequest>,
+  output: __S(579, __c36, 3) as any as S.Schema<ListUpdatesResponse>,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListUpdates",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "updates",
+    pageSize: "maxResults",
+  } as const,
+  telemetry: TELEMETRY,
+  span: "ListUpdates",
+})) as any;
+
+export type PutLinkFlowsError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Replaces a link's flow configuration. The change applies asynchronously. The call returns once the change is accepted, and the link serves its prior flows until the update commits atomically. RTB Fabric validates the request before accepting it, and a request that fails validation changes nothing. After the call, use GetLink. Once the change completes, the link's status is ACTIVE again and its flows show the change.
+ */
+export const putLinkFlows: API.OperationMethod<
+  PutLinkFlowsRequest & RegionInput,
+  PutLinkFlowsResponse,
+  PutLinkFlowsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(592, __c37, 0) as any as S.Schema<PutLinkFlowsRequest>,
+  output: __S(593, __c37, 1) as any as S.Schema<PutLinkFlowsResponse>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "PutLinkFlows",
+  telemetry: TELEMETRY,
+  span: "PutLinkFlows",
 }));
 
 export type RejectLinkError =
@@ -1849,8 +2396,8 @@ export const rejectLink: API.OperationMethod<
   RejectLinkError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c31, 0) as any as S.Schema<RejectLinkRequest>,
-  output: __S(688, __c43, 0) as any as S.Schema<RejectLinkResponse>,
+  input: __S(608, __c38, 0) as any as S.Schema<RejectLinkRequest>,
+  output: __S(816, __c51, 0) as any as S.Schema<RejectLinkResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1883,8 +2430,8 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c32, 0) as any as S.Schema<TagResourceRequest>,
-  output: __S(528, __c33, 0) as any as S.Schema<TagResourceResponse>,
+  input: __S(624, __c39, 0) as any as S.Schema<TagResourceRequest>,
+  output: __S(640, __c40, 0) as any as S.Schema<TagResourceResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1916,8 +2463,8 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c34, 0) as any as S.Schema<UntagResourceRequest>,
-  output: __S(528, __c33, 0) as any as S.Schema<UntagResourceResponse>,
+  input: __S(656, __c41, 0) as any as S.Schema<UntagResourceRequest>,
+  output: __S(640, __c40, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1952,8 +2499,8 @@ export const updateLink: API.OperationMethod<
   UpdateLinkError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c35, 0) as any as S.Schema<UpdateLinkRequest>,
-  output: __S(144, __c9, 0) as any as S.Schema<UpdateLinkResponse>,
+  input: __S(672, __c42, 0) as any as S.Schema<UpdateLinkRequest>,
+  output: __S(673, __c42, 1) as any as S.Schema<UpdateLinkResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1988,8 +2535,8 @@ export const updateLinkModuleFlow: API.OperationMethod<
   UpdateLinkModuleFlowError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c36, 0) as any as S.Schema<UpdateLinkModuleFlowRequest>,
-  output: __S(64, __c4, 0) as any as S.Schema<UpdateLinkModuleFlowResponse>,
+  input: __S(688, __c43, 0) as any as S.Schema<UpdateLinkModuleFlowRequest>,
+  output: __S(689, __c43, 1) as any as S.Schema<UpdateLinkModuleFlowResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2024,8 +2571,8 @@ export const updateLinkRoutingRule: API.OperationMethod<
   UpdateLinkRoutingRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c37, 0) as any as S.Schema<UpdateLinkRoutingRuleRequest>,
-  output: __S(593, __c37, 1) as any as S.Schema<UpdateLinkRoutingRuleResponse>,
+  input: __S(704, __c44, 0) as any as S.Schema<UpdateLinkRoutingRuleRequest>,
+  output: __S(705, __c44, 1) as any as S.Schema<UpdateLinkRoutingRuleResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2059,8 +2606,8 @@ export const updateRequesterGateway: API.OperationMethod<
   UpdateRequesterGatewayError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c38, 0) as any as S.Schema<UpdateRequesterGatewayRequest>,
-  output: __S(224, __c14, 0) as any as S.Schema<UpdateRequesterGatewayResponse>,
+  input: __S(720, __c45, 0) as any as S.Schema<UpdateRequesterGatewayRequest>,
+  output: __S(208, __c13, 0) as any as S.Schema<UpdateRequesterGatewayResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2096,8 +2643,8 @@ export const updateResponderGateway: API.OperationMethod<
   UpdateResponderGatewayError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(624, __c39, 0) as any as S.Schema<UpdateResponderGatewayRequest>,
-  output: __S(625, __c39, 1) as any as S.Schema<UpdateResponderGatewayResponse>,
+  input: __S(736, __c46, 0) as any as S.Schema<UpdateResponderGatewayRequest>,
+  output: __S(737, __c46, 1) as any as S.Schema<UpdateResponderGatewayResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2122,10 +2669,10 @@ function __c0(j: number): any {
         S.Struct({
           gatewayId: S.String.pipe(T.HttpLabel("gatewayId")),
           peerGatewayId: S.String,
-          attributes: S.optional(__S(722, __c45, 2)),
+          attributes: S.optional(__S(866, __c54, 2)),
           httpResponderAllowed: S.optional(S.Boolean),
-          tags: S.optional(__S(800, __c50, 0)),
-          logSettings: __S(738, __c46, 2),
+          tags: S.optional(__S(928, __c58, 0)),
+          logSettings: __S(850, __c53, 2),
           timeoutInMillis: S.optional(S.Number),
         }).pipe(
           T.all(
@@ -2147,11 +2694,12 @@ function __c0(j: number): any {
           createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           direction: S.optional(S.String),
-          flowModules: S.optional(__S(684, __c42, 12)),
-          pendingFlowModules: S.optional(__S(684, __c42, 12)),
-          attributes: S.optional(__S(722, __c45, 2)),
-          logSettings: S.optional(__S(738, __c46, 2)),
+          flowModules: S.optional(__S(812, __c50, 12)),
+          pendingFlowModules: S.optional(__S(812, __c50, 12)),
+          attributes: S.optional(__S(866, __c54, 2)),
+          logSettings: S.optional(__S(850, __c53, 2)),
           connectivityType: S.optional(S.String),
+          errorDetails: S.optional(__S(785, __c49, 1)),
           linkId: S.String,
           customerProvidedId: S.optional(S.String),
         }),
@@ -2168,7 +2716,7 @@ function __c1(j: number): any {
           linkId: S.String.pipe(T.HttpLabel("linkId")),
           priority: S.Number,
           conditions: __S(33, __c2, 1),
-          tags: S.optional(__S(800, __c50, 0)),
+          tags: S.optional(__S(928, __c58, 0)),
         }).pipe(
           T.all(
             T.Http({
@@ -2219,10 +2767,10 @@ function __c3(j: number): any {
         S.Struct({
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           gatewayId: S.String.pipe(T.HttpLabel("gatewayId")),
-          attributes: S.optional(__S(722, __c45, 2)),
+          attributes: S.optional(__S(866, __c54, 2)),
           publicEndpoint: S.String,
-          logSettings: __S(738, __c46, 2),
-          tags: S.optional(__S(800, __c50, 0)),
+          logSettings: __S(850, __c53, 2),
+          tags: S.optional(__S(928, __c58, 0)),
         }).pipe(
           T.all(
             T.Http({
@@ -2237,27 +2785,23 @@ function __c3(j: number): any {
           ),
         ),
       ).annotate({ identifier: "CreateOutboundExternalLinkRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ gatewayId: S.String, linkId: S.String, status: S.String }),
+      ).annotate({ identifier: "CreateOutboundExternalLinkResponse" });
   }
 }
 function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ gatewayId: S.String, linkId: S.String, status: S.String }),
-      ).annotate({ identifier: "CreateOutboundExternalLinkResponse" });
-  }
-}
-function __c5(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
         S.Struct({
           vpcId: S.String,
-          subnetIds: __S(656, __c41, 0),
-          securityGroupIds: __S(656, __c41, 0),
+          subnetIds: __S(768, __c48, 0),
+          securityGroupIds: __S(768, __c48, 0),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           description: S.optional(S.String),
-          tags: S.optional(__S(800, __c50, 0)),
+          tags: S.optional(__S(928, __c58, 0)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/requester-gateway" }),
@@ -2275,23 +2819,23 @@ function __c5(j: number): any {
       ).annotate({ identifier: "CreateRequesterGatewayResponse" });
   }
 }
-function __c6(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           vpcId: S.String,
-          subnetIds: __S(656, __c41, 0),
-          securityGroupIds: __S(656, __c41, 0),
+          subnetIds: __S(768, __c48, 0),
+          securityGroupIds: __S(768, __c48, 0),
           domainName: S.optional(S.String),
           port: S.Number,
           protocol: S.String,
-          listenerConfig: S.optional(__S(112, __c7, 0)),
-          trustStoreConfiguration: S.optional(__S(114, __c7, 2)),
-          managedEndpointConfiguration: S.optional(__S(118, __c7, 6)),
+          listenerConfig: S.optional(__S(96, __c6, 0)),
+          trustStoreConfiguration: S.optional(__S(98, __c6, 2)),
+          managedEndpointConfiguration: S.optional(__S(102, __c6, 6)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           description: S.optional(S.String),
-          tags: S.optional(__S(800, __c50, 0)),
+          tags: S.optional(__S(928, __c58, 0)),
           gatewayType: S.optional(S.String),
           clientRoutingPolicy: S.optional(S.String),
         }).pipe(
@@ -2310,24 +2854,24 @@ function __c6(j: number): any {
         S.Struct({
           gatewayId: S.String,
           status: S.String,
-          listenerConfig: S.optional(__S(112, __c7, 0)),
+          listenerConfig: S.optional(__S(96, __c6, 0)),
           externalInboundEndpoint: S.optional(S.String),
           clientRoutingPolicy: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateResponderGatewayResponse" });
   }
 }
-function __c7(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ protocols: __S(704, __c44, 0) })).annotate({
+      return S.suspend(() => S.Struct({ protocols: __S(832, __c52, 0) })).annotate({
         identifier: "ListenerConfig",
       });
     case 1:
       return S.Array(SensitiveString);
     case 2:
       return S.suspend(() =>
-        S.Struct({ certificateAuthorityCertificates: __S(113, __c7, 1) }),
+        S.Struct({ certificateAuthorityCertificates: __S(97, __c6, 1) }),
       ).annotate({ identifier: "TrustStoreConfiguration" });
     case 3:
       return S.suspend(() =>
@@ -2345,9 +2889,9 @@ function __c7(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          autoScalingGroupNames: __S(656, __c41, 0),
+          autoScalingGroupNames: __S(768, __c48, 0),
           roleArn: S.String,
-          healthCheckConfig: S.optional(__S(115, __c7, 3)),
+          healthCheckConfig: S.optional(__S(99, __c6, 3)),
         }),
       ).annotate({ identifier: "AutoScalingGroupsConfiguration" });
     case 5:
@@ -2363,12 +2907,12 @@ function __c7(j: number): any {
       ).annotate({ identifier: "EksEndpointsConfiguration" });
     case 6:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ autoScalingGroups: __S(116, __c7, 4) }),
-        /*@__PURE__*/ S.Struct({ eksEndpoints: __S(117, __c7, 5) }),
+        /*@__PURE__*/ S.Struct({ autoScalingGroups: __S(100, __c6, 4) }),
+        /*@__PURE__*/ S.Struct({ eksEndpoints: __S(101, __c6, 5) }),
       ]);
   }
 }
-function __c8(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2391,7 +2935,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "DeleteInboundExternalLinkRequest" });
   }
 }
-function __c9(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ linkId: S.String, status: S.String })).annotate({
@@ -2399,7 +2943,7 @@ function __c9(j: number): any {
       });
   }
 }
-function __c10(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2419,7 +2963,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "DeleteLinkRequest" });
   }
 }
-function __c11(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2447,7 +2991,7 @@ function __c11(j: number): any {
       });
   }
 }
-function __c12(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2470,7 +3014,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "DeleteOutboundExternalLinkRequest" });
   }
 }
-function __c13(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2487,7 +3031,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "DeleteRequesterGatewayRequest" });
   }
 }
-function __c14(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ gatewayId: S.String, status: S.String })).annotate({
@@ -2495,7 +3039,7 @@ function __c14(j: number): any {
       });
   }
 }
-function __c15(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2512,7 +3056,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "DeleteResponderGatewayRequest" });
   }
 }
-function __c16(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2532,7 +3076,72 @@ function __c16(j: number): any {
       ).annotate({ identifier: "DisassociateCertificateRequest" });
   }
 }
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ moduleId: S.String.pipe(T.HttpLabel("moduleId")) }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/available-modules/{moduleId}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetAvailableModuleRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          moduleId: S.String,
+          moduleArn: S.String,
+          moduleName: S.String,
+          description: S.optional(S.String),
+          subscriptionType: S.String,
+          subscriptionStatus: S.String,
+          marketplaceProductId: S.optional(S.String),
+          createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+        }),
+      ).annotate({ identifier: "GetAvailableModuleResponse" });
+  }
+}
 function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          moduleId: S.String.pipe(T.HttpLabel("moduleId")),
+          version: S.String.pipe(T.HttpLabel("version")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/available-modules/{moduleId}/versions/{version}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetAvailableModuleVersionRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          moduleId: S.String,
+          version: S.String,
+          moduleVersionArn: S.String,
+          status: S.String,
+          permissions: __S(832, __c52, 0),
+          configurableActions: __S(832, __c52, 0),
+          configurationSchema: S.optional(S.String),
+          releaseNotes: S.optional(S.String),
+          createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+        }),
+      ).annotate({ identifier: "GetAvailableModuleVersionResponse" });
+  }
+}
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2558,11 +3167,12 @@ function __c17(j: number): any {
           status: S.String,
           associatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          errorDetails: S.optional(__S(785, __c49, 1)),
         }),
       ).annotate({ identifier: "GetCertificateAssociationResponse" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2590,19 +3200,60 @@ function __c18(j: number): any {
           linkId: S.String,
           status: S.String,
           domainName: S.String,
-          flowModules: S.optional(__S(684, __c42, 12)),
-          pendingFlowModules: S.optional(__S(684, __c42, 12)),
-          attributes: S.optional(__S(722, __c45, 2)),
+          flowModules: S.optional(__S(812, __c50, 12)),
+          pendingFlowModules: S.optional(__S(812, __c50, 12)),
+          attributes: S.optional(__S(866, __c54, 2)),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          tags: S.optional(__S(800, __c50, 0)),
-          logSettings: S.optional(__S(738, __c46, 2)),
+          tags: S.optional(__S(928, __c58, 0)),
+          logSettings: S.optional(__S(850, __c53, 2)),
           connectivityType: S.optional(S.String),
+          errorDetails: S.optional(__S(785, __c49, 1)),
+          lockToken: S.optional(S.String),
+          flows: S.optional(__S(327, __c20, 7)),
         }),
       ).annotate({ identifier: "GetInboundExternalLinkResponse" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          moduleVersionArn: S.String,
+          selectedActions: S.optional(__S(832, __c52, 0)),
+          failureMode: S.optional(S.String),
+          activationPercentage: S.optional(S.Number),
+          configurationValues: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "FlowModule" });
+    case 1:
+      return S.Array(__S(320, __c20, 0));
+    case 2:
+      return S.suspend(() => S.Struct({ modules: __S(321, __c20, 1) })).annotate({
+        identifier: "SequentialPipeline",
+      });
+    case 3:
+      return S.Array(__S(322, __c20, 2));
+    case 4:
+      return S.suspend(() => S.Struct({ phases: __S(323, __c20, 3) })).annotate({
+        identifier: "PhasedPipeline",
+      });
+    case 5:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ sequential: __S(322, __c20, 2) }),
+        /*@__PURE__*/ S.Struct({ phased: __S(324, __c20, 4) }),
+      ]);
+    case 6:
+      return S.suspend(() => S.Struct({ name: S.String, pipeline: __S(325, __c20, 5) })).annotate({
+        identifier: "Flow",
+      });
+    case 7:
+      return S.Array(__S(326, __c20, 6));
+  }
+}
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2629,20 +3280,23 @@ function __c19(j: number): any {
           createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           direction: S.optional(S.String),
-          flowModules: S.optional(__S(684, __c42, 12)),
-          pendingFlowModules: S.optional(__S(684, __c42, 12)),
-          attributes: S.optional(__S(722, __c45, 2)),
-          logSettings: S.optional(__S(738, __c46, 2)),
+          flowModules: S.optional(__S(812, __c50, 12)),
+          pendingFlowModules: S.optional(__S(812, __c50, 12)),
+          attributes: S.optional(__S(866, __c54, 2)),
+          logSettings: S.optional(__S(850, __c53, 2)),
           connectivityType: S.optional(S.String),
+          errorDetails: S.optional(__S(785, __c49, 1)),
           linkId: S.String,
-          tags: S.optional(__S(800, __c50, 0)),
+          tags: S.optional(__S(928, __c58, 0)),
           httpResponderAllowed: S.optional(S.Boolean),
           timeoutInMillis: S.optional(S.Number),
+          lockToken: S.optional(S.String),
+          flows: S.optional(__S(327, __c20, 7)),
         }),
       ).annotate({ identifier: "GetLinkResponse" });
   }
 }
-function __c20(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2675,12 +3329,13 @@ function __c20(j: number): any {
           status: S.String,
           createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-          tags: S.optional(__S(800, __c50, 0)),
+          tags: S.optional(__S(928, __c58, 0)),
+          errorDetails: S.optional(__S(785, __c49, 1)),
         }),
       ).annotate({ identifier: "GetLinkRoutingRuleResponse" });
   }
 }
-function __c21(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2708,19 +3363,22 @@ function __c21(j: number): any {
           linkId: S.String,
           status: S.String,
           publicEndpoint: S.String,
-          flowModules: S.optional(__S(684, __c42, 12)),
-          pendingFlowModules: S.optional(__S(684, __c42, 12)),
-          attributes: S.optional(__S(722, __c45, 2)),
+          flowModules: S.optional(__S(812, __c50, 12)),
+          pendingFlowModules: S.optional(__S(812, __c50, 12)),
+          attributes: S.optional(__S(866, __c54, 2)),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          tags: S.optional(__S(800, __c50, 0)),
-          logSettings: S.optional(__S(738, __c46, 2)),
+          tags: S.optional(__S(928, __c58, 0)),
+          logSettings: S.optional(__S(850, __c53, 2)),
           connectivityType: S.optional(S.String),
+          errorDetails: S.optional(__S(785, __c49, 1)),
+          lockToken: S.optional(S.String),
+          flows: S.optional(__S(327, __c20, 7)),
         }),
       ).annotate({ identifier: "GetOutboundExternalLinkResponse" });
   }
 }
-function __c22(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2743,18 +3401,19 @@ function __c22(j: number): any {
           description: S.optional(S.String),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          errorDetails: S.optional(__S(785, __c49, 1)),
           vpcId: S.String,
-          subnetIds: __S(656, __c41, 0),
-          securityGroupIds: __S(656, __c41, 0),
+          subnetIds: __S(768, __c48, 0),
+          securityGroupIds: __S(768, __c48, 0),
           gatewayId: S.String,
-          tags: S.optional(__S(800, __c50, 0)),
+          tags: S.optional(__S(928, __c58, 0)),
           activeLinksCount: S.optional(S.Number),
           totalLinksCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GetRequesterGatewayResponse" });
   }
 }
-function __c23(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2773,20 +3432,21 @@ function __c23(j: number): any {
       return S.suspend(() =>
         S.Struct({
           vpcId: S.String,
-          subnetIds: __S(656, __c41, 0),
-          securityGroupIds: __S(656, __c41, 0),
+          subnetIds: __S(768, __c48, 0),
+          securityGroupIds: __S(768, __c48, 0),
           status: S.String,
           description: S.optional(S.String),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          errorDetails: S.optional(__S(785, __c49, 1)),
           domainName: S.optional(S.String),
           port: S.Number,
           protocol: S.String,
-          listenerConfig: S.optional(__S(112, __c7, 0)),
-          trustStoreConfiguration: S.optional(__S(114, __c7, 2)),
-          managedEndpointConfiguration: S.optional(__S(118, __c7, 6)),
+          listenerConfig: S.optional(__S(96, __c6, 0)),
+          trustStoreConfiguration: S.optional(__S(98, __c6, 2)),
+          managedEndpointConfiguration: S.optional(__S(102, __c6, 6)),
           gatewayId: S.String,
-          tags: S.optional(__S(800, __c50, 0)),
+          tags: S.optional(__S(928, __c58, 0)),
           activeLinksCount: S.optional(S.Number),
           totalLinksCount: S.optional(S.Number),
           linksRequestedCount: S.optional(S.Number),
@@ -2797,7 +3457,163 @@ function __c23(j: number): any {
       ).annotate({ identifier: "GetResponderGatewayResponse" });
   }
 }
-function __c24(j: number): any {
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          gatewayId: S.String.pipe(T.HttpLabel("gatewayId")),
+          updateId: S.String.pipe(T.HttpLabel("updateId")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/gateway/{gatewayId}/updates/{updateId}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetUpdateRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ linkId: S.String })).annotate({ identifier: "LinkTarget" });
+    case 2:
+      return S.suspend(() => S.Struct({ linkId: S.String, ruleId: S.String })).annotate({
+        identifier: "RoutingRuleTarget",
+      });
+    case 3:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ gateway: /*@__PURE__*/ S.Struct({}) }),
+        /*@__PURE__*/ S.Struct({ link: __S(417, __c26, 1) }),
+        /*@__PURE__*/ S.Struct({ routingRule: __S(418, __c26, 2) }),
+      ]);
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          description: S.optional(S.String),
+          clientRoutingPolicy: S.optional(S.String),
+          domainName: S.optional(S.String),
+          port: S.Number,
+          protocol: S.String,
+          listenerConfig: S.optional(__S(96, __c6, 0)),
+          trustStoreConfiguration: S.optional(__S(98, __c6, 2)),
+          managedEndpointConfiguration: S.optional(__S(102, __c6, 6)),
+        }),
+      ).annotate({ identifier: "ResponderGatewayConfigParameters" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          logSettings: S.optional(__S(850, __c53, 2)),
+          timeoutInMillis: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "LinkConfigParameters" });
+    case 6:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ modules: __S(812, __c50, 12) }),
+        /*@__PURE__*/ S.Struct({ flows: __S(327, __c20, 7) }),
+      ]);
+    case 7:
+      return S.suspend(() =>
+        S.Struct({ priority: S.Number, conditions: __S(33, __c2, 1) }),
+      ).annotate({ identifier: "RoutingRuleParameters" });
+    case 8:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ responderGatewayConfig: __S(420, __c26, 4) }),
+        /*@__PURE__*/ S.Struct({ linkConfig: __S(421, __c26, 5) }),
+        /*@__PURE__*/ S.Struct({ linkFlow: __S(422, __c26, 6) }),
+        /*@__PURE__*/ S.Struct({ routingRule: __S(423, __c26, 7) }),
+      ]);
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          updateId: S.String,
+          type: S.String,
+          status: S.String,
+          target: __S(419, __c26, 3),
+          createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          parameters: S.optional(__S(424, __c26, 8)),
+          errorDetails: S.optional(__S(785, __c49, 1)),
+        }),
+      ).annotate({ identifier: "Update" });
+    case 10:
+      return S.suspend(() => S.Struct({ update: __S(425, __c26, 9) })).annotate({
+        identifier: "GetUpdateResponse",
+      });
+  }
+}
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionType: S.optional(S.String).pipe(T.HttpQuery("subscriptionType")),
+          maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+          nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+        }).pipe(
+          T.all(T.Http({ method: "GET", uri: "/available-modules" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListAvailableModulesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          moduleId: S.String,
+          moduleArn: S.String,
+          moduleName: S.String,
+          subscriptionType: S.String,
+          subscriptionStatus: S.String,
+          marketplaceProductId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AvailableModuleSummary" });
+    case 2:
+      return S.Array(__S(433, __c27, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ modules: __S(434, __c27, 2), nextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListAvailableModulesResponse" });
+  }
+}
+function __c28(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          moduleId: S.String.pipe(T.HttpLabel("moduleId")),
+          status: S.optional(S.String).pipe(T.HttpQuery("status")),
+          maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+          nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/available-modules/{moduleId}/versions" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListAvailableModuleVersionsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          version: S.String,
+          moduleVersionArn: S.String,
+          status: S.String,
+          createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+        }),
+      ).annotate({ identifier: "AvailableModuleVersionSummary" });
+    case 2:
+      return S.Array(__S(449, __c28, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          moduleId: S.String,
+          versions: __S(450, __c28, 2),
+          nextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListAvailableModuleVersionsResponse" });
+  }
+}
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2826,14 +3642,14 @@ function __c24(j: number): any {
         }),
       ).annotate({ identifier: "CertificateAssociationSummary" });
     case 2:
-      return S.Array(__S(385, __c24, 1));
+      return S.Array(__S(465, __c29, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ certificateAssociations: __S(386, __c24, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ certificateAssociations: __S(466, __c29, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListCertificateAssociationsResponse" });
   }
 }
-function __c25(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2865,17 +3681,18 @@ function __c25(j: number): any {
           status: S.String,
           createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          errorDetails: S.optional(__S(785, __c49, 1)),
         }),
       ).annotate({ identifier: "LinkRoutingRuleSummary" });
     case 2:
-      return S.Array(__S(401, __c25, 1));
+      return S.Array(__S(481, __c30, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ rules: S.optional(__S(402, __c25, 2)), nextToken: S.optional(S.String) }),
+        S.Struct({ rules: S.optional(__S(482, __c30, 2)), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListLinkRoutingRulesResponse" });
   }
 }
-function __c26(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2903,25 +3720,26 @@ function __c26(j: number): any {
           createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           direction: S.optional(S.String),
-          flowModules: S.optional(__S(684, __c42, 12)),
-          pendingFlowModules: S.optional(__S(684, __c42, 12)),
-          attributes: S.optional(__S(722, __c45, 2)),
-          logSettings: S.optional(__S(738, __c46, 2)),
+          flowModules: S.optional(__S(812, __c50, 12)),
+          pendingFlowModules: S.optional(__S(812, __c50, 12)),
+          attributes: S.optional(__S(866, __c54, 2)),
+          logSettings: S.optional(__S(850, __c53, 2)),
           connectivityType: S.optional(S.String),
+          errorDetails: S.optional(__S(785, __c49, 1)),
           linkId: S.String,
-          tags: S.optional(__S(800, __c50, 0)),
+          tags: S.optional(__S(928, __c58, 0)),
           publicEndpoint: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListLinksResponseStructure" });
     case 2:
-      return S.Array(__S(417, __c26, 1));
+      return S.Array(__S(497, __c31, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ links: S.optional(__S(418, __c26, 2)), nextToken: S.optional(S.String) }),
+        S.Struct({ links: S.optional(__S(498, __c31, 2)), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListLinksResponse" });
   }
 }
-function __c27(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2941,15 +3759,15 @@ function __c27(j: number): any {
       ).annotate({ identifier: "ListRequesterGatewaysRequest" });
   }
 }
-function __c28(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ gatewayIds: S.optional(__S(656, __c41, 0)), nextToken: S.optional(S.String) }),
+        S.Struct({ gatewayIds: S.optional(__S(768, __c48, 0)), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListRequesterGatewaysResponse" });
   }
 }
-function __c29(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2969,7 +3787,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "ListResponderGatewaysRequest" });
   }
 }
-function __c30(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2985,12 +3803,79 @@ function __c30(j: number): any {
         ),
       ).annotate({ identifier: "ListTagsForResourceRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ tags: S.optional(__S(800, __c50, 0)) })).annotate({
+      return S.suspend(() => S.Struct({ tags: S.optional(__S(928, __c58, 0)) })).annotate({
         identifier: "ListTagsForResourceResponse",
       });
   }
 }
-function __c31(j: number): any {
+function __c36(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          gatewayId: S.String.pipe(T.HttpLabel("gatewayId")),
+          linkId: S.optional(S.String).pipe(T.HttpQuery("linkId")),
+          ruleId: S.optional(S.String).pipe(T.HttpQuery("ruleId")),
+          type: S.optional(S.String).pipe(T.HttpQuery("type")),
+          status: S.optional(S.String).pipe(T.HttpQuery("status")),
+          nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+          maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/gateway/{gatewayId}/updates" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListUpdatesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          updateId: S.String,
+          type: S.String,
+          status: S.String,
+          createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+        }),
+      ).annotate({ identifier: "UpdateSummary" });
+    case 2:
+      return S.Array(__S(577, __c36, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ updates: __S(578, __c36, 2), nextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListUpdatesResponse" });
+  }
+}
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          gatewayId: S.String.pipe(T.HttpLabel("gatewayId")),
+          linkId: S.String.pipe(T.HttpLabel("linkId")),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+          lockToken: S.String,
+          flows: __S(327, __c20, 7),
+        }).pipe(
+          T.all(
+            T.Http({ method: "PUT", uri: "/gateway/{gatewayId}/link/{linkId}/flows" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "PutLinkFlowsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ gatewayId: S.String, linkId: S.String, status: S.String, updateId: S.String }),
+      ).annotate({ identifier: "PutLinkFlowsResponse" });
+  }
+}
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3010,13 +3895,13 @@ function __c31(j: number): any {
       ).annotate({ identifier: "RejectLinkRequest" });
   }
 }
-function __c32(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-          tags: __S(800, __c50, 0),
+          tags: __S(928, __c58, 0),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
@@ -3030,19 +3915,19 @@ function __c32(j: number): any {
       ).annotate({ identifier: "TagResourceRequest" });
   }
 }
-function __c33(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "TagResourceResponse" });
   }
 }
-function __c34(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-          tagKeys: __S(656, __c41, 0).pipe(T.HttpQuery("tagKeys")),
+          tagKeys: __S(768, __c48, 0).pipe(T.HttpQuery("tagKeys")),
         }).pipe(
           T.all(
             T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
@@ -3056,15 +3941,16 @@ function __c34(j: number): any {
       ).annotate({ identifier: "UntagResourceRequest" });
   }
 }
-function __c35(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           gatewayId: S.String.pipe(T.HttpLabel("gatewayId")),
           linkId: S.String.pipe(T.HttpLabel("linkId")),
-          logSettings: S.optional(__S(738, __c46, 2)),
+          logSettings: S.optional(__S(850, __c53, 2)),
           timeoutInMillis: S.optional(S.Number),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
           T.all(
             T.Http({ method: "PATCH", uri: "/gateway/{gatewayId}/link/{linkId}" }),
@@ -3076,9 +3962,13 @@ function __c35(j: number): any {
           ),
         ),
       ).annotate({ identifier: "UpdateLinkRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ linkId: S.String, status: S.String, updateId: S.optional(S.String) }),
+      ).annotate({ identifier: "UpdateLinkResponse" });
   }
 }
-function __c36(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3086,7 +3976,7 @@ function __c36(j: number): any {
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           gatewayId: S.String.pipe(T.HttpLabel("gatewayId")),
           linkId: S.String.pipe(T.HttpLabel("linkId")),
-          modules: __S(684, __c42, 12),
+          modules: __S(812, __c50, 12),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/gateway/{gatewayId}/link/{linkId}/module-flow" }),
@@ -3098,9 +3988,18 @@ function __c36(j: number): any {
           ),
         ),
       ).annotate({ identifier: "UpdateLinkModuleFlowRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          gatewayId: S.String,
+          linkId: S.String,
+          status: S.String,
+          updateId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "UpdateLinkModuleFlowResponse" });
   }
 }
-function __c37(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3110,6 +4009,7 @@ function __c37(j: number): any {
           ruleId: S.String.pipe(T.HttpLabel("ruleId")),
           priority: S.Number,
           conditions: __S(33, __c2, 1),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
           T.all(
             T.Http({
@@ -3130,11 +4030,12 @@ function __c37(j: number): any {
           ruleId: S.String,
           status: S.String,
           updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          updateId: S.optional(S.String),
         }),
       ).annotate({ identifier: "UpdateLinkRoutingRuleResponse" });
   }
 }
-function __c38(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3155,7 +4056,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "UpdateRequesterGatewayRequest" });
   }
 }
-function __c39(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3163,9 +4064,9 @@ function __c39(j: number): any {
           domainName: S.optional(S.String),
           port: S.Number,
           protocol: S.String,
-          listenerConfig: S.optional(__S(112, __c7, 0)),
-          trustStoreConfiguration: S.optional(__S(114, __c7, 2)),
-          managedEndpointConfiguration: S.optional(__S(118, __c7, 6)),
+          listenerConfig: S.optional(__S(96, __c6, 0)),
+          trustStoreConfiguration: S.optional(__S(98, __c6, 2)),
+          managedEndpointConfiguration: S.optional(__S(102, __c6, 6)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           gatewayId: S.String.pipe(T.HttpLabel("gatewayId")),
           description: S.optional(S.String),
@@ -3187,19 +4088,20 @@ function __c39(j: number): any {
           gatewayId: S.String,
           status: S.String,
           clientRoutingPolicy: S.optional(S.String),
+          updateId: S.optional(S.String),
         }),
       ).annotate({ identifier: "UpdateResponderGatewayResponse" });
   }
 }
-function __c40(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           gatewayId: S.String.pipe(T.HttpLabel("gatewayId")),
           linkId: S.String.pipe(T.HttpLabel("linkId")),
-          attributes: S.optional(__S(722, __c45, 2)),
-          logSettings: __S(738, __c46, 2),
+          attributes: S.optional(__S(866, __c54, 2)),
+          logSettings: __S(850, __c53, 2),
           timeoutInMillis: S.optional(S.Number),
         }).pipe(
           T.all(
@@ -3214,13 +4116,27 @@ function __c40(j: number): any {
       ).annotate({ identifier: "AcceptLinkRequest" });
   }
 }
-function __c41(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c42(j: number): any {
+function __c49(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.String,
+          message: S.String,
+          resourceIds: S.optional(__S(768, __c48, 0)),
+        }),
+      ).annotate({ identifier: "ErrorDetail" });
+    case 1:
+      return S.Array(__S(784, __c49, 0));
+  }
+}
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3231,17 +4147,17 @@ function __c42(j: number): any {
         }),
       ).annotate({ identifier: "NoBidModuleParameters" });
     case 1:
-      return S.suspend(() => S.Struct({ path: S.String, values: __S(656, __c41, 0) })).annotate({
+      return S.suspend(() => S.Struct({ path: S.String, values: __S(768, __c48, 0) })).annotate({
         identifier: "FilterCriterion",
       });
     case 2:
-      return S.Array(__S(673, __c42, 1));
+      return S.Array(__S(801, __c50, 1));
     case 3:
-      return S.suspend(() => S.Struct({ criteria: __S(674, __c42, 2) })).annotate({
+      return S.suspend(() => S.Struct({ criteria: __S(802, __c50, 2) })).annotate({
         identifier: "Filter",
       });
     case 4:
-      return S.Array(__S(675, __c42, 3));
+      return S.Array(__S(803, __c50, 3));
     case 5:
       return S.suspend(() => S.Struct({ noBidReasonCode: S.optional(S.Number) })).annotate({
         identifier: "NoBidAction",
@@ -3252,15 +4168,15 @@ function __c42(j: number): any {
       });
     case 7:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ noBid: __S(677, __c42, 5) }),
-        /*@__PURE__*/ S.Struct({ headerTag: __S(678, __c42, 6) }),
+        /*@__PURE__*/ S.Struct({ noBid: __S(805, __c50, 5) }),
+        /*@__PURE__*/ S.Struct({ headerTag: __S(806, __c50, 6) }),
       ]);
     case 8:
       return S.suspend(() =>
         S.Struct({
           filterType: S.String,
-          filterConfiguration: __S(676, __c42, 4),
-          action: __S(679, __c42, 7),
+          filterConfiguration: __S(804, __c50, 4),
+          action: __S(807, __c50, 7),
           holdbackPercentage: S.Number,
         }),
       ).annotate({ identifier: "OpenRtbAttributeModuleParameters" });
@@ -3270,24 +4186,24 @@ function __c42(j: number): any {
       });
     case 10:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ noBid: __S(672, __c42, 0) }),
-        /*@__PURE__*/ S.Struct({ openRtbAttribute: __S(680, __c42, 8) }),
-        /*@__PURE__*/ S.Struct({ rateLimiter: __S(681, __c42, 9) }),
+        /*@__PURE__*/ S.Struct({ noBid: __S(800, __c50, 0) }),
+        /*@__PURE__*/ S.Struct({ openRtbAttribute: __S(808, __c50, 8) }),
+        /*@__PURE__*/ S.Struct({ rateLimiter: __S(809, __c50, 9) }),
       ]);
     case 11:
       return S.suspend(() =>
         S.Struct({
           version: S.optional(S.String),
           name: S.String,
-          dependsOn: S.optional(__S(656, __c41, 0)),
-          moduleParameters: S.optional(__S(682, __c42, 10)),
+          dependsOn: S.optional(__S(768, __c48, 0)),
+          moduleParameters: S.optional(__S(810, __c50, 10)),
         }),
       ).annotate({ identifier: "ModuleConfiguration" });
     case 12:
-      return S.Array(__S(683, __c42, 11));
+      return S.Array(__S(811, __c50, 11));
   }
 }
-function __c43(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3298,61 +4214,62 @@ function __c43(j: number): any {
           createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           direction: S.optional(S.String),
-          flowModules: S.optional(__S(684, __c42, 12)),
-          pendingFlowModules: S.optional(__S(684, __c42, 12)),
-          attributes: S.optional(__S(722, __c45, 2)),
-          logSettings: S.optional(__S(738, __c46, 2)),
+          flowModules: S.optional(__S(812, __c50, 12)),
+          pendingFlowModules: S.optional(__S(812, __c50, 12)),
+          attributes: S.optional(__S(866, __c54, 2)),
+          logSettings: S.optional(__S(850, __c53, 2)),
           connectivityType: S.optional(S.String),
+          errorDetails: S.optional(__S(785, __c49, 1)),
           linkId: S.String,
         }),
       ).annotate({ identifier: "AcceptLinkResponse" });
   }
 }
-function __c44(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c45(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          httpCode: S.String,
-          action: S.String,
-          loggingTypes: __S(704, __c44, 0),
-          responseLoggingPercentage: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "ResponderErrorMaskingForHttpCode" });
-    case 1:
-      return S.Array(__S(720, __c45, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          responderErrorMasking: S.optional(__S(721, __c45, 1)),
-          customerProvidedId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "LinkAttributes" });
-  }
-}
-function __c46(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ errorLog: S.Number, filterLog: S.Number })).annotate({
         identifier: "LinkApplicationLogSampling",
       });
     case 1:
-      return S.suspend(() => S.Struct({ sampling: __S(736, __c46, 0) })).annotate({
+      return S.suspend(() => S.Struct({ sampling: __S(848, __c53, 0) })).annotate({
         identifier: "LinkApplicationLogConfiguration",
       });
     case 2:
-      return S.suspend(() => S.Struct({ applicationLogs: __S(737, __c46, 1) })).annotate({
+      return S.suspend(() => S.Struct({ applicationLogs: __S(849, __c53, 1) })).annotate({
         identifier: "LinkLogSettings",
       });
   }
 }
-function __c47(j: number): any {
+function __c54(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          httpCode: S.String,
+          action: S.String,
+          loggingTypes: __S(832, __c52, 0),
+          responseLoggingPercentage: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "ResponderErrorMaskingForHttpCode" });
+    case 1:
+      return S.Array(__S(864, __c54, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          responderErrorMasking: S.optional(__S(865, __c54, 1)),
+          customerProvidedId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "LinkAttributes" });
+  }
+}
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3373,7 +4290,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "AssociateCertificateRequest" });
   }
 }
-function __c48(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3381,16 +4298,16 @@ function __c48(j: number): any {
       ).annotate({ identifier: "AssociateCertificateResponse" });
   }
 }
-function __c49(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           gatewayId: S.String.pipe(T.HttpLabel("gatewayId")),
-          attributes: S.optional(__S(722, __c45, 2)),
-          logSettings: __S(738, __c46, 2),
-          tags: S.optional(__S(800, __c50, 0)),
+          attributes: S.optional(__S(866, __c54, 2)),
+          logSettings: __S(850, __c53, 2),
+          tags: S.optional(__S(928, __c58, 0)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/responder-gateway/{gatewayId}/inbound-external-link" }),
@@ -3408,7 +4325,7 @@ function __c49(j: number): any {
       ).annotate({ identifier: "CreateInboundExternalLinkResponse" });
   }
 }
-function __c50(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));

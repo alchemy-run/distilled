@@ -1201,6 +1201,10 @@ export type ApplicationAttributes = ApplicationAttribute[];
 export interface ApplicationConfig {
   Attributes?: ApplicationAttribute[] | undefined;
 }
+export type AnalyticsMode = "CROSS_REGION" | "DISABLED" | (string & {});
+export interface AnalyticsConfig {
+  Mode: AnalyticsMode;
+}
 export interface CreateWebACLRequest {
   Name: string;
   Scope: Scope;
@@ -1218,6 +1222,7 @@ export interface CreateWebACLRequest {
   OnSourceDDoSProtectionConfig?: OnSourceDDoSProtectionConfig | undefined;
   ApplicationConfig?: ApplicationConfig | undefined;
   MonetizationConfig?: MonetizationConfig | undefined;
+  AnalyticsConfig?: AnalyticsConfig | undefined;
 }
 export interface WebACLSummary {
   Name?: string | undefined;
@@ -1794,6 +1799,7 @@ export interface WebACL {
   OnSourceDDoSProtectionConfig?: OnSourceDDoSProtectionConfig | undefined;
   ApplicationConfig?: ApplicationConfig | undefined;
   MonetizationConfig?: MonetizationConfig | undefined;
+  AnalyticsConfig?: AnalyticsConfig | undefined;
 }
 export type OutputUrl = string;
 export interface GetWebACLResponse {
@@ -2124,6 +2130,7 @@ export interface UpdateWebACLRequest {
   OnSourceDDoSProtectionConfig?: OnSourceDDoSProtectionConfig | undefined;
   ApplicationConfig?: ApplicationConfig | undefined;
   MonetizationConfig?: MonetizationConfig | undefined;
+  AnalyticsConfig?: AnalyticsConfig | undefined;
 }
 export interface UpdateWebACLResponse {
   NextLockToken?: string | undefined;
@@ -5263,6 +5270,7 @@ function __c19(j: number): any {
           OnSourceDDoSProtectionConfig: S.optional(__S(649, __c20, 9)),
           ApplicationConfig: S.optional(__S(652, __c20, 12)),
           MonetizationConfig: S.optional(__S(587, __c18, 11)),
+          AnalyticsConfig: S.optional(__S(653, __c20, 13)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateWebACLRequest" });
   }
@@ -5320,6 +5328,10 @@ function __c20(j: number): any {
     case 12:
       return S.suspend(() => S.Struct({ Attributes: S.optional(__S(651, __c20, 11)) })).annotate({
         identifier: "ApplicationConfig",
+      });
+    case 13:
+      return S.suspend(() => S.Struct({ Mode: S.String })).annotate({
+        identifier: "AnalyticsConfig",
       });
   }
 }
@@ -6136,6 +6148,7 @@ function __c56(j: number): any {
           OnSourceDDoSProtectionConfig: S.optional(__S(649, __c20, 9)),
           ApplicationConfig: S.optional(__S(652, __c20, 12)),
           MonetizationConfig: S.optional(__S(587, __c18, 11)),
+          AnalyticsConfig: S.optional(__S(653, __c20, 13)),
         }),
       ).annotate({ identifier: "WebACL" });
   }
@@ -6660,6 +6673,7 @@ function __c82(j: number): any {
           OnSourceDDoSProtectionConfig: S.optional(__S(649, __c20, 9)),
           ApplicationConfig: S.optional(__S(652, __c20, 12)),
           MonetizationConfig: S.optional(__S(587, __c18, 11)),
+          AnalyticsConfig: S.optional(__S(653, __c20, 13)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateWebACLRequest" });
   }

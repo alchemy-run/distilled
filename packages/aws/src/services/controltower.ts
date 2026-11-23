@@ -288,8 +288,12 @@ export type EnabledBaselineDriftStatus = "IN_SYNC" | "DRIFTED" | (string & {});
 export interface EnabledBaselineInheritanceDrift {
   status?: EnabledBaselineDriftStatus | undefined;
 }
+export interface EnabledBaselineSourceDrift {
+  status?: EnabledBaselineDriftStatus | undefined;
+}
 export interface EnabledBaselineDriftTypes {
   inheritance?: EnabledBaselineInheritanceDrift | undefined;
+  source?: EnabledBaselineSourceDrift | undefined;
 }
 export interface EnabledBaselineDriftStatusSummary {
   types?: EnabledBaselineDriftTypes | undefined;
@@ -457,6 +461,7 @@ export interface EnabledBaselineFilter {
   parentIdentifiers?: string[] | undefined;
   statuses?: EnablementStatus[] | undefined;
   inheritanceDriftStatuses?: EnabledBaselineDriftStatus[] | undefined;
+  sourceDriftStatuses?: EnabledBaselineDriftStatus[] | undefined;
 }
 export type ListEnabledBaselinesNextToken = string;
 export type ListEnabledBaselinesMaxResults = number;
@@ -1879,9 +1884,12 @@ function __c14(j: number): any {
 function __c15(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ inheritance: S.optional(__S(104, __c13, 0)) })).annotate({
-        identifier: "EnabledBaselineDriftTypes",
-      });
+      return S.suspend(() =>
+        S.Struct({
+          inheritance: S.optional(__S(104, __c13, 0)),
+          source: S.optional(__S(104, __c13, 0)),
+        }),
+      ).annotate({ identifier: "EnabledBaselineDriftTypes" });
     case 1:
       return S.suspend(() => S.Struct({ types: S.optional(__S(120, __c15, 0)) })).annotate({
         identifier: "EnabledBaselineDriftStatusSummary",
@@ -2066,6 +2074,7 @@ function __c23(j: number): any {
           parentIdentifiers: S.optional(__S(176, __c22, 0)),
           statuses: S.optional(__S(320, __c40, 0)),
           inheritanceDriftStatuses: S.optional(__S(320, __c40, 0)),
+          sourceDriftStatuses: S.optional(__S(320, __c40, 0)),
         }),
       ).annotate({ identifier: "EnabledBaselineFilter" });
     case 1:

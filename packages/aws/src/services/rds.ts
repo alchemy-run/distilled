@@ -2338,7 +2338,9 @@ export interface CreateDBClusterMessage {
   EngineLifecycleSupport?: string | undefined;
   TagSpecifications?: TagSpecification[] | undefined;
   MasterUserAuthenticationType?: MasterUserAuthenticationType | undefined;
+  EnableVPCNetworking?: boolean | undefined;
   WithExpressConfiguration?: boolean | undefined;
+  EnableInternetAccessGateway?: boolean | undefined;
   AssociatedRoles?: DBClusterAssociatedRole[] | undefined;
 }
 export interface DBClusterOptionGroupStatus {
@@ -2388,6 +2390,8 @@ export interface ClusterPendingModifiedValues {
   RdsCustomClusterConfiguration?: RdsCustomClusterConfiguration | undefined;
   Iops?: number | undefined;
   CertificateDetails?: CertificateDetails | undefined;
+  VPCNetworkingEnabled?: boolean | undefined;
+  InternetAccessGatewayEnabled?: boolean | undefined;
 }
 export interface ScalingConfigurationInfo {
   MinCapacity?: number | undefined;
@@ -2654,6 +2658,10 @@ export interface Endpoint {
   HostedZoneId?: string | undefined;
 }
 const Endpoint = /*@__PURE__*/ __L.at(__c1, 0) as any as S.Schema<Endpoint>;
+export interface PrimaryEndpoint {
+  Address?: string | undefined;
+  HostedZoneId?: string | undefined;
+}
 export interface DBParameterGroupStatus {
   DBParameterGroupName?: string | undefined;
   ParameterApplyStatus?: string | undefined;
@@ -2758,6 +2766,7 @@ export interface DBInstance {
   MasterUsername?: string | undefined;
   DBName?: string | undefined;
   Endpoint?: Endpoint | undefined;
+  PrimaryEndpoint?: PrimaryEndpoint | undefined;
   AllocatedStorage?: number | undefined;
   InstanceCreateTime?: Date | undefined;
   PreferredBackupWindow?: string | undefined;
@@ -2845,6 +2854,7 @@ export interface DBInstance {
   StorageOperationStatus?: string | undefined;
   StorageOperationPercentProgress?: number | undefined;
   DBCapacityReservationIdentifier?: string | undefined;
+  VPCNetworkingEnabled?: boolean | undefined;
 }
 export interface CreateDBInstanceResult {
   DBInstance?:
@@ -4657,6 +4667,9 @@ export interface ModifyDBClusterMessage {
   CACertificateIdentifier?: string | undefined;
   MasterUserAuthenticationType?: MasterUserAuthenticationType | undefined;
   EngineLifecycleSupport?: string | undefined;
+  EnableInternetAccessGateway?: boolean | undefined;
+  EnableVPCNetworking?: boolean | undefined;
+  DBSubnetGroupName?: string | undefined;
 }
 export interface ModifyDBClusterResult {
   DBCluster?: DBCluster | undefined;
@@ -6139,6 +6152,8 @@ export type CreateDBClusterError =
  * You can also use the `ReplicationSourceIdentifier` parameter to create a Multi-AZ DB cluster read replica with an RDS for MySQL or PostgreSQL DB instance as the source. For more information about Multi-AZ DB clusters, see Multi-AZ DB cluster deployments in the *Amazon RDS User Guide*.
  *
  * You can use the `WithExpressConfiguration` parameter to create an Aurora DB Cluster with express configuration and create cluster in seconds. Express configuration provides a cluster with a writer instance and feature specific values set to all other input parameters of this API.
+ *
+ * To create an Aurora PostgreSQL DB cluster without VPC networking, see `EnableVPCNetworking`.
  *
  * You can use the `AssociatedRoles` parameter to associate one or more Amazon Web Services Identity and Access Management (IAM) roles with an Aurora DB cluster. Each associated role lets the DB cluster access other Amazon Web Services on your behalf, such as Amazon S3 for data import and export, or Amazon Web Services Lambda for invoking functions.
  */
@@ -9331,6 +9346,8 @@ export type ModifyDBClusterError =
 /**
  * Modifies the settings of an Amazon Aurora DB cluster or a Multi-AZ DB cluster. You can change one or more settings by specifying these parameters and the new values in the request.
  *
+ * To change the VPC networking configuration of an Aurora PostgreSQL DB cluster, see `EnableVPCNetworking`. To move an Aurora MySQL or Aurora PostgreSQL DB cluster to a different DB subnet group, in the same VPC or a different VPC, see `DBSubnetGroupName`.
+ *
  * For more information on Amazon Aurora DB clusters, see What is Amazon Aurora? in the *Amazon Aurora User Guide*.
  *
  * For more information on Multi-AZ DB clusters, see Multi-AZ DB cluster deployments in the *Amazon RDS User Guide*.
@@ -12326,7 +12343,9 @@ function __c43(j: number): any {
           EngineLifecycleSupport: S.optional(S.String),
           TagSpecifications: S.optional(__S(865, __c27, 1)),
           MasterUserAuthenticationType: S.optional(S.String),
+          EnableVPCNetworking: S.optional(S.Boolean),
           WithExpressConfiguration: S.optional(S.Boolean),
+          EnableInternetAccessGateway: S.optional(S.Boolean),
           AssociatedRoles: S.optional(__S(1601, __c50, 1)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateDBClusterMessage" });
@@ -12470,6 +12489,8 @@ function __c47(j: number): any {
           RdsCustomClusterConfiguration: S.optional(__S(1504, __c47, 0)),
           Iops: S.optional(S.Number),
           CertificateDetails: S.optional(__S(1441, __c45, 1)),
+          VPCNetworkingEnabled: S.optional(S.Boolean),
+          InternetAccessGatewayEnabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "ClusterPendingModifiedValues" });
     case 11:
@@ -12777,7 +12798,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "CreateDBInstanceMessage" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ DBInstance: S.optional(__S(1901, __c59, 13)) }).pipe(ns),
+        S.Struct({ DBInstance: S.optional(__S(1902, __c59, 14)) }).pipe(ns),
       ).annotate({ identifier: "CreateDBInstanceResult" });
   }
 }
@@ -12842,18 +12863,22 @@ function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
+        S.Struct({ Address: S.optional(S.String), HostedZoneId: S.optional(S.String) }),
+      ).annotate({ identifier: "PrimaryEndpoint" });
+    case 1:
+      return S.suspend(() =>
         S.Struct({
           DBParameterGroupName: S.optional(S.String),
           ParameterApplyStatus: S.optional(S.String),
         }),
       ).annotate({ identifier: "DBParameterGroupStatus" });
-    case 1:
+    case 2:
       return S.Array(
-        /*@__PURE__*/ __S(1888, __c59, 0)
+        /*@__PURE__*/ __S(1889, __c59, 1)
           .pipe(/*@__PURE__*/ T.XmlName("DBParameterGroup"))
           .annotate({ identifier: "DBParameterGroupStatus" }),
       );
-    case 2:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           DBInstanceClass: S.optional(S.String),
@@ -12884,25 +12909,25 @@ function __c59(j: number): any {
           DBCapacityReservationIdentifier: S.optional(S.String),
         }),
       ).annotate({ identifier: "PendingModifiedValues" });
-    case 3:
+    case 4:
       return S.Array(
         /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.XmlName("ReadReplicaDBInstanceIdentifier")),
       );
-    case 4:
+    case 5:
       return S.Array(
         /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.XmlName("ReadReplicaDBClusterIdentifier")),
       );
-    case 5:
+    case 6:
       return S.suspend(() =>
         S.Struct({ OptionGroupName: S.optional(S.String), Status: S.optional(S.String) }),
       ).annotate({ identifier: "OptionGroupMembership" });
-    case 6:
+    case 7:
       return S.Array(
-        /*@__PURE__*/ __S(1893, __c59, 5)
+        /*@__PURE__*/ __S(1894, __c59, 6)
           .pipe(/*@__PURE__*/ T.XmlName("OptionGroupMembership"))
           .annotate({ identifier: "OptionGroupMembership" }),
       );
-    case 7:
+    case 8:
       return S.suspend(() =>
         S.Struct({
           StatusType: S.optional(S.String),
@@ -12911,13 +12936,13 @@ function __c59(j: number): any {
           Message: S.optional(S.String),
         }),
       ).annotate({ identifier: "DBInstanceStatusInfo" });
-    case 8:
+    case 9:
       return S.Array(
-        /*@__PURE__*/ __S(1895, __c59, 7)
+        /*@__PURE__*/ __S(1896, __c59, 8)
           .pipe(/*@__PURE__*/ T.XmlName("DBInstanceStatusInfo"))
           .annotate({ identifier: "DBInstanceStatusInfo" }),
       );
-    case 9:
+    case 10:
       return S.suspend(() =>
         S.Struct({
           RoleArn: S.optional(S.String),
@@ -12925,13 +12950,13 @@ function __c59(j: number): any {
           Status: S.optional(S.String),
         }),
       ).annotate({ identifier: "DBInstanceRole" });
-    case 10:
+    case 11:
       return S.Array(
-        /*@__PURE__*/ __S(1897, __c59, 9)
+        /*@__PURE__*/ __S(1898, __c59, 10)
           .pipe(/*@__PURE__*/ T.XmlName("DBInstanceRole"))
           .annotate({ identifier: "DBInstanceRole" }),
       );
-    case 11:
+    case 12:
       return S.suspend(() =>
         S.Struct({
           VolumeName: S.optional(S.String),
@@ -12945,9 +12970,9 @@ function __c59(j: number): any {
           StorageType: S.optional(S.String),
         }),
       ).annotate({ identifier: "AdditionalStorageVolumeOutput" });
-    case 12:
-      return S.Array(__S(1899, __c59, 11));
     case 13:
+      return S.Array(__S(1900, __c59, 12));
+    case 14:
       return S.suspend(() =>
         S.Struct({
           DBInstanceIdentifier: S.optional(S.String),
@@ -12957,35 +12982,36 @@ function __c59(j: number): any {
           MasterUsername: S.optional(S.String),
           DBName: S.optional(S.String),
           Endpoint: S.optional(Endpoint),
+          PrimaryEndpoint: S.optional(__S(1888, __c59, 0)),
           AllocatedStorage: S.optional(S.Number),
           InstanceCreateTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           PreferredBackupWindow: S.optional(S.String),
           BackupRetentionPeriod: S.optional(S.Number),
           DBSecurityGroups: S.optional(__S(1057, __c33, 1)),
           VpcSecurityGroups: S.optional(__S(1025, __c32, 1)),
-          DBParameterGroups: S.optional(__S(1889, __c59, 1)),
+          DBParameterGroups: S.optional(__S(1890, __c59, 2)),
           AvailabilityZone: S.optional(S.String),
           DBSubnetGroup: S.optional(__S(1827, __c57, 3)),
           PreferredMaintenanceWindow: S.optional(S.String),
           UpgradeRolloutOrder: S.optional(S.String),
-          PendingModifiedValues: S.optional(__S(1890, __c59, 2)),
+          PendingModifiedValues: S.optional(__S(1891, __c59, 3)),
           LatestRestorableTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           MultiAZ: S.optional(S.Boolean),
           EngineVersion: S.optional(S.String),
           AutoMinorVersionUpgrade: S.optional(S.Boolean),
           ReadReplicaSourceDBInstanceIdentifier: S.optional(S.String),
-          ReadReplicaDBInstanceIdentifiers: S.optional(__S(1891, __c59, 3)),
-          ReadReplicaDBClusterIdentifiers: S.optional(__S(1892, __c59, 4)),
+          ReadReplicaDBInstanceIdentifiers: S.optional(__S(1892, __c59, 4)),
+          ReadReplicaDBClusterIdentifiers: S.optional(__S(1893, __c59, 5)),
           ReplicaMode: S.optional(S.String),
           LicenseModel: S.optional(S.String),
           Iops: S.optional(S.Number),
           StorageThroughput: S.optional(S.Number),
-          OptionGroupMemberships: S.optional(__S(1894, __c59, 6)),
+          OptionGroupMemberships: S.optional(__S(1895, __c59, 7)),
           CharacterSetName: S.optional(S.String),
           NcharCharacterSetName: S.optional(S.String),
           SecondaryAvailabilityZone: S.optional(S.String),
           PubliclyAccessible: S.optional(S.Boolean),
-          StatusInfos: S.optional(__S(1896, __c59, 8)),
+          StatusInfos: S.optional(__S(1897, __c59, 9)),
           StorageType: S.optional(S.String),
           StorageEncryptionType: S.optional(S.String),
           TdeCredentialArn: S.optional(S.String),
@@ -13011,7 +13037,7 @@ function __c59(j: number): any {
           EnabledCloudwatchLogsExports: S.optional(__S(1216, __c38, 0)),
           ProcessorFeatures: S.optional(__S(929, __c29, 1)),
           DeletionProtection: S.optional(S.Boolean),
-          AssociatedRoles: S.optional(__S(1898, __c59, 10)),
+          AssociatedRoles: S.optional(__S(1899, __c59, 11)),
           ListenerEndpoint: S.optional(Endpoint),
           MaxAllocatedStorage: S.optional(S.Number),
           TagList: S.optional(__S(225, __c7, 1)),
@@ -13041,11 +13067,12 @@ function __c59(j: number): any {
           DedicatedLogVolume: S.optional(S.Boolean),
           IsStorageConfigUpgradeAvailable: S.optional(S.Boolean),
           EngineLifecycleSupport: S.optional(S.String),
-          AdditionalStorageVolumes: S.optional(__S(1900, __c59, 12)),
+          AdditionalStorageVolumes: S.optional(__S(1901, __c59, 13)),
           StorageVolumeStatus: S.optional(S.String),
           StorageOperationStatus: S.optional(S.String),
           StorageOperationPercentProgress: S.optional(S.Number),
           DBCapacityReservationIdentifier: S.optional(S.String),
+          VPCNetworkingEnabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "DBInstance" });
   }
@@ -13115,7 +13142,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "CreateDBInstanceReadReplicaMessage" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ DBInstance: S.optional(__S(1901, __c59, 13)) }).pipe(ns),
+        S.Struct({ DBInstance: S.optional(__S(1902, __c59, 14)) }).pipe(ns),
       ).annotate({ identifier: "CreateDBInstanceReadReplicaResult" });
   }
 }
@@ -13721,7 +13748,7 @@ function __c91(j: number): any {
       ).annotate({ identifier: "DeleteDBInstanceMessage" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ DBInstance: S.optional(__S(1901, __c59, 13)) }).pipe(ns),
+        S.Struct({ DBInstance: S.optional(__S(1902, __c59, 14)) }).pipe(ns),
       ).annotate({ identifier: "DeleteDBInstanceResult" });
   }
 }
@@ -14427,7 +14454,7 @@ function __c126(j: number): any {
       ).annotate({ identifier: "DescribeDBInstancesMessage" });
     case 1:
       return S.Array(
-        /*@__PURE__*/ __S(1901, __c59, 13)
+        /*@__PURE__*/ __S(1902, __c59, 14)
           .pipe(/*@__PURE__*/ T.XmlName("DBInstance"))
           .annotate({ identifier: "DBInstance" }),
       );
@@ -16097,6 +16124,9 @@ function __c179(j: number): any {
           CACertificateIdentifier: S.optional(S.String),
           MasterUserAuthenticationType: S.optional(S.String),
           EngineLifecycleSupport: S.optional(S.String),
+          EnableInternetAccessGateway: S.optional(S.Boolean),
+          EnableVPCNetworking: S.optional(S.Boolean),
+          DBSubnetGroupName: S.optional(S.String),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ModifyDBClusterMessage" });
     case 1:
@@ -16254,7 +16284,7 @@ function __c185(j: number): any {
       ).annotate({ identifier: "ModifyDBInstanceMessage" });
     case 3:
       return S.suspend(() =>
-        S.Struct({ DBInstance: S.optional(__S(1901, __c59, 13)) }).pipe(ns),
+        S.Struct({ DBInstance: S.optional(__S(1902, __c59, 14)) }).pipe(ns),
       ).annotate({ identifier: "ModifyDBInstanceResult" });
   }
 }
@@ -16551,7 +16581,7 @@ function __c201(j: number): any {
       ).annotate({ identifier: "PromoteReadReplicaMessage" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ DBInstance: S.optional(__S(1901, __c59, 13)) }).pipe(ns),
+        S.Struct({ DBInstance: S.optional(__S(1902, __c59, 14)) }).pipe(ns),
       ).annotate({ identifier: "PromoteReadReplicaResult" });
   }
 }
@@ -16611,7 +16641,7 @@ function __c205(j: number): any {
       ).annotate({ identifier: "RebootDBInstanceMessage" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ DBInstance: S.optional(__S(1901, __c59, 13)) }).pipe(ns),
+        S.Struct({ DBInstance: S.optional(__S(1902, __c59, 14)) }).pipe(ns),
       ).annotate({ identifier: "RebootDBInstanceResult" });
   }
 }
@@ -16963,7 +16993,7 @@ function __c218(j: number): any {
       ).annotate({ identifier: "RestoreDBInstanceFromDBSnapshotMessage" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ DBInstance: S.optional(__S(1901, __c59, 13)) }).pipe(ns),
+        S.Struct({ DBInstance: S.optional(__S(1902, __c59, 14)) }).pipe(ns),
       ).annotate({ identifier: "RestoreDBInstanceFromDBSnapshotResult" });
   }
 }
@@ -17031,7 +17061,7 @@ function __c219(j: number): any {
       ).annotate({ identifier: "RestoreDBInstanceFromS3Message" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ DBInstance: S.optional(__S(1901, __c59, 13)) }).pipe(ns),
+        S.Struct({ DBInstance: S.optional(__S(1902, __c59, 14)) }).pipe(ns),
       ).annotate({ identifier: "RestoreDBInstanceFromS3Result" });
   }
 }
@@ -17097,7 +17127,7 @@ function __c220(j: number): any {
       ).annotate({ identifier: "RestoreDBInstanceToPointInTimeMessage" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ DBInstance: S.optional(__S(1901, __c59, 13)) }).pipe(ns),
+        S.Struct({ DBInstance: S.optional(__S(1902, __c59, 14)) }).pipe(ns),
       ).annotate({ identifier: "RestoreDBInstanceToPointInTimeResult" });
   }
 }
@@ -17169,7 +17199,7 @@ function __c224(j: number): any {
       ).annotate({ identifier: "StartDBInstanceMessage" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ DBInstance: S.optional(__S(1901, __c59, 13)) }).pipe(ns),
+        S.Struct({ DBInstance: S.optional(__S(1902, __c59, 14)) }).pipe(ns),
       ).annotate({ identifier: "StartDBInstanceResult" });
   }
 }
@@ -17252,7 +17282,7 @@ function __c229(j: number): any {
       ).annotate({ identifier: "StopDBInstanceMessage" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ DBInstance: S.optional(__S(1901, __c59, 13)) }).pipe(ns),
+        S.Struct({ DBInstance: S.optional(__S(1902, __c59, 14)) }).pipe(ns),
       ).annotate({ identifier: "StopDBInstanceResult" });
   }
 }
@@ -17310,7 +17340,7 @@ function __c233(j: number): any {
       ).annotate({ identifier: "SwitchoverReadReplicaMessage" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ DBInstance: S.optional(__S(1901, __c59, 13)) }).pipe(ns),
+        S.Struct({ DBInstance: S.optional(__S(1902, __c59, 14)) }).pipe(ns),
       ).annotate({ identifier: "SwitchoverReadReplicaResult" });
   }
 }

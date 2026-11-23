@@ -11,7 +11,7 @@ import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
-import { SensitiveString } from "../sensitive.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
 const __s: any[] = [];
@@ -102,7 +102,7 @@ export class ValidationException
         identifier: "ValidationExceptionReason",
       }),
       fieldList: /*@__PURE__*/ S.optional(
-        /*@__PURE__*/ S.suspend(() => __S(577, __c18, 1)).annotate({
+        /*@__PURE__*/ S.suspend(() => __S(545, __c17, 1)).annotate({
           identifier: "ValidationExceptionFieldList",
         }),
       ),
@@ -236,14 +236,19 @@ export interface McpServerAdditionalData {
 export type DescriptorSourceUrl = string;
 export type RegistryRecordCredentialProviderType = "OAUTH" | "IAM" | (string & {});
 export type CredentialProviderArn = string;
-export type RegistryRecordOAuthGrantType = "CLIENT_CREDENTIALS" | (string & {});
+export type RegistryRecordOAuthGrantType =
+  | "CLIENT_CREDENTIALS"
+  | "AUTHORIZATION_CODE"
+  | (string & {});
 export type ScopeList = string[];
 export type CustomParameterMap = { [key: string]: string | undefined };
+export type OAuthReturnUrl = string;
 export interface RegistryRecordOAuthCredentialProvider {
   providerArn: string;
   grantType?: RegistryRecordOAuthGrantType | undefined;
   scopes?: string[] | undefined;
   customParameters?: { [key: string]: string | undefined } | undefined;
+  returnUrl?: string | undefined;
 }
 export type IamRoleArn = string;
 export type IamSigningServiceName = string;
@@ -291,8 +296,20 @@ export interface AgentSkillsMdDescriptor {
   dataSchemaVersion?: string | undefined;
   source?: DescriptorSource | undefined;
 }
+export interface AgentSkillsPackageDescriptor {
+  source?: DescriptorSource | undefined;
+}
+export type AgentSkillsRepositoryProvider = "GITHUB" | (string & {});
+export type S3BucketOwnerAccountId = string;
+export interface S3SourceConfiguration {
+  bucketOwnerAccountId?: string | undefined;
+}
+export type AgentSkillsSourceConfiguration = { s3: S3SourceConfiguration };
 export interface AgentSkillsAdditionalData {
   skillMd?: AgentSkillsMdDescriptor | undefined;
+  skillPackage?: AgentSkillsPackageDescriptor | undefined;
+  repositoryProvider?: AgentSkillsRepositoryProvider | undefined;
+  sourceConfiguration?: AgentSkillsSourceConfiguration | undefined;
 }
 export interface AgentSkillsDefinitionDescriptor {
   data?: string | redacted.Redacted<string> | undefined;
@@ -315,6 +332,12 @@ export interface Descriptors {
   custom?: CustomDescriptor | undefined;
   http?: HttpDescriptor | undefined;
   agui?: AgUiDescriptor | undefined;
+}
+export type ArtifactContent = Uint8Array | redacted.Redacted<Uint8Array>;
+export type Sha256Hash = string;
+export interface RegistryRecordArtifactUpload {
+  content: Uint8Array | redacted.Redacted<Uint8Array>;
+  sha256?: string | undefined;
 }
 export type RegistryRecordVersion = string;
 export type ProvenanceRelation = "DETECTED_FROM" | (string & {});
@@ -360,6 +383,7 @@ export interface CreateRegistryRecordRequest {
   description?: string | redacted.Redacted<string> | undefined;
   recordType: RecordType;
   descriptors: Descriptors;
+  artifact?: RegistryRecordArtifactUpload | undefined;
   recordVersion?: string | undefined;
   clientToken?: string | undefined;
   provenance?: Provenance[] | undefined;
@@ -377,10 +401,23 @@ export type RegistryRecordStatus =
   | "UPDATING"
   | "CREATE_FAILED"
   | "UPDATE_FAILED"
+  | "CREATE_PENDING_AUTH"
+  | "UPDATE_PENDING_AUTH"
   | (string & {});
+export type OAuthAuthorizationUrl = string | redacted.Redacted<string>;
+export type OAuthUserId = string | redacted.Redacted<string>;
+export type AuthorizationAttemptId = string;
+export interface OAuth2AuthorizationData {
+  authorizationUrl: string | redacted.Redacted<string>;
+  userId?: string | redacted.Redacted<string> | undefined;
+  authorizationAttemptId?: string | undefined;
+  expiresAt?: Date | undefined;
+}
+export type AuthorizationData = { oauth2: OAuth2AuthorizationData };
 export interface CreateRegistryRecordResponse {
   recordArn: string;
   status: RegistryRecordStatus;
+  authorizationData?: AuthorizationData | undefined;
 }
 export interface DeleteRegistryRequest {
   registryId: string;
@@ -435,6 +472,29 @@ export interface GetRegistryRecordRequest {
 export type RegistryRecordId = string;
 export type CreatorAccountId = string;
 export type CustomMetadataSchemaComplianceStatus = "COMPLIANT" | "NON_COMPLIANT" | (string & {});
+export type PresignedDownloadUrl = string | redacted.Redacted<string>;
+export interface RegistryRecordArtifactDownload {
+  sha256?: string | undefined;
+  downloadUrl?: string | redacted.Redacted<string> | undefined;
+}
+export type SynchronizedSourceUrl = string | redacted.Redacted<string>;
+export type S3ObjectVersionId = string;
+export type S3ObjectETag = string;
+export interface S3SynchronizedSource {
+  url: string | redacted.Redacted<string>;
+  synchronizedAt: Date;
+  versionId?: string | undefined;
+  eTag?: string | undefined;
+}
+export type GitCommitId = string;
+export interface GitHubSynchronizedSource {
+  url: string | redacted.Redacted<string>;
+  synchronizedAt: Date;
+  commitId: string;
+}
+export type RegistryRecordSynchronizedSource =
+  | { s3: S3SynchronizedSource; gitHub?: undefined }
+  | { s3?: undefined; gitHub: GitHubSynchronizedSource };
 export interface GetRegistryRecordResponse {
   registryArn: string;
   recordArn: string;
@@ -454,6 +514,8 @@ export interface GetRegistryRecordResponse {
   createdBy?: string | undefined;
   customMetadata?: any | undefined;
   customMetadataSchemaComplianceStatus?: CustomMetadataSchemaComplianceStatus | undefined;
+  artifact?: RegistryRecordArtifactDownload | undefined;
+  synchronizedSource?: RegistryRecordSynchronizedSource | undefined;
 }
 export type MaxResults = number;
 export type NextToken = string;
@@ -649,8 +711,20 @@ export interface UpdatedAgentSkillsMdDescriptorFields {
 export interface UpdatedAgentSkillsMdDescriptor {
   optionalValue?: UpdatedAgentSkillsMdDescriptorFields | undefined;
 }
+export interface UpdatedAgentSkillsPackageDescriptor {
+  optionalValue?: AgentSkillsPackageDescriptor | undefined;
+}
+export interface UpdatedAgentSkillsRepositoryProvider {
+  optionalValue?: AgentSkillsRepositoryProvider | undefined;
+}
+export interface UpdatedAgentSkillsSourceConfiguration {
+  optionalValue?: AgentSkillsSourceConfiguration | undefined;
+}
 export interface UpdatedAgentSkillsAdditionalDataFields {
   skillMd?: UpdatedAgentSkillsMdDescriptor | undefined;
+  skillPackage?: UpdatedAgentSkillsPackageDescriptor | undefined;
+  repositoryProvider?: UpdatedAgentSkillsRepositoryProvider | undefined;
+  sourceConfiguration?: UpdatedAgentSkillsSourceConfiguration | undefined;
 }
 export interface UpdatedAgentSkillsAdditionalData {
   optionalValue?: UpdatedAgentSkillsAdditionalDataFields | undefined;
@@ -692,6 +766,9 @@ export interface UpdatedDescriptorsFields {
 export interface UpdatedDescriptors {
   optionalValue?: UpdatedDescriptorsFields | undefined;
 }
+export interface UpdatedRegistryRecordArtifact {
+  optionalValue?: RegistryRecordArtifactUpload | undefined;
+}
 export interface UpdatedCustomMetadataMap {
   optionalValue?: any | undefined;
 }
@@ -703,9 +780,11 @@ export interface UpdateRegistryRecordRequest {
   description?: UpdatedDescription | undefined;
   recordType?: RecordType | undefined;
   descriptors?: UpdatedDescriptors | undefined;
+  artifact?: UpdatedRegistryRecordArtifact | undefined;
   recordVersion?: string | undefined;
   customMetadata?: UpdatedCustomMetadataMap | undefined;
   triggerSynchronization?: boolean | undefined;
+  forceAuthentication?: boolean | undefined;
   provenance?: Provenance[] | undefined;
 }
 export interface UpdateRegistryRecordResponse {
@@ -727,6 +806,7 @@ export interface UpdateRegistryRecordResponse {
   createdBy?: string | undefined;
   customMetadata?: any | undefined;
   customMetadataSchemaComplianceStatus?: CustomMetadataSchemaComplianceStatus | undefined;
+  authorizationData?: AuthorizationData | undefined;
 }
 export interface UpdateRegistryRecordStatusRequest {
   registryId: string;
@@ -749,6 +829,7 @@ export type ValidationExceptionReason =
   | "IdempotentParameterMismatchException"
   | "EventInOtherSession"
   | "ResourceConflict"
+  | "UnsupportedInRegion"
   | (string & {});
 export interface ValidationExceptionField {
   name: string;
@@ -772,8 +853,8 @@ export const createRegistry: API.OperationMethod<
   CreateRegistryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c19, 0) as any as S.Schema<CreateRegistryRequest>,
-  output: __S(609, __c19, 1) as any as S.Schema<CreateRegistryResponse>,
+  input: __S(576, __c18, 0) as any as S.Schema<CreateRegistryRequest>,
+  output: __S(577, __c18, 1) as any as S.Schema<CreateRegistryResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -800,7 +881,7 @@ export type CreateRegistryRecordError =
   | ValidationException
   | CommonErrors;
 /**
- * Creates a registry record within a registry. A registry record describes a discoverable resource, such as an MCP server, an agent, an agent skill, or a custom resource. Creation is asynchronous: the record is returned with the CREATING status while it is processed.
+ * Creates a registry record within a registry. A registry record describes a discoverable resource, such as an MCP server, an agent, an agent skill, or a custom resource. For an agent skill, you can upload a skill package in `artifact`, or synchronize the skill from an Amazon S3 or GitHub source. Creation is asynchronous: the operation returns the record with the `CREATING` status while the registry processes it. If a GitHub user must first authorize access to the source, the operation returns the record with the `CREATE_PENDING_AUTH` status instead.
  */
 export const createRegistryRecord: API.OperationMethod<
   CreateRegistryRecordRequest & RegionInput,
@@ -808,8 +889,8 @@ export const createRegistryRecord: API.OperationMethod<
   CreateRegistryRecordError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c25, 0) as any as S.Schema<CreateRegistryRecordRequest>,
-  output: __S(801, __c25, 1) as any as S.Schema<CreateRegistryRecordResponse>,
+  input: __S(768, __c24, 0) as any as S.Schema<CreateRegistryRecordRequest>,
+  output: __S(769, __c24, 1) as any as S.Schema<CreateRegistryRecordResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -939,7 +1020,7 @@ export type GetRegistryRecordError =
   | ValidationException
   | CommonErrors;
 /**
- * Retrieves the details of a registry record
+ * Retrieves the details of a registry record. The response describes the record's latest revision, including a revision that isn't approved yet. For a skill record, the operation also returns the skill package in `artifact` and the source that the registry last synchronized the skill from in `synchronizedSource`.
  */
 export const getRegistryRecord: API.OperationMethod<
   GetRegistryRecordRequest & RegionInput,
@@ -948,7 +1029,7 @@ export const getRegistryRecord: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c5, 0) as any as S.Schema<GetRegistryRecordRequest>,
-  output: __S(192, __c6, 0) as any as S.Schema<GetRegistryRecordResponse>,
+  output: __S(165, __c5, 5) as any as S.Schema<GetRegistryRecordResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -981,8 +1062,8 @@ export const listRegistries: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   RegistrySummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(224, __c7, 0) as any as S.Schema<ListRegistriesRequest>,
-  output: __S(227, __c7, 3) as any as S.Schema<ListRegistriesResponse>,
+  input: __S(192, __c6, 0) as any as S.Schema<ListRegistriesRequest>,
+  output: __S(195, __c6, 3) as any as S.Schema<ListRegistriesResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1021,8 +1102,8 @@ export const listRegistryRecords: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   RegistryRecordSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<ListRegistryRecordsRequest>,
-  output: __S(293, __c9, 5) as any as S.Schema<ListRegistryRecordsResponse>,
+  input: __S(256, __c8, 0) as any as S.Schema<ListRegistryRecordsRequest>,
+  output: __S(261, __c8, 5) as any as S.Schema<ListRegistryRecordsResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1061,8 +1142,8 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<ListTagsForResourceRequest>,
-  output: __S(321, __c10, 1) as any as S.Schema<ListTagsForResourceResponse>,
+  input: __S(288, __c9, 0) as any as S.Schema<ListTagsForResourceRequest>,
+  output: __S(289, __c9, 1) as any as S.Schema<ListTagsForResourceResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1095,8 +1176,8 @@ export const submitRegistryRecordForApproval: API.OperationMethod<
   SubmitRegistryRecordForApprovalError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c11, 0) as any as S.Schema<SubmitRegistryRecordForApprovalRequest>,
-  output: __S(353, __c11, 1) as any as S.Schema<SubmitRegistryRecordForApprovalResponse>,
+  input: __S(320, __c10, 0) as any as S.Schema<SubmitRegistryRecordForApprovalRequest>,
+  output: __S(321, __c10, 1) as any as S.Schema<SubmitRegistryRecordForApprovalResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1130,7 +1211,7 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<TagResourceRequest>,
+  input: __S(352, __c11, 0) as any as S.Schema<TagResourceRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<TagResourceResponse>,
   errors: [
     AccessDeniedException,
@@ -1164,7 +1245,7 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<UntagResourceRequest>,
+  input: __S(384, __c12, 0) as any as S.Schema<UntagResourceRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [
     AccessDeniedException,
@@ -1199,7 +1280,7 @@ export const updateRegistry: API.OperationMethod<
   UpdateRegistryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(453, __c14, 5) as any as S.Schema<UpdateRegistryRequest>,
+  input: __S(421, __c13, 5) as any as S.Schema<UpdateRegistryRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<UpdateRegistryResponse>,
   errors: [
     AccessDeniedException,
@@ -1227,7 +1308,7 @@ export type UpdateRegistryRecordError =
   | ValidationException
   | CommonErrors;
 /**
- * Updates a registry record. The update is asynchronous: the record is returned with the UPDATING status while it is processed. Fields that use update wrappers follow PATCH semantics: omit the field to leave it unchanged.
+ * Updates a registry record. The update is asynchronous: the operation returns the record with the `UPDATING` status while the registry processes it. If a GitHub user must first authorize access to the record's skill source, the operation returns the record with the `UPDATE_PENDING_AUTH` status instead. Fields that use update wrappers follow PATCH semantics: omit the field to leave it unchanged.
  */
 export const updateRegistryRecord: API.OperationMethod<
   UpdateRegistryRecordRequest & RegionInput,
@@ -1235,8 +1316,8 @@ export const updateRegistryRecord: API.OperationMethod<
   UpdateRegistryRecordError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(533, __c16, 21) as any as S.Schema<UpdateRegistryRecordRequest>,
-  output: __S(192, __c6, 0) as any as S.Schema<UpdateRegistryRecordResponse>,
+  input: __S(505, __c15, 25) as any as S.Schema<UpdateRegistryRecordRequest>,
+  output: __S(506, __c15, 26) as any as S.Schema<UpdateRegistryRecordResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1270,8 +1351,8 @@ export const updateRegistryRecordStatus: API.OperationMethod<
   UpdateRegistryRecordStatusError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c17, 0) as any as S.Schema<UpdateRegistryRecordStatusRequest>,
-  output: __S(545, __c17, 1) as any as S.Schema<UpdateRegistryRecordStatusResponse>,
+  input: __S(512, __c16, 0) as any as S.Schema<UpdateRegistryRecordStatusRequest>,
+  output: __S(513, __c16, 1) as any as S.Schema<UpdateRegistryRecordStatusResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1337,7 +1418,7 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          configuration: __S(641, __c20, 1),
+          configuration: __S(609, __c19, 1),
           status: S.String,
           statusReason: S.optional(S.String),
         }),
@@ -1353,10 +1434,10 @@ function __c4(j: number): any {
           description: S.optional(SensitiveString),
           registryId: S.String,
           registryArn: S.String,
-          discoveryConfiguration: S.optional(__S(640, __c20, 0)),
-          encryptionConfiguration: S.optional(__S(672, __c21, 0)),
-          approvalConfiguration: S.optional(__S(674, __c21, 2)),
-          customMetadataSchemaConfiguration: S.optional(__S(677, __c21, 5)),
+          discoveryConfiguration: S.optional(__S(608, __c19, 0)),
+          encryptionConfiguration: S.optional(__S(640, __c20, 0)),
+          approvalConfiguration: S.optional(__S(642, __c20, 2)),
+          customMetadataSchemaConfiguration: S.optional(__S(645, __c20, 5)),
           status: S.String,
           statusReason: S.optional(S.String),
           autoDetection: S.optional(__S(96, __c3, 0)),
@@ -1384,11 +1465,33 @@ function __c5(j: number): any {
           ),
         ),
       ).annotate({ identifier: "GetRegistryRecordRequest" });
-  }
-}
-function __c6(j: number): any {
-  switch (j) {
-    case 0:
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ sha256: S.optional(S.String), downloadUrl: S.optional(SensitiveString) }),
+      ).annotate({ identifier: "RegistryRecordArtifactDownload" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          url: SensitiveString,
+          synchronizedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          versionId: S.optional(S.String),
+          eTag: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "S3SynchronizedSource" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          url: SensitiveString,
+          synchronizedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          commitId: S.String,
+        }),
+      ).annotate({ identifier: "GitHubSynchronizedSource" });
+    case 4:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ s3: __S(162, __c5, 2) }),
+        /*@__PURE__*/ S.Struct({ gitHub: __S(163, __c5, 3) }),
+      ]);
+    case 5:
       return S.suspend(() =>
         S.Struct({
           registryArn: S.String,
@@ -1398,29 +1501,31 @@ function __c6(j: number): any {
           displayName: S.optional(S.String),
           description: S.optional(SensitiveString),
           recordType: S.String,
-          descriptors: S.optional(__S(847, __c26, 15)),
+          descriptors: S.optional(__S(817, __c25, 17)),
           recordVersion: S.optional(S.String),
           status: S.String,
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           statusReason: S.optional(S.String),
-          provenance: S.optional(__S(854, __c26, 22)),
+          provenance: S.optional(__S(824, __c25, 24)),
           createdByAutoDetection: S.optional(S.Boolean),
           createdBy: S.optional(S.String),
           customMetadata: S.optional(S.Any),
           customMetadataSchemaComplianceStatus: S.optional(S.String),
+          artifact: S.optional(__S(161, __c5, 1)),
+          synchronizedSource: S.optional(__S(164, __c5, 4)),
         }),
       ).annotate({ identifier: "GetRegistryRecordResponse" });
   }
 }
-function __c7(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           maxResults: S.optional(S.Number),
           nextToken: S.optional(S.String),
-          filters: S.optional(__S(257, __c8, 1)),
+          filters: S.optional(__S(225, __c7, 1)),
         }).pipe(
           T.all(T.Http({ method: "POST", uri: "/registries-list" }), svc, auth, proto, ver, rules),
         ),
@@ -1432,7 +1537,7 @@ function __c7(j: number): any {
           description: S.optional(SensitiveString),
           registryId: S.String,
           registryArn: S.String,
-          discoveryConfiguration: S.optional(__S(640, __c20, 0)),
+          discoveryConfiguration: S.optional(__S(608, __c19, 0)),
           status: S.String,
           statusReason: S.optional(S.String),
           autoDetection: S.optional(__S(96, __c3, 0)),
@@ -1441,24 +1546,24 @@ function __c7(j: number): any {
         }),
       ).annotate({ identifier: "RegistrySummary" });
     case 2:
-      return S.Array(__S(225, __c7, 1));
+      return S.Array(__S(193, __c6, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ registries: __S(226, __c7, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ registries: __S(194, __c6, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListRegistriesResponse" });
   }
 }
-function __c8(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ name: S.String, values: __S(704, __c22, 0) })).annotate({
+      return S.suspend(() => S.Struct({ name: S.String, values: __S(672, __c21, 0) })).annotate({
         identifier: "RegistryFilter",
       });
     case 1:
-      return S.Array(__S(256, __c8, 0));
+      return S.Array(__S(224, __c7, 0));
   }
 }
-function __c9(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1466,7 +1571,7 @@ function __c9(j: number): any {
           registryId: S.String.pipe(T.HttpLabel("registryId")),
           maxResults: S.optional(S.Number),
           nextToken: S.optional(S.String),
-          filters: S.optional(__S(257, __c8, 1)),
+          filters: S.optional(__S(225, __c7, 1)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/registries/{registryId}/records-list" }),
@@ -1483,7 +1588,7 @@ function __c9(j: number): any {
         S.Struct({ relation: S.String, sourceId: S.String, sourceType: S.optional(S.String) }),
       ).annotate({ identifier: "ProvenanceSummary" });
     case 2:
-      return S.Array(__S(289, __c9, 1));
+      return S.Array(__S(257, __c8, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -1500,19 +1605,19 @@ function __c9(j: number): any {
           updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           createdByAutoDetection: S.optional(S.Boolean),
           createdBy: S.optional(S.String),
-          provenanceSummaryList: S.optional(__S(290, __c9, 2)),
+          provenanceSummaryList: S.optional(__S(258, __c8, 2)),
           customMetadataSchemaComplianceStatus: S.optional(S.String),
         }),
       ).annotate({ identifier: "RegistryRecordSummary" });
     case 4:
-      return S.Array(__S(291, __c9, 3));
+      return S.Array(__S(259, __c8, 3));
     case 5:
       return S.suspend(() =>
-        S.Struct({ registryRecords: __S(292, __c9, 4), nextToken: S.optional(S.String) }),
+        S.Struct({ registryRecords: __S(260, __c8, 4), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListRegistryRecordsResponse" });
   }
 }
-function __c10(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1528,12 +1633,12 @@ function __c10(j: number): any {
         ),
       ).annotate({ identifier: "ListTagsForResourceRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ tags: S.optional(__S(736, __c23, 0)) })).annotate({
+      return S.suspend(() => S.Struct({ tags: S.optional(__S(704, __c22, 0)) })).annotate({
         identifier: "ListTagsForResourceResponse",
       });
   }
 }
-function __c11(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1566,13 +1671,13 @@ function __c11(j: number): any {
       ).annotate({ identifier: "SubmitRegistryRecordForApprovalResponse" });
   }
 }
-function __c12(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-          tags: __S(736, __c23, 0),
+          tags: __S(704, __c22, 0),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/tags/{resourceArn+}" }),
@@ -1586,13 +1691,13 @@ function __c12(j: number): any {
       ).annotate({ identifier: "TagResourceRequest" });
   }
 }
-function __c13(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-          tagKeys: __S(704, __c22, 0).pipe(T.HttpQuery("tagKeys")),
+          tagKeys: __S(672, __c21, 0).pipe(T.HttpQuery("tagKeys")),
         }).pipe(
           T.all(
             T.Http({ method: "DELETE", uri: "/tags/{resourceArn+}" }),
@@ -1606,26 +1711,26 @@ function __c13(j: number): any {
       ).annotate({ identifier: "UntagResourceRequest" });
   }
 }
-function __c14(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ optionalValue: S.optional(__S(778, __c24, 10)) })).annotate(
+      return S.suspend(() => S.Struct({ optionalValue: S.optional(__S(746, __c23, 10)) })).annotate(
         { identifier: "UpdatedAuthorizerConfiguration" },
       );
     case 1:
       return S.suspend(() =>
-        S.Struct({ authorizerConfiguration: S.optional(__S(448, __c14, 0)) }),
+        S.Struct({ authorizerConfiguration: S.optional(__S(416, __c13, 0)) }),
       ).annotate({ identifier: "UpdatedDiscoveryConfiguration" });
     case 2:
-      return S.suspend(() => S.Struct({ optionalValue: S.optional(__S(674, __c21, 2)) })).annotate({
+      return S.suspend(() => S.Struct({ optionalValue: S.optional(__S(642, __c20, 2)) })).annotate({
         identifier: "UpdatedApprovalConfiguration",
       });
     case 3:
-      return S.suspend(() => S.Struct({ optionalValue: S.optional(__S(677, __c21, 5)) })).annotate({
+      return S.suspend(() => S.Struct({ optionalValue: S.optional(__S(645, __c20, 5)) })).annotate({
         identifier: "UpdatedCustomMetadataSchemaConfiguration",
       });
     case 4:
-      return S.suspend(() => S.Struct({ optionalValue: S.optional(__S(641, __c20, 1)) })).annotate({
+      return S.suspend(() => S.Struct({ optionalValue: S.optional(__S(609, __c19, 1)) })).annotate({
         identifier: "UpdatedAutoDetectionConfiguration",
       });
     case 5:
@@ -1633,11 +1738,11 @@ function __c14(j: number): any {
         S.Struct({
           registryId: S.String.pipe(T.HttpLabel("registryId")),
           name: S.optional(S.String),
-          description: S.optional(__S(480, __c15, 0)),
-          discoveryConfiguration: S.optional(__S(449, __c14, 1)),
-          approvalConfiguration: S.optional(__S(450, __c14, 2)),
-          customMetadataSchemaConfiguration: S.optional(__S(451, __c14, 3)),
-          autoDetectionConfiguration: S.optional(__S(452, __c14, 4)),
+          description: S.optional(__S(448, __c14, 0)),
+          discoveryConfiguration: S.optional(__S(417, __c13, 1)),
+          approvalConfiguration: S.optional(__S(418, __c13, 2)),
+          customMetadataSchemaConfiguration: S.optional(__S(419, __c13, 3)),
+          autoDetectionConfiguration: S.optional(__S(420, __c13, 4)),
         }).pipe(
           T.all(
             T.Http({ method: "PATCH", uri: "/registries/{registryId}" }),
@@ -1651,7 +1756,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "UpdateRegistryRequest" });
   }
 }
-function __c15(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ optionalValue: S.optional(SensitiveString) })).annotate({
@@ -1659,129 +1764,152 @@ function __c15(j: number): any {
       });
   }
 }
-function __c16(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ optionalValue: S.optional(S.String) })).annotate({
         identifier: "UpdatedDisplayName",
       });
     case 1:
-      return S.suspend(() => S.Struct({ optionalValue: S.optional(__S(840, __c26, 8)) })).annotate({
+      return S.suspend(() => S.Struct({ optionalValue: S.optional(__S(808, __c25, 8)) })).annotate({
         identifier: "UpdatedDescriptorSource",
       });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(480, __c15, 0)),
-          dataSchemaVersion: S.optional(__S(512, __c16, 0)),
+          data: S.optional(__S(448, __c14, 0)),
+          dataSchemaVersion: S.optional(__S(480, __c15, 0)),
         }),
       ).annotate({ identifier: "UpdatedMcpToolsDescriptorFields" });
     case 3:
-      return S.suspend(() => S.Struct({ optionalValue: S.optional(__S(514, __c16, 2)) })).annotate({
+      return S.suspend(() => S.Struct({ optionalValue: S.optional(__S(482, __c15, 2)) })).annotate({
         identifier: "UpdatedMcpToolsDescriptor",
       });
     case 4:
-      return S.suspend(() => S.Struct({ tools: S.optional(__S(515, __c16, 3)) })).annotate({
+      return S.suspend(() => S.Struct({ tools: S.optional(__S(483, __c15, 3)) })).annotate({
         identifier: "UpdatedMcpServerAdditionalDataFields",
       });
     case 5:
-      return S.suspend(() => S.Struct({ optionalValue: S.optional(__S(516, __c16, 4)) })).annotate({
+      return S.suspend(() => S.Struct({ optionalValue: S.optional(__S(484, __c15, 4)) })).annotate({
         identifier: "UpdatedMcpServerAdditionalData",
       });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(480, __c15, 0)),
-          dataSchemaVersion: S.optional(__S(512, __c16, 0)),
-          source: S.optional(__S(513, __c16, 1)),
-          additionalData: S.optional(__S(517, __c16, 5)),
+          data: S.optional(__S(448, __c14, 0)),
+          dataSchemaVersion: S.optional(__S(480, __c15, 0)),
+          source: S.optional(__S(481, __c15, 1)),
+          additionalData: S.optional(__S(485, __c15, 5)),
         }),
       ).annotate({ identifier: "UpdatedMcpServerDescriptorFields" });
     case 7:
-      return S.suspend(() => S.Struct({ optionalValue: S.optional(__S(518, __c16, 6)) })).annotate({
+      return S.suspend(() => S.Struct({ optionalValue: S.optional(__S(486, __c15, 6)) })).annotate({
         identifier: "UpdatedMcpServerDescriptor",
       });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(480, __c15, 0)),
-          dataSchemaVersion: S.optional(__S(512, __c16, 0)),
-          source: S.optional(__S(513, __c16, 1)),
+          data: S.optional(__S(448, __c14, 0)),
+          dataSchemaVersion: S.optional(__S(480, __c15, 0)),
+          source: S.optional(__S(481, __c15, 1)),
         }),
       ).annotate({ identifier: "UpdatedA2aAgentCardDescriptorFields" });
     case 9:
-      return S.suspend(() => S.Struct({ optionalValue: S.optional(__S(520, __c16, 8)) })).annotate({
+      return S.suspend(() => S.Struct({ optionalValue: S.optional(__S(488, __c15, 8)) })).annotate({
         identifier: "UpdatedA2aAgentCardDescriptor",
       });
     case 10:
-      return S.suspend(() => S.Struct({ skillMd: S.optional(__S(521, __c16, 9)) })).annotate({
-        identifier: "UpdatedAgentSkillsAdditionalDataFields",
-      });
+      return S.suspend(() => S.Struct({ optionalValue: S.optional(__S(811, __c25, 11)) })).annotate(
+        { identifier: "UpdatedAgentSkillsPackageDescriptor" },
+      );
     case 11:
-      return S.suspend(() => S.Struct({ optionalValue: S.optional(__S(522, __c16, 10)) })).annotate(
+      return S.suspend(() => S.Struct({ optionalValue: S.optional(S.String) })).annotate({
+        identifier: "UpdatedAgentSkillsRepositoryProvider",
+      });
+    case 12:
+      return S.suspend(() => S.Struct({ optionalValue: S.optional(__S(813, __c25, 13)) })).annotate(
+        { identifier: "UpdatedAgentSkillsSourceConfiguration" },
+      );
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          skillMd: S.optional(__S(489, __c15, 9)),
+          skillPackage: S.optional(__S(490, __c15, 10)),
+          repositoryProvider: S.optional(__S(491, __c15, 11)),
+          sourceConfiguration: S.optional(__S(492, __c15, 12)),
+        }),
+      ).annotate({ identifier: "UpdatedAgentSkillsAdditionalDataFields" });
+    case 14:
+      return S.suspend(() => S.Struct({ optionalValue: S.optional(__S(493, __c15, 13)) })).annotate(
         { identifier: "UpdatedAgentSkillsAdditionalData" },
       );
-    case 12:
+    case 15:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(480, __c15, 0)),
-          dataSchemaVersion: S.optional(__S(512, __c16, 0)),
-          additionalData: S.optional(__S(523, __c16, 11)),
+          data: S.optional(__S(448, __c14, 0)),
+          dataSchemaVersion: S.optional(__S(480, __c15, 0)),
+          additionalData: S.optional(__S(494, __c15, 14)),
         }),
       ).annotate({ identifier: "UpdatedAgentSkillsDefinitionDescriptorFields" });
-    case 13:
-      return S.suspend(() => S.Struct({ optionalValue: S.optional(__S(524, __c16, 12)) })).annotate(
+    case 16:
+      return S.suspend(() => S.Struct({ optionalValue: S.optional(__S(495, __c15, 15)) })).annotate(
         { identifier: "UpdatedAgentSkillsDefinitionDescriptor" },
       );
-    case 14:
-      return S.suspend(() => S.Struct({ data: S.optional(__S(480, __c15, 0)) })).annotate({
+    case 17:
+      return S.suspend(() => S.Struct({ data: S.optional(__S(448, __c14, 0)) })).annotate({
         identifier: "UpdatedCustomDescriptorFields",
       });
-    case 15:
-      return S.suspend(() => S.Struct({ optionalValue: S.optional(__S(526, __c16, 14)) })).annotate(
+    case 18:
+      return S.suspend(() => S.Struct({ optionalValue: S.optional(__S(497, __c15, 17)) })).annotate(
         { identifier: "UpdatedCustomDescriptor" },
       );
-    case 16:
-      return S.suspend(() => S.Struct({ source: S.optional(__S(513, __c16, 1)) })).annotate({
+    case 19:
+      return S.suspend(() => S.Struct({ source: S.optional(__S(481, __c15, 1)) })).annotate({
         identifier: "UpdatedHttpDescriptorFields",
       });
-    case 17:
-      return S.suspend(() => S.Struct({ optionalValue: S.optional(__S(528, __c16, 16)) })).annotate(
+    case 20:
+      return S.suspend(() => S.Struct({ optionalValue: S.optional(__S(499, __c15, 19)) })).annotate(
         { identifier: "UpdatedHttpDescriptor" },
       );
-    case 18:
+    case 21:
       return S.suspend(() =>
         S.Struct({
-          mcpServer: S.optional(__S(519, __c16, 7)),
-          a2aAgentCard: S.optional(__S(521, __c16, 9)),
-          agentSkillsDefinition: S.optional(__S(525, __c16, 13)),
-          custom: S.optional(__S(527, __c16, 15)),
-          http: S.optional(__S(529, __c16, 17)),
-          agui: S.optional(__S(529, __c16, 17)),
+          mcpServer: S.optional(__S(487, __c15, 7)),
+          a2aAgentCard: S.optional(__S(489, __c15, 9)),
+          agentSkillsDefinition: S.optional(__S(496, __c15, 16)),
+          custom: S.optional(__S(498, __c15, 18)),
+          http: S.optional(__S(500, __c15, 20)),
+          agui: S.optional(__S(500, __c15, 20)),
         }),
       ).annotate({ identifier: "UpdatedDescriptorsFields" });
-    case 19:
-      return S.suspend(() => S.Struct({ optionalValue: S.optional(__S(530, __c16, 18)) })).annotate(
+    case 22:
+      return S.suspend(() => S.Struct({ optionalValue: S.optional(__S(501, __c15, 21)) })).annotate(
         { identifier: "UpdatedDescriptors" },
       );
-    case 20:
+    case 23:
+      return S.suspend(() => S.Struct({ optionalValue: S.optional(__S(832, __c26, 0)) })).annotate({
+        identifier: "UpdatedRegistryRecordArtifact",
+      });
+    case 24:
       return S.suspend(() => S.Struct({ optionalValue: S.optional(S.Any) })).annotate({
         identifier: "UpdatedCustomMetadataMap",
       });
-    case 21:
+    case 25:
       return S.suspend(() =>
         S.Struct({
           registryId: S.String.pipe(T.HttpLabel("registryId")),
           recordId: S.String.pipe(T.HttpLabel("recordId")),
           name: S.optional(S.String),
-          displayName: S.optional(__S(512, __c16, 0)),
-          description: S.optional(__S(480, __c15, 0)),
+          displayName: S.optional(__S(480, __c15, 0)),
+          description: S.optional(__S(448, __c14, 0)),
           recordType: S.optional(S.String),
-          descriptors: S.optional(__S(531, __c16, 19)),
+          descriptors: S.optional(__S(502, __c15, 22)),
+          artifact: S.optional(__S(503, __c15, 23)),
           recordVersion: S.optional(S.String),
-          customMetadata: S.optional(__S(532, __c16, 20)),
+          customMetadata: S.optional(__S(504, __c15, 24)),
           triggerSynchronization: S.optional(S.Boolean),
-          provenance: S.optional(__S(854, __c26, 22)),
+          forceAuthentication: S.optional(S.Boolean),
+          provenance: S.optional(__S(824, __c25, 24)),
         }).pipe(
           T.all(
             T.Http({ method: "PATCH", uri: "/registries/{registryId}/records/{recordId}" }),
@@ -1793,9 +1921,33 @@ function __c16(j: number): any {
           ),
         ),
       ).annotate({ identifier: "UpdateRegistryRecordRequest" });
+    case 26:
+      return S.suspend(() =>
+        S.Struct({
+          registryArn: S.String,
+          recordArn: S.String,
+          recordId: S.String,
+          name: S.String,
+          displayName: S.optional(S.String),
+          description: S.optional(SensitiveString),
+          recordType: S.String,
+          descriptors: S.optional(__S(817, __c25, 17)),
+          recordVersion: S.optional(S.String),
+          status: S.String,
+          createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          statusReason: S.optional(S.String),
+          provenance: S.optional(__S(824, __c25, 24)),
+          createdByAutoDetection: S.optional(S.Boolean),
+          createdBy: S.optional(S.String),
+          customMetadata: S.optional(S.Any),
+          customMetadataSchemaComplianceStatus: S.optional(S.String),
+          authorizationData: S.optional(__S(834, __c26, 2)),
+        }),
+      ).annotate({ identifier: "UpdateRegistryRecordResponse" });
   }
 }
-function __c17(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1828,30 +1980,30 @@ function __c17(j: number): any {
       ).annotate({ identifier: "UpdateRegistryRecordStatusResponse" });
   }
 }
-function __c18(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ name: S.String, message: S.String })).annotate({
         identifier: "ValidationExceptionField",
       });
     case 1:
-      return S.Array(__S(576, __c18, 0));
+      return S.Array(__S(544, __c17, 0));
   }
 }
-function __c19(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           description: S.optional(SensitiveString),
-          encryptionConfiguration: S.optional(__S(672, __c21, 0)),
-          discoveryConfiguration: S.optional(__S(640, __c20, 0)),
+          encryptionConfiguration: S.optional(__S(640, __c20, 0)),
+          discoveryConfiguration: S.optional(__S(608, __c19, 0)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          tags: S.optional(__S(736, __c23, 0)),
-          approvalConfiguration: S.optional(__S(674, __c21, 2)),
-          customMetadataSchemaConfiguration: S.optional(__S(677, __c21, 5)),
-          autoDetectionConfiguration: S.optional(__S(641, __c20, 1)),
+          tags: S.optional(__S(704, __c22, 0)),
+          approvalConfiguration: S.optional(__S(642, __c20, 2)),
+          customMetadataSchemaConfiguration: S.optional(__S(645, __c20, 5)),
+          autoDetectionConfiguration: S.optional(__S(609, __c19, 1)),
         }).pipe(
           T.all(T.Http({ method: "POST", uri: "/registries" }), svc, auth, proto, ver, rules),
         ),
@@ -1862,12 +2014,12 @@ function __c19(j: number): any {
       });
   }
 }
-function __c20(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          authorizerConfiguration: S.optional(__S(778, __c24, 10)),
+          authorizerConfiguration: S.optional(__S(746, __c23, 10)),
           authorizerType: S.optional(S.String),
         }),
       ).annotate({ identifier: "DiscoveryConfiguration" });
@@ -1877,7 +2029,7 @@ function __c20(j: number): any {
       });
   }
 }
-function __c21(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ kmsKeyArn: S.String })).annotate({
@@ -1887,97 +2039,97 @@ function __c21(j: number): any {
       return S.Array(S.String);
     case 2:
       return S.suspend(() =>
-        S.Struct({ autoApprovalRules: S.optional(__S(673, __c21, 1)) }),
+        S.Struct({ autoApprovalRules: S.optional(__S(641, __c20, 1)) }),
       ).annotate({ identifier: "ApprovalConfiguration" });
     case 3:
       return S.suspend(() => S.Struct({ recordType: S.String, schema: SensitiveString })).annotate({
         identifier: "RecordTypeSchemaOverride",
       });
     case 4:
-      return S.Array(__S(675, __c21, 3));
+      return S.Array(__S(643, __c20, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           defaultSchema: S.optional(SensitiveString),
-          recordTypeSchemaOverrides: S.optional(__S(676, __c21, 4)),
+          recordTypeSchemaOverrides: S.optional(__S(644, __c20, 4)),
         }),
       ).annotate({ identifier: "CustomMetadataSchemaConfiguration" });
   }
 }
-function __c22(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c23(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
   }
 }
-function __c24(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.Union([
         /*@__PURE__*/ S.Struct({ matchValueString: S.String }),
-        /*@__PURE__*/ S.Struct({ matchValueStringList: __S(704, __c22, 0) }),
+        /*@__PURE__*/ S.Struct({ matchValueStringList: __S(672, __c21, 0) }),
       ]);
     case 1:
       return S.suspend(() =>
-        S.Struct({ claimMatchValue: __S(768, __c24, 0), claimMatchOperator: S.String }),
+        S.Struct({ claimMatchValue: __S(736, __c23, 0), claimMatchOperator: S.String }),
       ).annotate({ identifier: "AuthorizingClaimMatchValueType" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           inboundTokenClaimName: S.String,
           inboundTokenClaimValueType: S.String,
-          authorizingClaimMatchValue: __S(769, __c24, 1),
+          authorizingClaimMatchValue: __S(737, __c23, 1),
         }),
       ).annotate({ identifier: "CustomClaimValidationType" });
     case 3:
-      return S.Array(__S(770, __c24, 2));
+      return S.Array(__S(738, __c23, 2));
     case 4:
       return S.Union([/*@__PURE__*/ S.Struct({ resourceConfigurationIdentifier: S.String })]);
     case 5:
       return S.suspend(() =>
         S.Struct({
           vpcIdentifier: S.String,
-          subnetIds: __S(704, __c22, 0),
+          subnetIds: __S(672, __c21, 0),
           endpointIpAddressType: S.String,
-          securityGroupIds: S.optional(__S(704, __c22, 0)),
-          tags: S.optional(__S(736, __c23, 0)),
+          securityGroupIds: S.optional(__S(672, __c21, 0)),
+          tags: S.optional(__S(704, __c22, 0)),
           routingDomain: S.optional(S.String),
         }),
       ).annotate({ identifier: "ManagedVpcResource" });
     case 6:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ selfManagedLatticeResource: __S(772, __c24, 4) }),
-        /*@__PURE__*/ S.Struct({ managedVpcResource: __S(773, __c24, 5) }),
+        /*@__PURE__*/ S.Struct({ selfManagedLatticeResource: __S(740, __c23, 4) }),
+        /*@__PURE__*/ S.Struct({ managedVpcResource: __S(741, __c23, 5) }),
       ]);
     case 7:
       return S.suspend(() =>
-        S.Struct({ domain: S.String, privateEndpoint: __S(774, __c24, 6) }),
+        S.Struct({ domain: S.String, privateEndpoint: __S(742, __c23, 6) }),
       ).annotate({ identifier: "PrivateEndpointOverride" });
     case 8:
-      return S.Array(__S(775, __c24, 7));
+      return S.Array(__S(743, __c23, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
           discoveryUrl: S.String,
-          allowedAudience: S.optional(__S(704, __c22, 0)),
-          allowedClients: S.optional(__S(704, __c22, 0)),
-          allowedScopes: S.optional(__S(704, __c22, 0)),
-          customClaims: S.optional(__S(771, __c24, 3)),
-          privateEndpoint: S.optional(__S(774, __c24, 6)),
-          privateEndpointOverrides: S.optional(__S(776, __c24, 8)),
+          allowedAudience: S.optional(__S(672, __c21, 0)),
+          allowedClients: S.optional(__S(672, __c21, 0)),
+          allowedScopes: S.optional(__S(672, __c21, 0)),
+          customClaims: S.optional(__S(739, __c23, 3)),
+          privateEndpoint: S.optional(__S(742, __c23, 6)),
+          privateEndpointOverrides: S.optional(__S(744, __c23, 8)),
         }),
       ).annotate({ identifier: "CustomJWTAuthorizerConfiguration" });
     case 10:
-      return S.Union([/*@__PURE__*/ S.Struct({ customJWTAuthorizer: __S(777, __c24, 9) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ customJWTAuthorizer: __S(745, __c23, 9) })]);
   }
 }
-function __c25(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1987,12 +2139,13 @@ function __c25(j: number): any {
           displayName: S.optional(S.String),
           description: S.optional(SensitiveString),
           recordType: S.String,
-          descriptors: __S(847, __c26, 15),
+          descriptors: __S(817, __c25, 17),
+          artifact: S.optional(__S(832, __c26, 0)),
           recordVersion: S.optional(S.String),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          provenance: S.optional(__S(854, __c26, 22)),
+          provenance: S.optional(__S(824, __c25, 24)),
           customMetadata: S.optional(S.Any),
-          tags: S.optional(__S(736, __c23, 0)),
+          tags: S.optional(__S(704, __c22, 0)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/registries/{registryId}/records" }),
@@ -2005,19 +2158,23 @@ function __c25(j: number): any {
         ),
       ).annotate({ identifier: "CreateRegistryRecordRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ recordArn: S.String, status: S.String })).annotate({
-        identifier: "CreateRegistryRecordResponse",
-      });
+      return S.suspend(() =>
+        S.Struct({
+          recordArn: S.String,
+          status: S.String,
+          authorizationData: S.optional(__S(834, __c26, 2)),
+        }),
+      ).annotate({ identifier: "CreateRegistryRecordResponse" });
   }
 }
-function __c26(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({ data: S.optional(SensitiveString), dataSchemaVersion: S.optional(S.String) }),
       ).annotate({ identifier: "McpToolsDescriptor" });
     case 1:
-      return S.suspend(() => S.Struct({ tools: S.optional(__S(832, __c26, 0)) })).annotate({
+      return S.suspend(() => S.Struct({ tools: S.optional(__S(800, __c25, 0)) })).annotate({
         identifier: "McpServerAdditionalData",
       });
     case 2:
@@ -2025,8 +2182,9 @@ function __c26(j: number): any {
         S.Struct({
           providerArn: S.String,
           grantType: S.optional(S.String),
-          scopes: S.optional(__S(704, __c22, 0)),
-          customParameters: S.optional(__S(736, __c23, 0)),
+          scopes: S.optional(__S(672, __c21, 0)),
+          customParameters: S.optional(__S(704, __c22, 0)),
+          returnUrl: S.optional(S.String),
         }),
       ).annotate({ identifier: "RegistryRecordOAuthCredentialProvider" });
     case 3:
@@ -2039,24 +2197,24 @@ function __c26(j: number): any {
       ).annotate({ identifier: "RegistryRecordIamCredentialProvider" });
     case 4:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ oauthCredentialProvider: __S(834, __c26, 2) }),
-        /*@__PURE__*/ S.Struct({ iamCredentialProvider: __S(835, __c26, 3) }),
+        /*@__PURE__*/ S.Struct({ oauthCredentialProvider: __S(802, __c25, 2) }),
+        /*@__PURE__*/ S.Struct({ iamCredentialProvider: __S(803, __c25, 3) }),
       ]);
     case 5:
       return S.suspend(() =>
-        S.Struct({ credentialProviderType: S.String, credentialProvider: __S(836, __c26, 4) }),
+        S.Struct({ credentialProviderType: S.String, credentialProvider: __S(804, __c25, 4) }),
       ).annotate({ identifier: "RegistryRecordCredentialProviderConfiguration" });
     case 6:
-      return S.Array(__S(837, __c26, 5));
+      return S.Array(__S(805, __c25, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           url: S.String,
-          credentialProviderConfigurations: S.optional(__S(838, __c26, 6)),
+          credentialProviderConfigurations: S.optional(__S(806, __c25, 6)),
         }),
       ).annotate({ identifier: "DescriptorSourceFromUrl" });
     case 8:
-      return S.suspend(() => S.Struct({ fromUrl: S.optional(__S(839, __c26, 7)) })).annotate({
+      return S.suspend(() => S.Struct({ fromUrl: S.optional(__S(807, __c25, 7)) })).annotate({
         identifier: "DescriptorSource",
       });
     case 9:
@@ -2064,8 +2222,8 @@ function __c26(j: number): any {
         S.Struct({
           data: S.optional(SensitiveString),
           dataSchemaVersion: S.optional(S.String),
-          additionalData: S.optional(__S(833, __c26, 1)),
-          source: S.optional(__S(840, __c26, 8)),
+          additionalData: S.optional(__S(801, __c25, 1)),
+          source: S.optional(__S(808, __c25, 8)),
         }),
       ).annotate({ identifier: "McpServerDescriptor" });
     case 10:
@@ -2073,81 +2231,111 @@ function __c26(j: number): any {
         S.Struct({
           data: S.optional(SensitiveString),
           dataSchemaVersion: S.optional(S.String),
-          source: S.optional(__S(840, __c26, 8)),
+          source: S.optional(__S(808, __c25, 8)),
         }),
       ).annotate({ identifier: "A2aAgentCardDescriptor" });
     case 11:
-      return S.suspend(() => S.Struct({ skillMd: S.optional(__S(842, __c26, 10)) })).annotate({
-        identifier: "AgentSkillsAdditionalData",
+      return S.suspend(() => S.Struct({ source: S.optional(__S(808, __c25, 8)) })).annotate({
+        identifier: "AgentSkillsPackageDescriptor",
       });
     case 12:
+      return S.suspend(() => S.Struct({ bucketOwnerAccountId: S.optional(S.String) })).annotate({
+        identifier: "S3SourceConfiguration",
+      });
+    case 13:
+      return S.Union([/*@__PURE__*/ S.Struct({ s3: __S(812, __c25, 12) })]);
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          skillMd: S.optional(__S(810, __c25, 10)),
+          skillPackage: S.optional(__S(811, __c25, 11)),
+          repositoryProvider: S.optional(S.String),
+          sourceConfiguration: S.optional(__S(813, __c25, 13)),
+        }),
+      ).annotate({ identifier: "AgentSkillsAdditionalData" });
+    case 15:
       return S.suspend(() =>
         S.Struct({
           data: S.optional(SensitiveString),
           dataSchemaVersion: S.optional(S.String),
-          additionalData: S.optional(__S(843, __c26, 11)),
+          additionalData: S.optional(__S(814, __c25, 14)),
         }),
       ).annotate({ identifier: "AgentSkillsDefinitionDescriptor" });
-    case 13:
+    case 16:
       return S.suspend(() => S.Struct({ data: S.optional(SensitiveString) })).annotate({
         identifier: "CustomDescriptor",
       });
-    case 14:
-      return S.suspend(() => S.Struct({ source: S.optional(__S(840, __c26, 8)) })).annotate({
-        identifier: "HttpDescriptor",
-      });
-    case 15:
+    case 17:
       return S.suspend(() =>
         S.Struct({
-          mcpServer: S.optional(__S(841, __c26, 9)),
-          a2aAgentCard: S.optional(__S(842, __c26, 10)),
-          agentSkillsDefinition: S.optional(__S(844, __c26, 12)),
-          custom: S.optional(__S(845, __c26, 13)),
-          http: S.optional(__S(846, __c26, 14)),
-          agui: S.optional(__S(846, __c26, 14)),
+          mcpServer: S.optional(__S(809, __c25, 9)),
+          a2aAgentCard: S.optional(__S(810, __c25, 10)),
+          agentSkillsDefinition: S.optional(__S(815, __c25, 15)),
+          custom: S.optional(__S(816, __c25, 16)),
+          http: S.optional(__S(811, __c25, 11)),
+          agui: S.optional(__S(811, __c25, 11)),
         }),
       ).annotate({ identifier: "Descriptors" });
-    case 16:
+    case 18:
       return S.suspend(() => S.Struct({ serverProtocol: S.optional(S.String) })).annotate({
         identifier: "AgentCoreRuntimeProtocolConfiguration",
       });
-    case 17:
+    case 19:
       return S.suspend(() => S.Struct({ workloadIdentityArn: S.String })).annotate({
         identifier: "WorkloadIdentityDetails",
       });
-    case 18:
+    case 20:
       return S.suspend(() =>
         S.Struct({
-          protocolConfiguration: S.optional(__S(848, __c26, 16)),
-          authorizerConfiguration: S.optional(__S(778, __c24, 10)),
-          workloadIdentityDetails: S.optional(__S(849, __c26, 17)),
+          protocolConfiguration: S.optional(__S(818, __c25, 18)),
+          authorizerConfiguration: S.optional(__S(746, __c23, 10)),
+          workloadIdentityDetails: S.optional(__S(819, __c25, 19)),
         }),
       ).annotate({ identifier: "AgentCoreRuntimeSourceDetails" });
-    case 19:
+    case 21:
       return S.suspend(() =>
         S.Struct({
           protocolType: S.optional(S.String),
           authorizerType: S.optional(S.String),
-          authorizerConfiguration: S.optional(__S(778, __c24, 10)),
-          workloadIdentityDetails: S.optional(__S(849, __c26, 17)),
+          authorizerConfiguration: S.optional(__S(746, __c23, 10)),
+          workloadIdentityDetails: S.optional(__S(819, __c25, 19)),
         }),
       ).annotate({ identifier: "AgentCoreGatewaySourceDetails" });
-    case 20:
+    case 22:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ agentcoreRuntime: __S(850, __c26, 18) }),
-        /*@__PURE__*/ S.Struct({ agentcoreGateway: __S(851, __c26, 19) }),
+        /*@__PURE__*/ S.Struct({ agentcoreRuntime: __S(820, __c25, 20) }),
+        /*@__PURE__*/ S.Struct({ agentcoreGateway: __S(821, __c25, 21) }),
       ]);
-    case 21:
+    case 23:
       return S.suspend(() =>
         S.Struct({
           relation: S.String,
           sourceId: S.String,
           sourceType: S.optional(S.String),
-          sourceDetails: S.optional(__S(852, __c26, 20)),
+          sourceDetails: S.optional(__S(822, __c25, 22)),
         }),
       ).annotate({ identifier: "Provenance" });
-    case 22:
-      return S.Array(__S(853, __c26, 21));
+    case 24:
+      return S.Array(__S(823, __c25, 23));
+  }
+}
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ content: SensitiveBlob, sha256: S.optional(S.String) }),
+      ).annotate({ identifier: "RegistryRecordArtifactUpload" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          authorizationUrl: SensitiveString,
+          userId: S.optional(SensitiveString),
+          authorizationAttemptId: S.optional(S.String),
+          expiresAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+        }),
+      ).annotate({ identifier: "OAuth2AuthorizationData" });
+    case 2:
+      return S.Union([/*@__PURE__*/ S.Struct({ oauth2: __S(833, __c26, 1) })]);
   }
 }
 function __c27(j: number): any {
