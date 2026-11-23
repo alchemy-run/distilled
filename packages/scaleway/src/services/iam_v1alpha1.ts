@@ -299,7 +299,7 @@ export interface CreateScimTokenResponse {
   /** The SCIM token metadata. */
   token?: ScimToken | undefined;
   /** The Bearer Token to use to authenticate to SCIM endpoints. */
-  bearer_token?: string | undefined;
+  bearer_token?: string | Redacted.Redacted<string> | undefined;
 }
 export interface CreateSSHKeyRequest {
   /** Name of the SSH key. Max length is 1000. */
@@ -4895,7 +4895,7 @@ function __c95(j: number): any {
       return S.suspend(() =>
         S.Struct({
           token: S.optional(__S(768, __c96, 0)),
-          bearer_token: S.optional(S.String),
+          bearer_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "CreateScimTokenResponse" });
   }

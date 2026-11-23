@@ -259,7 +259,7 @@ export interface GetSSLCertificateRequest {
   dns_zone: string;
 }
 export interface ImportProviderDNSZoneRequestOnlineV1 {
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
 }
 export interface ImportProviderDNSZoneRequest {
   dns_zone: string;
@@ -1244,7 +1244,7 @@ function __c10(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "ImportProviderDNSZoneRequestOnlineV1" });
     case 1:

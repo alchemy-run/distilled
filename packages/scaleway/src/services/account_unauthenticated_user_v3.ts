@@ -63,7 +63,7 @@ export interface Account {
   /** Email used for the account request. */
   email?: string | undefined;
   /** Token used to validate the account without email validation. */
-  token?: string | null | undefined;
+  token?: string | Redacted.Redacted<string> | null | undefined;
   /** The SRN of the account. */
   srn?: string | undefined;
 }
@@ -81,7 +81,7 @@ export interface CreateLoginSessionRequestPasswordless {
   /** Email of the user. */
   email?: string | undefined;
   /** Token of the magic link. */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
 }
 export interface CreateLoginSessionRequestOIDC {
   /** Code received from the identity provider. */
@@ -159,9 +159,9 @@ export interface OrganizationLogin {
   /** Data of the JWT created by the login request. */
   jwt?: JWT | undefined;
   /** Encoded JWT token. */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   /** Encoded JWT renew token. */
-  renew_token?: string | undefined;
+  renew_token?: string | Redacted.Redacted<string> | undefined;
 }
 /** List of organizations and their associated login information. */
 export type LogInOrganizationsResponseOrganizationsLoginInformationList = Array<OrganizationLogin>;
@@ -197,7 +197,7 @@ export interface InitiateOIDCSignupResponse {
   /** URL to redirect the user to. */
   url?: string | undefined;
   /** Security token to check when receiving a code from the identity provider. */
-  security_token?: string | undefined;
+  security_token?: string | Redacted.Redacted<string> | undefined;
 }
 export interface FinishWebAuthnAuthenticationRequest2 {
   /** ID of the authentication ceremony to finish. */
@@ -211,7 +211,7 @@ export interface LogInRequest {
   /** ID of the login session. */
   login_session_id?: string | undefined;
   /** OTP of the user. Precisely one of otp, webauthn can be set. */
-  otp?: string | null | undefined;
+  otp?: string | Redacted.Redacted<string> | null | undefined;
   /** Optional organization_id to specify the organization we want to log in. */
   organization_id?: string | null | undefined;
   /** WebAuthn response to the authentication ceremony. Precisely one of otp, webauthn can be set. */
@@ -221,9 +221,9 @@ export interface LogInResponse {
   /** Data of the JWT created by the login request. */
   jwt?: JWT | undefined;
   /** Encoded JWT token. */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   /** Encoded JWT renew token. */
-  renew_token?: string | undefined;
+  renew_token?: string | Redacted.Redacted<string> | undefined;
 }
 export interface LoginInitiateAuthenticationCodeRequest {
   /** Email of the user to login. */
@@ -242,7 +242,7 @@ export interface InitiateOIDCLoginResponse {
   /** URL to redirect the user to. */
   url?: string | undefined;
   /** Security token to check when receiving a code from the identity provider. */
-  security_token?: string | undefined;
+  security_token?: string | Redacted.Redacted<string> | undefined;
 }
 export interface LoginInitiatePasswordlessRequest {
   /** Email of the user. */
@@ -255,7 +255,7 @@ export interface LogInOrganizationsRequest {
   /** ID of the login session. */
   login_session_id?: string | undefined;
   /** OTP of the user. Precisely one of otp, webauthn can be set. */
-  otp?: string | null | undefined;
+  otp?: string | Redacted.Redacted<string> | null | undefined;
   /** WebAuthn response to the authentication ceremony. Precisely one of otp, webauthn can be set. */
   webauthn?: FinishWebAuthnAuthenticationRequest2 | null | undefined;
 }
@@ -268,7 +268,7 @@ export interface RejectEmailUpdateRequest {
   /** ID of the user. */
   account_root_user_id: string;
   /** Token received to reject the email update. */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
 }
 export interface RejectEmailUpdateResponse {}
 export type ResendAuthenticationCodeRequestOperation = "unknown_operation" | "sign_up" | "sign_in";
@@ -281,7 +281,7 @@ export interface ResendAuthenticationCodeRequest {
 export interface ResendAuthenticationCodeResponse {}
 export interface ResetPasswordRequest {
   /** Token received to reset the password. */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   /** New password. */
   password?: string | Redacted.Redacted<string> | undefined;
 }
@@ -356,7 +356,7 @@ export interface ValidateAccountRequest {
   /** Email used for the account request. */
   email?: string | undefined;
   /** Token received to validate the account. */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   /** Details of the professional organization. Precisely one of professional_organization, personal_organization can be set. */
   professional_organization?: ProfessionalOrganization | null | undefined;
   /** Details of the personal organization. Precisely one of professional_organization, personal_organization can be set. */
@@ -454,7 +454,7 @@ export interface ValidateEmailUpdateRequest {
   /** ID of the user. */
   account_root_user_id: string;
   /** Token received to validate the email update. */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
 }
 export interface ValidateEmailUpdateResponse {}
 export interface ValidateOIDCSignupRequest {
@@ -853,7 +853,7 @@ function __c0(j: number): any {
         S.Struct({
           id: S.optional(S.String),
           email: S.optional(S.String),
-          token: S.optional(S.NullOr(S.String)),
+          token: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           srn: S.optional(S.String),
         }),
       ).annotate({ identifier: "Account" });
@@ -874,7 +874,7 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           email: S.optional(S.String),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "CreateLoginSessionRequestPasswordless" });
     case 2:
@@ -926,7 +926,7 @@ function __c3(j: number): any {
       return S.suspend(() =>
         S.Struct({
           account_root_user_id: S.String.pipe(T.Label()),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -961,7 +961,7 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           password: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }).pipe(
           T.Http({
@@ -1046,7 +1046,7 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           email: S.optional(S.String),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           professional_organization: S.optional(S.NullOr(__S(64, __c8, 0))),
           personal_organization: S.optional(S.NullOr(__S(65, __c8, 1))),
           account_type: S.optional(S.String),
@@ -1143,7 +1143,7 @@ function __c10(j: number): any {
       return S.suspend(() =>
         S.Struct({
           account_root_user_id: S.String.pipe(T.Label()),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1264,8 +1264,8 @@ function __c16(j: number): any {
           organization_id: S.optional(S.String),
           organization_name: S.optional(S.String),
           jwt: S.optional(__S(112, __c14, 0)),
-          token: S.optional(S.String),
-          renew_token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          renew_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "OrganizationLogin" });
     case 1:
@@ -1298,7 +1298,7 @@ function __c18(j: number): any {
       return S.suspend(() =>
         S.Struct({
           url: S.optional(S.String),
-          security_token: S.optional(S.String),
+          security_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "InitiateOIDCSignupResponse" });
   }
@@ -1309,7 +1309,7 @@ function __c19(j: number): any {
       return S.suspend(() =>
         S.Struct({
           login_session_id: S.optional(S.String),
-          otp: S.optional(S.NullOr(S.String)),
+          otp: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           organization_id: S.optional(S.NullOr(S.String)),
           webauthn: S.optional(S.NullOr(__S(160, __c20, 0))),
         }).pipe(
@@ -1325,8 +1325,8 @@ function __c19(j: number): any {
       return S.suspend(() =>
         S.Struct({
           jwt: S.optional(__S(112, __c14, 0)),
-          token: S.optional(S.String),
-          renew_token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          renew_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "LogInResponse" });
   }
@@ -1415,7 +1415,7 @@ function __c25(j: number): any {
       return S.suspend(() =>
         S.Struct({
           login_session_id: S.optional(S.String),
-          otp: S.optional(S.NullOr(S.String)),
+          otp: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           webauthn: S.optional(S.NullOr(__S(160, __c20, 0))),
         }).pipe(
           T.Http({

@@ -82,7 +82,7 @@ export interface AccountsCreateOrUpdateRequestProperties {
   /** The list of CORS details. */
   cors?: CorsRuleList | undefined;
   /** Connection string to write Accounts reports to. */
-  reportsConnectionString?: string | undefined;
+  reportsConnectionString?: string | Redacted.Redacted<string> | undefined;
 }
 export interface AccountsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -111,7 +111,7 @@ export interface AccountsCreateOrUpdateResponseProperties {
   /** The list of CORS details. */
   cors?: CorsRuleList | undefined;
   /** Connection string to write Accounts reports to. */
-  reportsConnectionString?: string | undefined;
+  reportsConnectionString?: string | Redacted.Redacted<string> | undefined;
   /** The resource provisioning state. */
   provisioningState?: string | undefined;
 }
@@ -228,7 +228,7 @@ export interface GetAccountResponseProperties {
   /** The list of CORS details. */
   cors?: CorsRuleList | undefined;
   /** Connection string to write Accounts reports to. */
-  reportsConnectionString?: string | undefined;
+  reportsConnectionString?: string | Redacted.Redacted<string> | undefined;
   /** The resource provisioning state. */
   provisioningState?: string | undefined;
 }
@@ -551,7 +551,7 @@ export interface AccountResourceProperties {
   /** The list of CORS details. */
   cors?: CorsRuleList | undefined;
   /** Connection string to write Accounts reports to. */
-  reportsConnectionString?: string | undefined;
+  reportsConnectionString?: string | Redacted.Redacted<string> | undefined;
   /** The resource provisioning state. */
   provisioningState?: string | undefined;
 }
@@ -985,7 +985,7 @@ export interface UpdateAccountRequestProperties {
   /** The list of CORS details. */
   cors?: CorsRuleList | undefined;
   /** Connection string to write Accounts reports to. */
-  reportsConnectionString?: string | undefined;
+  reportsConnectionString?: string | Redacted.Redacted<string> | undefined;
 }
 export interface UpdateAccountRequest {
   /** The ID of the target subscription. */
@@ -1012,7 +1012,7 @@ export interface UpdateAccountResponseProperties {
   /** The list of CORS details. */
   cors?: CorsRuleList | undefined;
   /** Connection string to write Accounts reports to. */
-  reportsConnectionString?: string | undefined;
+  reportsConnectionString?: string | Redacted.Redacted<string> | undefined;
   /** The resource provisioning state. */
   provisioningState?: string | undefined;
 }
@@ -1605,7 +1605,7 @@ function __c0(j: number): any {
           configuration: S.optional(S.String),
           endpointAuthentications: S.optional(__S(17, __c1, 1)),
           cors: S.optional(__S(20, __c1, 4)),
-          reportsConnectionString: S.optional(S.String),
+          reportsConnectionString: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "AccountsCreateOrUpdateRequestProperties" });
     case 1:
@@ -1660,7 +1660,7 @@ function __c1(j: number): any {
           configuration: S.optional(S.String),
           endpointAuthentications: S.optional(__S(17, __c1, 1)),
           cors: S.optional(__S(20, __c1, 4)),
-          reportsConnectionString: S.optional(S.String),
+          reportsConnectionString: S.optional(S.String.pipe(T.SensitiveValue({}))),
           provisioningState: S.optional(S.String),
         }),
       ).annotate({ identifier: "AccountsCreateOrUpdateResponseProperties" });
@@ -1948,7 +1948,7 @@ function __c12(j: number): any {
         S.Struct({
           endpointAuthentications: S.optional(__S(17, __c1, 1)),
           cors: S.optional(__S(20, __c1, 4)),
-          reportsConnectionString: S.optional(S.String),
+          reportsConnectionString: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "UpdateAccountRequestProperties" });
     case 1:

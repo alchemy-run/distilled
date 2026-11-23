@@ -361,9 +361,9 @@ export type EndpointAuthMode = "AMLToken" | "Key" | "AADToken";
 /** Keys for endpoint authentication. */
 export interface EndpointAuthKeys {
   /** The primary key. */
-  primaryKey?: string | null | undefined;
+  primaryKey?: string | Redacted.Redacted<string> | null | undefined;
   /** The secondary key. */
-  secondaryKey?: string | null | undefined;
+  secondaryKey?: string | Redacted.Redacted<string> | null | undefined;
 }
 /** Property dictionary. Properties can be added, but not removed or altered. */
 export type BatchEndpointPropertiesInputPropertiesMap = {
@@ -726,7 +726,7 @@ export interface SASCredentialDto {
   /** [Required] Credential type used to authentication with storage. */
   credentialType: SASCredentialDtoCredentialType;
   /** Full SAS Uri, including the storage, container/blob path and SAS token */
-  sasUri?: string | null | undefined;
+  sasUri?: string | Redacted.Redacted<string> | null | undefined;
 }
 export interface BlobReferenceForConsumptionDto {
   /** Blob URI path for client to upload data. Example: https://blob.windows.core.net/Container/Path */
@@ -955,9 +955,9 @@ export interface SslConfiguration {
   /** Enable or disable ssl for scoring */
   status?: SslConfigStatus | (string & {}) | undefined;
   /** Cert data */
-  cert?: string | null | undefined;
+  cert?: string | Redacted.Redacted<string> | null | undefined;
   /** Key data */
-  key?: string | null | undefined;
+  key?: string | Redacted.Redacted<string> | null | undefined;
   /** CNAME of the cert */
   cname?: string | null | undefined;
   /** Leaf domain label of public endpoint */
@@ -1037,7 +1037,7 @@ export interface UserAccountCredentials {
   /** Name of the administrator user account which can be used to SSH to nodes. */
   adminUserName: string;
   /** SSH public key of the administrator user account. */
-  adminUserSshPublicKey?: string | undefined;
+  adminUserSshPublicKey?: string | Redacted.Redacted<string> | undefined;
   /** Password of the administrator user account. */
   adminUserPassword?: string | Redacted.Redacted<string> | undefined;
 }
@@ -1435,7 +1435,7 @@ export type DatabricksInputComputeType = "Databricks";
 /** Properties of Databricks */
 export interface DatabricksProperties {
   /** Databricks access token */
-  databricksAccessToken?: string | undefined;
+  databricksAccessToken?: string | Redacted.Redacted<string> | undefined;
   /** Workspace Url */
   workspaceUrl?: string | undefined;
 }
@@ -1462,9 +1462,9 @@ export interface VirtualMachineSshCredentials {
   /** Password of admin account */
   password?: string | Redacted.Redacted<string> | undefined;
   /** Public key data */
-  publicKeyData?: string | undefined;
+  publicKeyData?: string | Redacted.Redacted<string> | undefined;
   /** Private key data */
-  privateKeyData?: string | undefined;
+  privateKeyData?: string | Redacted.Redacted<string> | undefined;
 }
 /** HDInsight compute properties */
 export interface HDInsightProperties {
@@ -1518,9 +1518,9 @@ export type KubernetesPropertiesInstanceTypesMap = {
 /** Kubernetes properties */
 export interface KubernetesProperties {
   /** Relay connection string. */
-  relayConnectionString?: string | null | undefined;
+  relayConnectionString?: string | Redacted.Redacted<string> | null | undefined;
   /** ServiceBus connection string. */
-  serviceBusConnectionString?: string | null | undefined;
+  serviceBusConnectionString?: string | Redacted.Redacted<string> | null | undefined;
   /** Extension principal-id. */
   extensionPrincipalId?: string | null | undefined;
   /** Extension instance release train. */
@@ -2639,7 +2639,7 @@ export type AccountKeyAuthTypeWorkspaceConnectionPropertiesInputMetadataMap = {
 export type AccountKeyAuthTypeWorkspaceConnectionPropertiesInputSharedUserListList = Array<string>;
 /** Account key object for workspace connection credential. */
 export interface WorkspaceConnectionAccountKey {
-  key?: string | undefined;
+  key?: string | Redacted.Redacted<string> | undefined;
 }
 /** This connection type covers the account key connection for Azure storage */
 export interface AccountKeyAuthTypeWorkspaceConnectionPropertiesInput {
@@ -2696,7 +2696,7 @@ export type CustomKeysWorkspaceConnectionPropertiesInputMetadataMap = {
   [key: string]: string | undefined;
 };
 export type CustomKeysWorkspaceConnectionPropertiesInputSharedUserListList = Array<string>;
-export type CustomKeysKeysMap = { [key: string]: string | undefined };
+export type CustomKeysKeysMap = { [key: string]: string | Redacted.Redacted<string> | undefined };
 /** Custom Keys credential object */
 export interface CustomKeys {
   keys?: CustomKeysKeysMap | undefined;
@@ -2789,7 +2789,7 @@ export interface WorkspaceConnectionOAuth2 {
   clientId?: string | undefined;
   clientSecret?: string | Redacted.Redacted<string> | undefined;
   /** Required by GoogleAdWords connection category */
-  developerToken?: string | undefined;
+  developerToken?: string | Redacted.Redacted<string> | undefined;
   password?: string | Redacted.Redacted<string> | undefined;
   /** Required by GoogleBigQuery, GoogleAdWords, Hubspot, QuickBooks, Square, Xero, Zoho where user needs to get RefreshToken offline */
   refreshToken?: string | Redacted.Redacted<string> | undefined;
@@ -2823,7 +2823,7 @@ export type PATAuthTypeWorkspaceConnectionPropertiesInputMetadataMap = {
 };
 export type PATAuthTypeWorkspaceConnectionPropertiesInputSharedUserListList = Array<string>;
 export interface WorkspaceConnectionPersonalAccessToken {
-  pat?: string | undefined;
+  pat?: string | Redacted.Redacted<string> | undefined;
 }
 export interface PATAuthTypeWorkspaceConnectionPropertiesInput {
   /** Authentication type of the connection target */
@@ -2850,7 +2850,7 @@ export type SASAuthTypeWorkspaceConnectionPropertiesInputMetadataMap = {
 };
 export type SASAuthTypeWorkspaceConnectionPropertiesInputSharedUserListList = Array<string>;
 export interface WorkspaceConnectionSharedAccessSignature {
-  sas?: string | undefined;
+  sas?: string | Redacted.Redacted<string> | undefined;
 }
 export interface SASAuthTypeWorkspaceConnectionPropertiesInput {
   /** Authentication type of the connection target */
@@ -2912,7 +2912,7 @@ export type UsernamePasswordAuthTypeWorkspaceConnectionPropertiesInputSharedUser
 export interface WorkspaceConnectionUsernamePassword {
   password?: string | Redacted.Redacted<string> | undefined;
   /** Optional, required by connections like SalesForce for extra security in addition to UsernamePassword */
-  securityToken?: string | undefined;
+  securityToken?: string | Redacted.Redacted<string> | undefined;
   username?: string | undefined;
 }
 export interface UsernamePasswordAuthTypeWorkspaceConnectionPropertiesInput {
@@ -3468,7 +3468,7 @@ export interface SasDatastoreSecrets {
   /** [Required] Credential type used to authentication with storage. */
   secretsType: SasDatastoreSecretsSecretsType;
   /** Storage container SAS token. */
-  sasToken?: string | null | undefined;
+  sasToken?: string | Redacted.Redacted<string> | null | undefined;
 }
 /** SAS datastore credentials configuration. */
 export interface SasDatastoreCredentials {
@@ -10652,7 +10652,7 @@ export interface DatabricksComputeSecrets {
   /** The type of compute */
   computeType: DatabricksComputeSecretsComputeType;
   /** access token for databricks account. */
-  databricksAccessToken?: string | undefined;
+  databricksAccessToken?: string | Redacted.Redacted<string> | undefined;
 }
 /** The type of compute */
 export type VirtualMachineSecretsComputeType = "VirtualMachine";
@@ -12336,8 +12336,8 @@ export interface ListWorkspaceKeysRequest {
   workspaceName: string;
 }
 export interface Password {
-  name?: string | undefined;
-  value?: string | undefined;
+  name?: string | Redacted.Redacted<string> | undefined;
+  value?: string | Redacted.Redacted<string> | undefined;
 }
 export type RegistryListCredentialsResultPasswordsList = Array<Password>;
 export interface RegistryListCredentialsResult {
@@ -12349,19 +12349,19 @@ export interface RegistryListCredentialsResult {
 }
 export interface ListNotebookKeysResult {
   /** The primary access key of the Notebook */
-  primaryAccessKey?: string | undefined;
+  primaryAccessKey?: string | Redacted.Redacted<string> | undefined;
   /** The secondary access key of the Notebook */
-  secondaryAccessKey?: string | undefined;
+  secondaryAccessKey?: string | Redacted.Redacted<string> | undefined;
 }
 export interface ListWorkspaceKeysResult {
   /** The access key of the workspace app insights */
-  appInsightsInstrumentationKey?: string | undefined;
+  appInsightsInstrumentationKey?: string | Redacted.Redacted<string> | undefined;
   containerRegistryCredentials?: RegistryListCredentialsResult | undefined;
   notebookAccessKeys?: ListNotebookKeysResult | undefined;
   /** The arm Id key of the workspace storage */
   userStorageArmId?: string | undefined;
   /** The access key of the workspace storage */
-  userStorageKey?: string | undefined;
+  userStorageKey?: string | Redacted.Redacted<string> | undefined;
 }
 export interface ListWorkspaceNotebookAccessTokenRequest {
   /** The ID of the target subscription. */
@@ -12428,7 +12428,7 @@ export interface ListWorkspaceStorageAccountKeysRequest {
 }
 export interface ListStorageAccountKeysResult {
   /** The access key of the storage */
-  userStorageKey?: string | undefined;
+  userStorageKey?: string | Redacted.Redacted<string> | undefined;
 }
 /** Type of a managed network Outbound Rule of a machine learning workspace. */
 export type FqdnOutboundRuleInputType = "FQDN";
@@ -13133,9 +13133,9 @@ export interface RegenerateServerlessEndpointKeysRequest {
 /** Keys for endpoint authentication. */
 export interface RegenerateServerlessEndpointKeysResponse {
   /** The primary key. */
-  primaryKey?: string | null | undefined;
+  primaryKey?: string | Redacted.Redacted<string> | null | undefined;
   /** The secondary key. */
-  secondaryKey?: string | null | undefined;
+  secondaryKey?: string | Redacted.Redacted<string> | null | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
@@ -14783,7 +14783,7 @@ export const CodeVersionsCreateOrGetStartPendingUpload: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6976, __c218, 0) as any as S.Schema<CodeVersionsCreateOrGetStartPendingUploadRequest>,
-  output: __S(7009, __c219, 1) as any as S.Schema<PendingUploadResponseDto>,
+  output: __S(7010, __c219, 2) as any as S.Schema<PendingUploadResponseDto>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -14800,8 +14800,8 @@ export const CodeVersionsCreateOrUpdate: API.OperationMethod<
   CodeVersionsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7648, __c239, 0) as any as S.Schema<CodeVersionsCreateOrUpdateRequest>,
-  output: __S(7712, __c241, 0) as any as S.Schema<CodeVersionsCreateOrUpdateResponse>,
+  input: __S(7616, __c238, 0) as any as S.Schema<CodeVersionsCreateOrUpdateRequest>,
+  output: __S(7680, __c240, 0) as any as S.Schema<CodeVersionsCreateOrUpdateResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -14818,7 +14818,7 @@ export const ComponentContainersCreateOrUpdate: API.OperationMethod<
   ComponentContainersCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8256, __c258, 0) as any as S.Schema<ComponentContainersCreateOrUpdateRequest>,
+  input: __S(8224, __c257, 0) as any as S.Schema<ComponentContainersCreateOrUpdateRequest>,
   output: __S(6624, __c207, 0) as any as S.Schema<ComponentContainersCreateOrUpdateResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
@@ -14836,8 +14836,8 @@ export const ComponentVersionsCreateOrUpdate: API.OperationMethod<
   ComponentVersionsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8832, __c276, 0) as any as S.Schema<ComponentVersionsCreateOrUpdateRequest>,
-  output: __S(8896, __c278, 0) as any as S.Schema<ComponentVersionsCreateOrUpdateResponse>,
+  input: __S(8800, __c275, 0) as any as S.Schema<ComponentVersionsCreateOrUpdateRequest>,
+  output: __S(8864, __c277, 0) as any as S.Schema<ComponentVersionsCreateOrUpdateResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -14854,8 +14854,8 @@ export const ComputeCreateOrUpdate: API.OperationMethod<
   ComputeCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9714, __c303, 18) as any as S.Schema<ComputeCreateOrUpdateRequest>,
-  output: __S(9715, __c303, 19) as any as S.Schema<ComputeCreateOrUpdateResponse>,
+  input: __S(9682, __c302, 18) as any as S.Schema<ComputeCreateOrUpdateRequest>,
+  output: __S(9683, __c302, 19) as any as S.Schema<ComputeCreateOrUpdateResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -14873,7 +14873,7 @@ export const CreateWorkspaceConnection: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c14, 0) as any as S.Schema<CreateWorkspaceConnectionRequest>,
-  output: __S(500, __c15, 20) as any as S.Schema<CreateWorkspaceConnectionResponse>,
+  output: __S(501, __c15, 21) as any as S.Schema<CreateWorkspaceConnectionResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -15592,7 +15592,7 @@ export const DeleteSchedule: API.OperationMethod<
   DeleteScheduleError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7072, __c221, 0) as any as S.Schema<DeleteScheduleRequest>,
+  input: __S(7040, __c220, 0) as any as S.Schema<DeleteScheduleRequest>,
   output: __S(5120, __c160, 0) as any as S.Schema<DeleteScheduleResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
@@ -15610,7 +15610,7 @@ export const DeleteServerlessEndpoint: API.OperationMethod<
   DeleteServerlessEndpointError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7104, __c222, 0) as any as S.Schema<DeleteServerlessEndpointRequest>,
+  input: __S(7072, __c221, 0) as any as S.Schema<DeleteServerlessEndpointRequest>,
   output: __S(5120, __c160, 0) as any as S.Schema<DeleteServerlessEndpointResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
@@ -15628,7 +15628,7 @@ export const DeleteWorkspace: API.OperationMethod<
   DeleteWorkspaceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7136, __c223, 0) as any as S.Schema<DeleteWorkspaceRequest>,
+  input: __S(7104, __c222, 0) as any as S.Schema<DeleteWorkspaceRequest>,
   output: __S(5120, __c160, 0) as any as S.Schema<DeleteWorkspaceResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
@@ -15646,7 +15646,7 @@ export const DeleteWorkspaceConnection: API.OperationMethod<
   DeleteWorkspaceConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7168, __c224, 0) as any as S.Schema<DeleteWorkspaceConnectionRequest>,
+  input: __S(7136, __c223, 0) as any as S.Schema<DeleteWorkspaceConnectionRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<DeleteWorkspaceConnectionResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
@@ -15664,7 +15664,7 @@ export const EnvironmentContainersCreateOrUpdate: API.OperationMethod<
   EnvironmentContainersCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7200, __c225, 0) as any as S.Schema<EnvironmentContainersCreateOrUpdateRequest>,
+  input: __S(7168, __c224, 0) as any as S.Schema<EnvironmentContainersCreateOrUpdateRequest>,
   output: __S(6624, __c207, 0) as any as S.Schema<EnvironmentContainersCreateOrUpdateResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
@@ -15682,8 +15682,8 @@ export const EnvironmentVersionsCreateOrUpdate: API.OperationMethod<
   EnvironmentVersionsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7232, __c226, 0) as any as S.Schema<EnvironmentVersionsCreateOrUpdateRequest>,
-  output: __S(7296, __c228, 0) as any as S.Schema<EnvironmentVersionsCreateOrUpdateResponse>,
+  input: __S(7200, __c225, 0) as any as S.Schema<EnvironmentVersionsCreateOrUpdateRequest>,
+  output: __S(7264, __c227, 0) as any as S.Schema<EnvironmentVersionsCreateOrUpdateResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -15700,8 +15700,8 @@ export const FeaturesetContainersCreateOrUpdate: API.OperationMethod<
   FeaturesetContainersCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7360, __c230, 0) as any as S.Schema<FeaturesetContainersCreateOrUpdateRequest>,
-  output: __S(7392, __c231, 0) as any as S.Schema<FeaturesetContainersCreateOrUpdateResponse>,
+  input: __S(7328, __c229, 0) as any as S.Schema<FeaturesetContainersCreateOrUpdateRequest>,
+  output: __S(7360, __c230, 0) as any as S.Schema<FeaturesetContainersCreateOrUpdateResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -15718,8 +15718,8 @@ export const FeaturesetVersionsBackfill: API.OperationMethod<
   FeaturesetVersionsBackfillError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7425, __c232, 1) as any as S.Schema<FeaturesetVersionsBackfillRequest>,
-  output: __S(7426, __c232, 2) as any as S.Schema<FeaturesetVersionBackfillResponse>,
+  input: __S(7393, __c231, 1) as any as S.Schema<FeaturesetVersionsBackfillRequest>,
+  output: __S(7394, __c231, 2) as any as S.Schema<FeaturesetVersionBackfillResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -15736,8 +15736,8 @@ export const FeaturesetVersionsCreateOrUpdate: API.OperationMethod<
   FeaturesetVersionsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7489, __c234, 1) as any as S.Schema<FeaturesetVersionsCreateOrUpdateRequest>,
-  output: __S(7490, __c234, 2) as any as S.Schema<FeaturesetVersionsCreateOrUpdateResponse>,
+  input: __S(7457, __c233, 1) as any as S.Schema<FeaturesetVersionsCreateOrUpdateRequest>,
+  output: __S(7458, __c233, 2) as any as S.Schema<FeaturesetVersionsCreateOrUpdateResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -15754,10 +15754,10 @@ export const FeaturestoreEntityContainersCreateOrUpdate: API.OperationMethod<
   FeaturestoreEntityContainersCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7616, __c238, 0) as any as S.Schema<FeaturestoreEntityContainersCreateOrUpdateRequest>,
+  input: __S(7584, __c237, 0) as any as S.Schema<FeaturestoreEntityContainersCreateOrUpdateRequest>,
   output: __S(
-    7392,
-    __c231,
+    7360,
+    __c230,
     0,
   ) as any as S.Schema<FeaturestoreEntityContainersCreateOrUpdateResponse>,
   errors: [],
@@ -15776,8 +15776,8 @@ export const FeaturestoreEntityVersionsCreateOrUpdate: API.OperationMethod<
   FeaturestoreEntityVersionsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7777, __c243, 1) as any as S.Schema<FeaturestoreEntityVersionsCreateOrUpdateRequest>,
-  output: __S(7778, __c243, 2) as any as S.Schema<FeaturestoreEntityVersionsCreateOrUpdateResponse>,
+  input: __S(7745, __c242, 1) as any as S.Schema<FeaturestoreEntityVersionsCreateOrUpdateRequest>,
+  output: __S(7746, __c242, 2) as any as S.Schema<FeaturestoreEntityVersionsCreateOrUpdateResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -15794,8 +15794,8 @@ export const GetBatchDeployment: API.OperationMethod<
   GetBatchDeploymentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7840, __c245, 0) as any as S.Schema<GetBatchDeploymentRequest>,
-  output: __S(7872, __c246, 0) as any as S.Schema<GetBatchDeploymentResponse>,
+  input: __S(7808, __c244, 0) as any as S.Schema<GetBatchDeploymentRequest>,
+  output: __S(7840, __c245, 0) as any as S.Schema<GetBatchDeploymentResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -15812,8 +15812,8 @@ export const GetBatchEndpoint: API.OperationMethod<
   GetBatchEndpointError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7904, __c247, 0) as any as S.Schema<GetBatchEndpointRequest>,
-  output: __S(7936, __c248, 0) as any as S.Schema<GetBatchEndpointResponse>,
+  input: __S(7872, __c246, 0) as any as S.Schema<GetBatchEndpointRequest>,
+  output: __S(7904, __c247, 0) as any as S.Schema<GetBatchEndpointResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -15830,8 +15830,8 @@ export const GetCapabilityHost: API.OperationMethod<
   GetCapabilityHostError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7968, __c249, 0) as any as S.Schema<GetCapabilityHostRequest>,
-  output: __S(8000, __c250, 0) as any as S.Schema<GetCapabilityHostResponse>,
+  input: __S(7936, __c248, 0) as any as S.Schema<GetCapabilityHostRequest>,
+  output: __S(7968, __c249, 0) as any as S.Schema<GetCapabilityHostResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -15848,7 +15848,7 @@ export const GetCodeContainer: API.OperationMethod<
   GetCodeContainerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8032, __c251, 0) as any as S.Schema<GetCodeContainerRequest>,
+  input: __S(8000, __c250, 0) as any as S.Schema<GetCodeContainerRequest>,
   output: __S(6624, __c207, 0) as any as S.Schema<GetCodeContainerResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
@@ -15866,8 +15866,8 @@ export const GetCodeVersion: API.OperationMethod<
   GetCodeVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8064, __c252, 0) as any as S.Schema<GetCodeVersionRequest>,
-  output: __S(7712, __c241, 0) as any as S.Schema<GetCodeVersionResponse>,
+  input: __S(8032, __c251, 0) as any as S.Schema<GetCodeVersionRequest>,
+  output: __S(7680, __c240, 0) as any as S.Schema<GetCodeVersionResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -15884,7 +15884,7 @@ export const GetComponentContainer: API.OperationMethod<
   GetComponentContainerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8096, __c253, 0) as any as S.Schema<GetComponentContainerRequest>,
+  input: __S(8064, __c252, 0) as any as S.Schema<GetComponentContainerRequest>,
   output: __S(6624, __c207, 0) as any as S.Schema<GetComponentContainerResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
@@ -15902,8 +15902,8 @@ export const GetComponentVersion: API.OperationMethod<
   GetComponentVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8128, __c254, 0) as any as S.Schema<GetComponentVersionRequest>,
-  output: __S(8896, __c278, 0) as any as S.Schema<GetComponentVersionResponse>,
+  input: __S(8096, __c253, 0) as any as S.Schema<GetComponentVersionRequest>,
+  output: __S(8864, __c277, 0) as any as S.Schema<GetComponentVersionResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -15920,8 +15920,8 @@ export const GetCompute: API.OperationMethod<
   GetComputeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8160, __c255, 0) as any as S.Schema<GetComputeRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<GetComputeResponse>,
+  input: __S(8128, __c254, 0) as any as S.Schema<GetComputeRequest>,
+  output: __S(8160, __c255, 0) as any as S.Schema<GetComputeResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -15938,7 +15938,7 @@ export const GetDataContainer: API.OperationMethod<
   GetDataContainerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8224, __c257, 0) as any as S.Schema<GetDataContainerRequest>,
+  input: __S(8192, __c256, 0) as any as S.Schema<GetDataContainerRequest>,
   output: __S(1280, __c40, 0) as any as S.Schema<GetDataContainerResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
@@ -15956,7 +15956,7 @@ export const GetDatastore: API.OperationMethod<
   GetDatastoreError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8288, __c259, 0) as any as S.Schema<GetDatastoreRequest>,
+  input: __S(8256, __c258, 0) as any as S.Schema<GetDatastoreRequest>,
   output: __S(1837, __c57, 13) as any as S.Schema<GetDatastoreResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
@@ -15974,7 +15974,7 @@ export const GetDataVersion: API.OperationMethod<
   GetDataVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8320, __c260, 0) as any as S.Schema<GetDataVersionRequest>,
+  input: __S(8288, __c259, 0) as any as S.Schema<GetDataVersionRequest>,
   output: __S(2304, __c72, 0) as any as S.Schema<GetDataVersionResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
@@ -15992,7 +15992,7 @@ export const GetEnvironmentContainer: API.OperationMethod<
   GetEnvironmentContainerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8352, __c261, 0) as any as S.Schema<GetEnvironmentContainerRequest>,
+  input: __S(8320, __c260, 0) as any as S.Schema<GetEnvironmentContainerRequest>,
   output: __S(6624, __c207, 0) as any as S.Schema<GetEnvironmentContainerResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
@@ -16010,8 +16010,8 @@ export const GetEnvironmentVersion: API.OperationMethod<
   GetEnvironmentVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8384, __c262, 0) as any as S.Schema<GetEnvironmentVersionRequest>,
-  output: __S(7296, __c228, 0) as any as S.Schema<GetEnvironmentVersionResponse>,
+  input: __S(8352, __c261, 0) as any as S.Schema<GetEnvironmentVersionRequest>,
+  output: __S(7264, __c227, 0) as any as S.Schema<GetEnvironmentVersionResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -16028,8 +16028,8 @@ export const GetFeature: API.OperationMethod<
   GetFeatureError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8416, __c263, 0) as any as S.Schema<GetFeatureRequest>,
-  output: __S(8449, __c264, 1) as any as S.Schema<GetFeatureResponse>,
+  input: __S(8384, __c262, 0) as any as S.Schema<GetFeatureRequest>,
+  output: __S(8417, __c263, 1) as any as S.Schema<GetFeatureResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -16046,7 +16046,7 @@ export const GetFeaturesetContainerEntity: API.OperationMethod<
   GetFeaturesetContainerEntityError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8480, __c265, 0) as any as S.Schema<GetFeaturesetContainerEntityRequest>,
+  input: __S(8448, __c264, 0) as any as S.Schema<GetFeaturesetContainerEntityRequest>,
   output: __S(6624, __c207, 0) as any as S.Schema<GetFeaturesetContainerEntityResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
@@ -16064,8 +16064,8 @@ export const GetFeaturesetVersion: API.OperationMethod<
   GetFeaturesetVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8512, __c266, 0) as any as S.Schema<GetFeaturesetVersionRequest>,
-  output: __S(8544, __c267, 0) as any as S.Schema<GetFeaturesetVersionResponse>,
+  input: __S(8480, __c265, 0) as any as S.Schema<GetFeaturesetVersionRequest>,
+  output: __S(8512, __c266, 0) as any as S.Schema<GetFeaturesetVersionResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -16082,7 +16082,7 @@ export const GetFeaturestoreEntityContainerEntity: API.OperationMethod<
   GetFeaturestoreEntityContainerEntityError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8576, __c268, 0) as any as S.Schema<GetFeaturestoreEntityContainerEntityRequest>,
+  input: __S(8544, __c267, 0) as any as S.Schema<GetFeaturestoreEntityContainerEntityRequest>,
   output: __S(6624, __c207, 0) as any as S.Schema<GetFeaturestoreEntityContainerEntityResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
@@ -16100,8 +16100,8 @@ export const GetFeaturestoreEntityVersion: API.OperationMethod<
   GetFeaturestoreEntityVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8608, __c269, 0) as any as S.Schema<GetFeaturestoreEntityVersionRequest>,
-  output: __S(8640, __c270, 0) as any as S.Schema<GetFeaturestoreEntityVersionResponse>,
+  input: __S(8576, __c268, 0) as any as S.Schema<GetFeaturestoreEntityVersionRequest>,
+  output: __S(8608, __c269, 0) as any as S.Schema<GetFeaturestoreEntityVersionResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -16118,8 +16118,8 @@ export const GetJob: API.OperationMethod<
   GetJobError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8672, __c271, 0) as any as S.Schema<GetJobRequest>,
-  output: __S(8800, __c275, 0) as any as S.Schema<GetJobResponse>,
+  input: __S(8640, __c270, 0) as any as S.Schema<GetJobRequest>,
+  output: __S(8768, __c274, 0) as any as S.Schema<GetJobResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -16136,8 +16136,8 @@ export const GetManagedNetworkSettingsRule: API.OperationMethod<
   GetManagedNetworkSettingsRuleError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8960, __c280, 0) as any as S.Schema<GetManagedNetworkSettingsRuleRequest>,
-  output: __S(9024, __c282, 0) as any as S.Schema<GetManagedNetworkSettingsRuleResponse>,
+  input: __S(8928, __c279, 0) as any as S.Schema<GetManagedNetworkSettingsRuleRequest>,
+  output: __S(8992, __c281, 0) as any as S.Schema<GetManagedNetworkSettingsRuleResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -16154,8 +16154,8 @@ export const GetMarketplaceSubscription: API.OperationMethod<
   GetMarketplaceSubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9056, __c283, 0) as any as S.Schema<GetMarketplaceSubscriptionRequest>,
-  output: __S(9088, __c284, 0) as any as S.Schema<GetMarketplaceSubscriptionResponse>,
+  input: __S(9024, __c282, 0) as any as S.Schema<GetMarketplaceSubscriptionRequest>,
+  output: __S(9056, __c283, 0) as any as S.Schema<GetMarketplaceSubscriptionResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -16172,7 +16172,7 @@ export const GetModelContainer: API.OperationMethod<
   GetModelContainerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9152, __c286, 0) as any as S.Schema<GetModelContainerRequest>,
+  input: __S(9120, __c285, 0) as any as S.Schema<GetModelContainerRequest>,
   output: __S(6624, __c207, 0) as any as S.Schema<GetModelContainerResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
@@ -16190,8 +16190,8 @@ export const GetModelVersion: API.OperationMethod<
   GetModelVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9184, __c287, 0) as any as S.Schema<GetModelVersionRequest>,
-  output: __S(9216, __c288, 0) as any as S.Schema<GetModelVersionResponse>,
+  input: __S(9152, __c286, 0) as any as S.Schema<GetModelVersionRequest>,
+  output: __S(9184, __c287, 0) as any as S.Schema<GetModelVersionResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -16208,8 +16208,8 @@ export const GetOnlineDeployment: API.OperationMethod<
   GetOnlineDeploymentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9280, __c290, 0) as any as S.Schema<GetOnlineDeploymentRequest>,
-  output: __S(9312, __c291, 0) as any as S.Schema<GetOnlineDeploymentResponse>,
+  input: __S(9248, __c289, 0) as any as S.Schema<GetOnlineDeploymentRequest>,
+  output: __S(9280, __c290, 0) as any as S.Schema<GetOnlineDeploymentResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -16226,8 +16226,8 @@ export const GetOnlineDeploymentLogs: API.OperationMethod<
   GetOnlineDeploymentLogsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9376, __c293, 0) as any as S.Schema<GetOnlineDeploymentLogsRequest>,
-  output: __S(9377, __c293, 1) as any as S.Schema<DeploymentLogs>,
+  input: __S(9344, __c292, 0) as any as S.Schema<GetOnlineDeploymentLogsRequest>,
+  output: __S(9345, __c292, 1) as any as S.Schema<DeploymentLogs>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -16244,8 +16244,8 @@ export const GetOnlineEndpoint: API.OperationMethod<
   GetOnlineEndpointError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9408, __c294, 0) as any as S.Schema<GetOnlineEndpointRequest>,
-  output: __S(9440, __c295, 0) as any as S.Schema<GetOnlineEndpointResponse>,
+  input: __S(9376, __c293, 0) as any as S.Schema<GetOnlineEndpointRequest>,
+  output: __S(9408, __c294, 0) as any as S.Schema<GetOnlineEndpointResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -16262,8 +16262,8 @@ export const GetOnlineEndpointToken: API.OperationMethod<
   GetOnlineEndpointTokenError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9504, __c297, 0) as any as S.Schema<GetOnlineEndpointTokenRequest>,
-  output: __S(9505, __c297, 1) as any as S.Schema<EndpointAuthToken>,
+  input: __S(9472, __c296, 0) as any as S.Schema<GetOnlineEndpointTokenRequest>,
+  output: __S(9473, __c296, 1) as any as S.Schema<EndpointAuthToken>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -16280,8 +16280,8 @@ export const GetPrivateEndpointConnection: API.OperationMethod<
   GetPrivateEndpointConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9536, __c298, 0) as any as S.Schema<GetPrivateEndpointConnectionRequest>,
-  output: __S(9571, __c299, 3) as any as S.Schema<GetPrivateEndpointConnectionResponse>,
+  input: __S(9504, __c297, 0) as any as S.Schema<GetPrivateEndpointConnectionRequest>,
+  output: __S(9539, __c298, 3) as any as S.Schema<GetPrivateEndpointConnectionResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -16298,8 +16298,8 @@ export const GetRegistry: API.OperationMethod<
   GetRegistryError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9600, __c300, 0) as any as S.Schema<GetRegistryRequest>,
-  output: __S(9664, __c302, 0) as any as S.Schema<GetRegistryResponse>,
+  input: __S(9568, __c299, 0) as any as S.Schema<GetRegistryRequest>,
+  output: __S(9632, __c301, 0) as any as S.Schema<GetRegistryResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -16316,7 +16316,7 @@ export const GetRegistryCodeContainer: API.OperationMethod<
   GetRegistryCodeContainerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9952, __c311, 0) as any as S.Schema<GetRegistryCodeContainerRequest>,
+  input: __S(9920, __c310, 0) as any as S.Schema<GetRegistryCodeContainerRequest>,
   output: __S(6624, __c207, 0) as any as S.Schema<GetRegistryCodeContainerResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
@@ -16334,8 +16334,8 @@ export const GetRegistryCodeVersion: API.OperationMethod<
   GetRegistryCodeVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9984, __c312, 0) as any as S.Schema<GetRegistryCodeVersionRequest>,
-  output: __S(7712, __c241, 0) as any as S.Schema<GetRegistryCodeVersionResponse>,
+  input: __S(9952, __c311, 0) as any as S.Schema<GetRegistryCodeVersionRequest>,
+  output: __S(7680, __c240, 0) as any as S.Schema<GetRegistryCodeVersionResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -16352,7 +16352,7 @@ export const GetRegistryComponentContainer: API.OperationMethod<
   GetRegistryComponentContainerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10016, __c313, 0) as any as S.Schema<GetRegistryComponentContainerRequest>,
+  input: __S(9984, __c312, 0) as any as S.Schema<GetRegistryComponentContainerRequest>,
   output: __S(6624, __c207, 0) as any as S.Schema<GetRegistryComponentContainerResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
@@ -16370,8 +16370,8 @@ export const GetRegistryComponentVersion: API.OperationMethod<
   GetRegistryComponentVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10048, __c314, 0) as any as S.Schema<GetRegistryComponentVersionRequest>,
-  output: __S(8896, __c278, 0) as any as S.Schema<GetRegistryComponentVersionResponse>,
+  input: __S(10016, __c313, 0) as any as S.Schema<GetRegistryComponentVersionRequest>,
+  output: __S(8864, __c277, 0) as any as S.Schema<GetRegistryComponentVersionResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -16388,7 +16388,7 @@ export const GetRegistryDataContainer: API.OperationMethod<
   GetRegistryDataContainerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10080, __c315, 0) as any as S.Schema<GetRegistryDataContainerRequest>,
+  input: __S(10048, __c314, 0) as any as S.Schema<GetRegistryDataContainerRequest>,
   output: __S(1280, __c40, 0) as any as S.Schema<GetRegistryDataContainerResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
@@ -16406,8 +16406,8 @@ export const GetRegistryDataReferenceBlobReferenceSAS: API.OperationMethod<
   GetRegistryDataReferenceBlobReferenceSASError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10112, __c316, 0) as any as S.Schema<GetRegistryDataReferenceBlobReferenceSASRequest>,
-  output: __S(10118, __c316, 6) as any as S.Schema<GetBlobReferenceSASResponseDto>,
+  input: __S(10080, __c315, 0) as any as S.Schema<GetRegistryDataReferenceBlobReferenceSASRequest>,
+  output: __S(10087, __c315, 7) as any as S.Schema<GetBlobReferenceSASResponseDto>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -16424,7 +16424,7 @@ export const GetRegistryDataVersion: API.OperationMethod<
   GetRegistryDataVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10144, __c317, 0) as any as S.Schema<GetRegistryDataVersionRequest>,
+  input: __S(10112, __c316, 0) as any as S.Schema<GetRegistryDataVersionRequest>,
   output: __S(2304, __c72, 0) as any as S.Schema<GetRegistryDataVersionResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
@@ -16442,7 +16442,7 @@ export const GetRegistryEnvironmentContainer: API.OperationMethod<
   GetRegistryEnvironmentContainerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10176, __c318, 0) as any as S.Schema<GetRegistryEnvironmentContainerRequest>,
+  input: __S(10144, __c317, 0) as any as S.Schema<GetRegistryEnvironmentContainerRequest>,
   output: __S(6624, __c207, 0) as any as S.Schema<GetRegistryEnvironmentContainerResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
@@ -16460,8 +16460,8 @@ export const GetRegistryEnvironmentVersion: API.OperationMethod<
   GetRegistryEnvironmentVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10208, __c319, 0) as any as S.Schema<GetRegistryEnvironmentVersionRequest>,
-  output: __S(7296, __c228, 0) as any as S.Schema<GetRegistryEnvironmentVersionResponse>,
+  input: __S(10176, __c318, 0) as any as S.Schema<GetRegistryEnvironmentVersionRequest>,
+  output: __S(7264, __c227, 0) as any as S.Schema<GetRegistryEnvironmentVersionResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -16478,7 +16478,7 @@ export const GetRegistryModelContainer: API.OperationMethod<
   GetRegistryModelContainerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10240, __c320, 0) as any as S.Schema<GetRegistryModelContainerRequest>,
+  input: __S(10208, __c319, 0) as any as S.Schema<GetRegistryModelContainerRequest>,
   output: __S(6624, __c207, 0) as any as S.Schema<GetRegistryModelContainerResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
@@ -16497,7 +16497,7 @@ export const GetRegistryModelVersion: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c17, 0) as any as S.Schema<GetRegistryModelVersionRequest>,
-  output: __S(9216, __c288, 0) as any as S.Schema<GetRegistryModelVersionResponse>,
+  output: __S(9184, __c287, 0) as any as S.Schema<GetRegistryModelVersionResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -16569,7 +16569,7 @@ export const GetWorkspaceConnection: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c31, 0) as any as S.Schema<GetWorkspaceConnectionRequest>,
-  output: __S(500, __c15, 20) as any as S.Schema<GetWorkspaceConnectionResponse>,
+  output: __S(501, __c15, 21) as any as S.Schema<GetWorkspaceConnectionResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -16587,7 +16587,7 @@ export const JobsCreateOrUpdate: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c32, 0) as any as S.Schema<JobsCreateOrUpdateRequest>,
-  output: __S(8800, __c275, 0) as any as S.Schema<JobsCreateOrUpdateResponse>,
+  output: __S(8768, __c274, 0) as any as S.Schema<JobsCreateOrUpdateResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -17954,7 +17954,7 @@ export const ListWorkspaceConnectionSecrets: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3584, __c112, 0) as any as S.Schema<ListWorkspaceConnectionSecretsRequest>,
-  output: __S(500, __c15, 20) as any as S.Schema<ListWorkspaceConnectionSecretsResponse>,
+  output: __S(501, __c15, 21) as any as S.Schema<ListWorkspaceConnectionSecretsResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -18145,7 +18145,7 @@ export const ModelVersionsCreateOrUpdate: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4000, __c125, 0) as any as S.Schema<ModelVersionsCreateOrUpdateRequest>,
-  output: __S(9216, __c288, 0) as any as S.Schema<ModelVersionsCreateOrUpdateResponse>,
+  output: __S(9184, __c287, 0) as any as S.Schema<ModelVersionsCreateOrUpdateResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -18199,7 +18199,7 @@ export const PrivateEndpointConnectionsCreateOrUpdate: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4129, __c129, 1) as any as S.Schema<PrivateEndpointConnectionsCreateOrUpdateRequest>,
-  output: __S(9571, __c299, 3) as any as S.Schema<PrivateEndpointConnectionsCreateOrUpdateResponse>,
+  output: __S(9539, __c298, 3) as any as S.Schema<PrivateEndpointConnectionsCreateOrUpdateResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -18409,7 +18409,7 @@ export const RegistryCodeVersionsCreateOrGetStartPendingUpload: API.OperationMet
     __c143,
     0,
   ) as any as S.Schema<RegistryCodeVersionsCreateOrGetStartPendingUploadRequest>,
-  output: __S(7009, __c219, 1) as any as S.Schema<PendingUploadResponseDto>,
+  output: __S(7010, __c219, 2) as any as S.Schema<PendingUploadResponseDto>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -18507,7 +18507,7 @@ export const RegistryDataVersionsCreateOrGetStartPendingUpload: API.OperationMet
     __c149,
     0,
   ) as any as S.Schema<RegistryDataVersionsCreateOrGetStartPendingUploadRequest>,
-  output: __S(7009, __c219, 1) as any as S.Schema<PendingUploadResponseDto>,
+  output: __S(7010, __c219, 2) as any as S.Schema<PendingUploadResponseDto>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -18548,8 +18548,8 @@ export const RegistryEnvironmentContainersCreateOrUpdate: API.OperationMethod<
     0,
   ) as any as S.Schema<RegistryEnvironmentContainersCreateOrUpdateRequest>,
   output: __S(
-    7392,
-    __c231,
+    7360,
+    __c230,
     0,
   ) as any as S.Schema<RegistryEnvironmentContainersCreateOrUpdateResponse>,
   errors: [],
@@ -18613,7 +18613,7 @@ export const RegistryModelVersionsCreateOrGetStartPendingUpload: API.OperationMe
     __c154,
     0,
   ) as any as S.Schema<RegistryModelVersionsCreateOrGetStartPendingUploadRequest>,
-  output: __S(7009, __c219, 1) as any as S.Schema<PendingUploadResponseDto>,
+  output: __S(7010, __c219, 2) as any as S.Schema<PendingUploadResponseDto>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -18865,7 +18865,7 @@ export const UpdateRegistry: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5536, __c173, 0) as any as S.Schema<UpdateRegistryRequest>,
-  output: __S(9664, __c302, 0) as any as S.Schema<UpdateRegistryResponse>,
+  output: __S(9632, __c301, 0) as any as S.Schema<UpdateRegistryResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -18919,7 +18919,7 @@ export const UpdateWorkspaceConnection: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5696, __c178, 0) as any as S.Schema<UpdateWorkspaceConnectionRequest>,
-  output: __S(500, __c15, 20) as any as S.Schema<UpdateWorkspaceConnectionResponse>,
+  output: __S(501, __c15, 21) as any as S.Schema<UpdateWorkspaceConnectionResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -19322,8 +19322,8 @@ function __c13(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          primaryKey: S.optional(S.NullOr(S.String)),
-          secondaryKey: S.optional(S.NullOr(S.String)),
+          primaryKey: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
+          secondaryKey: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "EndpointAuthKeys" });
   }
@@ -19361,48 +19361,50 @@ function __c15(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          key: S.optional(S.String),
+          key: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "WorkspaceConnectionAccountKey" });
     case 2:
+      return S.Record(S.String, /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.SensitiveValue({})));
+    case 3:
       return S.suspend(() =>
         S.Struct({
-          keys: S.optional(__S(96, __c3, 0)),
+          keys: S.optional(__S(482, __c15, 2)),
         }),
       ).annotate({ identifier: "CustomKeys" });
-    case 3:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           clientId: S.optional(S.String),
           resourceId: S.optional(S.String),
         }),
       ).annotate({ identifier: "WorkspaceConnectionManagedIdentity" });
-    case 4:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           authUrl: S.optional(S.String),
           clientId: S.optional(S.String),
           clientSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          developerToken: S.optional(S.String),
+          developerToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           password: S.optional(S.String.pipe(T.SensitiveValue({}))),
           refreshToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           tenantId: S.optional(S.String),
           username: S.optional(S.String),
         }),
       ).annotate({ identifier: "WorkspaceConnectionOAuth2" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          pat: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "WorkspaceConnectionPersonalAccessToken" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          sas: S.optional(S.String),
+          pat: S.optional(S.String.pipe(T.SensitiveValue({}))),
+        }),
+      ).annotate({ identifier: "WorkspaceConnectionPersonalAccessToken" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          sas: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "WorkspaceConnectionSharedAccessSignature" });
-    case 7:
+    case 8:
       return S.suspend(() =>
         S.Struct({
           clientId: S.optional(S.String),
@@ -19410,15 +19412,15 @@ function __c15(j: number): any {
           tenantId: S.optional(S.String),
         }),
       ).annotate({ identifier: "WorkspaceConnectionServicePrincipal" });
-    case 8:
+    case 9:
       return S.suspend(() =>
         S.Struct({
           password: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          securityToken: S.optional(S.String),
+          securityToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           username: S.optional(S.String),
         }),
       ).annotate({ identifier: "WorkspaceConnectionUsernamePassword" });
-    case 9:
+    case 10:
       return S.suspend(() =>
         S.Struct({
           authType: S.String,
@@ -19436,7 +19438,7 @@ function __c15(j: number): any {
           useWorkspaceManagedIdentity: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "AADAuthTypeWorkspaceConnectionProperties" });
-    case 10:
+    case 11:
       return S.suspend(() =>
         S.Struct({
           authType: S.String,
@@ -19455,7 +19457,7 @@ function __c15(j: number): any {
           credentials: S.optional(__S(480, __c15, 0)),
         }),
       ).annotate({ identifier: "AccessKeyAuthTypeWorkspaceConnectionProperties" });
-    case 11:
+    case 12:
       return S.suspend(() =>
         S.Struct({
           authType: S.String,
@@ -19474,25 +19476,6 @@ function __c15(j: number): any {
           credentials: S.optional(__S(481, __c15, 1)),
         }),
       ).annotate({ identifier: "AccountKeyAuthTypeWorkspaceConnectionProperties" });
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          authType: S.String,
-          category: S.optional(S.String),
-          createdByWorkspaceArmId: S.optional(S.String),
-          error: S.optional(S.String),
-          expiryTime: S.optional(S.String),
-          group: S.optional(S.String),
-          isSharedToAll: S.optional(S.Boolean),
-          metadata: S.optional(__S(96, __c3, 0)),
-          peRequirement: S.optional(S.String),
-          peStatus: S.optional(S.String),
-          sharedUserList: S.optional(__S(6176, __c193, 0)),
-          target: S.optional(S.String),
-          useWorkspaceManagedIdentity: S.optional(S.Boolean),
-          credentials: S.optional(__S(482, __c15, 2)),
-        }),
-      ).annotate({ identifier: "CustomKeysWorkspaceConnectionProperties" });
     case 13:
       return S.suspend(() =>
         S.Struct({
@@ -19511,7 +19494,7 @@ function __c15(j: number): any {
           useWorkspaceManagedIdentity: S.optional(S.Boolean),
           credentials: S.optional(__S(483, __c15, 3)),
         }),
-      ).annotate({ identifier: "ManagedIdentityAuthTypeWorkspaceConnectionProperties" });
+      ).annotate({ identifier: "CustomKeysWorkspaceConnectionProperties" });
     case 14:
       return S.suspend(() =>
         S.Struct({
@@ -19530,7 +19513,7 @@ function __c15(j: number): any {
           useWorkspaceManagedIdentity: S.optional(S.Boolean),
           credentials: S.optional(__S(484, __c15, 4)),
         }),
-      ).annotate({ identifier: "OAuth2AuthTypeWorkspaceConnectionProperties" });
+      ).annotate({ identifier: "ManagedIdentityAuthTypeWorkspaceConnectionProperties" });
     case 15:
       return S.suspend(() =>
         S.Struct({
@@ -19549,7 +19532,7 @@ function __c15(j: number): any {
           useWorkspaceManagedIdentity: S.optional(S.Boolean),
           credentials: S.optional(__S(485, __c15, 5)),
         }),
-      ).annotate({ identifier: "PATAuthTypeWorkspaceConnectionProperties" });
+      ).annotate({ identifier: "OAuth2AuthTypeWorkspaceConnectionProperties" });
     case 16:
       return S.suspend(() =>
         S.Struct({
@@ -19568,7 +19551,7 @@ function __c15(j: number): any {
           useWorkspaceManagedIdentity: S.optional(S.Boolean),
           credentials: S.optional(__S(486, __c15, 6)),
         }),
-      ).annotate({ identifier: "SASAuthTypeWorkspaceConnectionProperties" });
+      ).annotate({ identifier: "PATAuthTypeWorkspaceConnectionProperties" });
     case 17:
       return S.suspend(() =>
         S.Struct({
@@ -19587,7 +19570,7 @@ function __c15(j: number): any {
           useWorkspaceManagedIdentity: S.optional(S.Boolean),
           credentials: S.optional(__S(487, __c15, 7)),
         }),
-      ).annotate({ identifier: "ServicePrincipalAuthTypeWorkspaceConnectionProperties" });
+      ).annotate({ identifier: "SASAuthTypeWorkspaceConnectionProperties" });
     case 18:
       return S.suspend(() =>
         S.Struct({
@@ -19606,30 +19589,49 @@ function __c15(j: number): any {
           useWorkspaceManagedIdentity: S.optional(S.Boolean),
           credentials: S.optional(__S(488, __c15, 8)),
         }),
-      ).annotate({ identifier: "UsernamePasswordAuthTypeWorkspaceConnectionProperties" });
+      ).annotate({ identifier: "ServicePrincipalAuthTypeWorkspaceConnectionProperties" });
     case 19:
+      return S.suspend(() =>
+        S.Struct({
+          authType: S.String,
+          category: S.optional(S.String),
+          createdByWorkspaceArmId: S.optional(S.String),
+          error: S.optional(S.String),
+          expiryTime: S.optional(S.String),
+          group: S.optional(S.String),
+          isSharedToAll: S.optional(S.Boolean),
+          metadata: S.optional(__S(96, __c3, 0)),
+          peRequirement: S.optional(S.String),
+          peStatus: S.optional(S.String),
+          sharedUserList: S.optional(__S(6176, __c193, 0)),
+          target: S.optional(S.String),
+          useWorkspaceManagedIdentity: S.optional(S.Boolean),
+          credentials: S.optional(__S(489, __c15, 9)),
+        }),
+      ).annotate({ identifier: "UsernamePasswordAuthTypeWorkspaceConnectionProperties" });
+    case 20:
       return S.Union([
-        __S(489, __c15, 9),
         __S(490, __c15, 10),
         __S(491, __c15, 11),
-        __S(491, __c15, 11),
+        __S(492, __c15, 12),
         __S(492, __c15, 12),
         __S(493, __c15, 13),
-        __S(489, __c15, 9),
         __S(494, __c15, 14),
+        __S(490, __c15, 10),
         __S(495, __c15, 15),
         __S(496, __c15, 16),
         __S(497, __c15, 17),
         __S(498, __c15, 18),
+        __S(499, __c15, 19),
       ]);
-    case 20:
+    case 21:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: __S(499, __c15, 19),
+          properties: __S(500, __c15, 20),
         }),
       ).annotate({ identifier: "CreateWorkspaceConnectionResponse" });
   }
@@ -19700,7 +19702,7 @@ function __c16(j: number): any {
           sharedUserList: S.optional(__S(6176, __c193, 0)),
           target: S.optional(S.String),
           useWorkspaceManagedIdentity: S.optional(S.Boolean),
-          credentials: S.optional(__S(482, __c15, 2)),
+          credentials: S.optional(__S(483, __c15, 3)),
         }),
       ).annotate({ identifier: "CustomKeysWorkspaceConnectionPropertiesInput" });
     case 4:
@@ -19717,7 +19719,7 @@ function __c16(j: number): any {
           sharedUserList: S.optional(__S(6176, __c193, 0)),
           target: S.optional(S.String),
           useWorkspaceManagedIdentity: S.optional(S.Boolean),
-          credentials: S.optional(__S(483, __c15, 3)),
+          credentials: S.optional(__S(484, __c15, 4)),
         }),
       ).annotate({ identifier: "ManagedIdentityAuthTypeWorkspaceConnectionPropertiesInput" });
     case 5:
@@ -19734,7 +19736,7 @@ function __c16(j: number): any {
           sharedUserList: S.optional(__S(6176, __c193, 0)),
           target: S.optional(S.String),
           useWorkspaceManagedIdentity: S.optional(S.Boolean),
-          credentials: S.optional(__S(484, __c15, 4)),
+          credentials: S.optional(__S(485, __c15, 5)),
         }),
       ).annotate({ identifier: "OAuth2AuthTypeWorkspaceConnectionPropertiesInput" });
     case 6:
@@ -19751,7 +19753,7 @@ function __c16(j: number): any {
           sharedUserList: S.optional(__S(6176, __c193, 0)),
           target: S.optional(S.String),
           useWorkspaceManagedIdentity: S.optional(S.Boolean),
-          credentials: S.optional(__S(485, __c15, 5)),
+          credentials: S.optional(__S(486, __c15, 6)),
         }),
       ).annotate({ identifier: "PATAuthTypeWorkspaceConnectionPropertiesInput" });
     case 7:
@@ -19768,7 +19770,7 @@ function __c16(j: number): any {
           sharedUserList: S.optional(__S(6176, __c193, 0)),
           target: S.optional(S.String),
           useWorkspaceManagedIdentity: S.optional(S.Boolean),
-          credentials: S.optional(__S(486, __c15, 6)),
+          credentials: S.optional(__S(487, __c15, 7)),
         }),
       ).annotate({ identifier: "SASAuthTypeWorkspaceConnectionPropertiesInput" });
     case 8:
@@ -19785,7 +19787,7 @@ function __c16(j: number): any {
           sharedUserList: S.optional(__S(6176, __c193, 0)),
           target: S.optional(S.String),
           useWorkspaceManagedIdentity: S.optional(S.Boolean),
-          credentials: S.optional(__S(487, __c15, 7)),
+          credentials: S.optional(__S(488, __c15, 8)),
         }),
       ).annotate({ identifier: "ServicePrincipalAuthTypeWorkspaceConnectionPropertiesInput" });
     case 9:
@@ -19802,7 +19804,7 @@ function __c16(j: number): any {
           sharedUserList: S.optional(__S(6176, __c193, 0)),
           target: S.optional(S.String),
           useWorkspaceManagedIdentity: S.optional(S.Boolean),
-          credentials: S.optional(__S(488, __c15, 8)),
+          credentials: S.optional(__S(489, __c15, 9)),
         }),
       ).annotate({ identifier: "UsernamePasswordAuthTypeWorkspaceConnectionPropertiesInput" });
     case 10:
@@ -19981,12 +19983,12 @@ function __c20(j: number): any {
     case 15:
       return S.suspend(() =>
         S.Struct({
-          notificationTypes: S.optional(S.NullOr(__S(9728, __c304, 0))),
+          notificationTypes: S.optional(S.NullOr(__S(9696, __c303, 0))),
           properties: S.optional(S.NullOr(__S(64, __c2, 0))),
           signalType: S.String,
           componentId: S.String,
           inputAssets: S.optional(S.NullOr(__S(651, __c20, 11))),
-          inputs: S.optional(S.NullOr(__S(8755, __c273, 19))),
+          inputs: S.optional(S.NullOr(__S(8723, __c272, 19))),
           metricThresholds: __S(654, __c20, 14),
         }),
       ).annotate({ identifier: "CustomMonitoringSignal" });
@@ -20036,7 +20038,7 @@ function __c20(j: number): any {
     case 25:
       return S.suspend(() =>
         S.Struct({
-          notificationTypes: S.optional(S.NullOr(__S(9728, __c304, 0))),
+          notificationTypes: S.optional(S.NullOr(__S(9696, __c303, 0))),
           properties: S.optional(S.NullOr(__S(64, __c2, 0))),
           signalType: S.String,
           featureDataTypeOverride: S.optional(S.NullOr(__S(656, __c20, 16))),
@@ -20059,7 +20061,7 @@ function __c20(j: number): any {
     case 28:
       return S.suspend(() =>
         S.Struct({
-          notificationTypes: S.optional(S.NullOr(__S(9728, __c304, 0))),
+          notificationTypes: S.optional(S.NullOr(__S(9696, __c303, 0))),
           properties: S.optional(S.NullOr(__S(64, __c2, 0))),
           signalType: S.String,
           featureDataTypeOverride: S.optional(S.NullOr(__S(656, __c20, 16))),
@@ -20072,7 +20074,7 @@ function __c20(j: number): any {
     case 29:
       return S.suspend(() =>
         S.Struct({
-          notificationTypes: S.optional(S.NullOr(__S(9728, __c304, 0))),
+          notificationTypes: S.optional(S.NullOr(__S(9696, __c303, 0))),
           properties: S.optional(S.NullOr(__S(64, __c2, 0))),
           signalType: S.String,
           featureDataTypeOverride: S.optional(S.NullOr(__S(656, __c20, 16))),
@@ -20122,7 +20124,7 @@ function __c21(j: number): any {
       return S.suspend(() =>
         S.Struct({
           actionType: S.String,
-          jobDefinition: __S(8771, __c274, 3),
+          jobDefinition: __S(8739, __c273, 3),
         }),
       ).annotate({ identifier: "JobScheduleAction" });
     case 4:
@@ -20138,7 +20140,7 @@ function __c21(j: number): any {
         }),
       ).annotate({ identifier: "CronTrigger" });
     case 6:
-      return S.Union([__S(677, __c21, 5), __S(7520, __c235, 0)]);
+      return S.Union([__S(677, __c21, 5), __S(7488, __c234, 0)]);
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -20256,7 +20258,7 @@ function __c26(j: number): any {
 function __c27(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(9571, __c299, 3));
+      return S.Array(__S(9539, __c298, 3));
   }
 }
 function __c28(j: number): any {
@@ -20320,7 +20322,7 @@ function __c29(j: number): any {
         }),
       ).annotate({ identifier: "FeatureStoreSettings" });
     case 5:
-      return S.Record(S.String, __S(8997, __c281, 5));
+      return S.Record(S.String, __S(8965, __c280, 5));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -20495,7 +20497,7 @@ function __c33(j: number): any {
         S.Struct({
           endpoint: S.optional(S.NullOr(S.String)),
           jobServiceType: S.optional(S.NullOr(S.String)),
-          nodes: S.optional(S.NullOr(__S(8707, __c272, 3))),
+          nodes: S.optional(S.NullOr(__S(8675, __c271, 3))),
           port: S.optional(S.NullOr(S.Number)),
           properties: S.optional(S.NullOr(__S(64, __c2, 0))),
         }),
@@ -20512,17 +20514,17 @@ function __c33(j: number): any {
           computeId: S.optional(S.NullOr(S.String)),
           displayName: S.optional(S.NullOr(S.String)),
           experimentName: S.optional(S.String),
-          identity: S.optional(S.NullOr(__S(8706, __c272, 2))),
+          identity: S.optional(S.NullOr(__S(8674, __c271, 2))),
           isArchived: S.optional(S.Boolean),
           jobType: S.String,
-          notificationSetting: S.optional(S.NullOr(__S(7586, __c237, 2))),
+          notificationSetting: S.optional(S.NullOr(__S(7554, __c236, 2))),
           services: S.optional(S.NullOr(__S(1057, __c33, 1))),
           environmentId: S.optional(S.NullOr(S.String)),
           environmentVariables: S.optional(S.NullOr(__S(64, __c2, 0))),
-          outputs: S.optional(S.NullOr(__S(8712, __c272, 8))),
-          queueSettings: S.optional(S.NullOr(__S(8713, __c272, 9))),
-          resources: S.optional(__S(8714, __c272, 10)),
-          taskDetails: __S(8748, __c273, 12),
+          outputs: S.optional(S.NullOr(__S(8680, __c271, 8))),
+          queueSettings: S.optional(S.NullOr(__S(8681, __c271, 9))),
+          resources: S.optional(__S(8682, __c271, 10)),
+          taskDetails: __S(8716, __c272, 12),
         }),
       ).annotate({ identifier: "AutoMLJobInput" });
     case 3:
@@ -20535,21 +20537,21 @@ function __c33(j: number): any {
           computeId: S.optional(S.NullOr(S.String)),
           displayName: S.optional(S.NullOr(S.String)),
           experimentName: S.optional(S.String),
-          identity: S.optional(S.NullOr(__S(8706, __c272, 2))),
+          identity: S.optional(S.NullOr(__S(8674, __c271, 2))),
           isArchived: S.optional(S.Boolean),
           jobType: S.String,
-          notificationSetting: S.optional(S.NullOr(__S(7586, __c237, 2))),
+          notificationSetting: S.optional(S.NullOr(__S(7554, __c236, 2))),
           services: S.optional(S.NullOr(__S(1057, __c33, 1))),
           codeId: S.optional(S.NullOr(S.String)),
           command: S.String,
-          distribution: S.optional(S.NullOr(__S(8752, __c273, 16))),
+          distribution: S.optional(S.NullOr(__S(8720, __c272, 16))),
           environmentId: S.String,
           environmentVariables: S.optional(S.NullOr(__S(64, __c2, 0))),
-          inputs: S.optional(S.NullOr(__S(8755, __c273, 19))),
-          limits: S.optional(S.NullOr(__S(8756, __c273, 20))),
-          outputs: S.optional(S.NullOr(__S(8712, __c272, 8))),
-          queueSettings: S.optional(S.NullOr(__S(8713, __c272, 9))),
-          resources: S.optional(__S(8714, __c272, 10)),
+          inputs: S.optional(S.NullOr(__S(8723, __c272, 19))),
+          limits: S.optional(S.NullOr(__S(8724, __c272, 20))),
+          outputs: S.optional(S.NullOr(__S(8680, __c271, 8))),
+          queueSettings: S.optional(S.NullOr(__S(8681, __c271, 9))),
+          resources: S.optional(__S(8682, __c271, 10)),
         }),
       ).annotate({ identifier: "CommandJobInput" });
     case 4:
@@ -20562,14 +20564,14 @@ function __c33(j: number): any {
           computeId: S.optional(S.NullOr(S.String)),
           displayName: S.optional(S.NullOr(S.String)),
           experimentName: S.optional(S.String),
-          identity: S.optional(S.NullOr(__S(8706, __c272, 2))),
+          identity: S.optional(S.NullOr(__S(8674, __c271, 2))),
           isArchived: S.optional(S.Boolean),
           jobType: S.String,
-          notificationSetting: S.optional(S.NullOr(__S(7586, __c237, 2))),
+          notificationSetting: S.optional(S.NullOr(__S(7554, __c236, 2))),
           services: S.optional(S.NullOr(__S(1057, __c33, 1))),
-          inputs: S.optional(S.NullOr(__S(8755, __c273, 19))),
+          inputs: S.optional(S.NullOr(__S(8723, __c272, 19))),
           jobs: S.optional(S.NullOr(__S(288, __c9, 0))),
-          outputs: S.optional(S.NullOr(__S(8712, __c272, 8))),
+          outputs: S.optional(S.NullOr(__S(8680, __c271, 8))),
           settings: S.optional(S.NullOr(S.Unknown)),
           sourceJobId: S.optional(S.NullOr(S.String)),
         }),
@@ -20584,25 +20586,25 @@ function __c33(j: number): any {
           computeId: S.optional(S.NullOr(S.String)),
           displayName: S.optional(S.NullOr(S.String)),
           experimentName: S.optional(S.String),
-          identity: S.optional(S.NullOr(__S(8706, __c272, 2))),
+          identity: S.optional(S.NullOr(__S(8674, __c271, 2))),
           isArchived: S.optional(S.Boolean),
           jobType: S.String,
-          notificationSetting: S.optional(S.NullOr(__S(7586, __c237, 2))),
+          notificationSetting: S.optional(S.NullOr(__S(7554, __c236, 2))),
           services: S.optional(S.NullOr(__S(1057, __c33, 1))),
           archives: S.optional(S.NullOr(__S(6176, __c193, 0))),
           args: S.optional(S.NullOr(S.String)),
           codeId: S.String,
           conf: S.optional(S.NullOr(__S(64, __c2, 0))),
-          entry: __S(8761, __c273, 25),
+          entry: __S(8729, __c272, 25),
           environmentId: S.optional(S.NullOr(S.String)),
           environmentVariables: S.optional(S.NullOr(__S(64, __c2, 0))),
           files: S.optional(S.NullOr(__S(6176, __c193, 0))),
-          inputs: S.optional(S.NullOr(__S(8755, __c273, 19))),
+          inputs: S.optional(S.NullOr(__S(8723, __c272, 19))),
           jars: S.optional(S.NullOr(__S(6176, __c193, 0))),
-          outputs: S.optional(S.NullOr(__S(8712, __c272, 8))),
+          outputs: S.optional(S.NullOr(__S(8680, __c271, 8))),
           pyFiles: S.optional(S.NullOr(__S(6176, __c193, 0))),
-          queueSettings: S.optional(S.NullOr(__S(8713, __c272, 9))),
-          resources: S.optional(S.NullOr(__S(8762, __c273, 26))),
+          queueSettings: S.optional(S.NullOr(__S(8681, __c271, 9))),
+          resources: S.optional(S.NullOr(__S(8730, __c272, 26))),
         }),
       ).annotate({ identifier: "SparkJobInput" });
     case 6:
@@ -20615,20 +20617,20 @@ function __c33(j: number): any {
           computeId: S.optional(S.NullOr(S.String)),
           displayName: S.optional(S.NullOr(S.String)),
           experimentName: S.optional(S.String),
-          identity: S.optional(S.NullOr(__S(8706, __c272, 2))),
+          identity: S.optional(S.NullOr(__S(8674, __c271, 2))),
           isArchived: S.optional(S.Boolean),
           jobType: S.String,
-          notificationSetting: S.optional(S.NullOr(__S(7586, __c237, 2))),
+          notificationSetting: S.optional(S.NullOr(__S(7554, __c236, 2))),
           services: S.optional(S.NullOr(__S(1057, __c33, 1))),
-          earlyTermination: S.optional(S.NullOr(__S(8738, __c273, 2))),
-          inputs: S.optional(S.NullOr(__S(8755, __c273, 19))),
-          limits: S.optional(__S(8764, __c273, 28)),
-          objective: __S(8765, __c273, 29),
-          outputs: S.optional(S.NullOr(__S(8712, __c272, 8))),
-          queueSettings: S.optional(S.NullOr(__S(8713, __c272, 9))),
-          samplingAlgorithm: __S(8768, __c274, 0),
+          earlyTermination: S.optional(S.NullOr(__S(8706, __c272, 2))),
+          inputs: S.optional(S.NullOr(__S(8723, __c272, 19))),
+          limits: S.optional(__S(8732, __c272, 28)),
+          objective: __S(8733, __c272, 29),
+          outputs: S.optional(S.NullOr(__S(8680, __c271, 8))),
+          queueSettings: S.optional(S.NullOr(__S(8681, __c271, 9))),
+          samplingAlgorithm: __S(8736, __c273, 0),
           searchSpace: S.Unknown,
-          trial: __S(8769, __c274, 1),
+          trial: __S(8737, __c273, 1),
         }),
       ).annotate({ identifier: "SweepJobInput" });
     case 7:
@@ -20665,7 +20667,7 @@ function __c34(j: number): any {
         ),
       ).annotate({ identifier: "ListBatchDeploymentsRequest" });
     case 1:
-      return S.Array(__S(7872, __c246, 0));
+      return S.Array(__S(7840, __c245, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -20717,7 +20719,7 @@ function __c36(j: number): any {
         ),
       ).annotate({ identifier: "ListBatchEndpointsRequest" });
     case 1:
-      return S.Array(__S(7936, __c248, 0));
+      return S.Array(__S(7904, __c247, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -20747,7 +20749,7 @@ function __c37(j: number): any {
         ),
       ).annotate({ identifier: "ListCapabilityHostsRequest" });
     case 1:
-      return S.Array(__S(8000, __c250, 0));
+      return S.Array(__S(7968, __c249, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -20887,7 +20889,7 @@ function __c44(j: number): any {
 function __c45(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(7712, __c241, 0));
+      return S.Array(__S(7680, __c240, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -20949,7 +20951,7 @@ function __c47(j: number): any {
 function __c48(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(8896, __c278, 0));
+      return S.Array(__S(8864, __c277, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -20980,7 +20982,7 @@ function __c49(j: number): any {
         ),
       ).annotate({ identifier: "ListComputeRequest" });
     case 1:
-      return S.Array(__S(8192, __c256, 0));
+      return S.Array(__S(8160, __c255, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -21021,14 +21023,14 @@ function __c50(j: number): any {
       return S.suspend(() =>
         S.Struct({
           computeType: S.String,
-          databricksAccessToken: S.optional(S.String),
+          databricksAccessToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "DatabricksComputeSecrets" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           computeType: S.String,
-          administratorAccount: S.optional(__S(9824, __c307, 0)),
+          administratorAccount: S.optional(__S(9792, __c306, 0)),
         }),
       ).annotate({ identifier: "VirtualMachineSecrets" });
     case 4:
@@ -21480,7 +21482,7 @@ function __c58(j: number): any {
       return S.suspend(() =>
         S.Struct({
           secretsType: S.String,
-          sasToken: S.optional(S.NullOr(S.String)),
+          sasToken: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "SasDatastoreSecrets" });
     case 3:
@@ -21584,7 +21586,7 @@ function __c62(j: number): any {
 function __c63(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(7296, __c228, 0));
+      return S.Array(__S(7264, __c227, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -21622,7 +21624,7 @@ function __c64(j: number): any {
         ),
       ).annotate({ identifier: "ListFeaturesRequest" });
     case 1:
-      return S.Array(__S(8449, __c264, 1));
+      return S.Array(__S(8417, __c263, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -21690,7 +21692,7 @@ function __c66(j: number): any {
         ),
       ).annotate({ identifier: "ListFeaturesetVersionsRequest" });
     case 1:
-      return S.Array(__S(8544, __c267, 0));
+      return S.Array(__S(8512, __c266, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -21758,7 +21760,7 @@ function __c68(j: number): any {
         ),
       ).annotate({ identifier: "ListFeaturestoreEntityVersionsRequest" });
     case 1:
-      return S.Array(__S(8640, __c270, 0));
+      return S.Array(__S(8608, __c269, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -21793,7 +21795,7 @@ function __c69(j: number): any {
         ),
       ).annotate({ identifier: "ListJobsRequest" });
     case 1:
-      return S.Array(__S(8800, __c275, 0));
+      return S.Array(__S(8768, __c274, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -21823,7 +21825,7 @@ function __c70(j: number): any {
         ),
       ).annotate({ identifier: "ListManagedNetworkSettingsRuleRequest" });
     case 1:
-      return S.Array(__S(9024, __c282, 0));
+      return S.Array(__S(8992, __c281, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -21921,7 +21923,7 @@ function __c74(j: number): any {
         ),
       ).annotate({ identifier: "ListMarketplaceSubscriptionsRequest" });
     case 1:
-      return S.Array(__S(9088, __c284, 0));
+      return S.Array(__S(9056, __c283, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -21990,7 +21992,7 @@ function __c76(j: number): any {
 function __c77(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(9216, __c288, 0));
+      return S.Array(__S(9184, __c287, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -22024,7 +22026,7 @@ function __c78(j: number): any {
         ),
       ).annotate({ identifier: "ListOnlineDeploymentsRequest" });
     case 1:
-      return S.Array(__S(9312, __c291, 0));
+      return S.Array(__S(9280, __c290, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -22139,7 +22141,7 @@ function __c81(j: number): any {
         ),
       ).annotate({ identifier: "ListOnlineEndpointsRequest" });
     case 1:
-      return S.Array(__S(9440, __c295, 0));
+      return S.Array(__S(9408, __c294, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -22370,7 +22372,7 @@ function __c88(j: number): any {
 function __c89(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(9664, __c302, 0));
+      return S.Array(__S(9632, __c301, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -22950,7 +22952,7 @@ function __c111(j: number): any {
         ),
       ).annotate({ identifier: "ListWorkspaceConnectionsRequest" });
     case 1:
-      return S.Array(__S(500, __c15, 20));
+      return S.Array(__S(501, __c15, 21));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -23038,8 +23040,8 @@ function __c114(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          value: S.optional(S.String),
+          name: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          value: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "Password" });
     case 2:
@@ -23055,11 +23057,11 @@ function __c114(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          appInsightsInstrumentationKey: S.optional(S.String),
+          appInsightsInstrumentationKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           containerRegistryCredentials: S.optional(__S(3651, __c114, 3)),
           notebookAccessKeys: S.optional(__S(3680, __c115, 0)),
           userStorageArmId: S.optional(S.String),
-          userStorageKey: S.optional(S.String),
+          userStorageKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "ListWorkspaceKeysResult" });
   }
@@ -23069,8 +23071,8 @@ function __c115(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          primaryAccessKey: S.optional(S.String),
-          secondaryAccessKey: S.optional(S.String),
+          primaryAccessKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          secondaryAccessKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "ListNotebookKeysResult" });
   }
@@ -23203,7 +23205,7 @@ function __c119(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          userStorageKey: S.optional(S.String),
+          userStorageKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "ListStorageAccountKeysResult" });
   }
@@ -23234,7 +23236,7 @@ function __c120(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: __S(8997, __c281, 5),
+          properties: __S(8965, __c280, 5),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
@@ -23258,7 +23260,7 @@ function __c121(j: number): any {
           category: S.optional(S.String),
           status: S.optional(S.String),
           type: S.String,
-          destination: S.optional(__S(8993, __c281, 1)),
+          destination: S.optional(__S(8961, __c280, 1)),
           fqdns: S.optional(__S(6176, __c193, 0)),
         }),
       ).annotate({ identifier: "PrivateEndpointOutboundRuleInput" });
@@ -23268,7 +23270,7 @@ function __c121(j: number): any {
           category: S.optional(S.String),
           status: S.optional(S.String),
           type: S.String,
-          destination: S.optional(__S(8995, __c281, 3)),
+          destination: S.optional(__S(8963, __c280, 3)),
         }),
       ).annotate({ identifier: "ServiceTagOutboundRuleInput" });
     case 3:
@@ -23307,7 +23309,7 @@ function __c122(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: __S(9121, __c285, 1),
+          properties: __S(9089, __c284, 1),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
         }),
       ).annotate({ identifier: "MarketplaceSubscriptionsCreateOrUpdateResponse" });
@@ -23386,12 +23388,12 @@ function __c126(j: number): any {
           tags: S.optional(S.NullOr(__S(64, __c2, 0))),
           isAnonymous: S.optional(S.Boolean),
           isArchived: S.optional(S.Boolean),
-          flavors: S.optional(S.NullOr(__S(9249, __c289, 1))),
+          flavors: S.optional(S.NullOr(__S(9217, __c288, 1))),
           jobName: S.optional(S.NullOr(S.String)),
           modelType: S.optional(S.NullOr(S.String)),
           modelUri: S.optional(S.NullOr(S.String)),
           stage: S.optional(S.NullOr(S.String)),
-          datasets: S.optional(S.NullOr(__S(9251, __c289, 3))),
+          datasets: S.optional(S.NullOr(__S(9219, __c288, 3))),
         }),
       ).annotate({ identifier: "ModelVersionPropertiesInput" });
   }
@@ -23407,18 +23409,18 @@ function __c127(j: number): any {
           environmentVariables: S.optional(S.NullOr(__S(64, __c2, 0))),
           properties: S.optional(S.NullOr(__S(64, __c2, 0))),
           appInsightsEnabled: S.optional(S.Boolean),
-          dataCollector: S.optional(S.NullOr(__S(9347, __c292, 3))),
+          dataCollector: S.optional(S.NullOr(__S(9315, __c291, 3))),
           egressPublicNetworkAccess: S.optional(S.String),
           endpointComputeType: S.String,
           instanceType: S.optional(S.NullOr(S.String)),
-          livenessProbe: S.optional(S.NullOr(__S(9348, __c292, 4))),
+          livenessProbe: S.optional(S.NullOr(__S(9316, __c291, 4))),
           model: S.optional(S.NullOr(S.String)),
           modelMountPath: S.optional(S.NullOr(S.String)),
-          readinessProbe: S.optional(S.NullOr(__S(9348, __c292, 4))),
-          requestSettings: S.optional(S.NullOr(__S(9349, __c292, 5))),
-          scaleSettings: S.optional(S.NullOr(__S(9352, __c292, 8))),
-          startupProbe: S.optional(S.NullOr(__S(9348, __c292, 4))),
-          containerResourceRequirements: S.optional(S.NullOr(__S(9354, __c292, 10))),
+          readinessProbe: S.optional(S.NullOr(__S(9316, __c291, 4))),
+          requestSettings: S.optional(S.NullOr(__S(9317, __c291, 5))),
+          scaleSettings: S.optional(S.NullOr(__S(9320, __c291, 8))),
+          startupProbe: S.optional(S.NullOr(__S(9316, __c291, 4))),
+          containerResourceRequirements: S.optional(S.NullOr(__S(9322, __c291, 10))),
         }),
       ).annotate({ identifier: "KubernetesOnlineDeploymentInput" });
     case 1:
@@ -23430,17 +23432,17 @@ function __c127(j: number): any {
           environmentVariables: S.optional(S.NullOr(__S(64, __c2, 0))),
           properties: S.optional(S.NullOr(__S(64, __c2, 0))),
           appInsightsEnabled: S.optional(S.Boolean),
-          dataCollector: S.optional(S.NullOr(__S(9347, __c292, 3))),
+          dataCollector: S.optional(S.NullOr(__S(9315, __c291, 3))),
           egressPublicNetworkAccess: S.optional(S.String),
           endpointComputeType: S.String,
           instanceType: S.optional(S.NullOr(S.String)),
-          livenessProbe: S.optional(S.NullOr(__S(9348, __c292, 4))),
+          livenessProbe: S.optional(S.NullOr(__S(9316, __c291, 4))),
           model: S.optional(S.NullOr(S.String)),
           modelMountPath: S.optional(S.NullOr(S.String)),
-          readinessProbe: S.optional(S.NullOr(__S(9348, __c292, 4))),
-          requestSettings: S.optional(S.NullOr(__S(9349, __c292, 5))),
-          scaleSettings: S.optional(S.NullOr(__S(9352, __c292, 8))),
-          startupProbe: S.optional(S.NullOr(__S(9348, __c292, 4))),
+          readinessProbe: S.optional(S.NullOr(__S(9316, __c291, 4))),
+          requestSettings: S.optional(S.NullOr(__S(9317, __c291, 5))),
+          scaleSettings: S.optional(S.NullOr(__S(9320, __c291, 8))),
+          startupProbe: S.optional(S.NullOr(__S(9316, __c291, 4))),
         }),
       ).annotate({ identifier: "ManagedOnlineDeploymentInput" });
     case 2:
@@ -23477,7 +23479,7 @@ function __c127(j: number): any {
           systemData: S.optional(__S(32, __c1, 0)),
           tags: S.optional(__S(96, __c3, 0)),
           location: S.String,
-          properties: __S(9357, __c292, 13),
+          properties: __S(9325, __c291, 13),
           identity: S.optional(__S(194, __c6, 2)),
           kind: S.optional(S.String),
           sku: S.optional(__S(224, __c7, 0)),
@@ -23496,9 +23498,9 @@ function __c128(j: number): any {
           keys: S.optional(S.NullOr(__S(416, __c13, 0))),
           properties: S.optional(S.NullOr(__S(64, __c2, 0))),
           compute: S.optional(S.NullOr(S.String)),
-          mirrorTraffic: S.optional(S.NullOr(__S(9472, __c296, 0))),
+          mirrorTraffic: S.optional(S.NullOr(__S(9440, __c295, 0))),
           publicNetworkAccess: S.optional(S.String),
-          traffic: S.optional(S.NullOr(__S(9472, __c296, 0))),
+          traffic: S.optional(S.NullOr(__S(9440, __c295, 0))),
         }),
       ).annotate({ identifier: "OnlineEndpointPropertiesInput" });
     case 1:
@@ -23532,7 +23534,7 @@ function __c128(j: number): any {
           systemData: S.optional(__S(32, __c1, 0)),
           tags: S.optional(__S(96, __c3, 0)),
           location: S.String,
-          properties: __S(9473, __c296, 1),
+          properties: __S(9441, __c295, 1),
           identity: S.optional(__S(194, __c6, 2)),
           kind: S.optional(S.String),
           sku: S.optional(__S(224, __c7, 0)),
@@ -23547,7 +23549,7 @@ function __c129(j: number): any {
       return S.suspend(() =>
         S.Struct({
           privateEndpoint: S.optional(__S(128, __c4, 0)),
-          privateLinkServiceConnectionState: S.optional(__S(9569, __c299, 1)),
+          privateLinkServiceConnectionState: S.optional(__S(9537, __c298, 1)),
         }),
       ).annotate({ identifier: "PrivateEndpointConnectionPropertiesInput" });
     case 1:
@@ -23788,8 +23790,8 @@ function __c138(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          primaryKey: S.optional(S.NullOr(S.String)),
-          secondaryKey: S.optional(S.NullOr(S.String)),
+          primaryKey: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
+          secondaryKey: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
@@ -23828,7 +23830,7 @@ function __c139(j: number): any {
           systemData: S.optional(__S(32, __c1, 0)),
           tags: S.optional(__S(96, __c3, 0)),
           location: S.String,
-          properties: __S(9649, __c301, 17),
+          properties: __S(9617, __c300, 17),
           identity: S.optional(__S(194, __c6, 2)),
           kind: S.optional(S.String),
           sku: S.optional(__S(224, __c7, 0)),
@@ -23851,7 +23853,7 @@ function __c140(j: number): any {
         S.Struct({
           groupIds: S.optional(S.NullOr(__S(6176, __c193, 0))),
           privateEndpoint: S.optional(S.NullOr(__S(4480, __c140, 0))),
-          registryPrivateLinkServiceConnectionState: S.optional(S.NullOr(__S(9637, __c301, 5))),
+          registryPrivateLinkServiceConnectionState: S.optional(S.NullOr(__S(9605, __c300, 5))),
           provisioningState: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "RegistryPrivateEndpointConnectionPropertiesInput" });
@@ -23870,12 +23872,12 @@ function __c140(j: number): any {
         S.Struct({
           discoveryUrl: S.optional(S.NullOr(S.String)),
           intellectualPropertyPublisher: S.optional(S.NullOr(S.String)),
-          managedResourceGroup: S.optional(S.NullOr(__S(9632, __c301, 0))),
-          managedResourceGroupSettings: S.optional(S.NullOr(__S(9635, __c301, 3))),
+          managedResourceGroup: S.optional(S.NullOr(__S(9600, __c300, 0))),
+          managedResourceGroupSettings: S.optional(S.NullOr(__S(9603, __c300, 3))),
           mlFlowRegistryUri: S.optional(S.NullOr(S.String)),
           registryPrivateEndpointConnections: S.optional(S.NullOr(__S(4483, __c140, 3))),
           publicNetworkAccess: S.optional(S.NullOr(S.String)),
-          regionDetails: S.optional(S.NullOr(__S(9648, __c301, 16))),
+          regionDetails: S.optional(S.NullOr(__S(9616, __c300, 16))),
         }),
       ).annotate({ identifier: "RegistryPropertiesInput" });
   }
@@ -23949,7 +23951,7 @@ function __c144(j: number): any {
           registryName: S.String.pipe(T.Label()),
           codeName: S.String.pipe(T.Label()),
           version: S.String.pipe(T.Label()),
-          properties: __S(7680, __c240, 0),
+          properties: __S(7648, __c239, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -23966,7 +23968,7 @@ function __c144(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: __S(7744, __c242, 0),
+          properties: __S(7712, __c241, 0),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
         }),
       ).annotate({ identifier: "RegistryCodeVersionsCreateOrUpdateResponse" });
@@ -24003,7 +24005,7 @@ function __c146(j: number): any {
           registryName: S.String.pipe(T.Label()),
           componentName: S.String.pipe(T.Label()),
           version: S.String.pipe(T.Label()),
-          properties: __S(8864, __c277, 0),
+          properties: __S(8832, __c276, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -24020,7 +24022,7 @@ function __c146(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: __S(8928, __c279, 0),
+          properties: __S(8896, __c278, 0),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
         }),
       ).annotate({ identifier: "RegistryComponentVersionsCreateOrUpdateResponse" });
@@ -24167,7 +24169,7 @@ function __c152(j: number): any {
           registryName: S.String.pipe(T.Label()),
           environmentName: S.String.pipe(T.Label()),
           version: S.String.pipe(T.Label()),
-          properties: __S(7264, __c227, 0),
+          properties: __S(7232, __c226, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -24184,7 +24186,7 @@ function __c152(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: __S(7331, __c229, 3),
+          properties: __S(7299, __c228, 3),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
         }),
       ).annotate({ identifier: "RegistryEnvironmentVersionsCreateOrUpdateResponse" });
@@ -24261,7 +24263,7 @@ function __c155(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: __S(9252, __c289, 4),
+          properties: __S(9220, __c288, 4),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
         }),
       ).annotate({ identifier: "RegistryModelVersionsCreateOrUpdateResponse" });
@@ -24299,7 +24301,7 @@ function __c156(j: number): any {
           systemData: S.optional(__S(32, __c1, 0)),
           tags: S.optional(__S(96, __c3, 0)),
           location: S.String,
-          properties: __S(9649, __c301, 17),
+          properties: __S(9617, __c300, 17),
           identity: S.optional(__S(194, __c6, 2)),
           kind: S.optional(S.String),
           sku: S.optional(__S(224, __c7, 0)),
@@ -24659,7 +24661,7 @@ function __c168(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          scaleSettings: S.optional(__S(9859, __c308, 3)),
+          scaleSettings: S.optional(__S(9827, __c307, 3)),
         }),
       ).annotate({ identifier: "ScaleSettingsInformation" });
     case 1:
@@ -24692,7 +24694,7 @@ function __c168(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: S.optional(__S(9936, __c310, 16)),
+          properties: S.optional(__S(9904, __c309, 16)),
           location: S.optional(S.String),
           tags: S.optional(S.NullOr(__S(96, __c3, 0))),
           sku: S.optional(__S(224, __c7, 0)),
@@ -24733,7 +24735,7 @@ function __c169(j: number): any {
           systemData: S.optional(__S(32, __c1, 0)),
           tags: S.optional(__S(96, __c3, 0)),
           location: S.String,
-          properties: __S(9357, __c292, 13),
+          properties: __S(9325, __c291, 13),
           identity: S.optional(__S(194, __c6, 2)),
           kind: S.optional(S.String),
           sku: S.optional(__S(224, __c7, 0)),
@@ -24786,7 +24788,7 @@ function __c171(j: number): any {
           systemData: S.optional(__S(32, __c1, 0)),
           tags: S.optional(__S(96, __c3, 0)),
           location: S.String,
-          properties: __S(9473, __c296, 1),
+          properties: __S(9441, __c295, 1),
           identity: S.optional(__S(194, __c6, 2)),
           kind: S.optional(S.String),
           sku: S.optional(__S(224, __c7, 0)),
@@ -25954,15 +25956,22 @@ function __c219(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          blobUri: S.optional(S.NullOr(S.String)),
-          credential: S.optional(S.NullOr(__S(7040, __c220, 0))),
-          storageAccountArmId: S.optional(S.NullOr(S.String)),
+          credentialType: S.String,
+          sasUri: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
         }),
-      ).annotate({ identifier: "BlobReferenceForConsumptionDto" });
+      ).annotate({ identifier: "SASCredentialDto" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          blobReferenceForConsumption: S.optional(S.NullOr(__S(7008, __c219, 0))),
+          blobUri: S.optional(S.NullOr(S.String)),
+          credential: S.optional(S.NullOr(__S(7008, __c219, 0))),
+          storageAccountArmId: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "BlobReferenceForConsumptionDto" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          blobReferenceForConsumption: S.optional(S.NullOr(__S(7009, __c219, 1))),
           pendingUploadId: S.optional(S.NullOr(S.String)),
           pendingUploadType: S.optional(S.String),
         }),
@@ -25970,17 +25979,6 @@ function __c219(j: number): any {
   }
 }
 function __c220(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          credentialType: S.String,
-          sasUri: S.optional(S.NullOr(S.String)),
-        }),
-      ).annotate({ identifier: "SASCredentialDto" });
-  }
-}
-function __c221(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26000,7 +25998,7 @@ function __c221(j: number): any {
       ).annotate({ identifier: "DeleteScheduleRequest" });
   }
 }
-function __c222(j: number): any {
+function __c221(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26020,7 +26018,7 @@ function __c222(j: number): any {
       ).annotate({ identifier: "DeleteServerlessEndpointRequest" });
   }
 }
-function __c223(j: number): any {
+function __c222(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26040,7 +26038,7 @@ function __c223(j: number): any {
       ).annotate({ identifier: "DeleteWorkspaceRequest" });
   }
 }
-function __c224(j: number): any {
+function __c223(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26060,7 +26058,7 @@ function __c224(j: number): any {
       ).annotate({ identifier: "DeleteWorkspaceConnectionRequest" });
   }
 }
-function __c225(j: number): any {
+function __c224(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26081,7 +26079,7 @@ function __c225(j: number): any {
       ).annotate({ identifier: "EnvironmentContainersCreateOrUpdateRequest" });
   }
 }
-function __c226(j: number): any {
+function __c225(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26091,7 +26089,7 @@ function __c226(j: number): any {
           workspaceName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           version: S.String.pipe(T.Label()),
-          properties: __S(7264, __c227, 0),
+          properties: __S(7232, __c226, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -26103,7 +26101,7 @@ function __c226(j: number): any {
       ).annotate({ identifier: "EnvironmentVersionsCreateOrUpdateRequest" });
   }
 }
-function __c227(j: number): any {
+function __c226(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26114,17 +26112,17 @@ function __c227(j: number): any {
           isAnonymous: S.optional(S.Boolean),
           isArchived: S.optional(S.Boolean),
           autoRebuild: S.optional(S.String),
-          build: S.optional(__S(7328, __c229, 0)),
+          build: S.optional(__S(7296, __c228, 0)),
           condaFile: S.optional(S.String),
           image: S.optional(S.String),
-          inferenceConfig: S.optional(__S(7330, __c229, 2)),
+          inferenceConfig: S.optional(__S(7298, __c228, 2)),
           osType: S.optional(S.String),
           stage: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "EnvironmentVersionPropertiesInput" });
   }
 }
-function __c228(j: number): any {
+function __c227(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26133,12 +26131,12 @@ function __c228(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: __S(7331, __c229, 3),
+          properties: __S(7299, __c228, 3),
         }),
       ).annotate({ identifier: "EnvironmentVersionsCreateOrUpdateResponse" });
   }
 }
-function __c229(j: number): any {
+function __c228(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26157,10 +26155,10 @@ function __c229(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          livenessRoute: S.optional(__S(7329, __c229, 1)),
-          readinessRoute: S.optional(__S(7329, __c229, 1)),
-          scoringRoute: S.optional(__S(7329, __c229, 1)),
-          startupRoute: S.optional(S.NullOr(__S(7329, __c229, 1))),
+          livenessRoute: S.optional(__S(7297, __c228, 1)),
+          readinessRoute: S.optional(__S(7297, __c228, 1)),
+          scoringRoute: S.optional(__S(7297, __c228, 1)),
+          startupRoute: S.optional(S.NullOr(__S(7297, __c228, 1))),
         }),
       ).annotate({ identifier: "InferenceContainerProperties" });
     case 3:
@@ -26172,11 +26170,11 @@ function __c229(j: number): any {
           isAnonymous: S.optional(S.Boolean),
           isArchived: S.optional(S.Boolean),
           autoRebuild: S.optional(S.String),
-          build: S.optional(__S(7328, __c229, 0)),
+          build: S.optional(__S(7296, __c228, 0)),
           condaFile: S.optional(S.String),
           environmentType: S.optional(S.String),
           image: S.optional(S.String),
-          inferenceConfig: S.optional(__S(7330, __c229, 2)),
+          inferenceConfig: S.optional(__S(7298, __c228, 2)),
           osType: S.optional(S.String),
           provisioningState: S.optional(S.String),
           stage: S.optional(S.NullOr(S.String)),
@@ -26184,7 +26182,7 @@ function __c229(j: number): any {
       ).annotate({ identifier: "EnvironmentVersionProperties" });
   }
 }
-function __c230(j: number): any {
+function __c229(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26205,7 +26203,7 @@ function __c230(j: number): any {
       ).annotate({ identifier: "FeaturesetContainersCreateOrUpdateRequest" });
   }
 }
-function __c231(j: number): any {
+function __c230(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26221,7 +26219,7 @@ function __c231(j: number): any {
       ).annotate({ identifier: "FeaturesetContainersCreateOrUpdateResponse" });
   }
 }
-function __c232(j: number): any {
+function __c231(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26238,13 +26236,13 @@ function __c232(j: number): any {
           workspaceName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           version: S.String.pipe(T.Label()),
-          dataAvailabilityStatus: S.optional(__S(9728, __c304, 0)),
+          dataAvailabilityStatus: S.optional(__S(9696, __c303, 0)),
           description: S.optional(S.String),
           displayName: S.optional(S.String),
-          featureWindow: S.optional(S.NullOr(__S(7424, __c232, 0))),
+          featureWindow: S.optional(S.NullOr(__S(7392, __c231, 0))),
           jobId: S.optional(S.String),
           properties: S.optional(__S(64, __c2, 0)),
-          resource: S.optional(__S(7456, __c233, 0)),
+          resource: S.optional(__S(7424, __c232, 0)),
           sparkConfiguration: S.optional(__S(64, __c2, 0)),
           tags: S.optional(__S(64, __c2, 0)),
         }).pipe(
@@ -26266,7 +26264,7 @@ function __c232(j: number): any {
       ).annotate({ identifier: "FeaturesetVersionBackfillResponse" });
   }
 }
-function __c233(j: number): any {
+function __c232(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26276,7 +26274,7 @@ function __c233(j: number): any {
       ).annotate({ identifier: "MaterializationComputeResource" });
   }
 }
-function __c234(j: number): any {
+function __c233(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26287,8 +26285,8 @@ function __c234(j: number): any {
           isAnonymous: S.optional(S.Boolean),
           isArchived: S.optional(S.Boolean),
           entities: S.optional(S.NullOr(__S(6176, __c193, 0))),
-          materializationSettings: S.optional(S.NullOr(__S(7552, __c236, 0))),
-          specification: S.optional(S.NullOr(__S(7553, __c236, 1))),
+          materializationSettings: S.optional(S.NullOr(__S(7520, __c235, 0))),
+          specification: S.optional(S.NullOr(__S(7521, __c235, 1))),
           stage: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "FeaturesetVersionPropertiesInput" });
@@ -26300,7 +26298,7 @@ function __c234(j: number): any {
           workspaceName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           version: S.String.pipe(T.Label()),
-          properties: __S(7488, __c234, 0),
+          properties: __S(7456, __c233, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -26317,14 +26315,14 @@ function __c234(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: __S(7554, __c236, 2),
+          properties: __S(7522, __c235, 2),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "FeaturesetVersionsCreateOrUpdateResponse" });
   }
 }
-function __c235(j: number): any {
+function __c234(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26335,19 +26333,19 @@ function __c235(j: number): any {
           triggerType: S.String,
           frequency: S.String,
           interval: S.Number,
-          schedule: S.optional(S.NullOr(__S(9760, __c305, 0))),
+          schedule: S.optional(S.NullOr(__S(9728, __c304, 0))),
         }),
       ).annotate({ identifier: "RecurrenceTrigger" });
   }
 }
-function __c236(j: number): any {
+function __c235(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          notification: S.optional(S.NullOr(__S(7586, __c237, 2))),
-          resource: S.optional(S.NullOr(__S(7456, __c233, 0))),
-          schedule: S.optional(S.NullOr(__S(7520, __c235, 0))),
+          notification: S.optional(S.NullOr(__S(7554, __c236, 2))),
+          resource: S.optional(S.NullOr(__S(7424, __c232, 0))),
+          schedule: S.optional(S.NullOr(__S(7488, __c234, 0))),
           sparkConfiguration: S.optional(S.NullOr(__S(64, __c2, 0))),
           storeType: S.optional(S.String),
         }),
@@ -26367,15 +26365,15 @@ function __c236(j: number): any {
           isAnonymous: S.optional(S.Boolean),
           isArchived: S.optional(S.Boolean),
           entities: S.optional(S.NullOr(__S(6176, __c193, 0))),
-          materializationSettings: S.optional(S.NullOr(__S(7552, __c236, 0))),
+          materializationSettings: S.optional(S.NullOr(__S(7520, __c235, 0))),
           provisioningState: S.optional(S.String),
-          specification: S.optional(S.NullOr(__S(7553, __c236, 1))),
+          specification: S.optional(S.NullOr(__S(7521, __c235, 1))),
           stage: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "FeaturesetVersionProperties" });
   }
 }
-function __c237(j: number): any {
+function __c236(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26385,18 +26383,18 @@ function __c237(j: number): any {
         }),
       ).annotate({ identifier: "AzureDevOpsWebhook" });
     case 1:
-      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(7584, __c237, 0)));
+      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(7552, __c236, 0)));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          emailOn: S.optional(S.NullOr(__S(9728, __c304, 0))),
+          emailOn: S.optional(S.NullOr(__S(9696, __c303, 0))),
           emails: S.optional(S.NullOr(__S(6176, __c193, 0))),
-          webhooks: S.optional(S.NullOr(__S(7585, __c237, 1))),
+          webhooks: S.optional(S.NullOr(__S(7553, __c236, 1))),
         }),
       ).annotate({ identifier: "NotificationSetting" });
   }
 }
-function __c238(j: number): any {
+function __c237(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26417,7 +26415,7 @@ function __c238(j: number): any {
       ).annotate({ identifier: "FeaturestoreEntityContainersCreateOrUpdateRequest" });
   }
 }
-function __c239(j: number): any {
+function __c238(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26427,7 +26425,7 @@ function __c239(j: number): any {
           workspaceName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           version: S.String.pipe(T.Label()),
-          properties: __S(7680, __c240, 0),
+          properties: __S(7648, __c239, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -26439,7 +26437,7 @@ function __c239(j: number): any {
       ).annotate({ identifier: "CodeVersionsCreateOrUpdateRequest" });
   }
 }
-function __c240(j: number): any {
+function __c239(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26454,7 +26452,7 @@ function __c240(j: number): any {
       ).annotate({ identifier: "CodeVersionPropertiesInput" });
   }
 }
-function __c241(j: number): any {
+function __c240(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26463,12 +26461,12 @@ function __c241(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: __S(7744, __c242, 0),
+          properties: __S(7712, __c241, 0),
         }),
       ).annotate({ identifier: "CodeVersionsCreateOrUpdateResponse" });
   }
 }
-function __c242(j: number): any {
+function __c241(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26484,7 +26482,7 @@ function __c242(j: number): any {
       ).annotate({ identifier: "CodeVersionProperties" });
   }
 }
-function __c243(j: number): any {
+function __c242(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26494,7 +26492,7 @@ function __c243(j: number): any {
           tags: S.optional(S.NullOr(__S(64, __c2, 0))),
           isAnonymous: S.optional(S.Boolean),
           isArchived: S.optional(S.Boolean),
-          indexColumns: S.optional(S.NullOr(__S(7809, __c244, 1))),
+          indexColumns: S.optional(S.NullOr(__S(7777, __c243, 1))),
           stage: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "FeaturestoreEntityVersionPropertiesInput" });
@@ -26506,7 +26504,7 @@ function __c243(j: number): any {
           workspaceName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           version: S.String.pipe(T.Label()),
-          properties: __S(7776, __c243, 0),
+          properties: __S(7744, __c242, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -26523,14 +26521,14 @@ function __c243(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: __S(7810, __c244, 2),
+          properties: __S(7778, __c243, 2),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "FeaturestoreEntityVersionsCreateOrUpdateResponse" });
   }
 }
-function __c244(j: number): any {
+function __c243(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26540,7 +26538,7 @@ function __c244(j: number): any {
         }),
       ).annotate({ identifier: "IndexColumn" });
     case 1:
-      return S.Array(__S(7808, __c244, 0));
+      return S.Array(__S(7776, __c243, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -26549,14 +26547,14 @@ function __c244(j: number): any {
           tags: S.optional(S.NullOr(__S(64, __c2, 0))),
           isAnonymous: S.optional(S.Boolean),
           isArchived: S.optional(S.Boolean),
-          indexColumns: S.optional(S.NullOr(__S(7809, __c244, 1))),
+          indexColumns: S.optional(S.NullOr(__S(7777, __c243, 1))),
           provisioningState: S.optional(S.String),
           stage: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "FeaturestoreEntityVersionProperties" });
   }
 }
-function __c245(j: number): any {
+function __c244(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26577,7 +26575,7 @@ function __c245(j: number): any {
       ).annotate({ identifier: "GetBatchDeploymentRequest" });
   }
 }
-function __c246(j: number): any {
+function __c245(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26596,7 +26594,7 @@ function __c246(j: number): any {
       ).annotate({ identifier: "GetBatchDeploymentResponse" });
   }
 }
-function __c247(j: number): any {
+function __c246(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26616,7 +26614,7 @@ function __c247(j: number): any {
       ).annotate({ identifier: "GetBatchEndpointRequest" });
   }
 }
-function __c248(j: number): any {
+function __c247(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26635,7 +26633,7 @@ function __c248(j: number): any {
       ).annotate({ identifier: "GetBatchEndpointResponse" });
   }
 }
-function __c249(j: number): any {
+function __c248(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26655,7 +26653,7 @@ function __c249(j: number): any {
       ).annotate({ identifier: "GetCapabilityHostRequest" });
   }
 }
-function __c250(j: number): any {
+function __c249(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26669,7 +26667,7 @@ function __c250(j: number): any {
       ).annotate({ identifier: "GetCapabilityHostResponse" });
   }
 }
-function __c251(j: number): any {
+function __c250(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26689,7 +26687,7 @@ function __c251(j: number): any {
       ).annotate({ identifier: "GetCodeContainerRequest" });
   }
 }
-function __c252(j: number): any {
+function __c251(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26710,7 +26708,7 @@ function __c252(j: number): any {
       ).annotate({ identifier: "GetCodeVersionRequest" });
   }
 }
-function __c253(j: number): any {
+function __c252(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26730,7 +26728,7 @@ function __c253(j: number): any {
       ).annotate({ identifier: "GetComponentContainerRequest" });
   }
 }
-function __c254(j: number): any {
+function __c253(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26751,7 +26749,7 @@ function __c254(j: number): any {
       ).annotate({ identifier: "GetComponentVersionRequest" });
   }
 }
-function __c255(j: number): any {
+function __c254(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26771,7 +26769,7 @@ function __c255(j: number): any {
       ).annotate({ identifier: "GetComputeRequest" });
   }
 }
-function __c256(j: number): any {
+function __c255(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26780,7 +26778,7 @@ function __c256(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: S.optional(__S(9936, __c310, 16)),
+          properties: S.optional(__S(9904, __c309, 16)),
           location: S.optional(S.String),
           tags: S.optional(S.NullOr(__S(96, __c3, 0))),
           sku: S.optional(__S(224, __c7, 0)),
@@ -26789,7 +26787,7 @@ function __c256(j: number): any {
       ).annotate({ identifier: "GetComputeResponse" });
   }
 }
-function __c257(j: number): any {
+function __c256(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26809,7 +26807,7 @@ function __c257(j: number): any {
       ).annotate({ identifier: "GetDataContainerRequest" });
   }
 }
-function __c258(j: number): any {
+function __c257(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26830,7 +26828,7 @@ function __c258(j: number): any {
       ).annotate({ identifier: "ComponentContainersCreateOrUpdateRequest" });
   }
 }
-function __c259(j: number): any {
+function __c258(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26850,7 +26848,7 @@ function __c259(j: number): any {
       ).annotate({ identifier: "GetDatastoreRequest" });
   }
 }
-function __c260(j: number): any {
+function __c259(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26871,7 +26869,7 @@ function __c260(j: number): any {
       ).annotate({ identifier: "GetDataVersionRequest" });
   }
 }
-function __c261(j: number): any {
+function __c260(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26891,7 +26889,7 @@ function __c261(j: number): any {
       ).annotate({ identifier: "GetEnvironmentContainerRequest" });
   }
 }
-function __c262(j: number): any {
+function __c261(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26912,7 +26910,7 @@ function __c262(j: number): any {
       ).annotate({ identifier: "GetEnvironmentVersionRequest" });
   }
 }
-function __c263(j: number): any {
+function __c262(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26934,7 +26932,7 @@ function __c263(j: number): any {
       ).annotate({ identifier: "GetFeatureRequest" });
   }
 }
-function __c264(j: number): any {
+function __c263(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26953,12 +26951,12 @@ function __c264(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: __S(8448, __c264, 0),
+          properties: __S(8416, __c263, 0),
         }),
       ).annotate({ identifier: "GetFeatureResponse" });
   }
 }
-function __c265(j: number): any {
+function __c264(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26978,7 +26976,7 @@ function __c265(j: number): any {
       ).annotate({ identifier: "GetFeaturesetContainerEntityRequest" });
   }
 }
-function __c266(j: number): any {
+function __c265(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26999,7 +26997,7 @@ function __c266(j: number): any {
       ).annotate({ identifier: "GetFeaturesetVersionRequest" });
   }
 }
-function __c267(j: number): any {
+function __c266(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27008,12 +27006,12 @@ function __c267(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: __S(7554, __c236, 2),
+          properties: __S(7522, __c235, 2),
         }),
       ).annotate({ identifier: "GetFeaturesetVersionResponse" });
   }
 }
-function __c268(j: number): any {
+function __c267(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27033,7 +27031,7 @@ function __c268(j: number): any {
       ).annotate({ identifier: "GetFeaturestoreEntityContainerEntityRequest" });
   }
 }
-function __c269(j: number): any {
+function __c268(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27054,7 +27052,7 @@ function __c269(j: number): any {
       ).annotate({ identifier: "GetFeaturestoreEntityVersionRequest" });
   }
 }
-function __c270(j: number): any {
+function __c269(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27063,12 +27061,12 @@ function __c270(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: __S(7810, __c244, 2),
+          properties: __S(7778, __c243, 2),
         }),
       ).annotate({ identifier: "GetFeaturestoreEntityVersionResponse" });
   }
 }
-function __c271(j: number): any {
+function __c270(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27088,7 +27086,7 @@ function __c271(j: number): any {
       ).annotate({ identifier: "GetJobRequest" });
   }
 }
-function __c272(j: number): any {
+function __c271(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27106,7 +27104,7 @@ function __c272(j: number): any {
         }),
       ).annotate({ identifier: "ManagedIdentity" });
     case 2:
-      return S.Union([__S(8704, __c272, 0), __S(8705, __c272, 1), __S(8704, __c272, 0)]);
+      return S.Union([__S(8672, __c271, 0), __S(8673, __c271, 1), __S(8672, __c271, 0)]);
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -27119,14 +27117,14 @@ function __c272(j: number): any {
           endpoint: S.optional(S.NullOr(S.String)),
           errorMessage: S.optional(S.NullOr(S.String)),
           jobServiceType: S.optional(S.NullOr(S.String)),
-          nodes: S.optional(S.NullOr(__S(8707, __c272, 3))),
+          nodes: S.optional(S.NullOr(__S(8675, __c271, 3))),
           port: S.optional(S.NullOr(S.Number)),
           properties: S.optional(S.NullOr(__S(64, __c2, 0))),
           status: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "JobService" });
     case 5:
-      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(8708, __c272, 4)));
+      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(8676, __c271, 4)));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -27139,15 +27137,15 @@ function __c272(j: number): any {
       ).annotate({ identifier: "CustomModelJobOutput" });
     case 7:
       return S.Union([
-        __S(8710, __c272, 6),
-        __S(8710, __c272, 6),
-        __S(8710, __c272, 6),
-        __S(8710, __c272, 6),
-        __S(8710, __c272, 6),
-        __S(8710, __c272, 6),
+        __S(8678, __c271, 6),
+        __S(8678, __c271, 6),
+        __S(8678, __c271, 6),
+        __S(8678, __c271, 6),
+        __S(8678, __c271, 6),
+        __S(8678, __c271, 6),
       ]);
     case 8:
-      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(8711, __c272, 7)));
+      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(8679, __c271, 7)));
     case 9:
       return S.suspend(() =>
         S.Struct({
@@ -27182,18 +27180,18 @@ function __c272(j: number): any {
         }),
       ).annotate({ identifier: "ColumnTransformer" });
     case 13:
-      return S.Array(__S(8716, __c272, 12));
+      return S.Array(__S(8684, __c271, 12));
     case 14:
-      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(8717, __c272, 13)));
+      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(8685, __c271, 13)));
     case 15:
       return S.suspend(() =>
         S.Struct({
           datasetLanguage: S.optional(S.NullOr(S.String)),
-          blockedTransformers: S.optional(S.NullOr(__S(9728, __c304, 0))),
+          blockedTransformers: S.optional(S.NullOr(__S(9696, __c303, 0))),
           columnNameAndTypes: S.optional(S.NullOr(__S(64, __c2, 0))),
           enableDnnFeaturization: S.optional(S.Boolean),
           mode: S.optional(S.String),
-          transformerParams: S.optional(S.NullOr(__S(8718, __c272, 14))),
+          transformerParams: S.optional(S.NullOr(__S(8686, __c271, 14))),
         }),
       ).annotate({ identifier: "TableVerticalFeaturizationSettings" });
     case 16:
@@ -27222,7 +27220,7 @@ function __c272(j: number): any {
         }),
       ).annotate({ identifier: "CustomNCrossValidations" });
     case 19:
-      return S.Union([__S(8721, __c272, 17), __S(8722, __c272, 18)]);
+      return S.Union([__S(8689, __c271, 17), __S(8690, __c271, 18)]);
     case 20:
       return S.suspend(() =>
         S.Struct({
@@ -27240,9 +27238,9 @@ function __c272(j: number): any {
           enableStackEnsemble: S.optional(S.Boolean),
           enableVoteEnsemble: S.optional(S.Boolean),
           ensembleModelDownloadTimeout: S.optional(S.String),
-          stackEnsembleSettings: S.optional(S.NullOr(__S(8724, __c272, 20))),
-          allowedTrainingAlgorithms: S.optional(S.NullOr(__S(9728, __c304, 0))),
-          blockedTrainingAlgorithms: S.optional(S.NullOr(__S(9728, __c304, 0))),
+          stackEnsembleSettings: S.optional(S.NullOr(__S(8692, __c271, 20))),
+          allowedTrainingAlgorithms: S.optional(S.NullOr(__S(9696, __c303, 0))),
+          blockedTrainingAlgorithms: S.optional(S.NullOr(__S(9696, __c303, 0))),
         }),
       ).annotate({ identifier: "ClassificationTrainingSettings" });
     case 22:
@@ -27251,43 +27249,43 @@ function __c272(j: number): any {
           logVerbosity: S.optional(S.String),
           targetColumnName: S.optional(S.NullOr(S.String)),
           taskType: S.String,
-          trainingData: __S(8715, __c272, 11),
+          trainingData: __S(8683, __c271, 11),
           cvSplitColumnNames: S.optional(S.NullOr(__S(6176, __c193, 0))),
-          featurizationSettings: S.optional(S.NullOr(__S(8719, __c272, 15))),
-          limitSettings: S.optional(S.NullOr(__S(8720, __c272, 16))),
-          nCrossValidations: S.optional(S.NullOr(__S(8723, __c272, 19))),
-          testData: S.optional(S.NullOr(__S(8715, __c272, 11))),
+          featurizationSettings: S.optional(S.NullOr(__S(8687, __c271, 15))),
+          limitSettings: S.optional(S.NullOr(__S(8688, __c271, 16))),
+          nCrossValidations: S.optional(S.NullOr(__S(8691, __c271, 19))),
+          testData: S.optional(S.NullOr(__S(8683, __c271, 11))),
           testDataSize: S.optional(S.NullOr(S.Number)),
-          validationData: S.optional(S.NullOr(__S(8715, __c272, 11))),
+          validationData: S.optional(S.NullOr(__S(8683, __c271, 11))),
           validationDataSize: S.optional(S.NullOr(S.Number)),
           weightColumnName: S.optional(S.NullOr(S.String)),
           positiveLabel: S.optional(S.NullOr(S.String)),
           primaryMetric: S.optional(S.String),
-          trainingSettings: S.optional(S.NullOr(__S(8725, __c272, 21))),
+          trainingSettings: S.optional(S.NullOr(__S(8693, __c271, 21))),
         }),
       ).annotate({ identifier: "Classification" });
     case 23:
       return S.suspend(() =>
         S.Struct({
           mode: S.String,
-          values: __S(9792, __c306, 0),
+          values: __S(9760, __c305, 0),
         }),
       ).annotate({ identifier: "CustomTargetLags" });
     case 24:
-      return S.Union([__S(8721, __c272, 17), __S(8727, __c272, 23)]);
+      return S.Union([__S(8689, __c271, 17), __S(8695, __c271, 23)]);
     case 25:
       return S.suspend(() =>
         S.Struct({
           countryOrRegionForHolidays: S.optional(S.NullOr(S.String)),
           cvStepSize: S.optional(S.NullOr(S.Number)),
           featureLags: S.optional(S.String),
-          forecastHorizon: S.optional(__S(8723, __c272, 19)),
+          forecastHorizon: S.optional(__S(8691, __c271, 19)),
           frequency: S.optional(S.NullOr(S.String)),
-          seasonality: S.optional(__S(8723, __c272, 19)),
+          seasonality: S.optional(__S(8691, __c271, 19)),
           shortSeriesHandlingConfig: S.optional(S.String),
           targetAggregateFunction: S.optional(S.String),
-          targetLags: S.optional(S.NullOr(__S(8728, __c272, 24))),
-          targetRollingWindowSize: S.optional(S.NullOr(__S(8723, __c272, 19))),
+          targetLags: S.optional(S.NullOr(__S(8696, __c271, 24))),
+          targetRollingWindowSize: S.optional(S.NullOr(__S(8691, __c271, 19))),
           timeColumnName: S.optional(S.NullOr(S.String)),
           timeSeriesIdColumnNames: S.optional(S.NullOr(__S(6176, __c193, 0))),
           useStl: S.optional(S.String),
@@ -27299,19 +27297,19 @@ function __c272(j: number): any {
           logVerbosity: S.optional(S.String),
           targetColumnName: S.optional(S.NullOr(S.String)),
           taskType: S.String,
-          trainingData: __S(8715, __c272, 11),
+          trainingData: __S(8683, __c271, 11),
           cvSplitColumnNames: S.optional(S.NullOr(__S(6176, __c193, 0))),
-          featurizationSettings: S.optional(S.NullOr(__S(8719, __c272, 15))),
-          limitSettings: S.optional(S.NullOr(__S(8720, __c272, 16))),
-          nCrossValidations: S.optional(S.NullOr(__S(8723, __c272, 19))),
-          testData: S.optional(S.NullOr(__S(8715, __c272, 11))),
+          featurizationSettings: S.optional(S.NullOr(__S(8687, __c271, 15))),
+          limitSettings: S.optional(S.NullOr(__S(8688, __c271, 16))),
+          nCrossValidations: S.optional(S.NullOr(__S(8691, __c271, 19))),
+          testData: S.optional(S.NullOr(__S(8683, __c271, 11))),
           testDataSize: S.optional(S.NullOr(S.Number)),
-          validationData: S.optional(S.NullOr(__S(8715, __c272, 11))),
+          validationData: S.optional(S.NullOr(__S(8683, __c271, 11))),
           validationDataSize: S.optional(S.NullOr(S.Number)),
           weightColumnName: S.optional(S.NullOr(S.String)),
-          forecastingSettings: S.optional(S.NullOr(__S(8729, __c272, 25))),
+          forecastingSettings: S.optional(S.NullOr(__S(8697, __c271, 25))),
           primaryMetric: S.optional(S.String),
-          trainingSettings: S.optional(S.NullOr(__S(8725, __c272, 21))),
+          trainingSettings: S.optional(S.NullOr(__S(8693, __c271, 21))),
         }),
       ).annotate({ identifier: "Forecasting" });
     case 27:
@@ -27323,7 +27321,7 @@ function __c272(j: number): any {
           beta1: S.optional(S.NullOr(S.Number)),
           beta2: S.optional(S.NullOr(S.Number)),
           checkpointFrequency: S.optional(S.NullOr(S.Number)),
-          checkpointModel: S.optional(S.NullOr(__S(8715, __c272, 11))),
+          checkpointModel: S.optional(S.NullOr(__S(8683, __c271, 11))),
           checkpointRunId: S.optional(S.NullOr(S.String)),
           distributed: S.optional(S.NullOr(S.Boolean)),
           earlyStopping: S.optional(S.NullOr(S.Boolean)),
@@ -27393,7 +27391,7 @@ function __c272(j: number): any {
         }),
       ).annotate({ identifier: "ImageModelDistributionSettingsClassification" });
     case 29:
-      return S.Array(__S(8732, __c272, 28));
+      return S.Array(__S(8700, __c271, 28));
     case 30:
       return S.suspend(() =>
         S.Struct({
@@ -27414,7 +27412,7 @@ function __c272(j: number): any {
       ).annotate({ identifier: "BanditPolicy" });
   }
 }
-function __c273(j: number): any {
+function __c272(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27434,11 +27432,11 @@ function __c273(j: number): any {
         }),
       ).annotate({ identifier: "TruncationSelectionPolicy" });
     case 2:
-      return S.Union([__S(8735, __c272, 31), __S(8736, __c273, 0), __S(8737, __c273, 1)]);
+      return S.Union([__S(8703, __c271, 31), __S(8704, __c272, 0), __S(8705, __c272, 1)]);
     case 3:
       return S.suspend(() =>
         S.Struct({
-          earlyTermination: S.optional(S.NullOr(__S(8738, __c273, 2))),
+          earlyTermination: S.optional(S.NullOr(__S(8706, __c272, 2))),
           samplingAlgorithm: S.String,
         }),
       ).annotate({ identifier: "ImageSweepSettings" });
@@ -27448,12 +27446,12 @@ function __c273(j: number): any {
           logVerbosity: S.optional(S.String),
           targetColumnName: S.optional(S.NullOr(S.String)),
           taskType: S.String,
-          trainingData: __S(8715, __c272, 11),
-          modelSettings: S.optional(S.NullOr(__S(8731, __c272, 27))),
-          searchSpace: S.optional(S.NullOr(__S(8733, __c272, 29))),
-          limitSettings: __S(8734, __c272, 30),
-          sweepSettings: S.optional(S.NullOr(__S(8739, __c273, 3))),
-          validationData: S.optional(S.NullOr(__S(8715, __c272, 11))),
+          trainingData: __S(8683, __c271, 11),
+          modelSettings: S.optional(S.NullOr(__S(8699, __c271, 27))),
+          searchSpace: S.optional(S.NullOr(__S(8701, __c271, 29))),
+          limitSettings: __S(8702, __c271, 30),
+          sweepSettings: S.optional(S.NullOr(__S(8707, __c272, 3))),
+          validationData: S.optional(S.NullOr(__S(8683, __c271, 11))),
           validationDataSize: S.optional(S.NullOr(S.Number)),
           primaryMetric: S.optional(S.String),
         }),
@@ -27467,7 +27465,7 @@ function __c273(j: number): any {
           beta1: S.optional(S.NullOr(S.Number)),
           beta2: S.optional(S.NullOr(S.Number)),
           checkpointFrequency: S.optional(S.NullOr(S.Number)),
-          checkpointModel: S.optional(S.NullOr(__S(8715, __c272, 11))),
+          checkpointModel: S.optional(S.NullOr(__S(8683, __c271, 11))),
           checkpointRunId: S.optional(S.NullOr(S.String)),
           distributed: S.optional(S.NullOr(S.Boolean)),
           earlyStopping: S.optional(S.NullOr(S.Boolean)),
@@ -27555,19 +27553,19 @@ function __c273(j: number): any {
         }),
       ).annotate({ identifier: "ImageModelDistributionSettingsObjectDetection" });
     case 7:
-      return S.Array(__S(8742, __c273, 6));
+      return S.Array(__S(8710, __c272, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
           logVerbosity: S.optional(S.String),
           targetColumnName: S.optional(S.NullOr(S.String)),
           taskType: S.String,
-          trainingData: __S(8715, __c272, 11),
-          modelSettings: S.optional(S.NullOr(__S(8741, __c273, 5))),
-          searchSpace: S.optional(S.NullOr(__S(8743, __c273, 7))),
-          limitSettings: __S(8734, __c272, 30),
-          sweepSettings: S.optional(S.NullOr(__S(8739, __c273, 3))),
-          validationData: S.optional(S.NullOr(__S(8715, __c272, 11))),
+          trainingData: __S(8683, __c271, 11),
+          modelSettings: S.optional(S.NullOr(__S(8709, __c272, 5))),
+          searchSpace: S.optional(S.NullOr(__S(8711, __c272, 7))),
+          limitSettings: __S(8702, __c271, 30),
+          sweepSettings: S.optional(S.NullOr(__S(8707, __c272, 3))),
+          validationData: S.optional(S.NullOr(__S(8683, __c271, 11))),
           validationDataSize: S.optional(S.NullOr(S.Number)),
           primaryMetric: S.optional(S.String),
         }),
@@ -27578,18 +27576,18 @@ function __c273(j: number): any {
           logVerbosity: S.optional(S.String),
           targetColumnName: S.optional(S.NullOr(S.String)),
           taskType: S.String,
-          trainingData: __S(8715, __c272, 11),
+          trainingData: __S(8683, __c271, 11),
           cvSplitColumnNames: S.optional(S.NullOr(__S(6176, __c193, 0))),
-          featurizationSettings: S.optional(S.NullOr(__S(8719, __c272, 15))),
-          limitSettings: S.optional(S.NullOr(__S(8720, __c272, 16))),
-          nCrossValidations: S.optional(S.NullOr(__S(8723, __c272, 19))),
-          testData: S.optional(S.NullOr(__S(8715, __c272, 11))),
+          featurizationSettings: S.optional(S.NullOr(__S(8687, __c271, 15))),
+          limitSettings: S.optional(S.NullOr(__S(8688, __c271, 16))),
+          nCrossValidations: S.optional(S.NullOr(__S(8691, __c271, 19))),
+          testData: S.optional(S.NullOr(__S(8683, __c271, 11))),
           testDataSize: S.optional(S.NullOr(S.Number)),
-          validationData: S.optional(S.NullOr(__S(8715, __c272, 11))),
+          validationData: S.optional(S.NullOr(__S(8683, __c271, 11))),
           validationDataSize: S.optional(S.NullOr(S.Number)),
           weightColumnName: S.optional(S.NullOr(S.String)),
           primaryMetric: S.optional(S.String),
-          trainingSettings: S.optional(S.NullOr(__S(8725, __c272, 21))),
+          trainingSettings: S.optional(S.NullOr(__S(8693, __c271, 21))),
         }),
       ).annotate({ identifier: "Regression" });
     case 10:
@@ -27604,25 +27602,25 @@ function __c273(j: number): any {
           logVerbosity: S.optional(S.String),
           targetColumnName: S.optional(S.NullOr(S.String)),
           taskType: S.String,
-          trainingData: __S(8715, __c272, 11),
-          featurizationSettings: S.optional(S.NullOr(__S(8746, __c273, 10))),
-          limitSettings: S.optional(S.NullOr(__S(8734, __c272, 30))),
-          validationData: S.optional(S.NullOr(__S(8715, __c272, 11))),
+          trainingData: __S(8683, __c271, 11),
+          featurizationSettings: S.optional(S.NullOr(__S(8714, __c272, 10))),
+          limitSettings: S.optional(S.NullOr(__S(8702, __c271, 30))),
+          validationData: S.optional(S.NullOr(__S(8683, __c271, 11))),
           primaryMetric: S.optional(S.String),
         }),
       ).annotate({ identifier: "TextClassification" });
     case 12:
       return S.Union([
-        __S(8726, __c272, 22),
-        __S(8730, __c272, 26),
-        __S(8740, __c273, 4),
-        __S(8740, __c273, 4),
-        __S(8744, __c273, 8),
-        __S(8744, __c273, 8),
-        __S(8745, __c273, 9),
-        __S(8747, __c273, 11),
-        __S(8747, __c273, 11),
-        __S(8747, __c273, 11),
+        __S(8694, __c271, 22),
+        __S(8698, __c271, 26),
+        __S(8708, __c272, 4),
+        __S(8708, __c272, 4),
+        __S(8712, __c272, 8),
+        __S(8712, __c272, 8),
+        __S(8713, __c272, 9),
+        __S(8715, __c272, 11),
+        __S(8715, __c272, 11),
+        __S(8715, __c272, 11),
       ]);
     case 13:
       return S.suspend(() =>
@@ -27634,18 +27632,18 @@ function __c273(j: number): any {
           computeId: S.optional(S.NullOr(S.String)),
           displayName: S.optional(S.NullOr(S.String)),
           experimentName: S.optional(S.String),
-          identity: S.optional(S.NullOr(__S(8706, __c272, 2))),
+          identity: S.optional(S.NullOr(__S(8674, __c271, 2))),
           isArchived: S.optional(S.Boolean),
           jobType: S.String,
-          notificationSetting: S.optional(S.NullOr(__S(7586, __c237, 2))),
-          services: S.optional(S.NullOr(__S(8709, __c272, 5))),
+          notificationSetting: S.optional(S.NullOr(__S(7554, __c236, 2))),
+          services: S.optional(S.NullOr(__S(8677, __c271, 5))),
           status: S.optional(S.String),
           environmentId: S.optional(S.NullOr(S.String)),
           environmentVariables: S.optional(S.NullOr(__S(64, __c2, 0))),
-          outputs: S.optional(S.NullOr(__S(8712, __c272, 8))),
-          queueSettings: S.optional(S.NullOr(__S(8713, __c272, 9))),
-          resources: S.optional(__S(8714, __c272, 10)),
-          taskDetails: __S(8748, __c273, 12),
+          outputs: S.optional(S.NullOr(__S(8680, __c271, 8))),
+          queueSettings: S.optional(S.NullOr(__S(8681, __c271, 9))),
+          resources: S.optional(__S(8682, __c271, 10)),
+          taskDetails: __S(8716, __c272, 12),
         }),
       ).annotate({ identifier: "AutoMLJob" });
     case 14:
@@ -27664,7 +27662,7 @@ function __c273(j: number): any {
         }),
       ).annotate({ identifier: "TensorFlow" });
     case 16:
-      return S.Union([__S(8750, __c273, 14), __S(8750, __c273, 14), __S(8751, __c273, 15)]);
+      return S.Union([__S(8718, __c272, 14), __S(8718, __c272, 14), __S(8719, __c272, 15)]);
     case 17:
       return S.suspend(() =>
         S.Struct({
@@ -27675,16 +27673,16 @@ function __c273(j: number): any {
       ).annotate({ identifier: "LiteralJobInput" });
     case 18:
       return S.Union([
-        __S(8715, __c272, 11),
-        __S(8753, __c273, 17),
-        __S(8715, __c272, 11),
-        __S(8715, __c272, 11),
-        __S(8715, __c272, 11),
-        __S(8715, __c272, 11),
-        __S(8715, __c272, 11),
+        __S(8683, __c271, 11),
+        __S(8721, __c272, 17),
+        __S(8683, __c271, 11),
+        __S(8683, __c271, 11),
+        __S(8683, __c271, 11),
+        __S(8683, __c271, 11),
+        __S(8683, __c271, 11),
       ]);
     case 19:
-      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(8754, __c273, 18)));
+      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(8722, __c272, 18)));
     case 20:
       return S.suspend(() =>
         S.Struct({
@@ -27702,23 +27700,23 @@ function __c273(j: number): any {
           computeId: S.optional(S.NullOr(S.String)),
           displayName: S.optional(S.NullOr(S.String)),
           experimentName: S.optional(S.String),
-          identity: S.optional(S.NullOr(__S(8706, __c272, 2))),
+          identity: S.optional(S.NullOr(__S(8674, __c271, 2))),
           isArchived: S.optional(S.Boolean),
           jobType: S.String,
-          notificationSetting: S.optional(S.NullOr(__S(7586, __c237, 2))),
-          services: S.optional(S.NullOr(__S(8709, __c272, 5))),
+          notificationSetting: S.optional(S.NullOr(__S(7554, __c236, 2))),
+          services: S.optional(S.NullOr(__S(8677, __c271, 5))),
           status: S.optional(S.String),
           codeId: S.optional(S.NullOr(S.String)),
           command: S.String,
-          distribution: S.optional(S.NullOr(__S(8752, __c273, 16))),
+          distribution: S.optional(S.NullOr(__S(8720, __c272, 16))),
           environmentId: S.String,
           environmentVariables: S.optional(S.NullOr(__S(64, __c2, 0))),
-          inputs: S.optional(S.NullOr(__S(8755, __c273, 19))),
-          limits: S.optional(S.NullOr(__S(8756, __c273, 20))),
-          outputs: S.optional(S.NullOr(__S(8712, __c272, 8))),
+          inputs: S.optional(S.NullOr(__S(8723, __c272, 19))),
+          limits: S.optional(S.NullOr(__S(8724, __c272, 20))),
+          outputs: S.optional(S.NullOr(__S(8680, __c271, 8))),
           parameters: S.optional(S.NullOr(S.Unknown)),
-          queueSettings: S.optional(S.NullOr(__S(8713, __c272, 9))),
-          resources: S.optional(__S(8714, __c272, 10)),
+          queueSettings: S.optional(S.NullOr(__S(8681, __c271, 9))),
+          resources: S.optional(__S(8682, __c271, 10)),
         }),
       ).annotate({ identifier: "CommandJob" });
     case 22:
@@ -27731,15 +27729,15 @@ function __c273(j: number): any {
           computeId: S.optional(S.NullOr(S.String)),
           displayName: S.optional(S.NullOr(S.String)),
           experimentName: S.optional(S.String),
-          identity: S.optional(S.NullOr(__S(8706, __c272, 2))),
+          identity: S.optional(S.NullOr(__S(8674, __c271, 2))),
           isArchived: S.optional(S.Boolean),
           jobType: S.String,
-          notificationSetting: S.optional(S.NullOr(__S(7586, __c237, 2))),
-          services: S.optional(S.NullOr(__S(8709, __c272, 5))),
+          notificationSetting: S.optional(S.NullOr(__S(7554, __c236, 2))),
+          services: S.optional(S.NullOr(__S(8677, __c271, 5))),
           status: S.optional(S.String),
-          inputs: S.optional(S.NullOr(__S(8755, __c273, 19))),
+          inputs: S.optional(S.NullOr(__S(8723, __c272, 19))),
           jobs: S.optional(S.NullOr(__S(288, __c9, 0))),
-          outputs: S.optional(S.NullOr(__S(8712, __c272, 8))),
+          outputs: S.optional(S.NullOr(__S(8680, __c271, 8))),
           settings: S.optional(S.NullOr(S.Unknown)),
           sourceJobId: S.optional(S.NullOr(S.String)),
         }),
@@ -27759,7 +27757,7 @@ function __c273(j: number): any {
         }),
       ).annotate({ identifier: "SparkJobScalaEntry" });
     case 25:
-      return S.Union([__S(8759, __c273, 23), __S(8760, __c273, 24)]);
+      return S.Union([__S(8727, __c272, 23), __S(8728, __c272, 24)]);
     case 26:
       return S.suspend(() =>
         S.Struct({
@@ -27777,26 +27775,26 @@ function __c273(j: number): any {
           computeId: S.optional(S.NullOr(S.String)),
           displayName: S.optional(S.NullOr(S.String)),
           experimentName: S.optional(S.String),
-          identity: S.optional(S.NullOr(__S(8706, __c272, 2))),
+          identity: S.optional(S.NullOr(__S(8674, __c271, 2))),
           isArchived: S.optional(S.Boolean),
           jobType: S.String,
-          notificationSetting: S.optional(S.NullOr(__S(7586, __c237, 2))),
-          services: S.optional(S.NullOr(__S(8709, __c272, 5))),
+          notificationSetting: S.optional(S.NullOr(__S(7554, __c236, 2))),
+          services: S.optional(S.NullOr(__S(8677, __c271, 5))),
           status: S.optional(S.String),
           archives: S.optional(S.NullOr(__S(6176, __c193, 0))),
           args: S.optional(S.NullOr(S.String)),
           codeId: S.String,
           conf: S.optional(S.NullOr(__S(64, __c2, 0))),
-          entry: __S(8761, __c273, 25),
+          entry: __S(8729, __c272, 25),
           environmentId: S.optional(S.NullOr(S.String)),
           environmentVariables: S.optional(S.NullOr(__S(64, __c2, 0))),
           files: S.optional(S.NullOr(__S(6176, __c193, 0))),
-          inputs: S.optional(S.NullOr(__S(8755, __c273, 19))),
+          inputs: S.optional(S.NullOr(__S(8723, __c272, 19))),
           jars: S.optional(S.NullOr(__S(6176, __c193, 0))),
-          outputs: S.optional(S.NullOr(__S(8712, __c272, 8))),
+          outputs: S.optional(S.NullOr(__S(8680, __c271, 8))),
           pyFiles: S.optional(S.NullOr(__S(6176, __c193, 0))),
-          queueSettings: S.optional(S.NullOr(__S(8713, __c272, 9))),
-          resources: S.optional(S.NullOr(__S(8762, __c273, 26))),
+          queueSettings: S.optional(S.NullOr(__S(8681, __c271, 9))),
+          resources: S.optional(S.NullOr(__S(8730, __c272, 26))),
         }),
       ).annotate({ identifier: "SparkJob" });
     case 28:
@@ -27832,19 +27830,19 @@ function __c273(j: number): any {
       ).annotate({ identifier: "RandomSamplingAlgorithm" });
   }
 }
-function __c274(j: number): any {
+function __c273(j: number): any {
   switch (j) {
     case 0:
-      return S.Union([__S(8766, __c273, 30), __S(8766, __c273, 30), __S(8767, __c273, 31)]);
+      return S.Union([__S(8734, __c272, 30), __S(8734, __c272, 30), __S(8735, __c272, 31)]);
     case 1:
       return S.suspend(() =>
         S.Struct({
           codeId: S.optional(S.NullOr(S.String)),
           command: S.String,
-          distribution: S.optional(S.NullOr(__S(8752, __c273, 16))),
+          distribution: S.optional(S.NullOr(__S(8720, __c272, 16))),
           environmentId: S.String,
           environmentVariables: S.optional(S.NullOr(__S(64, __c2, 0))),
-          resources: S.optional(__S(8714, __c272, 10)),
+          resources: S.optional(__S(8682, __c271, 10)),
         }),
       ).annotate({ identifier: "TrialComponent" });
     case 2:
@@ -27857,34 +27855,34 @@ function __c274(j: number): any {
           computeId: S.optional(S.NullOr(S.String)),
           displayName: S.optional(S.NullOr(S.String)),
           experimentName: S.optional(S.String),
-          identity: S.optional(S.NullOr(__S(8706, __c272, 2))),
+          identity: S.optional(S.NullOr(__S(8674, __c271, 2))),
           isArchived: S.optional(S.Boolean),
           jobType: S.String,
-          notificationSetting: S.optional(S.NullOr(__S(7586, __c237, 2))),
-          services: S.optional(S.NullOr(__S(8709, __c272, 5))),
+          notificationSetting: S.optional(S.NullOr(__S(7554, __c236, 2))),
+          services: S.optional(S.NullOr(__S(8677, __c271, 5))),
           status: S.optional(S.String),
-          earlyTermination: S.optional(S.NullOr(__S(8738, __c273, 2))),
-          inputs: S.optional(S.NullOr(__S(8755, __c273, 19))),
-          limits: S.optional(__S(8764, __c273, 28)),
-          objective: __S(8765, __c273, 29),
-          outputs: S.optional(S.NullOr(__S(8712, __c272, 8))),
-          queueSettings: S.optional(S.NullOr(__S(8713, __c272, 9))),
-          samplingAlgorithm: __S(8768, __c274, 0),
+          earlyTermination: S.optional(S.NullOr(__S(8706, __c272, 2))),
+          inputs: S.optional(S.NullOr(__S(8723, __c272, 19))),
+          limits: S.optional(__S(8732, __c272, 28)),
+          objective: __S(8733, __c272, 29),
+          outputs: S.optional(S.NullOr(__S(8680, __c271, 8))),
+          queueSettings: S.optional(S.NullOr(__S(8681, __c271, 9))),
+          samplingAlgorithm: __S(8736, __c273, 0),
           searchSpace: S.Unknown,
-          trial: __S(8769, __c274, 1),
+          trial: __S(8737, __c273, 1),
         }),
       ).annotate({ identifier: "SweepJob" });
     case 3:
       return S.Union([
-        __S(8749, __c273, 13),
-        __S(8757, __c273, 21),
-        __S(8758, __c273, 22),
-        __S(8763, __c273, 27),
-        __S(8770, __c274, 2),
+        __S(8717, __c272, 13),
+        __S(8725, __c272, 21),
+        __S(8726, __c272, 22),
+        __S(8731, __c272, 27),
+        __S(8738, __c273, 2),
       ]);
   }
 }
-function __c275(j: number): any {
+function __c274(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27893,12 +27891,12 @@ function __c275(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: __S(8771, __c274, 3),
+          properties: __S(8739, __c273, 3),
         }),
       ).annotate({ identifier: "GetJobResponse" });
   }
 }
-function __c276(j: number): any {
+function __c275(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27908,7 +27906,7 @@ function __c276(j: number): any {
           workspaceName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           version: S.String.pipe(T.Label()),
-          properties: __S(8864, __c277, 0),
+          properties: __S(8832, __c276, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -27920,7 +27918,7 @@ function __c276(j: number): any {
       ).annotate({ identifier: "ComponentVersionsCreateOrUpdateRequest" });
   }
 }
-function __c277(j: number): any {
+function __c276(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27935,7 +27933,7 @@ function __c277(j: number): any {
       ).annotate({ identifier: "ComponentVersionPropertiesInput" });
   }
 }
-function __c278(j: number): any {
+function __c277(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27944,12 +27942,12 @@ function __c278(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: __S(8928, __c279, 0),
+          properties: __S(8896, __c278, 0),
         }),
       ).annotate({ identifier: "ComponentVersionsCreateOrUpdateResponse" });
   }
 }
-function __c279(j: number): any {
+function __c278(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27965,7 +27963,7 @@ function __c279(j: number): any {
       ).annotate({ identifier: "ComponentVersionProperties" });
   }
 }
-function __c280(j: number): any {
+function __c279(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27985,7 +27983,7 @@ function __c280(j: number): any {
       ).annotate({ identifier: "GetManagedNetworkSettingsRuleRequest" });
   }
 }
-function __c281(j: number): any {
+function __c280(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28015,7 +28013,7 @@ function __c281(j: number): any {
           type: S.String,
           errorInformation: S.optional(S.String),
           parentRuleNames: S.optional(__S(6176, __c193, 0)),
-          destination: S.optional(__S(8993, __c281, 1)),
+          destination: S.optional(__S(8961, __c280, 1)),
           fqdns: S.optional(__S(6176, __c193, 0)),
         }),
       ).annotate({ identifier: "PrivateEndpointOutboundRule" });
@@ -28037,14 +28035,14 @@ function __c281(j: number): any {
           type: S.String,
           errorInformation: S.optional(S.String),
           parentRuleNames: S.optional(__S(6176, __c193, 0)),
-          destination: S.optional(__S(8995, __c281, 3)),
+          destination: S.optional(__S(8963, __c280, 3)),
         }),
       ).annotate({ identifier: "ServiceTagOutboundRule" });
     case 5:
-      return S.Union([__S(8992, __c281, 0), __S(8994, __c281, 2), __S(8996, __c281, 4)]);
+      return S.Union([__S(8960, __c280, 0), __S(8962, __c280, 2), __S(8964, __c280, 4)]);
   }
 }
-function __c282(j: number): any {
+function __c281(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28053,12 +28051,12 @@ function __c282(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: __S(8997, __c281, 5),
+          properties: __S(8965, __c280, 5),
         }),
       ).annotate({ identifier: "GetManagedNetworkSettingsRuleResponse" });
   }
 }
-function __c283(j: number): any {
+function __c282(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28078,7 +28076,7 @@ function __c283(j: number): any {
       ).annotate({ identifier: "GetMarketplaceSubscriptionRequest" });
   }
 }
-function __c284(j: number): any {
+function __c283(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28087,12 +28085,12 @@ function __c284(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: __S(9121, __c285, 1),
+          properties: __S(9089, __c284, 1),
         }),
       ).annotate({ identifier: "GetMarketplaceSubscriptionResponse" });
   }
 }
-function __c285(j: number): any {
+function __c284(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28105,7 +28103,7 @@ function __c285(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          marketplacePlan: S.optional(S.NullOr(__S(9120, __c285, 0))),
+          marketplacePlan: S.optional(S.NullOr(__S(9088, __c284, 0))),
           marketplaceSubscriptionStatus: S.optional(S.String),
           modelId: S.String,
           provisioningState: S.optional(S.String),
@@ -28113,7 +28111,7 @@ function __c285(j: number): any {
       ).annotate({ identifier: "MarketplaceSubscriptionProperties" });
   }
 }
-function __c286(j: number): any {
+function __c285(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28133,7 +28131,7 @@ function __c286(j: number): any {
       ).annotate({ identifier: "GetModelContainerRequest" });
   }
 }
-function __c287(j: number): any {
+function __c286(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28154,7 +28152,7 @@ function __c287(j: number): any {
       ).annotate({ identifier: "GetModelVersionRequest" });
   }
 }
-function __c288(j: number): any {
+function __c287(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28163,12 +28161,12 @@ function __c288(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: __S(9252, __c289, 4),
+          properties: __S(9220, __c288, 4),
         }),
       ).annotate({ identifier: "GetModelVersionResponse" });
   }
 }
-function __c289(j: number): any {
+function __c288(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28177,7 +28175,7 @@ function __c289(j: number): any {
         }),
       ).annotate({ identifier: "FlavorData" });
     case 1:
-      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(9248, __c289, 0)));
+      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(9216, __c288, 0)));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -28186,7 +28184,7 @@ function __c289(j: number): any {
         }),
       ).annotate({ identifier: "DatasetReference" });
     case 3:
-      return S.Array(__S(9250, __c289, 2));
+      return S.Array(__S(9218, __c288, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -28195,18 +28193,18 @@ function __c289(j: number): any {
           tags: S.optional(S.NullOr(__S(64, __c2, 0))),
           isAnonymous: S.optional(S.Boolean),
           isArchived: S.optional(S.Boolean),
-          flavors: S.optional(S.NullOr(__S(9249, __c289, 1))),
+          flavors: S.optional(S.NullOr(__S(9217, __c288, 1))),
           jobName: S.optional(S.NullOr(S.String)),
           modelType: S.optional(S.NullOr(S.String)),
           modelUri: S.optional(S.NullOr(S.String)),
           provisioningState: S.optional(S.String),
           stage: S.optional(S.NullOr(S.String)),
-          datasets: S.optional(S.NullOr(__S(9251, __c289, 3))),
+          datasets: S.optional(S.NullOr(__S(9219, __c288, 3))),
         }),
       ).annotate({ identifier: "ModelVersionProperties" });
   }
 }
-function __c290(j: number): any {
+function __c289(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28227,7 +28225,7 @@ function __c290(j: number): any {
       ).annotate({ identifier: "GetOnlineDeploymentRequest" });
   }
 }
-function __c291(j: number): any {
+function __c290(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28238,7 +28236,7 @@ function __c291(j: number): any {
           systemData: S.optional(__S(32, __c1, 0)),
           tags: S.optional(__S(96, __c3, 0)),
           location: S.String,
-          properties: __S(9357, __c292, 13),
+          properties: __S(9325, __c291, 13),
           identity: S.optional(__S(194, __c6, 2)),
           kind: S.optional(S.String),
           sku: S.optional(__S(224, __c7, 0)),
@@ -28246,7 +28244,7 @@ function __c291(j: number): any {
       ).annotate({ identifier: "GetOnlineDeploymentResponse" });
   }
 }
-function __c292(j: number): any {
+function __c291(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28258,7 +28256,7 @@ function __c292(j: number): any {
         }),
       ).annotate({ identifier: "Collection" });
     case 1:
-      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(9344, __c292, 0)));
+      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(9312, __c291, 0)));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -28268,8 +28266,8 @@ function __c292(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          collections: __S(9345, __c292, 1),
-          requestLogging: S.optional(S.NullOr(__S(9346, __c292, 2))),
+          collections: __S(9313, __c291, 1),
+          requestLogging: S.optional(S.NullOr(__S(9314, __c291, 2))),
           rollingRate: S.optional(S.String),
         }),
       ).annotate({ identifier: "DataCollector" });
@@ -28308,7 +28306,7 @@ function __c292(j: number): any {
         }),
       ).annotate({ identifier: "TargetUtilizationScaleSettings" });
     case 8:
-      return S.Union([__S(9350, __c292, 6), __S(9351, __c292, 7)]);
+      return S.Union([__S(9318, __c291, 6), __S(9319, __c291, 7)]);
     case 9:
       return S.suspend(() =>
         S.Struct({
@@ -28320,8 +28318,8 @@ function __c292(j: number): any {
     case 10:
       return S.suspend(() =>
         S.Struct({
-          containerResourceLimits: S.optional(S.NullOr(__S(9353, __c292, 9))),
-          containerResourceRequests: S.optional(S.NullOr(__S(9353, __c292, 9))),
+          containerResourceLimits: S.optional(S.NullOr(__S(9321, __c291, 9))),
+          containerResourceRequests: S.optional(S.NullOr(__S(9321, __c291, 9))),
         }),
       ).annotate({ identifier: "ContainerResourceRequirements" });
     case 11:
@@ -28333,19 +28331,19 @@ function __c292(j: number): any {
           environmentVariables: S.optional(S.NullOr(__S(64, __c2, 0))),
           properties: S.optional(S.NullOr(__S(64, __c2, 0))),
           appInsightsEnabled: S.optional(S.Boolean),
-          dataCollector: S.optional(S.NullOr(__S(9347, __c292, 3))),
+          dataCollector: S.optional(S.NullOr(__S(9315, __c291, 3))),
           egressPublicNetworkAccess: S.optional(S.String),
           endpointComputeType: S.String,
           instanceType: S.optional(S.NullOr(S.String)),
-          livenessProbe: S.optional(S.NullOr(__S(9348, __c292, 4))),
+          livenessProbe: S.optional(S.NullOr(__S(9316, __c291, 4))),
           model: S.optional(S.NullOr(S.String)),
           modelMountPath: S.optional(S.NullOr(S.String)),
           provisioningState: S.optional(S.String),
-          readinessProbe: S.optional(S.NullOr(__S(9348, __c292, 4))),
-          requestSettings: S.optional(S.NullOr(__S(9349, __c292, 5))),
-          scaleSettings: S.optional(S.NullOr(__S(9352, __c292, 8))),
-          startupProbe: S.optional(S.NullOr(__S(9348, __c292, 4))),
-          containerResourceRequirements: S.optional(S.NullOr(__S(9354, __c292, 10))),
+          readinessProbe: S.optional(S.NullOr(__S(9316, __c291, 4))),
+          requestSettings: S.optional(S.NullOr(__S(9317, __c291, 5))),
+          scaleSettings: S.optional(S.NullOr(__S(9320, __c291, 8))),
+          startupProbe: S.optional(S.NullOr(__S(9316, __c291, 4))),
+          containerResourceRequirements: S.optional(S.NullOr(__S(9322, __c291, 10))),
         }),
       ).annotate({ identifier: "KubernetesOnlineDeployment" });
     case 12:
@@ -28357,25 +28355,25 @@ function __c292(j: number): any {
           environmentVariables: S.optional(S.NullOr(__S(64, __c2, 0))),
           properties: S.optional(S.NullOr(__S(64, __c2, 0))),
           appInsightsEnabled: S.optional(S.Boolean),
-          dataCollector: S.optional(S.NullOr(__S(9347, __c292, 3))),
+          dataCollector: S.optional(S.NullOr(__S(9315, __c291, 3))),
           egressPublicNetworkAccess: S.optional(S.String),
           endpointComputeType: S.String,
           instanceType: S.optional(S.NullOr(S.String)),
-          livenessProbe: S.optional(S.NullOr(__S(9348, __c292, 4))),
+          livenessProbe: S.optional(S.NullOr(__S(9316, __c291, 4))),
           model: S.optional(S.NullOr(S.String)),
           modelMountPath: S.optional(S.NullOr(S.String)),
           provisioningState: S.optional(S.String),
-          readinessProbe: S.optional(S.NullOr(__S(9348, __c292, 4))),
-          requestSettings: S.optional(S.NullOr(__S(9349, __c292, 5))),
-          scaleSettings: S.optional(S.NullOr(__S(9352, __c292, 8))),
-          startupProbe: S.optional(S.NullOr(__S(9348, __c292, 4))),
+          readinessProbe: S.optional(S.NullOr(__S(9316, __c291, 4))),
+          requestSettings: S.optional(S.NullOr(__S(9317, __c291, 5))),
+          scaleSettings: S.optional(S.NullOr(__S(9320, __c291, 8))),
+          startupProbe: S.optional(S.NullOr(__S(9316, __c291, 4))),
         }),
       ).annotate({ identifier: "ManagedOnlineDeployment" });
     case 13:
-      return S.Union([__S(9355, __c292, 11), __S(9356, __c292, 12)]);
+      return S.Union([__S(9323, __c291, 11), __S(9324, __c291, 12)]);
   }
 }
-function __c293(j: number): any {
+function __c292(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28404,7 +28402,7 @@ function __c293(j: number): any {
       ).annotate({ identifier: "DeploymentLogs" });
   }
 }
-function __c294(j: number): any {
+function __c293(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28424,7 +28422,7 @@ function __c294(j: number): any {
       ).annotate({ identifier: "GetOnlineEndpointRequest" });
   }
 }
-function __c295(j: number): any {
+function __c294(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28435,7 +28433,7 @@ function __c295(j: number): any {
           systemData: S.optional(__S(32, __c1, 0)),
           tags: S.optional(__S(96, __c3, 0)),
           location: S.String,
-          properties: __S(9473, __c296, 1),
+          properties: __S(9441, __c295, 1),
           identity: S.optional(__S(194, __c6, 2)),
           kind: S.optional(S.String),
           sku: S.optional(__S(224, __c7, 0)),
@@ -28443,7 +28441,7 @@ function __c295(j: number): any {
       ).annotate({ identifier: "GetOnlineEndpointResponse" });
   }
 }
-function __c296(j: number): any {
+function __c295(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Number);
@@ -28457,15 +28455,15 @@ function __c296(j: number): any {
           scoringUri: S.optional(S.NullOr(S.String)),
           swaggerUri: S.optional(S.NullOr(S.String)),
           compute: S.optional(S.NullOr(S.String)),
-          mirrorTraffic: S.optional(S.NullOr(__S(9472, __c296, 0))),
+          mirrorTraffic: S.optional(S.NullOr(__S(9440, __c295, 0))),
           provisioningState: S.optional(S.String),
           publicNetworkAccess: S.optional(S.String),
-          traffic: S.optional(S.NullOr(__S(9472, __c296, 0))),
+          traffic: S.optional(S.NullOr(__S(9440, __c295, 0))),
         }),
       ).annotate({ identifier: "OnlineEndpointProperties" });
   }
 }
-function __c297(j: number): any {
+function __c296(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28494,7 +28492,7 @@ function __c297(j: number): any {
       ).annotate({ identifier: "EndpointAuthToken" });
   }
 }
-function __c298(j: number): any {
+function __c297(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28514,7 +28512,7 @@ function __c298(j: number): any {
       ).annotate({ identifier: "GetPrivateEndpointConnectionRequest" });
   }
 }
-function __c299(j: number): any {
+function __c298(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28534,8 +28532,8 @@ function __c299(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          privateEndpoint: S.optional(__S(9568, __c299, 0)),
-          privateLinkServiceConnectionState: S.optional(__S(9569, __c299, 1)),
+          privateEndpoint: S.optional(__S(9536, __c298, 0)),
+          privateLinkServiceConnectionState: S.optional(__S(9537, __c298, 1)),
           provisioningState: S.optional(S.String),
         }),
       ).annotate({ identifier: "PrivateEndpointConnectionProperties" });
@@ -28546,7 +28544,7 @@ function __c299(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: S.optional(__S(9570, __c299, 2)),
+          properties: S.optional(__S(9538, __c298, 2)),
           identity: S.optional(__S(194, __c6, 2)),
           sku: S.optional(__S(224, __c7, 0)),
           location: S.optional(S.String),
@@ -28555,7 +28553,7 @@ function __c299(j: number): any {
       ).annotate({ identifier: "GetPrivateEndpointConnectionResponse" });
   }
 }
-function __c300(j: number): any {
+function __c299(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28574,7 +28572,7 @@ function __c300(j: number): any {
       ).annotate({ identifier: "GetRegistryRequest" });
   }
 }
-function __c301(j: number): any {
+function __c300(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28589,11 +28587,11 @@ function __c301(j: number): any {
         }),
       ).annotate({ identifier: "ManagedResourceGroupAssignedIdentities" });
     case 2:
-      return S.Array(__S(9633, __c301, 1));
+      return S.Array(__S(9601, __c300, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          assignedIdentities: S.optional(S.NullOr(__S(9634, __c301, 2))),
+          assignedIdentities: S.optional(S.NullOr(__S(9602, __c300, 2))),
         }),
       ).annotate({ identifier: "ManagedResourceGroupSettings" });
     case 4:
@@ -28615,8 +28613,8 @@ function __c301(j: number): any {
       return S.suspend(() =>
         S.Struct({
           groupIds: S.optional(S.NullOr(__S(6176, __c193, 0))),
-          privateEndpoint: S.optional(S.NullOr(__S(9636, __c301, 4))),
-          registryPrivateLinkServiceConnectionState: S.optional(S.NullOr(__S(9637, __c301, 5))),
+          privateEndpoint: S.optional(S.NullOr(__S(9604, __c300, 4))),
+          registryPrivateLinkServiceConnectionState: S.optional(S.NullOr(__S(9605, __c300, 5))),
           provisioningState: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "RegistryPrivateEndpointConnectionProperties" });
@@ -28625,32 +28623,32 @@ function __c301(j: number): any {
         S.Struct({
           id: S.optional(S.NullOr(S.String)),
           location: S.optional(S.NullOr(S.String)),
-          properties: S.optional(S.NullOr(__S(9638, __c301, 6))),
+          properties: S.optional(S.NullOr(__S(9606, __c300, 6))),
         }),
       ).annotate({ identifier: "RegistryPrivateEndpointConnection" });
     case 8:
-      return S.Array(__S(9639, __c301, 7));
+      return S.Array(__S(9607, __c300, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
           acrAccountName: S.optional(S.NullOr(S.String)),
           acrAccountSku: S.optional(S.NullOr(S.String)),
-          armResourceId: S.optional(S.NullOr(__S(9632, __c301, 0))),
+          armResourceId: S.optional(S.NullOr(__S(9600, __c300, 0))),
         }),
       ).annotate({ identifier: "SystemCreatedAcrAccount" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          systemCreatedAcrAccount: S.optional(S.NullOr(__S(9641, __c301, 9))),
+          systemCreatedAcrAccount: S.optional(S.NullOr(__S(9609, __c300, 9))),
         }),
       ).annotate({ identifier: "AcrDetails" });
     case 11:
-      return S.Array(__S(9642, __c301, 10));
+      return S.Array(__S(9610, __c300, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
           allowBlobPublicAccess: S.optional(S.Boolean),
-          armResourceId: S.optional(S.NullOr(__S(9632, __c301, 0))),
+          armResourceId: S.optional(S.NullOr(__S(9600, __c300, 0))),
           storageAccountHnsEnabled: S.optional(S.Boolean),
           storageAccountName: S.optional(S.NullOr(S.String)),
           storageAccountType: S.optional(S.NullOr(S.String)),
@@ -28659,37 +28657,37 @@ function __c301(j: number): any {
     case 13:
       return S.suspend(() =>
         S.Struct({
-          systemCreatedStorageAccount: S.optional(S.NullOr(__S(9644, __c301, 12))),
+          systemCreatedStorageAccount: S.optional(S.NullOr(__S(9612, __c300, 12))),
         }),
       ).annotate({ identifier: "StorageAccountDetails" });
     case 14:
-      return S.Array(__S(9645, __c301, 13));
+      return S.Array(__S(9613, __c300, 13));
     case 15:
       return S.suspend(() =>
         S.Struct({
-          acrDetails: S.optional(S.NullOr(__S(9643, __c301, 11))),
+          acrDetails: S.optional(S.NullOr(__S(9611, __c300, 11))),
           location: S.optional(S.NullOr(S.String)),
-          storageAccountDetails: S.optional(S.NullOr(__S(9646, __c301, 14))),
+          storageAccountDetails: S.optional(S.NullOr(__S(9614, __c300, 14))),
         }),
       ).annotate({ identifier: "RegistryRegionArmDetails" });
     case 16:
-      return S.Array(__S(9647, __c301, 15));
+      return S.Array(__S(9615, __c300, 15));
     case 17:
       return S.suspend(() =>
         S.Struct({
           discoveryUrl: S.optional(S.NullOr(S.String)),
           intellectualPropertyPublisher: S.optional(S.NullOr(S.String)),
-          managedResourceGroup: S.optional(S.NullOr(__S(9632, __c301, 0))),
-          managedResourceGroupSettings: S.optional(S.NullOr(__S(9635, __c301, 3))),
+          managedResourceGroup: S.optional(S.NullOr(__S(9600, __c300, 0))),
+          managedResourceGroupSettings: S.optional(S.NullOr(__S(9603, __c300, 3))),
           mlFlowRegistryUri: S.optional(S.NullOr(S.String)),
-          registryPrivateEndpointConnections: S.optional(S.NullOr(__S(9640, __c301, 8))),
+          registryPrivateEndpointConnections: S.optional(S.NullOr(__S(9608, __c300, 8))),
           publicNetworkAccess: S.optional(S.NullOr(S.String)),
-          regionDetails: S.optional(S.NullOr(__S(9648, __c301, 16))),
+          regionDetails: S.optional(S.NullOr(__S(9616, __c300, 16))),
         }),
       ).annotate({ identifier: "RegistryProperties" });
   }
 }
-function __c302(j: number): any {
+function __c301(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28700,7 +28698,7 @@ function __c302(j: number): any {
           systemData: S.optional(__S(32, __c1, 0)),
           tags: S.optional(__S(96, __c3, 0)),
           location: S.String,
-          properties: __S(9649, __c301, 17),
+          properties: __S(9617, __c300, 17),
           identity: S.optional(__S(194, __c6, 2)),
           kind: S.optional(S.String),
           sku: S.optional(__S(224, __c7, 0)),
@@ -28708,7 +28706,7 @@ function __c302(j: number): any {
       ).annotate({ identifier: "GetRegistryResponse" });
   }
 }
-function __c303(j: number): any {
+function __c302(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28717,8 +28715,8 @@ function __c303(j: number): any {
           agentCount: S.optional(S.NullOr(S.Number)),
           agentVmSize: S.optional(S.NullOr(S.String)),
           clusterPurpose: S.optional(S.String),
-          sslConfiguration: S.optional(S.NullOr(__S(9856, __c308, 0))),
-          aksNetworkingConfiguration: S.optional(S.NullOr(__S(9857, __c308, 1))),
+          sslConfiguration: S.optional(S.NullOr(__S(9824, __c307, 0))),
+          aksNetworkingConfiguration: S.optional(S.NullOr(__S(9825, __c307, 1))),
           loadBalancerType: S.optional(S.String),
           loadBalancerSubnet: S.optional(S.NullOr(S.String)),
         }),
@@ -28731,7 +28729,7 @@ function __c303(j: number): any {
           description: S.optional(S.NullOr(S.String)),
           resourceId: S.optional(S.NullOr(S.String)),
           disableLocalAuth: S.optional(S.Boolean),
-          properties: S.optional(__S(9696, __c303, 0)),
+          properties: S.optional(__S(9664, __c302, 0)),
         }),
       ).annotate({ identifier: "AKSInput" });
     case 2:
@@ -28740,11 +28738,11 @@ function __c303(j: number): any {
           osType: S.optional(S.String),
           vmSize: S.optional(S.String),
           vmPriority: S.optional(S.String),
-          virtualMachineImage: S.optional(S.NullOr(__S(9858, __c308, 2))),
+          virtualMachineImage: S.optional(S.NullOr(__S(9826, __c307, 2))),
           isolatedNetwork: S.optional(S.Boolean),
-          scaleSettings: S.optional(__S(9859, __c308, 3)),
-          userAccountCredentials: S.optional(S.NullOr(__S(9860, __c308, 4))),
-          subnet: S.optional(S.NullOr(__S(9858, __c308, 2))),
+          scaleSettings: S.optional(__S(9827, __c307, 3)),
+          userAccountCredentials: S.optional(S.NullOr(__S(9828, __c307, 4))),
+          subnet: S.optional(S.NullOr(__S(9826, __c307, 2))),
           remoteLoginPortPublicAccess: S.optional(S.String),
           enableNodePublicIp: S.optional(S.NullOr(S.Boolean)),
           propertyBag: S.optional(S.NullOr(S.Unknown)),
@@ -28758,7 +28756,7 @@ function __c303(j: number): any {
           description: S.optional(S.NullOr(S.String)),
           resourceId: S.optional(S.NullOr(S.String)),
           disableLocalAuth: S.optional(S.Boolean),
-          properties: S.optional(__S(9698, __c303, 2)),
+          properties: S.optional(__S(9666, __c302, 2)),
         }),
       ).annotate({ identifier: "AmlComputeInput" });
     case 4:
@@ -28774,32 +28772,32 @@ function __c303(j: number): any {
           status: S.optional(S.String),
           action: S.optional(S.String),
           triggerType: S.optional(S.String),
-          recurrence: S.optional(__S(9880, __c308, 24)),
-          cron: S.optional(__S(9881, __c308, 25)),
-          schedule: S.optional(__S(9882, __c308, 26)),
+          recurrence: S.optional(__S(9848, __c307, 24)),
+          cron: S.optional(__S(9849, __c307, 25)),
+          schedule: S.optional(__S(9850, __c307, 26)),
         }),
       ).annotate({ identifier: "ComputeStartStopScheduleInput" });
     case 6:
-      return S.Array(__S(9701, __c303, 5));
+      return S.Array(__S(9669, __c302, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          computeStartStop: S.optional(__S(9702, __c303, 6)),
+          computeStartStop: S.optional(__S(9670, __c302, 6)),
         }),
       ).annotate({ identifier: "ComputeSchedulesInput" });
     case 8:
       return S.suspend(() =>
         S.Struct({
           vmSize: S.optional(S.String),
-          subnet: S.optional(S.NullOr(__S(9858, __c308, 2))),
+          subnet: S.optional(S.NullOr(__S(9826, __c307, 2))),
           applicationSharingPolicy: S.optional(S.String),
-          sshSettings: S.optional(S.NullOr(__S(9700, __c303, 4))),
-          customServices: S.optional(S.NullOr(__S(9874, __c308, 18))),
+          sshSettings: S.optional(S.NullOr(__S(9668, __c302, 4))),
+          customServices: S.optional(S.NullOr(__S(9842, __c307, 18))),
           computeInstanceAuthorizationType: S.optional(S.NullOr(S.String)),
           enableSSO: S.optional(S.NullOr(S.Boolean)),
-          personalComputeInstanceSettings: S.optional(S.NullOr(__S(9876, __c308, 20))),
-          setupScripts: S.optional(S.NullOr(__S(9879, __c308, 23))),
-          schedules: S.optional(S.NullOr(__S(9703, __c303, 7))),
+          personalComputeInstanceSettings: S.optional(S.NullOr(__S(9844, __c307, 20))),
+          setupScripts: S.optional(S.NullOr(__S(9847, __c307, 23))),
+          schedules: S.optional(S.NullOr(__S(9671, __c302, 7))),
           idleTimeBeforeShutdown: S.optional(S.String),
           enableNodePublicIp: S.optional(S.NullOr(S.Boolean)),
         }),
@@ -28812,7 +28810,7 @@ function __c303(j: number): any {
           description: S.optional(S.NullOr(S.String)),
           resourceId: S.optional(S.NullOr(S.String)),
           disableLocalAuth: S.optional(S.Boolean),
-          properties: S.optional(__S(9704, __c303, 8)),
+          properties: S.optional(__S(9672, __c302, 8)),
         }),
       ).annotate({ identifier: "ComputeInstanceInput" });
     case 10:
@@ -28833,7 +28831,7 @@ function __c303(j: number): any {
           description: S.optional(S.NullOr(S.String)),
           resourceId: S.optional(S.NullOr(S.String)),
           disableLocalAuth: S.optional(S.Boolean),
-          properties: S.optional(__S(9883, __c308, 27)),
+          properties: S.optional(__S(9851, __c307, 27)),
         }),
       ).annotate({ identifier: "DataLakeAnalyticsInput" });
     case 12:
@@ -28844,7 +28842,7 @@ function __c303(j: number): any {
           description: S.optional(S.NullOr(S.String)),
           resourceId: S.optional(S.NullOr(S.String)),
           disableLocalAuth: S.optional(S.Boolean),
-          properties: S.optional(__S(9884, __c308, 28)),
+          properties: S.optional(__S(9852, __c307, 28)),
         }),
       ).annotate({ identifier: "DatabricksInput" });
     case 13:
@@ -28855,7 +28853,7 @@ function __c303(j: number): any {
           description: S.optional(S.NullOr(S.String)),
           resourceId: S.optional(S.NullOr(S.String)),
           disableLocalAuth: S.optional(S.Boolean),
-          properties: S.optional(__S(9885, __c308, 29)),
+          properties: S.optional(__S(9853, __c307, 29)),
         }),
       ).annotate({ identifier: "HDInsightInput" });
     case 14:
@@ -28866,7 +28864,7 @@ function __c303(j: number): any {
           description: S.optional(S.NullOr(S.String)),
           resourceId: S.optional(S.NullOr(S.String)),
           disableLocalAuth: S.optional(S.Boolean),
-          properties: S.optional(__S(9889, __c309, 1)),
+          properties: S.optional(__S(9857, __c308, 1)),
         }),
       ).annotate({ identifier: "KubernetesInput" });
     case 15:
@@ -28877,7 +28875,7 @@ function __c303(j: number): any {
           description: S.optional(S.NullOr(S.String)),
           resourceId: S.optional(S.NullOr(S.String)),
           disableLocalAuth: S.optional(S.Boolean),
-          properties: S.optional(__S(9892, __c309, 4)),
+          properties: S.optional(__S(9860, __c308, 4)),
         }),
       ).annotate({ identifier: "SynapseSparkInput" });
     case 16:
@@ -28888,21 +28886,21 @@ function __c303(j: number): any {
           description: S.optional(S.NullOr(S.String)),
           resourceId: S.optional(S.NullOr(S.String)),
           disableLocalAuth: S.optional(S.Boolean),
-          properties: S.optional(__S(9893, __c309, 5)),
+          properties: S.optional(__S(9861, __c308, 5)),
         }),
       ).annotate({ identifier: "VirtualMachineInput" });
     case 17:
       return S.Union([
-        __S(9697, __c303, 1),
-        __S(9699, __c303, 3),
-        __S(9705, __c303, 9),
-        __S(9706, __c303, 10),
-        __S(9707, __c303, 11),
-        __S(9708, __c303, 12),
-        __S(9709, __c303, 13),
-        __S(9710, __c303, 14),
-        __S(9711, __c303, 15),
-        __S(9712, __c303, 16),
+        __S(9665, __c302, 1),
+        __S(9667, __c302, 3),
+        __S(9673, __c302, 9),
+        __S(9674, __c302, 10),
+        __S(9675, __c302, 11),
+        __S(9676, __c302, 12),
+        __S(9677, __c302, 13),
+        __S(9678, __c302, 14),
+        __S(9679, __c302, 15),
+        __S(9680, __c302, 16),
       ]);
     case 18:
       return S.suspend(() =>
@@ -28911,7 +28909,7 @@ function __c303(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           computeName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(9713, __c303, 17)),
+          properties: S.optional(__S(9681, __c302, 17)),
           location: S.optional(S.String),
           tags: S.optional(S.NullOr(__S(96, __c3, 0))),
           sku: S.optional(__S(224, __c7, 0)),
@@ -28932,7 +28930,7 @@ function __c303(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: S.optional(__S(9936, __c310, 16)),
+          properties: S.optional(__S(9904, __c309, 16)),
           location: S.optional(S.String),
           tags: S.optional(S.NullOr(__S(96, __c3, 0))),
           sku: S.optional(__S(224, __c7, 0)),
@@ -28943,29 +28941,42 @@ function __c303(j: number): any {
       ).annotate({ identifier: "ComputeCreateOrUpdateResponse" });
   }
 }
-function __c304(j: number): any {
+function __c303(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c305(j: number): any {
+function __c304(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          hours: __S(9792, __c306, 0),
-          minutes: __S(9792, __c306, 0),
-          monthDays: S.optional(S.NullOr(__S(9792, __c306, 0))),
-          weekDays: S.optional(S.NullOr(__S(9728, __c304, 0))),
+          hours: __S(9760, __c305, 0),
+          minutes: __S(9760, __c305, 0),
+          monthDays: S.optional(S.NullOr(__S(9760, __c305, 0))),
+          weekDays: S.optional(S.NullOr(__S(9696, __c303, 0))),
         }),
       ).annotate({ identifier: "ComputeRecurrenceSchedule" });
+  }
+}
+function __c305(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.Number);
   }
 }
 function __c306(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.Number);
+      return S.suspend(() =>
+        S.Struct({
+          username: S.optional(S.String),
+          password: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          publicKeyData: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          privateKeyData: S.optional(S.String.pipe(T.SensitiveValue({}))),
+        }),
+      ).annotate({ identifier: "VirtualMachineSshCredentials" });
   }
 }
 function __c307(j: number): any {
@@ -28973,22 +28984,9 @@ function __c307(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          username: S.optional(S.String),
-          password: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          publicKeyData: S.optional(S.String),
-          privateKeyData: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "VirtualMachineSshCredentials" });
-  }
-}
-function __c308(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           status: S.optional(S.String),
-          cert: S.optional(S.NullOr(S.String)),
-          key: S.optional(S.NullOr(S.String)),
+          cert: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
+          key: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           cname: S.optional(S.NullOr(S.String)),
           leafDomainLabel: S.optional(S.NullOr(S.String)),
           overwriteExistingDomain: S.optional(S.Boolean),
@@ -29021,7 +29019,7 @@ function __c308(j: number): any {
       return S.suspend(() =>
         S.Struct({
           adminUserName: S.String,
-          adminUserSshPublicKey: S.optional(S.String),
+          adminUserSshPublicKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           adminUserPassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "UserAccountCredentials" });
@@ -29047,7 +29045,7 @@ function __c308(j: number): any {
         ),
       ).annotate({ identifier: "EnvironmentVariable" });
     case 7:
-      return S.Record(S.String, __S(9862, __c308, 6));
+      return S.Record(S.String, __S(9830, __c307, 6));
     case 8:
       return S.suspend(() =>
         S.StructWithRest(
@@ -29068,7 +29066,7 @@ function __c308(j: number): any {
         }),
       ).annotate({ identifier: "Endpoint" });
     case 10:
-      return S.Array(__S(9865, __c308, 9));
+      return S.Array(__S(9833, __c307, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
@@ -29097,13 +29095,13 @@ function __c308(j: number): any {
           source: S.optional(S.String),
           target: S.optional(S.String),
           consistency: S.optional(S.NullOr(S.String)),
-          bind: S.optional(S.NullOr(__S(9867, __c308, 11))),
-          volume: S.optional(S.NullOr(__S(9868, __c308, 12))),
-          tmpfs: S.optional(S.NullOr(__S(9869, __c308, 13))),
+          bind: S.optional(S.NullOr(__S(9835, __c307, 11))),
+          volume: S.optional(S.NullOr(__S(9836, __c307, 12))),
+          tmpfs: S.optional(S.NullOr(__S(9837, __c307, 13))),
         }),
       ).annotate({ identifier: "VolumeDefinition" });
     case 15:
-      return S.Array(__S(9870, __c308, 14));
+      return S.Array(__S(9838, __c307, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({
@@ -29117,18 +29115,18 @@ function __c308(j: number): any {
         S.StructWithRest(
           S.Struct({
             name: S.optional(S.String),
-            image: S.optional(__S(9861, __c308, 5)),
-            environmentVariables: S.optional(__S(9863, __c308, 7)),
-            docker: S.optional(S.NullOr(__S(9864, __c308, 8))),
-            endpoints: S.optional(__S(9866, __c308, 10)),
-            volumes: S.optional(__S(9871, __c308, 15)),
-            kernel: S.optional(__S(9872, __c308, 16)),
+            image: S.optional(__S(9829, __c307, 5)),
+            environmentVariables: S.optional(__S(9831, __c307, 7)),
+            docker: S.optional(S.NullOr(__S(9832, __c307, 8))),
+            endpoints: S.optional(__S(9834, __c307, 10)),
+            volumes: S.optional(__S(9839, __c307, 15)),
+            kernel: S.optional(__S(9840, __c307, 16)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "CustomService" });
     case 18:
-      return S.Array(__S(9873, __c308, 17));
+      return S.Array(__S(9841, __c307, 17));
     case 19:
       return S.suspend(() =>
         S.Struct({
@@ -29139,7 +29137,7 @@ function __c308(j: number): any {
     case 20:
       return S.suspend(() =>
         S.Struct({
-          assignedUser: S.optional(__S(9875, __c308, 19)),
+          assignedUser: S.optional(__S(9843, __c307, 19)),
         }),
       ).annotate({ identifier: "PersonalComputeInstanceSettings" });
     case 21:
@@ -29154,14 +29152,14 @@ function __c308(j: number): any {
     case 22:
       return S.suspend(() =>
         S.Struct({
-          startupScript: S.optional(__S(9877, __c308, 21)),
-          creationScript: S.optional(__S(9877, __c308, 21)),
+          startupScript: S.optional(__S(9845, __c307, 21)),
+          creationScript: S.optional(__S(9845, __c307, 21)),
         }),
       ).annotate({ identifier: "ScriptsToExecute" });
     case 23:
       return S.suspend(() =>
         S.Struct({
-          scripts: S.optional(__S(9878, __c308, 22)),
+          scripts: S.optional(__S(9846, __c307, 22)),
         }),
       ).annotate({ identifier: "SetupScripts" });
     case 24:
@@ -29171,7 +29169,7 @@ function __c308(j: number): any {
           interval: S.optional(S.Number),
           startTime: S.optional(S.NullOr(S.String)),
           timeZone: S.optional(S.String),
-          schedule: S.optional(__S(9760, __c305, 0)),
+          schedule: S.optional(__S(9728, __c304, 0)),
         }),
       ).annotate({ identifier: "Recurrence" });
     case 25:
@@ -29199,7 +29197,7 @@ function __c308(j: number): any {
     case 28:
       return S.suspend(() =>
         S.Struct({
-          databricksAccessToken: S.optional(S.String),
+          databricksAccessToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           workspaceUrl: S.optional(S.String),
         }),
       ).annotate({ identifier: "DatabricksProperties" });
@@ -29208,7 +29206,7 @@ function __c308(j: number): any {
         S.Struct({
           sshPort: S.optional(S.Number),
           address: S.optional(S.String),
-          administratorAccount: S.optional(__S(9824, __c307, 0)),
+          administratorAccount: S.optional(__S(9792, __c306, 0)),
         }),
       ).annotate({ identifier: "HDInsightProperties" });
     case 30:
@@ -29222,26 +29220,26 @@ function __c308(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nodeSelector: S.optional(S.NullOr(__S(64, __c2, 0))),
-          resources: S.optional(__S(9886, __c308, 30)),
+          resources: S.optional(__S(9854, __c307, 30)),
         }),
       ).annotate({ identifier: "InstanceTypeSchema" });
   }
 }
-function __c309(j: number): any {
+function __c308(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, __S(9887, __c308, 31));
+      return S.Record(S.String, __S(9855, __c307, 31));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          relayConnectionString: S.optional(S.NullOr(S.String)),
-          serviceBusConnectionString: S.optional(S.NullOr(S.String)),
+          relayConnectionString: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
+          serviceBusConnectionString: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           extensionPrincipalId: S.optional(S.NullOr(S.String)),
           extensionInstanceReleaseTrain: S.optional(S.String),
           vcName: S.optional(S.String),
           namespace: S.optional(S.String),
           defaultInstanceType: S.optional(S.String),
-          instanceTypes: S.optional(__S(9888, __c309, 0)),
+          instanceTypes: S.optional(__S(9856, __c308, 0)),
         }),
       ).annotate({ identifier: "KubernetesProperties" });
     case 2:
@@ -29262,8 +29260,8 @@ function __c309(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          autoScaleProperties: S.optional(__S(9890, __c309, 2)),
-          autoPauseProperties: S.optional(__S(9891, __c309, 3)),
+          autoScaleProperties: S.optional(__S(9858, __c308, 2)),
+          autoPauseProperties: S.optional(__S(9859, __c308, 3)),
           sparkVersion: S.optional(S.String),
           nodeCount: S.optional(S.Number),
           nodeSize: S.optional(S.String),
@@ -29281,12 +29279,12 @@ function __c309(j: number): any {
           sshPort: S.optional(S.Number),
           notebookServerPort: S.optional(S.Number),
           address: S.optional(S.String),
-          administratorAccount: S.optional(__S(9824, __c307, 0)),
+          administratorAccount: S.optional(__S(9792, __c306, 0)),
           isNotebookInstanceCompute: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "VirtualMachineSchemaProperties" });
     case 6:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(9897, __c309, 9)));
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(9865, __c308, 9)));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -29295,25 +29293,25 @@ function __c309(j: number): any {
         }),
       ).annotate({ identifier: "ErrorAdditionalInfo" });
     case 8:
-      return S.Array(__S(9895, __c309, 7));
+      return S.Array(__S(9863, __c308, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
           code: S.optional(S.String),
           message: S.optional(S.String),
           target: S.optional(S.String),
-          details: S.optional(__S(9894, __c309, 6)),
-          additionalInfo: S.optional(__S(9896, __c309, 8)),
+          details: S.optional(__S(9862, __c308, 6)),
+          additionalInfo: S.optional(__S(9864, __c308, 8)),
         }),
       ).annotate({ identifier: "ErrorDetail" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          error: S.optional(__S(9897, __c309, 9)),
+          error: S.optional(__S(9865, __c308, 9)),
         }),
       ).annotate({ identifier: "AKSProvisioningErrorsItem" });
     case 11:
-      return S.Array(__S(9898, __c309, 10));
+      return S.Array(__S(9866, __c308, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
@@ -29323,17 +29321,17 @@ function __c309(j: number): any {
         }),
       ).annotate({ identifier: "SystemService" });
     case 13:
-      return S.Array(__S(9900, __c309, 12));
+      return S.Array(__S(9868, __c308, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
           clusterFqdn: S.optional(S.NullOr(S.String)),
-          systemServices: S.optional(S.NullOr(__S(9901, __c309, 13))),
+          systemServices: S.optional(S.NullOr(__S(9869, __c308, 13))),
           agentCount: S.optional(S.NullOr(S.Number)),
           agentVmSize: S.optional(S.NullOr(S.String)),
           clusterPurpose: S.optional(S.String),
-          sslConfiguration: S.optional(S.NullOr(__S(9856, __c308, 0))),
-          aksNetworkingConfiguration: S.optional(S.NullOr(__S(9857, __c308, 1))),
+          sslConfiguration: S.optional(S.NullOr(__S(9824, __c307, 0))),
+          aksNetworkingConfiguration: S.optional(S.NullOr(__S(9825, __c307, 1))),
           loadBalancerType: S.optional(S.String),
           loadBalancerSubnet: S.optional(S.NullOr(S.String)),
         }),
@@ -29348,10 +29346,10 @@ function __c309(j: number): any {
           createdOn: S.optional(S.String),
           modifiedOn: S.optional(S.String),
           resourceId: S.optional(S.NullOr(S.String)),
-          provisioningErrors: S.optional(S.NullOr(__S(9899, __c309, 11))),
+          provisioningErrors: S.optional(S.NullOr(__S(9867, __c308, 11))),
           isAttachedCompute: S.optional(S.Boolean),
           disableLocalAuth: S.optional(S.Boolean),
-          properties: S.optional(__S(9902, __c309, 14)),
+          properties: S.optional(__S(9870, __c308, 14)),
         }),
       ).annotate({ identifier: "AKS" });
     case 16:
@@ -29371,18 +29369,18 @@ function __c309(j: number): any {
           osType: S.optional(S.String),
           vmSize: S.optional(S.String),
           vmPriority: S.optional(S.String),
-          virtualMachineImage: S.optional(S.NullOr(__S(9858, __c308, 2))),
+          virtualMachineImage: S.optional(S.NullOr(__S(9826, __c307, 2))),
           isolatedNetwork: S.optional(S.Boolean),
-          scaleSettings: S.optional(__S(9859, __c308, 3)),
-          userAccountCredentials: S.optional(S.NullOr(__S(9860, __c308, 4))),
-          subnet: S.optional(S.NullOr(__S(9858, __c308, 2))),
+          scaleSettings: S.optional(__S(9827, __c307, 3)),
+          userAccountCredentials: S.optional(S.NullOr(__S(9828, __c307, 4))),
+          subnet: S.optional(S.NullOr(__S(9826, __c307, 2))),
           remoteLoginPortPublicAccess: S.optional(S.String),
           allocationState: S.optional(S.String),
           allocationStateTransitionTime: S.optional(S.String),
-          errors: S.optional(S.NullOr(__S(9899, __c309, 11))),
+          errors: S.optional(S.NullOr(__S(9867, __c308, 11))),
           currentNodeCount: S.optional(S.NullOr(S.Number)),
           targetNodeCount: S.optional(S.NullOr(S.Number)),
-          nodeStateCounts: S.optional(S.NullOr(__S(9904, __c309, 16))),
+          nodeStateCounts: S.optional(S.NullOr(__S(9872, __c308, 16))),
           enableNodePublicIp: S.optional(S.NullOr(S.Boolean)),
           propertyBag: S.optional(S.NullOr(S.Unknown)),
         }),
@@ -29397,10 +29395,10 @@ function __c309(j: number): any {
           createdOn: S.optional(S.String),
           modifiedOn: S.optional(S.String),
           resourceId: S.optional(S.NullOr(S.String)),
-          provisioningErrors: S.optional(S.NullOr(__S(9899, __c309, 11))),
+          provisioningErrors: S.optional(S.NullOr(__S(9867, __c308, 11))),
           isAttachedCompute: S.optional(S.Boolean),
           disableLocalAuth: S.optional(S.Boolean),
-          properties: S.optional(__S(9905, __c309, 17)),
+          properties: S.optional(__S(9873, __c308, 17)),
         }),
       ).annotate({ identifier: "AmlCompute" });
     case 19:
@@ -29419,7 +29417,7 @@ function __c309(j: number): any {
           latestPatchTime: S.optional(S.String),
           rebootPending: S.optional(S.Boolean),
           scheduledRebootTime: S.optional(S.String),
-          osPatchingErrors: S.optional(S.NullOr(__S(9899, __c309, 11))),
+          osPatchingErrors: S.optional(S.NullOr(__S(9867, __c308, 11))),
         }),
       ).annotate({ identifier: "OsPatchingStatus" });
     case 21:
@@ -29428,7 +29426,7 @@ function __c309(j: number): any {
           currentImageVersion: S.optional(S.String),
           latestImageVersion: S.optional(S.String),
           isLatestOsImageVersion: S.optional(S.Boolean),
-          osPatchingStatus: S.optional(__S(9908, __c309, 20)),
+          osPatchingStatus: S.optional(__S(9876, __c308, 20)),
         }),
       ).annotate({ identifier: "ImageMetadata" });
     case 22:
@@ -29446,7 +29444,7 @@ function __c309(j: number): any {
         }),
       ).annotate({ identifier: "ComputeInstanceApplication" });
     case 24:
-      return S.Array(__S(9911, __c309, 23));
+      return S.Array(__S(9879, __c308, 23));
     case 25:
       return S.suspend(() =>
         S.Struct({
@@ -29472,17 +29470,17 @@ function __c309(j: number): any {
           status: S.optional(S.String),
           action: S.optional(S.String),
           triggerType: S.optional(S.String),
-          recurrence: S.optional(__S(9880, __c308, 24)),
-          cron: S.optional(__S(9881, __c308, 25)),
-          schedule: S.optional(__S(9882, __c308, 26)),
+          recurrence: S.optional(__S(9848, __c307, 24)),
+          cron: S.optional(__S(9849, __c307, 25)),
+          schedule: S.optional(__S(9850, __c307, 26)),
         }),
       ).annotate({ identifier: "ComputeStartStopSchedule" });
     case 28:
-      return S.Array(__S(9915, __c309, 27));
+      return S.Array(__S(9883, __c308, 27));
     case 29:
       return S.suspend(() =>
         S.Struct({
-          computeStartStop: S.optional(__S(9916, __c309, 28)),
+          computeStartStop: S.optional(__S(9884, __c308, 28)),
         }),
       ).annotate({ identifier: "ComputeSchedules" });
     case 30:
@@ -29496,7 +29494,7 @@ function __c309(j: number): any {
       return S.Array(S.Unknown);
   }
 }
-function __c310(j: number): any {
+function __c309(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29505,12 +29503,12 @@ function __c310(j: number): any {
           autosave: S.optional(S.String),
           gpu: S.optional(S.String),
           network: S.optional(S.String),
-          environment: S.optional(__S(9918, __c309, 30)),
-          services: S.optional(__S(9919, __c309, 31)),
+          environment: S.optional(__S(9886, __c308, 30)),
+          services: S.optional(__S(9887, __c308, 31)),
         }),
       ).annotate({ identifier: "ComputeInstanceContainer" });
     case 1:
-      return S.Array(__S(9920, __c310, 0));
+      return S.Array(__S(9888, __c309, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -29521,7 +29519,7 @@ function __c310(j: number): any {
         }),
       ).annotate({ identifier: "ComputeInstanceDataDisk" });
     case 3:
-      return S.Array(__S(9922, __c310, 2));
+      return S.Array(__S(9890, __c309, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -29538,7 +29536,7 @@ function __c310(j: number): any {
         }),
       ).annotate({ identifier: "ComputeInstanceDataMount" });
     case 5:
-      return S.Array(__S(9924, __c310, 4));
+      return S.Array(__S(9892, __c309, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -29549,28 +29547,28 @@ function __c310(j: number): any {
       return S.suspend(() =>
         S.Struct({
           vmSize: S.optional(S.String),
-          subnet: S.optional(S.NullOr(__S(9858, __c308, 2))),
+          subnet: S.optional(S.NullOr(__S(9826, __c307, 2))),
           applicationSharingPolicy: S.optional(S.String),
-          sshSettings: S.optional(S.NullOr(__S(9907, __c309, 19))),
-          customServices: S.optional(S.NullOr(__S(9874, __c308, 18))),
-          osImageMetadata: S.optional(__S(9909, __c309, 21)),
-          connectivityEndpoints: S.optional(__S(9910, __c309, 22)),
-          applications: S.optional(__S(9912, __c309, 24)),
-          createdBy: S.optional(__S(9913, __c309, 25)),
-          errors: S.optional(__S(9899, __c309, 11)),
+          sshSettings: S.optional(S.NullOr(__S(9875, __c308, 19))),
+          customServices: S.optional(S.NullOr(__S(9842, __c307, 18))),
+          osImageMetadata: S.optional(__S(9877, __c308, 21)),
+          connectivityEndpoints: S.optional(__S(9878, __c308, 22)),
+          applications: S.optional(__S(9880, __c308, 24)),
+          createdBy: S.optional(__S(9881, __c308, 25)),
+          errors: S.optional(__S(9867, __c308, 11)),
           state: S.optional(S.String),
           computeInstanceAuthorizationType: S.optional(S.NullOr(S.String)),
           enableSSO: S.optional(S.NullOr(S.Boolean)),
-          personalComputeInstanceSettings: S.optional(S.NullOr(__S(9876, __c308, 20))),
-          setupScripts: S.optional(S.NullOr(__S(9879, __c308, 23))),
-          lastOperation: S.optional(S.NullOr(__S(9914, __c309, 26))),
-          schedules: S.optional(S.NullOr(__S(9917, __c309, 29))),
+          personalComputeInstanceSettings: S.optional(S.NullOr(__S(9844, __c307, 20))),
+          setupScripts: S.optional(S.NullOr(__S(9847, __c307, 23))),
+          lastOperation: S.optional(S.NullOr(__S(9882, __c308, 26))),
+          schedules: S.optional(S.NullOr(__S(9885, __c308, 29))),
           idleTimeBeforeShutdown: S.optional(S.String),
           enableNodePublicIp: S.optional(S.NullOr(S.Boolean)),
-          containers: S.optional(S.NullOr(__S(9921, __c310, 1))),
-          dataDisks: S.optional(S.NullOr(__S(9923, __c310, 3))),
-          dataMounts: S.optional(S.NullOr(__S(9925, __c310, 5))),
-          versions: S.optional(__S(9926, __c310, 6)),
+          containers: S.optional(S.NullOr(__S(9889, __c309, 1))),
+          dataDisks: S.optional(S.NullOr(__S(9891, __c309, 3))),
+          dataMounts: S.optional(S.NullOr(__S(9893, __c309, 5))),
+          versions: S.optional(__S(9894, __c309, 6)),
         }),
       ).annotate({ identifier: "ComputeInstanceProperties" });
     case 8:
@@ -29583,10 +29581,10 @@ function __c310(j: number): any {
           createdOn: S.optional(S.String),
           modifiedOn: S.optional(S.String),
           resourceId: S.optional(S.NullOr(S.String)),
-          provisioningErrors: S.optional(S.NullOr(__S(9899, __c309, 11))),
+          provisioningErrors: S.optional(S.NullOr(__S(9867, __c308, 11))),
           isAttachedCompute: S.optional(S.Boolean),
           disableLocalAuth: S.optional(S.Boolean),
-          properties: S.optional(__S(9927, __c310, 7)),
+          properties: S.optional(__S(9895, __c309, 7)),
         }),
       ).annotate({ identifier: "ComputeInstance" });
     case 9:
@@ -29599,7 +29597,7 @@ function __c310(j: number): any {
           createdOn: S.optional(S.String),
           modifiedOn: S.optional(S.String),
           resourceId: S.optional(S.NullOr(S.String)),
-          provisioningErrors: S.optional(S.NullOr(__S(9899, __c309, 11))),
+          provisioningErrors: S.optional(S.NullOr(__S(9867, __c308, 11))),
           isAttachedCompute: S.optional(S.Boolean),
           disableLocalAuth: S.optional(S.Boolean),
         }),
@@ -29614,10 +29612,10 @@ function __c310(j: number): any {
           createdOn: S.optional(S.String),
           modifiedOn: S.optional(S.String),
           resourceId: S.optional(S.NullOr(S.String)),
-          provisioningErrors: S.optional(S.NullOr(__S(9899, __c309, 11))),
+          provisioningErrors: S.optional(S.NullOr(__S(9867, __c308, 11))),
           isAttachedCompute: S.optional(S.Boolean),
           disableLocalAuth: S.optional(S.Boolean),
-          properties: S.optional(__S(9883, __c308, 27)),
+          properties: S.optional(__S(9851, __c307, 27)),
         }),
       ).annotate({ identifier: "DataLakeAnalytics" });
     case 11:
@@ -29630,10 +29628,10 @@ function __c310(j: number): any {
           createdOn: S.optional(S.String),
           modifiedOn: S.optional(S.String),
           resourceId: S.optional(S.NullOr(S.String)),
-          provisioningErrors: S.optional(S.NullOr(__S(9899, __c309, 11))),
+          provisioningErrors: S.optional(S.NullOr(__S(9867, __c308, 11))),
           isAttachedCompute: S.optional(S.Boolean),
           disableLocalAuth: S.optional(S.Boolean),
-          properties: S.optional(__S(9884, __c308, 28)),
+          properties: S.optional(__S(9852, __c307, 28)),
         }),
       ).annotate({ identifier: "Databricks" });
     case 12:
@@ -29646,10 +29644,10 @@ function __c310(j: number): any {
           createdOn: S.optional(S.String),
           modifiedOn: S.optional(S.String),
           resourceId: S.optional(S.NullOr(S.String)),
-          provisioningErrors: S.optional(S.NullOr(__S(9899, __c309, 11))),
+          provisioningErrors: S.optional(S.NullOr(__S(9867, __c308, 11))),
           isAttachedCompute: S.optional(S.Boolean),
           disableLocalAuth: S.optional(S.Boolean),
-          properties: S.optional(__S(9885, __c308, 29)),
+          properties: S.optional(__S(9853, __c307, 29)),
         }),
       ).annotate({ identifier: "HDInsight" });
     case 13:
@@ -29662,10 +29660,10 @@ function __c310(j: number): any {
           createdOn: S.optional(S.String),
           modifiedOn: S.optional(S.String),
           resourceId: S.optional(S.NullOr(S.String)),
-          provisioningErrors: S.optional(S.NullOr(__S(9899, __c309, 11))),
+          provisioningErrors: S.optional(S.NullOr(__S(9867, __c308, 11))),
           isAttachedCompute: S.optional(S.Boolean),
           disableLocalAuth: S.optional(S.Boolean),
-          properties: S.optional(__S(9889, __c309, 1)),
+          properties: S.optional(__S(9857, __c308, 1)),
         }),
       ).annotate({ identifier: "Kubernetes" });
     case 14:
@@ -29678,10 +29676,10 @@ function __c310(j: number): any {
           createdOn: S.optional(S.String),
           modifiedOn: S.optional(S.String),
           resourceId: S.optional(S.NullOr(S.String)),
-          provisioningErrors: S.optional(S.NullOr(__S(9899, __c309, 11))),
+          provisioningErrors: S.optional(S.NullOr(__S(9867, __c308, 11))),
           isAttachedCompute: S.optional(S.Boolean),
           disableLocalAuth: S.optional(S.Boolean),
-          properties: S.optional(__S(9892, __c309, 4)),
+          properties: S.optional(__S(9860, __c308, 4)),
         }),
       ).annotate({ identifier: "SynapseSpark" });
     case 15:
@@ -29694,28 +29692,28 @@ function __c310(j: number): any {
           createdOn: S.optional(S.String),
           modifiedOn: S.optional(S.String),
           resourceId: S.optional(S.NullOr(S.String)),
-          provisioningErrors: S.optional(S.NullOr(__S(9899, __c309, 11))),
+          provisioningErrors: S.optional(S.NullOr(__S(9867, __c308, 11))),
           isAttachedCompute: S.optional(S.Boolean),
           disableLocalAuth: S.optional(S.Boolean),
-          properties: S.optional(__S(9893, __c309, 5)),
+          properties: S.optional(__S(9861, __c308, 5)),
         }),
       ).annotate({ identifier: "VirtualMachine" });
     case 16:
       return S.Union([
+        __S(9871, __c308, 15),
+        __S(9874, __c308, 18),
+        __S(9896, __c309, 8),
+        __S(9897, __c309, 9),
+        __S(9898, __c309, 10),
+        __S(9899, __c309, 11),
+        __S(9900, __c309, 12),
+        __S(9901, __c309, 13),
+        __S(9902, __c309, 14),
         __S(9903, __c309, 15),
-        __S(9906, __c309, 18),
-        __S(9928, __c310, 8),
-        __S(9929, __c310, 9),
-        __S(9930, __c310, 10),
-        __S(9931, __c310, 11),
-        __S(9932, __c310, 12),
-        __S(9933, __c310, 13),
-        __S(9934, __c310, 14),
-        __S(9935, __c310, 15),
       ]);
   }
 }
-function __c311(j: number): any {
+function __c310(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29735,7 +29733,7 @@ function __c311(j: number): any {
       ).annotate({ identifier: "GetRegistryCodeContainerRequest" });
   }
 }
-function __c312(j: number): any {
+function __c311(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29756,7 +29754,7 @@ function __c312(j: number): any {
       ).annotate({ identifier: "GetRegistryCodeVersionRequest" });
   }
 }
-function __c313(j: number): any {
+function __c312(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29776,7 +29774,7 @@ function __c313(j: number): any {
       ).annotate({ identifier: "GetRegistryComponentContainerRequest" });
   }
 }
-function __c314(j: number): any {
+function __c313(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29797,7 +29795,7 @@ function __c314(j: number): any {
       ).annotate({ identifier: "GetRegistryComponentVersionRequest" });
   }
 }
-function __c315(j: number): any {
+function __c314(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29817,7 +29815,7 @@ function __c315(j: number): any {
       ).annotate({ identifier: "GetRegistryDataContainerRequest" });
   }
 }
-function __c316(j: number): any {
+function __c315(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29864,29 +29862,36 @@ function __c316(j: number): any {
         }),
       ).annotate({ identifier: "ManagedIdentityCredential" });
     case 4:
-      return S.Union([
-        __S(10113, __c316, 1),
-        __S(10114, __c316, 2),
-        __S(10115, __c316, 3),
-        __S(7040, __c220, 0),
-      ]);
-    case 5:
       return S.suspend(() =>
         S.Struct({
-          blobUri: S.optional(S.NullOr(S.String)),
-          credential: S.optional(S.NullOr(__S(10116, __c316, 4))),
-          storageAccountArmId: S.optional(S.NullOr(S.String)),
+          credentialType: S.String,
+          sasUri: S.optional(S.NullOr(S.String)),
         }),
-      ).annotate({ identifier: "GetBlobReferenceForConsumptionDto" });
+      ).annotate({ identifier: "SASCredential" });
+    case 5:
+      return S.Union([
+        __S(10081, __c315, 1),
+        __S(10082, __c315, 2),
+        __S(10083, __c315, 3),
+        __S(10084, __c315, 4),
+      ]);
     case 6:
       return S.suspend(() =>
         S.Struct({
-          blobReferenceForConsumption: S.optional(S.NullOr(__S(10117, __c316, 5))),
+          blobUri: S.optional(S.NullOr(S.String)),
+          credential: S.optional(S.NullOr(__S(10085, __c315, 5))),
+          storageAccountArmId: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "GetBlobReferenceForConsumptionDto" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          blobReferenceForConsumption: S.optional(S.NullOr(__S(10086, __c315, 6))),
         }),
       ).annotate({ identifier: "GetBlobReferenceSASResponseDto" });
   }
 }
-function __c317(j: number): any {
+function __c316(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29907,7 +29912,7 @@ function __c317(j: number): any {
       ).annotate({ identifier: "GetRegistryDataVersionRequest" });
   }
 }
-function __c318(j: number): any {
+function __c317(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29927,7 +29932,7 @@ function __c318(j: number): any {
       ).annotate({ identifier: "GetRegistryEnvironmentContainerRequest" });
   }
 }
-function __c319(j: number): any {
+function __c318(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29948,7 +29953,7 @@ function __c319(j: number): any {
       ).annotate({ identifier: "GetRegistryEnvironmentVersionRequest" });
   }
 }
-function __c320(j: number): any {
+function __c319(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

@@ -747,7 +747,7 @@ export interface CreateScrapeConfigRequest {
   /** Sets the 'Authorization' header on every scrape request with the configured username and password. `Additional Validators:` * if basicAuth is in the body no other authentication method should be in the body */
   basicAuth?: CreateScrapeConfigRequestBasicAuth | undefined;
   /** Sets the 'Authorization' header on every scrape request with the configured bearer token. It is mutually exclusive with 'bearer_token_file'. `Additional Validators:` * needs to be a valid bearer token * if bearerToken is in the body no other authentication method should be in the body */
-  bearerToken?: string | undefined;
+  bearerToken?: string | Redacted.Redacted<string> | undefined;
   /** Note that any globally configured 'external_labels' are unaffected by this setting. In communication with external systems, they are always applied only when a time series does not have a given label yet and are ignored otherwise. */
   honorLabels?: boolean | undefined;
   /** honor_timestamps controls whether Prometheus respects the timestamps present in scraped data. If honor_timestamps is set to 'true', the timestamps of the metrics exposed by the target will be used. */
@@ -831,7 +831,7 @@ export interface StaticConfigs {
 export type JobStaticConfigsList = Array<StaticConfigs>;
 export interface Job {
   basicAuth?: BasicAuth | undefined;
-  bearerToken?: string | undefined;
+  bearerToken?: string | Redacted.Redacted<string> | undefined;
   honorLabels?: boolean | undefined;
   honorTimeStamps?: boolean | undefined;
   httpSdConfigs?: JobHttpSdConfigsList | undefined;
@@ -1014,7 +1014,7 @@ export interface GetAlertConfigsRequest {
   instanceId: string;
 }
 export interface Global {
-  opsgenieApiKey?: string | undefined;
+  opsgenieApiKey?: string | Redacted.Redacted<string> | undefined;
   opsgenieApiUrl?: string | undefined;
   resolveTimeout?: string | undefined;
   smtpAuthIdentity?: string | undefined;
@@ -1113,7 +1113,7 @@ export interface GrafanaOauth {
   enabled: boolean;
   name?: string | undefined;
   oauthClientId: string;
-  oauthClientSecret: string;
+  oauthClientSecret: string | Redacted.Redacted<string>;
   roleAttributePath: string;
   roleAttributeStrict?: boolean | undefined;
   scopes?: string | undefined;
@@ -1666,7 +1666,7 @@ export interface PartialUpdateScrapeConfigsRequestBodyItem {
   /** Sets the 'Authorization' header on every scrape request with the configured username and password. `Additional Validators:` * if basicAuth is in the body no other authentication method should be in the body */
   basicAuth?: CreateScrapeConfigRequestBasicAuth | undefined;
   /** Sets the 'Authorization' header on every scrape request with the configured bearer token. It is mutually exclusive with 'bearer_token_file'. `Additional Validators:` * needs to be a valid bearer token * if bearerToken is in the body no other authentication method should be in the body */
-  bearerToken?: string | undefined;
+  bearerToken?: string | Redacted.Redacted<string> | undefined;
   /** Note that any globally configured 'external_labels' are unaffected by this setting. In communication with external systems, they are always applied only when a time series does not have a given label yet and are ignored otherwise. */
   honorLabels?: boolean | undefined;
   /** honor_timestamps controls whether Prometheus respects the timestamps present in scraped data. If honor_timestamps is set to 'true', the timestamps of the metrics exposed by the target will be used. */
@@ -1812,7 +1812,7 @@ export interface UpdateAlertConfigRouteRequest {
 /** Global config. If nothing passed the default argus config will be used. It is only possible to update the entire global part, not individual attributes. */
 export interface UpdateAlertConfigsRequestGlobal {
   /** Opsgenie api key `Additional Validators:` * should only include the characters: a-zA-Z0-9- */
-  opsgenieApiKey?: string | undefined;
+  opsgenieApiKey?: string | Redacted.Redacted<string> | undefined;
   /** Opsgenie api url `Additional Validators:` * must be a syntactically valid url address */
   opsgenieApiUrl?: string | undefined;
   /** ResolveTimeout is the default value used by alertmanager if the alert does not include EndsAt, after this time passes it can declare the alert as resolved if it has not been updated. This has no impact on alerts from Prometheus, as they always include EndsAt. `Additional Validators:` * must be a valid time format */
@@ -2016,7 +2016,7 @@ export interface UpdateGrafanaConfigsRequestGenericOauth {
   /** Oauth client id for auth endpoint. */
   oauthClientId: string;
   /** Oauth client secret for auth endpoint. */
-  oauthClientSecret: string;
+  oauthClientSecret: string | Redacted.Redacted<string>;
   /** Grafana checks for the presence of a role using the JMESPath specified via the role_attribute_path configuration option. The JMESPath is applied to the id_token first. If there is no match, then the UserInfo endpoint specified via the api_url configuration option is tried next. The result after evaluation of the role_attribute_path JMESPath expression should be a valid Grafana role, for example, Viewer, Editor or Admin For example: contains(roles[\*], 'grafana-admin') && 'Admin' || contains(roles[\*], 'grafana-editor') && 'Editor' || contains(roles[\*], 'grafana-viewer') && 'Viewer' */
   roleAttributePath: string;
   /** If the role_attribute_path property does not return a role, then the user is assigned the Viewer role by default. You can disable the role assignment by setting role_attribute_strict = true. It denies user access if no role or an invalid role is returned. */
@@ -2133,7 +2133,7 @@ export interface UpdateScrapeConfigRequest {
   /** Sets the 'Authorization' header on every scrape request with the configured username and password. `Additional Validators:` * if basicAuth is in the body no other authentication method should be in the body */
   basicAuth?: CreateScrapeConfigRequestBasicAuth | undefined;
   /** Sets the 'Authorization' header on every scrape request with the configured bearer token. It is mutually exclusive with 'bearer_token_file'. `Additional Validators:` * needs to be a valid bearer token * if bearerToken is in the body no other authentication method should be in the body */
-  bearerToken?: string | undefined;
+  bearerToken?: string | Redacted.Redacted<string> | undefined;
   /** Note that any globally configured 'external_labels' are unaffected by this setting. In communication with external systems, they are always applied only when a time series does not have a given label yet and are ignored otherwise. */
   honorLabels?: boolean | undefined;
   /** honor_timestamps controls whether Prometheus respects the timestamps present in scraped data. If honor_timestamps is set to 'true', the timestamps of the metrics exposed by the target will be used. */
@@ -4339,7 +4339,7 @@ function __c15(j: number): any {
           instanceId: S.String.pipe(T.Label()),
           jobName: S.String.pipe(T.Label()),
           basicAuth: S.optional(__S(736, __c46, 0)),
-          bearerToken: S.optional(S.String),
+          bearerToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           honorLabels: S.optional(S.Boolean),
           honorTimeStamps: S.optional(S.Boolean),
           metricsPath: S.String,
@@ -4823,7 +4823,7 @@ function __c42(j: number): any {
           projectId: S.String.pipe(T.Label()),
           instanceId: S.String.pipe(T.Label()),
           basicAuth: S.optional(__S(736, __c46, 0)),
-          bearerToken: S.optional(S.String),
+          bearerToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           honorLabels: S.optional(S.Boolean),
           honorTimeStamps: S.optional(S.Boolean),
           httpSdConfigs: S.optional(__S(721, __c45, 1)),
@@ -4915,7 +4915,7 @@ function __c43(j: number): any {
       return S.suspend(() =>
         S.Struct({
           basicAuth: S.optional(__S(690, __c43, 2)),
-          bearerToken: S.optional(S.String),
+          bearerToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           honorLabels: S.optional(S.Boolean),
           honorTimeStamps: S.optional(S.Boolean),
           httpSdConfigs: S.optional(__S(692, __c43, 4)),
@@ -5829,7 +5829,7 @@ function __c88(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          opsgenieApiKey: S.optional(S.String),
+          opsgenieApiKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           opsgenieApiUrl: S.optional(S.String),
           resolveTimeout: S.optional(S.String),
           smtpAuthIdentity: S.optional(S.String),
@@ -6052,7 +6052,7 @@ function __c97(j: number): any {
           enabled: S.Boolean,
           name: S.optional(S.String),
           oauthClientId: S.String,
-          oauthClientSecret: S.String,
+          oauthClientSecret: S.String.pipe(T.SensitiveValue({})),
           roleAttributePath: S.String,
           roleAttributeStrict: S.optional(S.Boolean),
           scopes: S.optional(S.String),
@@ -7119,7 +7119,7 @@ function __c144(j: number): any {
       return S.suspend(() =>
         S.Struct({
           basicAuth: S.optional(__S(736, __c46, 0)),
-          bearerToken: S.optional(S.String),
+          bearerToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           honorLabels: S.optional(S.Boolean),
           honorTimeStamps: S.optional(S.Boolean),
           httpSdConfigs: S.optional(__S(721, __c45, 1)),

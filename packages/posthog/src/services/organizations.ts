@@ -1044,7 +1044,7 @@ export interface IdentityProviderConfigOutput {
   /** SCIM base URL for this identity provider configuration. */
   scim_base_url: string;
   /** Plaintext SCIM bearer token. Only returned once, immediately after SCIM is enabled or the token is regenerated; null otherwise. */
-  scim_bearer_token: string | null;
+  scim_bearer_token: string | Redacted.Redacted<string> | null;
   /** Whether ID-JAG (XAA) is configured on this config. */
   has_id_jag: boolean;
   /** Trusted IdP issuer URL for ID-JAG (XAA). Required to enable ID-JAG. */
@@ -1064,7 +1064,7 @@ export interface SCIMTokenResponse {
   /** Whether SCIM is enabled for this config. */
   scim_enabled: boolean;
   /** Newly generated plaintext SCIM bearer token. Only returned once. */
-  scim_bearer_token: string;
+  scim_bearer_token: string | Redacted.Redacted<string>;
 }
 export interface CreateInviteRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
@@ -2195,7 +2195,7 @@ export interface ProjectBackwardCompat {
   effective_membership_level?: OrganizationMembershipLevelEnum | undefined;
   has_group_types?: boolean | undefined;
   group_types?: ProjectBackwardCompatGroupTypesList | undefined;
-  live_events_token?: string | null | undefined;
+  live_events_token?: string | Redacted.Redacted<string> | null | undefined;
   updated_at?: string | null | undefined;
   uuid?: string | undefined;
   api_token?: string | Redacted.Redacted<string> | undefined;
@@ -2283,7 +2283,7 @@ export interface ProjectBackwardCompat {
   product_intents?: ProjectBackwardCompatProductIntentsList | undefined;
   /** Default value for the `persist` option on newly created feature flags. */
   flags_persistence_default?: boolean | null | undefined;
-  secret_api_token?: string | null | undefined;
+  secret_api_token?: string | Redacted.Redacted<string> | null | undefined;
   secret_api_token_backup?: string | null | undefined;
   /** Value this project's heatmap screenshots send as a cookie scoped to your domain, so bot protection can allow them. Only project admins can read it; null for everyone else and when none has been generated. */
   heatmaps_screenshot_secret?: string | Redacted.Redacted<string> | null | undefined;
@@ -9667,7 +9667,7 @@ function __c14(j: number): any {
           has_scim: S.Boolean,
           scim_enabled: S.optional(S.Boolean),
           scim_base_url: S.String,
-          scim_bearer_token: S.NullOr(S.String),
+          scim_bearer_token: S.NullOr(S.String).pipe(T.SensitiveValue({})),
           has_id_jag: S.Boolean,
           id_jag_issuer_url: S.optional(S.NullOr(S.String)),
           id_jag_jwks_url: S.optional(S.NullOr(S.String)),
@@ -9960,7 +9960,7 @@ function __c25(j: number): any {
       return S.suspend(() =>
         S.Struct({
           scim_enabled: S.Boolean,
-          scim_bearer_token: S.String,
+          scim_bearer_token: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "SCIMTokenResponse" });
   }
@@ -11021,7 +11021,7 @@ function __c50(j: number): any {
           effective_membership_level: S.optional(S.Number),
           has_group_types: S.optional(S.Boolean),
           group_types: S.optional(__S(3680, __c115, 0)),
-          live_events_token: S.optional(S.NullOr(S.String)),
+          live_events_token: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           updated_at: S.optional(S.NullOr(S.String)),
           uuid: S.optional(S.String),
           api_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
@@ -11073,7 +11073,7 @@ function __c50(j: number): any {
           heatmaps_opt_in: S.optional(S.NullOr(S.Boolean)),
           product_intents: S.optional(__S(1617, __c50, 17)),
           flags_persistence_default: S.optional(S.NullOr(S.Boolean)),
-          secret_api_token: S.optional(S.NullOr(S.String)),
+          secret_api_token: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           secret_api_token_backup: S.optional(S.NullOr(S.String)),
           heatmaps_screenshot_secret: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           receive_org_level_activity_logs: S.optional(S.NullOr(S.Boolean)),

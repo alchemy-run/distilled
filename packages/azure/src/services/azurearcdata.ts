@@ -663,7 +663,7 @@ export interface K8sActiveDirectory {
   /** Account name for AAD */
   accountName?: string | undefined;
   /** Keytab secret used to authenticate with Active Directory. */
-  keytabSecret?: string | undefined;
+  keytabSecret?: string | Redacted.Redacted<string> | undefined;
   /** An array of encryption types */
   encryptionTypes?: K8sActiveDirectoryEncryptionTypesList | undefined;
 }
@@ -672,14 +672,14 @@ export interface K8stransparentDataEncryption {
   /** Transparent data encryption mode. Can be Service Managed, Customer managed or disabled */
   mode?: string | undefined;
   /** Protector secret for customer managed Transparent data encryption mode */
-  protectorSecret?: string | undefined;
+  protectorSecret?: string | Redacted.Redacted<string> | undefined;
 }
 /** The kubernetes security information. */
 export interface K8sSecurity {
   /** Admin login secret key */
-  adminLoginSecret?: string | undefined;
+  adminLoginSecret?: string | Redacted.Redacted<string> | undefined;
   /** Service certificate secret used */
-  serviceCertificateSecret?: string | undefined;
+  serviceCertificateSecret?: string | Redacted.Redacted<string> | undefined;
   activeDirectory?: K8sActiveDirectory | undefined;
   transparentDataEncryption?: K8stransparentDataEncryption | undefined;
   [key: string]: unknown;
@@ -718,7 +718,7 @@ export type SqlManagedInstancePropertiesInputBasicLoginInformation =
 /** Keytab used for authenticate with Active Directory. */
 export interface KeytabInformation {
   /** A base64-encoded keytab. */
-  keytab?: string | undefined;
+  keytab?: string | Redacted.Redacted<string> | undefined;
 }
 /** Active Directory information that related to the resource. */
 export interface ActiveDirectoryInformation {
@@ -2756,7 +2756,7 @@ export interface LogAnalyticsWorkspaceConfig {
   /** Azure Log Analytics workspace ID */
   workspaceId?: string | undefined;
   /** Primary key of the workspace */
-  primaryKey?: string | undefined;
+  primaryKey?: string | Redacted.Redacted<string> | undefined;
 }
 /** Service principal for uploading billing, metrics and logs. */
 export interface UploadServicePrincipal {
@@ -7311,7 +7311,7 @@ function __c33(j: number): any {
       return S.suspend(() =>
         S.Struct({
           workspaceId: S.optional(S.String),
-          primaryKey: S.optional(S.String),
+          primaryKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "LogAnalyticsWorkspaceConfig" });
     case 3:
@@ -7920,7 +7920,7 @@ function __c57(j: number): any {
         S.Struct({
           connector: S.optional(__S(1827, __c57, 3)),
           accountName: S.optional(S.String),
-          keytabSecret: S.optional(S.String),
+          keytabSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           encryptionTypes: S.optional(__S(64, __c2, 0)),
         }),
       ).annotate({ identifier: "K8sActiveDirectory" });
@@ -7928,15 +7928,15 @@ function __c57(j: number): any {
       return S.suspend(() =>
         S.Struct({
           mode: S.optional(S.String),
-          protectorSecret: S.optional(S.String),
+          protectorSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "K8stransparentDataEncryption" });
     case 6:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            adminLoginSecret: S.optional(S.String),
-            serviceCertificateSecret: S.optional(S.String),
+            adminLoginSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+            serviceCertificateSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
             activeDirectory: S.optional(__S(1828, __c57, 4)),
             transparentDataEncryption: S.optional(__S(1829, __c57, 5)),
           }),
@@ -7984,7 +7984,7 @@ function __c57(j: number): any {
     case 11:
       return S.suspend(() =>
         S.Struct({
-          keytab: S.optional(S.String),
+          keytab: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "KeytabInformation" });
     case 12:

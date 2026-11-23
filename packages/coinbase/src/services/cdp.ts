@@ -3388,41 +3388,41 @@ export interface ExportEvmAccountRequest {
   /** The 0x-prefixed address of the EVM account. The address does not need to be checksummed. */
   address: string;
   /** The base64-encoded, public part of the RSA key in DER format used to encrypt the account private key. */
-  exportEncryptionKey: string;
+  exportEncryptionKey: string | Redacted.Redacted<string>;
 }
 export interface ExportEvmAccountResponse {
   /** The base64-encoded, encrypted private key of the EVM account which is a 32 byte raw private key. The private key is encrypted in transport using the exportEncryptionKey in the request. */
-  encryptedPrivateKey: string;
+  encryptedPrivateKey: string | Redacted.Redacted<string>;
 }
 export interface ExportEvmAccountByNameRequest {
   /** The name of the EVM account. */
   name: string;
   /** The base64-encoded, public part of the RSA key in DER format used to encrypt the account private key. */
-  exportEncryptionKey: string;
+  exportEncryptionKey: string | Redacted.Redacted<string>;
 }
 export interface ExportEvmAccountByNameResponse {
   /** The base64-encoded, encrypted private key of the EVM account which is a 32 byte raw private key. The private key is encrypted in transport using the exportEncryptionKey in the request. */
-  encryptedPrivateKey: string;
+  encryptedPrivateKey: string | Redacted.Redacted<string>;
 }
 export interface ExportSolanaAccountRequest {
   /** The base58 encoded address of the Solana account. */
   address: string;
   /** The base64-encoded, public part of the RSA key in DER format used to encrypt the account private key. */
-  exportEncryptionKey: string;
+  exportEncryptionKey: string | Redacted.Redacted<string>;
 }
 export interface ExportSolanaAccountResponse {
   /** The base64-encoded, encrypted private key of the Solana account which is a 32 byte raw private key. The private key is encrypted in transport using the exportEncryptionKey in the request. */
-  encryptedPrivateKey: string;
+  encryptedPrivateKey: string | Redacted.Redacted<string>;
 }
 export interface ExportSolanaAccountByNameRequest {
   /** The name of the Solana account. */
   name: string;
   /** The base64-encoded, public part of the RSA key in DER format used to encrypt the account private key. */
-  exportEncryptionKey: string;
+  exportEncryptionKey: string | Redacted.Redacted<string>;
 }
 export interface ExportSolanaAccountByNameResponse {
   /** The base64-encoded, encrypted private key of the Solana account which is a 32 byte raw private key. The private key is encrypted in transport using the exportEncryptionKey in the request. */
-  encryptedPrivateKey: string;
+  encryptedPrivateKey: string | Redacted.Redacted<string>;
 }
 export interface GetBalanceByAssetRequest {
   /** The unique identifier of the account. */
@@ -4434,13 +4434,13 @@ export interface ImportEndUserRequest {
   userId: string;
   authenticationMethods: AuthenticationMethods;
   /** The base64-encoded, encrypted private key to import. The private key must be encrypted using the CDP SDK's encryption scheme. This is a 32-byte raw private key. */
-  encryptedPrivateKey: string;
+  encryptedPrivateKey: string | Redacted.Redacted<string>;
   /** The type of key being imported. Determines what type of account will be associated for the end user. */
   keyType: ImportEndUserRequestKeyType | (string & {});
 }
 export interface ImportEvmAccountRequest {
   /** The base64-encoded, encrypted private key of the EVM account. The private key must be encrypted using the CDP SDK's encryption scheme. */
-  encryptedPrivateKey: string;
+  encryptedPrivateKey: string | Redacted.Redacted<string>;
   /** An optional name for the account. Account names can consist of alphanumeric characters and hyphens, and be between 2 and 36 characters long. Account names must be unique across all EVM accounts in the developer's CDP Project. */
   name?: string | undefined;
   /** The ID of the account-level policy to apply to the account. */
@@ -4448,7 +4448,7 @@ export interface ImportEvmAccountRequest {
 }
 export interface ImportSolanaAccountRequest {
   /** The base64-encoded, encrypted 32-byte private key of the Solana account. The private key must be encrypted using the CDP SDK's encryption scheme. */
-  encryptedPrivateKey: string;
+  encryptedPrivateKey: string | Redacted.Redacted<string>;
   /** An optional name for the account. Account names can consist of alphanumeric characters and hyphens, and be between 2 and 36 characters long. Account names must be unique across all EVM accounts in the developer's CDP Project. */
   name?: string | undefined;
 }
@@ -14462,7 +14462,7 @@ function __c166(j: number): any {
       return S.suspend(() =>
         S.Struct({
           address: S.String.pipe(T.Label()),
-          exportEncryptionKey: S.String,
+          exportEncryptionKey: S.String.pipe(T.SensitiveValue({})),
         }).pipe(T.Http({ method: "POST", uri: "/v2/evm/accounts/{address}/export", code: 200 })),
       ).annotate({ identifier: "ExportEvmAccountRequest" });
   }
@@ -14472,7 +14472,7 @@ function __c167(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          encryptedPrivateKey: S.String,
+          encryptedPrivateKey: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "ExportEvmAccountResponse" });
   }
@@ -14483,7 +14483,7 @@ function __c168(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          exportEncryptionKey: S.String,
+          exportEncryptionKey: S.String.pipe(T.SensitiveValue({})),
         }).pipe(
           T.Http({ method: "POST", uri: "/v2/evm/accounts/export/by-name/{name}", code: 200 }),
         ),
@@ -14496,7 +14496,7 @@ function __c169(j: number): any {
       return S.suspend(() =>
         S.Struct({
           address: S.String.pipe(T.Label()),
-          exportEncryptionKey: S.String,
+          exportEncryptionKey: S.String.pipe(T.SensitiveValue({})),
         }).pipe(T.Http({ method: "POST", uri: "/v2/solana/accounts/{address}/export", code: 200 })),
       ).annotate({ identifier: "ExportSolanaAccountRequest" });
   }
@@ -14507,7 +14507,7 @@ function __c170(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          exportEncryptionKey: S.String,
+          exportEncryptionKey: S.String.pipe(T.SensitiveValue({})),
         }).pipe(
           T.Http({ method: "POST", uri: "/v2/solana/accounts/export/by-name/{name}", code: 200 }),
         ),
@@ -15577,7 +15577,7 @@ function __c227(j: number): any {
         S.Struct({
           userId: S.String,
           authenticationMethods: __S(1888, __c118, 0),
-          encryptedPrivateKey: S.String,
+          encryptedPrivateKey: S.String.pipe(T.SensitiveValue({})),
           keyType: S.String,
         }).pipe(T.Http({ method: "POST", uri: "/v2/end-users/import", code: 200 })),
       ).annotate({ identifier: "ImportEndUserRequest" });
@@ -15588,7 +15588,7 @@ function __c228(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          encryptedPrivateKey: S.String,
+          encryptedPrivateKey: S.String.pipe(T.SensitiveValue({})),
           name: S.optional(S.String),
           accountPolicy: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/v2/evm/accounts/import", code: 200 })),
@@ -15673,7 +15673,7 @@ function __c233(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          encryptedPrivateKey: S.String,
+          encryptedPrivateKey: S.String.pipe(T.SensitiveValue({})),
           name: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/v2/solana/accounts/import", code: 200 })),
       ).annotate({ identifier: "ImportSolanaAccountRequest" });

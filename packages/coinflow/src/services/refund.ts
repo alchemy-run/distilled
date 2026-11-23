@@ -276,7 +276,7 @@ export interface Verification {
   vendor: VerificationVendor;
   name?: string | undefined;
   attested?: boolean | undefined;
-  shareToken?: string | undefined;
+  shareToken?: string | Redacted.Redacted<string> | undefined;
   shareTokenStatus?: string | undefined;
   sessionToken?: string | Redacted.Redacted<string> | undefined;
   rejectionReasons?: VerificationRejectionReasonsList | undefined;
@@ -288,7 +288,7 @@ export interface UboEntry {
   vendor: VerificationVendor;
   name?: string | undefined;
   attested?: boolean | undefined;
-  shareToken?: string | undefined;
+  shareToken?: string | Redacted.Redacted<string> | undefined;
   shareTokenStatus?: string | undefined;
   sessionToken?: string | Redacted.Redacted<string> | undefined;
   rejectionReasons?: UboEntryRejectionReasonsList | undefined;
@@ -1977,7 +1977,7 @@ export interface VendorSettings {
   verisoul?: VerisoulVendorSettings | undefined;
 }
 export interface MerchantBankSettlementOptions {
-  token: string;
+  token: string | Redacted.Redacted<string>;
   minRemainingBalance: Cents;
   useWire?: boolean | undefined;
 }
@@ -2086,7 +2086,7 @@ export interface LinkedBankAccount {
   accountNumber: string;
   accountType: LinkedBankAccountAccountType;
   institutionName?: string | undefined;
-  plaidAccessToken: string;
+  plaidAccessToken: string | Redacted.Redacted<string>;
   plaidAccountId: string;
 }
 export interface IMerchantStringProcessing {
@@ -2111,7 +2111,7 @@ export interface IMerchantString {
   apiKey: string | Redacted.Redacted<string>;
   webhookValidationKey?: string | undefined;
   nmiWebhookValidationKey?: string | undefined;
-  nmiApiKey?: string | undefined;
+  nmiApiKey?: string | Redacted.Redacted<string> | undefined;
   apiKeys: IMerchantStringApiKeysList;
   kycType: KycType;
   settlementToken: StableCoin;
@@ -2502,7 +2502,7 @@ export interface TransactionHistoryItem {
   txType: string;
   chain: string;
   paymentAmount: string;
-  paymentToken: string;
+  paymentToken: string | Redacted.Redacted<string>;
   to: string;
   from: string;
   registryContract: string;
@@ -3066,7 +3066,7 @@ export interface IPaymentStringCardInfo {
   processed3DS?: Verification3DS | undefined;
   cardType?: CardType | undefined;
   last4?: string | undefined;
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   mobileWallet?: MobileWallet | undefined;
   nmiProcessor?: PaymentProcessor | undefined;
   processor: PaymentProcessor;
@@ -3091,7 +3091,7 @@ export interface IPaymentStringBankTransferInfo {
   /** The founding `AchAuthorization.paymentId` this debit belongs to, if this is a subsequent charge. */
   achAuthorizationId?: string | undefined;
   reason?: string | undefined;
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   batchedAt?: string | undefined;
   refundTransferId?: string | undefined;
   refundReview: boolean;
@@ -3138,7 +3138,7 @@ export interface IPaymentStringIbanInfo {
   tokenSubtotal?: TokenSubtotal | undefined;
   transaction?: string | undefined;
   expiration: string;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   processor: IbanProcessor;
   status: IbanPaymentStatus;
 }
@@ -3152,7 +3152,7 @@ export type WirePaymentStatus =
 export interface IWirePaymentInfo {
   status: WirePaymentStatus;
   processor: WireProcessor;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   memo: string;
   transaction?: string | undefined;
   tokenSubtotal?: TokenSubtotal | undefined;
@@ -3207,7 +3207,7 @@ export interface IPayPalPaymentInfo {
   merchantId: string;
   status: PayPalPaymentStatus;
   processor: PayPalProcessor;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   authOnly?: boolean | undefined;
   transaction?: string | undefined;
   authorizationId?: string | undefined;
@@ -3249,7 +3249,7 @@ export interface IVenmoPaymentInfo {
   merchantId: string;
   status: VenmoPaymentStatus;
   processor: VenmoProcessor;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   authOnly?: boolean | undefined;
   transaction?: string | undefined;
   authorizationId?: string | undefined;
@@ -3278,7 +3278,7 @@ export interface IApaPaymentInfo {
   processor: ApaProcessor;
   apaTransactionId: string;
   credentialType: ApaCredentialType;
-  credentialValue: string;
+  credentialValue: string | Redacted.Redacted<string>;
   transaction?: string | undefined;
   transactionHash?: string | undefined;
   rail?: string | undefined;
@@ -3336,7 +3336,7 @@ export interface IPaymentStringCryptoInfo {
   tokenLogoUrl?: string | undefined;
   blockchainLogoUrl?: string | undefined;
   tokenAmount?: string | undefined;
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   sponsoredTransactionHash?: string | undefined;
   originatingTransactionHash?: string | undefined;
   originatingWallet?: string | undefined;
@@ -3583,7 +3583,7 @@ export interface IPaymentString {
   wallet?: string | undefined;
   marketplaceInfo?: MarketplaceInfo | undefined;
   destination?: IPaymentStringDestination | undefined;
-  destinationSettlementToken?: string | undefined;
+  destinationSettlementToken?: string | Redacted.Redacted<string> | undefined;
   overrideAuditLog?: OverrideAuditLog | undefined;
   customerUsdcTransferData?: CustomerUsdcTransferData | undefined;
   customerUsdcTransferDataV2?: CustomerUsdcTransferDataV2 | undefined;
@@ -3790,7 +3790,7 @@ export interface IMerchantMongooseTypesObjectId {
   apiKey: string | Redacted.Redacted<string>;
   webhookValidationKey?: string | undefined;
   nmiWebhookValidationKey?: string | undefined;
-  nmiApiKey?: string | undefined;
+  nmiApiKey?: string | Redacted.Redacted<string> | undefined;
   apiKeys: IMerchantMongooseTypesObjectIdApiKeysList;
   kycType: KycType;
   settlementToken: StableCoin;
@@ -4019,7 +4019,7 @@ export interface IPaymentMongooseTypesObjectIdIbanInfo {
   tokenSubtotal?: TokenSubtotal | undefined;
   transaction?: string | undefined;
   expiration: string;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   processor: IbanProcessor;
   status: IbanPaymentStatus;
 }
@@ -4122,7 +4122,7 @@ export interface IPaymentMongooseTypesObjectId {
   wallet?: string | undefined;
   marketplaceInfo?: MarketplaceInfo | undefined;
   destination?: IPaymentMongooseTypesObjectIdDestination | undefined;
-  destinationSettlementToken?: string | undefined;
+  destinationSettlementToken?: string | Redacted.Redacted<string> | undefined;
   overrideAuditLog?: OverrideAuditLog | undefined;
   customerUsdcTransferData?: CustomerUsdcTransferData | undefined;
   customerUsdcTransferDataV2?: CustomerUsdcTransferDataV2 | undefined;

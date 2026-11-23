@@ -4298,7 +4298,7 @@ export type OwnerKeyType = "MicrosoftManaged";
 /** Details for ownership voucher. */
 export interface OwnershipVoucherDetailsInput {
   /** Ownership voucher in base64 encoded format */
-  ownershipVoucher: string;
+  ownershipVoucher: string | Redacted.Redacted<string>;
   /** Owner key type */
   ownerKeyType: OwnerKeyType | (string & {});
 }
@@ -4479,7 +4479,7 @@ export interface OwnershipVoucherValidationDetails {
 /** Details for ownership voucher. */
 export interface OwnershipVoucherDetails {
   /** Ownership voucher in base64 encoded format */
-  ownershipVoucher: string;
+  ownershipVoucher: string | Redacted.Redacted<string>;
   /** Owner key type */
   ownerKeyType: OwnerKeyType;
   /** Ownership Voucher Validation Details */
@@ -5084,7 +5084,7 @@ export interface GalleryImagePropertiesInput {
   /** Storage ContainerID of the storage container to be used for gallery image */
   containerId?: string | undefined;
   /** location of the image the gallery image should be created from */
-  imagePath?: string | undefined;
+  imagePath?: string | Redacted.Redacted<string> | undefined;
   /** Operating system type that the gallery image uses [Windows, Linux] */
   osType: GalleryImagePropertiesInputOsType | (string & {});
   /** Datasource for the gallery image when provisioning with cloud-init [NoCloud, Azure] */
@@ -5183,7 +5183,7 @@ export interface GalleryImageProperties {
   /** Storage ContainerID of the storage container to be used for gallery image */
   containerId?: string | undefined;
   /** location of the image the gallery image should be created from */
-  imagePath?: string | undefined;
+  imagePath?: string | Redacted.Redacted<string> | undefined;
   /** Operating system type that the gallery image uses [Windows, Linux] */
   osType: GalleryImagePropertiesOsType;
   /** Datasource for the gallery image when provisioning with cloud-init [NoCloud, Azure] */
@@ -5231,7 +5231,7 @@ export interface GenerateArcSettingsPasswordRequest {
   arcSettingName: string;
 }
 export interface PasswordCredential {
-  secretText?: string | undefined;
+  secretText?: string | Redacted.Redacted<string> | undefined;
   keyId?: string | undefined;
   startDateTime?: string | undefined;
   endDateTime?: string | undefined;
@@ -7086,9 +7086,9 @@ export type HttpProxyConfigurationNoProxyList = Array<string>;
 /** HTTP Proxy configuration for the VM. */
 export interface HttpProxyConfiguration {
   /** The HTTP proxy server endpoint to use. */
-  httpProxy?: string | undefined;
+  httpProxy?: string | Redacted.Redacted<string> | undefined;
   /** The HTTPS proxy server endpoint to use. */
-  httpsProxy?: string | undefined;
+  httpsProxy?: string | Redacted.Redacted<string> | undefined;
   /** The endpoints that should not go through proxy. */
   noProxy?: HttpProxyConfigurationNoProxyList | undefined;
   /** Alternative CA cert to use for connecting to proxy servers. */
@@ -18885,7 +18885,7 @@ function __c163(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          ownershipVoucher: S.String,
+          ownershipVoucher: S.String.pipe(T.SensitiveValue({})),
           ownerKeyType: S.String,
         }),
       ).annotate({ identifier: "OwnershipVoucherDetailsInput" });
@@ -18944,7 +18944,7 @@ function __c164(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          ownershipVoucher: S.String,
+          ownershipVoucher: S.String.pipe(T.SensitiveValue({})),
           ownerKeyType: S.String,
           validationDetails: S.optional(__S(5280, __c165, 0)),
         }),
@@ -19254,7 +19254,7 @@ function __c172(j: number): any {
       return S.suspend(() =>
         S.Struct({
           containerId: S.optional(S.String),
-          imagePath: S.optional(S.String),
+          imagePath: S.optional(S.String.pipe(T.SensitiveValue({}))),
           osType: S.String,
           cloudInitDataSource: S.optional(S.String),
           hyperVGeneration: S.optional(S.String),
@@ -19340,7 +19340,7 @@ function __c176(j: number): any {
       return S.suspend(() =>
         S.Struct({
           containerId: S.optional(S.String),
-          imagePath: S.optional(S.String),
+          imagePath: S.optional(S.String.pipe(T.SensitiveValue({}))),
           osType: S.String,
           cloudInitDataSource: S.optional(S.String),
           hyperVGeneration: S.optional(S.String),
@@ -19437,7 +19437,7 @@ function __c179(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          secretText: S.optional(S.String),
+          secretText: S.optional(S.String.pipe(T.SensitiveValue({}))),
           keyId: S.optional(S.String),
           startDateTime: S.optional(S.String),
           endDateTime: S.optional(S.String),
@@ -21629,8 +21629,8 @@ function __c266(j: number): any {
     case 14:
       return S.suspend(() =>
         S.Struct({
-          httpProxy: S.optional(S.String),
-          httpsProxy: S.optional(S.String),
+          httpProxy: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          httpsProxy: S.optional(S.String.pipe(T.SensitiveValue({}))),
           noProxy: S.optional(__S(3232, __c101, 0)),
           trustedCa: S.optional(S.String),
         }),

@@ -2993,7 +2993,7 @@ export interface CancelEventsEventResponse {}
 export interface ChangePasswordRequest {
   /** The unique identifier of user */
   userId: string;
-  currentPassword?: string | null | undefined;
+  currentPassword?: string | Redacted.Redacted<string> | null | undefined;
   newPassword?: string | Redacted.Redacted<string> | null | undefined;
 }
 export interface ChangePasswordResponse {}
@@ -127220,7 +127220,7 @@ function __c1438(j: number): any {
       return S.suspend(() =>
         S.Struct({
           userId: S.String.pipe(T.Label()),
-          currentPassword: S.optional(S.NullOr(S.String)),
+          currentPassword: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           newPassword: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
         }).pipe(T.Http({ method: "POST", uri: "/users/{userId}/changePassword", code: 200 })),
       ).annotate({ identifier: "ChangePasswordRequest" });

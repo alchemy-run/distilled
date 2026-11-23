@@ -60,9 +60,9 @@ export interface CommitLoginResponse {
   /** A JWT authenticating the user. */
   jwt?: JWT | undefined;
   /** The plain text content of the JWT. */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   /** A token that can be used to renew the JWT. */
-  renew_token?: string | undefined;
+  renew_token?: string | Redacted.Redacted<string> | undefined;
 }
 export interface CreateMagicCodeLoginRequest {
   /** The UUID of the organization on which to login. */
@@ -170,7 +170,7 @@ export interface InitiateOAuth2LoginResponse {
   /** URL to redirect the user to. */
   url?: string | undefined;
   /** Security token to check when receiving a code from the identity provider. */
-  security_token?: string | undefined;
+  security_token?: string | Redacted.Redacted<string> | undefined;
 }
 export interface LoginInitiateSamlRequest {
   /** The UUID of the organization on which to login. */
@@ -190,15 +190,15 @@ export interface RenewJWTRequest {
   /** The JWT ID of the JWT to renew. */
   jti: string;
   /** The renew token associated to the JWT to renew. */
-  renew_token?: string | undefined;
+  renew_token?: string | Redacted.Redacted<string> | undefined;
 }
 export interface EncodedJWT {
   /** The renewed JWT. */
   jwt?: JWT | undefined;
   /** The encoded token of the renewed JWT. */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   /** The encoded renew token. This token is necessary to renew the JWT. */
-  renew_token?: string | undefined;
+  renew_token?: string | Redacted.Redacted<string> | undefined;
 }
 export interface SearchOrganizationRequest {
   /** Search for an organization using its ID. One of organization_id, organization_alias is required. */
@@ -550,8 +550,8 @@ function __c3(j: number): any {
       return S.suspend(() =>
         S.Struct({
           jwt: S.optional(__S(12, __c3, 0)),
-          token: S.optional(S.String),
-          renew_token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          renew_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "CommitLoginResponse" });
   }
@@ -588,7 +588,7 @@ function __c5(j: number): any {
       return S.suspend(() =>
         S.Struct({
           jti: S.String.pipe(T.Label()),
-          renew_token: S.optional(S.String),
+          renew_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -856,7 +856,7 @@ function __c17(j: number): any {
       return S.suspend(() =>
         S.Struct({
           url: S.optional(S.String),
-          security_token: S.optional(S.String),
+          security_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "InitiateOAuth2LoginResponse" });
   }

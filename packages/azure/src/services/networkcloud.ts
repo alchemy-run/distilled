@@ -581,7 +581,7 @@ export interface AdministrativeCredentials {
 /** BareMetalMachineProperties represents the properties of a bare metal machine. */
 export interface BareMetalMachinePropertiesInput {
   /** The connection string for the baseboard management controller including IP address and protocol. */
-  bmcConnectionString: string;
+  bmcConnectionString: string | Redacted.Redacted<string>;
   /** The credentials of the baseboard management controller on this bare metal machine. */
   bmcCredentials: AdministrativeCredentials;
   /** The MAC address of the BMC device. */
@@ -826,7 +826,7 @@ export type BareMetalMachineProvisioningState =
 /** BareMetalMachineProperties represents the properties of a bare metal machine. */
 export interface BareMetalMachineProperties {
   /** The connection string for the baseboard management controller including IP address and protocol. */
-  bmcConnectionString: string;
+  bmcConnectionString: string | Redacted.Redacted<string>;
   /** The credentials of the baseboard management controller on this bare metal machine. */
   bmcCredentials: AdministrativeCredentials;
   /** The MAC address of the BMC device. */
@@ -1713,7 +1713,7 @@ export type ClustersCreateOrUpdateResponseTagsMap = { [key: string]: string | un
 /** BareMetalMachineConfigurationData represents configuration for the bare metal machine. */
 export interface BareMetalMachineConfigurationData {
   /** The connection string for the baseboard management controller including IP address and protocol. */
-  bmcConnectionString?: string | undefined;
+  bmcConnectionString?: string | Redacted.Redacted<string> | undefined;
   /** The credentials of the baseboard management controller on this bare metal machine. The password field is expected to be an Azure Key Vault key URL. Until the cluster is converted to utilize managed identity by setting the secret archive settings, the actual password value should be provided instead. */
   bmcCredentials: AdministrativeCredentials;
   /** The MAC address of the BMC for this machine. */
@@ -3905,7 +3905,7 @@ export interface VirtualMachineProperties {
   /** Field Deprecated: The Base64 encoded cloud-init network data. The networkDataContent property will be used in preference to this property. */
   networkData?: string | undefined;
   /** The Base64 encoded cloud-init network data. */
-  networkDataContent?: string | undefined;
+  networkDataContent?: string | Redacted.Redacted<string> | undefined;
   /** The scheduling hints for the virtual machine. */
   placementHints?: VirtualMachinePropertiesPlacementHintsList | undefined;
   /** The list of ssh public keys. Each key will be added to the virtual machine using the cloud-init ssh_authorized_keys mechanism for the adminUsername. */
@@ -3915,7 +3915,7 @@ export interface VirtualMachineProperties {
   /** Field Deprecated: The Base64 encoded cloud-init user data. The userDataContent property will be used in preference to this property. */
   userData?: string | undefined;
   /** The Base64 encoded cloud-init user data. */
-  userDataContent?: string | undefined;
+  userDataContent?: string | Redacted.Redacted<string> | undefined;
   /** Field Deprecated, use virtualizationModel instead. The type of the virtio interface. */
   virtioInterface?: VirtualMachinePropertiesVirtioInterface | undefined;
   /** The type of the device model to use. */
@@ -7194,7 +7194,7 @@ export interface VirtualMachinePropertiesInput {
   /** Field Deprecated: The Base64 encoded cloud-init network data. The networkDataContent property will be used in preference to this property. */
   networkData?: string | undefined;
   /** The Base64 encoded cloud-init network data. */
-  networkDataContent?: string | undefined;
+  networkDataContent?: string | Redacted.Redacted<string> | undefined;
   /** The scheduling hints for the virtual machine. */
   placementHints?: VirtualMachinePropertiesInputPlacementHintsList | undefined;
   /** The list of ssh public keys. Each key will be added to the virtual machine using the cloud-init ssh_authorized_keys mechanism for the adminUsername. */
@@ -7204,7 +7204,7 @@ export interface VirtualMachinePropertiesInput {
   /** Field Deprecated: The Base64 encoded cloud-init user data. The userDataContent property will be used in preference to this property. */
   userData?: string | undefined;
   /** The Base64 encoded cloud-init user data. */
-  userDataContent?: string | undefined;
+  userDataContent?: string | Redacted.Redacted<string> | undefined;
   /** Field Deprecated, use virtualizationModel instead. The type of the virtio interface. */
   virtioInterface?: VirtualMachinePropertiesInputVirtioInterface | (string & {}) | undefined;
   /** The type of the device model to use. */
@@ -11468,7 +11468,7 @@ function __c42(j: number): any {
     case 14:
       return S.suspend(() =>
         S.Struct({
-          bmcConnectionString: S.optional(S.String),
+          bmcConnectionString: S.optional(S.String.pipe(T.SensitiveValue({}))),
           bmcCredentials: __S(3264, __c102, 0),
           bmcMacAddress: S.String,
           bootMacAddress: S.String,
@@ -12450,12 +12450,12 @@ function __c65(j: number): any {
           memorySizeGB: S.Number,
           networkAttachments: S.optional(__S(2081, __c65, 1)),
           networkData: S.optional(S.String),
-          networkDataContent: S.optional(S.String),
+          networkDataContent: S.optional(S.String.pipe(T.SensitiveValue({}))),
           placementHints: S.optional(__S(5025, __c157, 1)),
           sshPublicKeys: S.optional(__S(288, __c9, 0)),
           storageProfile: __S(5027, __c157, 3),
           userData: S.optional(S.String),
-          userDataContent: S.optional(S.String),
+          userDataContent: S.optional(S.String.pipe(T.SensitiveValue({}))),
           virtioInterface: S.optional(S.String),
           vmDeviceModel: S.optional(S.String),
           vmImage: S.String,
@@ -13258,7 +13258,7 @@ function __c101(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          bmcConnectionString: S.String,
+          bmcConnectionString: S.String.pipe(T.SensitiveValue({})),
           bmcCredentials: __S(3264, __c102, 0),
           bmcMacAddress: S.String,
           bootMacAddress: S.String,
@@ -13452,7 +13452,7 @@ function __c105(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
-          bmcConnectionString: S.String,
+          bmcConnectionString: S.String.pipe(T.SensitiveValue({})),
           bmcCredentials: __S(3264, __c102, 0),
           bmcMacAddress: S.String,
           bootMacAddress: S.String,
@@ -14744,12 +14744,12 @@ function __c157(j: number): any {
           memorySizeGB: S.Number,
           networkAttachments: S.optional(__S(4001, __c125, 1)),
           networkData: S.optional(S.String),
-          networkDataContent: S.optional(S.String),
+          networkDataContent: S.optional(S.String.pipe(T.SensitiveValue({}))),
           placementHints: S.optional(__S(5025, __c157, 1)),
           sshPublicKeys: S.optional(__S(288, __c9, 0)),
           storageProfile: __S(5027, __c157, 3),
           userData: S.optional(S.String),
-          userDataContent: S.optional(S.String),
+          userDataContent: S.optional(S.String.pipe(T.SensitiveValue({}))),
           virtioInterface: S.optional(S.String),
           vmDeviceModel: S.optional(S.String),
           vmImage: S.String,

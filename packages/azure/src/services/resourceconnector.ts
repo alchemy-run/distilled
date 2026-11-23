@@ -353,7 +353,7 @@ export interface HybridConnectionConfig {
   /** Name of the notification service. */
   relay?: string | undefined;
   /** Listener access token */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
 }
 /** Name which contains the role of the kubeconfig. */
 export type AccessProfileType = "clusterUser" | "clusterCustomerUser";
@@ -1047,7 +1047,7 @@ function __c11(j: number): any {
           expirationTime: S.optional(S.Number),
           hybridConnectionName: S.optional(S.String),
           relay: S.optional(S.String),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "HybridConnectionConfig" });
     case 2:

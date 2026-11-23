@@ -936,7 +936,7 @@ export interface RegisterAdminRunnerRequest {
 }
 export interface RegisterRunnerResponse {
   id?: number | undefined;
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   uuid?: string | undefined;
 }
 export interface RunAdminCronRequest {
@@ -2866,7 +2866,7 @@ function __c55(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.Number),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           uuid: S.optional(S.String),
         }),
       ).annotate({ identifier: "RegisterRunnerResponse" });

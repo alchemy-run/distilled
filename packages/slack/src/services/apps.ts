@@ -102,7 +102,7 @@ export interface CreateManifestRequest {
 export interface CreateManifestResponseCredentials {
   client_id?: string | undefined;
   client_secret?: string | Redacted.Redacted<string> | undefined;
-  verification_token?: string | undefined;
+  verification_token?: string | Redacted.Redacted<string> | undefined;
   signing_secret?: string | Redacted.Redacted<string> | undefined;
 }
 export interface CreateManifestResponse {
@@ -115,7 +115,7 @@ export interface CreateManifestResponse {
   team_id?: string | undefined;
   /** The team domain where the app was created on */
   team_domain?: string | undefined;
-  app_token?: string | undefined;
+  app_token?: string | Redacted.Redacted<string> | undefined;
 }
 /** A map of attributes referenced in expression */
 export type DatastoreCountRequestExpressionAttributesMap = { [key: string]: unknown | undefined };
@@ -228,7 +228,7 @@ export interface GetAuthExternalRequest {
 export interface GetAuthExternalResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
-  external_token: string;
+  external_token: string | Redacted.Redacted<string>;
   token_response_extras: unknown;
 }
 export interface GetDatastoreRequest {
@@ -967,7 +967,7 @@ function __c6(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
-          external_token: S.String,
+          external_token: S.String.pipe(T.SensitiveValue({})),
           token_response_extras: S.Unknown,
         }),
       ).annotate({ identifier: "GetAuthExternalResponse" });
@@ -1249,7 +1249,7 @@ function __c21(j: number): any {
         S.Struct({
           client_id: S.optional(S.String),
           client_secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          verification_token: S.optional(S.String),
+          verification_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           signing_secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "CreateManifestResponseCredentials" });
@@ -1262,7 +1262,7 @@ function __c21(j: number): any {
           oauth_authorize_url: S.optional(S.String),
           team_id: S.optional(S.String),
           team_domain: S.optional(S.String),
-          app_token: S.optional(S.String),
+          app_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "CreateManifestResponse" });
   }

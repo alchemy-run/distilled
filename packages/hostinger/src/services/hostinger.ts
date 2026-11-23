@@ -186,9 +186,9 @@ export interface AgencyHostingV1FilesUploadUrlResource {
   /** The TUS upload endpoint URL to send upload requests to */
   url: string;
   /** Authentication token to pass as the `X-Auth` header in TUS upload requests */
-  auth_key: string;
+  auth_key: string | Redacted.Redacted<string>;
   /** Authentication token to pass as the `X-Auth-Rest` header in TUS upload requests */
-  rest_auth_key: string;
+  rest_auth_key: string | Redacted.Redacted<string>;
 }
 export interface AgencyHostingImportWebsiteFromArchiveV1Request {
   /** Agency Plan website UID */
@@ -1191,7 +1191,7 @@ export interface MailV1ApiTokensApiTokenCreatedResource {
   /** Unique API token identifier */
   id?: string | undefined;
   /** Plaintext API token, returned only in this response. Grants access to the [Hostinger Email API](https://api.mail.hostinger.com/) for mailbox provisioning and management. */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   /** Human-readable label for this token */
   name?: string | null | undefined;
   scope?: MailV1ApiTokensApiTokenScopeResource | undefined;
@@ -3295,7 +3295,7 @@ export interface GetHostingInstallationJWTTokenV1Request {
 }
 export interface WordPressV1InstallationsJwtTokenResource {
   /** Signed JWT used to authenticate requests against the WordPress installation */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   /** Token lifetime in seconds from the moment it was issued */
   expires_in?: number | undefined;
   /** Date-time at which the token expires, or null when not provided */
@@ -4645,9 +4645,9 @@ export interface HostingV1FilesUploadUrlResource {
   /** The TUS upload endpoint URL to send upload requests to */
   url: string;
   /** Authentication token to pass as the `X-Auth` header in TUS upload requests */
-  auth_key: string;
+  auth_key: string | Redacted.Redacted<string>;
   /** Authentication token to pass as the `X-Auth-Rest` header in TUS upload requests */
-  rest_auth_key: string;
+  rest_auth_key: string | Redacted.Redacted<string>;
 }
 export interface HostingGetNodeJsBuildSettingsFromArchiveV1Request {
   username: string;
@@ -17007,8 +17007,8 @@ function __c24(j: number): any {
       return S.suspend(() =>
         S.Struct({
           url: S.String,
-          auth_key: S.String,
-          rest_auth_key: S.String,
+          auth_key: S.String.pipe(T.SensitiveValue({})),
+          rest_auth_key: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "AgencyHostingV1FilesUploadUrlResource" });
   }
@@ -18886,7 +18886,7 @@ function __c106(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           expires_in: S.optional(S.Number),
           expires_at: S.optional(S.NullOr(S.String)),
           mcp_url: S.optional(S.NullOr(S.String)),
@@ -26774,7 +26774,7 @@ function __c441(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           name: S.optional(S.NullOr(S.String)),
           scope: S.optional(__S(14145, __c442, 1)),
           created_at: S.optional(S.String),

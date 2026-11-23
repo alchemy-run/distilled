@@ -44,15 +44,15 @@ export interface DatadogOrganizationProperties {
   /** Id of the Datadog organization. */
   id?: string | undefined;
   /** The auth code used to linking to an existing Datadog organization. */
-  linkingAuthCode?: string | undefined;
+  linkingAuthCode?: string | Redacted.Redacted<string> | undefined;
   /** The client_id from an existing in exchange for an auth token to link organization. */
-  linkingClientId?: string | undefined;
+  linkingClientId?: string | Redacted.Redacted<string> | undefined;
   /** The redirect URI for linking. */
   redirectUri?: string | undefined;
   /** Api key associated to the Datadog organization. */
   apiKey?: string | Redacted.Redacted<string> | undefined;
   /** Application key associated to the Datadog organization. */
-  applicationKey?: string | undefined;
+  applicationKey?: string | Redacted.Redacted<string> | undefined;
   /** The Id of the Enterprise App used for Single sign on. */
   enterpriseAppId?: string | undefined;
   /** The configuration which describes the state of cloud security posture management. This collects configuration information for all resources in a subscription and track conformance to industry benchmarks. */
@@ -1835,11 +1835,11 @@ function __c1(j: number): any {
         S.Struct({
           name: S.optional(S.String),
           id: S.optional(S.String),
-          linkingAuthCode: S.optional(S.String),
-          linkingClientId: S.optional(S.String),
+          linkingAuthCode: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          linkingClientId: S.optional(S.String.pipe(T.SensitiveValue({}))),
           redirectUri: S.optional(S.String),
           apiKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          applicationKey: S.optional(S.String),
+          applicationKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           enterpriseAppId: S.optional(S.String),
           cspm: S.optional(S.Boolean),
           resourceCollection: S.optional(S.Boolean),

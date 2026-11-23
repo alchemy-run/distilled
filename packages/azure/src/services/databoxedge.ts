@@ -60,9 +60,9 @@ export type EncryptionAlgorithm = "None" | "AES256" | "RSAES_PKCS1_v_1_5";
 /** Represent the secrets intended for encryption with asymmetric key pair. */
 export interface AsymmetricEncryptedSecret {
   /** The value of the secret. */
-  value: string;
+  value: string | Redacted.Redacted<string>;
   /** Thumbprint certificate used to encrypt \"Value\". If the value is unencrypted, it will be null. */
-  encryptionCertThumbprint?: string | undefined;
+  encryptionCertThumbprint?: string | Redacted.Redacted<string> | undefined;
   /** The algorithm used to encrypt "Value". */
   encryptionAlgorithm: EncryptionAlgorithm | (string & {});
 }
@@ -1320,7 +1320,7 @@ export interface DataBoxEdgeDeviceExtendedInfoProperties {
   /** The digital signature of encrypted certificate. */
   encryptionKeyThumbprint?: string | undefined;
   /** The public part of the encryption certificate. Client uses this to encrypt any secret. */
-  encryptionKey?: string | undefined;
+  encryptionKey?: string | Redacted.Redacted<string> | undefined;
   /** The Resource ID of the Resource. */
   resourceKey?: string | undefined;
   /** The Key Vault ARM Id for client secrets */
@@ -5451,8 +5451,8 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          value: S.String,
-          encryptionCertThumbprint: S.optional(S.String),
+          value: S.String.pipe(T.SensitiveValue({})),
+          encryptionCertThumbprint: S.optional(S.String.pipe(T.SensitiveValue({}))),
           encryptionAlgorithm: S.String,
         }),
       ).annotate({ identifier: "AsymmetricEncryptedSecret" });
@@ -6398,7 +6398,7 @@ function __c36(j: number): any {
       return S.suspend(() =>
         S.Struct({
           encryptionKeyThumbprint: S.optional(S.String),
-          encryptionKey: S.optional(S.String),
+          encryptionKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           resourceKey: S.optional(S.String),
           clientSecretStoreId: S.optional(S.String),
           clientSecretStoreUrl: S.optional(S.String),

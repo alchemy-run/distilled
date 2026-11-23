@@ -1244,7 +1244,7 @@ export interface AmpConfig {
 /** Published ChatGPT Workspace Agent API channel. Axiom sends {"input": "<monitor summary>"}. */
 export interface ChatGPTWorkspaceAgentConfig {
   /** ChatGPT access token with the Workspace Agents scope */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** API channel trigger ID beginning with agtch_ */
   triggerId: string;
 }
@@ -1253,12 +1253,12 @@ export interface ClaudeCodeConfig {
   /** Routine ID from a Claude Code API trigger */
   routineId: string;
   /** Bearer token for the routine */
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 /** Cursor automation webhook. Axiom sends a fixed context body when the monitor fires. */
 export interface CursorConfig {
   /** Bearer token for the automation webhook */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** Automation webhook URL from a Cursor automation */
   webhookUrl: string;
 }
@@ -4835,7 +4835,7 @@ function __c10(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           triggerId: S.String,
         }),
       ).annotate({ identifier: "ChatGPTWorkspaceAgentConfig" });
@@ -4843,13 +4843,13 @@ function __c10(j: number): any {
       return S.suspend(() =>
         S.Struct({
           routineId: S.String,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "ClaudeCodeConfig" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           webhookUrl: S.String,
         }),
       ).annotate({ identifier: "CursorConfig" });

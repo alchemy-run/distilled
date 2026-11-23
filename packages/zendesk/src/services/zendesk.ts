@@ -1539,7 +1539,7 @@ export interface CreateApprovalRequestRequestApprovalRequestsItem {
 export type CreateApprovalRequestRequestApprovalRequestsList =
   Array<CreateApprovalRequestRequestApprovalRequestsItem>;
 export interface CreateApprovalRequestRequestMetadataCallbackInfo {
-  token?: string | null | undefined;
+  token?: string | Redacted.Redacted<string> | null | undefined;
 }
 /** Optional metadata used to determine the origination of the approval request */
 export interface CreateApprovalRequestRequestMetadata {
@@ -4674,7 +4674,7 @@ export interface TargetObject {
   /** Can be filled if it is a "todo" resource */
   todo_list_id?: string | undefined;
   /** Get the API token from My info > Show your tokens > Token for feed readers or the Basecamp API in your Basecamp account */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   /** The 37Signals username of the account you use to log in to Basecamp */
   username?: string | undefined;
   preserve_format?: boolean | undefined;
@@ -7630,7 +7630,7 @@ export interface EmailSettingsResponse {
 }
 export interface GetAccountSettingsRequest {
   /** Legacy CSRF token. Ignored by API. */
-  authenticity_token?: string | undefined;
+  authenticity_token?: string | Redacted.Redacted<string> | undefined;
 }
 /** The active features for an account. See [Active Features](#active-features) */
 export interface AccountSettingsActiveFeaturesObject {
@@ -8214,7 +8214,7 @@ export interface OauthTokenObject {
   /** An array of the valid scopes for this token. See [Scopes](#scopes) below */
   scopes?: OauthTokenObjectScopesList | undefined;
   /** The access token */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   /** The API url of this record */
   url?: string | undefined;
   /** The latest time this token was used for authentication */
@@ -8340,7 +8340,7 @@ export interface CurrentUserResponseUser {
   /** Any of the user's identities is verified. See [User Identities](/api-reference/ticketing/users/user_identities) */
   verified?: boolean | undefined;
   /** CSRF token required by some Zendesk APIs. */
-  authenticity_token?: string | undefined;
+  authenticity_token?: string | Redacted.Redacted<string> | undefined;
   [key: string]: unknown;
 }
 export interface CurrentUserResponse {
@@ -13338,7 +13338,7 @@ export interface RemoveOrganizationTagsRequest {
 export interface RenewCurrentSessionRequest {}
 export interface RenewSessionResponse {
   /** A token of authenticity for the request */
-  authenticity_token?: string | undefined;
+  authenticity_token?: string | Redacted.Redacted<string> | undefined;
 }
 /** The ids of the object's custom fields, in the desired order. Required */
 export type ReorderCustomObjectFieldsRequestCustomObjectFieldIdsList = Array<string>;
@@ -13689,7 +13689,7 @@ export type SuspendedTicketsAttachmentsResponseUploadAttachmentsList = Array<Att
 export interface SuspendedTicketsAttachmentsResponseUpload {
   attachments?: SuspendedTicketsAttachmentsResponseUploadAttachmentsList | undefined;
   /** Token for subsequent request */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
 }
 export interface SuspendedTicketsAttachmentsResponse {
   upload?: SuspendedTicketsAttachmentsResponseUpload | undefined;
@@ -16428,7 +16428,7 @@ export interface AttachmentUploadResponseUpload {
   attachment?: AttachmentObject | undefined;
   attachments?: AttachmentUploadResponseUploadAttachmentsList | undefined;
   /** Token for subsequent request */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
 }
 export interface AttachmentUploadResponse {
   upload?: AttachmentUploadResponseUpload | undefined;
@@ -29880,7 +29880,7 @@ function __c36(j: number): any {
             resource: S.optional(S.String),
             target_url: S.optional(S.String),
             todo_list_id: S.optional(S.String),
-            token: S.optional(S.String),
+            token: S.optional(S.String.pipe(T.SensitiveValue({}))),
             username: S.optional(S.String),
             preserve_format: S.optional(S.Boolean),
             room: S.optional(S.String),
@@ -33419,7 +33419,7 @@ function __c233(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          authenticity_token: S.optional(S.String.pipe(T.Query())),
+          authenticity_token: S.optional(S.String.pipe(T.Query(), T.SensitiveValue({}))),
         }).pipe(T.Http({ method: "GET", uri: "/api/v2/account/settings", code: 200 })),
       ).annotate({ identifier: "GetAccountSettingsRequest" });
   }
@@ -34240,7 +34240,7 @@ function __c264(j: number): any {
           refresh_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           refresh_token_expires_at: S.optional(S.String),
           scopes: S.optional(__S(5920, __c185, 0)),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           url: S.optional(S.String),
           used_at: S.optional(S.String),
           user_id: S.optional(S.Number),
@@ -34315,7 +34315,7 @@ function __c265(j: number): any {
             url: S.optional(S.String),
             user_fields: S.optional(__S(288, __c9, 0)),
             verified: S.optional(S.Boolean),
-            authenticity_token: S.optional(S.String),
+            authenticity_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -40851,7 +40851,7 @@ function __c616(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          token: S.optional(S.NullOr(S.String)),
+          token: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "CreateApprovalRequestRequestMetadataCallbackInfo" });
     case 3:
@@ -42099,7 +42099,7 @@ function __c689(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          authenticity_token: S.optional(S.String),
+          authenticity_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "RenewSessionResponse" });
   }
@@ -42831,7 +42831,7 @@ function __c737(j: number): any {
       return S.suspend(() =>
         S.Struct({
           attachments: S.optional(__S(448, __c14, 0)),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "SuspendedTicketsAttachmentsResponseUpload" });
     case 2:
@@ -45662,7 +45662,7 @@ function __c851(j: number): any {
         S.Struct({
           attachment: S.optional(__S(578, __c18, 2)),
           attachments: S.optional(__S(448, __c14, 0)),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "AttachmentUploadResponseUpload" });
     case 2:

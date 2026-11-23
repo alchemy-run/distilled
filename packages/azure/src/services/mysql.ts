@@ -496,7 +496,7 @@ export interface ImportSourceProperties {
   /** Uri of the import source storage. */
   storageUrl?: string | undefined;
   /** Sas token for accessing source storage. Read and list permissions are required for sas token. */
-  sasToken?: string | undefined;
+  sasToken?: string | Redacted.Redacted<string> | undefined;
   /** Relative path of data directory in storage. */
   dataDirPath?: string | undefined;
 }
@@ -5952,7 +5952,7 @@ function __c80(j: number): any {
         S.Struct({
           storageType: S.optional(S.String),
           storageUrl: S.optional(S.String),
-          sasToken: S.optional(S.String),
+          sasToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           dataDirPath: S.optional(S.String),
         }),
       ).annotate({ identifier: "ImportSourceProperties" });

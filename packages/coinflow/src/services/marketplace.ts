@@ -110,7 +110,7 @@ export type SellerUsKybBodyUbosList = Array<UboInfo>;
 export interface SellerUsKybBody {
   email: string;
   /** Server-signed onboarding token minted by the parent marketplace. The parent is derived from this token -- it cannot be supplied directly. Not required when the request is authenticated with the marketplace's API key; the parent is then derived from the key. */
-  onboardingToken?: string | undefined;
+  onboardingToken?: string | Redacted.Redacted<string> | undefined;
   /** MerchantId of the individual seller */
   sellerId: string;
   /** (optional): The URL to which the seller will be redirected after successfully completing verification via verificationLink. This applies when the API responds with a 451 status code, instructing the caller to direct the seller to verificationLink first. Defaults to the marketplace's Coinflow seller login page. Web (http/https) URLs must point at an origin you have registered with Coinflow -- a whitelisted embedding URL or your account's website. Native app deep links (for example `myapp://verified`) are also accepted. */
@@ -138,7 +138,7 @@ export interface KycUserInformation {
 export interface SellerUsKycBody {
   email: string;
   /** Server-signed onboarding token minted by the parent marketplace. The parent is derived from this token -- it cannot be supplied directly. Not required when the request is authenticated with the marketplace's API key; the parent is then derived from the key. */
-  onboardingToken?: string | undefined;
+  onboardingToken?: string | Redacted.Redacted<string> | undefined;
   /** MerchantId of the individual seller */
   sellerId: string;
   /** (optional): The URL to which the seller will be redirected after successfully completing verification via verificationLink. This applies when the API responds with a 451 status code, instructing the caller to direct the seller to verificationLink first. Defaults to the marketplace's Coinflow seller login page. Web (http/https) URLs must point at an origin you have registered with Coinflow -- a whitelisted embedding URL or your account's website. Native app deep links (for example `myapp://verified`) are also accepted. */
@@ -149,7 +149,7 @@ export interface SellerUsKycBody {
 export interface SellerDocVKybBody {
   email: string;
   /** Server-signed onboarding token minted by the parent marketplace. The parent is derived from this token -- it cannot be supplied directly. Not required when the request is authenticated with the marketplace's API key; the parent is then derived from the key. */
-  onboardingToken?: string | undefined;
+  onboardingToken?: string | Redacted.Redacted<string> | undefined;
   /** MerchantId of the individual seller */
   sellerId: string;
   /** (optional): The URL to which the seller will be redirected after successfully completing verification via verificationLink. This applies when the API responds with a 451 status code, instructing the caller to direct the seller to verificationLink first. Defaults to the marketplace's Coinflow seller login page. Web (http/https) URLs must point at an origin you have registered with Coinflow -- a whitelisted embedding URL or your account's website. Native app deep links (for example `myapp://verified`) are also accepted. */
@@ -160,7 +160,7 @@ export interface SellerDocVKybBody {
 export interface SellerDocVKycBody {
   email: string;
   /** Server-signed onboarding token minted by the parent marketplace. The parent is derived from this token -- it cannot be supplied directly. Not required when the request is authenticated with the marketplace's API key; the parent is then derived from the key. */
-  onboardingToken?: string | undefined;
+  onboardingToken?: string | Redacted.Redacted<string> | undefined;
   /** MerchantId of the individual seller */
   sellerId: string;
   /** (optional): The URL to which the seller will be redirected after successfully completing verification via verificationLink. This applies when the API responds with a 451 status code, instructing the caller to direct the seller to verificationLink first. Defaults to the marketplace's Coinflow seller login page. Web (http/https) URLs must point at an origin you have registered with Coinflow -- a whitelisted embedding URL or your account's website. Native app deep links (for example `myapp://verified`) are also accepted. */
@@ -268,7 +268,7 @@ export interface Verification {
   vendor: VerificationVendor;
   name?: string | undefined;
   attested?: boolean | undefined;
-  shareToken?: string | undefined;
+  shareToken?: string | Redacted.Redacted<string> | undefined;
   shareTokenStatus?: string | undefined;
   sessionToken?: string | Redacted.Redacted<string> | undefined;
   rejectionReasons?: VerificationRejectionReasonsList | undefined;

@@ -230,7 +230,7 @@ export type CreateDatabaseRequestRemoteEncryptionEncryptionCipher =
 /** Encryption configuration for the database. Can be used when creating a new encrypted database, creating a encrypted database from upload (`seed.type = "database_upload"`), or forking from an encrypted database (required when the source database is encrypted). */
 export interface CreateDatabaseRequestRemoteEncryption {
   /** Base64-encoded encryption key. Key size depends on cipher: 32 bytes for aes256gcm, chacha20poly1305, aegis256 variants; 16 bytes for aes128gcm, aegis128l variants. */
-  encryption_key?: string | undefined;
+  encryption_key?: Redacted.Redacted<string> | undefined;
   /** The encryption cipher to use. */
   encryption_cipher?:
     | CreateDatabaseRequestRemoteEncryptionEncryptionCipher
@@ -1085,7 +1085,7 @@ export interface RevokeAPITokenRequest {
 }
 export interface RevokeAPITokenResponse {
   /** The revoked token name. */
-  token?: string | undefined;
+  token?: Redacted.Redacted<string> | undefined;
 }
 export interface RevokeOrganizationAPITokenRequest {
   /** The slug of the organization or user account. */
@@ -1095,7 +1095,7 @@ export interface RevokeOrganizationAPITokenRequest {
 }
 export interface RevokeOrganizationAPITokenResponse {
   /** The ID of the revoked token. */
-  token?: string | undefined;
+  token?: Redacted.Redacted<string> | undefined;
 }
 export interface TransferGroupRequest {
   /** The slug of the organization or user account. */
@@ -3383,7 +3383,7 @@ function __c56(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "RevokeAPITokenResponse" });
   }
@@ -3621,7 +3621,7 @@ function __c68(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          encryption_key: S.optional(S.String),
+          encryption_key: S.optional(S.String.pipe(T.SensitiveValue({}))),
           encryption_cipher: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateDatabaseRequestRemoteEncryption" });

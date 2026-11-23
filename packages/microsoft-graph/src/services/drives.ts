@@ -34308,7 +34308,7 @@ export interface ValidatePermissionRequest {
   driveId: string;
   /** The unique identifier of driveItem */
   driveItemId: string;
-  challengeToken?: string | null | undefined;
+  challengeToken?: string | Redacted.Redacted<string> | null | undefined;
   password?: string | Redacted.Redacted<string> | undefined;
 }
 export interface ValidatePermissionResponse {}
@@ -95174,7 +95174,7 @@ function __c769(j: number): any {
         S.Struct({
           driveId: S.String.pipe(T.Label()),
           driveItemId: S.String.pipe(T.Label()),
-          challengeToken: S.optional(S.NullOr(S.String)),
+          challengeToken: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           password: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }).pipe(
           T.Http({

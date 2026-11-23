@@ -4532,7 +4532,7 @@ export interface CreateProjectTransferRequestRequest {
   /** The URL to send a webhook to when the transfer is accepted. */
   callbackUrl?: string | undefined;
   /** The secret to use to sign the webhook payload with HMAC-SHA256. */
-  callbackSecret?: string | undefined;
+  callbackSecret?: string | Redacted.Redacted<string> | undefined;
 }
 export interface CreateProjectTransferRequestResponse {
   code: string;
@@ -4548,7 +4548,7 @@ export interface CreateTraceSessionRequest {
   hostname: string;
 }
 export interface CreateTraceSessionResponse {
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 export interface DeleteProjectRequest {
   /** The unique project identifier or the project name */
@@ -20783,7 +20783,7 @@ export interface GetProjectTokenRequest {
   source?: string | undefined;
 }
 export interface GetProjectTokenResponse {
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 export interface GetProjectTraceRequest {
   /** The project ID */
@@ -33758,7 +33758,7 @@ function __c1(j: number): any {
           teamId: S.optional(S.String.pipe(T.Query())),
           slug: S.optional(S.String.pipe(T.Query())),
           callbackUrl: S.optional(S.String),
-          callbackSecret: S.optional(S.String),
+          callbackSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }).pipe(
           T.Http({ method: "POST", uri: "/projects/{idOrName}/transfer-request", code: 200 }),
         ),
@@ -33789,7 +33789,7 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "CreateTraceSessionResponse" });
   }

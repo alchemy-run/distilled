@@ -1017,15 +1017,15 @@ export interface ApiProperties {
   /** (QnAMaker Only) The runtime endpoint of QnAMaker. */
   qnaRuntimeEndpoint?: string | undefined;
   /** (QnAMaker Only) The Azure Search endpoint key of QnAMaker. */
-  qnaAzureSearchEndpointKey?: string | undefined;
+  qnaAzureSearchEndpointKey?: string | Redacted.Redacted<string> | undefined;
   /** (QnAMaker Only) The Azure Search endpoint id of QnAMaker. */
   qnaAzureSearchEndpointId?: string | undefined;
   /** (Bing Search Only) The flag to enable statistics of Bing Search. */
   statisticsEnabled?: boolean | undefined;
   /** (Personalization Only) The flag to enable statistics of Bing Search. */
-  eventHubConnectionString?: string | undefined;
+  eventHubConnectionString?: string | Redacted.Redacted<string> | undefined;
   /** (Personalization Only) The storage account connection string. */
-  storageAccountConnectionString?: string | undefined;
+  storageAccountConnectionString?: string | Redacted.Redacted<string> | undefined;
   /** (Metrics Advisor Only) The Azure AD Client Id (Application Id). */
   aadClientId?: string | undefined;
   /** (Metrics Advisor Only) The Azure AD Tenant Id. */
@@ -1102,7 +1102,7 @@ export type AccountPropertiesInputTrustedCertificateSourcesList = Array<TrustedC
 /** Properties of Cognitive Services account. */
 export interface AccountPropertiesInput {
   /** Resource migration token. */
-  migrationToken?: string | undefined;
+  migrationToken?: string | Redacted.Redacted<string> | undefined;
   /** Optional subdomain name used for token-based authentication. */
   customSubDomainName?: string | undefined;
   /** A collection of rules governing the accessibility from specific network locations. */
@@ -1654,7 +1654,7 @@ export type AccountKeyAuthTypeConnectionPropertiesInputMetadataMap = {
 export type AccountKeyAuthTypeConnectionPropertiesInputSharedUserListList = Array<string>;
 /** Account key object for connection credential. */
 export interface ConnectionAccountKey {
-  key?: string | undefined;
+  key?: string | Redacted.Redacted<string> | undefined;
 }
 /** This connection type covers the account key connection for Azure storage */
 export interface AccountKeyAuthTypeConnectionPropertiesInput {
@@ -1715,7 +1715,7 @@ export type CustomKeysConnectionPropertiesInputAuthType = "CustomKeys";
 export type CustomKeysConnectionPropertiesInputMetadataMap = { [key: string]: string | undefined };
 export type CustomKeysConnectionPropertiesInputSharedUserListList = Array<string>;
 /** Dictionary of <string> */
-export type CustomKeysKeysMap = { [key: string]: string | undefined };
+export type CustomKeysKeysMap = { [key: string]: string | Redacted.Redacted<string> | undefined };
 /** Custom Keys credential object */
 export interface CustomKeys {
   /** Dictionary of <string> */
@@ -1820,7 +1820,7 @@ export interface ConnectionOAuth2 {
   clientId?: string | undefined;
   clientSecret?: string | Redacted.Redacted<string> | undefined;
   /** Required by GoogleAdWords connection category */
-  developerToken?: string | undefined;
+  developerToken?: string | Redacted.Redacted<string> | undefined;
   password?: string | Redacted.Redacted<string> | undefined;
   /** Required by GoogleBigQuery, GoogleAdWords, Hubspot, QuickBooks, Square, Xero, Zoho where user needs to get RefreshToken offline */
   refreshToken?: string | Redacted.Redacted<string> | undefined;
@@ -1858,7 +1858,7 @@ export type PATAuthTypeConnectionPropertiesInputAuthType = "PAT";
 export type PATAuthTypeConnectionPropertiesInputMetadataMap = { [key: string]: string | undefined };
 export type PATAuthTypeConnectionPropertiesInputSharedUserListList = Array<string>;
 export interface ConnectionPersonalAccessToken {
-  pat?: string | undefined;
+  pat?: string | Redacted.Redacted<string> | undefined;
 }
 /** Connection property base schema. */
 export interface PATAuthTypeConnectionPropertiesInput {
@@ -1888,7 +1888,7 @@ export type SASAuthTypeConnectionPropertiesInputAuthType = "SAS";
 export type SASAuthTypeConnectionPropertiesInputMetadataMap = { [key: string]: string | undefined };
 export type SASAuthTypeConnectionPropertiesInputSharedUserListList = Array<string>;
 export interface ConnectionSharedAccessSignature {
-  sas?: string | undefined;
+  sas?: string | Redacted.Redacted<string> | undefined;
 }
 /** Connection property base schema. */
 export interface SASAuthTypeConnectionPropertiesInput {
@@ -1956,7 +1956,7 @@ export type UsernamePasswordAuthTypeConnectionPropertiesInputSharedUserListList 
 export interface ConnectionUsernamePassword {
   password?: string | Redacted.Redacted<string> | undefined;
   /** Optional, required by connections like SalesForce for extra security in addition to UsernamePassword */
-  securityToken?: string | undefined;
+  securityToken?: string | Redacted.Redacted<string> | undefined;
   username?: string | undefined;
 }
 /** Connection property base schema. */
@@ -4305,7 +4305,7 @@ export interface RaiEgressHeaderTransform {
   /** The HTTP header name (e.g., "Authorization", "X-Custom-Auth"). */
   name: string;
   /** A static header value. Write-only: accepted on create/update, never returned on read. If omitted on update, the existing value is preserved. Use this for non-sensitive values; for credentials, use valueRef instead. */
-  value?: string | undefined;
+  value?: string | Redacted.Redacted<string> | undefined;
   /** A dynamic header value resolved at request time from a secret or managed identity. */
   valueRef?: RaiEgressHeaderValueRef | undefined;
 }
@@ -4644,9 +4644,9 @@ export interface ListAccountKeysRequest {
 /** The access keys for the cognitive services account. */
 export interface ApiKeys {
   /** Gets the value of key 1. */
-  key1?: string | undefined;
+  key1?: string | Redacted.Redacted<string> | undefined;
   /** Gets the value of key 2. */
-  key2?: string | undefined;
+  key2?: string | Redacted.Redacted<string> | undefined;
 }
 export interface ListAccountModelsRequest {
   /** The ID of the target subscription. */
@@ -10346,11 +10346,11 @@ function __c12(j: number): any {
         S.StructWithRest(
           S.Struct({
             qnaRuntimeEndpoint: S.optional(S.String),
-            qnaAzureSearchEndpointKey: S.optional(S.String),
+            qnaAzureSearchEndpointKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
             qnaAzureSearchEndpointId: S.optional(S.String),
             statisticsEnabled: S.optional(S.Boolean),
-            eventHubConnectionString: S.optional(S.String),
-            storageAccountConnectionString: S.optional(S.String),
+            eventHubConnectionString: S.optional(S.String.pipe(T.SensitiveValue({}))),
+            storageAccountConnectionString: S.optional(S.String.pipe(T.SensitiveValue({}))),
             aadClientId: S.optional(S.String),
             aadTenantId: S.optional(S.String),
             superUser: S.optional(S.String),
@@ -10362,7 +10362,7 @@ function __c12(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          migrationToken: S.optional(S.String),
+          migrationToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           customSubDomainName: S.optional(S.String),
           networkAcls: S.optional(__S(612, __c19, 4)),
           encryption: S.optional(__S(613, __c19, 5)),
@@ -11010,7 +11010,7 @@ function __c30(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           accountName: S.String.pipe(T.Label()),
           connectionName: S.String.pipe(T.Label()),
-          properties: __S(1010, __c31, 18),
+          properties: __S(1011, __c31, 19),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -11067,7 +11067,7 @@ function __c31(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          key: S.optional(S.String),
+          key: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "ConnectionAccountKey" });
     case 4:
@@ -11088,12 +11088,14 @@ function __c31(j: number): any {
         }),
       ).annotate({ identifier: "AccountKeyAuthTypeConnectionPropertiesInput" });
     case 5:
+      return S.Record(S.String, /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.SensitiveValue({})));
+    case 6:
       return S.suspend(() =>
         S.Struct({
-          keys: S.optional(__S(64, __c2, 0)),
+          keys: S.optional(__S(997, __c31, 5)),
         }),
       ).annotate({ identifier: "CustomKeys" });
-    case 6:
+    case 7:
       return S.suspend(() =>
         S.Struct({
           authType: S.String,
@@ -11107,10 +11109,10 @@ function __c31(j: number): any {
           sharedUserList: S.optional(__S(128, __c4, 0)),
           target: S.optional(S.String),
           useWorkspaceManagedIdentity: S.optional(S.Boolean),
-          credentials: S.optional(__S(997, __c31, 5)),
+          credentials: S.optional(__S(998, __c31, 6)),
         }),
       ).annotate({ identifier: "CustomKeysConnectionPropertiesInput" });
-    case 7:
+    case 8:
       return S.suspend(() =>
         S.Struct({
           authType: S.String,
@@ -11127,66 +11129,66 @@ function __c31(j: number): any {
           credentials: S.optional(__S(1024, __c32, 0)),
         }),
       ).annotate({ identifier: "ManagedIdentityAuthTypeConnectionPropertiesInput" });
-    case 8:
+    case 9:
       return S.suspend(() =>
         S.Struct({
           authUrl: S.optional(S.String),
           clientId: S.optional(S.String),
           clientSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          developerToken: S.optional(S.String),
+          developerToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           password: S.optional(S.String.pipe(T.SensitiveValue({}))),
           refreshToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           tenantId: S.optional(S.String),
           username: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConnectionOAuth2" });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          authType: S.String,
-          category: S.optional(S.String),
-          error: S.optional(S.String),
-          expiryTime: S.optional(S.String),
-          isSharedToAll: S.optional(S.Boolean),
-          metadata: S.optional(__S(64, __c2, 0)),
-          peRequirement: S.optional(S.String),
-          peStatus: S.optional(S.String),
-          sharedUserList: S.optional(__S(128, __c4, 0)),
-          target: S.optional(S.String),
-          useWorkspaceManagedIdentity: S.optional(S.Boolean),
-          credentials: S.optional(__S(1000, __c31, 8)),
-        }),
-      ).annotate({ identifier: "OAuth2AuthTypeConnectionPropertiesInput" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          pat: S.optional(S.String),
+          authType: S.String,
+          category: S.optional(S.String),
+          error: S.optional(S.String),
+          expiryTime: S.optional(S.String),
+          isSharedToAll: S.optional(S.Boolean),
+          metadata: S.optional(__S(64, __c2, 0)),
+          peRequirement: S.optional(S.String),
+          peStatus: S.optional(S.String),
+          sharedUserList: S.optional(__S(128, __c4, 0)),
+          target: S.optional(S.String),
+          useWorkspaceManagedIdentity: S.optional(S.Boolean),
+          credentials: S.optional(__S(1001, __c31, 9)),
         }),
-      ).annotate({ identifier: "ConnectionPersonalAccessToken" });
+      ).annotate({ identifier: "OAuth2AuthTypeConnectionPropertiesInput" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          authType: S.String,
-          category: S.optional(S.String),
-          error: S.optional(S.String),
-          expiryTime: S.optional(S.String),
-          isSharedToAll: S.optional(S.Boolean),
-          metadata: S.optional(__S(64, __c2, 0)),
-          peRequirement: S.optional(S.String),
-          peStatus: S.optional(S.String),
-          sharedUserList: S.optional(__S(128, __c4, 0)),
-          target: S.optional(S.String),
-          useWorkspaceManagedIdentity: S.optional(S.Boolean),
-          credentials: S.optional(__S(1002, __c31, 10)),
+          pat: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
-      ).annotate({ identifier: "PATAuthTypeConnectionPropertiesInput" });
+      ).annotate({ identifier: "ConnectionPersonalAccessToken" });
     case 12:
       return S.suspend(() =>
         S.Struct({
-          sas: S.optional(S.String),
+          authType: S.String,
+          category: S.optional(S.String),
+          error: S.optional(S.String),
+          expiryTime: S.optional(S.String),
+          isSharedToAll: S.optional(S.Boolean),
+          metadata: S.optional(__S(64, __c2, 0)),
+          peRequirement: S.optional(S.String),
+          peStatus: S.optional(S.String),
+          sharedUserList: S.optional(__S(128, __c4, 0)),
+          target: S.optional(S.String),
+          useWorkspaceManagedIdentity: S.optional(S.Boolean),
+          credentials: S.optional(__S(1003, __c31, 11)),
+        }),
+      ).annotate({ identifier: "PATAuthTypeConnectionPropertiesInput" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          sas: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "ConnectionSharedAccessSignature" });
-    case 13:
+    case 14:
       return S.suspend(() =>
         S.Struct({
           authType: S.String,
@@ -11200,10 +11202,10 @@ function __c31(j: number): any {
           sharedUserList: S.optional(__S(128, __c4, 0)),
           target: S.optional(S.String),
           useWorkspaceManagedIdentity: S.optional(S.Boolean),
-          credentials: S.optional(__S(1004, __c31, 12)),
+          credentials: S.optional(__S(1005, __c31, 13)),
         }),
       ).annotate({ identifier: "SASAuthTypeConnectionPropertiesInput" });
-    case 14:
+    case 15:
       return S.suspend(() =>
         S.Struct({
           clientId: S.optional(S.String),
@@ -11211,32 +11213,32 @@ function __c31(j: number): any {
           tenantId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConnectionServicePrincipal" });
-    case 15:
-      return S.suspend(() =>
-        S.Struct({
-          authType: S.String,
-          category: S.optional(S.String),
-          error: S.optional(S.String),
-          expiryTime: S.optional(S.String),
-          isSharedToAll: S.optional(S.Boolean),
-          metadata: S.optional(__S(64, __c2, 0)),
-          peRequirement: S.optional(S.String),
-          peStatus: S.optional(S.String),
-          sharedUserList: S.optional(__S(128, __c4, 0)),
-          target: S.optional(S.String),
-          useWorkspaceManagedIdentity: S.optional(S.Boolean),
-          credentials: S.optional(__S(1006, __c31, 14)),
-        }),
-      ).annotate({ identifier: "ServicePrincipalAuthTypeConnectionPropertiesInput" });
     case 16:
       return S.suspend(() =>
         S.Struct({
+          authType: S.String,
+          category: S.optional(S.String),
+          error: S.optional(S.String),
+          expiryTime: S.optional(S.String),
+          isSharedToAll: S.optional(S.Boolean),
+          metadata: S.optional(__S(64, __c2, 0)),
+          peRequirement: S.optional(S.String),
+          peStatus: S.optional(S.String),
+          sharedUserList: S.optional(__S(128, __c4, 0)),
+          target: S.optional(S.String),
+          useWorkspaceManagedIdentity: S.optional(S.Boolean),
+          credentials: S.optional(__S(1007, __c31, 15)),
+        }),
+      ).annotate({ identifier: "ServicePrincipalAuthTypeConnectionPropertiesInput" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
           password: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          securityToken: S.optional(S.String),
+          securityToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           username: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConnectionUsernamePassword" });
-    case 17:
+    case 18:
       return S.suspend(() =>
         S.Struct({
           authType: S.String,
@@ -11250,23 +11252,23 @@ function __c31(j: number): any {
           sharedUserList: S.optional(__S(128, __c4, 0)),
           target: S.optional(S.String),
           useWorkspaceManagedIdentity: S.optional(S.Boolean),
-          credentials: S.optional(__S(1008, __c31, 16)),
+          credentials: S.optional(__S(1009, __c31, 17)),
         }),
       ).annotate({ identifier: "UsernamePasswordAuthTypeConnectionPropertiesInput" });
-    case 18:
+    case 19:
       return S.Union([
         __S(992, __c31, 0),
         __S(994, __c31, 2),
         __S(996, __c31, 4),
         __S(996, __c31, 4),
-        __S(998, __c31, 6),
         __S(999, __c31, 7),
+        __S(1000, __c31, 8),
         __S(992, __c31, 0),
-        __S(1001, __c31, 9),
-        __S(1003, __c31, 11),
-        __S(1005, __c31, 13),
-        __S(1007, __c31, 15),
-        __S(1009, __c31, 17),
+        __S(1002, __c31, 10),
+        __S(1004, __c31, 12),
+        __S(1006, __c31, 14),
+        __S(1008, __c31, 16),
+        __S(1010, __c31, 18),
       ]);
   }
 }
@@ -12188,7 +12190,7 @@ function __c61(j: number): any {
           accountName: S.String.pipe(T.Label()),
           projectName: S.String.pipe(T.Label()),
           connectionName: S.String.pipe(T.Label()),
-          properties: __S(1010, __c31, 18),
+          properties: __S(1011, __c31, 19),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -12403,7 +12405,7 @@ function __c71(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           accountName: S.String.pipe(T.Label()),
           connectionName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1010, __c31, 18)),
+          properties: S.optional(__S(1011, __c31, 19)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -12605,7 +12607,7 @@ function __c78(j: number): any {
           accountName: S.String.pipe(T.Label()),
           projectName: S.String.pipe(T.Label()),
           connectionName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1010, __c31, 18)),
+          properties: S.optional(__S(1011, __c31, 19)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -14771,7 +14773,7 @@ function __c166(j: number): any {
         S.Struct({
           operation: S.String,
           name: S.String,
-          value: S.optional(S.String),
+          value: S.optional(S.String.pipe(T.SensitiveValue({}))),
           valueRef: S.optional(__S(5321, __c166, 9)),
         }),
       ).annotate({ identifier: "RaiEgressHeaderTransform" });
@@ -15209,8 +15211,8 @@ function __c184(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          key1: S.optional(S.String),
-          key2: S.optional(S.String),
+          key1: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          key2: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "ApiKeys" });
   }
