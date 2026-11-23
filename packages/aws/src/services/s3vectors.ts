@@ -174,8 +174,28 @@ export type Dimension = number;
 export type DistanceMetric = "euclidean" | "cosine" | (string & {});
 export type MetadataKey = string;
 export type NonFilterableMetadataKeys = string[];
+export type LanguageCode =
+  | "en"
+  | "fr"
+  | "es"
+  | "pt"
+  | "it"
+  | "de"
+  | "nl"
+  | "zh"
+  | "ja"
+  | "ko"
+  | (string & {});
+export type AnalyzerStatus = "ACTIVE" | "BUILDING" | (string & {});
+export interface TextSearchConfiguration {
+  metadataKey: string;
+  language?: LanguageCode | undefined;
+  status?: AnalyzerStatus | undefined;
+}
+export type TextSearchConfigurations = TextSearchConfiguration[];
 export interface MetadataConfiguration {
-  nonFilterableMetadataKeys: string[];
+  nonFilterableMetadataKeys?: string[] | undefined;
+  textSearchConfigurations?: TextSearchConfiguration[] | undefined;
 }
 export type SseType = "AES256" | "aws:kms" | (string & {});
 export type KmsKeyArn = string;
@@ -395,21 +415,40 @@ export interface PutVectorsInput {
 }
 export interface PutVectorsOutput {}
 export type TopK = number;
+export type QueryTextString = string;
+export interface QueryText {
+  text: string;
+  metadataKey: string;
+}
+export type QueryTextList = QueryText[];
 export type QueryVectorsNextToken = string;
 export interface QueryVectorsInput {
   vectorBucketName?: string | undefined;
   indexName?: string | undefined;
   indexArn?: string | undefined;
   topK: number;
-  queryVector: VectorData;
+  queryVector?: VectorData | undefined;
   filter?: any | undefined;
   queryMode?: IndexMode | undefined;
   returnMetadata?: boolean | undefined;
   returnDistance?: boolean | undefined;
+  queryTexts?: QueryText[] | undefined;
+  returnScores?: boolean | undefined;
   nextToken?: string | undefined;
+}
+export interface Bm25Score {
+  metadataKey: string;
+  score: number;
+}
+export type Bm25ScoreList = Bm25Score[];
+export interface QueryScores {
+  fused?: number | undefined;
+  bm25Scores?: Bm25Score[] | undefined;
+  vectorDistance?: number | undefined;
 }
 export interface QueryOutputVector {
   distance?: number | undefined;
+  scores?: QueryScores | undefined;
   key: string;
   metadata?: any | undefined;
 }
@@ -437,6 +476,26 @@ export interface UpdateIndexModeInput {
   indexMode: IndexMode;
 }
 export interface UpdateIndexModeOutput {}
+export interface MetadataConfigurationAdd {
+  textSearchConfigurations?: TextSearchConfiguration[] | undefined;
+}
+export interface TextSearchConfigurationKey {
+  metadataKey: string;
+}
+export type TextSearchConfigurationKeys = TextSearchConfigurationKey[];
+export interface MetadataConfigurationDelete {
+  textSearchConfigurations?: TextSearchConfigurationKey[] | undefined;
+}
+export interface UpdateMetadataConfigurationInput {
+  vectorBucketName?: string | undefined;
+  indexName?: string | undefined;
+  indexArn?: string | undefined;
+  add?: MetadataConfigurationAdd | undefined;
+  delete?: MetadataConfigurationDelete | undefined;
+}
+export interface UpdateMetadataConfigurationOutput {
+  indexArn: string;
+}
 export type ExceptionMessage = string;
 export interface ValidationExceptionField {
   path: string;
@@ -469,8 +528,8 @@ export const createIndex: API.OperationMethod<
   CreateIndexError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4, __c1, 0) as any as S.Schema<CreateIndexInput>,
-  output: __S(5, __c1, 1) as any as S.Schema<CreateIndexOutput>,
+  input: __S(16, __c1, 0) as any as S.Schema<CreateIndexInput>,
+  output: __S(112, __c7, 0) as any as S.Schema<CreateIndexOutput>,
   errors: [
     ConflictException,
     NotFoundException,
@@ -516,8 +575,8 @@ export const createVectorBucket: API.OperationMethod<
   CreateVectorBucketError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c6, 0) as any as S.Schema<CreateVectorBucketInput>,
-  output: __S(25, __c6, 1) as any as S.Schema<CreateVectorBucketOutput>,
+  input: __S(128, __c8, 0) as any as S.Schema<CreateVectorBucketInput>,
+  output: __S(129, __c8, 1) as any as S.Schema<CreateVectorBucketOutput>,
   errors: [ConflictException, ServiceQuotaExceededException, ServiceUnavailableException],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -555,8 +614,8 @@ export const deleteIndex: API.OperationMethod<
   DeleteIndexError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28, __c7, 0) as any as S.Schema<DeleteIndexInput>,
-  output: __S(32, __c8, 0) as any as S.Schema<DeleteIndexOutput>,
+  input: __S(144, __c9, 0) as any as S.Schema<DeleteIndexInput>,
+  output: __S(160, __c10, 0) as any as S.Schema<DeleteIndexOutput>,
   errors: [NotFoundException, ServiceUnavailableException],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -595,8 +654,8 @@ export const deleteVectorBucket: API.OperationMethod<
   DeleteVectorBucketError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36, __c9, 0) as any as S.Schema<DeleteVectorBucketInput>,
-  output: __S(32, __c8, 0) as any as S.Schema<DeleteVectorBucketOutput>,
+  input: __S(176, __c11, 0) as any as S.Schema<DeleteVectorBucketInput>,
+  output: __S(160, __c10, 0) as any as S.Schema<DeleteVectorBucketOutput>,
   errors: [ConflictException, NotFoundException, ServiceUnavailableException],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -634,8 +693,8 @@ export const deleteVectorBucketPolicy: API.OperationMethod<
   DeleteVectorBucketPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c10, 0) as any as S.Schema<DeleteVectorBucketPolicyInput>,
-  output: __S(32, __c8, 0) as any as S.Schema<DeleteVectorBucketPolicyOutput>,
+  input: __S(192, __c12, 0) as any as S.Schema<DeleteVectorBucketPolicyInput>,
+  output: __S(160, __c10, 0) as any as S.Schema<DeleteVectorBucketPolicyOutput>,
   errors: [NotFoundException, ServiceUnavailableException],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -677,8 +736,8 @@ export const deleteVectors: API.OperationMethod<
   DeleteVectorsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(44, __c11, 0) as any as S.Schema<DeleteVectorsInput>,
-  output: __S(32, __c8, 0) as any as S.Schema<DeleteVectorsOutput>,
+  input: __S(208, __c13, 0) as any as S.Schema<DeleteVectorsInput>,
+  output: __S(160, __c10, 0) as any as S.Schema<DeleteVectorsOutput>,
   errors: [
     KmsDisabledException,
     KmsInvalidKeyUsageException,
@@ -723,8 +782,8 @@ export const getIndex: API.OperationMethod<
   GetIndexError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c12, 0) as any as S.Schema<GetIndexInput>,
-  output: __S(50, __c12, 2) as any as S.Schema<GetIndexOutput>,
+  input: __S(224, __c14, 0) as any as S.Schema<GetIndexInput>,
+  output: __S(226, __c14, 2) as any as S.Schema<GetIndexOutput>,
   errors: [NotFoundException, ServiceUnavailableException],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -762,8 +821,8 @@ export const getVectorBucket: API.OperationMethod<
   GetVectorBucketError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(52, __c13, 0) as any as S.Schema<GetVectorBucketInput>,
-  output: __S(54, __c13, 2) as any as S.Schema<GetVectorBucketOutput>,
+  input: __S(240, __c15, 0) as any as S.Schema<GetVectorBucketInput>,
+  output: __S(242, __c15, 2) as any as S.Schema<GetVectorBucketOutput>,
   errors: [NotFoundException, ServiceUnavailableException],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -801,8 +860,8 @@ export const getVectorBucketPolicy: API.OperationMethod<
   GetVectorBucketPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c14, 0) as any as S.Schema<GetVectorBucketPolicyInput>,
-  output: __S(57, __c14, 1) as any as S.Schema<GetVectorBucketPolicyOutput>,
+  input: __S(256, __c16, 0) as any as S.Schema<GetVectorBucketPolicyInput>,
+  output: __S(257, __c16, 1) as any as S.Schema<GetVectorBucketPolicyOutput>,
   errors: [NotFoundException, ServiceUnavailableException],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -844,8 +903,8 @@ export const getVectors: API.OperationMethod<
   GetVectorsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(60, __c15, 0) as any as S.Schema<GetVectorsInput>,
-  output: __S(61, __c15, 1) as any as S.Schema<GetVectorsOutput>,
+  input: __S(272, __c17, 0) as any as S.Schema<GetVectorsInput>,
+  output: __S(273, __c17, 1) as any as S.Schema<GetVectorsOutput>,
   errors: [
     KmsDisabledException,
     KmsInvalidKeyUsageException,
@@ -891,8 +950,8 @@ export const listIndexes: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   IndexSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(72, __c18, 0) as any as S.Schema<ListIndexesInput>,
-  output: __S(75, __c18, 3) as any as S.Schema<ListIndexesOutput>,
+  input: __S(320, __c20, 0) as any as S.Schema<ListIndexesInput>,
+  output: __S(323, __c20, 3) as any as S.Schema<ListIndexesOutput>,
   errors: [NotFoundException, ServiceUnavailableException],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -938,8 +997,8 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(76, __c19, 0) as any as S.Schema<ListTagsForResourceInput>,
-  output: __S(77, __c19, 1) as any as S.Schema<ListTagsForResourceOutput>,
+  input: __S(336, __c21, 0) as any as S.Schema<ListTagsForResourceInput>,
+  output: __S(337, __c21, 1) as any as S.Schema<ListTagsForResourceOutput>,
   errors: [NotFoundException, ServiceUnavailableException],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -977,8 +1036,8 @@ export const listVectorBuckets: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   VectorBucketSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(80, __c20, 0) as any as S.Schema<ListVectorBucketsInput>,
-  output: __S(83, __c20, 3) as any as S.Schema<ListVectorBucketsOutput>,
+  input: __S(352, __c22, 0) as any as S.Schema<ListVectorBucketsInput>,
+  output: __S(355, __c22, 3) as any as S.Schema<ListVectorBucketsOutput>,
   errors: [ServiceUnavailableException],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -1029,8 +1088,8 @@ export const listVectors: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ListOutputVector
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(84, __c21, 0) as any as S.Schema<ListVectorsInput>,
-  output: __S(85, __c21, 1) as any as S.Schema<ListVectorsOutput>,
+  input: __S(368, __c23, 0) as any as S.Schema<ListVectorsInput>,
+  output: __S(369, __c23, 1) as any as S.Schema<ListVectorsOutput>,
   errors: [NotFoundException, ServiceUnavailableException],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -1074,8 +1133,8 @@ export const putVectorBucketDefaultIndexMode: API.OperationMethod<
   PutVectorBucketDefaultIndexModeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c22, 0) as any as S.Schema<PutVectorBucketDefaultIndexModeInput>,
-  output: __S(32, __c8, 0) as any as S.Schema<PutVectorBucketDefaultIndexModeOutput>,
+  input: __S(384, __c24, 0) as any as S.Schema<PutVectorBucketDefaultIndexModeInput>,
+  output: __S(160, __c10, 0) as any as S.Schema<PutVectorBucketDefaultIndexModeOutput>,
   errors: [NotFoundException, ServiceUnavailableException],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -1113,8 +1172,8 @@ export const putVectorBucketPolicy: API.OperationMethod<
   PutVectorBucketPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(92, __c23, 0) as any as S.Schema<PutVectorBucketPolicyInput>,
-  output: __S(32, __c8, 0) as any as S.Schema<PutVectorBucketPolicyOutput>,
+  input: __S(400, __c25, 0) as any as S.Schema<PutVectorBucketPolicyInput>,
+  output: __S(160, __c10, 0) as any as S.Schema<PutVectorBucketPolicyOutput>,
   errors: [NotFoundException, ServiceUnavailableException],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -1161,8 +1220,8 @@ export const putVectors: API.OperationMethod<
   PutVectorsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(98, __c24, 2) as any as S.Schema<PutVectorsInput>,
-  output: __S(32, __c8, 0) as any as S.Schema<PutVectorsOutput>,
+  input: __S(418, __c26, 2) as any as S.Schema<PutVectorsInput>,
+  output: __S(160, __c10, 0) as any as S.Schema<PutVectorsOutput>,
   errors: [
     KmsDisabledException,
     KmsInvalidKeyUsageException,
@@ -1200,7 +1259,9 @@ export type QueryVectorsError =
   | ValidationException
   | CommonErrors;
 /**
- * Performs an approximate nearest neighbor search query in a vector index using a query vector. By default, it returns the keys of approximate nearest neighbors. You can optionally include the computed distance (between the query vector and each vector in the response) and metadata of each vector in the response.
+ * Returns matching vector keys from a vector index ranked by vector similarity, full-text relevance, or both. Specify `queryVector` to perform a vector search, specify `queryTexts` to perform a full-text search, or specify both to perform a hybrid search. Full-text search ranks results using BM25. Hybrid search combines the vector and full-text rankings using Reciprocal Rank Fusion (RRF).
+ *
+ * Amazon S3 Vectors ranks results by distance for a vector-only search, by BM25 score for a full-text-only search, and by RRF score for a hybrid search. You can optionally include computed distances, relevance scores, and vector metadata in the response. Full-text and hybrid searches require a vector index in `ENHANCED` mode.
  *
  * To specify the vector index, you can either use both the vector bucket name and the vector index name, or use the vector index Amazon Resource Name (ARN).
  *
@@ -1208,9 +1269,9 @@ export type QueryVectorsError =
  *
  * You must have the `s3vectors:QueryVectors` permission to use this operation. Additional permissions are required based on the request parameters you specify:
  *
- * - With only `s3vectors:QueryVectors` permission, you can retrieve vector keys of approximate nearest neighbors and computed distances between these vectors. This permission is sufficient only when you don't set any metadata filters and don't request metadata (by keeping the `returnMetadata` parameter set to `false` or not specified).
+ * - With only `s3vectors:QueryVectors` permission, you can retrieve vector keys of approximate nearest neighbors and computed distances between these vectors. This permission is sufficient only when you don't set `queryTexts`, don't set any metadata filters, and don't request metadata (by keeping the `returnMetadata` parameter set to `false` or not specified).
  *
- * - If you specify a metadata filter or set `returnMetadata` to true, you must have both `s3vectors:QueryVectors` and `s3vectors:GetVectors` permissions. The request fails with a `403 Forbidden error` if you request metadata filtering or metadata without the `s3vectors:GetVectors` permission.
+ * - To use `queryTexts`, a metadata filter, or `returnMetadata` set to `true` with this operation, you must have both the `s3vectors:QueryVectors` and `s3vectors:GetVectors` permissions. If you use any of these options without the `s3vectors:GetVectors` permission, Amazon S3 Vectors returns an `AccessDeniedException`.
  */
 export const queryVectors: API.PaginatedOperationMethod<
   QueryVectorsInput & RegionInput,
@@ -1219,8 +1280,8 @@ export const queryVectors: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   QueryOutputVector
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(100, __c25, 0) as any as S.Schema<QueryVectorsInput>,
-  output: __S(103, __c25, 3) as any as S.Schema<QueryVectorsOutput>,
+  input: __S(434, __c27, 2) as any as S.Schema<QueryVectorsInput>,
+  output: __S(440, __c27, 8) as any as S.Schema<QueryVectorsOutput>,
   errors: [
     KmsDisabledException,
     KmsInvalidKeyUsageException,
@@ -1269,8 +1330,8 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c26, 0) as any as S.Schema<TagResourceInput>,
-  output: __S(32, __c8, 0) as any as S.Schema<TagResourceOutput>,
+  input: __S(448, __c28, 0) as any as S.Schema<TagResourceInput>,
+  output: __S(160, __c10, 0) as any as S.Schema<TagResourceOutput>,
   errors: [ConflictException, NotFoundException, ServiceUnavailableException],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -1311,8 +1372,8 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(108, __c27, 0) as any as S.Schema<UntagResourceInput>,
-  output: __S(32, __c8, 0) as any as S.Schema<UntagResourceOutput>,
+  input: __S(464, __c29, 0) as any as S.Schema<UntagResourceInput>,
+  output: __S(160, __c10, 0) as any as S.Schema<UntagResourceOutput>,
   errors: [ConflictException, NotFoundException, ServiceUnavailableException],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -1350,8 +1411,8 @@ export const updateIndexMode: API.OperationMethod<
   UpdateIndexModeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c28, 0) as any as S.Schema<UpdateIndexModeInput>,
-  output: __S(32, __c8, 0) as any as S.Schema<UpdateIndexModeOutput>,
+  input: __S(480, __c30, 0) as any as S.Schema<UpdateIndexModeInput>,
+  output: __S(160, __c10, 0) as any as S.Schema<UpdateIndexModeOutput>,
   errors: [NotFoundException, ServiceUnavailableException],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -1365,6 +1426,46 @@ export const updateIndexMode: API.OperationMethod<
   operationName: "UpdateIndexMode",
   telemetry: TELEMETRY,
   span: "UpdateIndexMode",
+}));
+
+export type UpdateMetadataConfigurationError =
+  | ConflictException
+  | NotFoundException
+  | ServiceUnavailableException
+  | AccessDeniedException
+  | InternalServerException
+  | RequestTimeoutException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Adds or deletes text search configurations on a vector index. Specify either `add` or `delete`, but not both. The vector index must be in `ENHANCED` mode.
+ *
+ * ### Permissions
+ *
+ * You must have the `s3vectors:UpdateMetadataConfiguration` permission to use this operation.
+ */
+export const updateMetadataConfiguration: API.OperationMethod<
+  UpdateMetadataConfigurationInput & RegionInput,
+  UpdateMetadataConfigurationOutput,
+  UpdateMetadataConfigurationError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(500, __c31, 4) as any as S.Schema<UpdateMetadataConfigurationInput>,
+  output: __S(112, __c7, 0) as any as S.Schema<UpdateMetadataConfigurationOutput>,
+  errors: [ConflictException, NotFoundException, ServiceUnavailableException],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    InternalServerException,
+    RequestTimeoutException,
+    TooManyRequestsException,
+    ValidationException,
+  ),
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "UpdateMetadataConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateMetadataConfiguration",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
@@ -1389,17 +1490,13 @@ function __c1(j: number): any {
           dataType: S.String,
           dimension: S.Number,
           distanceMetric: S.String,
-          metadataConfiguration: S.optional(__S(20, __c5, 0)),
-          encryptionConfiguration: S.optional(__S(8, __c2, 0)),
-          tags: S.optional(__S(12, __c3, 0)),
+          metadataConfiguration: S.optional(__S(80, __c5, 0)),
+          encryptionConfiguration: S.optional(__S(32, __c2, 0)),
+          tags: S.optional(__S(48, __c3, 0)),
         }).pipe(
           T.all(T.Http({ method: "POST", uri: "/CreateIndex" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "CreateIndexInput" });
-    case 1:
-      return S.suspend(() => S.Struct({ indexArn: S.optional(S.String) })).annotate({
-        identifier: "CreateIndexOutput",
-      });
   }
 }
 function __c2(j: number): any {
@@ -1425,9 +1522,12 @@ function __c4(j: number): any {
 function __c5(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ nonFilterableMetadataKeys: __S(16, __c4, 0) })).annotate({
-        identifier: "MetadataConfiguration",
-      });
+      return S.suspend(() =>
+        S.Struct({
+          nonFilterableMetadataKeys: S.optional(__S(64, __c4, 0)),
+          textSearchConfigurations: S.optional(__S(97, __c6, 1)),
+        }),
+      ).annotate({ identifier: "MetadataConfiguration" });
   }
 }
 function __c6(j: number): any {
@@ -1435,9 +1535,31 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          metadataKey: S.String,
+          language: S.optional(S.String),
+          status: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TextSearchConfiguration" });
+    case 1:
+      return S.Array(__S(96, __c6, 0));
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ indexArn: S.optional(S.String) })).annotate({
+        identifier: "CreateIndexOutput",
+      });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           vectorBucketName: S.String,
-          encryptionConfiguration: S.optional(__S(8, __c2, 0)),
-          tags: S.optional(__S(12, __c3, 0)),
+          encryptionConfiguration: S.optional(__S(32, __c2, 0)),
+          tags: S.optional(__S(48, __c3, 0)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/CreateVectorBucket" }),
@@ -1455,7 +1577,7 @@ function __c6(j: number): any {
       });
   }
 }
-function __c7(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1469,13 +1591,13 @@ function __c7(j: number): any {
       ).annotate({ identifier: "DeleteIndexInput" });
   }
 }
-function __c8(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteIndexOutput" });
   }
 }
-function __c9(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1495,7 +1617,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "DeleteVectorBucketInput" });
   }
 }
-function __c10(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1515,7 +1637,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "DeleteVectorBucketPolicyInput" });
   }
 }
-function __c11(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1523,14 +1645,14 @@ function __c11(j: number): any {
           vectorBucketName: S.optional(S.String),
           indexName: S.optional(S.String),
           indexArn: S.optional(S.String),
-          keys: __S(16, __c4, 0),
+          keys: __S(64, __c4, 0),
         }).pipe(
           T.all(T.Http({ method: "POST", uri: "/DeleteVectors" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "DeleteVectorsInput" });
   }
 }
-function __c12(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1550,18 +1672,18 @@ function __c12(j: number): any {
           dataType: S.String,
           dimension: S.Number,
           distanceMetric: S.String,
-          metadataConfiguration: S.optional(__S(20, __c5, 0)),
-          encryptionConfiguration: S.optional(__S(8, __c2, 0)),
+          metadataConfiguration: S.optional(__S(80, __c5, 0)),
+          encryptionConfiguration: S.optional(__S(32, __c2, 0)),
           indexMode: S.optional(S.String),
         }),
       ).annotate({ identifier: "Index" });
     case 2:
-      return S.suspend(() => S.Struct({ index: __S(49, __c12, 1) })).annotate({
+      return S.suspend(() => S.Struct({ index: __S(225, __c14, 1) })).annotate({
         identifier: "GetIndexOutput",
       });
   }
 }
-function __c13(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1578,17 +1700,17 @@ function __c13(j: number): any {
           vectorBucketName: S.String,
           vectorBucketArn: S.String,
           creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-          encryptionConfiguration: S.optional(__S(8, __c2, 0)),
+          encryptionConfiguration: S.optional(__S(32, __c2, 0)),
           defaultIndexMode: S.optional(S.String),
         }),
       ).annotate({ identifier: "VectorBucket" });
     case 2:
-      return S.suspend(() => S.Struct({ vectorBucket: __S(53, __c13, 1) })).annotate({
+      return S.suspend(() => S.Struct({ vectorBucket: __S(241, __c15, 1) })).annotate({
         identifier: "GetVectorBucketOutput",
       });
   }
 }
-function __c14(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1612,7 +1734,7 @@ function __c14(j: number): any {
       });
   }
 }
-function __c15(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1620,7 +1742,7 @@ function __c15(j: number): any {
           vectorBucketName: S.optional(S.String),
           indexName: S.optional(S.String),
           indexArn: S.optional(S.String),
-          keys: __S(16, __c4, 0),
+          keys: __S(64, __c4, 0),
           returnData: S.optional(S.Boolean),
           returnMetadata: S.optional(S.Boolean),
         }).pipe(
@@ -1628,34 +1750,34 @@ function __c15(j: number): any {
         ),
       ).annotate({ identifier: "GetVectorsInput" });
     case 1:
-      return S.suspend(() => S.Struct({ vectors: __S(65, __c16, 1) })).annotate({
+      return S.suspend(() => S.Struct({ vectors: __S(289, __c18, 1) })).annotate({
         identifier: "GetVectorsOutput",
       });
   }
 }
-function __c16(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           key: S.String,
-          data: S.optional(__S(69, __c17, 1)),
+          data: S.optional(__S(305, __c19, 1)),
           metadata: S.optional(S.Any),
         }),
       ).annotate({ identifier: "GetOutputVector" });
     case 1:
-      return S.Array(__S(64, __c16, 0));
+      return S.Array(__S(288, __c18, 0));
   }
 }
-function __c17(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Number);
     case 1:
-      return S.Union([/*@__PURE__*/ S.Struct({ float32: __S(68, __c17, 0) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ float32: __S(304, __c19, 0) })]);
   }
 }
-function __c18(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1679,14 +1801,14 @@ function __c18(j: number): any {
         }),
       ).annotate({ identifier: "IndexSummary" });
     case 2:
-      return S.Array(__S(73, __c18, 1));
+      return S.Array(__S(321, __c20, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ nextToken: S.optional(S.String), indexes: __S(74, __c18, 2) }),
+        S.Struct({ nextToken: S.optional(S.String), indexes: __S(322, __c20, 2) }),
       ).annotate({ identifier: "ListIndexesOutput" });
   }
 }
-function __c19(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1702,12 +1824,12 @@ function __c19(j: number): any {
         ),
       ).annotate({ identifier: "ListTagsForResourceInput" });
     case 1:
-      return S.suspend(() => S.Struct({ tags: __S(12, __c3, 0) })).annotate({
+      return S.suspend(() => S.Struct({ tags: __S(48, __c3, 0) })).annotate({
         identifier: "ListTagsForResourceOutput",
       });
   }
 }
-function __c20(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1735,14 +1857,14 @@ function __c20(j: number): any {
         }),
       ).annotate({ identifier: "VectorBucketSummary" });
     case 2:
-      return S.Array(__S(81, __c20, 1));
+      return S.Array(__S(353, __c22, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ nextToken: S.optional(S.String), vectorBuckets: __S(82, __c20, 2) }),
+        S.Struct({ nextToken: S.optional(S.String), vectorBuckets: __S(354, __c22, 2) }),
       ).annotate({ identifier: "ListVectorBucketsOutput" });
   }
 }
-function __c21(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1762,11 +1884,11 @@ function __c21(j: number): any {
       ).annotate({ identifier: "ListVectorsInput" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ nextToken: S.optional(S.String), vectors: __S(65, __c16, 1) }),
+        S.Struct({ nextToken: S.optional(S.String), vectors: __S(289, __c18, 1) }),
       ).annotate({ identifier: "ListVectorsOutput" });
   }
 }
-function __c22(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1787,7 +1909,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "PutVectorBucketDefaultIndexModeInput" });
   }
 }
-function __c23(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1808,69 +1930,96 @@ function __c23(j: number): any {
       ).annotate({ identifier: "PutVectorBucketPolicyInput" });
   }
 }
-function __c24(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ key: S.String, data: __S(69, __c17, 1), metadata: S.optional(S.Any) }),
+        S.Struct({ key: S.String, data: __S(305, __c19, 1), metadata: S.optional(S.Any) }),
       ).annotate({ identifier: "PutInputVector" });
     case 1:
-      return S.Array(__S(96, __c24, 0));
+      return S.Array(__S(416, __c26, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           vectorBucketName: S.optional(S.String),
           indexName: S.optional(S.String),
           indexArn: S.optional(S.String),
-          vectors: __S(97, __c24, 1),
+          vectors: __S(417, __c26, 1),
         }).pipe(
           T.all(T.Http({ method: "POST", uri: "/PutVectors" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "PutVectorsInput" });
   }
 }
-function __c25(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() => S.Struct({ text: S.String, metadataKey: S.String })).annotate({
+        identifier: "QueryText",
+      });
+    case 1:
+      return S.Array(__S(432, __c27, 0));
+    case 2:
       return S.suspend(() =>
         S.Struct({
           vectorBucketName: S.optional(S.String),
           indexName: S.optional(S.String),
           indexArn: S.optional(S.String),
           topK: S.Number,
-          queryVector: __S(69, __c17, 1),
+          queryVector: S.optional(__S(305, __c19, 1)),
           filter: S.optional(S.Any),
           queryMode: S.optional(S.String),
           returnMetadata: S.optional(S.Boolean),
           returnDistance: S.optional(S.Boolean),
+          queryTexts: S.optional(__S(433, __c27, 1)),
+          returnScores: S.optional(S.Boolean),
           nextToken: S.optional(S.String),
         }).pipe(
           T.all(T.Http({ method: "POST", uri: "/QueryVectors" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "QueryVectorsInput" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({ distance: S.optional(S.Number), key: S.String, metadata: S.optional(S.Any) }),
-      ).annotate({ identifier: "QueryOutputVector" });
-    case 2:
-      return S.Array(__S(101, __c25, 1));
     case 3:
+      return S.suspend(() => S.Struct({ metadataKey: S.String, score: S.Number })).annotate({
+        identifier: "Bm25Score",
+      });
+    case 4:
+      return S.Array(__S(435, __c27, 3));
+    case 5:
       return S.suspend(() =>
         S.Struct({
-          vectors: __S(102, __c25, 2),
+          fused: S.optional(S.Number),
+          bm25Scores: S.optional(__S(436, __c27, 4)),
+          vectorDistance: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "QueryScores" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          distance: S.optional(S.Number),
+          scores: S.optional(__S(437, __c27, 5)),
+          key: S.String,
+          metadata: S.optional(S.Any),
+        }),
+      ).annotate({ identifier: "QueryOutputVector" });
+    case 7:
+      return S.Array(__S(438, __c27, 6));
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          vectors: __S(439, __c27, 7),
           distanceMetric: S.optional(S.String),
           nextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "QueryVectorsOutput" });
   }
 }
-function __c26(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-          tags: __S(12, __c3, 0),
+          tags: __S(48, __c3, 0),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
@@ -1884,13 +2033,13 @@ function __c26(j: number): any {
       ).annotate({ identifier: "TagResourceInput" });
   }
 }
-function __c27(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-          tagKeys: __S(16, __c4, 0).pipe(T.HttpQuery("tagKeys")),
+          tagKeys: __S(64, __c4, 0).pipe(T.HttpQuery("tagKeys")),
         }).pipe(
           T.all(
             T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
@@ -1904,7 +2053,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "UntagResourceInput" });
   }
 }
-function __c28(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1917,6 +2066,43 @@ function __c28(j: number): any {
           T.all(T.Http({ method: "POST", uri: "/UpdateIndexMode" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "UpdateIndexModeInput" });
+  }
+}
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ textSearchConfigurations: S.optional(__S(97, __c6, 1)) }),
+      ).annotate({ identifier: "MetadataConfigurationAdd" });
+    case 1:
+      return S.suspend(() => S.Struct({ metadataKey: S.String })).annotate({
+        identifier: "TextSearchConfigurationKey",
+      });
+    case 2:
+      return S.Array(__S(497, __c31, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ textSearchConfigurations: S.optional(__S(498, __c31, 2)) }),
+      ).annotate({ identifier: "MetadataConfigurationDelete" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          vectorBucketName: S.optional(S.String),
+          indexName: S.optional(S.String),
+          indexArn: S.optional(S.String),
+          add: S.optional(__S(496, __c31, 0)),
+          delete: S.optional(__S(499, __c31, 3)),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/UpdateMetadataConfiguration" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UpdateMetadataConfigurationInput" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

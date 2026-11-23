@@ -68,6 +68,6 @@ Storage triggers use `type: "storage_object_created"` and `storage_object_create
 
 ## Storage
 
-Management operations configure branch buckets and presigned object requests. Presigned URLs are redacted; unwrap them only where needed for the request. Object downloads return `Uint8Array`, preserving binary contents. The protocol does not forward account authorization when following cross-origin download redirects.
+Management operations configure branch buckets and presigned object requests. Presigned URLs are redacted; unwrap them only where needed for the request. Object downloads return `{ body, contentType }`: the bytes as a `Uint8Array`, preserving binary contents, and the response's `Content-Type`. The protocol does not forward account authorization when following cross-origin download redirects.
 
 For direct S3 clients, Neon credentials are branch-lineage scoped. `storage:read` grants reads and `storage:write` grants reads and writes; neither is a bucket- or object-specific policy. Use Neon's branch-specific S3 endpoint with path-style addressing.

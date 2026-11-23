@@ -7,6 +7,10 @@
  * token, issued per account via `accessTokens.issueAccessToken` or
  * the S2 dashboard.
  *
+ * A layer here reads and checks its configuration when it is built
+ * ({@link check}): a missing token or a basin that can't be a host name is
+ * a `ConfigError` at setup, and no call fails for it.
+ *
  * S2 speaks from TWO endpoints: account-level operations (basins, access
  * tokens, locations, metrics) go to `https://a.s2.dev/v1`, while stream and
  * record operations go to the basin's own host,
@@ -17,7 +21,9 @@
  * request from the operation's route (see protocol.ts).
  */
 import * as EffectConfig from "@distilled.cloud/core/config";
+import type { Checked } from "@distilled.cloud/core/config";
 import { ConfigError } from "@distilled.cloud/core/errors";
+import { invalidHostLabelConfig } from "@distilled.cloud/core/protocol-http";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
@@ -43,10 +49,32 @@ export interface Config {
   readonly basinBaseUrl: string;
 }
 
+/** What the service resolves: a {@link Config} that passed {@link check}. */
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Checked<Config>>>()(
     "S2Credentials",
   ) {}
+
+/**
+ * Check `config`: fails with `ConfigError` for a basin that can't be a
+ * label of the basin host name. For a `Credentials` layer of your own, for
+ * example one that rotates tokens.
+ */
+export const check = (config: Config): Effect.Effect<Checked<Config>, ConfigError> => {
+  const invalid =
+    config.basin === undefined || config.basin === ""
+      ? undefined
+      : invalidHostLabelConfig("S2 basin", config.basin);
+  // The one place that says a Config is checked.
+  return invalid === undefined ? Effect.succeed(config as Checked<Config>) : Effect.fail(invalid);
+};
+
+/** A layer that resolves and checks `config` once, when it is built. */
+const layer = (config: Effect.Effect<Config, ConfigError>): Layer.Layer<Credentials, ConfigError> =>
+  Layer.effect(
+    Credentials,
+    Effect.map(Effect.flatMap(config, check), (checked) => Effect.succeed(checked)),
+  );
 
 const envConfig = /*@__PURE__*/ EffectConfig.all({
   // `S2_ACCESS_TOKEN` / `S2_BASIN` are what the official `s2` CLI reads.
@@ -60,8 +88,12 @@ const envConfig = /*@__PURE__*/ EffectConfig.all({
   ),
 });
 
-export const CredentialsFromEnv = /*@__PURE__*/ Layer.succeed(
-  Credentials,
+/**
+ * Credentials from `S2_ACCESS_TOKEN`, `S2_BASIN` and the two endpoint
+ * variables. The environment is read, and the values checked, once: when
+ * the layer is built.
+ */
+export const CredentialsFromEnv: Layer.Layer<Credentials, ConfigError> = /*@__PURE__*/ layer(
   /*@__PURE__*/ envConfig.pipe(
     /*@__PURE__*/ Effect.mapError(
       () =>
@@ -84,9 +116,8 @@ export const credentials = (config: {
   readonly basin?: string;
   readonly accountBaseUrl?: string;
   readonly basinBaseUrl?: string;
-}): Layer.Layer<Credentials> =>
-  Layer.succeed(
-    Credentials,
+}): Layer.Layer<Credentials, ConfigError> =>
+  layer(
     Effect.succeed({
       token: config.token,
       basin: config.basin,

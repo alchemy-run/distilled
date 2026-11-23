@@ -1,0 +1,47 @@
+{
+  "description": "`access_tokens` and `report_tokens` list Item access tokens and Asset Report tokens, which grant access to a user's financial data (Plaid docs: an access_token \"should be stored securely and never exposed client-side\", https://plaid.com/docs/api/items/; an asset_report_token is used to retrieve the report, https://plaid.com/docs/api/products/assets/). The converter marks the single `access_token` and `asset_report_token` fields by name but not lists, so this marks each list's element.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.plaid.api#AssetReportCreateRequestAccessTokensList/member/traits",
+      "value": {
+        "smithy.api#sensitive": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.plaid.api#LinkTokenCreateRequestAccessTokensList/member/traits",
+      "value": {
+        "smithy.api#sensitive": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.plaid.api#LinkTokenCreateRequestIncomeVerificationAccessTokensList/member/traits",
+      "value": {
+        "smithy.api#sensitive": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.plaid.api#CreditAuditCopyTokenCreateRequestReportTokensList/member/traits",
+      "value": {
+        "smithy.api#sensitive": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.plaid.api#CreditAuditCopyTokenUpdateRequestReportTokensList/member/traits",
+      "value": {
+        "smithy.api#sensitive": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.plaid.api#CreditRelayCreateRequestReportTokensList/member/traits",
+      "value": {
+        "smithy.api#sensitive": {}
+      }
+    }
+  ]
+}

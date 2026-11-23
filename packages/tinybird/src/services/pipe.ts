@@ -143,14 +143,22 @@ export interface QueryPipeRequest {
   /** (Optional) Only valid with the `csv` format; any other format returns a 400. Set to `false` to omit the header row of column names, so that paginated pages can be concatenated without a header appearing mid-file. Possible values: true, false, 1, 0. Defaults to `true`, which is the long-standing behavior of the `csv` format */
   __tb__csv_header?: boolean | undefined;
 }
-export type QueryPipeResponse = Uint8Array;
+export interface QueryPipeResponse {
+  body: Uint8Array;
+  /** Media type of the body, from the response's `Content-Type` header (e.g. `image/jpeg`). */
+  contentType?: string | undefined;
+}
 export type QueryPipeWithBodyRequestFormat = "json" | "csv" | "ndjson" | "parquet" | "prometheus";
 export interface QueryPipeWithBodyRequest {
   pipe: string;
   format: QueryPipeWithBodyRequestFormat | (string & {});
   [key: string]: unknown;
 }
-export type QueryPipeWithBodyResponse = Uint8Array;
+export interface QueryPipeWithBodyResponse {
+  body: Uint8Array;
+  /** Media type of the body, from the response's `Content-Type` header (e.g. `image/jpeg`). */
+  contentType?: string | undefined;
+}
 export interface UpdatePipeRequest {
   pipe: string;
   /** new name for the pipe */
@@ -229,7 +237,7 @@ export const deletePipe: API.OperationMethod<
   DeletePipeError,
   TinybirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c8, 0) as any as S.Schema<DeletePipeRequest>,
+  input: __S(18, __c9, 0) as any as S.Schema<DeletePipeRequest>,
   output: __S(3, __c1, 1) as any as S.Schema<DeletePipeResponse>,
   errors: [],
   serviceErrors: TinybirdServiceErrors,
@@ -247,7 +255,7 @@ export const deletePipeByFileName: API.OperationMethod<
   DeletePipeByFileNameError,
   TinybirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18, __c9, 0) as any as S.Schema<DeletePipeByFileNameRequest>,
+  input: __S(20, __c10, 0) as any as S.Schema<DeletePipeByFileNameRequest>,
   output: __S(3, __c1, 1) as any as S.Schema<DeletePipeByFileNameResponse>,
   errors: [],
   serviceErrors: TinybirdServiceErrors,
@@ -265,7 +273,7 @@ export const deletePipeNode: API.OperationMethod<
   DeletePipeNodeError,
   TinybirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20, __c10, 0) as any as S.Schema<DeletePipeNodeRequest>,
+  input: __S(22, __c11, 0) as any as S.Schema<DeletePipeNodeRequest>,
   output: __S(3, __c1, 1) as any as S.Schema<DeletePipeNodeResponse>,
   errors: [],
   serviceErrors: TinybirdServiceErrors,
@@ -283,7 +291,7 @@ export const explainPipe: API.OperationMethod<
   ExplainPipeError,
   TinybirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22, __c11, 0) as any as S.Schema<ExplainPipeRequest>,
+  input: __S(24, __c12, 0) as any as S.Schema<ExplainPipeRequest>,
   output: __S(3, __c1, 1) as any as S.Schema<ExplainPipeResponse>,
   errors: [],
   serviceErrors: TinybirdServiceErrors,
@@ -301,7 +309,7 @@ export const explainPipeNode: API.OperationMethod<
   ExplainPipeNodeError,
   TinybirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c12, 0) as any as S.Schema<ExplainPipeNodeRequest>,
+  input: __S(26, __c13, 0) as any as S.Schema<ExplainPipeNodeRequest>,
   output: __S(3, __c1, 1) as any as S.Schema<ExplainPipeNodeResponse>,
   errors: [],
   serviceErrors: TinybirdServiceErrors,
@@ -319,7 +327,7 @@ export const getPipe: API.OperationMethod<
   GetPipeError,
   TinybirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26, __c13, 0) as any as S.Schema<GetPipeRequest>,
+  input: __S(28, __c14, 0) as any as S.Schema<GetPipeRequest>,
   output: __S(3, __c1, 1) as any as S.Schema<GetPipeResponse>,
   errors: [],
   serviceErrors: TinybirdServiceErrors,
@@ -337,8 +345,8 @@ export const getPipeByFileName: API.OperationMethod<
   GetPipeByFileNameError,
   TinybirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28, __c14, 0) as any as S.Schema<GetPipeByFileNameRequest>,
-  output: __S(29, __c14, 1) as any as S.Schema<GetPipeByFileNameResponse>,
+  input: __S(30, __c15, 0) as any as S.Schema<GetPipeByFileNameRequest>,
+  output: __S(31, __c15, 1) as any as S.Schema<GetPipeByFileNameResponse>,
   errors: [],
   serviceErrors: TinybirdServiceErrors,
   protocol: TinybirdProtocol,
@@ -355,7 +363,7 @@ export const listPipes: API.OperationMethod<
   ListPipesError,
   TinybirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(30, __c15, 0) as any as S.Schema<ListPipesRequest>,
+  input: __S(32, __c16, 0) as any as S.Schema<ListPipesRequest>,
   output: __S(3, __c1, 1) as any as S.Schema<ListPipesResponse>,
   errors: [],
   serviceErrors: TinybirdServiceErrors,
@@ -374,7 +382,7 @@ export const queryPipe: API.OperationMethod<
   TinybirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6, __c3, 0) as any as S.Schema<QueryPipeRequest>,
-  output: __S(7, __c3, 1) as any as S.Schema<QueryPipeResponse>,
+  output: __S(8, __c4, 0) as any as S.Schema<QueryPipeResponse>,
   errors: [],
   serviceErrors: TinybirdServiceErrors,
   protocol: TinybirdProtocol,
@@ -391,8 +399,8 @@ export const queryPipeWithBody: API.OperationMethod<
   QueryPipeWithBodyError,
   TinybirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c4, 0) as any as S.Schema<QueryPipeWithBodyRequest>,
-  output: __S(9, __c4, 1) as any as S.Schema<QueryPipeWithBodyResponse>,
+  input: __S(10, __c5, 0) as any as S.Schema<QueryPipeWithBodyRequest>,
+  output: __S(8, __c4, 0) as any as S.Schema<QueryPipeWithBodyResponse>,
   errors: [],
   serviceErrors: TinybirdServiceErrors,
   protocol: TinybirdProtocol,
@@ -409,7 +417,7 @@ export const updatePipe: API.OperationMethod<
   UpdatePipeError,
   TinybirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10, __c5, 0) as any as S.Schema<UpdatePipeRequest>,
+  input: __S(12, __c6, 0) as any as S.Schema<UpdatePipeRequest>,
   output: __S(3, __c1, 1) as any as S.Schema<UpdatePipeResponse>,
   errors: [],
   serviceErrors: TinybirdServiceErrors,
@@ -427,7 +435,7 @@ export const updatePipeByFileName: API.OperationMethod<
   UpdatePipeByFileNameError,
   TinybirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12, __c6, 0) as any as S.Schema<UpdatePipeByFileNameRequest>,
+  input: __S(14, __c7, 0) as any as S.Schema<UpdatePipeByFileNameRequest>,
   output: __S(3, __c1, 1) as any as S.Schema<UpdatePipeByFileNameResponse>,
   errors: [],
   serviceErrors: TinybirdServiceErrors,
@@ -445,7 +453,7 @@ export const updatePipeNode: API.OperationMethod<
   UpdatePipeNodeError,
   TinybirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14, __c7, 0) as any as S.Schema<UpdatePipeNodeRequest>,
+  input: __S(16, __c8, 0) as any as S.Schema<UpdatePipeNodeRequest>,
   output: __S(3, __c1, 1) as any as S.Schema<UpdatePipeNodeResponse>,
   errors: [],
   serviceErrors: TinybirdServiceErrors,
@@ -522,11 +530,20 @@ function __c3(j: number): any {
           __tb__csv_header: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/v0/pipes/{pipe}.{format}", code: 200 })),
       ).annotate({ identifier: "QueryPipeRequest" });
-    case 1:
-      return S.instanceOf(Uint8Array).pipe(/*@__PURE__*/ T.BinaryResponse());
   }
 }
 function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          body: S.instanceOf(Uint8Array).pipe(T.RawResponse(), T.BinaryResponse()),
+          contentType: S.optional(S.String.pipe(T.Header("Content-Type"))),
+        }),
+      ).annotate({ identifier: "QueryPipeResponse" });
+  }
+}
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -538,11 +555,9 @@ function __c4(j: number): any {
           [S.Record(S.String, S.Unknown)],
         ).pipe(T.Http({ method: "POST", uri: "/v0/pipes/{pipe}.{format}", code: 200 })),
       ).annotate({ identifier: "QueryPipeWithBodyRequest" });
-    case 1:
-      return S.instanceOf(Uint8Array).pipe(/*@__PURE__*/ T.BinaryResponse());
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -555,7 +570,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "UpdatePipeRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -568,7 +583,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "UpdatePipeByFileNameRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -582,7 +597,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "UpdatePipeNodeRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -592,7 +607,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "DeletePipeRequest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -602,7 +617,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "DeletePipeByFileNameRequest" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -613,7 +628,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "DeletePipeNodeRequest" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -627,7 +642,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "ExplainPipeRequest" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -642,7 +657,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "ExplainPipeNodeRequest" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -652,7 +667,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "GetPipeRequest" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -666,7 +681,7 @@ function __c14(j: number): any {
       });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

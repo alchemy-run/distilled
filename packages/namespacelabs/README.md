@@ -93,7 +93,7 @@ Namespace refreshes it. The layer needs a `FileSystem`, for example
 Both layers read `NSC_REGION` (default `us`) for the compute and storage hosts
 and `NSC_COMPUTE_URL` (or `NSC_ENDPOINT`, which Namespace sets inside an
 instance), `NSC_STORAGE_URL`, `NSC_GLOBAL_URL` and `NSC_PRIVATE_API_URL` to
-override a host. `credentials({ token, region })`, `fromToken(token)` and
+override a host. They read these variables once, when the layer is built. `credentials({ token, region })`, `fromToken(token)` and
 `fromTokenFile(path)` build the same layers in code.
 
 ## Errors

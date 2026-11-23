@@ -271,7 +271,11 @@ export interface GetDeploymentCertificateRawRequest {
   /** (UUID format) */
   deployment_id: string;
 }
-export type GetDeploymentCertificateRawResponse = Uint8Array;
+export interface GetDeploymentCertificateRawResponse {
+  body: Uint8Array;
+  /** Media type of the body, from the response's `Content-Type` header (e.g. `image/jpeg`). */
+  contentType?: string | undefined;
+}
 export type GetModelRequestRegion = "fr-par";
 export interface GetModelRequest {
   /** The region you want to target */
@@ -1322,7 +1326,12 @@ function __c23(j: number): any {
         ),
       ).annotate({ identifier: "GetDeploymentCertificateRawRequest" });
     case 1:
-      return S.instanceOf(Uint8Array).pipe(/*@__PURE__*/ T.BinaryResponse());
+      return S.suspend(() =>
+        S.Struct({
+          body: S.instanceOf(Uint8Array).pipe(T.RawResponse(), T.BinaryResponse()),
+          contentType: S.optional(S.String.pipe(T.Header("Content-Type"))),
+        }),
+      ).annotate({ identifier: "GetDeploymentCertificateRawResponse" });
   }
 }
 function __c24(j: number): any {

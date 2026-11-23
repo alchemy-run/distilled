@@ -71,18 +71,6 @@ const spec: SdkSpec = {
         ? "string | Uint8Array"
         : undefined,
 
-  // A Blob raw response (file download) decodes as bytes.
-  shapeOverride: ({ name, def }) =>
-    def.type === "structure" &&
-    Object.keys(def.members ?? {}).length === 1 &&
-    def.members.body?.target === "smithy.api#Blob" &&
-    RAW_RESPONSE_TRAIT in (def.members.body.traits ?? {})
-      ? [
-          `export type ${name} = Uint8Array;`,
-          `export const ${name} = S.instanceOf(Uint8Array).pipe(T.BinaryResponse()) as S.Codec<${name}>;`,
-        ]
-      : undefined,
-
   // Unions surface as TS type unions over an opaque schema — the REST
   // protocol passes union content through verbatim (wire names ARE the TS
   // names), so no runtime case discrimination is needed.

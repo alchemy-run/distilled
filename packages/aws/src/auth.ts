@@ -475,7 +475,7 @@ export const makeAuthService = () =>
           : ssoToken.accessToken;
 
         const response = yield* client.get(
-          `https://portal.sso.${profile.sso_region}.${dnsSuffix(profile.sso_region!)}/federation/credentials?account_id=${profile.sso_account_id}&role_name=${profile.sso_role_name}`,
+          `https://portal.sso.${profile.sso_region}.${dnsSuffix(profile.sso_region!)}/federation/credentials?account_id=${encodeURIComponent(profile.sso_account_id!)}&role_name=${encodeURIComponent(profile.sso_role_name!)}`,
           {
             headers: {
               "User-Agent": "alchemy.run",

@@ -20,8 +20,8 @@ import {
   matchTypedError,
 } from "@distilled.cloud/core/protocol-http";
 import {
-  binaryResponseSymbol,
   declaredStatusClass,
+  readBinaryResponse,
   unwrapRedactedDeep,
   validateSuccess,
 } from "@distilled.cloud/core/protocol-rest";
@@ -453,9 +453,9 @@ const scalewayProtocolMethods = {
       const headers = response.headers as Record<string, string | undefined>;
 
       // `...Raw` downloads: the body is the file.
-      if (status >= 200 && status < 300 && getAnn(outputAst, binaryResponseSymbol) !== undefined) {
-        return new Uint8Array(yield* response.arrayBuffer);
-      }
+      const binary =
+        status >= 200 && status < 300 ? readBinaryResponse(response, outputAst) : undefined;
+      if (binary !== undefined) return yield* binary;
 
       const text = (yield* response.text) ?? "";
       if (status >= 400) {

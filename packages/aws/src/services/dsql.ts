@@ -175,6 +175,11 @@ export interface MultiRegionProperties {
   clusters?: string[] | undefined;
 }
 export type PolicyDocument = string;
+export type MetricGroup = "STATEMENT_STATISTICS" | (string & {});
+export interface MetricGroupRequest {
+  metricGroup: MetricGroup;
+}
+export type MetricGroupRequestList = MetricGroupRequest[];
 export type BypassPolicyLockoutSafetyCheck = boolean;
 export interface CreateClusterInput {
   deletionProtectionEnabled?: boolean | undefined;
@@ -183,6 +188,7 @@ export interface CreateClusterInput {
   clientToken?: string | undefined;
   multiRegionProperties?: MultiRegionProperties | undefined;
   policy?: string | undefined;
+  metricGroups?: MetricGroupRequest[] | undefined;
   bypassPolicyLockoutSafetyCheck?: boolean | undefined;
 }
 export type ClusterId = string;
@@ -213,6 +219,10 @@ export interface EncryptionDetails {
   encryptionStatus: EncryptionStatus;
 }
 export type Endpoint = string;
+export interface MetricGroupResponse {
+  metricGroup: MetricGroup;
+}
+export type MetricGroupResponseList = MetricGroupResponse[];
 export interface CreateClusterOutput {
   identifier: string;
   arn: string;
@@ -222,6 +232,7 @@ export interface CreateClusterOutput {
   encryptionDetails?: EncryptionDetails | undefined;
   deletionProtectionEnabled: boolean;
   endpoint?: string | undefined;
+  metricGroups?: MetricGroupResponse[] | undefined;
 }
 export type KinesisStreamArn = string;
 export type RoleArn = string;
@@ -304,6 +315,7 @@ export interface GetClusterOutput {
   tags?: { [key: string]: string | undefined } | undefined;
   encryptionDetails?: EncryptionDetails | undefined;
   endpoint?: string | undefined;
+  metricGroups?: MetricGroupResponse[] | undefined;
 }
 export interface GetClusterPolicyInput {
   identifier: string;
@@ -417,6 +429,7 @@ export interface UpdateClusterInput {
   kmsEncryptionKey?: string | undefined;
   clientToken?: string | undefined;
   multiRegionProperties?: MultiRegionProperties | undefined;
+  metricGroups?: MetricGroupRequest[] | undefined;
 }
 export interface UpdateClusterOutput {
   identifier: string;
@@ -1175,6 +1188,7 @@ function __c3(j: number): any {
           tags: S.optional(__S(80, __c20, 0)),
           encryptionDetails: S.optional(__S(68, __c17, 0)),
           endpoint: S.optional(S.String),
+          metricGroups: S.optional(__S(78, __c19, 2)),
         }),
       ).annotate({ identifier: "GetClusterOutput" });
   }
@@ -1418,6 +1432,7 @@ function __c14(j: number): any {
           kmsEncryptionKey: S.optional(S.String),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           multiRegionProperties: S.optional(__S(76, __c19, 0)),
+          metricGroups: S.optional(__S(78, __c19, 2)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/cluster/{identifier}" }),
@@ -1452,6 +1467,7 @@ function __c16(j: number): any {
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           multiRegionProperties: S.optional(__S(76, __c19, 0)),
           policy: S.optional(S.String),
+          metricGroups: S.optional(__S(78, __c19, 2)),
           bypassPolicyLockoutSafetyCheck: S.optional(S.Boolean),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/cluster" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateClusterInput" });
@@ -1466,6 +1482,7 @@ function __c16(j: number): any {
           encryptionDetails: S.optional(__S(68, __c17, 0)),
           deletionProtectionEnabled: S.Boolean,
           endpoint: S.optional(S.String),
+          metricGroups: S.optional(__S(78, __c19, 2)),
         }),
       ).annotate({ identifier: "CreateClusterOutput" });
   }
@@ -1494,6 +1511,12 @@ function __c19(j: number): any {
       return S.suspend(() =>
         S.Struct({ witnessRegion: S.optional(S.String), clusters: S.optional(__S(72, __c18, 0)) }),
       ).annotate({ identifier: "MultiRegionProperties" });
+    case 1:
+      return S.suspend(() => S.Struct({ metricGroup: S.String })).annotate({
+        identifier: "MetricGroupRequest",
+      });
+    case 2:
+      return S.Array(__S(77, __c19, 1));
   }
 }
 function __c20(j: number): any {

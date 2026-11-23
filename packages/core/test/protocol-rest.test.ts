@@ -743,6 +743,28 @@ describe("restProtocol success decoding", () => {
     expect(out).toBeInstanceOf(Uint8Array);
     expect(Array.from(out)).toEqual(Array.from(bytes));
   });
+
+  test("a BinaryResponse body member gets the bytes and its output the headers", async () => {
+    const bytes = new Uint8Array([0xff, 0xd8, 0xff, 0x00]);
+    const binaryOp = API.make(() => ({
+      input: ThingInput,
+      output: S.Struct({
+        body: S.Unknown.pipe(RawResponse(), BinaryResponse()),
+        contentType: S.optional(S.String.pipe(T.Header("Content-Type"))),
+      }),
+      protocol: DefaultProtocol,
+    })) as unknown as (input: Record<string, unknown>) => Effect.Effect<any, any, any>;
+    const out = await succeed(
+      binaryOp({ id: "t1" }),
+      fakeClient(
+        () => new Response(bytes, { status: 200, headers: { "content-type": "image/jpeg" } }),
+      ),
+      creds(),
+    );
+    expect(out.contentType).toBe("image/jpeg");
+    expect(out.body).toBeInstanceOf(Uint8Array);
+    expect(Array.from(out.body)).toEqual(Array.from(bytes));
+  });
 });
 
 describe("restProtocol body read failures", () => {

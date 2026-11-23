@@ -224,7 +224,7 @@ export class ValidationException
         identifier: "ValidationExceptionReason",
       }),
       fieldList: /*@__PURE__*/ S.optional(
-        /*@__PURE__*/ S.suspend(() => __S(609, __c38, 1)).annotate({
+        /*@__PURE__*/ S.suspend(() => __S(641, __c40, 1)).annotate({
           identifier: "ValidationExceptionFieldList",
         }),
       ),
@@ -384,6 +384,7 @@ export type BillingFeature =
   | "CREDIT_LEVEL_SHARING"
   | "BILLING_ALERTS"
   | "CREDIT_PREFERENCE_OPTIONS"
+  | "BENEFIT_LEVEL_SHARING"
   | (string & {});
 export type BillingFeatures = BillingFeature[];
 export type BillingFeatureFilterName = "PREFERENCE_KEY" | (string & {});
@@ -944,11 +945,46 @@ export interface RedeemCreditsRequest {
   promoCode: string;
 }
 export interface RedeemCreditsResponse {}
+export type DecimalAmountString = string;
+export interface SplitPortion {
+  amount: string;
+  description?: string | undefined;
+}
+export type SplitPortions = SplitPortion[];
+export interface SplitCreditRequest {
+  creditId: string;
+  portions: SplitPortion[];
+  clientToken?: string | undefined;
+  dryRun?: boolean | undefined;
+}
+export interface ChildCredit {
+  creditId?: string | undefined;
+  amount: string;
+}
+export type ChildCredits = ChildCredit[];
+export interface SplitCreditResponse {
+  parentCreditId: string;
+  childCredits: ChildCredit[];
+  dryRun: boolean;
+}
 export interface TagResourceRequest {
   resourceArn: string;
   resourceTags: ResourceTag[];
 }
 export interface TagResourceResponse {}
+export interface TransferCreditRequest {
+  creditId: string;
+  destinationAccountId: string;
+  clientToken?: string | undefined;
+  dryRun?: boolean | undefined;
+}
+export interface TransferCreditResponse {
+  sourceCreditId: string;
+  newCreditId?: string | undefined;
+  destinationAccountId: string;
+  amount: string;
+  dryRun: boolean;
+}
 export type ResourceTagKeyList = string[];
 export interface UntagResourceRequest {
   resourceArn: string;
@@ -1009,8 +1045,8 @@ export const associateContract: API.OperationMethod<
   AssociateContractError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(624, __c39, 0) as any as S.Schema<AssociateContractRequest>,
-  output: __S(640, __c40, 0) as any as S.Schema<AssociateContractResponse>,
+  input: __S(656, __c41, 0) as any as S.Schema<AssociateContractRequest>,
+  output: __S(672, __c42, 0) as any as S.Schema<AssociateContractResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1046,8 +1082,8 @@ export const associateSourceViews: API.OperationMethod<
   AssociateSourceViewsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c41, 0) as any as S.Schema<AssociateSourceViewsRequest>,
-  output: __S(688, __c43, 0) as any as S.Schema<AssociateSourceViewsResponse>,
+  input: __S(688, __c43, 0) as any as S.Schema<AssociateSourceViewsRequest>,
+  output: __S(720, __c45, 0) as any as S.Schema<AssociateSourceViewsResponse>,
   errors: [
     AccessDeniedException,
     BillingViewHealthStatusException,
@@ -1084,7 +1120,7 @@ export const cancelContractualInvestmentAttestation: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CancelContractualInvestmentAttestationRequest>,
-  output: __S(640, __c40, 0) as any as S.Schema<CancelContractualInvestmentAttestationResponse>,
+  output: __S(672, __c42, 0) as any as S.Schema<CancelContractualInvestmentAttestationResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1192,7 +1228,7 @@ export const deleteBillingView: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c7, 0) as any as S.Schema<DeleteBillingViewRequest>,
-  output: __S(688, __c43, 0) as any as S.Schema<DeleteBillingViewResponse>,
+  output: __S(720, __c45, 0) as any as S.Schema<DeleteBillingViewResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1225,7 +1261,7 @@ export const disassociateContract: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c8, 0) as any as S.Schema<DisassociateContractRequest>,
-  output: __S(640, __c40, 0) as any as S.Schema<DisassociateContractResponse>,
+  output: __S(672, __c42, 0) as any as S.Schema<DisassociateContractResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1260,7 +1296,7 @@ export const disassociateSourceViews: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c9, 0) as any as S.Schema<DisassociateSourceViewsRequest>,
-  output: __S(688, __c43, 0) as any as S.Schema<DisassociateSourceViewsResponse>,
+  output: __S(720, __c45, 0) as any as S.Schema<DisassociateSourceViewsResponse>,
   errors: [
     AccessDeniedException,
     BillingViewHealthStatusException,
@@ -1285,7 +1321,7 @@ export type GetBillingPreferencesError =
   | ValidationException
   | CommonErrors;
 /**
- * Retrieves billing preferences for the specified feature. Each feature controls a distinct billing capability: which accounts can share Reserved Instances or credits, whether billing alerts are enabled, the historical record of sharing changes, and per-credit options.
+ * Retrieves billing preferences for the specified feature. Each feature controls a distinct billing capability: which accounts can share Reserved Instances or credits, whether billing alerts are enabled, the historical record of sharing changes, per-credit options, and which accounts an individual Reserved Instance or Savings Plan is shared with.
  */
 export const getBillingPreferences: API.OperationMethod<
   GetBillingPreferencesRequest & RegionInput,
@@ -1998,7 +2034,7 @@ export const redeemCredits: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(528, __c33, 0) as any as S.Schema<RedeemCreditsRequest>,
-  output: __S(640, __c40, 0) as any as S.Schema<RedeemCreditsResponse>,
+  output: __S(672, __c42, 0) as any as S.Schema<RedeemCreditsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2011,6 +2047,49 @@ export const redeemCredits: API.OperationMethod<
   operationName: "RedeemCredits",
   telemetry: TELEMETRY,
   span: "RedeemCredits",
+}));
+
+export type SplitCreditError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Splits the available balance of a credit into 2 to 99 new credits in the same account, and cancels the original credit. The new credits keep the original credit's end date and applicable products.
+ *
+ * The available balance is the remaining balance minus any amount reserved for a bill that isn't finalized. The portions must add up to exactly the available balance. Each portion must be at least 100.00 in the currency of the credit. For example, if the credit is in USD, each portion must be at least USD $100.00. A reserved amount stays on the original credit and still applies to that bill.
+ *
+ * A credit and every credit split from it count toward a limit of 100 credits. After a split, you can't split or transfer the original credit. You can split or transfer its new credits, and you can split a credit after you transfer it.
+ *
+ * You must own the credit or be the payer of the account that owns it. You can't undo a split. This operation is idempotent and supports a dry run.
+ */
+export const splitCredit: API.OperationMethod<
+  SplitCreditRequest & RegionInput,
+  SplitCreditResponse,
+  SplitCreditError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(546, __c34, 2) as any as S.Schema<SplitCreditRequest>,
+  output: __S(549, __c34, 5) as any as S.Schema<SplitCreditResponse>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "SplitCredit",
+  telemetry: TELEMETRY,
+  span: "SplitCredit",
 }));
 
 export type TagResourceError =
@@ -2029,8 +2108,8 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c34, 0) as any as S.Schema<TagResourceRequest>,
-  output: __S(640, __c40, 0) as any as S.Schema<TagResourceResponse>,
+  input: __S(560, __c35, 0) as any as S.Schema<TagResourceRequest>,
+  output: __S(672, __c42, 0) as any as S.Schema<TagResourceResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2044,6 +2123,47 @@ export const tagResource: API.OperationMethod<
   operationName: "TagResource",
   telemetry: TELEMETRY,
   span: "TagResource",
+}));
+
+export type TransferCreditError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Moves a credit to another account in the same consolidated billing family. The credit keeps its ID, balance, end date, and applicable products. Only the account that owns the credit changes.
+ *
+ * The transfer removes the credit's sharing settings. The new owner or the payer can set them again. Any amount reserved for a bill that isn't finalized moves with the credit and still applies to that bill.
+ *
+ * You must be the payer of both accounts. You can't transfer a credit that has ended, has no available balance, or is the original credit of a split. A transfer creates no credit, so it doesn't count toward the split limit, and the payer can transfer the credit back. This operation is idempotent and supports a dry run.
+ */
+export const transferCredit: API.OperationMethod<
+  TransferCreditRequest & RegionInput,
+  TransferCreditResponse,
+  TransferCreditError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(576, __c36, 0) as any as S.Schema<TransferCreditRequest>,
+  output: __S(577, __c36, 1) as any as S.Schema<TransferCreditResponse>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "TransferCredit",
+  telemetry: TELEMETRY,
+  span: "TransferCredit",
 }));
 
 export type UntagResourceError =
@@ -2062,8 +2182,8 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c35, 0) as any as S.Schema<UntagResourceRequest>,
-  output: __S(640, __c40, 0) as any as S.Schema<UntagResourceResponse>,
+  input: __S(592, __c37, 0) as any as S.Schema<UntagResourceRequest>,
+  output: __S(672, __c42, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2088,7 +2208,7 @@ export type UpdateBillingPreferencesError =
 /**
  * Updates billing preferences for the specified feature. Each feature targets a distinct billing capability and has its own set of supported keys. The action sets the value for each provided key; keys not present in the request are unchanged.
  *
- * Sharing keys (`RI_SHARING`, `CREDIT_SHARING`, `CREDIT_LEVEL_SHARING`, and sharing keys under `CREDIT_PREFERENCE_OPTIONS`) may only be set by the management account of a consolidated billing family. The `credit/{creditId}/status` key may be set by member accounts for credits they own, or by the management account for any credit in the family.
+ * To set sharing keys (`RI_SHARING`, `CREDIT_SHARING`, `CREDIT_LEVEL_SHARING`, `BENEFIT_LEVEL_SHARING`, and sharing keys under `CREDIT_PREFERENCE_OPTIONS`), you must use the management account of a consolidated billing family. To set the `credit/{creditId}/status` key, you must own the credit or use the management account of its family.
  */
 export const updateBillingPreferences: API.OperationMethod<
   UpdateBillingPreferencesRequest & RegionInput,
@@ -2096,8 +2216,8 @@ export const updateBillingPreferences: API.OperationMethod<
   UpdateBillingPreferencesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(578, __c36, 2) as any as S.Schema<UpdateBillingPreferencesRequest>,
-  output: __S(640, __c40, 0) as any as S.Schema<UpdateBillingPreferencesResponse>,
+  input: __S(610, __c38, 2) as any as S.Schema<UpdateBillingPreferencesRequest>,
+  output: __S(672, __c42, 0) as any as S.Schema<UpdateBillingPreferencesResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2131,8 +2251,8 @@ export const updateBillingView: API.OperationMethod<
   UpdateBillingViewError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c37, 0) as any as S.Schema<UpdateBillingViewRequest>,
-  output: __S(593, __c37, 1) as any as S.Schema<UpdateBillingViewResponse>,
+  input: __S(624, __c39, 0) as any as S.Schema<UpdateBillingViewRequest>,
+  output: __S(625, __c39, 1) as any as S.Schema<UpdateBillingViewResponse>,
   errors: [
     AccessDeniedException,
     BillingViewHealthStatusException,
@@ -2169,7 +2289,7 @@ function __c1(j: number): any {
         S.Struct({
           name: SensitiveString,
           description: S.optional(SensitiveString),
-          sourceViews: __S(672, __c42, 0),
+          sourceViews: __S(704, __c44, 0),
           dataFilterExpression: S.optional(__S(35, __c2, 3)),
           clientToken: S.optional(S.String).pipe(
             T.HttpHeader("X-Amzn-Client-Token"),
@@ -2190,11 +2310,11 @@ function __c1(j: number): any {
 function __c2(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ key: S.String, values: __S(672, __c42, 0) })).annotate({
+      return S.suspend(() => S.Struct({ key: S.String, values: __S(704, __c44, 0) })).annotate({
         identifier: "DimensionValues",
       });
     case 1:
-      return S.suspend(() => S.Struct({ key: S.String, values: __S(672, __c42, 0) })).annotate({
+      return S.suspend(() => S.Struct({ key: S.String, values: __S(704, __c44, 0) })).annotate({
         identifier: "TagValues",
       });
     case 2:
@@ -2317,7 +2437,7 @@ function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ arn: S.String, sourceViews: __S(672, __c42, 0) }).pipe(
+        S.Struct({ arn: S.String, sourceViews: __S(704, __c44, 0) }).pipe(
           T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "DisassociateSourceViewsRequest" });
@@ -2327,7 +2447,7 @@ function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ name: S.optional(S.String), value: S.optional(__S(672, __c42, 0)) }),
+        S.Struct({ name: S.optional(S.String), value: S.optional(__S(704, __c44, 0)) }),
       ).annotate({ identifier: "BillingFeatureFilter" });
     case 1:
       return S.Array(__S(160, __c10, 0));
@@ -2431,8 +2551,8 @@ function __c14(j: number): any {
         S.Struct({
           contractArn: S.String,
           contractTerm: __S(240, __c15, 0),
-          eligiblePayerAccounts: __S(672, __c42, 0),
-          investmentAccounts: __S(672, __c42, 0),
+          eligiblePayerAccounts: __S(704, __c44, 0),
+          investmentAccounts: __S(704, __c44, 0),
           legalEntities: __S(226, __c14, 2),
           contractRestrictions: S.optional(__S(176, __c11, 0)),
         }),
@@ -2488,7 +2608,7 @@ function __c16(j: number): any {
         S.Struct({
           creditAllocationHistoryList: S.optional(__S(258, __c16, 2)),
           partialResults: S.Boolean,
-          failedMonths: S.optional(__S(672, __c42, 0)),
+          failedMonths: S.optional(__S(704, __c44, 0)),
           nextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetCreditAllocationHistoryResponse" });
@@ -2514,20 +2634,20 @@ function __c17(j: number): any {
           initialAmount: __S(80, __c5, 0),
           remainingAmount: __S(80, __c5, 0),
           estimatedAmount: S.optional(__S(80, __c5, 0)),
-          applicableProductNames: S.optional(__S(672, __c42, 0)),
+          applicableProductNames: S.optional(__S(704, __c44, 0)),
           description: S.String,
           startDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           endDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           exhaustDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           applicationType: S.optional(S.String),
-          shareableAccounts: S.optional(__S(672, __c42, 0)),
+          shareableAccounts: S.optional(__S(704, __c44, 0)),
           accountHasCreditSharingEnabled: S.optional(S.Boolean),
           creditConsoleVisibility: S.optional(S.String),
           creditSharingType: S.optional(S.String),
           costCategoryArn: S.optional(S.String),
           ruleName: S.optional(S.String),
           creditStatus: S.optional(S.String),
-          purchaseTypeApplications: S.optional(__S(672, __c42, 0)),
+          purchaseTypeApplications: S.optional(__S(704, __c44, 0)),
         }),
       ).annotate({ identifier: "CreditData" });
     case 2:
@@ -2690,7 +2810,7 @@ function __c22(j: number): any {
       return S.suspend(() =>
         S.Struct({
           activeTimeRange: S.optional(__S(352, __c22, 0)),
-          arns: S.optional(__S(672, __c42, 0)),
+          arns: S.optional(__S(704, __c44, 0)),
           billingViewTypes: S.optional(__S(176, __c11, 0)),
           names: S.optional(__S(354, __c22, 2)),
           ownerAccountId: S.optional(S.String),
@@ -2909,7 +3029,7 @@ function __c27(j: number): any {
           investmentDisbursedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           attestedValue: S.optional(__S(80, __c5, 0)),
           investmentDistributions: S.optional(__S(97, __c6, 1)),
-          rejectionReasons: S.optional(__S(672, __c42, 0)),
+          rejectionReasons: S.optional(__S(704, __c44, 0)),
           isCancellable: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "InvestmentAttestation" });
@@ -3073,7 +3193,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "ListSourceViewsForBillingViewRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ sourceViews: __S(672, __c42, 0), nextToken: S.optional(S.String) }),
+        S.Struct({ sourceViews: __S(704, __c44, 0), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListSourceViewsForBillingViewResponse" });
   }
 }
@@ -3105,39 +3225,91 @@ function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ resourceArn: S.String, resourceTags: __S(49, __c3, 1) }).pipe(
-          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-        ),
-      ).annotate({ identifier: "TagResourceRequest" });
+        S.Struct({ amount: S.String, description: S.optional(S.String) }),
+      ).annotate({ identifier: "SplitPortion" });
+    case 1:
+      return S.Array(__S(544, __c34, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          creditId: S.String,
+          portions: __S(545, __c34, 1),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+          dryRun: S.optional(S.Boolean),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "SplitCreditRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ creditId: S.optional(S.String), amount: S.String }),
+      ).annotate({ identifier: "ChildCredit" });
+    case 4:
+      return S.Array(__S(547, __c34, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({ parentCreditId: S.String, childCredits: __S(548, __c34, 4), dryRun: S.Boolean }),
+      ).annotate({ identifier: "SplitCreditResponse" });
   }
 }
 function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ resourceArn: S.String, resourceTagKeys: __S(672, __c42, 0) }).pipe(
+        S.Struct({ resourceArn: S.String, resourceTags: __S(49, __c3, 1) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "TagResourceRequest" });
+  }
+}
+function __c36(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          creditId: S.String,
+          destinationAccountId: S.String,
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+          dryRun: S.optional(S.Boolean),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "TransferCreditRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          sourceCreditId: S.String,
+          newCreditId: S.optional(S.String),
+          destinationAccountId: S.String,
+          amount: S.String,
+          dryRun: S.Boolean,
+        }),
+      ).annotate({ identifier: "TransferCreditResponse" });
+  }
+}
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ resourceArn: S.String, resourceTagKeys: __S(704, __c44, 0) }).pipe(
           T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "UntagResourceRequest" });
   }
 }
-function __c36(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ key: S.String, value: S.String })).annotate({
         identifier: "BillingPreferenceForKey",
       });
     case 1:
-      return S.Array(__S(576, __c36, 0));
+      return S.Array(__S(608, __c38, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ feature: S.String, billingPreferencesPerKey: __S(577, __c36, 1) }).pipe(
+        S.Struct({ feature: S.String, billingPreferencesPerKey: __S(609, __c38, 1) }).pipe(
           T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "UpdateBillingPreferencesRequest" });
   }
 }
-function __c37(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3157,17 +3329,17 @@ function __c37(j: number): any {
       ).annotate({ identifier: "UpdateBillingViewResponse" });
   }
 }
-function __c38(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ name: S.String, message: S.String })).annotate({
         identifier: "ValidationExceptionField",
       });
     case 1:
-      return S.Array(__S(608, __c38, 0));
+      return S.Array(__S(640, __c40, 0));
   }
 }
-function __c39(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3177,29 +3349,29 @@ function __c39(j: number): any {
       ).annotate({ identifier: "AssociateContractRequest" });
   }
 }
-function __c40(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "AssociateContractResponse" });
   }
 }
-function __c41(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ arn: S.String, sourceViews: __S(672, __c42, 0) }).pipe(
+        S.Struct({ arn: S.String, sourceViews: __S(704, __c44, 0) }).pipe(
           T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "AssociateSourceViewsRequest" });
   }
 }
-function __c42(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c43(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ arn: S.String })).annotate({

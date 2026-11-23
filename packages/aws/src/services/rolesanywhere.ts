@@ -140,6 +140,14 @@ export interface Tag {
 }
 export type TagList = Tag[];
 export type AliasName = string;
+export type TipStatus = string;
+export type TipSubjectType = string;
+export type TipSubjectSource = string;
+export interface TipConfiguration {
+  status: string;
+  subjectType?: string | undefined;
+  subjectSource?: string | undefined;
+}
 export interface CreateProfileRequest {
   name: string;
   requireInstanceProperties?: boolean | undefined;
@@ -151,6 +159,7 @@ export interface CreateProfileRequest {
   tags?: Tag[] | undefined;
   acceptRoleSessionName?: boolean | undefined;
   aliasName?: string | undefined;
+  tipConfiguration?: TipConfiguration | undefined;
 }
 export type Uuid = string;
 export type ProfileResourceArn = string;
@@ -182,6 +191,7 @@ export interface ProfileDetail {
   attributeMappings?: AttributeMapping[] | undefined;
   aliasName?: string | undefined;
   aliasArn?: string | undefined;
+  tipConfiguration?: TipConfiguration | undefined;
   previousAliasName?: string | undefined;
 }
 export interface ProfileDetailResponse {
@@ -414,6 +424,7 @@ export interface UpdateProfileRequest {
   durationSeconds?: number | undefined;
   acceptRoleSessionName?: boolean | undefined;
   aliasName?: string | undefined;
+  tipConfiguration?: TipConfiguration | undefined;
 }
 export interface UpdateTrustAnchorRequest {
   trustAnchorId: string;
@@ -1471,7 +1482,7 @@ function __c4(j: number): any {
 function __c5(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(165, __c20, 5));
+      return S.Array(__S(166, __c20, 6));
     case 1:
       return S.suspend(() =>
         S.Struct({ nextToken: S.optional(S.String), profiles: S.optional(__S(40, __c5, 0)) }),
@@ -1538,7 +1549,7 @@ function __c9(j: number): any {
         S.Struct({
           profileId: S.String.pipe(T.HttpLabel("profileId")),
           certificateField: S.String,
-          mappingRules: __S(162, __c20, 2),
+          mappingRules: __S(163, __c20, 3),
         }).pipe(
           T.all(
             T.Http({ method: "PUT", uri: "/profiles/{profileId}/mappings" }),
@@ -1648,6 +1659,7 @@ function __c16(j: number): any {
           durationSeconds: S.optional(S.Number),
           acceptRoleSessionName: S.optional(S.Boolean),
           aliasName: S.optional(S.String),
+          tipConfiguration: S.optional(__S(161, __c20, 1)),
         }).pipe(
           T.all(
             T.Http({ method: "PATCH", uri: "/profile/{profileId}" }),
@@ -1699,6 +1711,7 @@ function __c18(j: number): any {
           tags: S.optional(__S(153, __c19, 1)),
           acceptRoleSessionName: S.optional(S.Boolean),
           aliasName: S.optional(S.String),
+          tipConfiguration: S.optional(__S(161, __c20, 1)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/profiles" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateProfileRequest" });
   }
@@ -1718,21 +1731,29 @@ function __c20(j: number): any {
     case 0:
       return S.Array(S.String);
     case 1:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.String,
+          subjectType: S.optional(S.String),
+          subjectSource: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TipConfiguration" });
+    case 2:
       return S.suspend(() => S.Struct({ specifier: S.String })).annotate({
         identifier: "MappingRule",
       });
-    case 2:
-      return S.Array(__S(161, __c20, 1));
     case 3:
+      return S.Array(__S(162, __c20, 2));
+    case 4:
       return S.suspend(() =>
         S.Struct({
           certificateField: S.optional(S.String),
-          mappingRules: S.optional(__S(162, __c20, 2)),
+          mappingRules: S.optional(__S(163, __c20, 3)),
         }),
       ).annotate({ identifier: "AttributeMapping" });
-    case 4:
-      return S.Array(__S(163, __c20, 3));
     case 5:
+      return S.Array(__S(164, __c20, 4));
+    case 6:
       return S.suspend(() =>
         S.Struct({
           profileId: S.optional(S.String),
@@ -1748,9 +1769,10 @@ function __c20(j: number): any {
           updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           durationSeconds: S.optional(S.Number),
           acceptRoleSessionName: S.optional(S.Boolean),
-          attributeMappings: S.optional(__S(164, __c20, 4)),
+          attributeMappings: S.optional(__S(165, __c20, 5)),
           aliasName: S.optional(S.String),
           aliasArn: S.optional(S.String),
+          tipConfiguration: S.optional(__S(161, __c20, 1)),
           previousAliasName: S.optional(S.String),
         }),
       ).annotate({ identifier: "ProfileDetail" });
@@ -1759,7 +1781,7 @@ function __c20(j: number): any {
 function __c21(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ profile: S.optional(__S(165, __c20, 5)) })).annotate({
+      return S.suspend(() => S.Struct({ profile: S.optional(__S(166, __c20, 6)) })).annotate({
         identifier: "ProfileDetailResponse",
       });
   }
@@ -1871,7 +1893,7 @@ function __c26(j: number): any {
 function __c27(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ profile: __S(165, __c20, 5) })).annotate({
+      return S.suspend(() => S.Struct({ profile: __S(166, __c20, 6) })).annotate({
         identifier: "DeleteAttributeMappingResponse",
       });
   }

@@ -66,7 +66,11 @@ export interface ReadVolumeFileRequest {
   volumeID: string;
   path: string;
 }
-export type ReadVolumeFileResponse = Uint8Array;
+export interface ReadVolumeFileResponse {
+  body?: Uint8Array | undefined;
+  /** Media type of the body, from the response's `Content-Type` header (e.g. `image/jpeg`). */
+  contentType?: string | undefined;
+}
 export interface RemoveVolumePathRequest {
   volumeID: string;
   path: string;
@@ -141,7 +145,7 @@ export const readVolumeFile: API.OperationMethod<
   VolumeContentOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12, __c3, 0) as any as S.Schema<ReadVolumeFileRequest>,
-  output: __S(13, __c3, 1) as any as S.Codec<ReadVolumeFileResponse>,
+  output: __S(13, __c3, 1) as any as S.Schema<ReadVolumeFileResponse>,
   errors: [],
   serviceErrors: E2BServiceErrors,
   protocol: VolumeContentProtocol,
@@ -286,7 +290,12 @@ function __c3(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/volumecontent/{volumeID}/file", code: 200 })),
       ).annotate({ identifier: "ReadVolumeFileRequest" });
     case 1:
-      return S.instanceOf(Uint8Array).pipe(/*@__PURE__*/ T.BinaryResponse());
+      return S.suspend(() =>
+        S.Struct({
+          body: S.optional(S.instanceOf(Uint8Array).pipe(T.RawResponse(), T.BinaryResponse())),
+          contentType: S.optional(S.String.pipe(T.Header("Content-Type"))),
+        }),
+      ).annotate({ identifier: "ReadVolumeFileResponse" });
   }
 }
 function __c4(j: number): any {

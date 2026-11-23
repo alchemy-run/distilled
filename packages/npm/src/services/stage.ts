@@ -156,7 +156,11 @@ export interface GetStagePackageTarballRequest {
   /** Unique identifier for the staged package version. */
   stage_id: string;
 }
-export type GetStagePackageTarballResponse = Uint8Array;
+export interface GetStagePackageTarballResponse {
+  body: Uint8Array;
+  /** Media type of the body, from the response's `Content-Type` header (e.g. `image/jpeg`). */
+  contentType?: string | undefined;
+}
 export interface GetStagePackageVersionRequest {
   /** Unique identifier for the staged package version. */
   stage_id: string;
@@ -445,7 +449,12 @@ function __c5(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/-/stage/{stage_id}/tarball", code: 200 })),
       ).annotate({ identifier: "GetStagePackageTarballRequest" });
     case 1:
-      return S.instanceOf(Uint8Array).pipe(/*@__PURE__*/ T.BinaryResponse());
+      return S.suspend(() =>
+        S.Struct({
+          body: S.instanceOf(Uint8Array).pipe(T.RawResponse(), T.BinaryResponse()),
+          contentType: S.optional(S.String.pipe(T.Header("Content-Type"))),
+        }),
+      ).annotate({ identifier: "GetStagePackageTarballResponse" });
   }
 }
 function __c6(j: number): any {

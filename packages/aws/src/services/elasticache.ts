@@ -1175,6 +1175,19 @@ export interface MigrationSummary {
   MigrationEndpoint?: Endpoint | undefined;
   CutoverMode?: string | undefined;
 }
+export type IntegrationType = "dynamodb" | (string & {});
+export type IntegrationStatus =
+  | "enabled"
+  | "disabled"
+  | "enabling"
+  | "disabling"
+  | "failed"
+  | (string & {});
+export interface Integration {
+  IntegrationType?: IntegrationType | undefined;
+  Status?: IntegrationStatus | undefined;
+}
+export type IntegrationList = Integration[];
 export interface ServerlessCache {
   ServerlessCacheName?: string | undefined;
   Description?: string | undefined;
@@ -1197,6 +1210,7 @@ export interface ServerlessCache {
   NetworkType?: NetworkType | undefined;
   ConnectionType?: ConnectionType | undefined;
   Migration?: MigrationSummary | undefined;
+  Integrations?: Integration[] | undefined;
 }
 export interface CompleteMigrationResponse {
   ReplicationGroup?: ReplicationGroup | undefined;
@@ -1566,6 +1580,10 @@ export interface CreateReplicationGroupMessage {
 export interface CreateReplicationGroupResult {
   ReplicationGroup?: ReplicationGroup | undefined;
 }
+export interface IntegrationRequest {
+  IntegrationType?: IntegrationType | undefined;
+}
+export type IntegrationRequestList = IntegrationRequest[];
 export interface CreateServerlessCacheRequest {
   ServerlessCacheName?: string | undefined;
   Description?: string | undefined;
@@ -1582,6 +1600,7 @@ export interface CreateServerlessCacheRequest {
   DailySnapshotTime?: string | undefined;
   NetworkType?: NetworkType | undefined;
   ConnectionType?: ConnectionType | undefined;
+  Integrations?: IntegrationRequest[] | undefined;
 }
 export interface CreateServerlessCacheResponse {
   ServerlessCache?:
@@ -3193,8 +3212,8 @@ export const createServerlessCache: API.OperationMethod<
   CreateServerlessCacheError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c100, 0) as any as S.Schema<CreateServerlessCacheRequest>,
-  output: __S(1601, __c100, 1) as any as S.Schema<CreateServerlessCacheResponse>,
+  input: __S(1602, __c100, 2) as any as S.Schema<CreateServerlessCacheRequest>,
+  output: __S(1603, __c100, 3) as any as S.Schema<CreateServerlessCacheResponse>,
   errors: [
     InvalidCredentialsException,
     InvalidParameterCombinationException,
@@ -5777,7 +5796,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "DeleteServerlessCacheRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ ServerlessCache: S.optional(__S(1253, __c78, 5)) }).pipe(ns),
+        S.Struct({ ServerlessCache: S.optional(__S(1255, __c78, 7)) }).pipe(ns),
       ).annotate({ identifier: "DeleteServerlessCacheResponse" });
   }
 }
@@ -6277,7 +6296,7 @@ function __c25(j: number): any {
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "DescribeServerlessCachesRequest" });
     case 1:
-      return S.Array(__S(1253, __c78, 5));
+      return S.Array(__S(1255, __c78, 7));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -6904,7 +6923,7 @@ function __c48(j: number): any {
       ).annotate({ identifier: "ModifyServerlessCacheRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ ServerlessCache: S.optional(__S(1253, __c78, 5)) }).pipe(ns),
+        S.Struct({ ServerlessCache: S.optional(__S(1255, __c78, 7)) }).pipe(ns),
       ).annotate({ identifier: "ModifyServerlessCacheResponse" });
   }
 }
@@ -6965,7 +6984,7 @@ function __c51(j: number): any {
       ).annotate({ identifier: "PrepareMigrationRequest" });
     case 4:
       return S.suspend(() =>
-        S.Struct({ ServerlessCache: S.optional(__S(1253, __c78, 5)) }).pipe(ns),
+        S.Struct({ ServerlessCache: S.optional(__S(1255, __c78, 7)) }).pipe(ns),
       ).annotate({ identifier: "PrepareMigrationResponse" });
   }
 }
@@ -7083,7 +7102,7 @@ function __c59(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ReplicationGroup: S.optional(__S(1243, __c77, 11)),
-          ServerlessCache: S.optional(__S(1253, __c78, 5)),
+          ServerlessCache: S.optional(__S(1255, __c78, 7)),
         }).pipe(ns),
       ).annotate({ identifier: "StartMigrationResponse" });
   }
@@ -7098,7 +7117,7 @@ function __c60(j: number): any {
       ).annotate({ identifier: "StopMigrationRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ ServerlessCache: S.optional(__S(1253, __c78, 5)) }).pipe(ns),
+        S.Struct({ ServerlessCache: S.optional(__S(1255, __c78, 7)) }).pipe(ns),
       ).annotate({ identifier: "StopMigrationResponse" });
   }
 }
@@ -7305,7 +7324,7 @@ function __c73(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ReplicationGroup: S.optional(__S(1243, __c77, 11)),
-          ServerlessCache: S.optional(__S(1253, __c78, 5)),
+          ServerlessCache: S.optional(__S(1255, __c78, 7)),
         }).pipe(ns),
       ).annotate({ identifier: "CompleteMigrationResponse" });
   }
@@ -7526,6 +7545,16 @@ function __c78(j: number): any {
       ).annotate({ identifier: "MigrationSummary" });
     case 5:
       return S.suspend(() =>
+        S.Struct({ IntegrationType: S.optional(S.String), Status: S.optional(S.String) }),
+      ).annotate({ identifier: "Integration" });
+    case 6:
+      return S.Array(
+        /*@__PURE__*/ __S(1253, __c78, 5)
+          .pipe(/*@__PURE__*/ T.XmlName("Integration"))
+          .annotate({ identifier: "Integration" }),
+      );
+    case 7:
+      return S.suspend(() =>
         S.Struct({
           ServerlessCacheName: S.optional(S.String),
           Description: S.optional(S.String),
@@ -7548,6 +7577,7 @@ function __c78(j: number): any {
           NetworkType: S.optional(S.String),
           ConnectionType: S.optional(S.String),
           Migration: S.optional(__S(1252, __c78, 4)),
+          Integrations: S.optional(__S(1254, __c78, 6)),
         }),
       ).annotate({ identifier: "ServerlessCache" });
   }
@@ -8133,6 +8163,16 @@ function __c99(j: number): any {
 function __c100(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() => S.Struct({ IntegrationType: S.optional(S.String) })).annotate({
+        identifier: "IntegrationRequest",
+      });
+    case 1:
+      return S.Array(
+        /*@__PURE__*/ __S(1600, __c100, 0)
+          .pipe(/*@__PURE__*/ T.XmlName("IntegrationRequest"))
+          .annotate({ identifier: "IntegrationRequest" }),
+      );
+    case 2:
       return S.suspend(() =>
         S.Struct({
           ServerlessCacheName: S.optional(S.String),
@@ -8150,11 +8190,12 @@ function __c100(j: number): any {
           DailySnapshotTime: S.optional(S.String),
           NetworkType: S.optional(S.String),
           ConnectionType: S.optional(S.String),
+          Integrations: S.optional(__S(1601, __c100, 1)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateServerlessCacheRequest" });
-    case 1:
+    case 3:
       return S.suspend(() =>
-        S.Struct({ ServerlessCache: S.optional(__S(1253, __c78, 5)) }).pipe(ns),
+        S.Struct({ ServerlessCache: S.optional(__S(1255, __c78, 7)) }).pipe(ns),
       ).annotate({ identifier: "CreateServerlessCacheResponse" });
   }
 }
