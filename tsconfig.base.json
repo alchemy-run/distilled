@@ -1,6 +1,9 @@
 {
   "exclude": ["node_modules", "dist", "vendor"],
   "compilerOptions": {
+    // Node runs the generators and scripts on these sources with type
+    // stripping only, which rejects enums, namespaces and parameter properties.
+    "erasableSyntaxOnly": true,
     "types": ["node"],
     "lib": ["ESNext", "DOM"],
     "target": "ESNext",

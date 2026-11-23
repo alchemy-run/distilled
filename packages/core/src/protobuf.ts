@@ -195,8 +195,10 @@ class Writer {
 
 class Reader {
   pos = 0;
+  readonly buf: Uint8Array;
   readonly view: DataView;
-  constructor(readonly buf: Uint8Array) {
+  constructor(buf: Uint8Array) {
+    this.buf = buf;
     this.view = new DataView(buf.buffer, buf.byteOffset, buf.byteLength);
   }
 
@@ -1300,7 +1302,10 @@ export class FrameReader {
   private buf: Uint8Array<ArrayBufferLike> = new Uint8Array(0);
 
   /** `maxBytes`: the largest frame payload accepted; a larger one throws {@link FrameTooLargeError}. */
-  constructor(private readonly maxBytes: number = Infinity) {}
+  private readonly maxBytes: number;
+  constructor(maxBytes: number = Infinity) {
+    this.maxBytes = maxBytes;
+  }
 
   /** The trailers of the gRPC-Web trailer frames read so far, names lowercase. */
   readonly trailers: Record<string, string> = {};

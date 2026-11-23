@@ -200,11 +200,13 @@ class ReplyResponse extends Inspectable.Class implements HttpClientResponse.Http
   /** The body, read once and shared by `arrayBuffer`, `text` and `json`. */
   private bytes?: Deferred.Deferred<Uint8Array, HttpClientError.HttpClientError>;
 
-  constructor(
-    readonly request: HttpClientRequest.HttpClientRequest,
-    private readonly reply: Reply,
-  ) {
+  readonly request: HttpClientRequest.HttpClientRequest;
+  private readonly reply: Reply;
+
+  constructor(request: HttpClientRequest.HttpClientRequest, reply: Reply) {
     super();
+    this.request = request;
+    this.reply = reply;
     this.headers = Headers.fromInput(reply.headers);
     const setCookie = reply.headers["set-cookie"];
     this.cookies = setCookie === undefined ? Cookies.empty : Cookies.fromSetCookie(setCookie);

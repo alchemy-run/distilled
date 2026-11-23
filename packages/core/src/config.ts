@@ -68,7 +68,10 @@ const fromEnv = (name: string): string | undefined =>
 
 /** A required value that is missing, inside a synchronous read. */
 class Missing {
-  constructor(readonly name: string) {}
+  readonly name: string;
+  constructor(name: string) {
+    this.name = name;
+  }
 }
 
 /**
