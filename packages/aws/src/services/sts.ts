@@ -376,7 +376,7 @@ export type TokenType = string;
 export interface Credentials {
   AccessKeyId: string;
   SecretAccessKey: string | redacted.Redacted<string>;
-  SessionToken: string;
+  SessionToken: string | redacted.Redacted<string>;
   Expiration: Date;
 }
 export type AssumedRoleIdType = string;
@@ -1562,7 +1562,7 @@ function __c2(j: number): any {
         S.Struct({
           AccessKeyId: S.String,
           SecretAccessKey: SensitiveString,
-          SessionToken: S.String,
+          SessionToken: SensitiveString,
           Expiration: T.DateFromString.pipe(T.TimestampFormat("date-time")),
         }),
       ).annotate({ identifier: "Credentials" });
