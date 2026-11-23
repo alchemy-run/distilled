@@ -188,9 +188,32 @@ export class Console
     Effect.Effect<Checked<ConsoleLocation>, ConfigError>
   >()("UniFiConsole") {}
 
-/** Layer providing the key. */
-export const apiKey = (key: Redacted.Redacted<string>): Layer.Layer<ApiKey> =>
-  Layer.succeed(ApiKey, Effect.succeed(key));
+/**
+ * Layer from a redacted API key and, for Network, Protect and InnerSpace, the
+ * console every call in its scope goes to. Site Manager, Mobility and Carrier
+ * Fabric need no console. A console that fails {@link check} fails the
+ * layer with {@link ConfigError}.
+ *
+ * @example
+ * ```ts
+ * Unifi.fromApiKey({ apiKey, console: Unifi.ConsoleLocation.local("192.168.0.1") });
+ * ```
+ */
+export function fromApiKey(config: {
+  readonly apiKey: Redacted.Redacted<string>;
+  readonly console: ConsoleLocation;
+}): Layer.Layer<ApiKey | Console, ConfigError>;
+export function fromApiKey(config: {
+  readonly apiKey: Redacted.Redacted<string>;
+  readonly console?: undefined;
+}): Layer.Layer<ApiKey>;
+export function fromApiKey(config: {
+  readonly apiKey: Redacted.Redacted<string>;
+  readonly console?: ConsoleLocation | undefined;
+}): Layer.Layer<ApiKey> | Layer.Layer<ApiKey | Console, ConfigError> {
+  const key = Layer.succeed(ApiKey, Effect.succeed(config.apiKey));
+  return config.console === undefined ? key : Layer.mergeAll(key, consoleLayer(config.console));
+}
 
 /**
  * Layer that sends every call in its scope to one console, built with

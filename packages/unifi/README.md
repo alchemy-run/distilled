@@ -85,18 +85,21 @@ self-signed certificate; trust it in your runtime's TLS settings, or use the con
 ```ts
 import * as Redacted from "effect/Redacted";
 
-const key = Unifi.apiKey(Redacted.make(process.env.KEY!));
+const apiKey = Redacted.make(process.env.KEY!);
 
 // A console on the local network, with a key created in the console.
-const local = Layer.mergeAll(key, Unifi.localConsole("192.168.0.1"));
+const local = Unifi.fromApiKey({ apiKey, console: Unifi.ConsoleLocation.local("192.168.0.1") });
 
 // The same console through the cloud connector, with a Site Manager key.
-const remote = Layer.mergeAll(key, Unifi.remoteConsole("<consoleId>"));
+const remote = Unifi.fromApiKey({ apiKey, console: Unifi.ConsoleLocation.remote("<consoleId>") });
+
+// Site Manager, Mobility and Carrier Fabric need no console.
+const cloud = Unifi.fromApiKey({ apiKey });
 
 program.pipe(Effect.provide(local)); // or remote
 ```
 
-Swap the `Console` layer to move between local and remote, or between consoles. A console's ID
+Pass another `console` to move between local and remote, or between consoles. A console's ID
 is `id` in Site Manager's `listHosts`. Ubiquiti issues the two kinds of key in different
 places (the console's Integrations settings for local, unifi.ui.com for the connector and the
 cloud-only APIs), so provide the `ApiKey` that matches the way in.
