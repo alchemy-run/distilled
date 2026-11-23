@@ -140,7 +140,11 @@ export class ApiKey
     Effect.Effect<Redacted.Redacted<string>, ConfigError>
   >()("UniFiApiKey") {}
 
-/** Where the console is. Needed by Network, Protect and InnerSpace only. */
+/**
+ * Where the console is, for Network, Protect and InnerSpace. Optional, like
+ * AWS's `Region`: operations do not list it, and a call's own `console`
+ * member takes its place. A call with neither fails with {@link ConfigError}.
+ */
 export class Console
   extends /*@__PURE__*/ Context.Service<Console, Effect.Effect<ConsoleLocation, ConfigError>>()(
     "UniFiConsole",

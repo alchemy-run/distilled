@@ -4,9 +4,9 @@ Effect-native UniFi SDK, generated from the OpenAPI specs Ubiquiti publishes at 
 
 | Service        | Import                                  | Reached                                | Layers it needs   |
 | -------------- | --------------------------------------- | -------------------------------------- | ----------------- |
-| Network        | `@distilled.cloud/unifi` (package root) | on the console, local or via connector | `ApiKey`, `Console` |
-| Protect        | `@distilled.cloud/unifi/protect`        | on the console, local or via connector | `ApiKey`, `Console` |
-| InnerSpace     | `@distilled.cloud/unifi/innerspace`     | on the console, local or via connector | `ApiKey`, `Console` |
+| Network        | `@distilled.cloud/unifi` (package root) | on the console, local or via connector | `ApiKey`, and `Console` or a per-call `console` |
+| Protect        | `@distilled.cloud/unifi/protect`        | on the console, local or via connector | `ApiKey`, and `Console` or a per-call `console` |
+| InnerSpace     | `@distilled.cloud/unifi/innerspace`     | on the console, local or via connector | `ApiKey`, and `Console` or a per-call `console` |
 | Site Manager   | `@distilled.cloud/unifi/site_manager`   | `api.ui.com` only                      | `ApiKey`          |
 | Mobility       | `@distilled.cloud/unifi/mobility`       | `api.ui.com` only                      | `ApiKey`          |
 | Carrier Fabric | `@distilled.cloud/unifi/carrier_fabric` | `api.ui.com` only                      | `ApiKey`          |
@@ -103,8 +103,9 @@ cloud-only APIs), so provide the `ApiKey` that matches the way in.
 
 Every Network, Protect and InnerSpace operation also takes an optional `console`, which wins
 over the layer for that call and is not sent. Build it with `Unifi.ConsoleLocation`; the same
-value makes a layer with `Unifi.consoleLayer`. A malformed one fails the call with
-`InvalidInput`:
+value makes a layer with `Unifi.consoleLayer`. Like AWS's `Region`, `Console` is an optional
+layer that operations do not list in their types: a call with neither fails with `ConfigError`,
+and a malformed `console` fails it with `InvalidInput`:
 
 ```ts
 const office = Unifi.ConsoleLocation.remote("<consoleId>");

@@ -23,12 +23,13 @@
  * sent: it replaces the {@link Console} layer for that call. The cloud-only
  * APIs share {@link UniFiCloudProtocol}.
  */
-import { InvalidInput } from "@distilled.cloud/core/errors";
+import { ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
 import type { ErrorOf } from "@distilled.cloud/core/protocol";
 import type { EncodeArgs, Operation } from "@distilled.cloud/core/protocol";
 import { restProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
+import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
 import * as Stream from "effect/Stream";
 import {
@@ -61,8 +62,11 @@ export type UniFiOpError =
       | typeof UniFiCloudProtocol
     >;
 
-/** Context of every Network, Protect and InnerSpace operation. */
-export type UniFiConsoleOpContext = ApiKey | Console | HttpClient.HttpClient;
+/**
+ * Context of every Network, Protect and InnerSpace operation. {@link Console}
+ * is optional and not listed: a call's `console` member can stand in for it.
+ */
+export type UniFiConsoleOpContext = ApiKey | HttpClient.HttpClient;
 
 /** Context of every Site Manager, Mobility and Carrier Fabric operation. */
 export type UniFiCloudOpContext = ApiKey | HttpClient.HttpClient;
@@ -92,7 +96,16 @@ const consoleProtocol = (app: ConsoleApp) => {
     // calling fiber) picks up context-provided layers.
     credentials: Effect.gen(function* () {
       const apiKey = yield* yield* ApiKey;
-      const location = yield* yield* Console;
+      // An optional service, like AWS's `Region`: a call's own `console`
+      // provides it, and without either the call fails.
+      const fromLayer = yield* Effect.serviceOption(Console);
+      if (Option.isNone(fromLayer)) {
+        return yield* new ConfigError({
+          message:
+            "No UniFi console: set the call's `console` or provide a Console layer (consoleLayer, localConsole, remoteConsole or ConsoleFromEnv)",
+        });
+      }
+      const location = yield* fromLayer.value;
       return { apiKey, location };
     }),
     baseUrl: (creds) => {
