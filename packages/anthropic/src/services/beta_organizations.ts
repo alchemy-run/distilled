@@ -4123,7 +4123,11 @@ export interface GetPluginVersionContentRequest {
   /** This endpoint is in beta: requests must send `ce-plugins-2026-09-01` in this header. */
   anthropicBeta: GetPluginVersionContentRequestAnthropicBetaList;
 }
-export type GetPluginVersionContentResponse = Uint8Array;
+export interface GetPluginVersionContentResponse {
+  body: Uint8Array;
+  /** Media type of the body, from the response's `Content-Type` header (e.g. `image/jpeg`). */
+  contentType?: string | undefined;
+}
 export interface GetRbacGroupRequest {
   /** ID of the RBAC Group. */
   rbac_group_id: string;
@@ -12686,7 +12690,12 @@ function __c146(j: number): any {
         ),
       ).annotate({ identifier: "GetPluginVersionContentRequest" });
     case 1:
-      return S.instanceOf(Uint8Array).pipe(/*@__PURE__*/ T.BinaryResponse());
+      return S.suspend(() =>
+        S.Struct({
+          body: S.instanceOf(Uint8Array).pipe(T.RawResponse(), T.BinaryResponse()),
+          contentType: S.optional(S.String.pipe(T.Header("Content-Type"))),
+        }),
+      ).annotate({ identifier: "GetPluginVersionContentResponse" });
   }
 }
 function __c147(j: number): any {

@@ -23,6 +23,7 @@
  * sent: it replaces the {@link Console} layer for that call. The cloud-only
  * APIs share {@link UniFiCloudProtocol}.
  */
+import type { Checked } from "@distilled.cloud/core/config";
 import { ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
 import type { ErrorOf } from "@distilled.cloud/core/protocol";
 import type { EncodeArgs, Operation } from "@distilled.cloud/core/protocol";
@@ -80,7 +81,10 @@ const CONSOLE_MEMBER = "console";
  */
 const ownConsole = (
   input: unknown,
-): { readonly location: ConsoleLocation; readonly input: unknown } | InvalidInput | undefined => {
+):
+  | { readonly location: Checked<ConsoleLocation>; readonly input: unknown }
+  | InvalidInput
+  | undefined => {
   if (input === null || typeof input !== "object") return undefined;
   // Read before copying: most calls name no console and skip the copy.
   const value = (input as Record<string, unknown>)[CONSOLE_MEMBER];
@@ -108,11 +112,9 @@ const consoleProtocol = (app: ConsoleApp) => {
       const location = yield* fromLayer.value;
       return { apiKey, location };
     }),
-    baseUrl: (creds) => {
-      const baseUrl = consoleBaseUrl(creds.location, app);
-      // A console ID that can't be a path segment refuses the call.
-      return typeof baseUrl === "string" ? baseUrl : Effect.fail(baseUrl);
-    },
+    // A console ID that can't be a path segment is refused earlier, when the
+    // `Console` layer is built (`check` in ./credentials.ts).
+    baseUrl: (creds) => consoleBaseUrl(creds.location, app),
     headers: (creds) => ({ "X-API-KEY": Redacted.value(creds.apiKey), Accept: "application/json" }),
     unknownError: (info) => new UnknownUniFiError(unknownErrorProps(info)),
     parseError: ({ body, cause }) => new UniFiParseError({ body, cause }),

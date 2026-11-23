@@ -663,7 +663,11 @@ export interface GetClusterKubeConfigRawRequest {
   /** Which endpoint to use to reach the APIServer (default: public). */
   endpoint?: GetClusterKubeConfigRequestEndpoint | (string & {}) | undefined;
 }
-export type GetClusterKubeConfigRawResponse = Uint8Array;
+export interface GetClusterKubeConfigRawResponse {
+  body: Uint8Array;
+  /** Media type of the body, from the response's `Content-Type` header (e.g. `image/jpeg`). */
+  contentType?: string | undefined;
+}
 export type GetNodeRequestRegion = "fr-par" | "nl-ams" | "pl-waw" | "it-mil";
 export interface GetNodeRequest {
   /** The region you want to target */
@@ -695,7 +699,11 @@ export interface GetUserDataRawRequest {
   /** User data key to retrieved. */
   key: string;
 }
-export type GetUserDataRawResponse = Uint8Array;
+export interface GetUserDataRawResponse {
+  body: Uint8Array;
+  /** Media type of the body, from the response's `Content-Type` header (e.g. `image/jpeg`). */
+  contentType?: string | undefined;
+}
 export type GetVersionRequestRegion = "fr-par" | "nl-ams" | "pl-waw" | "it-mil";
 export interface GetVersionRequest {
   /** The region you want to target */
@@ -1344,7 +1352,7 @@ export const getClusterKubeConfigRaw: API.OperationMethod<
   ScalewayOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(408, __c51, 0) as any as S.Schema<GetClusterKubeConfigRawRequest>,
-  output: __S(409, __c51, 1) as any as S.Schema<GetClusterKubeConfigRawResponse>,
+  output: __S(416, __c52, 0) as any as S.Schema<GetClusterKubeConfigRawResponse>,
   errors: [],
   serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
@@ -1408,7 +1416,7 @@ export const getUserDataRaw: API.OperationMethod<
   ScalewayOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c14, 0) as any as S.Schema<GetUserDataRawRequest>,
-  output: __S(113, __c14, 1) as any as S.Schema<GetUserDataRawResponse>,
+  output: __S(416, __c52, 0) as any as S.Schema<GetUserDataRawResponse>,
   errors: [],
   serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
@@ -2230,8 +2238,6 @@ function __c14(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GetUserDataRawRequest" });
-    case 1:
-      return S.instanceOf(Uint8Array).pipe(/*@__PURE__*/ T.BinaryResponse());
   }
 }
 function __c15(j: number): any {
@@ -3082,8 +3088,17 @@ function __c51(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GetClusterKubeConfigRawRequest" });
-    case 1:
-      return S.instanceOf(Uint8Array).pipe(/*@__PURE__*/ T.BinaryResponse());
+  }
+}
+function __c52(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          body: S.instanceOf(Uint8Array).pipe(T.RawResponse(), T.BinaryResponse()),
+          contentType: S.optional(S.String.pipe(T.Header("Content-Type"))),
+        }),
+      ).annotate({ identifier: "GetClusterKubeConfigRawResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

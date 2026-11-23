@@ -416,6 +416,29 @@ export class ValidationException
     },
     /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
+export type PrincipalArnFilter = string;
+export type SessionArn = string;
+export type SessionArnList = string[];
+export type RevocationReason = string;
+export interface BatchRevokeSessionsInput {
+  principalArn?: string | undefined;
+  sessionArns: string[];
+  reason?: string | undefined;
+}
+export interface RevokedSession {
+  sessionArn: string;
+}
+export type RevokedSessionList = RevokedSession[];
+export interface BatchRevokeSessionError {
+  sessionArn: string;
+  code: string;
+  message: string;
+}
+export type BatchRevokeSessionErrorList = BatchRevokeSessionError[];
+export interface BatchRevokeSessionsOutput {
+  revokedSessions: RevokedSession[];
+  errors: BatchRevokeSessionError[];
+}
 export type ClientCredentialsGrantType = string;
 export type Resource = string;
 export type TokenDuration = number;
@@ -451,8 +474,8 @@ export interface CreateOAuth2TokenRequest {
 }
 export interface AccessToken {
   accessKeyId: string;
-  secretAccessKey: string;
-  sessionToken: string;
+  secretAccessKey: string | redacted.Redacted<string>;
+  sessionToken: string | redacted.Redacted<string>;
 }
 export type TokenType = string;
 export type ExpiresIn = number;
@@ -480,11 +503,15 @@ export interface CreateOAuth2TokenWithIAMResponse {
 export type TokenExchangeGrantType = string;
 export type SubjectToken = string | redacted.Redacted<string>;
 export type SubjectTokenType = string;
+export type Assertion = string | redacted.Redacted<string>;
+export type JwtBearerClientId = string;
 export type Scope = string;
 export interface CreateOAuth2TokenWithTokenExchangeRequest {
   grantType: string;
   subjectToken?: string | redacted.Redacted<string> | undefined;
   subjectTokenType?: string | undefined;
+  assertion?: string | redacted.Redacted<string> | undefined;
+  clientId?: string | undefined;
   resource?: string | undefined;
   scope?: string | undefined;
 }
@@ -494,6 +521,8 @@ export interface CreateOAuth2TokenWithTokenExchangeResponse {
   issuedTokenType?: string | undefined;
   tokenType: string;
   expiresIn: number;
+  resource?: string | undefined;
+  scope?: string | undefined;
 }
 export type TargetId = string;
 export interface DeleteConsoleAuthorizationConfigurationInput {
@@ -541,6 +570,28 @@ export interface SigninResourceBasedPolicy {
 export interface GetResourcePolicyOutput {
   signinResourceBasedPolicy: SigninResourceBasedPolicy;
 }
+export interface GetSessionInput {
+  sessionArn: string;
+  principalArn?: string | undefined;
+}
+export type PrincipalArn = string;
+export type SessionStatus = "ACTIVE" | "REVOKED" | (string & {});
+export type ClientType = "CLI" | "MCP" | (string & {});
+export interface GetSessionOutput {
+  sessionArn: string;
+  principalArn: string;
+  role?: string | undefined;
+  status?: SessionStatus | undefined;
+  clientId?: string | undefined;
+  clientType?: ClientType | undefined;
+  resource?: string | undefined;
+  issuedAt: number;
+  expiresAt: number;
+  lastUsedAt?: number | undefined;
+  issuedInRegion?: string | undefined;
+  originSessionArn?: string | undefined;
+  userAgent?: string | undefined;
+}
 export type IntrospectionToken = string | redacted.Redacted<string>;
 export type TokenTypeHint = string;
 export interface IntrospectOAuth2TokenWithIAMRequest {
@@ -578,6 +629,32 @@ export interface PermissionStatementSummary {
 export type PermissionStatementSummaries = PermissionStatementSummary[];
 export interface ListResourcePermissionStatementsOutput {
   permissionStatements: PermissionStatementSummary[];
+  nextToken?: string | undefined;
+}
+export type SessionsMaxResults = number;
+export interface ListSessionsInput {
+  principalArn?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  status?: SessionStatus | undefined;
+  clientId?: string | undefined;
+  issuedAfter?: number | undefined;
+  issuedBefore?: number | undefined;
+}
+export interface Session {
+  sessionArn: string;
+  principalArn: string;
+  role?: string | undefined;
+  status?: SessionStatus | undefined;
+  issuedAt: number;
+  expiresAt: number;
+  clientId?: string | undefined;
+  clientType?: ClientType | undefined;
+  resource?: string | undefined;
+}
+export type SessionSummaryList = Session[];
+export interface ListSessionsOutput {
+  items: Session[];
   nextToken?: string | undefined;
 }
 export interface PutConsoleAuthorizationConfigurationInput {
@@ -627,9 +704,46 @@ export type OAuth2ErrorCode =
   | "invalid_grant"
   | "invalid_scope"
   | "invalid_target"
+  | "invalid_client"
   | "rate_exceeded"
   | "service_unavailable"
   | (string & {});
+export type BatchRevokeSessionsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | TooManyRequestsError
+  | ValidationException
+  | CommonErrors;
+/**
+ * Revokes up to five sign-in sessions. A revoked session can no longer be refreshed. Revoking a session that is
+ * already revoked succeeds. Each session must belong to the identity specified by principalArn, or to the caller if
+ * principalArn is omitted. Failures for individual sessions are returned in the errors list and do not fail the
+ * whole request.
+ */
+export const batchRevokeSessions: API.OperationMethod<
+  BatchRevokeSessionsInput & RegionInput,
+  BatchRevokeSessionsOutput,
+  BatchRevokeSessionsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(0, __c0, 0) as any as S.Schema<BatchRevokeSessionsInput>,
+  output: __S(5, __c0, 5) as any as S.Schema<BatchRevokeSessionsOutput>,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    TooManyRequestsError,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "BatchRevokeSessions",
+  telemetry: TELEMETRY,
+  span: "BatchRevokeSessions",
+}));
+
 export type CreateBearerTokenError =
   | AccessDeniedException
   | InternalServerException
@@ -645,8 +759,8 @@ export const createBearerToken: API.OperationMethod<
   CreateBearerTokenError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateBearerTokenRequest>,
-  output: __S(8, __c1, 0) as any as S.Schema<CreateBearerTokenResponse>,
+  input: __S(16, __c2, 0) as any as S.Schema<CreateBearerTokenRequest>,
+  output: __S(24, __c3, 0) as any as S.Schema<CreateBearerTokenResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -676,8 +790,8 @@ export const createOAuth2Token: API.OperationMethod<
   CreateOAuth2TokenError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17, __c2, 1) as any as S.Schema<CreateOAuth2TokenRequest>,
-  output: __S(20, __c2, 4) as any as S.Schema<CreateOAuth2TokenResponse>,
+  input: __S(33, __c4, 1) as any as S.Schema<CreateOAuth2TokenRequest>,
+  output: __S(36, __c4, 4) as any as S.Schema<CreateOAuth2TokenResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -707,8 +821,8 @@ export const createOAuth2TokenWithIAM: API.OperationMethod<
   CreateOAuth2TokenWithIAMError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<CreateOAuth2TokenWithIAMRequest>,
-  output: __S(8, __c1, 0) as any as S.Schema<CreateOAuth2TokenWithIAMResponse>,
+  input: __S(40, __c5, 0) as any as S.Schema<CreateOAuth2TokenWithIAMRequest>,
+  output: __S(24, __c3, 0) as any as S.Schema<CreateOAuth2TokenWithIAMResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -740,8 +854,8 @@ export const createOAuth2TokenWithTokenExchange: API.OperationMethod<
   CreateOAuth2TokenWithTokenExchangeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<CreateOAuth2TokenWithTokenExchangeRequest>,
-  output: __S(33, __c4, 1) as any as S.Schema<CreateOAuth2TokenWithTokenExchangeResponse>,
+  input: __S(48, __c6, 0) as any as S.Schema<CreateOAuth2TokenWithTokenExchangeRequest>,
+  output: __S(49, __c6, 1) as any as S.Schema<CreateOAuth2TokenWithTokenExchangeResponse>,
   errors: [
     InternalServerException,
     InvalidGrantException,
@@ -774,8 +888,8 @@ export const deleteConsoleAuthorizationConfiguration: API.OperationMethod<
   DeleteConsoleAuthorizationConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<DeleteConsoleAuthorizationConfigurationInput>,
-  output: __S(48, __c6, 0) as any as S.Schema<DeleteConsoleAuthorizationConfigurationOutput>,
+  input: __S(56, __c7, 0) as any as S.Schema<DeleteConsoleAuthorizationConfigurationInput>,
+  output: __S(64, __c8, 0) as any as S.Schema<DeleteConsoleAuthorizationConfigurationOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -807,8 +921,8 @@ export const deleteResourcePermissionStatement: API.OperationMethod<
   DeleteResourcePermissionStatementError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<DeleteResourcePermissionStatementInput>,
-  output: __S(64, __c8, 0) as any as S.Schema<DeleteResourcePermissionStatementOutput>,
+  input: __S(72, __c9, 0) as any as S.Schema<DeleteResourcePermissionStatementInput>,
+  output: __S(80, __c10, 0) as any as S.Schema<DeleteResourcePermissionStatementOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -840,8 +954,8 @@ export const getConsoleAuthorizationConfiguration: API.OperationMethod<
   GetConsoleAuthorizationConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<GetConsoleAuthorizationConfigurationInput>,
-  output: __S(48, __c6, 0) as any as S.Schema<GetConsoleAuthorizationConfigurationOutput>,
+  input: __S(88, __c11, 0) as any as S.Schema<GetConsoleAuthorizationConfigurationInput>,
+  output: __S(64, __c8, 0) as any as S.Schema<GetConsoleAuthorizationConfigurationOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -872,8 +986,8 @@ export const getResourcePolicy: API.OperationMethod<
   GetResourcePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<GetResourcePolicyInput>,
-  output: __S(85, __c10, 5) as any as S.Schema<GetResourcePolicyOutput>,
+  input: __S(96, __c12, 0) as any as S.Schema<GetResourcePolicyInput>,
+  output: __S(101, __c12, 5) as any as S.Schema<GetResourcePolicyOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -886,6 +1000,41 @@ export const getResourcePolicy: API.OperationMethod<
   operationName: "GetResourcePolicy",
   telemetry: TELEMETRY,
   span: "GetResourcePolicy",
+}));
+
+export type GetSessionError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | TooManyRequestsError
+  | ValidationException
+  | CommonErrors;
+/**
+ * Returns the details of a single sign-in session. The session must belong to the identity specified by
+ * principalArn, or to the caller if principalArn is omitted. A session that belongs to a different identity or
+ * account is reported as not found.
+ */
+export const getSession: API.OperationMethod<
+  GetSessionInput & RegionInput,
+  GetSessionOutput,
+  GetSessionError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(112, __c14, 0) as any as S.Schema<GetSessionInput>,
+  output: __S(113, __c14, 1) as any as S.Schema<GetSessionOutput>,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    TooManyRequestsError,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetSession",
+  telemetry: TELEMETRY,
+  span: "GetSession",
 }));
 
 export type IntrospectOAuth2TokenWithIAMError =
@@ -906,8 +1055,8 @@ export const introspectOAuth2TokenWithIAM: API.OperationMethod<
   IntrospectOAuth2TokenWithIAMError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<IntrospectOAuth2TokenWithIAMRequest>,
-  output: __S(97, __c12, 1) as any as S.Schema<IntrospectOAuth2TokenWithIAMResponse>,
+  input: __S(120, __c15, 0) as any as S.Schema<IntrospectOAuth2TokenWithIAMRequest>,
+  output: __S(121, __c15, 1) as any as S.Schema<IntrospectOAuth2TokenWithIAMResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -939,8 +1088,8 @@ export const listResourcePermissionStatements: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   PermissionStatementSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<ListResourcePermissionStatementsInput>,
-  output: __S(107, __c13, 3) as any as S.Schema<ListResourcePermissionStatementsOutput>,
+  input: __S(128, __c16, 0) as any as S.Schema<ListResourcePermissionStatementsInput>,
+  output: __S(131, __c16, 3) as any as S.Schema<ListResourcePermissionStatementsOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -962,6 +1111,46 @@ export const listResourcePermissionStatements: API.PaginatedOperationMethod<
   span: "ListResourcePermissionStatements",
 })) as any;
 
+export type ListSessionsError =
+  | AccessDeniedException
+  | InternalServerException
+  | TooManyRequestsError
+  | ValidationException
+  | CommonErrors;
+/**
+ * Lists sign-in sessions for an IAM identity in your account. If you omit principalArn, the operation lists the
+ * caller's own sessions. Specify a user or role ARN to list that identity's sessions, or specify
+ * arn:aws:iam::{account-id}:* to list all sessions in the account. Filters are combined with a logical AND.
+ */
+export const listSessions: API.PaginatedOperationMethod<
+  ListSessionsInput & RegionInput,
+  ListSessionsOutput,
+  ListSessionsError,
+  Credentials | HttpClient.HttpClient,
+  Session
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: __S(136, __c17, 0) as any as S.Schema<ListSessionsInput>,
+  output: __S(139, __c17, 3) as any as S.Schema<ListSessionsOutput>,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    TooManyRequestsError,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListSessions",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+  telemetry: TELEMETRY,
+  span: "ListSessions",
+})) as any;
+
 export type PutConsoleAuthorizationConfigurationError =
   | AccessDeniedException
   | ConflictException
@@ -979,8 +1168,8 @@ export const putConsoleAuthorizationConfiguration: API.OperationMethod<
   PutConsoleAuthorizationConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<PutConsoleAuthorizationConfigurationInput>,
-  output: __S(48, __c6, 0) as any as S.Schema<PutConsoleAuthorizationConfigurationOutput>,
+  input: __S(144, __c18, 0) as any as S.Schema<PutConsoleAuthorizationConfigurationInput>,
+  output: __S(64, __c8, 0) as any as S.Schema<PutConsoleAuthorizationConfigurationOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1014,8 +1203,8 @@ export const putResourcePermissionStatement: API.OperationMethod<
   PutResourcePermissionStatementError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c15, 0) as any as S.Schema<PutResourcePermissionStatementInput>,
-  output: __S(121, __c15, 1) as any as S.Schema<PutResourcePermissionStatementOutput>,
+  input: __S(152, __c19, 0) as any as S.Schema<PutResourcePermissionStatementInput>,
+  output: __S(153, __c19, 1) as any as S.Schema<PutResourcePermissionStatementOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1047,8 +1236,8 @@ export const revokeOAuth2TokenWithIAM: API.OperationMethod<
   RevokeOAuth2TokenWithIAMError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c16, 0) as any as S.Schema<RevokeOAuth2TokenWithIAMRequest>,
-  output: __S(64, __c8, 0) as any as S.Schema<RevokeOAuth2TokenWithIAMResponse>,
+  input: __S(160, __c20, 0) as any as S.Schema<RevokeOAuth2TokenWithIAMRequest>,
+  output: __S(80, __c10, 0) as any as S.Schema<RevokeOAuth2TokenWithIAMResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1068,6 +1257,50 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
+        S.Struct({
+          principalArn: S.optional(S.String),
+          sessionArns: __S(8, __c1, 0),
+          reason: S.optional(S.String),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/batch-revoke-sessions" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+            T.StaticContextParams({ IsControlPlane: { value: true } }),
+          ),
+        ),
+      ).annotate({ identifier: "BatchRevokeSessionsInput" });
+    case 1:
+      return S.suspend(() => S.Struct({ sessionArn: S.String })).annotate({
+        identifier: "RevokedSession",
+      });
+    case 2:
+      return S.Array(__S(1, __c0, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ sessionArn: S.String, code: S.String, message: S.String }),
+      ).annotate({ identifier: "BatchRevokeSessionError" });
+    case 4:
+      return S.Array(__S(3, __c0, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({ revokedSessions: __S(2, __c0, 2), errors: __S(4, __c0, 4) }),
+      ).annotate({ identifier: "BatchRevokeSessionsOutput" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
         S.Struct({ grantType: S.String, resource: S.String, durationSeconds: S.optional(S.Number) })
           .pipe(S.encodeKeys({ grantType: "grant_type", durationSeconds: "duration" }))
           .pipe(
@@ -1084,7 +1317,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "CreateBearerTokenRequest" });
   }
 }
-function __c1(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1098,7 +1331,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "CreateBearerTokenResponse" });
   }
 }
-function __c2(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1114,7 +1347,7 @@ function __c2(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          tokenInput: __S(16, __c2, 0)
+          tokenInput: __S(32, __c4, 0)
             .pipe(T.HttpPayload())
             .annotate({ identifier: "CreateOAuth2TokenRequestBody" }),
         }).pipe(
@@ -1131,12 +1364,16 @@ function __c2(j: number): any {
       ).annotate({ identifier: "CreateOAuth2TokenRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({ accessKeyId: S.String, secretAccessKey: S.String, sessionToken: S.String }),
+        S.Struct({
+          accessKeyId: S.String,
+          secretAccessKey: SensitiveString,
+          sessionToken: SensitiveString,
+        }),
       ).annotate({ identifier: "AccessToken" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          accessToken: __S(18, __c2, 2),
+          accessToken: __S(34, __c4, 2),
           tokenType: S.String,
           expiresIn: S.Number,
           refreshToken: SensitiveString,
@@ -1146,14 +1383,14 @@ function __c2(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          tokenOutput: __S(19, __c2, 3)
+          tokenOutput: __S(35, __c4, 3)
             .pipe(T.HttpPayload())
             .annotate({ identifier: "CreateOAuth2TokenResponseBody" }),
         }),
       ).annotate({ identifier: "CreateOAuth2TokenResponse" });
   }
 }
-function __c3(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1173,7 +1410,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "CreateOAuth2TokenWithIAMRequest" });
   }
 }
-function __c4(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1181,6 +1418,8 @@ function __c4(j: number): any {
           grantType: S.String,
           subjectToken: S.optional(SensitiveString),
           subjectTokenType: S.optional(S.String),
+          assertion: S.optional(SensitiveString),
+          clientId: S.optional(S.String),
           resource: S.optional(S.String),
           scope: S.optional(S.String),
         })
@@ -1189,6 +1428,7 @@ function __c4(j: number): any {
               grantType: "grant_type",
               subjectToken: "subject_token",
               subjectTokenType: "subject_token_type",
+              clientId: "client_id",
             }),
           )
           .pipe(
@@ -1210,6 +1450,8 @@ function __c4(j: number): any {
           issuedTokenType: S.optional(S.String),
           tokenType: S.String,
           expiresIn: S.Number,
+          resource: S.optional(S.String),
+          scope: S.optional(S.String),
         }).pipe(
           S.encodeKeys({
             accessToken: "access_token",
@@ -1221,7 +1463,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "CreateOAuth2TokenWithTokenExchangeResponse" });
   }
 }
-function __c5(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1239,7 +1481,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "DeleteConsoleAuthorizationConfigurationInput" });
   }
 }
-function __c6(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1247,7 +1489,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "DeleteConsoleAuthorizationConfigurationOutput" });
   }
 }
-function __c7(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1268,7 +1510,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "DeleteResourcePermissionStatementInput" });
   }
 }
-function __c8(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -1276,7 +1518,7 @@ function __c8(j: number): any {
       });
   }
 }
-function __c9(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1294,7 +1536,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "GetConsoleAuthorizationConfigurationInput" });
   }
 }
-function __c10(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1316,10 +1558,10 @@ function __c10(j: number): any {
       return S.suspend(() =>
         S.Struct({
           effect: S.optional(S.String),
-          principal: S.optional(__S(81, __c10, 1)),
-          action: S.optional(__S(88, __c11, 0)),
+          principal: S.optional(__S(97, __c12, 1)),
+          action: S.optional(__S(8, __c1, 0)),
           resource: S.optional(S.String),
-          condition: S.optional(__S(90, __c11, 2)),
+          condition: S.optional(__S(105, __c13, 1)),
         }).pipe(
           S.encodeKeys({
             effect: "Effect",
@@ -1331,30 +1573,64 @@ function __c10(j: number): any {
         ),
       ).annotate({ identifier: "PolicyStatement" });
     case 3:
-      return S.Array(__S(82, __c10, 2));
+      return S.Array(__S(98, __c12, 2));
     case 4:
       return S.suspend(() =>
-        S.Struct({ version: S.optional(S.String), statement: S.optional(__S(83, __c10, 3)) }).pipe(
+        S.Struct({ version: S.optional(S.String), statement: S.optional(__S(99, __c12, 3)) }).pipe(
           S.encodeKeys({ version: "Version", statement: "Statement" }),
         ),
       ).annotate({ identifier: "SigninResourceBasedPolicy" });
     case 5:
-      return S.suspend(() => S.Struct({ signinResourceBasedPolicy: __S(84, __c10, 4) })).annotate({
+      return S.suspend(() => S.Struct({ signinResourceBasedPolicy: __S(100, __c12, 4) })).annotate({
         identifier: "GetResourcePolicyOutput",
       });
   }
 }
-function __c11(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.String);
+      return S.Record(S.String, /*@__PURE__*/ __S(8, __c1, 0).pipe(S.optional));
     case 1:
-      return S.Record(S.String, /*@__PURE__*/ __S(88, __c11, 0).pipe(S.optional));
-    case 2:
-      return S.Record(S.String, /*@__PURE__*/ __S(89, __c11, 1).pipe(S.optional));
+      return S.Record(S.String, /*@__PURE__*/ __S(104, __c13, 0).pipe(S.optional));
   }
 }
-function __c12(j: number): any {
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ sessionArn: S.String, principalArn: S.optional(S.String) }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/get-session" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+            T.StaticContextParams({ IsControlPlane: { value: true } }),
+          ),
+        ),
+      ).annotate({ identifier: "GetSessionInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          sessionArn: S.String,
+          principalArn: S.String,
+          role: S.optional(S.String),
+          status: S.optional(S.String),
+          clientId: S.optional(S.String),
+          clientType: S.optional(S.String),
+          resource: S.optional(S.String),
+          issuedAt: S.Number,
+          expiresAt: S.Number,
+          lastUsedAt: S.optional(S.Number),
+          issuedInRegion: S.optional(S.String),
+          originSessionArn: S.optional(S.String),
+          userAgent: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GetSessionOutput" });
+  }
+}
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1401,7 +1677,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "IntrospectOAuth2TokenWithIAMResponse" });
   }
 }
-function __c13(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1419,17 +1695,63 @@ function __c13(j: number): any {
       ).annotate({ identifier: "ListResourcePermissionStatementsInput" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ sid: S.String, condition: S.optional(__S(90, __c11, 2)) }),
+        S.Struct({ sid: S.String, condition: S.optional(__S(105, __c13, 1)) }),
       ).annotate({ identifier: "PermissionStatementSummary" });
     case 2:
-      return S.Array(__S(105, __c13, 1));
+      return S.Array(__S(129, __c16, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ permissionStatements: __S(106, __c13, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ permissionStatements: __S(130, __c16, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListResourcePermissionStatementsOutput" });
   }
 }
-function __c14(j: number): any {
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          principalArn: S.optional(S.String),
+          maxResults: S.optional(S.Number),
+          nextToken: S.optional(S.String),
+          status: S.optional(S.String),
+          clientId: S.optional(S.String),
+          issuedAfter: S.optional(S.Number),
+          issuedBefore: S.optional(S.Number),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/list-sessions" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+            T.StaticContextParams({ IsControlPlane: { value: true } }),
+          ),
+        ),
+      ).annotate({ identifier: "ListSessionsInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          sessionArn: S.String,
+          principalArn: S.String,
+          role: S.optional(S.String),
+          status: S.optional(S.String),
+          issuedAt: S.Number,
+          expiresAt: S.Number,
+          clientId: S.optional(S.String),
+          clientType: S.optional(S.String),
+          resource: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Session" });
+    case 2:
+      return S.Array(__S(137, __c17, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ items: __S(138, __c17, 2), nextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListSessionsOutput" });
+  }
+}
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1447,7 +1769,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "PutConsoleAuthorizationConfigurationInput" });
   }
 }
-function __c15(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1478,7 +1800,7 @@ function __c15(j: number): any {
       });
   }
 }
-function __c16(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

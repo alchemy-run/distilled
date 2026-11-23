@@ -50,7 +50,7 @@ interface StsResponse {
   Credentials?: {
     AccessKeyId: string;
     SecretAccessKey: string | Redacted.Redacted<string>;
-    SessionToken: string;
+    SessionToken: string | Redacted.Redacted<string>;
     Expiration: Date;
   };
   AssumedRoleUser?: { Arn?: string };
@@ -74,7 +74,7 @@ const stsCredentials = (
   return Effect.succeed({
     accessKeyId: credentials.AccessKeyId,
     secretAccessKey: unredact(credentials.SecretAccessKey),
-    sessionToken: credentials.SessionToken,
+    sessionToken: unredact(credentials.SessionToken),
     expiration: credentials.Expiration,
     ...(accountId && { accountId }),
   });

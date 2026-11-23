@@ -43,7 +43,11 @@ export interface DownloadInvoiceRawRequest {
   /** File type. PDF by default. */
   file_type?: DownloadInvoiceRequestFileType | (string & {}) | undefined;
 }
-export type DownloadInvoiceRawResponse = Uint8Array;
+export interface DownloadInvoiceRawResponse {
+  body: Uint8Array;
+  /** Media type of the body, from the response's `Content-Type` header (e.g. `image/jpeg`). */
+  contentType?: string | undefined;
+}
 export type InvoiceType = "unknown_type" | "periodic" | "purchase" | "credit_note";
 export type ExportInvoicesRequestOrderBy =
   | "invoice_number_desc"
@@ -97,7 +101,11 @@ export interface ExportInvoicesRawRequest {
   /** File format for exporting the invoice list. */
   file_type?: ExportInvoicesRequestFileType | (string & {}) | undefined;
 }
-export type ExportInvoicesRawResponse = Uint8Array;
+export interface ExportInvoicesRawResponse {
+  body: Uint8Array;
+  /** Media type of the body, from the response's `Content-Type` header (e.g. `image/jpeg`). */
+  contentType?: string | undefined;
+}
 export interface GetInvoiceRequest {
   /** Invoice ID. (UUID format) */
   invoice_id: string;
@@ -474,7 +482,7 @@ export const downloadInvoiceRaw: API.OperationMethod<
   ScalewayOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c2, 0) as any as S.Schema<DownloadInvoiceRawRequest>,
-  output: __S(9, __c2, 1) as any as S.Schema<DownloadInvoiceRawResponse>,
+  output: __S(12, __c3, 0) as any as S.Schema<DownloadInvoiceRawResponse>,
   errors: [],
   serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
@@ -491,7 +499,7 @@ export const exportInvoices: API.OperationMethod<
   ExportInvoicesError,
   ScalewayOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20, __c5, 0) as any as S.Schema<ExportInvoicesRequest>,
+  input: __S(24, __c6, 0) as any as S.Schema<ExportInvoicesRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<ScalewayStdFile>,
   errors: [],
   serviceErrors: ScalewayServiceErrors,
@@ -509,8 +517,8 @@ export const exportInvoicesRaw: API.OperationMethod<
   ExportInvoicesRawError,
   ScalewayOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c6, 0) as any as S.Schema<ExportInvoicesRawRequest>,
-  output: __S(25, __c6, 1) as any as S.Schema<ExportInvoicesRawResponse>,
+  input: __S(28, __c7, 0) as any as S.Schema<ExportInvoicesRawRequest>,
+  output: __S(12, __c3, 0) as any as S.Schema<ExportInvoicesRawResponse>,
   errors: [],
   serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
@@ -527,8 +535,8 @@ export const getInvoice: API.OperationMethod<
   GetInvoiceError,
   ScalewayOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28, __c7, 0) as any as S.Schema<GetInvoiceRequest>,
-  output: __S(36, __c9, 0) as any as S.Schema<Invoice>,
+  input: __S(32, __c8, 0) as any as S.Schema<GetInvoiceRequest>,
+  output: __S(40, __c10, 0) as any as S.Schema<Invoice>,
   errors: [],
   serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
@@ -547,8 +555,8 @@ export const listConsumptions: API.PaginatedOperationMethod<
   ListConsumptionsResponseConsumption
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(40, __c10, 0) as any as S.Schema<ListConsumptionsRequest>,
-    output: __S(43, __c10, 3) as any as S.Schema<ListConsumptionsResponse>,
+    input: __S(44, __c11, 0) as any as S.Schema<ListConsumptionsRequest>,
+    output: __S(47, __c11, 3) as any as S.Schema<ListConsumptionsResponse>,
     errors: [],
     serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
@@ -576,8 +584,8 @@ export const listDiscountLines: API.PaginatedOperationMethod<
   DiscountLine
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(44, __c11, 0) as any as S.Schema<ListDiscountLinesRequest>,
-    output: __S(47, __c11, 3) as any as S.Schema<ListDiscountLinesResponse>,
+    input: __S(48, __c12, 0) as any as S.Schema<ListDiscountLinesRequest>,
+    output: __S(51, __c12, 3) as any as S.Schema<ListDiscountLinesResponse>,
     errors: [],
     serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
@@ -605,8 +613,8 @@ export const listDiscounts: API.PaginatedOperationMethod<
   Discount
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(48, __c12, 0) as any as S.Schema<ListDiscountsRequest>,
-    output: __S(50, __c12, 2) as any as S.Schema<ListDiscountsResponse>,
+    input: __S(52, __c13, 0) as any as S.Schema<ListDiscountsRequest>,
+    output: __S(54, __c13, 2) as any as S.Schema<ListDiscountsResponse>,
     errors: [],
     serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
@@ -634,8 +642,8 @@ export const listInvoiceLines: API.PaginatedOperationMethod<
   InvoiceLine
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(56, __c14, 0) as any as S.Schema<ListInvoiceLinesRequest>,
-    output: __S(59, __c14, 3) as any as S.Schema<ListInvoiceLinesResponse>,
+    input: __S(60, __c15, 0) as any as S.Schema<ListInvoiceLinesRequest>,
+    output: __S(63, __c15, 3) as any as S.Schema<ListInvoiceLinesResponse>,
     errors: [],
     serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
@@ -663,8 +671,8 @@ export const listInvoices: API.PaginatedOperationMethod<
   Invoice
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(60, __c15, 0) as any as S.Schema<ListInvoicesRequest>,
-    output: __S(62, __c15, 2) as any as S.Schema<ListInvoicesResponse>,
+    input: __S(64, __c16, 0) as any as S.Schema<ListInvoicesRequest>,
+    output: __S(66, __c16, 2) as any as S.Schema<ListInvoicesResponse>,
     errors: [],
     serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
@@ -692,8 +700,8 @@ export const listTaxes: API.PaginatedOperationMethod<
   ListTaxesResponseTax
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(12, __c3, 0) as any as S.Schema<ListTaxesRequest>,
-    output: __S(15, __c3, 3) as any as S.Schema<ListTaxesResponse>,
+    input: __S(16, __c4, 0) as any as S.Schema<ListTaxesRequest>,
+    output: __S(19, __c4, 3) as any as S.Schema<ListTaxesResponse>,
     errors: [],
     serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
@@ -719,8 +727,8 @@ export const redeemCoupon: API.OperationMethod<
   RedeemCouponError,
   ScalewayOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c4, 0) as any as S.Schema<RedeemCouponRequest>,
-  output: __S(55, __c13, 3) as any as S.Schema<Discount>,
+  input: __S(20, __c5, 0) as any as S.Schema<RedeemCouponRequest>,
+  output: __S(59, __c14, 3) as any as S.Schema<Discount>,
   errors: [],
   serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
@@ -777,11 +785,20 @@ function __c2(j: number): any {
           }),
         ),
       ).annotate({ identifier: "DownloadInvoiceRawRequest" });
-    case 1:
-      return S.instanceOf(Uint8Array).pipe(/*@__PURE__*/ T.BinaryResponse());
   }
 }
 function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          body: S.instanceOf(Uint8Array).pipe(T.RawResponse(), T.BinaryResponse()),
+          contentType: S.optional(S.String.pipe(T.Header("Content-Type"))),
+        }),
+      ).annotate({ identifier: "DownloadInvoiceRawResponse" });
+  }
+}
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -810,18 +827,18 @@ function __c3(j: number): any {
         }),
       ).annotate({ identifier: "ListTaxesResponseTax" });
     case 2:
-      return S.Array(__S(13, __c3, 1));
+      return S.Array(__S(17, __c4, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          taxes: __S(14, __c3, 2),
+          taxes: __S(18, __c4, 2),
           total_count: S.optional(S.Number),
           updated_at: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "ListTaxesResponse" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -839,7 +856,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "RedeemCouponRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -863,7 +880,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "ExportInvoicesRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -886,11 +903,9 @@ function __c6(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ExportInvoicesRawRequest" });
-    case 1:
-      return S.instanceOf(Uint8Array).pipe(/*@__PURE__*/ T.BinaryResponse());
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -907,7 +922,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "GetInvoiceRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -919,7 +934,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "GoogleTypeMoney" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -932,11 +947,11 @@ function __c9(j: number): any {
           billing_period: S.optional(S.NullOr(S.String)),
           issued_date: S.optional(S.NullOr(S.String)),
           due_date: S.optional(S.NullOr(S.String)),
-          total_untaxed: S.optional(__S(32, __c8, 0)),
-          total_taxed: S.optional(__S(32, __c8, 0)),
-          total_tax: S.optional(__S(32, __c8, 0)),
-          total_discount: S.optional(__S(32, __c8, 0)),
-          total_undiscount: S.optional(__S(32, __c8, 0)),
+          total_untaxed: S.optional(__S(36, __c9, 0)),
+          total_taxed: S.optional(__S(36, __c9, 0)),
+          total_tax: S.optional(__S(36, __c9, 0)),
+          total_discount: S.optional(__S(36, __c9, 0)),
+          total_undiscount: S.optional(__S(36, __c9, 0)),
           type: S.optional(S.String),
           state: S.optional(S.String),
           number: S.optional(S.Number),
@@ -945,7 +960,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "Invoice" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -969,7 +984,7 @@ function __c10(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(32, __c8, 0)),
+          value: S.optional(__S(36, __c9, 0)),
           product_name: S.optional(S.String),
           resource_name: S.optional(S.String),
           sku: S.optional(S.String),
@@ -983,11 +998,11 @@ function __c10(j: number): any {
         }),
       ).annotate({ identifier: "ListConsumptionsResponseConsumption" });
     case 2:
-      return S.Array(__S(41, __c10, 1));
+      return S.Array(__S(45, __c11, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          consumptions: __S(42, __c10, 2),
+          consumptions: __S(46, __c11, 2),
           total_count: S.optional(S.Number),
           total_discount_untaxed_value: S.optional(S.Number),
           updated_at: S.optional(S.NullOr(S.String)),
@@ -995,7 +1010,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "ListConsumptionsResponse" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1018,21 +1033,21 @@ function __c11(j: number): any {
           id: S.optional(S.String),
           invoice_line_id: S.optional(S.String),
           origin: S.optional(S.String),
-          value: S.optional(__S(32, __c8, 0)),
+          value: S.optional(__S(36, __c9, 0)),
         }),
       ).annotate({ identifier: "DiscountLine" });
     case 2:
-      return S.Array(__S(45, __c11, 1));
+      return S.Array(__S(49, __c12, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           total_count: S.optional(S.Number),
-          discount_lines: __S(46, __c11, 2),
+          discount_lines: __S(50, __c12, 2),
         }),
       ).annotate({ identifier: "ListDiscountLinesResponse" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1051,17 +1066,17 @@ function __c12(j: number): any {
         ),
       ).annotate({ identifier: "ListDiscountsRequest" });
     case 1:
-      return S.Array(__S(55, __c13, 3));
+      return S.Array(__S(59, __c14, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
           total_count: S.optional(S.Number),
-          discounts: __S(49, __c12, 1),
+          discounts: __S(53, __c13, 1),
         }),
       ).annotate({ identifier: "ListDiscountsResponse" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1078,7 +1093,7 @@ function __c13(j: number): any {
         }),
       ).annotate({ identifier: "DiscountFilter" });
     case 2:
-      return S.Array(__S(53, __c13, 1));
+      return S.Array(__S(57, __c14, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -1092,13 +1107,13 @@ function __c13(j: number): any {
           mode: S.optional(S.String),
           start_date: S.optional(S.NullOr(S.String)),
           stop_date: S.optional(S.NullOr(S.String)),
-          coupon: S.optional(__S(52, __c13, 0)),
-          filters: S.optional(__S(54, __c13, 2)),
+          coupon: S.optional(__S(56, __c14, 0)),
+          filters: S.optional(__S(58, __c14, 2)),
         }),
       ).annotate({ identifier: "Discount" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1130,8 +1145,8 @@ function __c14(j: number): any {
           resource_name: S.optional(S.String),
           start_date: S.optional(S.NullOr(S.String)),
           stop_date: S.optional(S.NullOr(S.String)),
-          unit_price: S.optional(__S(32, __c8, 0)),
-          untaxed_value: S.optional(__S(32, __c8, 0)),
+          unit_price: S.optional(__S(36, __c9, 0)),
+          untaxed_value: S.optional(__S(36, __c9, 0)),
           unit: S.optional(S.String),
           unit_quantity: S.optional(S.String),
           billed_quantity: S.optional(S.String),
@@ -1139,17 +1154,17 @@ function __c14(j: number): any {
         }),
       ).annotate({ identifier: "InvoiceLine" });
     case 2:
-      return S.Array(__S(57, __c14, 1));
+      return S.Array(__S(61, __c15, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           total_count: S.optional(S.Number),
-          invoice_lines: __S(58, __c14, 2),
+          invoice_lines: __S(62, __c15, 2),
         }),
       ).annotate({ identifier: "ListInvoiceLinesResponse" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1171,12 +1186,12 @@ function __c15(j: number): any {
         ),
       ).annotate({ identifier: "ListInvoicesRequest" });
     case 1:
-      return S.Array(__S(36, __c9, 0));
+      return S.Array(__S(40, __c10, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           total_count: S.optional(S.Number),
-          invoices: __S(61, __c15, 1),
+          invoices: __S(65, __c16, 1),
         }),
       ).annotate({ identifier: "ListInvoicesResponse" });
   }

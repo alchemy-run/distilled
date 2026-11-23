@@ -527,6 +527,8 @@ export interface UpdateSummary {
 }
 export type CertificateKeyPairOrigin = "AWS_MANAGED" | "ACME" | "CUSTOMER_PROVIDED" | (string & {});
 export type AcmeAccountId = string;
+export type CertificateUsage = "CLIENT_AND_SERVER_AUTH" | "CLIENT_AUTH_ONLY" | (string & {});
+export type RootHierarchyType = "N2_AMAZON_MANAGED" | "N2_SFG2_AMAZON_MANAGED" | (string & {});
 export interface CertificateDetail {
   CertificateArn?: string | undefined;
   DomainName?: string | undefined;
@@ -559,6 +561,8 @@ export interface CertificateDetail {
   CertificateKeyPairOrigin?: CertificateKeyPairOrigin | undefined;
   AcmeEndpointArn?: string | undefined;
   AcmeAccountId?: string | undefined;
+  CertificateUsage?: CertificateUsage | undefined;
+  RootHierarchyType?: RootHierarchyType | undefined;
 }
 export interface DescribeCertificateResponse {
   Certificate?: CertificateDetail | undefined;
@@ -727,6 +731,7 @@ export interface ListCertificateDomainValidationsResponse {
 }
 export type CertificateStatuses = CertificateStatus[];
 export type CertificateKeyPairOrigins = CertificateKeyPairOrigin[];
+export type RootHierarchyTypes = RootHierarchyType[];
 export type ExtendedKeyUsageFilterList = ExtendedKeyUsageName[];
 export type KeyUsageFilterList = KeyUsageName[];
 export type KeyAlgorithmList = KeyAlgorithm[];
@@ -742,6 +747,7 @@ export type SortOrder = "ASCENDING" | "DESCENDING" | (string & {});
 export interface ListCertificatesRequest {
   CertificateStatuses?: CertificateStatus[] | undefined;
   CertificateKeyPairOrigins?: CertificateKeyPairOrigin[] | undefined;
+  RootHierarchyTypes?: RootHierarchyType[] | undefined;
   Includes?: Filters | undefined;
   NextToken?: string | undefined;
   MaxItems?: number | undefined;
@@ -772,6 +778,8 @@ export interface CertificateSummary {
   RevokedAt?: Date | undefined;
   ManagedBy?: CertificateManagedBy | undefined;
   CertificateKeyPairOrigin?: CertificateKeyPairOrigin | undefined;
+  CertificateUsage?: CertificateUsage | undefined;
+  RootHierarchyType?: RootHierarchyType | undefined;
 }
 export type CertificateSummaryList = CertificateSummary[];
 export interface ListCertificatesResponse {
@@ -822,6 +830,8 @@ export interface RequestCertificateRequest {
   Tags?: Tag[] | undefined;
   KeyAlgorithm?: KeyAlgorithm | undefined;
   ManagedBy?: CertificateManagedBy | undefined;
+  CertificateUsage?: CertificateUsage | undefined;
+  RootHierarchyType?: RootHierarchyType | undefined;
 }
 export interface RequestCertificateResponse {
   CertificateArn?: string | undefined;
@@ -960,6 +970,7 @@ export type AcmCertificateMetadataFilter =
       CertificateKeyPairOrigin?: undefined;
       AcmeEndpointArn?: undefined;
       AcmeAccountId?: undefined;
+      RootHierarchyType?: undefined;
     }
   | {
       Status?: undefined;
@@ -973,6 +984,7 @@ export type AcmCertificateMetadataFilter =
       CertificateKeyPairOrigin?: undefined;
       AcmeEndpointArn?: undefined;
       AcmeAccountId?: undefined;
+      RootHierarchyType?: undefined;
     }
   | {
       Status?: undefined;
@@ -986,6 +998,7 @@ export type AcmCertificateMetadataFilter =
       CertificateKeyPairOrigin?: undefined;
       AcmeEndpointArn?: undefined;
       AcmeAccountId?: undefined;
+      RootHierarchyType?: undefined;
     }
   | {
       Status?: undefined;
@@ -999,6 +1012,7 @@ export type AcmCertificateMetadataFilter =
       CertificateKeyPairOrigin?: undefined;
       AcmeEndpointArn?: undefined;
       AcmeAccountId?: undefined;
+      RootHierarchyType?: undefined;
     }
   | {
       Status?: undefined;
@@ -1012,6 +1026,7 @@ export type AcmCertificateMetadataFilter =
       CertificateKeyPairOrigin?: undefined;
       AcmeEndpointArn?: undefined;
       AcmeAccountId?: undefined;
+      RootHierarchyType?: undefined;
     }
   | {
       Status?: undefined;
@@ -1025,6 +1040,7 @@ export type AcmCertificateMetadataFilter =
       CertificateKeyPairOrigin?: undefined;
       AcmeEndpointArn?: undefined;
       AcmeAccountId?: undefined;
+      RootHierarchyType?: undefined;
     }
   | {
       Status?: undefined;
@@ -1038,6 +1054,7 @@ export type AcmCertificateMetadataFilter =
       CertificateKeyPairOrigin?: undefined;
       AcmeEndpointArn?: undefined;
       AcmeAccountId?: undefined;
+      RootHierarchyType?: undefined;
     }
   | {
       Status?: undefined;
@@ -1051,6 +1068,7 @@ export type AcmCertificateMetadataFilter =
       CertificateKeyPairOrigin?: undefined;
       AcmeEndpointArn?: undefined;
       AcmeAccountId?: undefined;
+      RootHierarchyType?: undefined;
     }
   | {
       Status?: undefined;
@@ -1064,6 +1082,7 @@ export type AcmCertificateMetadataFilter =
       CertificateKeyPairOrigin: CertificateKeyPairOrigin;
       AcmeEndpointArn?: undefined;
       AcmeAccountId?: undefined;
+      RootHierarchyType?: undefined;
     }
   | {
       Status?: undefined;
@@ -1077,6 +1096,7 @@ export type AcmCertificateMetadataFilter =
       CertificateKeyPairOrigin?: undefined;
       AcmeEndpointArn: string;
       AcmeAccountId?: undefined;
+      RootHierarchyType?: undefined;
     }
   | {
       Status?: undefined;
@@ -1090,6 +1110,21 @@ export type AcmCertificateMetadataFilter =
       CertificateKeyPairOrigin?: undefined;
       AcmeEndpointArn?: undefined;
       AcmeAccountId: string;
+      RootHierarchyType?: undefined;
+    }
+  | {
+      Status?: undefined;
+      RenewalStatus?: undefined;
+      Type?: undefined;
+      InUse?: undefined;
+      Exported?: undefined;
+      ExportOption?: undefined;
+      ManagedBy?: undefined;
+      ValidationMethod?: undefined;
+      CertificateKeyPairOrigin?: undefined;
+      AcmeEndpointArn?: undefined;
+      AcmeAccountId?: undefined;
+      RootHierarchyType: RootHierarchyType;
     };
 export type CertificateFilter =
   | {
@@ -1265,6 +1300,8 @@ export interface AcmCertificateMetadata {
   CertificateKeyPairOrigin?: CertificateKeyPairOrigin | undefined;
   AcmeEndpointArn?: string | undefined;
   AcmeAccountId?: string | undefined;
+  CertificateUsage?: CertificateUsage | undefined;
+  RootHierarchyType?: RootHierarchyType | undefined;
 }
 export type CertificateMetadata = { AcmCertificateMetadata: AcmCertificateMetadata };
 export interface CertificateSearchResult {
@@ -2165,6 +2202,8 @@ export type ListCertificatesError = InvalidArgsException | ValidationException |
  * Retrieves a list of certificate ARNs and domain names. You can request that only certificates that match a specific status be listed. You can also filter by specific attributes of the certificate. Default filtering returns only `RSA_2048` certificates. For more information, see Filters.
  *
  * By default, this action does not return certificates with a `CertificateKeyPairOrigin` of `ACME`. To include ACME certificates, specify `ACME` in the `CertificateKeyPairOrigins` filter.
+ *
+ * By default, this action does not return certificates with a `RootHierarchyType` of `N2_AMAZON_MANAGED` or `N2_SFG2_AMAZON_MANAGED`. To list only Amazon N2 certificates, specify one or both of these values in the `RootHierarchyTypes` filter.
  */
 export const listCertificates: API.PaginatedOperationMethod<
   ListCertificatesRequest & RegionInput,
@@ -3256,6 +3295,8 @@ function __c26(j: number): any {
           CertificateKeyPairOrigin: S.optional(S.String),
           AcmeEndpointArn: S.optional(S.String),
           AcmeAccountId: S.optional(S.String),
+          CertificateUsage: S.optional(S.String),
+          RootHierarchyType: S.optional(S.String),
         }),
       ).annotate({ identifier: "CertificateDetail" });
     case 12:
@@ -3608,6 +3649,7 @@ function __c40(j: number): any {
         S.Struct({
           CertificateStatuses: S.optional(__S(256, __c8, 0)),
           CertificateKeyPairOrigins: S.optional(__S(256, __c8, 0)),
+          RootHierarchyTypes: S.optional(__S(256, __c8, 0)),
           Includes: S.optional(__S(1280, __c40, 0)),
           NextToken: S.optional(S.String),
           MaxItems: S.optional(S.Number),
@@ -3649,6 +3691,8 @@ function __c40(j: number): any {
           RevokedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           ManagedBy: S.optional(S.String),
           CertificateKeyPairOrigin: S.optional(S.String),
+          CertificateUsage: S.optional(S.String),
+          RootHierarchyType: S.optional(S.String),
         }),
       ).annotate({ identifier: "CertificateSummary" });
     case 3:
@@ -3781,6 +3825,8 @@ function __c47(j: number): any {
           Tags: S.optional(__S(65, __c2, 1)),
           KeyAlgorithm: S.optional(S.String),
           ManagedBy: S.optional(S.String),
+          CertificateUsage: S.optional(S.String),
+          RootHierarchyType: S.optional(S.String),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/" }),
@@ -3914,6 +3960,7 @@ function __c52(j: number): any {
         /*@__PURE__*/ S.Struct({ CertificateKeyPairOrigin: S.String }),
         /*@__PURE__*/ S.Struct({ AcmeEndpointArn: S.String }),
         /*@__PURE__*/ S.Struct({ AcmeAccountId: S.String }),
+        /*@__PURE__*/ S.Struct({ RootHierarchyType: S.String }),
       ]);
     case 7:
       return S.Union([
@@ -4032,6 +4079,8 @@ function __c52(j: number): any {
           CertificateKeyPairOrigin: S.optional(S.String),
           AcmeEndpointArn: S.optional(S.String),
           AcmeAccountId: S.optional(S.String),
+          CertificateUsage: S.optional(S.String),
+          RootHierarchyType: S.optional(S.String),
         }),
       ).annotate({ identifier: "AcmCertificateMetadata" });
     case 17:

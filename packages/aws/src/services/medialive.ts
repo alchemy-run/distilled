@@ -2673,7 +2673,7 @@ export interface InputAttachment {
 }
 export type __listOfInputAttachment = InputAttachment[];
 const __listOfInputAttachment = /*@__PURE__*/ __L.at(__c57, 28);
-export type InputCodec = "MPEG2" | "AVC" | "HEVC" | (string & {});
+export type InputCodec = "MPEG2" | "AVC" | "HEVC" | "JPEGXS" | (string & {});
 export type InputMaximumBitrate = "MAX_10_MBPS" | "MAX_20_MBPS" | "MAX_50_MBPS" | (string & {});
 export type InputResolution = "SD" | "HD" | "UHD" | (string & {});
 export interface InputSpecification {
@@ -2735,6 +2735,13 @@ export interface InferenceSettings {
   AudioFeedInputs?: AudioFeedInput[] | undefined;
   EnrichmentMethods?: EnrichmentMethod[] | undefined;
 }
+export type JpegXsInputMaximumBitrate = "MAX_500_MBPS" | (string & {});
+export type JpegXsInputResolution = "HD" | (string & {});
+export interface JpegXsInputSpecification {
+  Codec?: InputCodec | undefined;
+  MaximumBitrate?: JpegXsInputMaximumBitrate | undefined;
+  Resolution?: JpegXsInputResolution | undefined;
+}
 export interface CreateChannelRequest {
   CdiInputSpecification?: CdiInputSpecification | undefined;
   ChannelClass?: ChannelClass | undefined;
@@ -2756,6 +2763,7 @@ export interface CreateChannelRequest {
   LinkedChannelSettings?: LinkedChannelSettings | undefined;
   ChannelSecurityGroups?: string[] | undefined;
   InferenceSettings?: InferenceSettings | undefined;
+  JpegXsInputSpecification?: JpegXsInputSpecification | undefined;
 }
 export interface ChannelEgressEndpoint {
   SourceIp?: string | undefined;
@@ -2856,6 +2864,7 @@ export interface Channel {
   LinkedChannelSettings?: DescribeLinkedChannelSettings | undefined;
   ChannelSecurityGroups?: string[] | undefined;
   InferenceSettings?: DescribeInferenceSettings | undefined;
+  JpegXsInputSpecification?: JpegXsInputSpecification | undefined;
 }
 export interface CreateChannelResponse {
   Channel?:
@@ -4502,6 +4511,7 @@ export interface DeleteChannelResponse {
   LinkedChannelSettings?: DescribeLinkedChannelSettings | undefined;
   ChannelSecurityGroups?: string[] | undefined;
   InferenceSettings?: DescribeInferenceSettings | undefined;
+  JpegXsInputSpecification?: JpegXsInputSpecification | undefined;
 }
 export interface DeleteChannelPlacementGroupRequest {
   ChannelPlacementGroupId: string;
@@ -4631,11 +4641,20 @@ export interface RenewalSettings {
   AutomaticRenewal?: ReservationAutomaticRenewal | undefined;
   RenewalCount?: number | undefined;
 }
-export type ReservationCodec = "MPEG2" | "AVC" | "HEVC" | "AUDIO" | "LINK" | "AV1" | (string & {});
+export type ReservationCodec =
+  | "MPEG2"
+  | "AVC"
+  | "HEVC"
+  | "AUDIO"
+  | "LINK"
+  | "AV1"
+  | "JPEGXS"
+  | (string & {});
 export type ReservationMaximumBitrate =
   | "MAX_10_MBPS"
   | "MAX_20_MBPS"
   | "MAX_50_MBPS"
+  | "MAX_500_MBPS"
   | (string & {});
 export type ReservationMaximumFramerate = "MAX_30_FPS" | "MAX_60_FPS" | (string & {});
 export type ReservationResolution = "SD" | "HD" | "FHD" | "UHD" | (string & {});
@@ -5072,6 +5091,7 @@ export interface DescribeChannelResponse {
   LinkedChannelSettings?: DescribeLinkedChannelSettings | undefined;
   ChannelSecurityGroups?: string[] | undefined;
   InferenceSettings?: DescribeInferenceSettings | undefined;
+  JpegXsInputSpecification?: JpegXsInputSpecification | undefined;
 }
 export interface DescribeChannelPlacementGroupRequest {
   ChannelPlacementGroupId: string;
@@ -5644,6 +5664,7 @@ export interface ChannelSummary {
   LinkedChannelSettings?: DescribeLinkedChannelSettings | undefined;
   ChannelSecurityGroups?: string[] | undefined;
   InferenceSettings?: DescribeInferenceSettings | undefined;
+  JpegXsInputSpecification?: JpegXsInputSpecification | undefined;
 }
 export type __listOfChannelSummary = ChannelSummary[];
 const __listOfChannelSummary = /*@__PURE__*/ __L.at(__c151, 2);
@@ -6620,6 +6641,7 @@ export interface RestartChannelPipelinesResponse {
   LinkedChannelSettings?: DescribeLinkedChannelSettings | undefined;
   ChannelSecurityGroups?: string[] | undefined;
   InferenceSettings?: DescribeInferenceSettings | undefined;
+  JpegXsInputSpecification?: JpegXsInputSpecification | undefined;
 }
 export interface StartChannelRequest {
   ChannelId: string;
@@ -6988,6 +7010,7 @@ export interface StartChannelResponse {
   LinkedChannelSettings?: DescribeLinkedChannelSettings | undefined;
   ChannelSecurityGroups?: string[] | undefined;
   InferenceSettings?: DescribeInferenceSettings | undefined;
+  JpegXsInputSpecification?: JpegXsInputSpecification | undefined;
 }
 export interface StartDeleteMonitorDeploymentRequest {
   Identifier: string;
@@ -7535,6 +7558,7 @@ export interface StopChannelResponse {
   LinkedChannelSettings?: DescribeLinkedChannelSettings | undefined;
   ChannelSecurityGroups?: string[] | undefined;
   InferenceSettings?: DescribeInferenceSettings | undefined;
+  JpegXsInputSpecification?: JpegXsInputSpecification | undefined;
 }
 export interface StopInputDeviceRequest {
   InputDeviceId: string;
@@ -7599,6 +7623,7 @@ export interface UpdateChannelRequest {
   ChannelSecurityGroups?: string[] | undefined;
   InferenceSettings?: InferenceSettings | undefined;
   SpecialRouterSettings?: SpecialRouterSettings | undefined;
+  JpegXsInputSpecification?: JpegXsInputSpecification | undefined;
 }
 export interface UpdateChannelResponse {
   Channel?:
@@ -13458,6 +13483,7 @@ function __c4(j: number): any {
           LinkedChannelSettings: S.optional(__S(1864, __c58, 8)),
           ChannelSecurityGroups: S.optional(__listOf__string),
           InferenceSettings: S.optional(__S(1858, __c58, 2)),
+          JpegXsInputSpecification: S.optional(__S(1853, __c57, 29)),
         }).pipe(
           S.encodeKeys({
             Arn: "arn",
@@ -13484,6 +13510,7 @@ function __c4(j: number): any {
             LinkedChannelSettings: "linkedChannelSettings",
             ChannelSecurityGroups: "channelSecurityGroups",
             InferenceSettings: "inferenceSettings",
+            JpegXsInputSpecification: "jpegXsInputSpecification",
           }),
         ),
       ).annotate({ identifier: "RestartChannelPipelinesResponse" });
@@ -13840,6 +13867,7 @@ function __c20(j: number): any {
           ChannelSecurityGroups: S.optional(__listOf__string),
           InferenceSettings: S.optional(__S(1858, __c58, 2)),
           SpecialRouterSettings: S.optional(__S(672, __c21, 0)),
+          JpegXsInputSpecification: S.optional(__S(1853, __c57, 29)),
         })
           .pipe(
             S.encodeKeys({
@@ -13859,6 +13887,7 @@ function __c20(j: number): any {
               ChannelSecurityGroups: "channelSecurityGroups",
               InferenceSettings: "inferenceSettings",
               SpecialRouterSettings: "specialRouterSettings",
+              JpegXsInputSpecification: "jpegXsInputSpecification",
             }),
           )
           .pipe(
@@ -14946,6 +14975,7 @@ function __c46(j: number): any {
           LinkedChannelSettings: S.optional(__S(1506, __c47, 2)),
           ChannelSecurityGroups: S.optional(__listOf__string),
           InferenceSettings: S.optional(__S(1858, __c58, 2)),
+          JpegXsInputSpecification: S.optional(__S(1853, __c57, 29)),
         })
           .pipe(
             S.encodeKeys({
@@ -14969,6 +14999,7 @@ function __c46(j: number): any {
               LinkedChannelSettings: "linkedChannelSettings",
               ChannelSecurityGroups: "channelSecurityGroups",
               InferenceSettings: "inferenceSettings",
+              JpegXsInputSpecification: "jpegXsInputSpecification",
             }),
           )
           .pipe(
@@ -17327,6 +17358,7 @@ function __c55(j: number): any {
           LinkedChannelSettings: S.optional(__S(1864, __c58, 8)),
           ChannelSecurityGroups: S.optional(__listOf__string),
           InferenceSettings: S.optional(__S(1858, __c58, 2)),
+          JpegXsInputSpecification: S.optional(__S(1853, __c57, 29)),
         }).pipe(
           S.encodeKeys({
             Arn: "arn",
@@ -17352,6 +17384,7 @@ function __c55(j: number): any {
             LinkedChannelSettings: "linkedChannelSettings",
             ChannelSecurityGroups: "channelSecurityGroups",
             InferenceSettings: "inferenceSettings",
+            JpegXsInputSpecification: "jpegXsInputSpecification",
           }),
         ),
       ).annotate({ identifier: "Channel" });
@@ -20859,6 +20892,7 @@ function __c151(j: number): any {
           LinkedChannelSettings: S.optional(__S(1864, __c58, 8)),
           ChannelSecurityGroups: S.optional(__listOf__string),
           InferenceSettings: S.optional(__S(1858, __c58, 2)),
+          JpegXsInputSpecification: S.optional(__S(1853, __c57, 29)),
         }).pipe(
           S.encodeKeys({
             Arn: "arn",
@@ -20883,6 +20917,7 @@ function __c151(j: number): any {
             LinkedChannelSettings: "linkedChannelSettings",
             ChannelSecurityGroups: "channelSecurityGroups",
             InferenceSettings: "inferenceSettings",
+            JpegXsInputSpecification: "jpegXsInputSpecification",
           }),
         ),
       ).annotate({ identifier: "ChannelSummary" });

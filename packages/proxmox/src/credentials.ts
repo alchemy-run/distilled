@@ -6,6 +6,10 @@
  * `Authorization: PVEAPIToken=<tokenId>=<tokenSecret>` header from it. The
  * token ID has the form `<user>@<realm>!<token name>`.
  *
+ * A layer here reads and checks its configuration when it is built: a
+ * missing variable or an endpoint that is not the HTTPS API root is a
+ * `ConfigError` at setup, and no call fails for it.
+ *
  * TLS settings are not part of the credentials. A node with a certificate
  * from a private CA needs an HTTP client that trusts that CA (see the
  * README).
@@ -25,7 +29,7 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
     "ProxmoxCredentials",
   ) {}
 
@@ -60,9 +64,19 @@ const envConfig = /*@__PURE__*/ EffectConfig.all({
   tokenSecret: /*@__PURE__*/ EffectConfig.Redacted("PROXMOX_TOKEN_SECRET"),
 });
 
-/** Reads `PROXMOX_ENDPOINT`, `PROXMOX_TOKEN_ID` and `PROXMOX_TOKEN_SECRET`. */
-export const CredentialsFromEnv = /*@__PURE__*/ Layer.succeed(
-  Credentials,
+/** A layer that resolves and checks `config` once, when it is built. */
+const layer = (config: Effect.Effect<Config, ConfigError>): Layer.Layer<Credentials, ConfigError> =>
+  Layer.effect(
+    Credentials,
+    Effect.map(config, (resolved) => Effect.succeed(resolved)),
+  );
+
+/**
+ * Reads `PROXMOX_ENDPOINT`, `PROXMOX_TOKEN_ID` and `PROXMOX_TOKEN_SECRET`.
+ * The environment is read, and the endpoint checked, once: when the layer
+ * is built.
+ */
+export const CredentialsFromEnv: Layer.Layer<Credentials, ConfigError> = /*@__PURE__*/ layer(
   /*@__PURE__*/ envConfig.pipe(
     /*@__PURE__*/ Effect.mapError(
       () =>
@@ -75,6 +89,6 @@ export const CredentialsFromEnv = /*@__PURE__*/ Layer.succeed(
   ),
 );
 
-/** Convenience layer from an endpoint and a token. */
-export const credentials = (config: Config): Layer.Layer<Credentials> =>
-  Layer.succeed(Credentials, resolve(config));
+/** Convenience layer from an endpoint and a token. The endpoint is checked when the layer is built. */
+export const credentials = (config: Config): Layer.Layer<Credentials, ConfigError> =>
+  layer(resolve(config));

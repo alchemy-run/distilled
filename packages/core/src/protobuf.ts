@@ -16,6 +16,7 @@
  * `optional`, message fields and `oneof` members) are omitted when absent.
  * Enum numbers map back to names, and unknown fields are skipped.
  */
+import { setOwnKey } from "./plain-values.ts";
 
 /** A scalar or composite field kind. */
 export type FieldKind =
@@ -196,7 +197,9 @@ class Writer {
 class Reader {
   pos = 0;
   readonly view: DataView;
-  constructor(readonly buf: Uint8Array) {
+  readonly buf: Uint8Array;
+  constructor(buf: Uint8Array) {
+    this.buf = buf;
     this.view = new DataView(buf.buffer, buf.byteOffset, buf.byteLength);
   }
 
@@ -968,7 +971,7 @@ const readStruct = (bytes: Uint8Array): Record<string, unknown> => {
       else if (n === 2 && w === 2) value = readStructValue(entry.delimited());
       else entry.skip(w, n);
     }
-    out[key] = value;
+    setOwnKey(out, key, value);
   }
   return out;
 };
@@ -1207,7 +1210,7 @@ export const decodeMessage = (d: ProtoDescriptors, name: string, bytes: Uint8Arr
         else entry.skip(w, n);
       }
       const map = (out[json] ??= {}) as Record<string, unknown>;
-      map[String(key)] = value;
+      setOwnKey(map, String(key), value);
       continue;
     }
     if (repeated) {
@@ -1298,9 +1301,12 @@ export const frame = (payload: Uint8Array): Uint8Array => {
  */
 export class FrameReader {
   private buf: Uint8Array<ArrayBufferLike> = new Uint8Array(0);
+  private readonly maxBytes: number;
 
   /** `maxBytes`: the largest frame payload accepted; a larger one throws {@link FrameTooLargeError}. */
-  constructor(private readonly maxBytes: number = Infinity) {}
+  constructor(maxBytes: number = Infinity) {
+    this.maxBytes = maxBytes;
+  }
 
   /** The trailers of the gRPC-Web trailer frames read so far, names lowercase. */
   readonly trailers: Record<string, string> = {};

@@ -281,7 +281,11 @@ export interface GetDeploymentCertificateRawRequest {
   /** UUID of the deployment. */
   deployment_id: string;
 }
-export type GetDeploymentCertificateRawResponse = Uint8Array;
+export interface GetDeploymentCertificateRawResponse {
+  body: Uint8Array;
+  /** Media type of the body, from the response's `Content-Type` header (e.g. `image/jpeg`). */
+  contentType?: string | undefined;
+}
 export type ListDatabasesRequestRegion = "fr-par";
 export type ListDatabasesRequestOrderBy = "name_asc" | "name_desc" | "size_asc" | "size_desc";
 export interface ListDatabasesRequest {
@@ -1047,7 +1051,12 @@ function __c6(j: number): any {
         ),
       ).annotate({ identifier: "GetDeploymentCertificateRawRequest" });
     case 1:
-      return S.instanceOf(Uint8Array).pipe(/*@__PURE__*/ T.BinaryResponse());
+      return S.suspend(() =>
+        S.Struct({
+          body: S.instanceOf(Uint8Array).pipe(T.RawResponse(), T.BinaryResponse()),
+          contentType: S.optional(S.String.pipe(T.Header("Content-Type"))),
+        }),
+      ).annotate({ identifier: "GetDeploymentCertificateRawResponse" });
   }
 }
 function __c7(j: number): any {

@@ -80,7 +80,11 @@ export interface DownloadRecordingRequest {
   /** Recording ID */
   id: string;
 }
-export type DownloadRecordingResponse = Uint8Array;
+export interface DownloadRecordingResponse {
+  body: Uint8Array;
+  /** Media type of the body, from the response's `Content-Type` header (e.g. `image/jpeg`). */
+  contentType?: string | undefined;
+}
 export type DragRequestModifiersList = Array<string>;
 export interface DragRequest {
   button?: string | undefined;
@@ -464,7 +468,7 @@ export const downloadRecording: API.OperationMethod<
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(148, __c37, 0) as any as S.Schema<DownloadRecordingRequest>,
-  output: __S(149, __c37, 1) as any as S.Codec<DownloadRecordingResponse>,
+  output: __S(149, __c37, 1) as any as S.Schema<DownloadRecordingResponse>,
   errors: [],
   serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
@@ -1598,7 +1602,12 @@ function __c37(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/computeruse/recordings/{id}/download", code: 200 })),
       ).annotate({ identifier: "DownloadRecordingRequest" });
     case 1:
-      return S.instanceOf(Uint8Array).pipe(/*@__PURE__*/ T.BinaryResponse());
+      return S.suspend(() =>
+        S.Struct({
+          body: S.instanceOf(Uint8Array).pipe(T.RawResponse(), T.BinaryResponse()),
+          contentType: S.optional(S.String.pipe(T.Header("Content-Type"))),
+        }),
+      ).annotate({ identifier: "DownloadRecordingResponse" });
   }
 }
 function __c38(j: number): any {

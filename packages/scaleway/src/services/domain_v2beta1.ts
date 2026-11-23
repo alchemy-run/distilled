@@ -122,7 +122,11 @@ export interface ExportRawDNSZoneRawRequest {
   /** DNS zone format. */
   format?: RawFormat | (string & {}) | undefined;
 }
-export type ExportRawDNSZoneRawResponse = Uint8Array;
+export interface ExportRawDNSZoneRawResponse {
+  body: Uint8Array;
+  /** Media type of the body, from the response's `Content-Type` header (e.g. `image/jpeg`). */
+  contentType?: string | undefined;
+}
 export interface GetDNSZoneTsigKeyRequest {
   dns_zone: string;
 }
@@ -1746,7 +1750,12 @@ function __c33(j: number): any {
         ),
       ).annotate({ identifier: "ExportRawDNSZoneRawRequest" });
     case 1:
-      return S.instanceOf(Uint8Array).pipe(/*@__PURE__*/ T.BinaryResponse());
+      return S.suspend(() =>
+        S.Struct({
+          body: S.instanceOf(Uint8Array).pipe(T.RawResponse(), T.BinaryResponse()),
+          contentType: S.optional(S.String.pipe(T.Header("Content-Type"))),
+        }),
+      ).annotate({ identifier: "ExportRawDNSZoneRawResponse" });
   }
 }
 function __c34(j: number): any {

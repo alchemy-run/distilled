@@ -8,6 +8,10 @@ import { invalidHostLabelConfig } from "@distilled.cloud/core/protocol-http";
  * `DD-APPLICATION-KEY`) and regional sites. The `Credentials` service holds
  * an *effect* that resolves the current credentials on every request (the
  * protocol resolves it per request on the calling fiber).
+ *
+ * A layer here reads and checks its configuration when it is built: a
+ * missing API key or a site that is not a host name is a `ConfigError` at
+ * setup, and no call fails for it.
  */
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
@@ -44,20 +48,29 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
     "DatadogCredentials",
   ) {}
 
-/** Layer from a redacted API key + optional application key / site / base URL. */
+/** A layer that resolves and checks `config` once, when it is built. */
+const layer = (config: Effect.Effect<Config, ConfigError>): Layer.Layer<Credentials, ConfigError> =>
+  Layer.effect(
+    Credentials,
+    Effect.map(config, (resolved) => Effect.succeed(resolved)),
+  );
+
+/**
+ * Layer from a redacted API key + optional application key / site / base
+ * URL. The site is checked when the layer is built.
+ */
 export const fromApiKey = (config: {
   readonly apiKey: Redacted.Redacted<string>;
   readonly applicationKey?: Redacted.Redacted<string>;
   readonly site?: string;
   readonly apiBaseUrl?: string;
-}): Layer.Layer<Credentials> => {
+}): Layer.Layer<Credentials, ConfigError> => {
   const site = config.site ?? DEFAULT_SITE;
-  return Layer.succeed(
-    Credentials,
+  return layer(
     Effect.map(resolveApiBaseUrl(site, config.apiBaseUrl), (apiBaseUrl) => ({
       apiKey: config.apiKey,
       applicationKey: config.applicationKey,
@@ -69,10 +82,10 @@ export const fromApiKey = (config: {
 
 /**
  * Reads DD_API_KEY (required), DD_APP_KEY (optional), DD_SITE (optional)
- * and DD_API_BASE_URL (optional override of `https://api.${site}`).
+ * and DD_API_BASE_URL (optional override of `https://api.${site}`). The
+ * environment is read, and the site checked, once: when the layer is built.
  */
-export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.succeed(
-  Credentials,
+export const CredentialsFromEnv: Layer.Layer<Credentials, ConfigError> = /*@__PURE__*/ layer(
   /*@__PURE__*/ Effect.gen(function* () {
     const apiKey = process.env.DD_API_KEY;
 

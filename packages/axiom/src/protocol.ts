@@ -1,3 +1,4 @@
+import { setOwnKey } from "@distilled.cloud/core/plain-values";
 import type { ErrorOf } from "@distilled.cloud/core/protocol";
 import {
   restProtocol,
@@ -58,8 +59,8 @@ export const stripNulls = (value: unknown): unknown => {
   if (value && typeof value === "object") {
     const out: Record<string, unknown> = {};
     for (const [k, v] of Object.entries(value as Record<string, unknown>)) {
-      if (v === null) continue;
-      out[k] = stripNulls(v);
+      // setOwnKey keeps a `__proto__` key a key instead of the prototype.
+      if (v !== null) setOwnKey(out, k, stripNulls(v));
     }
     return out;
   }

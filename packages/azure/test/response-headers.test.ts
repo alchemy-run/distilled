@@ -3,20 +3,23 @@ import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import { describe, expect, test } from "vitest";
-import { Credentials, DEFAULT_API_BASE_URL } from "../src/credentials.ts";
+import { check, Credentials, DEFAULT_API_BASE_URL } from "../src/credentials.ts";
 import * as Retry from "../src/retry.ts";
 import { AttachedDatabaseConfigurationsCreateOrUpdate } from "../src/services/azure_kusto.ts";
 import { UpdateServer } from "../src/services/postgresql.ts";
 
 const subscriptionId = "00000000-0000-0000-0000-000000000000";
 
-const TestCredentials = Layer.succeed(
+const TestCredentials = Layer.effect(
   Credentials,
-  Effect.succeed({
-    token: () => Effect.succeed(Redacted.make("test")),
-    subscriptionId,
-    apiBaseUrl: DEFAULT_API_BASE_URL,
-  }),
+  Effect.map(
+    check({
+      token: () => Effect.succeed(Redacted.make("test")),
+      subscriptionId,
+      apiBaseUrl: DEFAULT_API_BASE_URL,
+    }),
+    Effect.succeed,
+  ),
 );
 
 const monitor = `https://management.azure.com/subscriptions/${subscriptionId}/providers/Microsoft.DBforPostgreSQL/locations/northcentralus/azureAsyncOperation/5dfd3b67-b6cf-4e17-b5de-5389ca1f8c2f?api-version=2025-08-01`;

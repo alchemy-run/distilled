@@ -25,7 +25,7 @@
  *     wait: true,
  *     body: '{"timestamp":"2026-11-17 00:00:00","city":"Chicago","amount":3}\n',
  *   });
- *   const bytes = yield* Query.querySql({
+ *   const { body: bytes } = yield* Query.querySql({
  *     q: "SELECT city, sum(amount) AS total FROM events GROUP BY city FORMAT JSON",
  *   });
  *   const { data } = JSON.parse(new TextDecoder().decode(bytes));

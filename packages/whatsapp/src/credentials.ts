@@ -1,5 +1,7 @@
 import * as EffectConfig from "@distilled.cloud/core/config";
+import type { Checked } from "@distilled.cloud/core/config";
 import { ConfigError } from "@distilled.cloud/core/errors";
+import { invalidLabel } from "@distilled.cloud/core/protocol-http";
 /**
  * WhatsApp credentials -- hand-written.
  *
@@ -17,6 +19,10 @@ import { ConfigError } from "@distilled.cloud/core/errors";
  * Following the core convention the `Credentials` service holds an *effect*
  * resolving the current config, which the protocol runs per request on
  * the calling fiber.
+ *
+ * A layer here reads and checks its configuration when it is built
+ * ({@link check}): a missing access token or a version that can't be a URL
+ * path segment is a `ConfigError` at setup, and no call fails for it.
  */
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
@@ -39,10 +45,33 @@ export interface Config {
   readonly apiBaseUrl: string;
 }
 
+/** What the service resolves: a {@link Config} that passed {@link check}. */
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Checked<Config>>>()(
     "WhatsAppCredentials",
   ) {}
+
+/**
+ * Check `config`: fails with `ConfigError` for a version that can't be a
+ * URL path segment (`""`, `.`, `..`, a lone UTF-16 surrogate). For a
+ * `Credentials` layer of your own, for example one that rotates tokens.
+ */
+export const check = (config: Config): Effect.Effect<Checked<Config>, ConfigError> =>
+  invalidLabel("apiVersion", config.apiVersion) === undefined
+    ? // The one place that says a Config is checked.
+      Effect.succeed(config as Checked<Config>)
+    : Effect.fail(
+        new ConfigError({
+          message: `The configured WhatsApp API version ${JSON.stringify(config.apiVersion)} cannot be a URL path segment`,
+        }),
+      );
+
+/** A layer that resolves and checks `config` once, when it is built. */
+const layer = (config: Effect.Effect<Config, ConfigError>): Layer.Layer<Credentials, ConfigError> =>
+  Layer.effect(
+    Credentials,
+    Effect.map(Effect.flatMap(config, check), (checked) => Effect.succeed(checked)),
+  );
 
 const trimSlash = (url: string): string => url.replace(/\/+$/, "");
 
@@ -51,9 +80,8 @@ export const fromAccessToken = (config: {
   readonly accessToken: Redacted.Redacted<string>;
   readonly apiVersion?: string;
   readonly apiBaseUrl?: string;
-}): Layer.Layer<Credentials> =>
-  Layer.succeed(
-    Credentials,
+}): Layer.Layer<Credentials, ConfigError> =>
+  layer(
     Effect.succeed({
       accessToken: config.accessToken,
       apiVersion: config.apiVersion ?? DEFAULT_API_VERSION,
@@ -75,9 +103,10 @@ const envConfig = /*@__PURE__*/ EffectConfig.all({
  * Reads `WHATSAPP_ACCESS_TOKEN` (required), `WHATSAPP_API_VERSION` and
  * `WHATSAPP_API_BASE_URL` (optional) through Effect `Config` -- so it follows
  * whatever `ConfigProvider` is installed (in a Worker, one built from `env`).
+ * The environment is read, and the values checked, once: when the layer is
+ * built.
  */
-export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.succeed(
-  Credentials,
+export const CredentialsFromEnv: Layer.Layer<Credentials, ConfigError> = /*@__PURE__*/ layer(
   /*@__PURE__*/ envConfig.pipe(
     /*@__PURE__*/ Effect.mapError(
       (e) =>

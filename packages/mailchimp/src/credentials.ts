@@ -11,6 +11,10 @@ import { invalidHostLabelConfig } from "@distilled.cloud/core/protocol-http";
  * Following the core convention the `Credentials` service holds an *effect*
  * resolving the current config, which the protocol runs per request on
  * the calling fiber.
+ *
+ * A layer here reads and checks its configuration when it is built: a
+ * missing key, a key without a data centre or a `serverPrefix` that can't
+ * be a host label is a `ConfigError` at setup, and no call fails for it.
  */
 import * as EffectConfig from "effect/Config";
 import * as Context from "effect/Context";
@@ -26,7 +30,7 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
     "MailchimpCredentials",
   ) {}
 
@@ -67,23 +71,31 @@ const resolve = (config: {
   return Effect.succeed({ apiKey, apiBaseUrl: apiBaseUrlFor(server) });
 };
 
+/** A layer that resolves and checks `config` once, when it is built. */
+const layer = (config: Effect.Effect<Config, ConfigError>): Layer.Layer<Credentials, ConfigError> =>
+  Layer.effect(
+    Credentials,
+    Effect.map(config, (resolved) => Effect.succeed(resolved)),
+  );
+
 /**
  * Layer from an API key. The data centre comes from the key's suffix unless
- * `serverPrefix` (e.g. `"us21"`) or a full `apiBaseUrl` is given.
+ * `serverPrefix` (e.g. `"us21"`) or a full `apiBaseUrl` is given. It is
+ * checked when the layer is built.
  */
 export const fromApiKey = (config: {
   readonly apiKey: string | Redacted.Redacted<string>;
   readonly serverPrefix?: string;
   readonly apiBaseUrl?: string;
-}): Layer.Layer<Credentials> => Layer.succeed(Credentials, resolve(config));
+}): Layer.Layer<Credentials, ConfigError> => layer(resolve(config));
 
 /**
  * Reads `MAILCHIMP_API_KEY` (required) and the optional
  * `MAILCHIMP_SERVER_PREFIX` through Effect `Config`, so it follows whatever
- * `ConfigProvider` is installed -- in a Worker, one built from `env`.
+ * `ConfigProvider` is installed -- in a Worker, one built from `env`. They
+ * are read, and checked, once: when the layer is built.
  */
-export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.succeed(
-  Credentials,
+export const CredentialsFromEnv: Layer.Layer<Credentials, ConfigError> = /*@__PURE__*/ layer(
   Effect.gen(function* () {
     const apiKey = yield* EffectConfig.Redacted("MAILCHIMP_API_KEY");
     const serverPrefix = yield* EffectConfig.option(EffectConfig.String("MAILCHIMP_SERVER_PREFIX"));
@@ -119,7 +131,7 @@ export interface TransactionalConfig {
 export class TransactionalCredentials
   extends /*@__PURE__*/ Context.Service<
     TransactionalCredentials,
-    Effect.Effect<TransactionalConfig, ConfigError>
+    Effect.Effect<TransactionalConfig>
   >()("MailchimpTransactionalCredentials") {}
 
 /**
@@ -147,10 +159,10 @@ export const fromTransactionalApiKey = (config: {
 
 /**
  * Reads `MAILCHIMP_TRANSACTIONAL_API_KEY` (or the older `MANDRILL_API_KEY`)
- * through Effect `Config`.
+ * through Effect `Config`, once: when the layer is built.
  */
-export const TransactionalCredentialsFromEnv: Layer.Layer<TransactionalCredentials> =
-  /*@__PURE__*/ Layer.succeed(
+export const TransactionalCredentialsFromEnv: Layer.Layer<TransactionalCredentials, ConfigError> =
+  /*@__PURE__*/ Layer.effect(
     TransactionalCredentials,
     Effect.gen(function* () {
       const apiKey = yield* EffectConfig.Redacted("MAILCHIMP_TRANSACTIONAL_API_KEY").pipe(
@@ -164,5 +176,6 @@ export const TransactionalCredentialsFromEnv: Layer.Layer<TransactionalCredentia
             message: `Mailchimp Transactional credentials require MAILCHIMP_TRANSACTIONAL_API_KEY: ${e.message}`,
           }),
       ),
+      Effect.map((config) => Effect.succeed(config)),
     ),
   );

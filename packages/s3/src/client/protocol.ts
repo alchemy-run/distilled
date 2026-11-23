@@ -76,10 +76,12 @@ export interface TextResponse extends Response {
  * JSON). Strict mode fails with `error`; lenient mode returns `asRead`.
  */
 export class Unreadable {
-  constructor(
-    readonly error: ParseError,
-    readonly asRead: unknown,
-  ) {}
+  readonly error: ParseError;
+  readonly asRead: unknown;
+  constructor(error: ParseError, asRead: unknown) {
+    this.error = error;
+    this.asRead = asRead;
+  }
 }
 
 /**

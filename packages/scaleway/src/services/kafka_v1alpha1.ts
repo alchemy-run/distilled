@@ -217,7 +217,11 @@ export interface GetClusterCertificateAuthorityRawRequest {
   /** UUID of the Kafka Cluster. */
   cluster_id: string;
 }
-export type GetClusterCertificateAuthorityRawResponse = Uint8Array;
+export interface GetClusterCertificateAuthorityRawResponse {
+  body: Uint8Array;
+  /** Media type of the body, from the response's `Content-Type` header (e.g. `image/jpeg`). */
+  contentType?: string | undefined;
+}
 export type ListClustersRequestRegion = "fr-par";
 export type ListClustersRequestTagsList = Array<string>;
 export type ListClustersRequestOrderBy =
@@ -1096,7 +1100,12 @@ function __c14(j: number): any {
         ),
       ).annotate({ identifier: "GetClusterCertificateAuthorityRawRequest" });
     case 1:
-      return S.instanceOf(Uint8Array).pipe(/*@__PURE__*/ T.BinaryResponse());
+      return S.suspend(() =>
+        S.Struct({
+          body: S.instanceOf(Uint8Array).pipe(T.RawResponse(), T.BinaryResponse()),
+          contentType: S.optional(S.String.pipe(T.Header("Content-Type"))),
+        }),
+      ).annotate({ identifier: "GetClusterCertificateAuthorityRawResponse" });
   }
 }
 function __c15(j: number): any {

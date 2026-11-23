@@ -204,7 +204,11 @@ export interface DownloadSkillVersionContentRequest {
   /** Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`). Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace. */
   anthropicWorkspaceId?: string | undefined;
 }
-export type DownloadSkillVersionContentResponse = Uint8Array;
+export interface DownloadSkillVersionContentResponse {
+  body: Uint8Array;
+  /** Media type of the body, from the response's `Content-Type` header (e.g. `image/jpeg`). */
+  contentType?: string | undefined;
+}
 /** Optional header to specify the beta version(s) you want to use. */
 export type GetSkillRequestAnthropicBetaList = Array<AnthropicBeta>;
 export interface GetSkillRequest {
@@ -613,7 +617,12 @@ function __c9(j: number): any {
         ),
       ).annotate({ identifier: "DownloadSkillVersionContentRequest" });
     case 1:
-      return S.instanceOf(Uint8Array).pipe(/*@__PURE__*/ T.BinaryResponse());
+      return S.suspend(() =>
+        S.Struct({
+          body: S.instanceOf(Uint8Array).pipe(T.RawResponse(), T.BinaryResponse()),
+          contentType: S.optional(S.String.pipe(T.Header("Content-Type"))),
+        }),
+      ).annotate({ identifier: "DownloadSkillVersionContentResponse" });
   }
 }
 function __c10(j: number): any {

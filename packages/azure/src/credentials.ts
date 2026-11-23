@@ -3,10 +3,10 @@
  *
  * The `Credentials` service holds an *effect* that resolves the current
  * credentials on every request (the protocol resolves it per request on the
- * calling fiber). Each provider below is a `Layer.Layer<Credentials>` that
- * mints Microsoft Entra ID tokens for any scope through `Config.token`,
- * caches them per scope (one cache per layer value, AGENTS.md rule 16),
- * and mints again 5 minutes before they expire:
+ * calling fiber). Each provider below is a `Layer.Layer<Credentials,
+ * ConfigError>` that mints Microsoft Entra ID tokens for any scope through
+ * `Config.token`, caches them per scope (one cache per layer value,
+ * AGENTS.md rule 16), and mints again 5 minutes before they expire:
  *
  * - {@link fromClientSecret} -- a service principal's client secret
  *   (OAuth2 client-credentials grant).
@@ -20,6 +20,11 @@
  *   bearer token (`AZURE_BEARER_TOKEN`).
  * - {@link fromEnv} -- the chain: client secret, then managed identity, then
  *   a static token.
+ *
+ * A layer reads the environment and checks what it is given when it is
+ * built: a subscription or tenant that can't be a URL path segment, or an
+ * environment with no credentials, is a `ConfigError` at setup, and no call
+ * fails for it. Token requests stay per call.
  *
  * The token requests are the one place this SDK sends raw HTTP. They use the
  * calling fiber's `HttpClient` when one is in scope (an operation always has
@@ -40,6 +45,7 @@ import * as Redacted from "effect/Redacted";
 import * as Schedule from "effect/Schedule";
 import {
   type AzureCredentialsError,
+  check,
   type Config,
   Credentials,
   DEFAULT_API_BASE_URL,
@@ -272,7 +278,8 @@ const INVALID_CLIENT_ERRORS = new Set(["invalid_client", "unauthorized_client"])
 /**
  * The Entra ID token endpoint of `tenantId`, or a {@link ConfigError} for a
  * tenant that can't be a URL path segment (`""`, `.`, `..`, a lone UTF-16
- * surrogate): the value comes from the credentials, not the call.
+ * surrogate). A layer builds it once, when the layer is built, and fails
+ * there; a token request uses the endpoint it built.
  */
 const tokenEndpoint = (authorityHost: string, tenantId: string): string | ConfigError => {
   const tenant = encodeLabel("tenantId", tenantId);
@@ -287,11 +294,19 @@ const tokenEndpoint = (authorityHost: string, tenantId: string): string | Config
 export const requestClientSecretToken = (
   options: ClientSecretOptions,
   scope: string,
-): Effect.Effect<AccessToken, AzureCredentialsError | ConfigError> =>
+): Effect.Effect<AccessToken, AzureCredentialsError | ConfigError> => {
+  const url = tokenEndpoint(options.authorityHost ?? DEFAULT_AUTHORITY_HOST, options.tenantId);
+  return url instanceof ConfigError ? Effect.fail(url) : clientSecretToken(url, options, scope);
+};
+
+/** The client-credentials grant at `url`, the tenant's token endpoint. */
+const clientSecretToken = (
+  url: string,
+  options: ClientSecretOptions,
+  scope: string,
+): Effect.Effect<AccessToken, AzureCredentialsError> =>
   Effect.gen(function* () {
     const issuedAt = yield* Clock.currentTimeMillis;
-    const url = tokenEndpoint(options.authorityHost ?? DEFAULT_AUTHORITY_HOST, options.tenantId);
-    if (url instanceof ConfigError) return yield* url;
     const request = HttpClientRequest.post(url, { acceptJson: true }).pipe(
       HttpClientRequest.bodyUrlParams({
         grant_type: "client_credentials",
@@ -348,17 +363,55 @@ const makeConfig = (
   }));
 };
 
-const clientSecretConfig = (options: ClientSecretOptions) =>
-  makeConfig((scope) => requestClientSecretToken(options, scope), {
-    subscriptionId: Effect.succeed(options.subscriptionId),
-    tenantId: options.tenantId,
-    apiBaseUrl: options.apiBaseUrl,
-  });
+const clientSecretConfig = (options: ClientSecretOptions): Effect.Effect<Config, ConfigError> => {
+  // The tenant is checked here, once, and never on a token request.
+  const url = tokenEndpoint(options.authorityHost ?? DEFAULT_AUTHORITY_HOST, options.tenantId);
+  return url instanceof ConfigError
+    ? Effect.fail(url)
+    : makeConfig((scope) => clientSecretToken(url, options, scope), {
+        subscriptionId: Effect.succeed(options.subscriptionId),
+        tenantId: options.tenantId,
+        apiBaseUrl: options.apiBaseUrl,
+      });
+};
+
+/** A layer that resolves and checks `config` once, when it is built. */
+const layer = (config: Effect.Effect<Config, ConfigError>): Layer.Layer<Credentials, ConfigError> =>
+  Layer.effect(
+    Credentials,
+    Effect.map(Effect.flatMap(config, check), (checked) => Effect.succeed(checked)),
+  );
+
+/**
+ * The config `resolve` returns, resolved by the first build of a layer value
+ * and kept for the builds after it, so they share one token cache
+ * (AGENTS.md rule 16).
+ */
+const resolvedOnce = (
+  resolve: Effect.Effect<Effect.Effect<Config, ConfigError>, ConfigError>,
+): Effect.Effect<Config, ConfigError> => {
+  let kept: Effect.Effect<Config, ConfigError> | undefined;
+  return Effect.suspend(() =>
+    kept !== undefined
+      ? kept
+      : resolve.pipe(
+          Effect.flatMap((config) =>
+            Effect.suspend(() => {
+              // A concurrent first build may have resolved already; keep one.
+              kept ??= config;
+              return kept;
+            }),
+          ),
+        ),
+  );
+};
 
 /**
  * Credentials of a service principal: tokens for any scope from the OAuth2
  * client-credentials grant against
- * `https://login.microsoftonline.com/<tenant>/oauth2/v2.0/token`.
+ * `https://login.microsoftonline.com/<tenant>/oauth2/v2.0/token`. A tenant
+ * or subscription that can't be a URL path segment fails the layer with
+ * `ConfigError`.
  *
  * @example
  * ```ts
@@ -367,8 +420,9 @@ const clientSecretConfig = (options: ClientSecretOptions) =>
  * );
  * ```
  */
-export const fromClientSecret = (options: ClientSecretOptions): Layer.Layer<Credentials> =>
-  Layer.succeed(Credentials, clientSecretConfig(options));
+export const fromClientSecret = (
+  options: ClientSecretOptions,
+): Layer.Layer<Credentials, ConfigError> => layer(clientSecretConfig(options));
 
 // ---------------------------------------------------------------------------
 // Managed identity
@@ -453,6 +507,21 @@ interface ResolvedWorkloadIdentity {
   readonly authorityHost: string;
 }
 
+/** A workload identity with its token endpoint: its tenant can be a URL path segment. */
+interface WorkloadIdentity extends ResolvedWorkloadIdentity {
+  readonly tokenUrl: string;
+}
+
+/** `identity` with its token endpoint, built (and its tenant checked) once per layer. */
+const withTokenEndpoint = (
+  identity: ResolvedWorkloadIdentity,
+): Effect.Effect<WorkloadIdentity, ConfigError> => {
+  const tokenUrl = tokenEndpoint(identity.authorityHost, identity.tenantId);
+  return tokenUrl instanceof ConfigError
+    ? Effect.fail(tokenUrl)
+    : Effect.succeed({ ...identity, tokenUrl });
+};
+
 /**
  * The workload identity the AKS webhook injects into a pod labelled
  * `azure.workload.identity/use: "true"`, when all of it is present.
@@ -492,15 +561,13 @@ const readFederatedToken = (tokenFile: string, scope: string) =>
  * (a client assertion) at Microsoft Entra ID for the federated identity.
  */
 const requestWorkloadIdentityToken = (
-  identity: ResolvedWorkloadIdentity,
+  identity: WorkloadIdentity,
   scope: string,
-): Effect.Effect<AccessToken, AzureCredentialsError | ConfigError> =>
+): Effect.Effect<AccessToken, AzureCredentialsError> =>
   Effect.gen(function* () {
     const issuedAt = yield* Clock.currentTimeMillis;
     const assertion = yield* readFederatedToken(identity.tokenFile, scope);
-    const url = tokenEndpoint(identity.authorityHost, identity.tenantId);
-    if (url instanceof ConfigError) return yield* url;
-    const request = HttpClientRequest.post(url, { acceptJson: true }).pipe(
+    const request = HttpClientRequest.post(identity.tokenUrl, { acceptJson: true }).pipe(
       HttpClientRequest.bodyUrlParams({
         grant_type: "client_credentials",
         client_id: identity.clientId,
@@ -536,7 +603,8 @@ const requestWorkloadIdentityToken = (
  * exchanged at Microsoft Entra ID for tokens of the user-assigned identity
  * its service account is federated with (`AZURE_CLIENT_ID`,
  * `AZURE_TENANT_ID`). {@link fromManagedIdentity} uses it too when the
- * workload identity webhook set those variables.
+ * workload identity webhook set those variables. The environment is read
+ * once, when the layer is built.
  *
  * @example
  * ```ts
@@ -545,13 +613,14 @@ const requestWorkloadIdentityToken = (
  */
 export const fromWorkloadIdentity = (
   options: WorkloadIdentityOptions = {},
-): Layer.Layer<Credentials> =>
-  Layer.succeed(
-    Credentials,
-    makeConfig(
-      (scope) =>
-        workloadIdentityOf(options).pipe(
-          Effect.flatMap((identity) =>
+): Layer.Layer<Credentials, ConfigError> =>
+  layer(
+    resolvedOnce(
+      Effect.gen(function* () {
+        const resolved = yield* workloadIdentityOf(options);
+        const identity = resolved === undefined ? undefined : yield* withTokenEndpoint(resolved);
+        return makeConfig(
+          (scope) =>
             identity !== undefined
               ? requestWorkloadIdentityToken(identity, scope)
               : Effect.fail(
@@ -561,16 +630,16 @@ export const fromWorkloadIdentity = (
                     scope,
                   }),
                 ),
-          ),
-        ),
-      {
-        subscriptionId:
-          options.subscriptionId !== undefined
-            ? Effect.succeed(options.subscriptionId)
-            : subscriptionFromEnv,
-        tenantId: options.tenantId,
-        apiBaseUrl: options.apiBaseUrl,
-      },
+          {
+            subscriptionId:
+              options.subscriptionId !== undefined
+                ? Effect.succeed(options.subscriptionId)
+                : subscriptionFromEnv,
+            tenantId: options.tenantId,
+            apiBaseUrl: options.apiBaseUrl,
+          },
+        );
+      }),
     ),
   );
 
@@ -585,16 +654,46 @@ export const requestManagedIdentityToken = (
   options: { readonly clientId?: string },
   scope: string,
 ): Effect.Effect<AccessToken, AzureCredentialsError | ConfigError> =>
+  Effect.flatMap(hostIdentityOf(options), (host) => managedIdentityToken(options, host, scope));
+
+/** Where the host's managed identity tokens come from, as its environment says. */
+interface HostIdentity {
+  /** The pod's workload identity, when it is the identity asked for. */
+  readonly workload?: WorkloadIdentity;
+  /** The App Service identity endpoint; without it and a workload identity, IMDS. */
+  readonly appService?: { readonly endpoint: string; readonly header: string };
+}
+
+/**
+ * Read the environment for the host's identity. A layer does it once, when
+ * it is built, and a workload identity's tenant is checked there.
+ */
+const hostIdentityOf = (options: {
+  readonly clientId?: string;
+}): Effect.Effect<HostIdentity, ConfigError> =>
   Effect.gen(function* () {
     const workload = yield* workloadIdentityOf({});
     if (
       workload !== undefined &&
       (options.clientId === undefined || options.clientId === workload.clientId)
     ) {
-      return yield* requestWorkloadIdentityToken(workload, scope);
+      return { workload: yield* withTokenEndpoint(workload) };
+    }
+    return { appService: yield* appServiceEndpoint };
+  });
+
+/** Request one managed-identity token from the source `host` names. */
+const managedIdentityToken = (
+  options: { readonly clientId?: string },
+  host: HostIdentity,
+  scope: string,
+): Effect.Effect<AccessToken, AzureCredentialsError> =>
+  Effect.gen(function* () {
+    if (host.workload !== undefined) {
+      return yield* requestWorkloadIdentityToken(host.workload, scope);
     }
     const issuedAt = yield* Clock.currentTimeMillis;
-    const appService = yield* appServiceEndpoint;
+    const appService = host.appService;
     const resource = resourceOf(scope);
     const clientId = options.clientId !== undefined ? { client_id: options.clientId } : {};
     const source = appService !== undefined ? "App Service identity endpoint" : "IMDS";
@@ -636,21 +735,24 @@ export const requestManagedIdentityToken = (
   });
 
 const managedIdentityConfig = (options: ManagedIdentityOptions) =>
-  makeConfig((scope) => requestManagedIdentityToken(options, scope), {
-    subscriptionId:
-      options.subscriptionId !== undefined
-        ? Effect.succeed(options.subscriptionId)
-        : subscriptionFromEnv,
-    tenantId: options.tenantId,
-    apiBaseUrl: options.apiBaseUrl,
-  });
+  Effect.map(hostIdentityOf(options), (host) =>
+    makeConfig((scope) => managedIdentityToken(options, host, scope), {
+      subscriptionId:
+        options.subscriptionId !== undefined
+          ? Effect.succeed(options.subscriptionId)
+          : subscriptionFromEnv,
+      tenantId: options.tenantId,
+      apiBaseUrl: options.apiBaseUrl,
+    }),
+  );
 
 /**
  * Credentials of the host's managed identity. App Service, Functions and
  * Container Apps serve tokens at `IDENTITY_ENDPOINT` (api-version
  * 2019-08-01, `X-IDENTITY-HEADER`); VMs and AKS at the instance metadata
  * service (api-version 2018-02-01, `Metadata: true`). `clientId` selects a
- * user-assigned identity.
+ * user-assigned identity. The environment is read once, when the layer is
+ * built.
  *
  * @example
  * ```ts
@@ -659,7 +761,7 @@ const managedIdentityConfig = (options: ManagedIdentityOptions) =>
  */
 export const fromManagedIdentity = (
   options: ManagedIdentityOptions = {},
-): Layer.Layer<Credentials> => Layer.succeed(Credentials, managedIdentityConfig(options));
+): Layer.Layer<Credentials, ConfigError> => layer(resolvedOnce(managedIdentityConfig(options)));
 
 // ---------------------------------------------------------------------------
 // Static token
@@ -682,16 +784,19 @@ const staticToken = (token: Redacted.Redacted<string>): Config["token"] => {
 
 /**
  * One pre-acquired bearer token, sent to every operation (ARM and data
- * plane alike). It is never refreshed.
+ * plane alike). It is never refreshed. A subscription that can't be a URL
+ * path segment fails the layer with `ConfigError`.
  */
-export const fromStaticToken = (options: StaticTokenOptions): Layer.Layer<Credentials> => {
+export const fromStaticToken = (
+  options: StaticTokenOptions,
+): Layer.Layer<Credentials, ConfigError> => {
   const config: Config = {
     token: staticToken(options.bearerToken),
     subscriptionId: options.subscriptionId,
     ...(options.tenantId !== undefined ? { tenantId: options.tenantId } : {}),
     apiBaseUrl: options.apiBaseUrl ?? DEFAULT_API_BASE_URL,
   };
-  return Layer.succeed(Credentials, Effect.succeed(config));
+  return layer(Effect.succeed(config));
 };
 
 const staticEnvConfig = /*@__PURE__*/ EffectConfig.all({
@@ -721,9 +826,11 @@ const staticFromEnv = (message: string): Effect.Effect<Config, ConfigError> =>
  * - `AZURE_SUBSCRIPTION_ID` -- Azure subscription ID (required)
  * - `AZURE_TENANT_ID` -- Azure tenant/directory ID (optional)
  * - `AZURE_API_BASE_URL` -- Optional override for the API base URL
+ *
+ * The environment is read, and the values checked, once: when the layer is
+ * built.
  */
-export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.succeed(
-  Credentials,
+export const CredentialsFromEnv: Layer.Layer<Credentials, ConfigError> = /*@__PURE__*/ layer(
   /*@__PURE__*/ staticFromEnv(
     "AZURE_BEARER_TOKEN and AZURE_SUBSCRIPTION_ID environment variables are required",
   ),
@@ -742,6 +849,9 @@ const imdsAnswers: Effect.Effect<boolean> = /*@__PURE__*/ Effect.suspend(() =>
     // Unreachable within the probe timeout: this host has no IMDS, so the
     // chain moves on to a static token.
     Effect.orElseSucceed(() => false),
+    // The probe runs when the layer is built, outside an operation. Send it
+    // as an operation would: without the HttpClient's own span and headers.
+    Effect.provideService(HttpClient.TracerDisabledWhen, () => true),
   ),
 );
 
@@ -754,10 +864,11 @@ const imdsAnswers: Effect.Effect<boolean> = /*@__PURE__*/ Effect.suspend(() =>
  *    metadata service answers (`AZURE_CLIENT_ID` selects a user-assigned one);
  * 3. a static token: `AZURE_BEARER_TOKEN` + `AZURE_SUBSCRIPTION_ID`.
  *
- * The choice is made on first use and kept for the layer's lifetime.
+ * The choice is made when the layer is first built and kept for the layer's
+ * lifetime. An environment with no credentials fails the layer with
+ * `ConfigError`.
  */
-export const fromEnv = (): Layer.Layer<Credentials> => {
-  let chosen: Effect.Effect<Config, ConfigError> | undefined;
+export const fromEnv = (): Layer.Layer<Credentials, ConfigError> => {
   const choose = Effect.gen(function* () {
     const tenantId = yield* optionalEnv("AZURE_TENANT_ID");
     const clientId = yield* optionalEnv("AZURE_CLIENT_ID");
@@ -779,7 +890,7 @@ export const fromEnv = (): Layer.Layer<Credentials> => {
     const workload = yield* workloadIdentityOf({});
     const managed = appService !== undefined || workload !== undefined || (yield* imdsAnswers);
     if (managed) {
-      return managedIdentityConfig({
+      return yield* managedIdentityConfig({
         ...(clientId ? { clientId } : {}),
         ...(subscriptionId ? { subscriptionId } : {}),
         ...(tenantId ? { tenantId } : {}),
@@ -791,20 +902,5 @@ export const fromEnv = (): Layer.Layer<Credentials> => {
         "run on a host with a managed identity, or set AZURE_BEARER_TOKEN and AZURE_SUBSCRIPTION_ID",
     );
   });
-  return Layer.succeed(
-    Credentials,
-    Effect.suspend(() =>
-      chosen !== undefined
-        ? chosen
-        : choose.pipe(
-            Effect.flatMap((config) =>
-              Effect.suspend(() => {
-                // A concurrent first use may have chosen already; keep one.
-                chosen ??= config;
-                return chosen;
-              }),
-            ),
-          ),
-    ),
-  );
+  return layer(resolvedOnce(choose));
 };

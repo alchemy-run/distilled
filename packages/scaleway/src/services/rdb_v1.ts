@@ -686,7 +686,11 @@ export interface GetInstanceCertificateRawRequest {
   /** UUID of the Database Instance. */
   instance_id: string;
 }
-export type GetInstanceCertificateRawResponse = Uint8Array;
+export interface GetInstanceCertificateRawResponse {
+  body: Uint8Array;
+  /** Media type of the body, from the response's `Content-Type` header (e.g. `image/jpeg`). */
+  contentType?: string | undefined;
+}
 export type GetInstanceLogRequestRegion = "fr-par" | "nl-ams" | "pl-waw";
 export interface GetInstanceLogRequest {
   /** The region you want to target */
@@ -2994,7 +2998,12 @@ function __c29(j: number): any {
         ),
       ).annotate({ identifier: "GetInstanceCertificateRawRequest" });
     case 1:
-      return S.instanceOf(Uint8Array).pipe(/*@__PURE__*/ T.BinaryResponse());
+      return S.suspend(() =>
+        S.Struct({
+          body: S.instanceOf(Uint8Array).pipe(T.RawResponse(), T.BinaryResponse()),
+          contentType: S.optional(S.String.pipe(T.Header("Content-Type"))),
+        }),
+      ).annotate({ identifier: "GetInstanceCertificateRawResponse" });
   }
 }
 function __c30(j: number): any {

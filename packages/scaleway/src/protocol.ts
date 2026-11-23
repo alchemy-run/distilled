@@ -4,6 +4,7 @@ import {
   type ConfigError,
   type InvalidInput,
 } from "@distilled.cloud/core/errors";
+import { setOwnKey } from "@distilled.cloud/core/plain-values";
 import type {
   DeclaredError,
   DeclaredErrorClass,
@@ -20,8 +21,8 @@ import {
   matchTypedError,
 } from "@distilled.cloud/core/protocol-http";
 import {
-  binaryResponseSymbol,
   declaredStatusClass,
+  readBinaryResponse,
   unwrapRedactedDeep,
   validateSuccess,
 } from "@distilled.cloud/core/protocol-rest";
@@ -338,7 +339,8 @@ export const stripNulls = (value: unknown): unknown => {
   if (isObject(value)) {
     const out: Json = {};
     for (const [k, v] of Object.entries(value)) {
-      if (v !== null) out[k] = stripNulls(v);
+      // setOwnKey keeps a `__proto__` key a key instead of the prototype.
+      if (v !== null) setOwnKey(out, k, stripNulls(v));
     }
     return out;
   }
@@ -453,9 +455,9 @@ const scalewayProtocolMethods = {
       const headers = response.headers as Record<string, string | undefined>;
 
       // `...Raw` downloads: the body is the file.
-      if (status >= 200 && status < 300 && getAnn(outputAst, binaryResponseSymbol) !== undefined) {
-        return new Uint8Array(yield* response.arrayBuffer);
-      }
+      const binary =
+        status >= 200 && status < 300 ? readBinaryResponse(response, outputAst) : undefined;
+      if (binary !== undefined) return yield* binary;
 
       const text = (yield* response.text) ?? "";
       if (status >= 400) {

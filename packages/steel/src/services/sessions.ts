@@ -2768,7 +2768,11 @@ export type GetSessionEventsResponse2 = GetSessionEventsResponse;
 export interface GetSessionHlsPlaylistRequest {
   id: string;
 }
-export type GetSessionHlsPlaylistResponse = Uint8Array;
+export interface GetSessionHlsPlaylistResponse {
+  body: Uint8Array;
+  /** Media type of the body, from the response's `Content-Type` header (e.g. `image/jpeg`). */
+  contentType?: string | undefined;
+}
 export interface GetSessionLiveDetailsRequest {
   id: string;
 }
@@ -3699,7 +3703,7 @@ export const getSessionHlsPlaylist: API.OperationMethod<
   SteelOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c12, 0) as any as S.Schema<GetSessionHlsPlaylistRequest>,
-  output: __S(193, __c12, 1) as any as S.Codec<GetSessionHlsPlaylistResponse>,
+  output: __S(193, __c12, 1) as any as S.Schema<GetSessionHlsPlaylistResponse>,
   errors: [NotFound],
   serviceErrors: SteelServiceErrors,
   protocol: SteelProtocol,
@@ -4127,7 +4131,12 @@ function __c12(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/sessions/{id}/hls", code: 200 })),
       ).annotate({ identifier: "GetSessionHlsPlaylistRequest" });
     case 1:
-      return S.instanceOf(Uint8Array).pipe(/*@__PURE__*/ T.BinaryResponse());
+      return S.suspend(() =>
+        S.Struct({
+          body: S.instanceOf(Uint8Array).pipe(T.RawResponse(), T.BinaryResponse()),
+          contentType: S.optional(S.String.pipe(T.Header("Content-Type"))),
+        }),
+      ).annotate({ identifier: "GetSessionHlsPlaylistResponse" });
   }
 }
 function __c13(j: number): any {
