@@ -136,7 +136,7 @@ export type AddWebhookRequestAuthenticationType = "None" | "Bearer" | "Basic";
 export interface AddWebhookRequestAuthentication {
   type?: AddWebhookRequestAuthenticationType | (string & {}) | undefined;
   /** Used when type = Bearer */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   /** Used when type = Basic */
   username?: string | undefined;
   /** Used when type = Basic */
@@ -2530,7 +2530,7 @@ export interface RenameEnvironmentResponse {
   environment?: CreateEnvironmentResponseEnvironment | undefined;
 }
 export interface RevokeAuthRequest {
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 export interface RevokeAuthResponse {}
 export interface RevokeCliAuthRequest {
@@ -3166,7 +3166,7 @@ export type UpdateWebhookRequestAuthenticationType = "None" | "Bearer" | "Basic"
 export interface UpdateWebhookRequestAuthentication {
   type?: UpdateWebhookRequestAuthenticationType | (string & {}) | undefined;
   /** Used when type = Bearer */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   /** Used when type = Basic */
   username?: string | undefined;
   /** Used when type = Basic */
@@ -6143,7 +6143,7 @@ function __c11(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
         }).pipe(T.Http({ method: "POST", uri: "/v3/auth/revoke", code: 200 })),
       ).annotate({ identifier: "RevokeAuthRequest" });
   }
@@ -7871,7 +7871,7 @@ function __c116(j: number): any {
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           username: S.optional(S.String),
           password: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),

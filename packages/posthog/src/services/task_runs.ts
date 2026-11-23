@@ -185,7 +185,7 @@ export interface CreateTasksRunRequest {
   /** Enable fast mode for models that support it. */
   fast_mode?: boolean | null | undefined;
   /** Ephemeral GitHub user token from PostHog Desktop for user-authored cloud pull requests. */
-  github_user_token?: string | undefined;
+  github_user_token?: string | Redacted.Redacted<string> | undefined;
   /** Initial permission mode for the agent session. Claude runtimes accept PostHog permission presets like 'plan'. Codex runtimes accept native Codex modes like 'plan', 'auto', and 'read-only'. * `default` - default * `acceptEdits` - acceptEdits * `plan` - plan * `bypassPermissions` - bypassPermissions * `auto` - auto * `read-only` - read-only * `full-access` - full-access */
   initial_permission_mode?:
     | TaskRunBootstrapCreateRequestInitialPermissionModeEnum
@@ -648,7 +648,7 @@ export interface GetTasksRunsConnectionTokenRequest {
 /** Response containing a JWT token for direct sandbox connection */
 export interface ConnectionTokenResponse {
   /** JWT token for authenticating with the sandbox */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
 }
 export type GetTasksRunsLogRequestView = "full" | "thread";
 export interface GetTasksRunsLogRequest {
@@ -710,7 +710,7 @@ export interface GetTasksRunsStreamTokenRequest {
 /** Response containing a JWT token (and resolved base URL) for reading a task run's live event stream */
 export interface StreamReadTokenResponse {
   /** Run-scoped JWT the browser presents to the agent-proxy to read this run's live event stream */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** Base URL of the agent-proxy to read the stream from when routing via the proxy is enabled for this user. Null means read from the Django endpoint directly (same-origin). The client appends the run's stream path and sends the token as a Bearer header when this is set. */
   stream_base_url: string | null;
 }
@@ -1039,7 +1039,7 @@ export interface TaskRunErrorResponse {
   /** Machine-readable error code */
   code?: string | undefined;
   /** After confirmed warm startup nondelivery, echo this token in X-PostHog-Warm-Retry to retry the same run and message within 60 seconds. */
-  retry_token?: string | undefined;
+  retry_token?: string | Redacted.Redacted<string> | undefined;
   /** Why PostHog Desktop access was denied, when applicable. * `startup_plan` - startup_plan * `prepaid_credits` - prepaid_credits */
   reason?: DesktopAccessReasonEnum | undefined;
   /** Request field associated with the error */
@@ -1696,7 +1696,7 @@ function __c0(j: number): any {
           error: S.optional(S.String),
           type: S.optional(S.String),
           code: S.optional(S.String),
-          retry_token: S.optional(S.String),
+          retry_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           reason: S.optional(S.String),
           attr: S.optional(S.String),
           missing_artifact_ids: S.optional(__S(8, __c1, 0)),
@@ -1964,7 +1964,7 @@ function __c11(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "ConnectionTokenResponse" });
   }
@@ -2077,7 +2077,7 @@ function __c17(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           stream_base_url: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "StreamReadTokenResponse" });
@@ -2510,7 +2510,7 @@ function __c30(j: number): any {
           reasoning_effort: S.optional(S.String),
           context_window: S.optional(S.String),
           fast_mode: S.optional(S.NullOr(S.Boolean)),
-          github_user_token: S.optional(S.String),
+          github_user_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           initial_permission_mode: S.optional(S.String),
         }).pipe(
           T.Http({

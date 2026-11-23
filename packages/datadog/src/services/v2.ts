@@ -11337,7 +11337,7 @@ export interface CreateCustomRuleRequest {
   /** The ruleset name */
   ruleset_name: string;
   /** CSRF token for security, sent by browser-based clients. Ignored by the API when absent. */
-  _authentication_token?: string | undefined;
+  _authentication_token?: string | Redacted.Redacted<string> | undefined;
   data?: CustomRuleRequestData | undefined;
 }
 /** A named argument for a custom static analysis rule. */
@@ -11561,7 +11561,7 @@ export interface CreateCustomRuleRevisionRequest {
   /** The rule name */
   rule_name: string;
   /** CSRF token for security, sent by browser-based clients. Ignored by the API when absent. */
-  _authentication_token?: string | undefined;
+  _authentication_token?: string | Redacted.Redacted<string> | undefined;
   data?: CustomRuleRevisionRequestDataInput | undefined;
 }
 export interface CreateCustomRuleRevisionResponse {}
@@ -11798,7 +11798,7 @@ export interface SecureEmbedCreateResponseAttributes {
   /** Creation timestamp. */
   created_at?: string | undefined;
   /** The secret credential used for HMAC signing. Returned only on creation. Store securely -- it cannot be retrieved again. */
-  credential?: string | undefined;
+  credential?: string | Redacted.Redacted<string> | undefined;
   /** The source dashboard ID. */
   dashboard_id?: string | undefined;
   global_time?: SecureEmbedGlobalTime | undefined;
@@ -11815,7 +11815,7 @@ export interface SecureEmbedCreateResponseAttributes {
   /** Display title. */
   title?: string | undefined;
   /** Public share token. */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   /** CDN URL for the shared dashboard. */
   url?: string | undefined;
   viewing_preferences?: SecureEmbedViewingPreferences | undefined;
@@ -20479,7 +20479,7 @@ export interface OpsgenieServiceCreateAttributes {
   /** The name for the Opsgenie service. */
   name: string;
   /** The Opsgenie API key for your Opsgenie service. */
-  opsgenie_api_key: string;
+  opsgenie_api_key: string | Redacted.Redacted<string>;
   region: OpsgenieServiceRegionType | (string & {});
 }
 /** Opsgenie service resource type. */
@@ -28876,7 +28876,7 @@ export interface SnowflakeIntegrationAccountPrivateKeyAuthRequest {
   /** Name that distinguishes this private key from other keys in Datadog. */
   private_key_name: string;
   /** Passphrase that decrypts the private key. Provide it only when the key is encrypted. */
-  private_key_passphrase?: string | undefined;
+  private_key_passphrase?: string | Redacted.Redacted<string> | undefined;
 }
 /** Settings of the account usage metrics dataflow. Only the fields provided are changed. */
 export interface SnowflakeAccountUsageMetricsIntegrationDataflowSettingsRequest {
@@ -29267,7 +29267,7 @@ export interface GetAstRequestData {
 }
 export interface CreateStaticAnalysisAstRequest {
   /** CSRF token for security, sent by browser-based clients. Ignored by the API when absent. */
-  _authentication_token?: string | undefined;
+  _authentication_token?: string | Redacted.Redacted<string> | undefined;
   data: GetAstRequestData;
 }
 /** The child nodes of this AST node, or null for a leaf node. */
@@ -29416,7 +29416,7 @@ export interface AnalysisRequestDataInput {
 }
 export interface CreateStaticAnalysisServerAnalysisRequest {
   /** CSRF token for security, sent by browser-based clients. Ignored by the API when absent. */
-  _authentication_token?: string | undefined;
+  _authentication_token?: string | Redacted.Redacted<string> | undefined;
   data: AnalysisRequestDataInput;
 }
 /** Top-level error messages encountered during the analysis operation. */
@@ -31218,7 +31218,7 @@ export type TemporalCloudOpenMetricsIntegrationAccountBearerTokenAuthType = "bea
 export interface TemporalCloudOpenMetricsIntegrationAccountBearerTokenAuthRequest {
   auth_type: TemporalCloudOpenMetricsIntegrationAccountBearerTokenAuthType | (string & {});
   /** Secret token used to authenticate with Temporal Cloud. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 /** Settings for creating the Temporal Cloud OpenMetrics integration account. */
 export interface TemporalCloudOpenMetricsIntegrationAccountSettingsRequest {
@@ -33057,7 +33057,7 @@ export interface WorkflowDataAttributesInput {
   /** Tags of the workflow. */
   tags?: WorkflowDataAttributesInputTagsList | undefined;
   /** If a Webhook trigger is defined on this workflow, a webhookSecret is required and should be provided here. */
-  webhookSecret?: string | undefined;
+  webhookSecret?: string | Redacted.Redacted<string> | undefined;
 }
 /** The definition of `WorkflowDataType` object. */
 export type WorkflowDataType = "workflows";
@@ -38870,7 +38870,7 @@ export interface SecureEmbedGetResponseAttributes {
   /** Display title. */
   title?: string | undefined;
   /** Public share token. */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   /** CDN URL for the shared dashboard. */
   url?: string | undefined;
   viewing_preferences?: SecureEmbedViewingPreferences | undefined;
@@ -50056,7 +50056,7 @@ export interface Metadata {
   /** Number of entities included in the response. */
   count: number;
   /** The token that identifies the request. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** Total number of entities across all pages. */
   total: number;
 }
@@ -56846,7 +56846,7 @@ export interface GetMultipleRulesetsRequestData {
 }
 export interface ListMultipleRulesetsRequest {
   /** CSRF token for security, sent by browser-based clients. Ignored by the API when absent. */
-  _authentication_token?: string | undefined;
+  _authentication_token?: string | Redacted.Redacted<string> | undefined;
   data?: GetMultipleRulesetsRequestData | undefined;
 }
 /** The list of static analysis rules included in this ruleset. */
@@ -60172,7 +60172,7 @@ export interface SharedDashboardResponseAttributes {
   /** Display title for the shared dashboard. */
   title: string;
   /** Token assigned to the shared dashboard. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** URL for the shared dashboard. */
   url: string;
   viewing_preferences: SharedDashboardViewingPreferences;
@@ -68671,7 +68671,7 @@ export interface SecureEmbedUpdateResponseAttributes {
   /** Display title. */
   title?: string | undefined;
   /** Public share token. */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   /** CDN URL for the shared dashboard. */
   url?: string | undefined;
   viewing_preferences?: SecureEmbedViewingPreferences | undefined;
@@ -68713,7 +68713,7 @@ export interface DatabricksIntegrationAccountPrivateActionRunnerAuthUpdate {
 export interface DatabricksIntegrationAccountBearerTokenAuthUpdate {
   auth_type: DatabricksIntegrationAccountBearerTokenAuthType;
   /** Secret token used to authenticate with Databricks. */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
 }
 /** Authentication for updating the Databricks integration account. Exactly one method is set. Choosing `private_action_runner` leaves the `databricks-model-serving-metrics` dataflow unable to collect data. `bearer_token` is deprecated on Databricks: it is accepted only on accounts that already use it and never on creation, so it cannot move an account onto token authentication. Migrate those accounts to `databricks_oauth` or `private_action_runner`. */
 export type DatabricksIntegrationAccountAuthenticationUpdate =
@@ -71062,7 +71062,7 @@ export interface OpsgenieServiceUpdateAttributes {
   /** The name for the Opsgenie service. */
   name?: string | undefined;
   /** The Opsgenie API key for your Opsgenie service. */
-  opsgenie_api_key?: string | undefined;
+  opsgenie_api_key?: string | Redacted.Redacted<string> | undefined;
   region?: OpsgenieServiceRegionType | (string & {}) | undefined;
 }
 /** Opsgenie service for an update request. */
@@ -72397,7 +72397,7 @@ export interface SnowflakeIntegrationAccountPrivateKeyAuthUpdate {
   /** Name that distinguishes this private key from other keys in Datadog. */
   private_key_name?: string | undefined;
   /** Passphrase that decrypts the private key. Provide it only when the key is encrypted. Omit it to keep the stored passphrase, send `null` or an empty string to remove it, or send a value to replace it. */
-  private_key_passphrase?: string | null | undefined;
+  private_key_passphrase?: string | Redacted.Redacted<string> | null | undefined;
 }
 /** Settings for updating the Snowflake integration account. Only the fields provided are changed. */
 export interface SnowflakeIntegrationAccountSettingsUpdate {
@@ -72806,7 +72806,7 @@ export interface TeamPermissionSettingResponse {
 export interface TemporalCloudOpenMetricsIntegrationAccountBearerTokenAuthUpdate {
   auth_type: TemporalCloudOpenMetricsIntegrationAccountBearerTokenAuthType | (string & {});
   /** Secret token used to authenticate with Temporal Cloud. */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
 }
 /** Settings for updating the Temporal Cloud OpenMetrics integration account. Only the fields provided are changed. */
 export interface TemporalCloudOpenMetricsIntegrationAccountSettingsUpdate {
@@ -73158,7 +73158,7 @@ export interface WorkflowDataUpdateAttributesInput {
   /** Tags of the workflow. */
   tags?: WorkflowDataUpdateAttributesInputTagsList | undefined;
   /** If a Webhook trigger is defined on this workflow, a webhookSecret is required and should be provided here. */
-  webhookSecret?: string | undefined;
+  webhookSecret?: string | Redacted.Redacted<string> | undefined;
 }
 /** Data related to the workflow being updated. */
 export interface WorkflowDataUpdateInput {
@@ -108634,7 +108634,7 @@ function __c49(j: number): any {
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           total: S.Number,
         }),
       ).annotate({ identifier: "Metadata" });
@@ -115906,7 +115906,7 @@ function __c307(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          _authentication_token: S.optional(S.String),
+          _authentication_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           data: S.optional(__S(9825, __c307, 1)),
         }).pipe(T.Http({ method: "POST", uri: "/api/v2/static-analysis/rulesets", code: 200 })),
       ).annotate({ identifier: "ListMultipleRulesetsRequest" });
@@ -120066,7 +120066,7 @@ function __c460(j: number): any {
           sharer_disabled: S.Boolean,
           status: S.String,
           title: S.String,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           url: S.String,
           viewing_preferences: __S(14725, __c460, 5),
         }),
@@ -121615,7 +121615,7 @@ function __c516(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ruleset_name: S.String.pipe(T.Label()),
-          _authentication_token: S.optional(S.String),
+          _authentication_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           data: S.optional(__S(70368, __c2199, 0)),
         }).pipe(
           T.Http({
@@ -121904,7 +121904,7 @@ function __c530(j: number): any {
         S.Struct({
           ruleset_name: S.String.pipe(T.Label()),
           rule_name: S.String.pipe(T.Label()),
-          _authentication_token: S.optional(S.String),
+          _authentication_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           data: S.optional(__S(16961, __c530, 1)),
         }).pipe(
           T.Http({
@@ -123092,7 +123092,7 @@ function __c570(j: number): any {
       return S.suspend(() =>
         S.Struct({
           created_at: S.optional(S.String),
-          credential: S.optional(S.String),
+          credential: S.optional(S.String.pipe(T.SensitiveValue({}))),
           dashboard_id: S.optional(S.String),
           global_time: S.optional(__S(18272, __c571, 0)),
           global_time_selectable: S.optional(S.Boolean),
@@ -123101,7 +123101,7 @@ function __c570(j: number): any {
           share_type: S.optional(S.String),
           status: S.optional(S.String),
           title: S.optional(S.String),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           url: S.optional(S.String),
           viewing_preferences: S.optional(__S(18275, __c571, 3)),
         }),
@@ -134311,7 +134311,7 @@ function __c968(j: number): any {
         S.Struct({
           custom_url: S.optional(S.NullOr(S.String)),
           name: S.optional(S.String),
-          opsgenie_api_key: S.optional(S.String),
+          opsgenie_api_key: S.optional(S.String.pipe(T.SensitiveValue({}))),
           region: S.optional(S.String),
         }),
       ).annotate({ identifier: "OpsgenieServiceUpdateAttributes" });
@@ -136226,7 +136226,7 @@ function __c1040(j: number): any {
           auth_type: S.String,
           private_key: S.optional(S.String.pipe(T.SensitiveValue({}))),
           private_key_name: S.optional(S.String),
-          private_key_passphrase: S.optional(S.NullOr(S.String)),
+          private_key_passphrase: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "SnowflakeIntegrationAccountPrivateKeyAuthUpdate" });
     case 1:
@@ -136885,7 +136885,7 @@ function __c1067(j: number): any {
       return S.suspend(() =>
         S.Struct({
           auth_type: S.String,
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "DatabricksIntegrationAccountBearerTokenAuthUpdate" });
     case 1:
@@ -137392,7 +137392,7 @@ function __c1086(j: number): any {
           sensitivePrivileges: S.optional(S.Boolean),
           spec: S.optional(__S(52480, __c1640, 0)),
           tags: S.optional(__S(32, __c1, 0)),
-          webhookSecret: S.optional(S.String),
+          webhookSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "WorkflowDataUpdateAttributesInput" });
     case 1:
@@ -143446,7 +143446,7 @@ function __c1319(j: number): any {
         S.Struct({
           custom_url: S.optional(S.String),
           name: S.String,
-          opsgenie_api_key: S.String,
+          opsgenie_api_key: S.String.pipe(T.SensitiveValue({})),
           region: S.String,
         }),
       ).annotate({ identifier: "OpsgenieServiceCreateAttributes" });
@@ -148427,7 +148427,7 @@ function __c1513(j: number): any {
           auth_type: S.String,
           private_key: S.String.pipe(T.SensitiveValue({})),
           private_key_name: S.String,
-          private_key_passphrase: S.optional(S.String),
+          private_key_passphrase: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "SnowflakeIntegrationAccountPrivateKeyAuthRequest" });
     case 1:
@@ -148681,7 +148681,7 @@ function __c1517(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          _authentication_token: S.optional(S.String),
+          _authentication_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           data: __S(48545, __c1517, 1),
         }).pipe(
           T.Http({
@@ -148801,7 +148801,7 @@ function __c1519(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          _authentication_token: S.optional(S.String),
+          _authentication_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           data: __S(48612, __c1519, 4),
         }).pipe(
           T.Http({
@@ -150709,7 +150709,7 @@ function __c1587(j: number): any {
       return S.suspend(() =>
         S.Struct({
           auth_type: S.String,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({
         identifier: "TemporalCloudOpenMetricsIntegrationAccountBearerTokenAuthRequest",
@@ -151991,7 +151991,7 @@ function __c1636(j: number): any {
           sensitivePrivileges: S.optional(S.Boolean),
           spec: __S(52480, __c1640, 0),
           tags: S.optional(__S(32, __c1, 0)),
-          webhookSecret: S.optional(S.String),
+          webhookSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "WorkflowDataAttributesInput" });
     case 1:
@@ -162623,7 +162623,7 @@ function __c2165(j: number): any {
           share_type: S.optional(S.String),
           status: S.optional(S.String),
           title: S.optional(S.String),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           url: S.optional(S.String),
           viewing_preferences: S.optional(__S(18275, __c571, 3)),
         }),

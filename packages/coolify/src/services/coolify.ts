@@ -209,7 +209,7 @@ export interface CreateCloudTokenRequest {
   /** The cloud provider. */
   provider: CreateCloudTokenRequestProvider | (string & {});
   /** The API token for the cloud provider. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** A friendly name for the token. */
   name: string;
 }
@@ -1249,7 +1249,7 @@ export interface CreateGitlabAppRequest {
   /** GitLab OAuth Application Secret. */
   client_secret?: string | Redacted.Redacted<string> | null | undefined;
   /** Webhook secret token (auto-generated when omitted). */
-  webhook_token?: string | null | undefined;
+  webhook_token?: string | Redacted.Redacted<string> | null | undefined;
   /** OAuth redirect URI registered in GitLab. */
   redirect_uri?: string | null | undefined;
   /** Is this app system-wide (non-cloud instances only). */
@@ -2211,7 +2211,7 @@ export type CreateSecretManagerIntegrationTokenRequestProvider = "doppler" | "in
 export interface CreateSecretManagerIntegrationTokenRequest {
   provider: CreateSecretManagerIntegrationTokenRequestProvider | (string & {});
   name: string;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   metadata?: unknown | undefined;
 }
 export interface CreateSecretManagerIntegrationTokenResponse {}
@@ -3484,16 +3484,16 @@ export interface ServerSetting {
   is_swarm_worker?: boolean | undefined;
   is_terminal_enabled?: boolean | undefined;
   is_usable?: boolean | undefined;
-  logdrain_axiom_api_key?: string | undefined;
+  logdrain_axiom_api_key?: string | Redacted.Redacted<string> | undefined;
   logdrain_axiom_dataset_name?: string | undefined;
   logdrain_custom_config?: string | undefined;
   logdrain_custom_config_parser?: string | undefined;
   logdrain_highlight_project_id?: string | undefined;
   logdrain_newrelic_base_uri?: string | undefined;
-  logdrain_newrelic_license_key?: string | undefined;
+  logdrain_newrelic_license_key?: string | Redacted.Redacted<string> | undefined;
   sentinel_metrics_history_days?: number | undefined;
   sentinel_metrics_refresh_rate_seconds?: number | undefined;
-  sentinel_token?: string | undefined;
+  sentinel_token?: string | Redacted.Redacted<string> | undefined;
   docker_cleanup_frequency?: string | undefined;
   docker_cleanup_threshold?: number | undefined;
   server_id?: number | undefined;
@@ -3577,12 +3577,12 @@ export interface GetServerLogDrainsRequest {
 export interface GetServerLogDrainsResponse {
   is_logdrain_newrelic_enabled?: boolean | undefined;
   /** Only present with read:sensitive. */
-  logdrain_newrelic_license_key?: string | undefined;
+  logdrain_newrelic_license_key?: string | Redacted.Redacted<string> | undefined;
   logdrain_newrelic_base_uri?: string | null | undefined;
   is_logdrain_axiom_enabled?: boolean | undefined;
   logdrain_axiom_dataset_name?: string | null | undefined;
   /** Only present with read:sensitive. */
-  logdrain_axiom_api_key?: string | undefined;
+  logdrain_axiom_api_key?: string | Redacted.Redacted<string> | undefined;
   is_logdrain_custom_enabled?: boolean | undefined;
   /** Only present with read:sensitive. */
   logdrain_custom_config?: string | undefined;
@@ -3616,7 +3616,7 @@ export interface GetServerSentinelResponse {
   is_metrics_enabled?: boolean | undefined;
   is_sentinel_debug_enabled?: boolean | undefined;
   /** Only present with read:sensitive. */
-  sentinel_token?: string | undefined;
+  sentinel_token?: string | Redacted.Redacted<string> | undefined;
   sentinel_metrics_refresh_rate_seconds?: number | undefined;
   sentinel_metrics_history_days?: number | undefined;
   sentinel_push_interval_seconds?: number | undefined;
@@ -3632,7 +3632,7 @@ export interface GetServerSentinelResponse {
   /** How Sentinel stores client IPs for the Top IPs breakdown. */
   traffic_ip_mode?: GetServerSentinelResponseTrafficIpMode | undefined;
   /** Only present with read:sensitive. */
-  geoip_maxmind_license_key?: string | undefined;
+  geoip_maxmind_license_key?: string | Redacted.Redacted<string> | undefined;
 }
 export interface GetServiceRequest {
   /** Service UUID */
@@ -5220,7 +5220,7 @@ export interface UpdateGitlabAppRequest {
   /** OAuth Application Secret */
   client_secret?: string | Redacted.Redacted<string> | null | undefined;
   /** Webhook secret token */
-  webhook_token?: string | null | undefined;
+  webhook_token?: string | Redacted.Redacted<string> | null | undefined;
   /** OAuth redirect URI */
   redirect_uri?: string | null | undefined;
   /** Is system wide (non-cloud instances only) */
@@ -5419,11 +5419,11 @@ export interface UpdateServerLogDrainsRequest {
   /** Server UUID */
   uuid: string;
   is_logdrain_newrelic_enabled?: boolean | undefined;
-  logdrain_newrelic_license_key?: string | undefined;
+  logdrain_newrelic_license_key?: string | Redacted.Redacted<string> | undefined;
   logdrain_newrelic_base_uri?: string | undefined;
   is_logdrain_axiom_enabled?: boolean | undefined;
   logdrain_axiom_dataset_name?: string | undefined;
-  logdrain_axiom_api_key?: string | undefined;
+  logdrain_axiom_api_key?: string | Redacted.Redacted<string> | undefined;
   is_logdrain_custom_enabled?: boolean | undefined;
   logdrain_custom_config?: string | undefined;
   logdrain_custom_config_parser?: string | undefined;
@@ -5459,7 +5459,7 @@ export interface UpdateServerSentinelRequest {
   uuid: string;
   is_metrics_enabled?: boolean | undefined;
   is_sentinel_debug_enabled?: boolean | undefined;
-  sentinel_token?: string | undefined;
+  sentinel_token?: string | Redacted.Redacted<string> | undefined;
   sentinel_metrics_refresh_rate_seconds?: number | undefined;
   sentinel_metrics_history_days?: number | undefined;
   sentinel_push_interval_seconds?: number | undefined;
@@ -5470,7 +5470,7 @@ export interface UpdateServerSentinelRequest {
   traffic_retention_1d_days?: number | undefined;
   is_geoip_enabled?: boolean | undefined;
   geoip_refresh_days?: number | undefined;
-  geoip_maxmind_license_key?: string | null | undefined;
+  geoip_maxmind_license_key?: string | Redacted.Redacted<string> | null | undefined;
   /** How Sentinel stores client IPs: full, anonymized (IPv4 /24, IPv6 /48), or off. */
   traffic_ip_mode?: UpdateServerSentinelRequestTrafficIpMode | (string & {}) | undefined;
 }
@@ -11997,7 +11997,7 @@ function __c41(j: number): any {
       return S.suspend(() =>
         S.Struct({
           provider: S.String,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           name: S.String,
         }).pipe(T.Http({ method: "POST", uri: "/cloud-tokens", code: 200 })),
       ).annotate({ identifier: "CreateCloudTokenRequest" });
@@ -12403,16 +12403,16 @@ function __c62(j: number): any {
           is_swarm_worker: S.optional(S.Boolean),
           is_terminal_enabled: S.optional(S.Boolean),
           is_usable: S.optional(S.Boolean),
-          logdrain_axiom_api_key: S.optional(S.String),
+          logdrain_axiom_api_key: S.optional(S.String.pipe(T.SensitiveValue({}))),
           logdrain_axiom_dataset_name: S.optional(S.String),
           logdrain_custom_config: S.optional(S.String),
           logdrain_custom_config_parser: S.optional(S.String),
           logdrain_highlight_project_id: S.optional(S.String),
           logdrain_newrelic_base_uri: S.optional(S.String),
-          logdrain_newrelic_license_key: S.optional(S.String),
+          logdrain_newrelic_license_key: S.optional(S.String.pipe(T.SensitiveValue({}))),
           sentinel_metrics_history_days: S.optional(S.Number),
           sentinel_metrics_refresh_rate_seconds: S.optional(S.Number),
-          sentinel_token: S.optional(S.String),
+          sentinel_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           docker_cleanup_frequency: S.optional(S.String),
           docker_cleanup_threshold: S.optional(S.Number),
           server_id: S.optional(S.Number),
@@ -12506,11 +12506,11 @@ function __c66(j: number): any {
       return S.suspend(() =>
         S.Struct({
           is_logdrain_newrelic_enabled: S.optional(S.Boolean),
-          logdrain_newrelic_license_key: S.optional(S.String),
+          logdrain_newrelic_license_key: S.optional(S.String.pipe(T.SensitiveValue({}))),
           logdrain_newrelic_base_uri: S.optional(S.NullOr(S.String)),
           is_logdrain_axiom_enabled: S.optional(S.Boolean),
           logdrain_axiom_dataset_name: S.optional(S.NullOr(S.String)),
-          logdrain_axiom_api_key: S.optional(S.String),
+          logdrain_axiom_api_key: S.optional(S.String.pipe(T.SensitiveValue({}))),
           is_logdrain_custom_enabled: S.optional(S.Boolean),
           logdrain_custom_config: S.optional(S.String),
           logdrain_custom_config_parser: S.optional(S.String),
@@ -12558,7 +12558,7 @@ function __c69(j: number): any {
           is_sentinel_enabled: S.optional(S.Boolean),
           is_metrics_enabled: S.optional(S.Boolean),
           is_sentinel_debug_enabled: S.optional(S.Boolean),
-          sentinel_token: S.optional(S.String),
+          sentinel_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           sentinel_metrics_refresh_rate_seconds: S.optional(S.Number),
           sentinel_metrics_history_days: S.optional(S.Number),
           sentinel_push_interval_seconds: S.optional(S.Number),
@@ -12571,7 +12571,7 @@ function __c69(j: number): any {
           is_geoip_enabled: S.optional(S.Boolean),
           geoip_refresh_days: S.optional(S.Number),
           traffic_ip_mode: S.optional(S.String),
-          geoip_maxmind_license_key: S.optional(S.String),
+          geoip_maxmind_license_key: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "GetServerSentinelResponse" });
   }
@@ -15128,7 +15128,7 @@ function __c218(j: number): any {
           group_name: S.optional(S.NullOr(S.String)),
           client_id: S.optional(S.NullOr(S.String)),
           client_secret: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
-          webhook_token: S.optional(S.NullOr(S.String)),
+          webhook_token: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           redirect_uri: S.optional(S.NullOr(S.String)),
           is_system_wide: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "PATCH", uri: "/gitlab-apps/{gitlab_app_id}", code: 200 })),
@@ -15426,11 +15426,11 @@ function __c231(j: number): any {
         S.Struct({
           uuid: S.String.pipe(T.Label()),
           is_logdrain_newrelic_enabled: S.optional(S.Boolean),
-          logdrain_newrelic_license_key: S.optional(S.String),
+          logdrain_newrelic_license_key: S.optional(S.String.pipe(T.SensitiveValue({}))),
           logdrain_newrelic_base_uri: S.optional(S.String),
           is_logdrain_axiom_enabled: S.optional(S.Boolean),
           logdrain_axiom_dataset_name: S.optional(S.String),
-          logdrain_axiom_api_key: S.optional(S.String),
+          logdrain_axiom_api_key: S.optional(S.String.pipe(T.SensitiveValue({}))),
           is_logdrain_custom_enabled: S.optional(S.Boolean),
           logdrain_custom_config: S.optional(S.String),
           logdrain_custom_config_parser: S.optional(S.String),
@@ -15477,7 +15477,7 @@ function __c234(j: number): any {
           uuid: S.String.pipe(T.Label()),
           is_metrics_enabled: S.optional(S.Boolean),
           is_sentinel_debug_enabled: S.optional(S.Boolean),
-          sentinel_token: S.optional(S.String),
+          sentinel_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           sentinel_metrics_refresh_rate_seconds: S.optional(S.Number),
           sentinel_metrics_history_days: S.optional(S.Number),
           sentinel_push_interval_seconds: S.optional(S.Number),
@@ -15488,7 +15488,7 @@ function __c234(j: number): any {
           traffic_retention_1d_days: S.optional(S.Number),
           is_geoip_enabled: S.optional(S.Boolean),
           geoip_refresh_days: S.optional(S.Number),
-          geoip_maxmind_license_key: S.optional(S.NullOr(S.String)),
+          geoip_maxmind_license_key: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           traffic_ip_mode: S.optional(S.String),
         }).pipe(T.Http({ method: "PATCH", uri: "/servers/{uuid}/sentinel", code: 200 })),
       ).annotate({ identifier: "UpdateServerSentinelRequest" });
@@ -15792,7 +15792,7 @@ function __c255(j: number): any {
           group_name: S.optional(S.NullOr(S.String)),
           client_id: S.optional(S.NullOr(S.String)),
           client_secret: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
-          webhook_token: S.optional(S.NullOr(S.String)),
+          webhook_token: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           redirect_uri: S.optional(S.NullOr(S.String)),
           is_system_wide: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/gitlab-apps", code: 200 })),
@@ -16384,7 +16384,7 @@ function __c272(j: number): any {
         S.Struct({
           provider: S.String,
           name: S.String,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           metadata: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "POST", uri: "/security/integration-tokens", code: 200 })),
       ).annotate({ identifier: "CreateSecretManagerIntegrationTokenRequest" });

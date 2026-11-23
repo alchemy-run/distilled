@@ -507,7 +507,7 @@ export interface ValidateMFAOTPRequest {
   /** ID of the MFA OTP. (UUID format) */
   mfa_otp_id: string;
   /** One time password of the MFA OTP. */
-  otp?: string | undefined;
+  otp?: string | Redacted.Redacted<string> | undefined;
 }
 /** Backup codes of the MFA OTP. */
 export type ValidateMFAOTPResponseBackupCodesList = Array<string>;
@@ -1388,7 +1388,7 @@ function __c18(j: number): any {
       return S.suspend(() =>
         S.Struct({
           mfa_otp_id: S.String.pipe(T.Label()),
-          otp: S.optional(S.String),
+          otp: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }).pipe(
           T.Http({
             method: "POST",

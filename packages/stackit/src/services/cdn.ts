@@ -150,7 +150,7 @@ export type OtlpLogSinkBearerCredentialsType = "bearer";
 /** Bearer token authentication credentials for OTLP. */
 export interface OtlpLogSinkBearerCredentials {
   /** The bearer token used to authenticate against your OTLP endpoint. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** Defines bearer token authentication. */
   type: OtlpLogSinkBearerCredentialsType;
 }

@@ -403,7 +403,7 @@ export interface BuildConfig {
   /** Output only. A permanent fixed identifier for source. */
   sourceProvenance?: SourceProvenance | undefined;
   /** An identifier for Firebase function sources. Disclaimer: This field is only supported for Firebase function deployments. */
-  sourceToken?: string | undefined;
+  sourceToken?: string | Redacted.Redacted<string> | undefined;
   /** Name of the Cloud Build Custom Worker Pool that should be used to build the function. The format of this field is `projects/{project}/locations/{region}/workerPools/{workerPool}` where {project} and {region} are the project id and region respectively where the worker pool is defined and {workerPool} is the short name of the worker pool. If the project id is not the same as the function, then the Cloud Functions Service Agent (service-@gcf-admin-robot.iam.gserviceaccount.com) must be granted the role Cloud Build Custom Workers Builder (roles/cloudbuild.customworkers.builder) in the project. */
   workerPool?: string | undefined;
 }
@@ -702,11 +702,11 @@ export interface CustomerEncryptionKey {
   /** The service account being used for the encryption request for the given KMS key. If absent, the Compute Engine default service account is used. For example: "kmsKeyServiceAccount": "name@project_id.iam.gserviceaccount.com/ */
   kmsKeyServiceAccount?: string | undefined;
   /** Specifies a 256-bit customer-supplied encryption key, encoded in RFC 4648 base64 to either encrypt or decrypt this resource. You can provide either the rawKey or the rsaEncryptedKey. For example: "rawKey": "SGVsbG8gZnJvbSBHb29nbGUgQ2xvdWQgUGxhdGZvcm0=" */
-  rawKey?: string | undefined;
+  rawKey?: string | Redacted.Redacted<string> | undefined;
   /** Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit customer-supplied encryption key to either encrypt or decrypt this resource. You can provide either the rawKey or the rsaEncryptedKey. For example: "rsaEncryptedKey": "ieCx/NcW06PcT7Ep1X6LUTc/hLvUDYyzSZPPVCVPTVEohpeHASqC8uw5TzyO9U+Fka9JFH z0mBibXUInrC/jEk014kCK/NPjYgEMOyssZ4ZINPKxlUh2zn1bV+MCaTICrdmuSBTWlUUiFoD D6PYznLwh8ZNdaheCeZ8ewEXgFQ8V+sDroLaN3Xs3MDTXQEMMoNUXMCZEIpg9Vtp9x2oe==" The key must meet the following requirements before you can provide it to Compute Engine: 1. The key is wrapped using a RSA public key certificate provided by Google. 2. After being wrapped, the key must be encoded in RFC 4648 base64 encoding. Gets the RSA public key certificate provided by Google at: https://cloud-certs.storage.googleapis.com/google-cloud-csek-ingress.pem */
-  rsaEncryptedKey?: string | undefined;
+  rsaEncryptedKey?: string | Redacted.Redacted<string> | undefined;
   /** [Output only] The RFC 4648 base64 encoded SHA-256 hash of the customer-supplied encryption key that protects this resource. */
-  sha256?: string | undefined;
+  sha256?: string | Redacted.Redacted<string> | undefined;
 }
 /** GuestOsFeature.type values, as defined by the Google Cloud API. */
 export type GuestOsFeatureType =
@@ -1944,7 +1944,7 @@ export interface MasterAuth {
   /** Base64-encoded public certificate used by clients to authenticate to the cluster endpoint. Issued only if clientCertificateConfig is set. */
   clientCertificate?: string | undefined;
   /** Base64-encoded private key used by clients to authenticate to the cluster endpoint. */
-  clientKey?: string | undefined;
+  clientKey?: string | Redacted.Redacted<string> | undefined;
 }
 /** Configuration for a CIDR block that can access the cluster master endpoint */
 export interface CidrBlock {
@@ -3125,7 +3125,7 @@ export interface OnPremisesConfiguration {
   /** PEM representation of the replica's x509 certificate. */
   clientCertificate?: string | undefined;
   /** PEM representation of the replica's private key. */
-  clientKey?: string | undefined;
+  clientKey?: string | Redacted.Redacted<string> | undefined;
   /** The dump file to create the Cloud SQL replica. */
   dumpFilePath?: string | undefined;
   /** The host and port of the on-premises instance in host:port format. */
@@ -3144,7 +3144,7 @@ export interface MySqlReplicaConfiguration {
   /** PEM representation of the replica's x509 certificate. */
   clientCertificate?: string | undefined;
   /** PEM representation of the replica's private key. */
-  clientKey?: string | undefined;
+  clientKey?: string | Redacted.Redacted<string> | undefined;
   /** Seconds to wait between connect retries. */
   connectRetryInterval?: number | undefined;
   /** Path to a SQL dump file in Google Cloud Storage. */
@@ -5526,7 +5526,7 @@ function __c6(j: number): any {
           serviceAccount: S.optional(S.String),
           source: S.optional(__S(195, __c6, 3)),
           sourceProvenance: S.optional(__S(196, __c6, 4)),
-          sourceToken: S.optional(S.String),
+          sourceToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           workerPool: S.optional(S.String),
         }),
       ).annotate({ identifier: "BuildConfig" });
@@ -5860,7 +5860,7 @@ function __c17(j: number): any {
         S.Struct({
           caCertificate: S.optional(S.String),
           clientCertificate: S.optional(S.String),
-          clientKey: S.optional(S.String),
+          clientKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           dumpFilePath: S.optional(S.String),
           hostPort: S.optional(S.String),
           kind: S.optional(S.String),
@@ -5873,7 +5873,7 @@ function __c17(j: number): any {
         S.Struct({
           caCertificate: S.optional(S.String),
           clientCertificate: S.optional(S.String),
-          clientKey: S.optional(S.String),
+          clientKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           connectRetryInterval: S.optional(S.Number),
           dumpFilePath: S.optional(S.String),
           kind: S.optional(S.String),
@@ -6581,9 +6581,9 @@ function __c28(j: number): any {
         S.Struct({
           kmsKeyName: S.optional(S.String),
           kmsKeyServiceAccount: S.optional(S.String),
-          rawKey: S.optional(S.String),
-          rsaEncryptedKey: S.optional(S.String),
-          sha256: S.optional(S.String),
+          rawKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          rsaEncryptedKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          sha256: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "CustomerEncryptionKey" });
     case 3:
@@ -7651,7 +7651,7 @@ function __c46(j: number): any {
           clientCertificateConfig: S.optional(__S(1483, __c46, 11)),
           clusterCaCertificate: S.optional(S.String),
           clientCertificate: S.optional(S.String),
-          clientKey: S.optional(S.String),
+          clientKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "MasterAuth" });
     case 13:

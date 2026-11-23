@@ -1365,7 +1365,7 @@ export interface ActorToken {
   status: ActorTokenStatus;
   user_id: string;
   actor: unknown;
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   url?: string | undefined;
   /** Unix timestamp of creation. */
   created_at: number;
@@ -1395,7 +1395,7 @@ export interface CreateAdminPortalLinkTokenResponse {
   /** Caller-provided scopes for this token. */
   scopes: CreateAdminPortalLinkTokenResponseScopesList | null;
   /** The single-use admin portal link token. Returned only on creation. URL-borne; treat as a secret. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   revoked: boolean;
   revocation_reason: string | null;
   expired: boolean;
@@ -2323,7 +2323,7 @@ export interface CreateJWTTemplateRequest {
   /** The custom signing algorithm to use when minting JWTs. Required if `custom_signing_key` is `true`. */
   signing_algorithm?: string | null | undefined;
   /** The custom signing private key to use when minting JWTs. Required if `custom_signing_key` is `true`. */
-  signing_key?: string | null | undefined;
+  signing_key?: string | Redacted.Redacted<string> | null | undefined;
 }
 export type JWTTemplateObject = "jwt_template";
 export interface JWTTemplate {
@@ -2356,7 +2356,7 @@ export interface CreateM2MTokenResponse {
   subject: string;
   claims?: unknown | null | undefined;
   scopes?: CreateM2MTokenResponseScopesList | undefined;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   revoked: boolean;
   revocation_reason: string | null;
   expired: boolean;
@@ -2996,7 +2996,7 @@ export interface SignInToken {
   id: string;
   status: SignInTokenStatus;
   user_id: string;
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   url?: string | null | undefined;
   /** Unix timestamp of creation. */
   created_at: number;
@@ -3039,7 +3039,7 @@ export type TestingTokenObject = "testing_token";
 export interface TestingToken {
   object: TestingTokenObject;
   /** The actual token. This value is meant to be passed in the `__clerk_testing_token` query parameter with requests to the Frontend API. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** Unix timestamp of the token's expiration time. */
   expires_at: number;
 }
@@ -4190,7 +4190,7 @@ export interface OAuthAccessTokenItem {
   /** The unique ID of the user in the external provider's system */
   provider_user_id: string;
   /** The access token */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** Unix timestamp of the access token expiration. */
   expires_at: number | null;
   /** The ID of the provider */
@@ -4200,7 +4200,7 @@ export interface OAuthAccessTokenItem {
   /** The list of scopes that the token is valid for. Only present for OAuth 2.0 tokens. */
   scopes?: OAuthAccessTokenItemScopesList | undefined;
   /** The ID token retrieved from the OIDC provider. Only present for OIDC-compliant OAuth 2.0 providers when available. */
-  id_token?: string | undefined;
+  id_token?: string | Redacted.Redacted<string> | undefined;
   /** The token secret. Only present for OAuth 1.0 tokens. */
   token_secret?: string | Redacted.Redacted<string> | undefined;
 }
@@ -4794,7 +4794,7 @@ export interface EnterpriseConnectionTestRunSaml {
 }
 /** OAuth-specific metadata, present for OIDC connections */
 export interface EnterpriseConnectionTestRunOauth {
-  id_token?: string | undefined;
+  id_token?: string | Redacted.Redacted<string> | undefined;
   access_token?: string | Redacted.Redacted<string> | undefined;
   user_info?: string | undefined;
 }
@@ -5483,7 +5483,7 @@ export interface RefreshSessionRequest {
   /** The ID of the session */
   session_id: string;
   /** The JWT that is sent via the `__session` cookie from your frontend. Note: this JWT must be associated with the supplied session ID. */
-  expired_token: string;
+  expired_token: string | Redacted.Redacted<string>;
   /** The refresh token from the `__refresh` cookie set via FAPI's handshake flow. */
   refresh_token: string | Redacted.Redacted<string>;
   /** The origin of the request. */
@@ -5778,7 +5778,7 @@ export interface RevokeOAuthApplicationTokenRequest {
   /** The ID of the OAuth application for which to revoke the token */
   oauth_application_id: string;
   /** The opaque OAuth access token or refresh token to revoke. All tokens associated with the same OAuth grant are also revoked. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 export interface RevokeOAuthApplicationTokenResponse {}
 export interface RevokeOrganizationInvitationRequest {
@@ -6198,7 +6198,7 @@ export interface UpdateJWTTemplateRequest {
   /** The custom signing algorithm to use when minting JWTs. Required if `custom_signing_key` is `true`. */
   signing_algorithm?: string | null | undefined;
   /** The custom signing private key to use when minting JWTs. Required if `custom_signing_key` is `true`. */
-  signing_key?: string | null | undefined;
+  signing_key?: string | Redacted.Redacted<string> | null | undefined;
 }
 export interface UpdateMachineRequest {
   /** The ID of the machine to update */
@@ -6573,7 +6573,7 @@ export interface VerifyApiKeyResponse {
 }
 export interface VerifyClientRequest {
   /** A JWT that represents the active client. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 export interface VerifyDomainProxyRequest {
   /** The ID of the domain that will be updated. */
@@ -6596,7 +6596,7 @@ export interface ProxyCheck {
   updated_at: number;
 }
 export interface VerifyM2MTokenRequest {
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 export type VerifyM2MTokenResponseObject = "machine_to_machine_token";
 export type VerifyM2MTokenResponseScopesList = Array<string>;
@@ -12387,13 +12387,13 @@ function __c46(j: number): any {
           object: S.String,
           external_account_id: S.String,
           provider_user_id: S.String,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           expires_at: S.NullOr(S.Number),
           provider: S.String,
           public_metadata: __S(0, __c0, 0),
           label: S.NullOr(S.String),
           scopes: S.optional(__S(9504, __c297, 0)),
-          id_token: S.optional(S.String),
+          id_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           token_secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "OAuthAccessTokenItem" });
@@ -13496,7 +13496,7 @@ function __c96(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          id_token: S.optional(S.String),
+          id_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           access_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           user_info: S.optional(S.String),
         }),
@@ -14406,7 +14406,7 @@ function __c135(j: number): any {
           status: S.String,
           user_id: S.String,
           actor: S.Unknown,
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           url: S.optional(S.String),
           created_at: S.Number,
           updated_at: S.Number,
@@ -14420,7 +14420,7 @@ function __c136(j: number): any {
       return S.suspend(() =>
         S.Struct({
           session_id: S.String.pipe(T.Label()),
-          expired_token: S.String,
+          expired_token: S.String.pipe(T.SensitiveValue({})),
           refresh_token: S.String.pipe(T.SensitiveValue({})),
           request_origin: S.String,
           request_headers: S.optional(S.NullOr(__S(0, __c0, 0))),
@@ -14615,7 +14615,7 @@ function __c146(j: number): any {
           organization_id: S.NullOr(S.String),
           it_contact_id: S.NullOr(S.String),
           scopes: S.NullOr(__S(9504, __c297, 0)),
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           revoked: S.Boolean,
           revocation_reason: S.NullOr(S.String),
           expired: S.Boolean,
@@ -14759,7 +14759,7 @@ function __c156(j: number): any {
       return S.suspend(() =>
         S.Struct({
           oauth_application_id: S.String.pipe(T.Label()),
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
         }).pipe(
           T.Http({
             method: "POST",
@@ -15310,7 +15310,7 @@ function __c189(j: number): any {
           allowed_clock_skew: S.optional(S.NullOr(S.Number)),
           custom_signing_key: S.optional(S.Boolean),
           signing_algorithm: S.optional(S.NullOr(S.String)),
-          signing_key: S.optional(S.NullOr(S.String)),
+          signing_key: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
         }).pipe(T.Http({ method: "PATCH", uri: "/jwt_templates/{template_id}", code: 200 })),
       ).annotate({ identifier: "UpdateJWTTemplateRequest" });
   }
@@ -15882,7 +15882,7 @@ function __c214(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
         }).pipe(T.Http({ method: "POST", uri: "/clients/verify", code: 200 })),
       ).annotate({ identifier: "VerifyClientRequest" });
   }
@@ -15916,7 +15916,7 @@ function __c216(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
         }).pipe(T.Http({ method: "POST", uri: "/m2m_tokens/verify", code: 200 })),
       ).annotate({ identifier: "VerifyM2MTokenRequest" });
   }
@@ -16437,7 +16437,7 @@ function __c239(j: number): any {
           allowed_clock_skew: S.optional(S.NullOr(S.Number)),
           custom_signing_key: S.optional(S.Boolean),
           signing_algorithm: S.optional(S.NullOr(S.String)),
-          signing_key: S.optional(S.NullOr(S.String)),
+          signing_key: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
         }).pipe(T.Http({ method: "POST", uri: "/jwt_templates", code: 200 })),
       ).annotate({ identifier: "CreateJWTTemplateRequest" });
   }
@@ -16480,7 +16480,7 @@ function __c241(j: number): any {
           subject: S.String,
           claims: S.optional(S.NullOr(S.Unknown)),
           scopes: S.optional(__S(9504, __c297, 0)),
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           revoked: S.Boolean,
           revocation_reason: S.NullOr(S.String),
           expired: S.Boolean,
@@ -17080,7 +17080,7 @@ function __c272(j: number): any {
           id: S.String,
           status: S.String,
           user_id: S.String,
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           url: S.optional(S.NullOr(S.String)),
           created_at: S.Number,
           updated_at: S.Number,
@@ -17152,7 +17152,7 @@ function __c277(j: number): any {
       return S.suspend(() =>
         S.Struct({
           object: S.String,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           expires_at: S.Number,
         }),
       ).annotate({ identifier: "TestingToken" });

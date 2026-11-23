@@ -50,7 +50,7 @@ export interface ConfirmEmailDomainTerminationRequest {
   /** Reason of your termination request */
   reason?: ServiceTerminationReasonEnum | (string & {}) | undefined;
   /** The termination token sent by mail to the admin contact */
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 export type ConfirmEmailDomainTerminationResponse = string;
 export interface CreateEmailDomainAccountRequest {
@@ -3438,7 +3438,7 @@ function __c0(j: number): any {
           domain: S.String.pipe(T.Label()),
           commentary: S.optional(S.String),
           reason: S.optional(S.String),
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
         }).pipe(
           T.Http({ method: "POST", uri: "/email/domain/{domain}/confirmTermination", code: 200 }),
         ),

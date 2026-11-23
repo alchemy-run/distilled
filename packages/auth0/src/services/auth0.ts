@@ -121,7 +121,7 @@ export interface ActionModuleSecretRequest {
   /** The name of the secret. */
   name: string;
   /** The value of the secret. */
-  value: string;
+  value: string | Redacted.Redacted<string>;
 }
 /** The secrets to associate with the action module. */
 export type CreateActionModuleRequestSecretsList = Array<ActionModuleSecretRequest>;
@@ -640,7 +640,7 @@ export interface ClientAddonAzureBlob {
   /** Your Azure storage account name. Usually first segment in your Azure storage URL. e.g. `https://acme-org.blob.core.windows.net` would be the account name `acme-org`. */
   accountName?: string | undefined;
   /** Access key associated with this storage account. */
-  storageAccessKey?: string | undefined;
+  storageAccessKey?: string | Redacted.Redacted<string> | undefined;
   /** Container to request a token for. e.g. `my-container`. */
   containerName?: string | undefined;
   /** Entity to request a token for. e.g. `my-blob`. If blank the computed SAS will apply to the entire storage container. */
@@ -2750,7 +2750,7 @@ export interface CreateDeviceCredentialsRequest {
   device_name: string;
   type: DeviceCredentialPublicKeyTypeEnum | (string & {});
   /** Base64 encoded string containing the credential. */
-  value: string;
+  value: string | Redacted.Redacted<string>;
   /** Unique identifier for the device. Recommend using <a href="http://developer.android.com/reference/android/provider/Settings.Secure.html#ANDROID_ID">Android_ID</a> on Android and <a href="https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIDevice_Class/index.html#//apple_ref/occ/instp/UIDevice/identifierForVendor">identifierForVendor</a>. */
   device_id: string;
   /** client_id of the client (application) this credential is for. */
@@ -3749,7 +3749,7 @@ export type FlowActionJson =
 export type FlowActionJwtDecodeJwtType = "JWT";
 export type FlowActionJwtDecodeJwtAction = "DECODE_JWT";
 export interface FlowActionJwtDecodeJwtParams {
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 export interface FlowActionJwtDecodeJwt {
   id: string;
@@ -3784,7 +3784,7 @@ export type FlowActionJwtVerifyJwtType = "JWT";
 export type FlowActionJwtVerifyJwtAction = "VERIFY_JWT";
 export interface FlowActionJwtVerifyJwtParams {
   connection_id: string;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   audience?: string | undefined;
   issuer?: string | undefined;
 }
@@ -4548,7 +4548,7 @@ export type FlowsVaultConnectionAppIdHttpEnum = "HTTP";
 export type FlowsVaultConnectioSetupTypeBearerEnum = "BEARER";
 export interface FlowsVaultConnectioSetupHttpBearer {
   type: FlowsVaultConnectioSetupTypeBearerEnum;
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 export interface CreateFlowsVaultConnectionHttpBearer {
   /** Flows Vault Connection name. */
@@ -4716,7 +4716,7 @@ export type FlowsVaultConnectionAppIdPipedriveEnum = "PIPEDRIVE";
 export type FlowsVaultConnectioSetupTypeTokenEnum = "TOKEN";
 export interface FlowsVaultConnectioSetupToken {
   type: FlowsVaultConnectioSetupTypeTokenEnum;
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 export interface CreateFlowsVaultConnectionPipedriveToken {
   /** Flows Vault Connection name. */
@@ -5853,7 +5853,7 @@ export type CreateLogStreamDatadogRequestBodyFiltersList = Array<LogStreamFilter
 export type LogStreamDatadogRegionEnum = "us" | "eu" | "us3" | "us5";
 export interface LogStreamDatadogSink {
   /** Datadog API Key */
-  datadogApiKey: string;
+  datadogApiKey: string | Redacted.Redacted<string>;
   datadogRegion: LogStreamDatadogRegionEnum | (string & {});
 }
 export interface CreateLogStreamDatadogRequestBody {
@@ -5878,7 +5878,7 @@ export interface LogStreamSplunkSink {
   /** Port */
   splunkPort: string;
   /** Splunk token */
-  splunkToken: string;
+  splunkToken: string | Redacted.Redacted<string>;
   /** Verify TLS certificate */
   splunkSecure: boolean;
 }
@@ -6422,7 +6422,7 @@ export interface CustomProviderConfiguration {
 }
 export type PhoneProviderConfiguration = TwilioProviderConfiguration | CustomProviderConfiguration;
 export interface TwilioProviderCredentials {
-  auth_token: string;
+  auth_token: string | Redacted.Redacted<string>;
 }
 /** Provider credentials required to use authenticate to the provider. */
 export type PhoneProviderCredentials = TwilioProviderCredentials | unknown;
@@ -13038,7 +13038,7 @@ export interface GetGuardianFactorsProviderPhoneTwilioResponseContent {
   /** Copilot SID */
   messaging_service_sid?: string | null | undefined;
   /** Twilio Authentication token */
-  auth_token?: string | null | undefined;
+  auth_token?: string | Redacted.Redacted<string> | null | undefined;
   /** Twilio SID */
   sid?: string | null | undefined;
 }
@@ -14249,14 +14249,14 @@ export interface GetGuardianFactorsProviderSmsTwilioResponseContent {
   /** Copilot SID */
   messaging_service_sid?: string | null | undefined;
   /** Twilio Authentication token */
-  auth_token?: string | null | undefined;
+  auth_token?: string | Redacted.Redacted<string> | null | undefined;
   /** Twilio SID */
   sid?: string | null | undefined;
 }
 export interface GetSnsRequest {}
 export interface GetGuardianFactorsProviderSnsResponseContent {
   aws_access_key_id?: string | null | undefined;
-  aws_secret_access_key?: string | null | undefined;
+  aws_secret_access_key?: string | Redacted.Redacted<string> | null | undefined;
   aws_region?: string | null | undefined;
   sns_apns_platform_application_arn?: string | null | undefined;
   sns_gcm_platform_application_arn?: string | null | undefined;
@@ -15065,7 +15065,7 @@ export interface ActionSecretRequest {
   /** The name of the particular secret, e.g. API_KEY. */
   name?: string | undefined;
   /** The value of the particular secret, e.g. secret123. A secret's value can only be set upon creation. A secret's value will never be returned by the API. */
-  value?: string | undefined;
+  value?: string | Redacted.Redacted<string> | undefined;
   [key: string]: unknown;
 }
 /** The list of secrets that are included in an action or a version of an action. */
@@ -15711,7 +15711,7 @@ export type UpdateGuardianFactorsProviderPushNotificationFcmResponseContent = {
 };
 export type PatchFcmResponse = UpdateGuardianFactorsProviderPushNotificationFcmResponseContent;
 export interface PatchFcmv1Request {
-  server_credentials?: string | null | undefined;
+  server_credentials?: string | Redacted.Redacted<string> | null | undefined;
 }
 export type UpdateGuardianFactorsProviderPushNotificationFcmv1ResponseContent = {
   [key: string]: unknown | undefined;
@@ -16601,14 +16601,14 @@ export interface UpdateTenantSettingsResponseContent {
 }
 export interface PatchSnsRequest {
   aws_access_key_id?: string | null | undefined;
-  aws_secret_access_key?: string | null | undefined;
+  aws_secret_access_key?: string | Redacted.Redacted<string> | null | undefined;
   aws_region?: string | null | undefined;
   sns_apns_platform_application_arn?: string | null | undefined;
   sns_gcm_platform_application_arn?: string | null | undefined;
 }
 export interface UpdateGuardianFactorsProviderPushNotificationSnsResponseContent {
   aws_access_key_id?: string | null | undefined;
-  aws_secret_access_key?: string | null | undefined;
+  aws_secret_access_key?: string | Redacted.Redacted<string> | null | undefined;
   aws_region?: string | null | undefined;
   sns_apns_platform_application_arn?: string | null | undefined;
   sns_gcm_platform_application_arn?: string | null | undefined;
@@ -17596,7 +17596,7 @@ export interface CreateScimTokenResponseContent {
   /** The token's identifier */
   token_id?: string | undefined;
   /** The scim client's token */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   /** The scopes of the scim token */
   scopes?: CreateScimTokenResponseContentScopesList | undefined;
   /** The token's created at timestamp */
@@ -17969,7 +17969,7 @@ export interface VerifyCustomDomainResponseContent {
   status: CustomDomainStatusFilterEnum;
   type: CustomDomainTypeEnum;
   /** CNAME API key header. */
-  cname_api_key?: string | undefined;
+  cname_api_key?: string | Redacted.Redacted<string> | undefined;
   /** Intermediate address. */
   origin_domain_name?: string | undefined;
   verification?: DomainVerification | undefined;
@@ -18307,7 +18307,7 @@ export type SetGuardianFactorsProviderPushNotificationFcmResponseContent = {
 };
 export type PutFcmResponse = SetGuardianFactorsProviderPushNotificationFcmResponseContent;
 export interface PutFcmv1Request {
-  server_credentials?: string | null | undefined;
+  server_credentials?: string | Redacted.Redacted<string> | null | undefined;
 }
 export type SetGuardianFactorsProviderPushNotificationFcmv1ResponseContent = {
   [key: string]: unknown | undefined;
@@ -18443,7 +18443,7 @@ export interface PutSmsTwilioFactorProviderRequest {
   /** Copilot SID */
   messaging_service_sid?: string | null | undefined;
   /** Twilio Authentication token */
-  auth_token?: string | null | undefined;
+  auth_token?: string | Redacted.Redacted<string> | null | undefined;
   /** Twilio SID */
   sid?: string | null | undefined;
 }
@@ -18453,20 +18453,20 @@ export interface SetGuardianFactorsProviderSmsTwilioResponseContent {
   /** Copilot SID */
   messaging_service_sid?: string | null | undefined;
   /** Twilio Authentication token */
-  auth_token?: string | null | undefined;
+  auth_token?: string | Redacted.Redacted<string> | null | undefined;
   /** Twilio SID */
   sid?: string | null | undefined;
 }
 export interface PutSnsRequest {
   aws_access_key_id?: string | null | undefined;
-  aws_secret_access_key?: string | null | undefined;
+  aws_secret_access_key?: string | Redacted.Redacted<string> | null | undefined;
   aws_region?: string | null | undefined;
   sns_apns_platform_application_arn?: string | null | undefined;
   sns_gcm_platform_application_arn?: string | null | undefined;
 }
 export interface SetGuardianFactorsProviderPushNotificationSnsResponseContent {
   aws_access_key_id?: string | null | undefined;
-  aws_secret_access_key?: string | null | undefined;
+  aws_secret_access_key?: string | Redacted.Redacted<string> | null | undefined;
   aws_region?: string | null | undefined;
   sns_apns_platform_application_arn?: string | null | undefined;
   sns_gcm_platform_application_arn?: string | null | undefined;
@@ -18486,7 +18486,7 @@ export interface PutTwilioRequest {
   /** Copilot SID */
   messaging_service_sid?: string | null | undefined;
   /** Twilio Authentication token */
-  auth_token?: string | null | undefined;
+  auth_token?: string | Redacted.Redacted<string> | null | undefined;
   /** Twilio SID */
   sid?: string | null | undefined;
 }
@@ -18496,7 +18496,7 @@ export interface SetGuardianFactorsProviderPhoneTwilioResponseContent {
   /** Copilot SID */
   messaging_service_sid?: string | null | undefined;
   /** Twilio Authentication token */
-  auth_token?: string | null | undefined;
+  auth_token?: string | Redacted.Redacted<string> | null | undefined;
   /** Twilio SID */
   sid?: string | null | undefined;
 }
@@ -30233,7 +30233,7 @@ function __c19(j: number): any {
         S.StructWithRest(
           S.Struct({
             accountName: S.optional(S.String),
-            storageAccessKey: S.optional(S.String),
+            storageAccessKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
             containerName: S.optional(S.String),
             blobName: S.optional(S.String),
             expiration: S.optional(S.Number),
@@ -33462,7 +33462,7 @@ function __c143(j: number): any {
         S.Struct({
           device_name: S.String,
           type: S.String,
-          value: S.String,
+          value: S.String.pipe(T.SensitiveValue({})),
           device_id: S.String,
           client_id: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/device-credentials", code: 200 })),
@@ -35642,7 +35642,7 @@ function __c263(j: number): any {
         S.Struct({
           from: S.optional(S.NullOr(S.String)),
           messaging_service_sid: S.optional(S.NullOr(S.String)),
-          auth_token: S.optional(S.NullOr(S.String)),
+          auth_token: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           sid: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "GetGuardianFactorsProviderPhoneTwilioResponseContent" });
@@ -36708,7 +36708,7 @@ function __c320(j: number): any {
       return S.suspend(() =>
         S.Struct({
           aws_access_key_id: S.optional(S.NullOr(S.String)),
-          aws_secret_access_key: S.optional(S.NullOr(S.String)),
+          aws_secret_access_key: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           aws_region: S.optional(S.NullOr(S.String)),
           sns_apns_platform_application_arn: S.optional(S.NullOr(S.String)),
           sns_gcm_platform_application_arn: S.optional(S.NullOr(S.String)),
@@ -37643,7 +37643,7 @@ function __c369(j: number): any {
         S.StructWithRest(
           S.Struct({
             name: S.optional(S.String),
-            value: S.optional(S.String),
+            value: S.optional(S.String.pipe(T.SensitiveValue({}))),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -38098,7 +38098,7 @@ function __c390(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          server_credentials: S.optional(S.NullOr(S.String)),
+          server_credentials: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -38498,7 +38498,7 @@ function __c399(j: number): any {
       return S.suspend(() =>
         S.Struct({
           aws_access_key_id: S.optional(S.NullOr(S.String)),
-          aws_secret_access_key: S.optional(S.NullOr(S.String)),
+          aws_secret_access_key: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           aws_region: S.optional(S.NullOr(S.String)),
           sns_apns_platform_application_arn: S.optional(S.NullOr(S.String)),
           sns_gcm_platform_application_arn: S.optional(S.NullOr(S.String)),
@@ -39293,7 +39293,7 @@ function __c442(j: number): any {
       return S.suspend(() =>
         S.Struct({
           token_id: S.optional(S.String),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           scopes: S.optional(__S(480, __c15, 0)),
           created_at: S.optional(S.String),
           valid_until: S.optional(S.String),
@@ -39698,7 +39698,7 @@ function __c459(j: number): any {
           primary: S.Boolean,
           status: S.String,
           type: S.String,
-          cname_api_key: S.optional(S.String),
+          cname_api_key: S.optional(S.String.pipe(T.SensitiveValue({}))),
           origin_domain_name: S.optional(S.String),
           verification: S.optional(__S(4098, __c128, 2)),
           custom_client_ip_header: S.optional(S.NullOr(S.String)),
@@ -40039,7 +40039,7 @@ function __c474(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          server_credentials: S.optional(S.NullOr(S.String)),
+          server_credentials: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -40219,7 +40219,7 @@ function __c487(j: number): any {
         S.Struct({
           from: S.optional(S.NullOr(S.String)),
           messaging_service_sid: S.optional(S.NullOr(S.String)),
-          auth_token: S.optional(S.NullOr(S.String)),
+          auth_token: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           sid: S.optional(S.NullOr(S.String)),
         }).pipe(
           T.Http({ method: "PUT", uri: "/guardian/factors/sms/providers/twilio", code: 200 }),
@@ -40233,7 +40233,7 @@ function __c488(j: number): any {
       return S.suspend(() =>
         S.Struct({
           aws_access_key_id: S.optional(S.NullOr(S.String)),
-          aws_secret_access_key: S.optional(S.NullOr(S.String)),
+          aws_secret_access_key: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           aws_region: S.optional(S.NullOr(S.String)),
           sns_apns_platform_application_arn: S.optional(S.NullOr(S.String)),
           sns_gcm_platform_application_arn: S.optional(S.NullOr(S.String)),
@@ -40282,7 +40282,7 @@ function __c491(j: number): any {
         S.Struct({
           from: S.optional(S.NullOr(S.String)),
           messaging_service_sid: S.optional(S.NullOr(S.String)),
-          auth_token: S.optional(S.NullOr(S.String)),
+          auth_token: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           sid: S.optional(S.NullOr(S.String)),
         }).pipe(
           T.Http({ method: "PUT", uri: "/guardian/factors/phone/providers/twilio", code: 200 }),
@@ -41765,7 +41765,7 @@ function __c572(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          value: S.String,
+          value: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "ActionModuleSecretRequest" });
     case 1:

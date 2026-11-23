@@ -201,7 +201,9 @@ export interface ApiPortalsCreateOrUpdateResponse {
 /** Non-sensitive properties for the APM */
 export type ApmPropertiesInputPropertiesMap = { [key: string]: string | undefined };
 /** Sensitive properties for the APM */
-export type ApmPropertiesInputSecretsMap = { [key: string]: string | undefined };
+export type ApmPropertiesInputSecretsMap = {
+  [key: string]: string | Redacted.Redacted<string> | undefined;
+};
 /** Properties of an APM */
 export interface ApmPropertiesInput {
   /** APM Type */
@@ -234,7 +236,9 @@ export type ApmPropertiesProvisioningState =
 /** Non-sensitive properties for the APM */
 export type ApmPropertiesPropertiesMap = { [key: string]: string | undefined };
 /** Sensitive properties for the APM */
-export type ApmPropertiesSecretsMap = { [key: string]: string | undefined };
+export type ApmPropertiesSecretsMap = {
+  [key: string]: string | Redacted.Redacted<string> | undefined;
+};
 /** Properties of an APM */
 export interface ApmProperties {
   /** APM Type */
@@ -1624,9 +1628,9 @@ export interface AcceleratorSshSetting {
   /** The type of the auth setting. */
   authType: AcceleratorSshSettingAuthType;
   /** Public SSH Key of git repository. */
-  hostKey?: string | undefined;
+  hostKey?: string | Redacted.Redacted<string> | undefined;
   /** SSH Key algorithm of git repository. */
-  hostKeyAlgorithm?: string | undefined;
+  hostKeyAlgorithm?: string | Redacted.Redacted<string> | undefined;
   /** Private SSH Key algorithm of git repository. */
   privateKey?: string | Redacted.Redacted<string> | undefined;
 }
@@ -2733,7 +2737,7 @@ export type GatewayPropertiesInputEnvironmentVariablesPropertiesMap = {
 };
 /** Sensitive properties */
 export type GatewayPropertiesInputEnvironmentVariablesSecretsMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | Redacted.Redacted<string> | undefined;
 };
 /** Environment variables of Spring Cloud Gateway */
 export interface GatewayPropertiesInputEnvironmentVariables {
@@ -2803,7 +2807,9 @@ export type GatewayPropertiesEnvironmentVariablesPropertiesMap = {
   [key: string]: string | undefined;
 };
 /** Sensitive properties */
-export type GatewayPropertiesEnvironmentVariablesSecretsMap = { [key: string]: string | undefined };
+export type GatewayPropertiesEnvironmentVariablesSecretsMap = {
+  [key: string]: string | Redacted.Redacted<string> | undefined;
+};
 /** Environment variables of Spring Cloud Gateway */
 export interface GatewayPropertiesEnvironmentVariables {
   /** Non-sensitive properties */
@@ -3885,7 +3891,7 @@ export interface StorageAccount {
   /** The account name of the Azure Storage Account. */
   accountName: string;
   /** The account key of the Azure Storage Account. */
-  accountKey: string;
+  accountKey: string | Redacted.Redacted<string>;
 }
 export interface GetStorageResponse {
   /** Fully qualified resource Id for the resource. */
@@ -5875,7 +5881,7 @@ export const ApmsCreateOrUpdate: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3393, __c106, 1) as any as S.Schema<ApmsCreateOrUpdateRequest>,
-  output: __S(3425, __c107, 1) as any as S.Schema<ApmsCreateOrUpdateResponse>,
+  output: __S(3457, __c108, 1) as any as S.Schema<ApmsCreateOrUpdateResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -5892,8 +5898,8 @@ export const ApplicationAcceleratorsCreateOrUpdate: API.OperationMethod<
   ApplicationAcceleratorsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3968, __c124, 0) as any as S.Schema<ApplicationAcceleratorsCreateOrUpdateRequest>,
-  output: __S(4097, __c128, 1) as any as S.Schema<ApplicationAcceleratorsCreateOrUpdateResponse>,
+  input: __S(4000, __c125, 0) as any as S.Schema<ApplicationAcceleratorsCreateOrUpdateRequest>,
+  output: __S(4129, __c129, 1) as any as S.Schema<ApplicationAcceleratorsCreateOrUpdateResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -5910,8 +5916,8 @@ export const ApplicationLiveViewsCreateOrUpdate: API.OperationMethod<
   ApplicationLiveViewsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4448, __c139, 0) as any as S.Schema<ApplicationLiveViewsCreateOrUpdateRequest>,
-  output: __S(4483, __c140, 3) as any as S.Schema<ApplicationLiveViewsCreateOrUpdateResponse>,
+  input: __S(4480, __c140, 0) as any as S.Schema<ApplicationLiveViewsCreateOrUpdateRequest>,
+  output: __S(4515, __c141, 3) as any as S.Schema<ApplicationLiveViewsCreateOrUpdateResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -5928,8 +5934,8 @@ export const AppsCreateOrUpdate: API.OperationMethod<
   AppsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4960, __c155, 0) as any as S.Schema<AppsCreateOrUpdateRequest>,
-  output: __S(5070, __c158, 14) as any as S.Schema<AppsCreateOrUpdateResponse>,
+  input: __S(4992, __c156, 0) as any as S.Schema<AppsCreateOrUpdateRequest>,
+  output: __S(5102, __c159, 14) as any as S.Schema<AppsCreateOrUpdateResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -5946,8 +5952,8 @@ export const AppsGetResourceUploadUrl: API.OperationMethod<
   AppsGetResourceUploadUrlError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5504, __c172, 0) as any as S.Schema<AppsGetResourceUploadUrlRequest>,
-  output: __S(5536, __c173, 0) as any as S.Schema<ResourceUploadDefinition>,
+  input: __S(5536, __c173, 0) as any as S.Schema<AppsGetResourceUploadUrlRequest>,
+  output: __S(5568, __c174, 0) as any as S.Schema<ResourceUploadDefinition>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -5964,8 +5970,8 @@ export const BindingsCreateOrUpdate: API.OperationMethod<
   BindingsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5888, __c184, 0) as any as S.Schema<BindingsCreateOrUpdateRequest>,
-  output: __S(5953, __c186, 1) as any as S.Schema<BindingsCreateOrUpdateResponse>,
+  input: __S(5920, __c185, 0) as any as S.Schema<BindingsCreateOrUpdateRequest>,
+  output: __S(5985, __c187, 1) as any as S.Schema<BindingsCreateOrUpdateResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -5982,8 +5988,8 @@ export const BuildpackBindingCreateOrUpdate: API.OperationMethod<
   BuildpackBindingCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6401, __c200, 1) as any as S.Schema<BuildpackBindingCreateOrUpdateRequest>,
-  output: __S(6465, __c202, 1) as any as S.Schema<BuildpackBindingCreateOrUpdateResponse>,
+  input: __S(6433, __c201, 1) as any as S.Schema<BuildpackBindingCreateOrUpdateRequest>,
+  output: __S(6466, __c202, 2) as any as S.Schema<BuildpackBindingCreateOrUpdateResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -6073,7 +6079,7 @@ export const BuildServiceGetResourceUploadUrl: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1600, __c50, 0) as any as S.Schema<BuildServiceGetResourceUploadUrlRequest>,
-  output: __S(5536, __c173, 0) as any as S.Schema<ResourceUploadDefinition>,
+  output: __S(5568, __c174, 0) as any as S.Schema<ResourceUploadDefinition>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -6198,8 +6204,8 @@ export const CustomDomainsCreateOrUpdate: API.OperationMethod<
   CustomDomainsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3488, __c109, 0) as any as S.Schema<CustomDomainsCreateOrUpdateRequest>,
-  output: __S(3553, __c111, 1) as any as S.Schema<CustomDomainsCreateOrUpdateResponse>,
+  input: __S(3520, __c110, 0) as any as S.Schema<CustomDomainsCreateOrUpdateRequest>,
+  output: __S(3585, __c112, 1) as any as S.Schema<CustomDomainsCreateOrUpdateResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -6216,8 +6222,8 @@ export const CustomizedAcceleratorsCreateOrUpdate: API.OperationMethod<
   CustomizedAcceleratorsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3585, __c112, 1) as any as S.Schema<CustomizedAcceleratorsCreateOrUpdateRequest>,
-  output: __S(3617, __c113, 1) as any as S.Schema<CustomizedAcceleratorsCreateOrUpdateResponse>,
+  input: __S(3617, __c113, 1) as any as S.Schema<CustomizedAcceleratorsCreateOrUpdateRequest>,
+  output: __S(3649, __c114, 1) as any as S.Schema<CustomizedAcceleratorsCreateOrUpdateResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -6234,8 +6240,8 @@ export const DeleteApiPortal: API.OperationMethod<
   DeleteApiPortalError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3680, __c115, 0) as any as S.Schema<DeleteApiPortalRequest>,
-  output: __S(4032, __c126, 0) as any as S.Schema<DeleteApiPortalResponse>,
+  input: __S(3712, __c116, 0) as any as S.Schema<DeleteApiPortalRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<DeleteApiPortalResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -6252,8 +6258,8 @@ export const DeleteApiPortalCustomDomain: API.OperationMethod<
   DeleteApiPortalCustomDomainError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3712, __c116, 0) as any as S.Schema<DeleteApiPortalCustomDomainRequest>,
-  output: __S(4032, __c126, 0) as any as S.Schema<DeleteApiPortalCustomDomainResponse>,
+  input: __S(3744, __c117, 0) as any as S.Schema<DeleteApiPortalCustomDomainRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<DeleteApiPortalCustomDomainResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -6270,8 +6276,8 @@ export const DeleteApm: API.OperationMethod<
   DeleteApmError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3744, __c117, 0) as any as S.Schema<DeleteApmRequest>,
-  output: __S(3776, __c118, 0) as any as S.Schema<DeleteApmResponse>,
+  input: __S(3776, __c118, 0) as any as S.Schema<DeleteApmRequest>,
+  output: __S(3808, __c119, 0) as any as S.Schema<DeleteApmResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -6288,8 +6294,8 @@ export const DeleteApp: API.OperationMethod<
   DeleteAppError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3808, __c119, 0) as any as S.Schema<DeleteAppRequest>,
-  output: __S(4032, __c126, 0) as any as S.Schema<DeleteAppResponse>,
+  input: __S(3840, __c120, 0) as any as S.Schema<DeleteAppRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<DeleteAppResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -6306,8 +6312,8 @@ export const DeleteApplicationAccelerator: API.OperationMethod<
   DeleteApplicationAcceleratorError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3840, __c120, 0) as any as S.Schema<DeleteApplicationAcceleratorRequest>,
-  output: __S(3776, __c118, 0) as any as S.Schema<DeleteApplicationAcceleratorResponse>,
+  input: __S(3872, __c121, 0) as any as S.Schema<DeleteApplicationAcceleratorRequest>,
+  output: __S(3808, __c119, 0) as any as S.Schema<DeleteApplicationAcceleratorResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -6324,8 +6330,8 @@ export const DeleteApplicationLiveView: API.OperationMethod<
   DeleteApplicationLiveViewError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3872, __c121, 0) as any as S.Schema<DeleteApplicationLiveViewRequest>,
-  output: __S(3776, __c118, 0) as any as S.Schema<DeleteApplicationLiveViewResponse>,
+  input: __S(3904, __c122, 0) as any as S.Schema<DeleteApplicationLiveViewRequest>,
+  output: __S(3808, __c119, 0) as any as S.Schema<DeleteApplicationLiveViewResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -6342,8 +6348,8 @@ export const DeleteBinding: API.OperationMethod<
   DeleteBindingError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3904, __c122, 0) as any as S.Schema<DeleteBindingRequest>,
-  output: __S(4032, __c126, 0) as any as S.Schema<DeleteBindingResponse>,
+  input: __S(3936, __c123, 0) as any as S.Schema<DeleteBindingRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<DeleteBindingResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -6360,8 +6366,8 @@ export const DeleteBuildpackBinding: API.OperationMethod<
   DeleteBuildpackBindingError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3936, __c123, 0) as any as S.Schema<DeleteBuildpackBindingRequest>,
-  output: __S(4032, __c126, 0) as any as S.Schema<DeleteBuildpackBindingResponse>,
+  input: __S(3968, __c124, 0) as any as S.Schema<DeleteBuildpackBindingRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<DeleteBuildpackBindingResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -6378,8 +6384,8 @@ export const DeleteBuildServiceBuild: API.OperationMethod<
   DeleteBuildServiceBuildError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4128, __c129, 0) as any as S.Schema<DeleteBuildServiceBuildRequest>,
-  output: __S(3776, __c118, 0) as any as S.Schema<DeleteBuildServiceBuildResponse>,
+  input: __S(4160, __c130, 0) as any as S.Schema<DeleteBuildServiceBuildRequest>,
+  output: __S(3808, __c119, 0) as any as S.Schema<DeleteBuildServiceBuildResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -6396,8 +6402,8 @@ export const DeleteBuildServiceBuilder: API.OperationMethod<
   DeleteBuildServiceBuilderError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4160, __c130, 0) as any as S.Schema<DeleteBuildServiceBuilderRequest>,
-  output: __S(4032, __c126, 0) as any as S.Schema<DeleteBuildServiceBuilderResponse>,
+  input: __S(4192, __c131, 0) as any as S.Schema<DeleteBuildServiceBuilderRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<DeleteBuildServiceBuilderResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -6414,8 +6420,8 @@ export const DeleteCertificate: API.OperationMethod<
   DeleteCertificateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4192, __c131, 0) as any as S.Schema<DeleteCertificateRequest>,
-  output: __S(4032, __c126, 0) as any as S.Schema<DeleteCertificateResponse>,
+  input: __S(4224, __c132, 0) as any as S.Schema<DeleteCertificateRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<DeleteCertificateResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -6432,8 +6438,8 @@ export const DeleteConfigurationService: API.OperationMethod<
   DeleteConfigurationServiceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4224, __c132, 0) as any as S.Schema<DeleteConfigurationServiceRequest>,
-  output: __S(4032, __c126, 0) as any as S.Schema<DeleteConfigurationServiceResponse>,
+  input: __S(4256, __c133, 0) as any as S.Schema<DeleteConfigurationServiceRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<DeleteConfigurationServiceResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -6450,8 +6456,8 @@ export const DeleteContainerRegistry: API.OperationMethod<
   DeleteContainerRegistryError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4256, __c133, 0) as any as S.Schema<DeleteContainerRegistryRequest>,
-  output: __S(3776, __c118, 0) as any as S.Schema<DeleteContainerRegistryResponse>,
+  input: __S(4288, __c134, 0) as any as S.Schema<DeleteContainerRegistryRequest>,
+  output: __S(3808, __c119, 0) as any as S.Schema<DeleteContainerRegistryResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -6468,8 +6474,8 @@ export const DeleteCustomDomain: API.OperationMethod<
   DeleteCustomDomainError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4288, __c134, 0) as any as S.Schema<DeleteCustomDomainRequest>,
-  output: __S(4032, __c126, 0) as any as S.Schema<DeleteCustomDomainResponse>,
+  input: __S(4320, __c135, 0) as any as S.Schema<DeleteCustomDomainRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<DeleteCustomDomainResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -6486,8 +6492,8 @@ export const DeleteCustomizedAccelerator: API.OperationMethod<
   DeleteCustomizedAcceleratorError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4320, __c135, 0) as any as S.Schema<DeleteCustomizedAcceleratorRequest>,
-  output: __S(3776, __c118, 0) as any as S.Schema<DeleteCustomizedAcceleratorResponse>,
+  input: __S(4352, __c136, 0) as any as S.Schema<DeleteCustomizedAcceleratorRequest>,
+  output: __S(3808, __c119, 0) as any as S.Schema<DeleteCustomizedAcceleratorResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -6504,8 +6510,8 @@ export const DeleteDeployment: API.OperationMethod<
   DeleteDeploymentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4352, __c136, 0) as any as S.Schema<DeleteDeploymentRequest>,
-  output: __S(4032, __c126, 0) as any as S.Schema<DeleteDeploymentResponse>,
+  input: __S(4384, __c137, 0) as any as S.Schema<DeleteDeploymentRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<DeleteDeploymentResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -6522,8 +6528,8 @@ export const DeleteDevToolPortal: API.OperationMethod<
   DeleteDevToolPortalError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4384, __c137, 0) as any as S.Schema<DeleteDevToolPortalRequest>,
-  output: __S(3776, __c118, 0) as any as S.Schema<DeleteDevToolPortalResponse>,
+  input: __S(4416, __c138, 0) as any as S.Schema<DeleteDevToolPortalRequest>,
+  output: __S(3808, __c119, 0) as any as S.Schema<DeleteDevToolPortalResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -6540,8 +6546,8 @@ export const DeleteGateway: API.OperationMethod<
   DeleteGatewayError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4416, __c138, 0) as any as S.Schema<DeleteGatewayRequest>,
-  output: __S(4032, __c126, 0) as any as S.Schema<DeleteGatewayResponse>,
+  input: __S(4448, __c139, 0) as any as S.Schema<DeleteGatewayRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<DeleteGatewayResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -6558,8 +6564,8 @@ export const DeleteGatewayCustomDomain: API.OperationMethod<
   DeleteGatewayCustomDomainError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4512, __c141, 0) as any as S.Schema<DeleteGatewayCustomDomainRequest>,
-  output: __S(4032, __c126, 0) as any as S.Schema<DeleteGatewayCustomDomainResponse>,
+  input: __S(4544, __c142, 0) as any as S.Schema<DeleteGatewayCustomDomainRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<DeleteGatewayCustomDomainResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -6576,8 +6582,8 @@ export const DeleteGatewayRouteConfig: API.OperationMethod<
   DeleteGatewayRouteConfigError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4544, __c142, 0) as any as S.Schema<DeleteGatewayRouteConfigRequest>,
-  output: __S(4032, __c126, 0) as any as S.Schema<DeleteGatewayRouteConfigResponse>,
+  input: __S(4576, __c143, 0) as any as S.Schema<DeleteGatewayRouteConfigRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<DeleteGatewayRouteConfigResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -6594,8 +6600,8 @@ export const DeleteService: API.OperationMethod<
   DeleteServiceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4576, __c143, 0) as any as S.Schema<DeleteServiceRequest>,
-  output: __S(4032, __c126, 0) as any as S.Schema<DeleteServiceResponse>,
+  input: __S(4608, __c144, 0) as any as S.Schema<DeleteServiceRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<DeleteServiceResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -6612,8 +6618,8 @@ export const DeleteServiceRegistry: API.OperationMethod<
   DeleteServiceRegistryError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4608, __c144, 0) as any as S.Schema<DeleteServiceRegistryRequest>,
-  output: __S(4032, __c126, 0) as any as S.Schema<DeleteServiceRegistryResponse>,
+  input: __S(4640, __c145, 0) as any as S.Schema<DeleteServiceRegistryRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<DeleteServiceRegistryResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -6630,8 +6636,8 @@ export const DeleteStorage: API.OperationMethod<
   DeleteStorageError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4640, __c145, 0) as any as S.Schema<DeleteStorageRequest>,
-  output: __S(4032, __c126, 0) as any as S.Schema<DeleteStorageResponse>,
+  input: __S(4672, __c146, 0) as any as S.Schema<DeleteStorageRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<DeleteStorageResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -6648,8 +6654,8 @@ export const DeploymentsCreateOrUpdate: API.OperationMethod<
   DeploymentsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4672, __c146, 0) as any as S.Schema<DeploymentsCreateOrUpdateRequest>,
-  output: __S(4755, __c148, 19) as any as S.Schema<DeploymentsCreateOrUpdateResponse>,
+  input: __S(4704, __c147, 0) as any as S.Schema<DeploymentsCreateOrUpdateRequest>,
+  output: __S(4787, __c149, 19) as any as S.Schema<DeploymentsCreateOrUpdateResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -6666,8 +6672,8 @@ export const DevToolPortalsCreateOrUpdate: API.OperationMethod<
   DevToolPortalsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4771, __c149, 3) as any as S.Schema<DevToolPortalsCreateOrUpdateRequest>,
-  output: __S(4804, __c150, 4) as any as S.Schema<DevToolPortalsCreateOrUpdateResponse>,
+  input: __S(4803, __c150, 3) as any as S.Schema<DevToolPortalsCreateOrUpdateRequest>,
+  output: __S(4836, __c151, 4) as any as S.Schema<DevToolPortalsCreateOrUpdateResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -6684,8 +6690,8 @@ export const DisableDeploymentRemoteDebugging: API.OperationMethod<
   DisableDeploymentRemoteDebuggingError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4832, __c151, 0) as any as S.Schema<DisableDeploymentRemoteDebuggingRequest>,
-  output: __S(4864, __c152, 0) as any as S.Schema<RemoteDebugging>,
+  input: __S(4864, __c152, 0) as any as S.Schema<DisableDeploymentRemoteDebuggingRequest>,
+  output: __S(4896, __c153, 0) as any as S.Schema<RemoteDebugging>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -6702,8 +6708,8 @@ export const DisablePredefinedAccelerator: API.OperationMethod<
   DisablePredefinedAcceleratorError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4896, __c153, 0) as any as S.Schema<DisablePredefinedAcceleratorRequest>,
-  output: __S(3776, __c118, 0) as any as S.Schema<DisablePredefinedAcceleratorResponse>,
+  input: __S(4928, __c154, 0) as any as S.Schema<DisablePredefinedAcceleratorRequest>,
+  output: __S(3808, __c119, 0) as any as S.Schema<DisablePredefinedAcceleratorResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -6720,8 +6726,8 @@ export const DisableServiceApmGlobally: API.OperationMethod<
   DisableServiceApmGloballyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4928, __c154, 0) as any as S.Schema<DisableServiceApmGloballyRequest>,
-  output: __S(3776, __c118, 0) as any as S.Schema<DisableServiceApmGloballyResponse>,
+  input: __S(4960, __c155, 0) as any as S.Schema<DisableServiceApmGloballyRequest>,
+  output: __S(3808, __c119, 0) as any as S.Schema<DisableServiceApmGloballyResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -6738,8 +6744,8 @@ export const DisableServiceTestEndpoint: API.OperationMethod<
   DisableServiceTestEndpointError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5088, __c159, 0) as any as S.Schema<DisableServiceTestEndpointRequest>,
-  output: __S(4032, __c126, 0) as any as S.Schema<DisableServiceTestEndpointResponse>,
+  input: __S(5120, __c160, 0) as any as S.Schema<DisableServiceTestEndpointRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<DisableServiceTestEndpointResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -6756,8 +6762,8 @@ export const EnableDeploymentRemoteDebugging: API.OperationMethod<
   EnableDeploymentRemoteDebuggingError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5120, __c160, 0) as any as S.Schema<EnableDeploymentRemoteDebuggingRequest>,
-  output: __S(4864, __c152, 0) as any as S.Schema<RemoteDebugging>,
+  input: __S(5152, __c161, 0) as any as S.Schema<EnableDeploymentRemoteDebuggingRequest>,
+  output: __S(4896, __c153, 0) as any as S.Schema<RemoteDebugging>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -6774,8 +6780,8 @@ export const EnablePredefinedAccelerator: API.OperationMethod<
   EnablePredefinedAcceleratorError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5152, __c161, 0) as any as S.Schema<EnablePredefinedAcceleratorRequest>,
-  output: __S(3776, __c118, 0) as any as S.Schema<EnablePredefinedAcceleratorResponse>,
+  input: __S(5184, __c162, 0) as any as S.Schema<EnablePredefinedAcceleratorRequest>,
+  output: __S(3808, __c119, 0) as any as S.Schema<EnablePredefinedAcceleratorResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -6792,8 +6798,8 @@ export const EnableServiceApmGlobally: API.OperationMethod<
   EnableServiceApmGloballyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5184, __c162, 0) as any as S.Schema<EnableServiceApmGloballyRequest>,
-  output: __S(3776, __c118, 0) as any as S.Schema<EnableServiceApmGloballyResponse>,
+  input: __S(5216, __c163, 0) as any as S.Schema<EnableServiceApmGloballyRequest>,
+  output: __S(3808, __c119, 0) as any as S.Schema<EnableServiceApmGloballyResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -6810,8 +6816,8 @@ export const EnableServiceTestEndpoint: API.OperationMethod<
   EnableServiceTestEndpointError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5216, __c163, 0) as any as S.Schema<EnableServiceTestEndpointRequest>,
-  output: __S(5248, __c164, 0) as any as S.Schema<TestKeys>,
+  input: __S(5248, __c164, 0) as any as S.Schema<EnableServiceTestEndpointRequest>,
+  output: __S(5280, __c165, 0) as any as S.Schema<TestKeys>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -6828,8 +6834,8 @@ export const FlushServiceVnetDnsSetting: API.OperationMethod<
   FlushServiceVnetDnsSettingError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5280, __c165, 0) as any as S.Schema<FlushServiceVnetDnsSettingRequest>,
-  output: __S(3776, __c118, 0) as any as S.Schema<FlushServiceVnetDnsSettingResponse>,
+  input: __S(5312, __c166, 0) as any as S.Schema<FlushServiceVnetDnsSettingRequest>,
+  output: __S(3808, __c119, 0) as any as S.Schema<FlushServiceVnetDnsSettingResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -6846,7 +6852,7 @@ export const GatewayCustomDomainsCreateOrUpdate: API.OperationMethod<
   GatewayCustomDomainsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5312, __c166, 0) as any as S.Schema<GatewayCustomDomainsCreateOrUpdateRequest>,
+  input: __S(5344, __c167, 0) as any as S.Schema<GatewayCustomDomainsCreateOrUpdateRequest>,
   output: __S(65, __c2, 1) as any as S.Schema<GatewayCustomDomainsCreateOrUpdateResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
@@ -6864,8 +6870,8 @@ export const GatewayRouteConfigsCreateOrUpdate: API.OperationMethod<
   GatewayRouteConfigsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5345, __c167, 1) as any as S.Schema<GatewayRouteConfigsCreateOrUpdateRequest>,
-  output: __S(5380, __c168, 4) as any as S.Schema<GatewayRouteConfigsCreateOrUpdateResponse>,
+  input: __S(5377, __c168, 1) as any as S.Schema<GatewayRouteConfigsCreateOrUpdateRequest>,
+  output: __S(5412, __c169, 4) as any as S.Schema<GatewayRouteConfigsCreateOrUpdateResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -6882,8 +6888,8 @@ export const GatewaysCreateOrUpdate: API.OperationMethod<
   GatewaysCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5409, __c169, 1) as any as S.Schema<GatewaysCreateOrUpdateRequest>,
-  output: __S(5445, __c170, 5) as any as S.Schema<GatewaysCreateOrUpdateResponse>,
+  input: __S(5441, __c170, 1) as any as S.Schema<GatewaysCreateOrUpdateRequest>,
+  output: __S(5478, __c171, 6) as any as S.Schema<GatewaysCreateOrUpdateResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -6900,8 +6906,8 @@ export const GenerateDeploymentHeapDump: API.OperationMethod<
   GenerateDeploymentHeapDumpError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5472, __c171, 0) as any as S.Schema<GenerateDeploymentHeapDumpRequest>,
-  output: __S(4032, __c126, 0) as any as S.Schema<GenerateDeploymentHeapDumpResponse>,
+  input: __S(5504, __c172, 0) as any as S.Schema<GenerateDeploymentHeapDumpRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<GenerateDeploymentHeapDumpResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -6918,8 +6924,8 @@ export const GenerateDeploymentThreadDump: API.OperationMethod<
   GenerateDeploymentThreadDumpError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5568, __c174, 0) as any as S.Schema<GenerateDeploymentThreadDumpRequest>,
-  output: __S(4032, __c126, 0) as any as S.Schema<GenerateDeploymentThreadDumpResponse>,
+  input: __S(5600, __c175, 0) as any as S.Schema<GenerateDeploymentThreadDumpRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<GenerateDeploymentThreadDumpResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -6936,7 +6942,7 @@ export const GetApiPortal: API.OperationMethod<
   GetApiPortalError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5600, __c175, 0) as any as S.Schema<GetApiPortalRequest>,
+  input: __S(5632, __c176, 0) as any as S.Schema<GetApiPortalRequest>,
   output: __S(289, __c9, 1) as any as S.Schema<GetApiPortalResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
@@ -6954,7 +6960,7 @@ export const GetApiPortalCustomDomain: API.OperationMethod<
   GetApiPortalCustomDomainError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5632, __c176, 0) as any as S.Schema<GetApiPortalCustomDomainRequest>,
+  input: __S(5664, __c177, 0) as any as S.Schema<GetApiPortalCustomDomainRequest>,
   output: __S(65, __c2, 1) as any as S.Schema<GetApiPortalCustomDomainResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
@@ -6972,8 +6978,8 @@ export const GetApm: API.OperationMethod<
   GetApmError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5664, __c177, 0) as any as S.Schema<GetApmRequest>,
-  output: __S(3425, __c107, 1) as any as S.Schema<GetApmResponse>,
+  input: __S(5696, __c178, 0) as any as S.Schema<GetApmRequest>,
+  output: __S(3457, __c108, 1) as any as S.Schema<GetApmResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -6990,8 +6996,8 @@ export const GetApp: API.OperationMethod<
   GetAppError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5696, __c178, 0) as any as S.Schema<GetAppRequest>,
-  output: __S(5070, __c158, 14) as any as S.Schema<GetAppResponse>,
+  input: __S(5728, __c179, 0) as any as S.Schema<GetAppRequest>,
+  output: __S(5102, __c159, 14) as any as S.Schema<GetAppResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -7008,8 +7014,8 @@ export const GetApplicationAccelerator: API.OperationMethod<
   GetApplicationAcceleratorError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5728, __c179, 0) as any as S.Schema<GetApplicationAcceleratorRequest>,
-  output: __S(4097, __c128, 1) as any as S.Schema<GetApplicationAcceleratorResponse>,
+  input: __S(5760, __c180, 0) as any as S.Schema<GetApplicationAcceleratorRequest>,
+  output: __S(4129, __c129, 1) as any as S.Schema<GetApplicationAcceleratorResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -7026,8 +7032,8 @@ export const GetApplicationLiveView: API.OperationMethod<
   GetApplicationLiveViewError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5760, __c180, 0) as any as S.Schema<GetApplicationLiveViewRequest>,
-  output: __S(4483, __c140, 3) as any as S.Schema<GetApplicationLiveViewResponse>,
+  input: __S(5792, __c181, 0) as any as S.Schema<GetApplicationLiveViewRequest>,
+  output: __S(4515, __c141, 3) as any as S.Schema<GetApplicationLiveViewResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -7044,8 +7050,8 @@ export const GetBinding: API.OperationMethod<
   GetBindingError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5792, __c181, 0) as any as S.Schema<GetBindingRequest>,
-  output: __S(5953, __c186, 1) as any as S.Schema<GetBindingResponse>,
+  input: __S(5824, __c182, 0) as any as S.Schema<GetBindingRequest>,
+  output: __S(5985, __c187, 1) as any as S.Schema<GetBindingResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -7062,8 +7068,8 @@ export const GetBuildpackBinding: API.OperationMethod<
   GetBuildpackBindingError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5824, __c182, 0) as any as S.Schema<GetBuildpackBindingRequest>,
-  output: __S(6465, __c202, 1) as any as S.Schema<GetBuildpackBindingResponse>,
+  input: __S(5856, __c183, 0) as any as S.Schema<GetBuildpackBindingRequest>,
+  output: __S(6466, __c202, 2) as any as S.Schema<GetBuildpackBindingResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -7080,7 +7086,7 @@ export const GetBuildServiceAgentPool: API.OperationMethod<
   GetBuildServiceAgentPoolError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5856, __c183, 0) as any as S.Schema<GetBuildServiceAgentPoolRequest>,
+  input: __S(5888, __c184, 0) as any as S.Schema<GetBuildServiceAgentPoolRequest>,
   output: __S(6882, __c215, 2) as any as S.Schema<GetBuildServiceAgentPoolResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
@@ -7098,7 +7104,7 @@ export const GetBuildServiceBuild: API.OperationMethod<
   GetBuildServiceBuildError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5984, __c187, 0) as any as S.Schema<GetBuildServiceBuildRequest>,
+  input: __S(6016, __c188, 0) as any as S.Schema<GetBuildServiceBuildRequest>,
   output: __S(1218, __c38, 2) as any as S.Schema<GetBuildServiceBuildResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
@@ -7116,7 +7122,7 @@ export const GetBuildServiceBuilder: API.OperationMethod<
   GetBuildServiceBuilderError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6016, __c188, 0) as any as S.Schema<GetBuildServiceBuilderRequest>,
+  input: __S(6048, __c189, 0) as any as S.Schema<GetBuildServiceBuilderRequest>,
   output: __S(358, __c11, 6) as any as S.Schema<GetBuildServiceBuilderResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
@@ -7134,8 +7140,8 @@ export const GetBuildServiceBuildResult: API.OperationMethod<
   GetBuildServiceBuildResultError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6048, __c189, 0) as any as S.Schema<GetBuildServiceBuildResultRequest>,
-  output: __S(6083, __c190, 3) as any as S.Schema<GetBuildServiceBuildResultResponse>,
+  input: __S(6080, __c190, 0) as any as S.Schema<GetBuildServiceBuildResultRequest>,
+  output: __S(6115, __c191, 3) as any as S.Schema<GetBuildServiceBuildResultResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -7152,8 +7158,8 @@ export const GetBuildServiceBuildResultLog: API.OperationMethod<
   GetBuildServiceBuildResultLogError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6112, __c191, 0) as any as S.Schema<GetBuildServiceBuildResultLogRequest>,
-  output: __S(6113, __c191, 1) as any as S.Schema<BuildResultLog>,
+  input: __S(6144, __c192, 0) as any as S.Schema<GetBuildServiceBuildResultLogRequest>,
+  output: __S(6145, __c192, 1) as any as S.Schema<BuildResultLog>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -7170,7 +7176,7 @@ export const GetBuildServiceBuildService: API.OperationMethod<
   GetBuildServiceBuildServiceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6144, __c192, 0) as any as S.Schema<GetBuildServiceBuildServiceRequest>,
+  input: __S(6176, __c193, 0) as any as S.Schema<GetBuildServiceBuildServiceRequest>,
   output: __S(769, __c24, 1) as any as S.Schema<GetBuildServiceBuildServiceResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
@@ -7188,8 +7194,8 @@ export const GetBuildServiceSupportedBuildpack: API.OperationMethod<
   GetBuildServiceSupportedBuildpackError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6176, __c193, 0) as any as S.Schema<GetBuildServiceSupportedBuildpackRequest>,
-  output: __S(6209, __c194, 1) as any as S.Schema<GetBuildServiceSupportedBuildpackResponse>,
+  input: __S(6208, __c194, 0) as any as S.Schema<GetBuildServiceSupportedBuildpackRequest>,
+  output: __S(6241, __c195, 1) as any as S.Schema<GetBuildServiceSupportedBuildpackResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -7206,8 +7212,8 @@ export const GetBuildServiceSupportedStack: API.OperationMethod<
   GetBuildServiceSupportedStackError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6240, __c195, 0) as any as S.Schema<GetBuildServiceSupportedStackRequest>,
-  output: __S(6273, __c196, 1) as any as S.Schema<GetBuildServiceSupportedStackResponse>,
+  input: __S(6272, __c196, 0) as any as S.Schema<GetBuildServiceSupportedStackRequest>,
+  output: __S(6305, __c197, 1) as any as S.Schema<GetBuildServiceSupportedStackResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -7224,7 +7230,7 @@ export const GetCertificate: API.OperationMethod<
   GetCertificateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6304, __c197, 0) as any as S.Schema<GetCertificateRequest>,
+  input: __S(6336, __c198, 0) as any as S.Schema<GetCertificateRequest>,
   output: __S(2019, __c63, 3) as any as S.Schema<GetCertificateResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
@@ -7242,7 +7248,7 @@ export const GetConfigServer: API.OperationMethod<
   GetConfigServerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6336, __c198, 0) as any as S.Schema<GetConfigServerRequest>,
+  input: __S(6368, __c199, 0) as any as S.Schema<GetConfigServerRequest>,
   output: __S(2914, __c91, 2) as any as S.Schema<GetConfigServerResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
@@ -7260,7 +7266,7 @@ export const GetConfigurationService: API.OperationMethod<
   GetConfigurationServiceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6368, __c199, 0) as any as S.Schema<GetConfigurationServiceRequest>,
+  input: __S(6400, __c200, 0) as any as S.Schema<GetConfigurationServiceRequest>,
   output: __S(3201, __c100, 1) as any as S.Schema<GetConfigurationServiceResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
@@ -7297,7 +7303,7 @@ export const GetCustomDomain: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6528, __c204, 0) as any as S.Schema<GetCustomDomainRequest>,
-  output: __S(3553, __c111, 1) as any as S.Schema<GetCustomDomainResponse>,
+  output: __S(3585, __c112, 1) as any as S.Schema<GetCustomDomainResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -7315,7 +7321,7 @@ export const GetCustomizedAccelerator: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6560, __c205, 0) as any as S.Schema<GetCustomizedAcceleratorRequest>,
-  output: __S(3617, __c113, 1) as any as S.Schema<GetCustomizedAcceleratorResponse>,
+  output: __S(3649, __c114, 1) as any as S.Schema<GetCustomizedAcceleratorResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -7333,7 +7339,7 @@ export const GetDeployment: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6592, __c206, 0) as any as S.Schema<GetDeploymentRequest>,
-  output: __S(4755, __c148, 19) as any as S.Schema<GetDeploymentResponse>,
+  output: __S(4787, __c149, 19) as any as S.Schema<GetDeploymentResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -7369,7 +7375,7 @@ export const GetDeploymentRemoteDebuggingConfig: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6656, __c208, 0) as any as S.Schema<GetDeploymentRemoteDebuggingConfigRequest>,
-  output: __S(4864, __c152, 0) as any as S.Schema<RemoteDebugging>,
+  output: __S(4896, __c153, 0) as any as S.Schema<RemoteDebugging>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -7387,7 +7393,7 @@ export const GetDevToolPortal: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6688, __c209, 0) as any as S.Schema<GetDevToolPortalRequest>,
-  output: __S(4804, __c150, 4) as any as S.Schema<GetDevToolPortalResponse>,
+  output: __S(4836, __c151, 4) as any as S.Schema<GetDevToolPortalResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -7405,7 +7411,7 @@ export const GetGateway: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6720, __c210, 0) as any as S.Schema<GetGatewayRequest>,
-  output: __S(5445, __c170, 5) as any as S.Schema<GetGatewayResponse>,
+  output: __S(5478, __c171, 6) as any as S.Schema<GetGatewayResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -7441,7 +7447,7 @@ export const GetGatewayRouteConfig: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6784, __c212, 0) as any as S.Schema<GetGatewayRouteConfigRequest>,
-  output: __S(5380, __c168, 4) as any as S.Schema<GetGatewayRouteConfigResponse>,
+  output: __S(5412, __c169, 4) as any as S.Schema<GetGatewayRouteConfigResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -8475,7 +8481,7 @@ export const ListServiceTestKeys: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1760, __c55, 0) as any as S.Schema<ListServiceTestKeysRequest>,
-  output: __S(5248, __c164, 0) as any as S.Schema<TestKeys>,
+  output: __S(5280, __c165, 0) as any as S.Schema<TestKeys>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -8579,7 +8585,7 @@ export const RegenerateServiceTestKey: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1952, __c61, 0) as any as S.Schema<RegenerateServiceTestKeyRequest>,
-  output: __S(5248, __c164, 0) as any as S.Schema<TestKeys>,
+  output: __S(5280, __c165, 0) as any as S.Schema<TestKeys>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -8597,7 +8603,7 @@ export const RestartDeployment: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2048, __c64, 0) as any as S.Schema<RestartDeploymentRequest>,
-  output: __S(4032, __c126, 0) as any as S.Schema<RestartDeploymentResponse>,
+  output: __S(4064, __c127, 0) as any as S.Schema<RestartDeploymentResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -8615,7 +8621,7 @@ export const RestartGateway: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2080, __c65, 0) as any as S.Schema<RestartGatewayRequest>,
-  output: __S(3776, __c118, 0) as any as S.Schema<RestartGatewayResponse>,
+  output: __S(3808, __c119, 0) as any as S.Schema<RestartGatewayResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -8669,7 +8675,7 @@ export const SetAppActiveDeployments: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2208, __c69, 0) as any as S.Schema<SetAppActiveDeploymentsRequest>,
-  output: __S(5070, __c158, 14) as any as S.Schema<SetAppActiveDeploymentsResponse>,
+  output: __S(5102, __c159, 14) as any as S.Schema<SetAppActiveDeploymentsResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -8687,7 +8693,7 @@ export const StartDeployment: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2240, __c70, 0) as any as S.Schema<StartDeploymentRequest>,
-  output: __S(4032, __c126, 0) as any as S.Schema<StartDeploymentResponse>,
+  output: __S(4064, __c127, 0) as any as S.Schema<StartDeploymentResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -8705,7 +8711,7 @@ export const StartDeploymentJFR: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2272, __c71, 0) as any as S.Schema<StartDeploymentJFRRequest>,
-  output: __S(4032, __c126, 0) as any as S.Schema<StartDeploymentJFRResponse>,
+  output: __S(4064, __c127, 0) as any as S.Schema<StartDeploymentJFRResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -8723,7 +8729,7 @@ export const StartService: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2304, __c72, 0) as any as S.Schema<StartServiceRequest>,
-  output: __S(4032, __c126, 0) as any as S.Schema<StartServiceResponse>,
+  output: __S(4064, __c127, 0) as any as S.Schema<StartServiceResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -8741,7 +8747,7 @@ export const StopDeployment: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2336, __c73, 0) as any as S.Schema<StopDeploymentRequest>,
-  output: __S(4032, __c126, 0) as any as S.Schema<StopDeploymentResponse>,
+  output: __S(4064, __c127, 0) as any as S.Schema<StopDeploymentResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -8759,7 +8765,7 @@ export const StopService: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2368, __c74, 0) as any as S.Schema<StopServiceRequest>,
-  output: __S(4032, __c126, 0) as any as S.Schema<StopServiceResponse>,
+  output: __S(4064, __c127, 0) as any as S.Schema<StopServiceResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -8795,7 +8801,7 @@ export const UpdateApp: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2464, __c77, 0) as any as S.Schema<UpdateAppRequest>,
-  output: __S(5070, __c158, 14) as any as S.Schema<UpdateAppResponse>,
+  output: __S(5102, __c159, 14) as any as S.Schema<UpdateAppResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -8813,7 +8819,7 @@ export const UpdateBinding: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2496, __c78, 0) as any as S.Schema<UpdateBindingRequest>,
-  output: __S(5953, __c186, 1) as any as S.Schema<UpdateBindingResponse>,
+  output: __S(5985, __c187, 1) as any as S.Schema<UpdateBindingResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -8831,7 +8837,7 @@ export const UpdateCustomDomain: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2528, __c79, 0) as any as S.Schema<UpdateCustomDomainRequest>,
-  output: __S(3553, __c111, 1) as any as S.Schema<UpdateCustomDomainResponse>,
+  output: __S(3585, __c112, 1) as any as S.Schema<UpdateCustomDomainResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -8849,7 +8855,7 @@ export const UpdateDeployment: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2560, __c80, 0) as any as S.Schema<UpdateDeploymentRequest>,
-  output: __S(4755, __c148, 19) as any as S.Schema<UpdateDeploymentResponse>,
+  output: __S(4787, __c149, 19) as any as S.Schema<UpdateDeploymentResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -9291,7 +9297,7 @@ function __c12(j: number): any {
         ),
       ).annotate({ identifier: "ListApplicationLiveViewsRequest" });
     case 1:
-      return S.Array(__S(4483, __c140, 3));
+      return S.Array(__S(4515, __c141, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -9321,7 +9327,7 @@ function __c13(j: number): any {
         ),
       ).annotate({ identifier: "ListAppsRequest" });
     case 1:
-      return S.Array(__S(5070, __c158, 14));
+      return S.Array(__S(5102, __c159, 14));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -9352,7 +9358,7 @@ function __c14(j: number): any {
         ),
       ).annotate({ identifier: "ListBindingsRequest" });
     case 1:
-      return S.Array(__S(5953, __c186, 1));
+      return S.Array(__S(5985, __c187, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -9388,7 +9394,7 @@ function __c15(j: number): any {
 function __c16(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(6465, __c202, 1));
+      return S.Array(__S(6466, __c202, 2));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -9530,7 +9536,7 @@ function __c21(j: number): any {
         ),
       ).annotate({ identifier: "ListBuildServiceBuildResultsRequest" });
     case 1:
-      return S.Array(__S(6083, __c190, 3));
+      return S.Array(__S(6115, __c191, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -9577,7 +9583,7 @@ function __c23(j: number): any {
       return S.suspend(() =>
         S.Struct({
           containerRegistry: S.optional(S.String),
-          resourceRequests: S.optional(__S(4032, __c126, 0)),
+          resourceRequests: S.optional(__S(4064, __c127, 0)),
         }),
       ).annotate({ identifier: "BuildServicePropertiesInput" });
     case 1:
@@ -9671,7 +9677,7 @@ function __c26(j: number): any {
         ),
       ).annotate({ identifier: "ListBuildServiceSupportedBuildpacksRequest" });
     case 1:
-      return S.Array(__S(6209, __c194, 1));
+      return S.Array(__S(6241, __c195, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -9700,7 +9706,7 @@ function __c27(j: number): any {
         ),
       ).annotate({ identifier: "ListBuildServiceSupportedStacksRequest" });
     case 1:
-      return S.Array(__S(6273, __c196, 1));
+      return S.Array(__S(6305, __c197, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -9821,7 +9827,7 @@ function __c31(j: number): any {
         ),
       ).annotate({ identifier: "ListCustomDomainsRequest" });
     case 1:
-      return S.Array(__S(3553, __c111, 1));
+      return S.Array(__S(3585, __c112, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -9852,7 +9858,7 @@ function __c32(j: number): any {
         ),
       ).annotate({ identifier: "ListCustomizedAcceleratorsRequest" });
     case 1:
-      return S.Array(__S(3617, __c113, 1));
+      return S.Array(__S(3649, __c114, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -9888,7 +9894,7 @@ function __c33(j: number): any {
 function __c34(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(4755, __c148, 19));
+      return S.Array(__S(4787, __c149, 19));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -9929,7 +9935,7 @@ function __c36(j: number): any {
           relativePath: S.optional(S.String),
           builder: S.optional(S.String),
           agentPool: S.optional(S.String),
-          env: S.optional(__S(3456, __c108, 0)),
+          env: S.optional(__S(3488, __c109, 0)),
           apms: S.optional(__S(1185, __c37, 1)),
           certificates: S.optional(__S(1185, __c37, 1)),
           resourceRequests: S.optional(__S(128, __c4, 0)),
@@ -9987,7 +9993,7 @@ function __c38(j: number): any {
           builder: S.optional(S.String),
           agentPool: S.optional(S.String),
           provisioningState: S.optional(S.String),
-          env: S.optional(__S(3456, __c108, 0)),
+          env: S.optional(__S(3488, __c109, 0)),
           apms: S.optional(__S(1185, __c37, 1)),
           certificates: S.optional(__S(1185, __c37, 1)),
           triggeredBuildResult: S.optional(__S(1216, __c38, 0)),
@@ -10026,7 +10032,7 @@ function __c39(j: number): any {
         ),
       ).annotate({ identifier: "ListDevToolPortalsRequest" });
     case 1:
-      return S.Array(__S(4804, __c150, 4));
+      return S.Array(__S(4836, __c151, 4));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -10077,7 +10083,7 @@ function __c41(j: number): any {
         ),
       ).annotate({ identifier: "ListGatewayEnvSecretsRequest" });
     case 1:
-      return S.suspend(() => __S(3456, __c108, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(3488, __c109, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListGatewayEnvSecretsResponse",
       });
   }
@@ -10103,7 +10109,7 @@ function __c42(j: number): any {
         ),
       ).annotate({ identifier: "ListGatewayRouteConfigsRequest" });
     case 1:
-      return S.Array(__S(5380, __c168, 4));
+      return S.Array(__S(5412, __c169, 4));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -10133,7 +10139,7 @@ function __c43(j: number): any {
         ),
       ).annotate({ identifier: "ListGatewaysRequest" });
     case 1:
-      return S.Array(__S(5445, __c170, 5));
+      return S.Array(__S(5478, __c171, 6));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -10665,7 +10671,7 @@ function __c59(j: number): any {
           traceEnabled: S.optional(S.Boolean),
           appInsightsInstrumentationKey: S.optional(S.String),
           appInsightsSamplingRate: S.optional(S.Number),
-          appInsightsAgentVersions: S.optional(__S(4032, __c126, 0)),
+          appInsightsAgentVersions: S.optional(__S(4064, __c127, 0)),
         }),
       ).annotate({ identifier: "MonitoringSettingPropertiesInput" });
   }
@@ -10871,7 +10877,7 @@ function __c67(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           location: S.optional(S.String),
-          tags: S.optional(__S(3456, __c108, 0)),
+          tags: S.optional(__S(3488, __c109, 0)),
           properties: S.optional(__S(2177, __c68, 1)),
           sku: S.optional(__S(160, __c5, 0)),
         }).pipe(
@@ -11093,8 +11099,8 @@ function __c77(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           appName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(4993, __c156, 1)),
-          identity: S.optional(__S(4995, __c156, 3)),
+          properties: S.optional(__S(5025, __c157, 1)),
+          identity: S.optional(__S(5027, __c157, 3)),
           location: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -11117,7 +11123,7 @@ function __c78(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           appName: S.String.pipe(T.Label()),
           bindingName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(5920, __c185, 0)),
+          properties: S.optional(__S(5952, __c186, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -11139,7 +11145,7 @@ function __c79(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           appName: S.String.pipe(T.Label()),
           domainName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(3520, __c110, 0)),
+          properties: S.optional(__S(3552, __c111, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -11161,7 +11167,7 @@ function __c80(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           appName: S.String.pipe(T.Label()),
           deploymentName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(4704, __c147, 0)),
+          properties: S.optional(__S(4736, __c148, 0)),
           sku: S.optional(__S(160, __c5, 0)),
         }).pipe(
           T.Http({
@@ -11183,7 +11189,7 @@ function __c81(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           location: S.optional(S.String),
-          tags: S.optional(__S(3456, __c108, 0)),
+          tags: S.optional(__S(3488, __c109, 0)),
           properties: S.optional(__S(2177, __c68, 1)),
           sku: S.optional(__S(160, __c5, 0)),
         }).pipe(
@@ -11513,7 +11519,7 @@ function __c95(j: number): any {
           description: S.optional(S.String),
           iconUrl: S.optional(S.String),
           acceleratorTags: S.optional(__S(224, __c7, 0)),
-          gitRepository: __S(3652, __c114, 4),
+          gitRepository: __S(3684, __c115, 4),
         }).pipe(
           T.Http({
             method: "POST",
@@ -11613,7 +11619,7 @@ function __c100(j: number): any {
         S.Struct({
           provisioningState: S.optional(S.String),
           generation: S.optional(S.String),
-          resourceRequests: S.optional(__S(4000, __c125, 0)),
+          resourceRequests: S.optional(__S(4032, __c126, 0)),
           instances: S.optional(__S(193, __c6, 1)),
           settings: S.optional(__S(3264, __c102, 0)),
         }),
@@ -11737,8 +11743,8 @@ function __c106(j: number): any {
       return S.suspend(() =>
         S.Struct({
           type: S.String,
-          properties: S.optional(__S(3456, __c108, 0)),
-          secrets: S.optional(__S(3456, __c108, 0)),
+          properties: S.optional(__S(3488, __c109, 0)),
+          secrets: S.optional(__S(3424, __c107, 0)),
         }),
       ).annotate({ identifier: "ApmPropertiesInput" });
     case 1:
@@ -11763,12 +11769,18 @@ function __c106(j: number): any {
 function __c107(j: number): any {
   switch (j) {
     case 0:
+      return S.Record(S.String, /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.SensitiveValue({})));
+  }
+}
+function __c108(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
           provisioningState: S.optional(S.String),
-          properties: S.optional(__S(3456, __c108, 0)),
-          secrets: S.optional(__S(3456, __c108, 0)),
+          properties: S.optional(__S(3488, __c109, 0)),
+          secrets: S.optional(__S(3424, __c107, 0)),
         }),
       ).annotate({ identifier: "ApmProperties" });
     case 1:
@@ -11778,18 +11790,18 @@ function __c107(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: S.optional(__S(3424, __c107, 0)),
+          properties: S.optional(__S(3456, __c108, 0)),
         }),
       ).annotate({ identifier: "ApmsCreateOrUpdateResponse" });
   }
 }
-function __c108(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c109(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11799,7 +11811,7 @@ function __c109(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           appName: S.String.pipe(T.Label()),
           domainName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(3520, __c110, 0)),
+          properties: S.optional(__S(3552, __c111, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -11811,7 +11823,7 @@ function __c109(j: number): any {
       ).annotate({ identifier: "CustomDomainsCreateOrUpdateRequest" });
   }
 }
-function __c110(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11822,7 +11834,7 @@ function __c110(j: number): any {
       ).annotate({ identifier: "CustomDomainPropertiesInput" });
   }
 }
-function __c111(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11840,12 +11852,12 @@ function __c111(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: S.optional(__S(3552, __c111, 0)),
+          properties: S.optional(__S(3584, __c112, 0)),
         }),
       ).annotate({ identifier: "CustomDomainsCreateOrUpdateResponse" });
   }
 }
-function __c112(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11855,7 +11867,7 @@ function __c112(j: number): any {
           description: S.optional(S.String),
           iconUrl: S.optional(S.String),
           acceleratorTags: S.optional(__S(224, __c7, 0)),
-          gitRepository: __S(3652, __c114, 4),
+          gitRepository: __S(3684, __c115, 4),
         }),
       ).annotate({ identifier: "CustomizedAcceleratorPropertiesInput" });
     case 1:
@@ -11866,7 +11878,7 @@ function __c112(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           applicationAcceleratorName: S.String.pipe(T.Label()),
           customizedAcceleratorName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(3584, __c112, 0)),
+          properties: S.optional(__S(3616, __c113, 0)),
           sku: S.optional(__S(160, __c5, 0)),
         }).pipe(
           T.Http({
@@ -11879,7 +11891,7 @@ function __c112(j: number): any {
       ).annotate({ identifier: "CustomizedAcceleratorsCreateOrUpdateRequest" });
   }
 }
-function __c113(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11891,7 +11903,7 @@ function __c113(j: number): any {
           iconUrl: S.optional(S.String),
           acceleratorTags: S.optional(__S(224, __c7, 0)),
           imports: S.optional(__S(224, __c7, 0)),
-          gitRepository: __S(3652, __c114, 4),
+          gitRepository: __S(3684, __c115, 4),
         }),
       ).annotate({ identifier: "CustomizedAcceleratorProperties" });
     case 1:
@@ -11901,13 +11913,13 @@ function __c113(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: S.optional(__S(3616, __c113, 0)),
+          properties: S.optional(__S(3648, __c114, 0)),
           sku: S.optional(__S(160, __c5, 0)),
         }),
       ).annotate({ identifier: "CustomizedAcceleratorsCreateOrUpdateResponse" });
   }
 }
-function __c114(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11929,13 +11941,13 @@ function __c114(j: number): any {
       return S.suspend(() =>
         S.Struct({
           authType: S.String,
-          hostKey: S.optional(S.String),
-          hostKeyAlgorithm: S.optional(S.String),
+          hostKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          hostKeyAlgorithm: S.optional(S.String.pipe(T.SensitiveValue({}))),
           privateKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "AcceleratorSshSetting" });
     case 3:
-      return S.Union([__S(3648, __c114, 0), __S(3649, __c114, 1), __S(3650, __c114, 2)]);
+      return S.Union([__S(3680, __c115, 0), __S(3681, __c115, 1), __S(3682, __c115, 2)]);
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -11944,13 +11956,13 @@ function __c114(j: number): any {
           branch: S.optional(S.String),
           commit: S.optional(S.String),
           gitTag: S.optional(S.String),
-          authSetting: __S(3651, __c114, 3),
+          authSetting: __S(3683, __c115, 3),
           subPath: S.optional(S.String),
         }),
       ).annotate({ identifier: "AcceleratorGitRepository" });
   }
 }
-function __c115(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11970,7 +11982,7 @@ function __c115(j: number): any {
       ).annotate({ identifier: "DeleteApiPortalRequest" });
   }
 }
-function __c116(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11991,7 +12003,7 @@ function __c116(j: number): any {
       ).annotate({ identifier: "DeleteApiPortalCustomDomainRequest" });
   }
 }
-function __c117(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12011,7 +12023,7 @@ function __c117(j: number): any {
       ).annotate({ identifier: "DeleteApmRequest" });
   }
 }
-function __c118(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12021,7 +12033,7 @@ function __c118(j: number): any {
       ).annotate({ identifier: "DeleteApmResponse" });
   }
 }
-function __c119(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12041,7 +12053,7 @@ function __c119(j: number): any {
       ).annotate({ identifier: "DeleteAppRequest" });
   }
 }
-function __c120(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12061,7 +12073,7 @@ function __c120(j: number): any {
       ).annotate({ identifier: "DeleteApplicationAcceleratorRequest" });
   }
 }
-function __c121(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12081,7 +12093,7 @@ function __c121(j: number): any {
       ).annotate({ identifier: "DeleteApplicationLiveViewRequest" });
   }
 }
-function __c122(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12102,7 +12114,7 @@ function __c122(j: number): any {
       ).annotate({ identifier: "DeleteBindingRequest" });
   }
 }
-function __c123(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12124,7 +12136,7 @@ function __c123(j: number): any {
       ).annotate({ identifier: "DeleteBuildpackBindingRequest" });
   }
 }
-function __c124(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12133,7 +12145,7 @@ function __c124(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           applicationAcceleratorName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(4032, __c126, 0)),
+          properties: S.optional(__S(4064, __c127, 0)),
           sku: S.optional(__S(160, __c5, 0)),
         }).pipe(
           T.Http({
@@ -12146,7 +12158,7 @@ function __c124(j: number): any {
       ).annotate({ identifier: "ApplicationAcceleratorsCreateOrUpdateRequest" });
   }
 }
-function __c125(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12158,7 +12170,7 @@ function __c125(j: number): any {
       ).annotate({ identifier: "ApplicationAcceleratorResourceRequests" });
   }
 }
-function __c126(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -12166,27 +12178,27 @@ function __c126(j: number): any {
       });
   }
 }
-function __c127(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          resourceRequests: S.optional(__S(4000, __c125, 0)),
-          instances: S.optional(__S(193, __c6, 1)),
-        }),
-      ).annotate({ identifier: "ApplicationAcceleratorComponent" });
-    case 1:
-      return S.Array(__S(4064, __c127, 0));
-  }
-}
 function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.optional(S.String),
+          resourceRequests: S.optional(__S(4032, __c126, 0)),
+          instances: S.optional(__S(193, __c6, 1)),
+        }),
+      ).annotate({ identifier: "ApplicationAcceleratorComponent" });
+    case 1:
+      return S.Array(__S(4096, __c128, 0));
+  }
+}
+function __c129(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           provisioningState: S.optional(S.String),
-          components: S.optional(__S(4065, __c127, 1)),
+          components: S.optional(__S(4097, __c128, 1)),
         }),
       ).annotate({ identifier: "ApplicationAcceleratorProperties" });
     case 1:
@@ -12196,13 +12208,13 @@ function __c128(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: S.optional(__S(4096, __c128, 0)),
+          properties: S.optional(__S(4128, __c129, 0)),
           sku: S.optional(__S(160, __c5, 0)),
         }),
       ).annotate({ identifier: "ApplicationAcceleratorsCreateOrUpdateResponse" });
   }
 }
-function __c129(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12223,7 +12235,7 @@ function __c129(j: number): any {
       ).annotate({ identifier: "DeleteBuildServiceBuildRequest" });
   }
 }
-function __c130(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12244,7 +12256,7 @@ function __c130(j: number): any {
       ).annotate({ identifier: "DeleteBuildServiceBuilderRequest" });
   }
 }
-function __c131(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12264,7 +12276,7 @@ function __c131(j: number): any {
       ).annotate({ identifier: "DeleteCertificateRequest" });
   }
 }
-function __c132(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12284,7 +12296,7 @@ function __c132(j: number): any {
       ).annotate({ identifier: "DeleteConfigurationServiceRequest" });
   }
 }
-function __c133(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12304,7 +12316,7 @@ function __c133(j: number): any {
       ).annotate({ identifier: "DeleteContainerRegistryRequest" });
   }
 }
-function __c134(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12325,7 +12337,7 @@ function __c134(j: number): any {
       ).annotate({ identifier: "DeleteCustomDomainRequest" });
   }
 }
-function __c135(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12346,7 +12358,7 @@ function __c135(j: number): any {
       ).annotate({ identifier: "DeleteCustomizedAcceleratorRequest" });
   }
 }
-function __c136(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12367,7 +12379,7 @@ function __c136(j: number): any {
       ).annotate({ identifier: "DeleteDeploymentRequest" });
   }
 }
-function __c137(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12387,7 +12399,7 @@ function __c137(j: number): any {
       ).annotate({ identifier: "DeleteDevToolPortalRequest" });
   }
 }
-function __c138(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12407,7 +12419,7 @@ function __c138(j: number): any {
       ).annotate({ identifier: "DeleteGatewayRequest" });
   }
 }
-function __c139(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12416,7 +12428,7 @@ function __c139(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           applicationLiveViewName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(4032, __c126, 0)),
+          properties: S.optional(__S(4064, __c127, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -12428,23 +12440,23 @@ function __c139(j: number): any {
       ).annotate({ identifier: "ApplicationLiveViewsCreateOrUpdateRequest" });
   }
 }
-function __c140(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.Unknown),
-          resourceRequests: S.optional(__S(4000, __c125, 0)),
+          resourceRequests: S.optional(__S(4032, __c126, 0)),
           instances: S.optional(__S(193, __c6, 1)),
         }),
       ).annotate({ identifier: "ApplicationLiveViewComponent" });
     case 1:
-      return S.Array(__S(4480, __c140, 0));
+      return S.Array(__S(4512, __c141, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           provisioningState: S.optional(S.String),
-          components: S.optional(__S(4481, __c140, 1)),
+          components: S.optional(__S(4513, __c141, 1)),
         }),
       ).annotate({ identifier: "ApplicationLiveViewProperties" });
     case 3:
@@ -12454,12 +12466,12 @@ function __c140(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: S.optional(__S(4482, __c140, 2)),
+          properties: S.optional(__S(4514, __c141, 2)),
         }),
       ).annotate({ identifier: "ApplicationLiveViewsCreateOrUpdateResponse" });
   }
 }
-function __c141(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12480,7 +12492,7 @@ function __c141(j: number): any {
       ).annotate({ identifier: "DeleteGatewayCustomDomainRequest" });
   }
 }
-function __c142(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12501,7 +12513,7 @@ function __c142(j: number): any {
       ).annotate({ identifier: "DeleteGatewayRouteConfigRequest" });
   }
 }
-function __c143(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12520,7 +12532,7 @@ function __c143(j: number): any {
       ).annotate({ identifier: "DeleteServiceRequest" });
   }
 }
-function __c144(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12540,7 +12552,7 @@ function __c144(j: number): any {
       ).annotate({ identifier: "DeleteServiceRegistryRequest" });
   }
 }
-function __c145(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12560,7 +12572,7 @@ function __c145(j: number): any {
       ).annotate({ identifier: "DeleteStorageRequest" });
   }
 }
-function __c146(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12570,7 +12582,7 @@ function __c146(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           appName: S.String.pipe(T.Label()),
           deploymentName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(4704, __c147, 0)),
+          properties: S.optional(__S(4736, __c148, 0)),
           sku: S.optional(__S(160, __c5, 0)),
         }).pipe(
           T.Http({
@@ -12583,19 +12595,19 @@ function __c146(j: number): any {
       ).annotate({ identifier: "DeploymentsCreateOrUpdateRequest" });
   }
 }
-function __c147(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          source: S.optional(__S(4744, __c148, 8)),
-          deploymentSettings: S.optional(__S(4751, __c148, 15)),
+          source: S.optional(__S(4776, __c149, 8)),
+          deploymentSettings: S.optional(__S(4783, __c149, 15)),
           active: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "DeploymentResourcePropertiesInput" });
   }
 }
-function __c148(j: number): any {
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12660,7 +12672,7 @@ function __c148(j: number): any {
           containerImage: S.optional(S.String),
           command: S.optional(__S(224, __c7, 0)),
           args: S.optional(__S(224, __c7, 0)),
-          imageRegistryCredential: S.optional(__S(4741, __c148, 5)),
+          imageRegistryCredential: S.optional(__S(4773, __c149, 5)),
           languageFramework: S.optional(S.String),
         }),
       ).annotate({ identifier: "CustomContainer" });
@@ -12669,17 +12681,17 @@ function __c148(j: number): any {
         S.Struct({
           type: S.String,
           version: S.optional(S.String),
-          customContainer: S.optional(__S(4742, __c148, 6)),
+          customContainer: S.optional(__S(4774, __c149, 6)),
         }),
       ).annotate({ identifier: "CustomContainerUserSourceInfo" });
     case 8:
       return S.Union([
-        __S(4736, __c148, 0),
-        __S(4737, __c148, 1),
-        __S(4738, __c148, 2),
-        __S(4739, __c148, 3),
-        __S(4740, __c148, 4),
-        __S(4743, __c148, 7),
+        __S(4768, __c149, 0),
+        __S(4769, __c149, 1),
+        __S(4770, __c149, 2),
+        __S(4771, __c149, 3),
+        __S(4772, __c149, 4),
+        __S(4775, __c149, 7),
       ]);
     case 9:
       return S.suspend(() =>
@@ -12703,11 +12715,11 @@ function __c148(j: number): any {
         }),
       ).annotate({ identifier: "TCPSocketAction" });
     case 12:
-      return S.Union([__S(4745, __c148, 9), __S(4746, __c148, 10), __S(4747, __c148, 11)]);
+      return S.Union([__S(4777, __c149, 9), __S(4778, __c149, 10), __S(4779, __c149, 11)]);
     case 13:
       return S.suspend(() =>
         S.Struct({
-          probeAction: S.optional(__S(4748, __c148, 12)),
+          probeAction: S.optional(__S(4780, __c149, 12)),
           disableProbe: S.Boolean,
           initialDelaySeconds: S.optional(S.Number),
           periodSeconds: S.optional(S.Number),
@@ -12726,14 +12738,14 @@ function __c148(j: number): any {
       return S.suspend(() =>
         S.Struct({
           resourceRequests: S.optional(__S(128, __c4, 0)),
-          environmentVariables: S.optional(__S(3456, __c108, 0)),
+          environmentVariables: S.optional(__S(3488, __c109, 0)),
           apms: S.optional(__S(1185, __c37, 1)),
-          addonConfigs: S.optional(__S(5024, __c157, 0)),
-          livenessProbe: S.optional(__S(4749, __c148, 13)),
-          readinessProbe: S.optional(__S(4749, __c148, 13)),
-          startupProbe: S.optional(__S(4749, __c148, 13)),
+          addonConfigs: S.optional(__S(5056, __c158, 0)),
+          livenessProbe: S.optional(__S(4781, __c149, 13)),
+          readinessProbe: S.optional(__S(4781, __c149, 13)),
+          startupProbe: S.optional(__S(4781, __c149, 13)),
           terminationGracePeriodSeconds: S.optional(S.Number),
-          containerProbeSettings: S.optional(__S(4750, __c148, 14)),
+          containerProbeSettings: S.optional(__S(4782, __c149, 14)),
         }),
       ).annotate({ identifier: "DeploymentSettings" });
     case 16:
@@ -12748,16 +12760,16 @@ function __c148(j: number): any {
         }),
       ).annotate({ identifier: "DeploymentInstance" });
     case 17:
-      return S.Array(__S(4752, __c148, 16));
+      return S.Array(__S(4784, __c149, 16));
     case 18:
       return S.suspend(() =>
         S.Struct({
-          source: S.optional(__S(4744, __c148, 8)),
-          deploymentSettings: S.optional(__S(4751, __c148, 15)),
+          source: S.optional(__S(4776, __c149, 8)),
+          deploymentSettings: S.optional(__S(4783, __c149, 15)),
           provisioningState: S.optional(S.String),
           status: S.optional(S.String),
           active: S.optional(S.Boolean),
-          instances: S.optional(__S(4753, __c148, 17)),
+          instances: S.optional(__S(4785, __c149, 17)),
         }),
       ).annotate({ identifier: "DeploymentResourceProperties" });
     case 19:
@@ -12767,13 +12779,13 @@ function __c148(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: S.optional(__S(4754, __c148, 18)),
+          properties: S.optional(__S(4786, __c149, 18)),
           sku: S.optional(__S(160, __c5, 0)),
         }),
       ).annotate({ identifier: "DeploymentsCreateOrUpdateResponse" });
   }
 }
-function __c149(j: number): any {
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12784,16 +12796,16 @@ function __c149(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          applicationAccelerator: S.optional(__S(4768, __c149, 0)),
-          applicationLiveView: S.optional(__S(4768, __c149, 0)),
+          applicationAccelerator: S.optional(__S(4800, __c150, 0)),
+          applicationLiveView: S.optional(__S(4800, __c150, 0)),
         }),
       ).annotate({ identifier: "DevToolPortalFeatureSettingsInput" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           public: S.optional(S.Boolean),
-          ssoProperties: S.optional(__S(4800, __c150, 0)),
-          features: S.optional(__S(4769, __c149, 1)),
+          ssoProperties: S.optional(__S(4832, __c151, 0)),
+          features: S.optional(__S(4801, __c150, 1)),
         }),
       ).annotate({ identifier: "DevToolPortalPropertiesInput" });
     case 3:
@@ -12803,7 +12815,7 @@ function __c149(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           devToolPortalName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(4770, __c149, 2)),
+          properties: S.optional(__S(4802, __c150, 2)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -12815,7 +12827,7 @@ function __c149(j: number): any {
       ).annotate({ identifier: "DevToolPortalsCreateOrUpdateRequest" });
   }
 }
-function __c150(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12836,19 +12848,19 @@ function __c150(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          applicationAccelerator: S.optional(__S(4801, __c150, 1)),
-          applicationLiveView: S.optional(__S(4801, __c150, 1)),
+          applicationAccelerator: S.optional(__S(4833, __c151, 1)),
+          applicationLiveView: S.optional(__S(4833, __c151, 1)),
         }),
       ).annotate({ identifier: "DevToolPortalFeatureSettings" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           provisioningState: S.optional(S.String),
-          components: S.optional(__S(4065, __c127, 1)),
+          components: S.optional(__S(4097, __c128, 1)),
           public: S.optional(S.Boolean),
           url: S.optional(S.String),
-          ssoProperties: S.optional(__S(4800, __c150, 0)),
-          features: S.optional(__S(4802, __c150, 2)),
+          ssoProperties: S.optional(__S(4832, __c151, 0)),
+          features: S.optional(__S(4834, __c151, 2)),
         }),
       ).annotate({ identifier: "DevToolPortalProperties" });
     case 4:
@@ -12858,12 +12870,12 @@ function __c150(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: S.optional(__S(4803, __c150, 3)),
+          properties: S.optional(__S(4835, __c151, 3)),
         }),
       ).annotate({ identifier: "DevToolPortalsCreateOrUpdateResponse" });
   }
 }
-function __c151(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12884,7 +12896,7 @@ function __c151(j: number): any {
       ).annotate({ identifier: "DisableDeploymentRemoteDebuggingRequest" });
   }
 }
-function __c152(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12895,7 +12907,7 @@ function __c152(j: number): any {
       ).annotate({ identifier: "RemoteDebugging" });
   }
 }
-function __c153(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12916,7 +12928,7 @@ function __c153(j: number): any {
       ).annotate({ identifier: "DisablePredefinedAcceleratorRequest" });
   }
 }
-function __c154(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12936,7 +12948,7 @@ function __c154(j: number): any {
       ).annotate({ identifier: "DisableServiceApmGloballyRequest" });
   }
 }
-function __c155(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12945,8 +12957,8 @@ function __c155(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           appName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(4993, __c156, 1)),
-          identity: S.optional(__S(4995, __c156, 3)),
+          properties: S.optional(__S(5025, __c157, 1)),
+          identity: S.optional(__S(5027, __c157, 3)),
           location: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -12959,7 +12971,7 @@ function __c155(j: number): any {
       ).annotate({ identifier: "AppsCreateOrUpdateRequest" });
   }
 }
-function __c156(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12971,37 +12983,37 @@ function __c156(j: number): any {
       return S.suspend(() =>
         S.Struct({
           public: S.optional(S.Boolean),
-          addonConfigs: S.optional(__S(5024, __c157, 0)),
+          addonConfigs: S.optional(__S(5056, __c158, 0)),
           httpsOnly: S.optional(S.Boolean),
-          temporaryDisk: S.optional(__S(5056, __c158, 0)),
-          persistentDisk: S.optional(__S(5056, __c158, 0)),
-          customPersistentDisks: S.optional(__S(5059, __c158, 3)),
+          temporaryDisk: S.optional(__S(5088, __c159, 0)),
+          persistentDisk: S.optional(__S(5088, __c159, 0)),
+          customPersistentDisks: S.optional(__S(5091, __c159, 3)),
           enableEndToEndTLS: S.optional(S.Boolean),
-          loadedCertificates: S.optional(__S(5061, __c158, 5)),
-          vnetAddons: S.optional(__S(4992, __c156, 0)),
-          ingressSettings: S.optional(__S(5063, __c158, 7)),
+          loadedCertificates: S.optional(__S(5093, __c159, 5)),
+          vnetAddons: S.optional(__S(5024, __c157, 0)),
+          ingressSettings: S.optional(__S(5095, __c159, 7)),
         }),
       ).annotate({ identifier: "AppResourcePropertiesInput" });
     case 2:
-      return S.Record(S.String, __S(4032, __c126, 0));
+      return S.Record(S.String, __S(4064, __c127, 0));
     case 3:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
           principalId: S.optional(S.String),
           tenantId: S.optional(S.String),
-          userAssignedIdentities: S.optional(__S(4994, __c156, 2)),
+          userAssignedIdentities: S.optional(__S(5026, __c157, 2)),
         }),
       ).annotate({ identifier: "ManagedIdentityPropertiesInput" });
   }
 }
-function __c157(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c158(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13024,12 +13036,12 @@ function __c158(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          customPersistentDiskProperties: S.optional(__S(5057, __c158, 1)),
+          customPersistentDiskProperties: S.optional(__S(5089, __c159, 1)),
           storageId: S.String,
         }),
       ).annotate({ identifier: "CustomPersistentDiskResource" });
     case 3:
-      return S.Array(__S(5058, __c158, 2));
+      return S.Array(__S(5090, __c159, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -13038,7 +13050,7 @@ function __c158(j: number): any {
         }),
       ).annotate({ identifier: "LoadedCertificate" });
     case 5:
-      return S.Array(__S(5060, __c158, 4));
+      return S.Array(__S(5092, __c159, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -13053,7 +13065,7 @@ function __c158(j: number): any {
           sessionAffinity: S.optional(S.String),
           sessionCookieMaxAge: S.optional(S.Number),
           backendProtocol: S.optional(S.String),
-          clientAuth: S.optional(__S(5062, __c158, 6)),
+          clientAuth: S.optional(__S(5094, __c159, 6)),
         }),
       ).annotate({ identifier: "IngressSettings" });
     case 8:
@@ -13076,17 +13088,17 @@ function __c158(j: number): any {
         S.Struct({
           public: S.optional(S.Boolean),
           url: S.optional(S.String),
-          addonConfigs: S.optional(__S(5024, __c157, 0)),
+          addonConfigs: S.optional(__S(5056, __c158, 0)),
           provisioningState: S.optional(S.String),
           fqdn: S.optional(S.String),
           httpsOnly: S.optional(S.Boolean),
-          temporaryDisk: S.optional(__S(5056, __c158, 0)),
-          persistentDisk: S.optional(__S(5064, __c158, 8)),
-          customPersistentDisks: S.optional(__S(5059, __c158, 3)),
+          temporaryDisk: S.optional(__S(5088, __c159, 0)),
+          persistentDisk: S.optional(__S(5096, __c159, 8)),
+          customPersistentDisks: S.optional(__S(5091, __c159, 3)),
           enableEndToEndTLS: S.optional(S.Boolean),
-          loadedCertificates: S.optional(__S(5061, __c158, 5)),
-          vnetAddons: S.optional(__S(5065, __c158, 9)),
-          ingressSettings: S.optional(__S(5063, __c158, 7)),
+          loadedCertificates: S.optional(__S(5093, __c159, 5)),
+          vnetAddons: S.optional(__S(5097, __c159, 9)),
+          ingressSettings: S.optional(__S(5095, __c159, 7)),
         }),
       ).annotate({ identifier: "AppResourceProperties" });
     case 11:
@@ -13097,14 +13109,14 @@ function __c158(j: number): any {
         }),
       ).annotate({ identifier: "UserAssignedManagedIdentity" });
     case 12:
-      return S.Record(S.String, __S(5067, __c158, 11));
+      return S.Record(S.String, __S(5099, __c159, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
           principalId: S.optional(S.String),
           tenantId: S.optional(S.String),
-          userAssignedIdentities: S.optional(__S(5068, __c158, 12)),
+          userAssignedIdentities: S.optional(__S(5100, __c159, 12)),
         }),
       ).annotate({ identifier: "ManagedIdentityProperties" });
     case 14:
@@ -13114,14 +13126,14 @@ function __c158(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: S.optional(__S(5066, __c158, 10)),
-          identity: S.optional(__S(5069, __c158, 13)),
+          properties: S.optional(__S(5098, __c159, 10)),
+          identity: S.optional(__S(5101, __c159, 13)),
           location: S.optional(S.String),
         }),
       ).annotate({ identifier: "AppsCreateOrUpdateResponse" });
   }
 }
-function __c159(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13140,7 +13152,7 @@ function __c159(j: number): any {
       ).annotate({ identifier: "DisableServiceTestEndpointRequest" });
   }
 }
-function __c160(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13162,7 +13174,7 @@ function __c160(j: number): any {
       ).annotate({ identifier: "EnableDeploymentRemoteDebuggingRequest" });
   }
 }
-function __c161(j: number): any {
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13183,7 +13195,7 @@ function __c161(j: number): any {
       ).annotate({ identifier: "EnablePredefinedAcceleratorRequest" });
   }
 }
-function __c162(j: number): any {
+function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13203,7 +13215,7 @@ function __c162(j: number): any {
       ).annotate({ identifier: "EnableServiceApmGloballyRequest" });
   }
 }
-function __c163(j: number): any {
+function __c164(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13222,7 +13234,7 @@ function __c163(j: number): any {
       ).annotate({ identifier: "EnableServiceTestEndpointRequest" });
   }
 }
-function __c164(j: number): any {
+function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13236,7 +13248,7 @@ function __c164(j: number): any {
       ).annotate({ identifier: "TestKeys" });
   }
 }
-function __c165(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13255,7 +13267,7 @@ function __c165(j: number): any {
       ).annotate({ identifier: "FlushServiceVnetDnsSettingRequest" });
   }
 }
-function __c166(j: number): any {
+function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13277,15 +13289,15 @@ function __c166(j: number): any {
       ).annotate({ identifier: "GatewayCustomDomainsCreateOrUpdateRequest" });
   }
 }
-function __c167(j: number): any {
+function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           appResourceId: S.optional(S.String),
-          openApi: S.optional(__S(5376, __c168, 0)),
+          openApi: S.optional(__S(5408, __c169, 0)),
           protocol: S.optional(S.String),
-          routes: S.optional(__S(5378, __c168, 2)),
+          routes: S.optional(__S(5410, __c169, 2)),
           ssoEnabled: S.optional(S.Boolean),
           predicates: S.optional(__S(224, __c7, 0)),
           filters: S.optional(__S(224, __c7, 0)),
@@ -13299,7 +13311,7 @@ function __c167(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           gatewayName: S.String.pipe(T.Label()),
           routeConfigName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(5344, __c167, 0)),
+          properties: S.optional(__S(5376, __c168, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -13311,7 +13323,7 @@ function __c167(j: number): any {
       ).annotate({ identifier: "GatewayRouteConfigsCreateOrUpdateRequest" });
   }
 }
-function __c168(j: number): any {
+function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13334,15 +13346,15 @@ function __c168(j: number): any {
         }),
       ).annotate({ identifier: "GatewayApiRoute" });
     case 2:
-      return S.Array(__S(5377, __c168, 1));
+      return S.Array(__S(5409, __c169, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           provisioningState: S.optional(S.String),
           appResourceId: S.optional(S.String),
-          openApi: S.optional(__S(5376, __c168, 0)),
+          openApi: S.optional(__S(5408, __c169, 0)),
           protocol: S.optional(S.String),
-          routes: S.optional(__S(5378, __c168, 2)),
+          routes: S.optional(__S(5410, __c169, 2)),
           ssoEnabled: S.optional(S.Boolean),
           predicates: S.optional(__S(224, __c7, 0)),
           filters: S.optional(__S(224, __c7, 0)),
@@ -13355,12 +13367,12 @@ function __c168(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: S.optional(__S(5379, __c168, 3)),
+          properties: S.optional(__S(5411, __c169, 3)),
         }),
       ).annotate({ identifier: "GatewayRouteConfigsCreateOrUpdateResponse" });
   }
 }
-function __c169(j: number): any {
+function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13368,11 +13380,11 @@ function __c169(j: number): any {
           public: S.optional(S.Boolean),
           httpsOnly: S.optional(S.Boolean),
           ssoProperties: S.optional(__S(256, __c8, 0)),
-          apiMetadataProperties: S.optional(__S(5440, __c170, 0)),
-          corsProperties: S.optional(__S(5441, __c170, 1)),
-          clientAuth: S.optional(__S(5442, __c170, 2)),
+          apiMetadataProperties: S.optional(__S(5472, __c171, 0)),
+          corsProperties: S.optional(__S(5473, __c171, 1)),
+          clientAuth: S.optional(__S(5474, __c171, 2)),
           apms: S.optional(__S(1185, __c37, 1)),
-          environmentVariables: S.optional(__S(6432, __c201, 0)),
+          environmentVariables: S.optional(__S(5475, __c171, 3)),
           resourceRequests: S.optional(__S(128, __c4, 0)),
         }),
       ).annotate({ identifier: "GatewayPropertiesInput" });
@@ -13383,7 +13395,7 @@ function __c169(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           gatewayName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(5408, __c169, 0)),
+          properties: S.optional(__S(5440, __c170, 0)),
           sku: S.optional(__S(160, __c5, 0)),
         }).pipe(
           T.Http({
@@ -13396,7 +13408,7 @@ function __c169(j: number): any {
       ).annotate({ identifier: "GatewaysCreateOrUpdateRequest" });
   }
 }
-function __c170(j: number): any {
+function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13430,11 +13442,18 @@ function __c170(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          resourceRequests: S.optional(__S(4000, __c125, 0)),
+          properties: S.optional(__S(3488, __c109, 0)),
+          secrets: S.optional(__S(3424, __c107, 0)),
+        }),
+      ).annotate({ identifier: "GatewayPropertiesInputEnvironmentVariables" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          resourceRequests: S.optional(__S(4032, __c126, 0)),
           instances: S.optional(__S(193, __c6, 1)),
         }),
       ).annotate({ identifier: "GatewayOperatorProperties" });
-    case 4:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           provisioningState: S.optional(S.String),
@@ -13442,30 +13461,30 @@ function __c170(j: number): any {
           url: S.optional(S.String),
           httpsOnly: S.optional(S.Boolean),
           ssoProperties: S.optional(__S(256, __c8, 0)),
-          apiMetadataProperties: S.optional(__S(5440, __c170, 0)),
-          corsProperties: S.optional(__S(5441, __c170, 1)),
-          clientAuth: S.optional(__S(5442, __c170, 2)),
+          apiMetadataProperties: S.optional(__S(5472, __c171, 0)),
+          corsProperties: S.optional(__S(5473, __c171, 1)),
+          clientAuth: S.optional(__S(5474, __c171, 2)),
           apms: S.optional(__S(1185, __c37, 1)),
-          environmentVariables: S.optional(__S(6432, __c201, 0)),
+          environmentVariables: S.optional(__S(5475, __c171, 3)),
           resourceRequests: S.optional(__S(128, __c4, 0)),
           instances: S.optional(__S(193, __c6, 1)),
-          operatorProperties: S.optional(__S(5443, __c170, 3)),
+          operatorProperties: S.optional(__S(5476, __c171, 4)),
         }),
       ).annotate({ identifier: "GatewayProperties" });
-    case 5:
+    case 6:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: S.optional(__S(5444, __c170, 4)),
+          properties: S.optional(__S(5477, __c171, 5)),
           sku: S.optional(__S(160, __c5, 0)),
         }),
       ).annotate({ identifier: "GatewaysCreateOrUpdateResponse" });
   }
 }
-function __c171(j: number): any {
+function __c172(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13489,7 +13508,7 @@ function __c171(j: number): any {
       ).annotate({ identifier: "GenerateDeploymentHeapDumpRequest" });
   }
 }
-function __c172(j: number): any {
+function __c173(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13509,7 +13528,7 @@ function __c172(j: number): any {
       ).annotate({ identifier: "AppsGetResourceUploadUrlRequest" });
   }
 }
-function __c173(j: number): any {
+function __c174(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13520,7 +13539,7 @@ function __c173(j: number): any {
       ).annotate({ identifier: "ResourceUploadDefinition" });
   }
 }
-function __c174(j: number): any {
+function __c175(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13544,7 +13563,7 @@ function __c174(j: number): any {
       ).annotate({ identifier: "GenerateDeploymentThreadDumpRequest" });
   }
 }
-function __c175(j: number): any {
+function __c176(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13564,7 +13583,7 @@ function __c175(j: number): any {
       ).annotate({ identifier: "GetApiPortalRequest" });
   }
 }
-function __c176(j: number): any {
+function __c177(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13585,7 +13604,7 @@ function __c176(j: number): any {
       ).annotate({ identifier: "GetApiPortalCustomDomainRequest" });
   }
 }
-function __c177(j: number): any {
+function __c178(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13605,7 +13624,7 @@ function __c177(j: number): any {
       ).annotate({ identifier: "GetApmRequest" });
   }
 }
-function __c178(j: number): any {
+function __c179(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13626,7 +13645,7 @@ function __c178(j: number): any {
       ).annotate({ identifier: "GetAppRequest" });
   }
 }
-function __c179(j: number): any {
+function __c180(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13646,7 +13665,7 @@ function __c179(j: number): any {
       ).annotate({ identifier: "GetApplicationAcceleratorRequest" });
   }
 }
-function __c180(j: number): any {
+function __c181(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13666,7 +13685,7 @@ function __c180(j: number): any {
       ).annotate({ identifier: "GetApplicationLiveViewRequest" });
   }
 }
-function __c181(j: number): any {
+function __c182(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13687,7 +13706,7 @@ function __c181(j: number): any {
       ).annotate({ identifier: "GetBindingRequest" });
   }
 }
-function __c182(j: number): any {
+function __c183(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13709,7 +13728,7 @@ function __c182(j: number): any {
       ).annotate({ identifier: "GetBuildpackBindingRequest" });
   }
 }
-function __c183(j: number): any {
+function __c184(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13730,7 +13749,7 @@ function __c183(j: number): any {
       ).annotate({ identifier: "GetBuildServiceAgentPoolRequest" });
   }
 }
-function __c184(j: number): any {
+function __c185(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13740,7 +13759,7 @@ function __c184(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           appName: S.String.pipe(T.Label()),
           bindingName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(5920, __c185, 0)),
+          properties: S.optional(__S(5952, __c186, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -13752,19 +13771,19 @@ function __c184(j: number): any {
       ).annotate({ identifier: "BindingsCreateOrUpdateRequest" });
   }
 }
-function __c185(j: number): any {
+function __c186(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resourceId: S.optional(S.String),
           key: S.optional(S.String),
-          bindingParameters: S.optional(__S(3456, __c108, 0)),
+          bindingParameters: S.optional(__S(3488, __c109, 0)),
         }),
       ).annotate({ identifier: "BindingResourcePropertiesInput" });
   }
 }
-function __c186(j: number): any {
+function __c187(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13773,7 +13792,7 @@ function __c186(j: number): any {
           resourceType: S.optional(S.String),
           resourceId: S.optional(S.String),
           key: S.optional(S.String),
-          bindingParameters: S.optional(__S(3456, __c108, 0)),
+          bindingParameters: S.optional(__S(3488, __c109, 0)),
           generatedProperties: S.optional(S.String),
           createdAt: S.optional(S.String),
           updatedAt: S.optional(S.String),
@@ -13786,12 +13805,12 @@ function __c186(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: S.optional(__S(5952, __c186, 0)),
+          properties: S.optional(__S(5984, __c187, 0)),
         }),
       ).annotate({ identifier: "BindingsCreateOrUpdateResponse" });
   }
 }
-function __c187(j: number): any {
+function __c188(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13812,7 +13831,7 @@ function __c187(j: number): any {
       ).annotate({ identifier: "GetBuildServiceBuildRequest" });
   }
 }
-function __c188(j: number): any {
+function __c189(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13833,7 +13852,7 @@ function __c188(j: number): any {
       ).annotate({ identifier: "GetBuildServiceBuilderRequest" });
   }
 }
-function __c189(j: number): any {
+function __c190(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13855,7 +13874,7 @@ function __c189(j: number): any {
       ).annotate({ identifier: "GetBuildServiceBuildResultRequest" });
   }
 }
-function __c190(j: number): any {
+function __c191(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13867,7 +13886,7 @@ function __c190(j: number): any {
         }),
       ).annotate({ identifier: "BuildStageProperties" });
     case 1:
-      return S.Array(__S(6080, __c190, 0));
+      return S.Array(__S(6112, __c191, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -13875,7 +13894,7 @@ function __c190(j: number): any {
           provisioningState: S.optional(S.String),
           error: S.optional(__S(2880, __c90, 0)),
           buildPodName: S.optional(S.String),
-          buildStages: S.optional(__S(6081, __c190, 1)),
+          buildStages: S.optional(__S(6113, __c191, 1)),
           image: S.optional(S.String),
         }),
       ).annotate({ identifier: "BuildResultProperties" });
@@ -13886,12 +13905,12 @@ function __c190(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: S.optional(__S(6082, __c190, 2)),
+          properties: S.optional(__S(6114, __c191, 2)),
         }),
       ).annotate({ identifier: "GetBuildServiceBuildResultResponse" });
   }
 }
-function __c191(j: number): any {
+function __c192(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13919,7 +13938,7 @@ function __c191(j: number): any {
       ).annotate({ identifier: "BuildResultLog" });
   }
 }
-function __c192(j: number): any {
+function __c193(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13939,7 +13958,7 @@ function __c192(j: number): any {
       ).annotate({ identifier: "GetBuildServiceBuildServiceRequest" });
   }
 }
-function __c193(j: number): any {
+function __c194(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13960,7 +13979,7 @@ function __c193(j: number): any {
       ).annotate({ identifier: "GetBuildServiceSupportedBuildpackRequest" });
   }
 }
-function __c194(j: number): any {
+function __c195(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13975,12 +13994,12 @@ function __c194(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: S.optional(__S(6208, __c194, 0)),
+          properties: S.optional(__S(6240, __c195, 0)),
         }),
       ).annotate({ identifier: "GetBuildServiceSupportedBuildpackResponse" });
   }
 }
-function __c195(j: number): any {
+function __c196(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14001,7 +14020,7 @@ function __c195(j: number): any {
       ).annotate({ identifier: "GetBuildServiceSupportedStackRequest" });
   }
 }
-function __c196(j: number): any {
+function __c197(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14017,12 +14036,12 @@ function __c196(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: S.optional(__S(6272, __c196, 0)),
+          properties: S.optional(__S(6304, __c197, 0)),
         }),
       ).annotate({ identifier: "GetBuildServiceSupportedStackResponse" });
   }
 }
-function __c197(j: number): any {
+function __c198(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14042,7 +14061,7 @@ function __c197(j: number): any {
       ).annotate({ identifier: "GetCertificateRequest" });
   }
 }
-function __c198(j: number): any {
+function __c199(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14061,7 +14080,7 @@ function __c198(j: number): any {
       ).annotate({ identifier: "GetConfigServerRequest" });
   }
 }
-function __c199(j: number): any {
+function __c200(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14081,13 +14100,13 @@ function __c199(j: number): any {
       ).annotate({ identifier: "GetConfigurationServiceRequest" });
   }
 }
-function __c200(j: number): any {
+function __c201(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           bindingType: S.optional(S.String),
-          launchProperties: S.optional(__S(6432, __c201, 0)),
+          launchProperties: S.optional(__S(6464, __c202, 0)),
         }),
       ).annotate({ identifier: "BuildpackBindingPropertiesInput" });
     case 1:
@@ -14099,7 +14118,7 @@ function __c200(j: number): any {
           buildServiceName: S.String.pipe(T.Label()),
           builderName: S.String.pipe(T.Label()),
           buildpackBindingName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(6400, __c200, 0)),
+          properties: S.optional(__S(6432, __c201, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -14111,35 +14130,31 @@ function __c200(j: number): any {
       ).annotate({ identifier: "BuildpackBindingCreateOrUpdateRequest" });
   }
 }
-function __c201(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          properties: S.optional(__S(3456, __c108, 0)),
-          secrets: S.optional(__S(3456, __c108, 0)),
-        }),
-      ).annotate({ identifier: "BuildpackBindingLaunchProperties" });
-  }
-}
 function __c202(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          properties: S.optional(__S(3488, __c109, 0)),
+          secrets: S.optional(__S(3488, __c109, 0)),
+        }),
+      ).annotate({ identifier: "BuildpackBindingLaunchProperties" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
           bindingType: S.optional(S.String),
           provisioningState: S.optional(S.String),
-          launchProperties: S.optional(__S(6432, __c201, 0)),
+          launchProperties: S.optional(__S(6464, __c202, 0)),
         }),
       ).annotate({ identifier: "BuildpackBindingProperties" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: S.optional(__S(6464, __c202, 0)),
+          properties: S.optional(__S(6465, __c202, 1)),
         }),
       ).annotate({ identifier: "BuildpackBindingCreateOrUpdateResponse" });
   }
@@ -14617,7 +14632,7 @@ function __c221(j: number): any {
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
           location: S.optional(S.String),
-          tags: S.optional(__S(3456, __c108, 0)),
+          tags: S.optional(__S(3488, __c109, 0)),
           properties: S.optional(__S(7079, __c221, 7)),
           sku: S.optional(__S(160, __c5, 0)),
         }),
@@ -14650,7 +14665,7 @@ function __c223(j: number): any {
       return S.suspend(() =>
         S.Struct({
           provisioningState: S.optional(S.String),
-          resourceRequests: S.optional(__S(4000, __c125, 0)),
+          resourceRequests: S.optional(__S(4032, __c126, 0)),
           instances: S.optional(__S(193, __c6, 1)),
         }),
       ).annotate({ identifier: "ServiceRegistryProperties" });
@@ -14693,7 +14708,7 @@ function __c225(j: number): any {
         S.Struct({
           storageType: S.String,
           accountName: S.String,
-          accountKey: S.String,
+          accountKey: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "StorageAccount" });
     case 1:
@@ -14793,7 +14808,7 @@ function __c229(j: number): any {
         ),
       ).annotate({ identifier: "ListApmsRequest" });
     case 1:
-      return S.Array(__S(3425, __c107, 1));
+      return S.Array(__S(3457, __c108, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -14853,7 +14868,7 @@ function __c232(j: number): any {
         ),
       ).annotate({ identifier: "ListApplicationAcceleratorsRequest" });
     case 1:
-      return S.Array(__S(4097, __c128, 1));
+      return S.Array(__S(4129, __c129, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({

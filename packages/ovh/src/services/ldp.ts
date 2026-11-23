@@ -91,7 +91,7 @@ export interface CreateDbaasLogEncryptionKeyRequest {
   /** Service name */
   serviceName: string;
   /** Encryption Key content */
-  content: string;
+  content: string | Redacted.Redacted<string>;
   /** Encryption Key fingerprint */
   fingerprint: string;
   /** Encryption Key title */
@@ -734,7 +734,7 @@ export interface DbaasLogsEncryptionKey {
   /** Encryption Key algorithm */
   algorithm?: DbaasLogsEncryptionKeyAlgorithmEnum | undefined;
   /** Encryption Key content */
-  content: string;
+  content: string | Redacted.Redacted<string>;
   /** Encryption Key creation date */
   createdAt?: string | undefined;
   /** Encryption Key ID */
@@ -913,7 +913,7 @@ export interface DbaasLogsServiceMetric {
   /** Metrics server url */
   host?: string | undefined;
   /** Metrics credentials */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
 }
 export interface GetDbaasLogOperationRequest {
   /** Service name */
@@ -1390,7 +1390,7 @@ export interface DbaasLogsToken {
   /** Token last update */
   updatedAt?: string | null | undefined;
   /** Token value */
-  value?: string | undefined;
+  value?: string | Redacted.Redacted<string> | undefined;
 }
 export interface ListDbaasLogClusterRequest {
   /** Service name */
@@ -5378,7 +5378,7 @@ function __c62(j: number): any {
       return S.suspend(() =>
         S.Struct({
           serviceName: S.String.pipe(T.Label()),
-          content: S.String,
+          content: S.String.pipe(T.SensitiveValue({})),
           fingerprint: S.String,
           title: S.String,
         }).pipe(
@@ -5690,7 +5690,7 @@ function __c77(j: number): any {
       return S.suspend(() =>
         S.Struct({
           algorithm: S.optional(S.String),
-          content: S.String,
+          content: S.String.pipe(T.SensitiveValue({})),
           createdAt: S.optional(S.String),
           encryptionKeyId: S.optional(S.String),
           fingerprint: S.String,
@@ -5889,7 +5889,7 @@ function __c84(j: number): any {
       return S.suspend(() =>
         S.Struct({
           host: S.optional(S.String),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "DbaasLogsServiceMetric" });
   }
@@ -6451,7 +6451,7 @@ function __c105(j: number): any {
           name: S.optional(S.String),
           tokenId: S.optional(S.String),
           updatedAt: S.optional(S.NullOr(S.String)),
-          value: S.optional(S.String),
+          value: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "DbaasLogsToken" });
   }

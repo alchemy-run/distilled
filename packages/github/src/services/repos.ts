@@ -330,7 +330,7 @@ export interface MinimalRepository {
   permissions?: MinimalRepositoryPermissions | undefined;
   role_name?: string | undefined;
   /** When present and non-empty, a temporary credential for read-only Git access to this repository. It expires five minutes after generation and cannot be used to push changes. Treat this value as sensitive and avoid recording it in logs. */
-  temp_clone_token?: string | undefined;
+  temp_clone_token?: string | Redacted.Redacted<string> | undefined;
   delete_branch_on_merge?: boolean | undefined;
   subscribers_count?: number | undefined;
   network_count?: number | undefined;
@@ -1304,7 +1304,7 @@ export interface NullableRepository {
   /** Whether to allow rebase merges for pull requests. */
   allow_rebase_merge?: boolean | undefined;
   /** When present and non-empty, a temporary credential for read-only Git access to this repository. It expires five minutes after generation and cannot be used to push changes. Treat this value as sensitive and avoid recording it in logs. */
-  temp_clone_token?: string | undefined;
+  temp_clone_token?: string | Redacted.Redacted<string> | undefined;
   /** Whether to allow squash merges for pull requests. */
   allow_squash_merge?: boolean | undefined;
   /** Whether to allow Auto-merge to be used on pull requests. */
@@ -1459,7 +1459,7 @@ export interface Repository {
   /** Whether to allow rebase merges for pull requests. */
   allow_rebase_merge?: boolean | undefined;
   /** When present and non-empty, a temporary credential for read-only Git access to this repository. It expires five minutes after generation and cannot be used to push changes. Treat this value as sensitive and avoid recording it in logs. */
-  temp_clone_token?: string | undefined;
+  temp_clone_token?: string | Redacted.Redacted<string> | undefined;
   /** Whether to allow squash merges for pull requests. */
   allow_squash_merge?: boolean | undefined;
   /** Whether to allow Auto-merge to be used on pull requests. */
@@ -1587,7 +1587,7 @@ export interface FullRepository {
   allow_rebase_merge?: boolean | undefined;
   template_repository?: NullableRepository | null | undefined;
   /** When present and non-empty, a temporary credential for read-only Git access to this repository. It expires five minutes after generation and cannot be used to push changes. Treat this value as sensitive and avoid recording it in logs. */
-  temp_clone_token?: string | null | undefined;
+  temp_clone_token?: string | Redacted.Redacted<string> | null | undefined;
   allow_squash_merge?: boolean | undefined;
   allow_auto_merge?: boolean | undefined;
   delete_branch_on_merge?: boolean | undefined;
@@ -2576,7 +2576,7 @@ export interface CreatePagesDeploymentRequest {
   /** A unique string that represents the version of the build for this deployment. */
   pages_build_version: string;
   /** The OIDC token issued by GitHub Actions certifying the origin of the deployment. */
-  oidc_token: string;
+  oidc_token: string | Redacted.Redacted<string>;
 }
 /** The ID of the GitHub Pages deployment. This is the Git SHA of the deployed commit. */
 export type PageDeploymentId = number | string;
@@ -13848,7 +13848,7 @@ function __c143(j: number): any {
           updated_at: S.optional(S.NullOr(S.String)),
           permissions: S.optional(__S(2288, __c143, 0)),
           role_name: S.optional(S.String),
-          temp_clone_token: S.optional(S.String),
+          temp_clone_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           delete_branch_on_merge: S.optional(S.Boolean),
           subscribers_count: S.optional(S.Number),
           network_count: S.optional(S.Number),
@@ -14290,7 +14290,7 @@ function __c160(j: number): any {
           created_at: S.NullOr(S.String),
           updated_at: S.NullOr(S.String),
           allow_rebase_merge: S.optional(S.Boolean),
-          temp_clone_token: S.optional(S.String),
+          temp_clone_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           allow_squash_merge: S.optional(S.Boolean),
           allow_auto_merge: S.optional(S.Boolean),
           delete_branch_on_merge: S.optional(S.Boolean),
@@ -14406,7 +14406,7 @@ function __c161(j: number): any {
           permissions: S.optional(__S(2576, __c161, 0)),
           allow_rebase_merge: S.optional(S.Boolean),
           template_repository: S.optional(S.NullOr(__S(2562, __c160, 2))),
-          temp_clone_token: S.optional(S.NullOr(S.String)),
+          temp_clone_token: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           allow_squash_merge: S.optional(S.Boolean),
           allow_auto_merge: S.optional(S.Boolean),
           delete_branch_on_merge: S.optional(S.Boolean),
@@ -14790,7 +14790,7 @@ function __c175(j: number): any {
           artifact_url: S.optional(S.String),
           environment: S.optional(S.String),
           pages_build_version: S.String,
-          oidc_token: S.String,
+          oidc_token: S.String.pipe(T.SensitiveValue({})),
         }).pipe(
           T.Http({ method: "POST", uri: "/repos/{owner}/{repo}/pages/deployments", code: 200 }),
         ),

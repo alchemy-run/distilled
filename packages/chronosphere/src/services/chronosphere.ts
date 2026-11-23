@@ -753,7 +753,7 @@ export interface LogScaleActionEmailAction {
 }
 export interface LogScaleActionHumioRepoAction {
   /** Ingest token for the repository that the action should ingest into. */
-  ingest_token?: string | undefined;
+  ingest_token?: string | Redacted.Redacted<string> | undefined;
 }
 export interface LogScaleActionOpsGenieAction {
   /** OpsGenie webhook URL to send the request to. */
@@ -1330,7 +1330,7 @@ export interface HTTPConfigTLSConfig {
 export interface NotifierHTTPConfig {
   basic_auth?: HTTPConfigBasicAuth | undefined;
   /** Bearer token authentication. Cannot be set if basic_auth is set. */
-  bearer_token?: string | undefined;
+  bearer_token?: string | Redacted.Redacted<string> | undefined;
   /** Optional proxy URL. DEPRECATED: Custom proxies are unsupported. */
   proxy_url?: string | undefined;
   tls_config?: HTTPConfigTLSConfig | undefined;
@@ -1850,7 +1850,7 @@ export interface Configv1ServiceAccount {
   /** Timestamp of when the ServiceAccount was last updated. Cannot be set by clients. */
   updated_at?: string | undefined;
   /** token is the generated API token of the service account. Cannot be set by clients. token is only set once by the server in the CreateServiceAccount response. ReadServiceAccount will always return an empty token. Therefore, when creating a service account, clients are responsible for securely storing the response token on their end, as they will not be able to read it again. */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   /** email is the generated email address of the service account. Cannot be set by clients. */
   email?: string | undefined;
   /** If set, grants the service account access to all Cortex XCOR APIs (including resource configuration and metric data) within the access controls defined by the service account's team membership. Exactly one of unrestricted or metrics_restriction must be set. */
@@ -7389,7 +7389,7 @@ function __c70(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          ingest_token: S.optional(S.String),
+          ingest_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "LogScaleActionHumioRepoAction" });
     case 2:
@@ -8000,7 +8000,7 @@ function __c98(j: number): any {
       return S.suspend(() =>
         S.Struct({
           basic_auth: S.optional(__S(3136, __c98, 0)),
-          bearer_token: S.optional(S.String),
+          bearer_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           proxy_url: S.optional(S.String),
           tls_config: S.optional(__S(3137, __c98, 1)),
         }),
@@ -8533,7 +8533,7 @@ function __c115(j: number): any {
           name: S.optional(S.String),
           created_at: S.optional(S.String),
           updated_at: S.optional(S.String),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           email: S.optional(S.String),
           unrestricted: S.optional(S.Boolean),
           metrics_restriction: S.optional(__S(3680, __c115, 0)),

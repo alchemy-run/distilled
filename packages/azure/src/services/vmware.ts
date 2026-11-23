@@ -62,7 +62,7 @@ export interface AddonSrmPropertiesInput {
   /** Addon type */
   addonType: AddonSrmPropertiesInputAddonType;
   /** The Site Recovery Manager (SRM) license */
-  licenseKey?: string | undefined;
+  licenseKey?: string | Redacted.Redacted<string> | undefined;
 }
 /** Addon type */
 export type AddonVrPropertiesInputAddonType = "VR";
@@ -154,7 +154,7 @@ export interface AddonSrmProperties {
   /** The state of the addon provisioning */
   provisioningState?: AddonProvisioningState | undefined;
   /** The Site Recovery Manager (SRM) license */
-  licenseKey?: string | undefined;
+  licenseKey?: string | Redacted.Redacted<string> | undefined;
 }
 /** Addon type */
 export type AddonVrPropertiesAddonType = "VR";
@@ -1730,7 +1730,7 @@ export interface VmwareFirewallLicenseProperties {
   /** The state of the license provisioning */
   provisioningState?: LicenseProvisioningState | undefined;
   /** License key */
-  licenseKey?: string | undefined;
+  licenseKey?: string | Redacted.Redacted<string> | undefined;
   /** Number of cores included in the license, measured per hour */
   cores: number;
   /** UTC datetime when the license expires */
@@ -2377,7 +2377,7 @@ export interface Vcf5License {
   /** The state of the license provisioning */
   provisioningState?: LicenseProvisioningState | undefined;
   /** License key */
-  licenseKey?: string | undefined;
+  licenseKey?: string | Redacted.Redacted<string> | undefined;
   /** Number of cores included in the license */
   cores: number;
   /** UTC datetime when the license expires */
@@ -2663,7 +2663,7 @@ export interface ScriptSecureStringExecutionParameter {
   /** The parameter name */
   name: string;
   /** A secure value for the passed parameter, not to be stored in logs */
-  secureValue?: string | undefined;
+  secureValue?: string | Redacted.Redacted<string> | undefined;
 }
 /** script execution parameter type */
 export type ScriptStringExecutionParameterType = "Value";
@@ -3207,7 +3207,7 @@ export interface VmwareFirewallLicensePropertiesInput {
   /** License kind */
   kind: VmwareFirewallLicensePropertiesInputKind | (string & {});
   /** License key */
-  licenseKey?: string | undefined;
+  licenseKey?: string | Redacted.Redacted<string> | undefined;
   /** Number of cores included in the license, measured per hour */
   cores: number;
   /** UTC datetime when the license expires */
@@ -4619,7 +4619,7 @@ export interface Vcf5LicenseInput {
   /** License kind */
   kind: Vcf5LicenseInputKind | (string & {});
   /** License key */
-  licenseKey?: string | undefined;
+  licenseKey?: string | Redacted.Redacted<string> | undefined;
   /** Number of cores included in the license */
   cores: number;
   /** UTC datetime when the license expires */
@@ -7735,7 +7735,7 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           addonType: S.String,
-          licenseKey: S.optional(S.String),
+          licenseKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "AddonSrmPropertiesInput" });
     case 3:
@@ -7817,7 +7817,7 @@ function __c2(j: number): any {
         S.Struct({
           addonType: S.String,
           provisioningState: S.optional(S.String),
-          licenseKey: S.optional(S.String),
+          licenseKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "AddonSrmProperties" });
     case 3:
@@ -9988,7 +9988,7 @@ function __c90(j: number): any {
         S.Struct({
           kind: S.String,
           provisioningState: S.optional(S.String),
-          licenseKey: S.optional(S.String),
+          licenseKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           cores: S.Number,
           endDate: S.String,
           broadcomSiteId: S.optional(S.String),
@@ -10726,7 +10726,7 @@ function __c114(j: number): any {
         S.Struct({
           type: S.String,
           name: S.String,
-          secureValue: S.optional(S.String),
+          secureValue: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "ScriptSecureStringExecutionParameter" });
     case 2:
@@ -11541,7 +11541,7 @@ function __c152(j: number): any {
       return S.suspend(() =>
         S.Struct({
           kind: S.String,
-          licenseKey: S.optional(S.String),
+          licenseKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           cores: S.Number,
           endDate: S.String,
           broadcomSiteId: S.optional(S.String),

@@ -59,7 +59,7 @@ export interface ConfirmHostingPrivateDatabaseTerminationRequest {
   /** All reasons you can provide for a service termination */
   reason?: ServiceTerminationReasonEnum | (string & {}) | undefined;
   /** The termination token sent by email to the admin contact */
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 export type ConfirmHostingPrivateDatabaseTerminationResponse = string;
 export interface CopyHostingPrivateDatabaseDatabaseRequest {
@@ -415,7 +415,7 @@ export interface HostingPrivateDatabaseGraphEndpoint {
   /** The OpenTSDB host */
   host?: string | null | undefined;
   /** A read-only token */
-  readToken?: string | null | undefined;
+  readToken?: string | Redacted.Redacted<string> | null | undefined;
   /** A read-only token ID */
   readTokenId?: string | null | undefined;
 }
@@ -691,7 +691,7 @@ export interface HostingPrivateDatabaseMetricsToken {
   /** Backend url */
   endpoint?: string | undefined;
   /** Generated token */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
 }
 export interface GetHostingPrivateDatabaseServiceInfosRequest {
   /** Service name */
@@ -2495,7 +2495,7 @@ function __c0(j: number): any {
           commentary: S.optional(S.String),
           futureUse: S.optional(S.String),
           reason: S.optional(S.String),
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2953,7 +2953,7 @@ function __c27(j: number): any {
       return S.suspend(() =>
         S.Struct({
           host: S.optional(S.NullOr(S.String)),
-          readToken: S.optional(S.NullOr(S.String)),
+          readToken: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           readTokenId: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "HostingPrivateDatabaseGraphEndpoint" });
@@ -3271,7 +3271,7 @@ function __c40(j: number): any {
       return S.suspend(() =>
         S.Struct({
           endpoint: S.optional(S.String),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "HostingPrivateDatabaseMetricsToken" });
   }

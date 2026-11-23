@@ -59,7 +59,7 @@ export interface ConfirmHostingWebTerminationRequest {
   /** All reasons you can provide for a service termination */
   reason?: ServiceTerminationReasonEnum | (string & {}) | undefined;
   /** The termination token sent by email to the admin contact */
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 export type ConfirmHostingWebTerminationResponse = string;
 export interface CopyHostingWebDatabaseRequest {
@@ -698,7 +698,7 @@ export interface CreateHostingWebEnvVarRequest {
   /** Type of variable set */
   type: HostingWebEnvVarTypeEnum | (string & {});
   /** Value of the variable */
-  value: string;
+  value: string | Redacted.Redacted<string>;
 }
 export interface CreateHostingWebExtraSqlPersoServiceInfosUpdateRequest {
   /** The internal name of your hosting */
@@ -756,7 +756,7 @@ export interface HostingWebLocalSeoSearchData {
   /** Street numero of the location */
   streetNo?: string | undefined;
   /** Token to use to get the results of the search */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   /** Zipcode of the location */
   zip?: string | undefined;
 }
@@ -1369,7 +1369,7 @@ export interface HostingWebServiceWithIAM {
   /** State of your hosting */
   state?: HostingWebStateEnum | undefined;
   /** Use to link an external domain. ( This token has to be insert into a TXT field on your dns zone with ovhcontrol subdomain ) */
-  token?: string | null | undefined;
+  token?: string | Redacted.Redacted<string> | null | undefined;
   /** Traffic quota allowed ( null = unlimited ) */
   trafficQuotaSize?: ComplexTypeUnitAndValueDouble | null | undefined;
   /** Traffic quota used */
@@ -1961,7 +1961,7 @@ export interface HostingWebEnvVar {
   /** Type of variable set */
   type?: HostingWebEnvVarTypeEnum | undefined;
   /** Value of the variable */
-  value?: string | undefined;
+  value?: string | Redacted.Redacted<string> | undefined;
 }
 export interface GetHostingWebExtraSqlPersoRequest {
   /** The internal name of your hosting */
@@ -2113,7 +2113,7 @@ export interface HostingWebMetricsToken {
   /** Token expiration date */
   expiry?: string | undefined;
   /** Generated token */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
 }
 export interface GetHostingWebModuleRequest {
   /** The internal name of your hosting */
@@ -3081,7 +3081,7 @@ export interface ListHostingWebLocalSeoVisibilityCheckResultRequest {
   /** Id of the check */
   id: number;
   /** Token received when requesting the check */
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 /** Sync status of a location field */
 export type HostingWebLocalSeoFieldStatusEnum =
@@ -3480,7 +3480,7 @@ export interface PutHostingWebEnvVarRequest {
   /** Key */
   key: string;
   /** Value of the variable */
-  value?: string | undefined;
+  value?: string | Redacted.Redacted<string> | undefined;
 }
 export interface PutHostingWebOwnLogUserLogRequest {
   /** The internal name of your hosting */
@@ -6760,7 +6760,7 @@ function __c0(j: number): any {
           commentary: S.optional(S.String),
           futureUse: S.optional(S.String),
           reason: S.optional(S.String),
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
         }).pipe(
           T.Http({
             method: "POST",
@@ -7429,7 +7429,7 @@ function __c39(j: number): any {
         S.Struct({
           directory: S.String.pipe(T.Query()),
           id: S.Number.pipe(T.Query()),
-          token: S.String.pipe(T.Query()),
+          token: S.String.pipe(T.Query(), T.SensitiveValue({})),
         }).pipe(
           T.Http({ method: "GET", uri: "/hosting/web/localSeo/visibilityCheckResult", code: 200 }),
         ),
@@ -7647,7 +7647,7 @@ function __c51(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           key: S.String,
           type: S.String,
-          value: S.String,
+          value: S.String.pipe(T.SensitiveValue({})),
         }).pipe(T.Http({ method: "POST", uri: "/hosting/web/{serviceName}/envVar", code: 200 })),
       ).annotate({ identifier: "CreateHostingWebEnvVarRequest" });
   }
@@ -7954,7 +7954,7 @@ function __c70(j: number): any {
         S.Struct({
           serviceName: S.String.pipe(T.Label()),
           key: S.String.pipe(T.Label()),
-          value: S.optional(S.String),
+          value: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }).pipe(
           T.Http({ method: "PUT", uri: "/hosting/web/{serviceName}/envVar/{key}", code: 200 }),
         ),
@@ -8260,7 +8260,7 @@ function __c89(j: number): any {
           province: S.optional(S.NullOr(S.String)),
           street: S.optional(S.String),
           streetNo: S.optional(S.String),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           zip: S.optional(S.String),
         }),
       ).annotate({ identifier: "HostingWebLocalSeoSearchData" });
@@ -8947,7 +8947,7 @@ function __c125(j: number): any {
           serviceManagementAccess: S.optional(__S(2011, __c125, 11)),
           serviceName: S.optional(S.String),
           state: S.optional(S.String),
-          token: S.optional(S.NullOr(S.String)),
+          token: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           trafficQuotaSize: S.optional(S.NullOr(__S(2016, __c126, 0))),
           trafficQuotaUsed: S.optional(S.NullOr(__S(2016, __c126, 0))),
           updates: S.optional(__S(2080, __c130, 0)),
@@ -9643,7 +9643,7 @@ function __c156(j: number): any {
           status: S.optional(S.String),
           taskId: S.optional(S.NullOr(S.Number)),
           type: S.optional(S.String),
-          value: S.optional(S.String),
+          value: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "HostingWebEnvVar" });
   }
@@ -9886,7 +9886,7 @@ function __c170(j: number): any {
         S.Struct({
           endpoint: S.optional(S.String),
           expiry: S.optional(S.String),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "HostingWebMetricsToken" });
   }

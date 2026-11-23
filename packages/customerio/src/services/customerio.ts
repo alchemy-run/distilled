@@ -1905,7 +1905,7 @@ export interface CreateCollectionSourceRequestBodyCase0 {
 }
 export interface CreateCollectionSourceRequestBodyCase1Credentials {
   /** The JSON key file that Google issues for a service account, as a string. The key's `token_uri` must be Google's own token endpoint. */
-  service_account_key: string;
+  service_account_key: string | Redacted.Redacted<string>;
 }
 export type CreateCollectionSourceRequestBodyCase1Provider = "gcs";
 export interface CreateCollectionSourceRequestBodyCase1 {
@@ -8890,7 +8890,7 @@ export interface GetSubscriptionCenterTokenRequest {
 }
 export interface GetSubscriptionCenterTokenResponse {
   /** A signed token representing the person's subscription center session. The token expires after 24 hours. If you want to use a custom link tracking domain, you can point your customers to `https://<your-tracking-domain>/u/i/<your-token>/<language-code (optional)>`. */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   /** A full URL to the person's standalone subscription center page. You can use this URL directly as a link. */
   url?: string | undefined;
 }
@@ -11698,7 +11698,7 @@ export interface SendPushRequestCustomDevice {
   /** The device/messaging platform. */
   platform: SendPushRequestCustomDevicePlatform | (string & {});
   /** The device token. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** Attributes that you can reference to segment your audience--like a person's attributes, but specific to a device. These can be either the attributes defined below or custom key-value attributes. */
   attributes?: SendPushRequestCustomDeviceAttributes | undefined;
   /** The `timestamp` when you last identified this device. If you don't pass a timestamp when you add or update a device, we use the time of the request itself. Our SDKs identify a device when a person launches their app. */
@@ -26256,7 +26256,7 @@ function __c7(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           url: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetSubscriptionCenterTokenResponse" });
@@ -27308,7 +27308,7 @@ function __c61(j: number): any {
       return S.suspend(() =>
         S.Struct({
           platform: S.String,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           attributes: S.optional(__S(976, __c61, 0)),
           last_used: S.optional(S.Number),
         }),

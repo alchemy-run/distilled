@@ -234,7 +234,7 @@ export interface AzureBlobStorageSinkConnectorServiceInfo {
   /** Azure Blob Storage Account Name */
   storageAccountName?: string | undefined;
   /** Azure Blob Storage Account Key */
-  storageAccountKey?: string | undefined;
+  storageAccountKey?: string | Redacted.Redacted<string> | undefined;
   /** Azure Blob Storage Account Container Name */
   storageContainerName?: string | undefined;
 }
@@ -248,7 +248,7 @@ export interface AzureBlobStorageSourceConnectorServiceInfo {
   /** Azure Blob Storage Account Name */
   storageAccountName?: string | undefined;
   /** Azure Blob Storage Account Key */
-  storageAccountKey?: string | undefined;
+  storageAccountKey?: string | Redacted.Redacted<string> | undefined;
   /** Azure Blob Storage Account Container Name */
   storageContainerName?: string | undefined;
 }
@@ -262,7 +262,7 @@ export interface AzureCosmosDBSinkConnectorServiceInfo {
   /** Azure Cosmos Database Name */
   cosmosDatabaseName?: string | undefined;
   /** Azure Cosmos Database Master Key */
-  cosmosMasterKey?: string | undefined;
+  cosmosMasterKey?: string | Redacted.Redacted<string> | undefined;
   /** Azure Cosmos Database Connection Endpoint */
   cosmosConnectionEndpoint?: string | undefined;
   /** Azure Cosmos Database Containers Topic Mapping */
@@ -280,7 +280,7 @@ export interface AzureCosmosDBSourceConnectorServiceInfo {
   /** Azure Cosmos Database Name */
   cosmosDatabaseName?: string | undefined;
   /** Azure Cosmos Database Master Key */
-  cosmosMasterKey?: string | undefined;
+  cosmosMasterKey?: string | Redacted.Redacted<string> | undefined;
   /** Azure Cosmos Database Connection Endpoint */
   cosmosConnectionEndpoint?: string | undefined;
   /** Azure Cosmos Database Containers Topic Mapping */
@@ -335,7 +335,7 @@ export interface KafkaAzureBlobStorageSinkConnectorInfo {
   /** Kafka API Key */
   apiKey?: string | Redacted.Redacted<string> | undefined;
   /** Kafka API Key Secret */
-  apiSecret?: string | undefined;
+  apiSecret?: string | Redacted.Redacted<string> | undefined;
   /** Kafka Service Account Id */
   serviceAccountId?: string | undefined;
   /** Kafka topics list */
@@ -365,7 +365,7 @@ export interface KafkaAzureBlobStorageSourceConnectorInfo {
   /** Kafka API Key */
   apiKey?: string | Redacted.Redacted<string> | undefined;
   /** Kafka API Secret */
-  apiSecret?: string | undefined;
+  apiSecret?: string | Redacted.Redacted<string> | undefined;
   /** Kafka Service Account Id */
   serviceAccountId?: string | undefined;
   /** Kafka topics Regex pattern */
@@ -392,7 +392,7 @@ export interface KafkaAzureCosmosDBSinkConnectorInfo {
   /** Kafka API Key */
   apiKey?: string | Redacted.Redacted<string> | undefined;
   /** Kafka API Key Secret */
-  apiSecret?: string | undefined;
+  apiSecret?: string | Redacted.Redacted<string> | undefined;
   /** Kafka Service Account Id */
   serviceAccountId?: string | undefined;
   /** Kafka topics list */
@@ -421,7 +421,7 @@ export interface KafkaAzureCosmosDBSourceConnectorInfo {
   /** Kafka API Key */
   apiKey?: string | Redacted.Redacted<string> | undefined;
   /** Kafka API Secret */
-  apiSecret?: string | undefined;
+  apiSecret?: string | Redacted.Redacted<string> | undefined;
   /** Kafka Service Account Id */
   serviceAccountId?: string | undefined;
   /** Kafka topics Regex pattern */
@@ -449,7 +449,7 @@ export interface KafkaAzureSynapseAnalyticsSinkConnectorInfo {
   /** Kafka API Key */
   apiKey?: string | Redacted.Redacted<string> | undefined;
   /** Kafka API Key Secret */
-  apiSecret?: string | undefined;
+  apiSecret?: string | Redacted.Redacted<string> | undefined;
   /** Kafka Service Account Id */
   serviceAccountId?: string | undefined;
   /** Kafka topics list */
@@ -653,7 +653,7 @@ export interface UserDetail {
 /** Link an existing Confluent organization */
 export interface LinkOrganization {
   /** User auth token */
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 /** Organization resource property */
 export interface OrganizationResourcePropertiesInput {
@@ -3247,7 +3247,7 @@ function __c23(j: number): any {
         S.Struct({
           connectorServiceType: S.String,
           storageAccountName: S.optional(S.String),
-          storageAccountKey: S.optional(S.String),
+          storageAccountKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           storageContainerName: S.optional(S.String),
         }),
       ).annotate({ identifier: "AzureBlobStorageSinkConnectorServiceInfo" });
@@ -3256,7 +3256,7 @@ function __c23(j: number): any {
         S.Struct({
           connectorServiceType: S.String,
           cosmosDatabaseName: S.optional(S.String),
-          cosmosMasterKey: S.optional(S.String),
+          cosmosMasterKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           cosmosConnectionEndpoint: S.optional(S.String),
           cosmosContainersTopicMapping: S.optional(S.String),
           cosmosIdStrategy: S.optional(S.String),
@@ -3267,7 +3267,7 @@ function __c23(j: number): any {
         S.Struct({
           connectorServiceType: S.String,
           cosmosDatabaseName: S.optional(S.String),
-          cosmosMasterKey: S.optional(S.String),
+          cosmosMasterKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           cosmosConnectionEndpoint: S.optional(S.String),
           cosmosContainersTopicMapping: S.optional(S.String),
           cosmosMessageKeyEnabled: S.optional(S.Boolean),
@@ -3300,7 +3300,7 @@ function __c23(j: number): any {
           inputFormat: S.optional(S.String),
           outputFormat: S.optional(S.String),
           apiKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          apiSecret: S.optional(S.String),
+          apiSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           serviceAccountId: S.optional(S.String),
           topics: S.optional(__S(16, __c1, 0)),
           topicsDir: S.optional(S.String),
@@ -3317,7 +3317,7 @@ function __c23(j: number): any {
           inputFormat: S.optional(S.String),
           outputFormat: S.optional(S.String),
           apiKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          apiSecret: S.optional(S.String),
+          apiSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           serviceAccountId: S.optional(S.String),
           topicRegex: S.optional(S.String),
           topicsDir: S.optional(S.String),
@@ -4343,7 +4343,7 @@ function __c57(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "LinkOrganization" });
   }

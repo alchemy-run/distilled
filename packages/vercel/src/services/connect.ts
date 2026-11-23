@@ -456,7 +456,7 @@ export interface ConnectConnectorCreateDataCase2 {
   /** GitHub App private key in PEM format. */
   privateKeyPem?: string | undefined;
   /** GitHub App webhook secret. */
-  webhookSecret?: string | undefined;
+  webhookSecret?: string | Redacted.Redacted<string> | undefined;
   /** Additional provider metadata stored with the connector. */
   extras?: ConnectConnectorCreateDataCase2ExtrasMap | undefined;
 }
@@ -524,7 +524,7 @@ export interface ConnectConnectorCreateDataCase3 {
   /** Linear OAuth client secret. */
   clientSecret: string | Redacted.Redacted<string>;
   /** Linear webhook verification secret. */
-  webhookSecret?: string | undefined;
+  webhookSecret?: string | Redacted.Redacted<string> | undefined;
   /** OAuth scopes requested for Linear application tokens. */
   appScopes?: ConnectConnectorCreateDataCase3AppScopesList | undefined;
   /** OAuth scopes requested for Linear user tokens. */
@@ -546,7 +546,7 @@ export interface ConnectConnectorCreateDataCase5 {
   /** Salesforce connected app consumer key. */
   consumerKey: string;
   /** Salesforce connected app consumer secret. */
-  consumerSecret: string;
+  consumerSecret: string | Redacted.Redacted<string>;
   /** Salesforce login host, such as login.salesforce.com. */
   loginHost: string;
 }
@@ -638,9 +638,9 @@ export interface ConnectConnectorCreateDataCase7 {
   /** Slack workspace metadata. */
   slackTeam?: ConnectConnectorCreateDataCase7SlackTeam | undefined;
   /** Slack request signing secret. */
-  signingSecret?: string | undefined;
+  signingSecret?: string | Redacted.Redacted<string> | undefined;
   /** Legacy Slack webhook verification token. */
-  verificationToken?: string | undefined;
+  verificationToken?: string | Redacted.Redacted<string> | undefined;
   /** OAuth scopes requested for Slack bot tokens. */
   botScopes?: ConnectConnectorCreateDataCase7BotScopesList | undefined;
   /** OAuth scopes requested for Slack user tokens. */
@@ -684,9 +684,9 @@ export interface ConnectConnectorCreateDataCase10 {
   /** Photon project ID. */
   projectId: string;
   /** Photon project secret. */
-  projectSecret: string;
+  projectSecret: string | Redacted.Redacted<string>;
   /** Photon webhook verification secret. */
-  webhookSecret?: string | undefined;
+  webhookSecret?: string | Redacted.Redacted<string> | undefined;
 }
 export type ConnectConnectorCreateDataCase11Map = { [key: string]: unknown | undefined };
 /** Provider configuration. With type, provide the complete configuration for that type. With service and connectionMethod, provide only credentials and preferences; Connect supplies the type, endpoints, templates, and defaults. Other connector types accept an arbitrary object. */
@@ -1067,7 +1067,7 @@ export interface CreateConnectorAuthorizationRequestRequestSubjectCase2 {
 export type CreateConnectorAuthorizationRequestRequestSubjectCase3Type = "token";
 export interface CreateConnectorAuthorizationRequestRequestSubjectCase3 {
   type: CreateConnectorAuthorizationRequestRequestSubjectCase3Type;
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 export interface CreateConnectorAuthorizationRequestRequestSubjectCase4 {
   type: string;
@@ -1481,7 +1481,7 @@ export interface GetConnectorTokenRequestSubjectCase2 {
 export type GetConnectorTokenRequestSubjectCase3Type = "token";
 export interface GetConnectorTokenRequestSubjectCase3 {
   type: GetConnectorTokenRequestSubjectCase3Type;
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 export type GetConnectorTokenRequestSubjectCase4 =
   CreateConnectorAuthorizationRequestRequestSubjectCase4;
@@ -1531,7 +1531,7 @@ export interface GetConnectorTokenResponse {
   metadata?: GetConnectorTokenResponseMetadataMap | undefined;
   name?: string | undefined;
   tenantId?: string | undefined;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** Stable id that groups all tokens with the same parameters across refreshes. */
   tokenGroupId?: string | undefined;
   tokenId: string;
@@ -2019,7 +2019,7 @@ export interface ConnectConnectorUpdateDataCase2 {
   /** GitHub App private key in PEM format. */
   privateKeyPem?: string | undefined;
   /** GitHub App webhook secret. */
-  webhookSecret?: string | undefined;
+  webhookSecret?: string | Redacted.Redacted<string> | undefined;
   /** Additional provider metadata stored with the connector. */
   extras?: ConnectConnectorUpdateDataCase2ExtrasMap | undefined;
 }
@@ -2079,7 +2079,7 @@ export interface ConnectConnectorUpdateDataCase3 {
   /** Linear OAuth client secret. */
   clientSecret?: string | Redacted.Redacted<string> | undefined;
   /** Linear webhook verification secret. */
-  webhookSecret?: string | undefined;
+  webhookSecret?: string | Redacted.Redacted<string> | undefined;
   /** OAuth scopes requested for Linear application tokens. */
   appScopes?: ConnectConnectorUpdateDataCase3AppScopesList | undefined;
   /** OAuth scopes requested for Linear user tokens. */
@@ -2095,7 +2095,7 @@ export interface ConnectConnectorUpdateDataCase4 {
   /** Salesforce connected app consumer key. */
   consumerKey?: string | undefined;
   /** Salesforce connected app consumer secret. */
-  consumerSecret?: string | undefined;
+  consumerSecret?: string | Redacted.Redacted<string> | undefined;
   /** Salesforce login host, such as login.salesforce.com. */
   loginHost?: string | undefined;
 }
@@ -2153,9 +2153,9 @@ export interface ConnectConnectorUpdateDataCase5 {
   /** Slack workspace metadata. */
   slackTeam?: ConnectConnectorCreateDataCase7SlackTeam | undefined;
   /** Slack request signing secret. */
-  signingSecret?: string | undefined;
+  signingSecret?: string | Redacted.Redacted<string> | undefined;
   /** Legacy Slack webhook verification token. */
-  verificationToken?: string | undefined;
+  verificationToken?: string | Redacted.Redacted<string> | undefined;
   /** OAuth scopes requested for Slack bot tokens. */
   botScopes?: ConnectConnectorUpdateDataCase5BotScopesList | undefined;
   /** OAuth scopes requested for Slack user tokens. */
@@ -2201,9 +2201,9 @@ export interface ConnectConnectorUpdateDataCase9 {
 }
 export interface ConnectConnectorUpdateDataCase10 {
   /** Photon project secret. */
-  projectSecret?: string | undefined;
+  projectSecret?: string | Redacted.Redacted<string> | undefined;
   /** Photon webhook verification secret. */
-  webhookSecret?: string | undefined;
+  webhookSecret?: string | Redacted.Redacted<string> | undefined;
   /** Whether Connect should recreate the Photon webhook. */
   repairWebhook?: boolean | undefined;
 }
@@ -2872,7 +2872,7 @@ function __c6(j: number): any {
           metadata: S.optional(__S(136, __c17, 0)),
           name: S.optional(S.String),
           tenantId: S.optional(S.String),
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           tokenGroupId: S.optional(S.String),
           tokenId: S.String,
         }),

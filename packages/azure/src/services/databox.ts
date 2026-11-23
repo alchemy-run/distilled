@@ -341,7 +341,7 @@ export interface ImportDiskDetailsInput {
   /** The Base16-encoded MD5 hash of the manifest file on the disk. */
   manifestHash: string;
   /** BitLocker key used to encrypt the disk. */
-  bitLockerKey: string;
+  bitLockerKey: string | Redacted.Redacted<string>;
 }
 /** Contains the map of disk serial number to the disk details for import jobs. */
 export type DataBoxCustomerDiskJobDetailsInputImportDiskDetailsCollectionMap = {
@@ -350,7 +350,7 @@ export type DataBoxCustomerDiskJobDetailsInputImportDiskDetailsCollectionMap = {
 /** Package carrier details. */
 export interface PackageCarrierDetails {
   /** Carrier Account Number of customer for customer disk. */
-  carrierAccountNumber?: string | undefined;
+  carrierAccountNumber?: string | Redacted.Redacted<string> | undefined;
   /** Name of the carrier. */
   carrierName?: string | undefined;
   /** Tracking Id of shipment. */
@@ -965,7 +965,7 @@ export interface ImportDiskDetails {
   /** The Base16-encoded MD5 hash of the manifest file on the disk. */
   manifestHash: string;
   /** BitLocker key used to encrypt the disk. */
-  bitLockerKey: string;
+  bitLockerKey: string | Redacted.Redacted<string>;
   /** Path to backed up manifest, only returned if enableManifestBackup is true. */
   backupManifestCloudPath?: string | undefined;
 }
@@ -1683,7 +1683,7 @@ export interface CustomerDiskJobSecrets {
   /** Contains the list of secrets object for that device. */
   diskSecrets?: CustomerDiskJobSecretsDiskSecretsList | undefined;
   /** Carrier Account Number of the customer */
-  carrierAccountNumber?: string | undefined;
+  carrierAccountNumber?: string | Redacted.Redacted<string> | undefined;
 }
 /** Used to indicate what type of job secrets object. */
 export type DataBoxDiskJobSecretsJobSecretsType = "DataBoxDisk";
@@ -1749,7 +1749,7 @@ export interface AccountCredentialDetails {
   /** Type of the account. */
   dataAccountType?: DataAccountType | undefined;
   /** Connection string of the account endpoint to use the account as a storage endpoint on the device. */
-  accountConnectionString?: string | undefined;
+  accountConnectionString?: string | Redacted.Redacted<string> | undefined;
   /** Per share level unencrypted access credentials. */
   shareCredentialDetails?: AccountCredentialDetailsShareCredentialDetailsList | undefined;
 }
@@ -2801,7 +2801,7 @@ function __c2(j: number): any {
         S.Struct({
           manifestFile: S.String,
           manifestHash: S.String,
-          bitLockerKey: S.String,
+          bitLockerKey: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "ImportDiskDetailsInput" });
     case 1:
@@ -3100,7 +3100,7 @@ function __c11(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
-          carrierAccountNumber: S.optional(S.String),
+          carrierAccountNumber: S.optional(S.String.pipe(T.SensitiveValue({}))),
           carrierName: S.optional(S.String),
           trackingId: S.optional(S.String),
         }),
@@ -3248,7 +3248,7 @@ function __c11(j: number): any {
         S.Struct({
           manifestFile: S.String,
           manifestHash: S.String,
-          bitLockerKey: S.String,
+          bitLockerKey: S.String.pipe(T.SensitiveValue({})),
           backupManifestCloudPath: S.optional(S.String),
         }),
       ).annotate({ identifier: "ImportDiskDetails" });
@@ -4228,7 +4228,7 @@ function __c30(j: number): any {
           dcAccessSecurityCode: S.optional(__S(961, __c30, 1)),
           error: S.optional(__S(228, __c7, 4)),
           diskSecrets: S.optional(__S(963, __c30, 3)),
-          carrierAccountNumber: S.optional(S.String),
+          carrierAccountNumber: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "CustomerDiskJobSecrets" });
     case 5:
@@ -4268,7 +4268,7 @@ function __c30(j: number): any {
         S.Struct({
           accountName: S.optional(S.String),
           dataAccountType: S.optional(S.String),
-          accountConnectionString: S.optional(S.String),
+          accountConnectionString: S.optional(S.String.pipe(T.SensitiveValue({}))),
           shareCredentialDetails: S.optional(__S(969, __c30, 9)),
         }),
       ).annotate({ identifier: "AccountCredentialDetails" });

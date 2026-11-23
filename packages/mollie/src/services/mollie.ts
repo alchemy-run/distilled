@@ -1391,13 +1391,13 @@ export interface CreateCustomerPaymentRequest {
   storeCredentials?: boolean | undefined;
   testmode?: boolean | null | undefined;
   /** The [Apple Pay Payment](https://developer.apple.com/documentation/apple_pay_on_the_web/applepaypayment) token object (encoded as JSON) that is part of the result of authorizing a payment request. The token contains the payment information needed to authorize the payment. The object should be passed encoded in a JSON string. For example: `{"paymentData": {"version": "EC_v1", "data": "vK3BbrCbI/...."}}` */
-  applePayPaymentToken?: string | undefined;
+  applePayPaymentToken?: string | Redacted.Redacted<string> | undefined;
   /** Billie is a business-to-business (B2B) payment method. It requires extra information to identify the organization that is completing the payment. It is recommended to include these parameters up front for a seamless flow. Otherwise, Billie will ask the customer to complete the missing fields during checkout. * `billingAddress.organizationName`: The organization's name. * `registrationNumber` _string_: The organization's registration number. * `vatNumber` _string_: The organization's VAT number. * `entityType` _string_: The organization's entity type. */
   company?: CreateCustomerPaymentRequestCompany | undefined;
   /** When creating credit card payments using Mollie Components, you need to provide the card token you received from the card component in this field. The token represents the customer's card information needed to complete the payment. **Note:** field only valid for `oneoff` and `first` payments. For recurring payments, the `customerId` alone is enough. */
-  cardToken?: string | undefined;
+  cardToken?: string | Redacted.Redacted<string> | undefined;
   /** The Google Pay payment token object (encoded as JSON) returned by the Google Pay SDK after the customer authorizes the payment. The token contains the payment information needed to complete the payment. The object should be passed encoded in a JSON string. */
-  googlePayPaymentToken?: string | undefined;
+  googlePayPaymentToken?: string | Redacted.Redacted<string> | undefined;
   /** Number of the voucher. */
   voucherNumber?: string | undefined;
   /** The PIN on the gift card. You can supply this to prefill the PIN, if the card has any. */
@@ -1786,13 +1786,13 @@ export interface CreatePaymentRequest {
   storeCredentials?: boolean | undefined;
   testmode?: boolean | null | undefined;
   /** The [Apple Pay Payment](https://developer.apple.com/documentation/apple_pay_on_the_web/applepaypayment) token object (encoded as JSON) that is part of the result of authorizing a payment request. The token contains the payment information needed to authorize the payment. The object should be passed encoded in a JSON string. For example: `{"paymentData": {"version": "EC_v1", "data": "vK3BbrCbI/...."}}` */
-  applePayPaymentToken?: string | undefined;
+  applePayPaymentToken?: string | Redacted.Redacted<string> | undefined;
   /** Billie is a business-to-business (B2B) payment method. It requires extra information to identify the organization that is completing the payment. It is recommended to include these parameters up front for a seamless flow. Otherwise, Billie will ask the customer to complete the missing fields during checkout. * `billingAddress.organizationName`: The organization's name. * `registrationNumber` _string_: The organization's registration number. * `vatNumber` _string_: The organization's VAT number. * `entityType` _string_: The organization's entity type. */
   company?: CreateCustomerPaymentRequestCompany | undefined;
   /** When creating credit card payments using Mollie Components, you need to provide the card token you received from the card component in this field. The token represents the customer's card information needed to complete the payment. **Note:** field only valid for `oneoff` and `first` payments. For recurring payments, the `customerId` alone is enough. */
-  cardToken?: string | undefined;
+  cardToken?: string | Redacted.Redacted<string> | undefined;
   /** The Google Pay payment token object (encoded as JSON) returned by the Google Pay SDK after the customer authorizes the payment. The token contains the payment information needed to complete the payment. The object should be passed encoded in a JSON string. */
-  googlePayPaymentToken?: string | undefined;
+  googlePayPaymentToken?: string | Redacted.Redacted<string> | undefined;
   /** Number of the voucher. */
   voucherNumber?: string | undefined;
   /** The PIN on the gift card. You can supply this to prefill the PIN, if the card has any. */
@@ -4724,7 +4724,7 @@ export interface GetPartnerStatusRequest {
 export type GetPartnerStatusResponsePartnerType = "oauth" | "signuplink" | "useragent";
 export interface GetPartnerStatusResponseUserAgentTokensItem {
   /** The unique User-Agent token. */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   /** The date from which the token is active, in ISO 8601 format. */
   startsAt?: string | undefined;
   /** The date until when the token will be active, in ISO 8601 format. Will be `null` if the token does not have an end date (yet). */
@@ -13586,10 +13586,10 @@ function __c50(j: number): any {
           dueDate: S.optional(S.NullOr(S.String)),
           storeCredentials: S.optional(S.Boolean),
           testmode: S.optional(S.NullOr(S.Boolean)),
-          applePayPaymentToken: S.optional(S.String),
+          applePayPaymentToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           company: S.optional(__S(818, __c51, 2)),
-          cardToken: S.optional(S.String),
-          googlePayPaymentToken: S.optional(S.String),
+          cardToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          googlePayPaymentToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           voucherNumber: S.optional(S.String),
           voucherPin: S.optional(S.String),
           consumerDateOfBirth: S.optional(S.String),
@@ -13753,10 +13753,10 @@ function __c56(j: number): any {
           dueDate: S.optional(S.NullOr(S.String)),
           storeCredentials: S.optional(S.Boolean),
           testmode: S.optional(S.NullOr(S.Boolean)),
-          applePayPaymentToken: S.optional(S.String),
+          applePayPaymentToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           company: S.optional(__S(818, __c51, 2)),
-          cardToken: S.optional(S.String),
-          googlePayPaymentToken: S.optional(S.String),
+          cardToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          googlePayPaymentToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           voucherNumber: S.optional(S.String),
           voucherPin: S.optional(S.String),
           consumerDateOfBirth: S.optional(S.String),
@@ -15537,7 +15537,7 @@ function __c127(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           startsAt: S.optional(S.String),
           endsAt: S.optional(S.NullOr(S.String)),
         }),

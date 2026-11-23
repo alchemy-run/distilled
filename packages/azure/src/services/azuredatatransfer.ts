@@ -511,7 +511,7 @@ export interface FlowProperties {
   /** The latency of the stream in milliseconds */
   streamLatency?: number | undefined;
   /** The passphrase used for SRT streams (non-secret) */
-  passphrase?: string | undefined;
+  passphrase?: string | Redacted.Redacted<string> | undefined;
   /** The source IP address and CIDR ranges of the stream */
   sourceAddresses?: StreamSourceAddresses | undefined;
   /** The destination endpoints of the stream */
@@ -811,7 +811,7 @@ export interface FlowPropertiesInput {
   /** The latency of the stream in milliseconds */
   streamLatency?: number | undefined;
   /** The passphrase used for SRT streams (non-secret) */
-  passphrase?: string | undefined;
+  passphrase?: string | Redacted.Redacted<string> | undefined;
   /** The source IP address and CIDR ranges of the stream */
   sourceAddresses?: StreamSourceAddresses | undefined;
   /** The destination endpoints of the stream */
@@ -1462,7 +1462,7 @@ export interface PendingFlow {
   /** The latency of the stream in milliseconds */
   streamLatency?: number | undefined;
   /** The passphrase used for SRT streams (non-secret) */
-  passphrase?: string | undefined;
+  passphrase?: string | Redacted.Redacted<string> | undefined;
   /** The source IP address and CIDR ranges of the stream */
   sourceAddresses?: StreamSourceAddresses | undefined;
   /** The destination endpoints of the stream */
@@ -3576,7 +3576,7 @@ function __c32(j: number): any {
           streamId: S.optional(S.String),
           streamProtocol: S.optional(S.String),
           streamLatency: S.optional(S.Number),
-          passphrase: S.optional(S.String),
+          passphrase: S.optional(S.String.pipe(T.SensitiveValue({}))),
           sourceAddresses: S.optional(__S(440, __c55, 0)),
           destinationEndpoints: S.optional(__S(24, __c3, 0)),
           destinationEndpointPorts: S.optional(__S(432, __c54, 0)),
@@ -4169,7 +4169,7 @@ function __c57(j: number): any {
           streamId: S.optional(S.String),
           streamProtocol: S.optional(S.String),
           streamLatency: S.optional(S.Number),
-          passphrase: S.optional(S.String),
+          passphrase: S.optional(S.String.pipe(T.SensitiveValue({}))),
           sourceAddresses: S.optional(__S(440, __c55, 0)),
           destinationEndpoints: S.optional(__S(24, __c3, 0)),
           destinationEndpointPorts: S.optional(__S(432, __c54, 0)),
@@ -4347,7 +4347,7 @@ function __c62(j: number): any {
           streamId: S.optional(S.String),
           streamProtocol: S.optional(S.String),
           streamLatency: S.optional(S.Number),
-          passphrase: S.optional(S.String),
+          passphrase: S.optional(S.String.pipe(T.SensitiveValue({}))),
           sourceAddresses: S.optional(__S(440, __c55, 0)),
           destinationEndpoints: S.optional(__S(24, __c3, 0)),
           destinationEndpointPorts: S.optional(__S(432, __c54, 0)),

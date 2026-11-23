@@ -1510,7 +1510,7 @@ export interface UserFactorPushProfile {
   /** ID for the factor credential */
   credentialId?: string | undefined;
   /** Token used to identify the device */
-  deviceToken?: string | undefined;
+  deviceToken?: string | Redacted.Redacted<string> | undefined;
   /** Type of device */
   deviceType?: string | undefined;
   /** Name of the device */
@@ -2846,7 +2846,7 @@ export interface ActivateUserRequest {
 }
 export interface UserActivationToken {
   /** Token received as part of an activation user request. If a password was set before the user was activated, then user must sign in with their password or the `activationToken` and not the activation link. More information about using the `activationToken` to login can be found in the [Authentication API](https://developer.okta.com/docs/reference/api/authn/#primary-authentication-with-activation-token). */
-  activationToken?: string | undefined;
+  activationToken?: string | Redacted.Redacted<string> | undefined;
   /** If `sendEmail` is `false`, returns an activation link for the user to set up their account. You can use the activation token to create a custom activation link. > **Note:** The `activationUrl` varies depending on if you are on a Classic or Identity Engine org. > - For Identity Engine orgs, the activation link is in this format: `https://{yourOktaDomain}/tokens/{activationToken}/verify` > - For Classic orgs, the activation link is in this format: `https://{yourOktaDomain}/welcome/{activationToken}` */
   activationUrl?: string | undefined;
 }
@@ -3503,7 +3503,7 @@ export type AssignRoleToUserResponse = AssignRoleToUserResponseBody;
 /** The user's password. This is a write-only property. An empty `password` object is returned to indicate that a password value exists. */
 export interface AppUserPasswordCredential {
   /** Password value */
-  value?: string | undefined;
+  value?: string | Redacted.Redacted<string> | undefined;
 }
 /** Specifies a user's credentials for the app. This parameter can be omitted for apps with [sign-on mode](/openapi/okta-management/management/application/getapplication#application/getapplication/t=response&c=200&path=&d=0/signonmode) (`signOnMode`) or [authentication schemes](/openapi/okta-management/management/application/getapplication#application/getapplication/t=response&c=200&path=&d=0/credentials/scheme) (`credentials.scheme`) that don't require credentials. */
 export interface AppUserCredentials {
@@ -3649,7 +3649,7 @@ export interface PasswordCredential {
   hash?: PasswordCredentialHash | undefined;
   hook?: PasswordCredentialHook | undefined;
   /** Specifies the password for a user. The password policy validates this password. */
-  value?: string | undefined;
+  value?: string | Redacted.Redacted<string> | undefined;
 }
 export interface ChangePasswordRequest {
   /** ID of an existing Okta user */
@@ -7479,7 +7479,7 @@ export interface CAPTCHAInstanceOutput {
 /** Specifies a password for a user > **Note:** For information on defaults and configuring your password policies, see [Configure the password authenticator](https://help.okta.com/okta_help.htm?type=oie&id=ext-configure-password) in the help documentation. */
 export interface OrgCreationAdminCredentialsPassword {
   /** Password value (which is validated by the password policy) */
-  value?: string | undefined;
+  value?: string | Redacted.Redacted<string> | undefined;
 }
 /** Specifies primary authentication and recovery credentials for a user. Credential types and requirements vary depending on the provider and security policy of the org. */
 export interface OrgCreationAdminCredentials {
@@ -7547,7 +7547,7 @@ export interface ChildOrgOutput {
   /** Subdomain of the org. Must be unique and include no spaces. */
   subdomain: string;
   /** API token associated with the child org super admin account. Use this API token to provision resources (such as policies, apps, and groups) on the newly created child org. This token is revoked if the super admin account is deactivated. > **Note:** If this API token expires, sign in to the Admin Console as the super admin user and create a new API token. See [Create an API token](https://developer.okta.com/docs/guides/create-an-api-token/). */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   /** Type of returned `token`. See [Okta API tokens](https://developer.okta.com/docs/guides/create-an-api-token/main/#okta-api-tokens). */
   tokenType?: ChildOrgOutputTokenType | undefined;
   /** Default website for the org */
@@ -7659,7 +7659,7 @@ export type CreateCustomTelephonyProviderCredentialsRequestProviderCapability = 
 export type CreateCustomTelephonyProviderCredentialsRequestProviderName = "TWILIO" | "TELESIGN";
 export interface CreateCustomTelephonyProviderCredentialsRequest {
   /** The authentication token that's used to authenticate requests to the telephony provider. Your telephony provider gives you this token. */
-  providerAuthToken?: string | undefined;
+  providerAuthToken?: string | Redacted.Redacted<string> | undefined;
   /** The types of telephony operations (SMS or Voice) that you use with your telephony provider. `ALL` is the only valid value. It indicates that your provider can handle both SMS messages and voice calls. You're not required to use both types of telephony operations, but your provider can support both. */
   providerCapability?:
     | CreateCustomTelephonyProviderCredentialsRequestProviderCapability
@@ -9101,7 +9101,7 @@ export type LogStreamSplunkInputType = "splunk_cloud_logstreaming";
 export interface LogStreamSettingsSplunk {
   edition: SplunkEdition | (string & {});
   host: string;
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 export interface LogStreamSplunkInput {
   name: string;
@@ -11141,7 +11141,7 @@ export interface APNSConfiguration {
   /** 10-character Team ID used to develop the iOS app */
   teamId?: string | undefined;
   /** APNs private authentication token signing key */
-  tokenSigningKey?: string | undefined;
+  tokenSigningKey?: string | Redacted.Redacted<string> | undefined;
 }
 export interface APNSPushProviderInput {
   /** Display name of the push provider */
@@ -12517,7 +12517,7 @@ export interface UserFactorTokenHardwareInput {
 export type UserFactorTokenHOTPInputFactorType = "token:hotp";
 export interface UserFactorTokenHOTPProfile {
   /** Unique secret key used to generate the OTP */
-  sharedSecret?: string | undefined;
+  sharedSecret?: string | Redacted.Redacted<string> | undefined;
 }
 export interface UserFactorTokenHOTPInput {
   /** Type of factor */
@@ -12796,7 +12796,7 @@ export interface EnrollmentInitializationResponse {
 /** This object specifies the default action Okta is set to take. Okta takes this action if your external service sends an empty HTTP 204 response. You can override the default action by returning a commands object in your response specifying the action to take. */
 export interface PasswordImportRequestDataAction {
   /** The status of the user credential, either `UNVERIFIED` or `VERIFIED` */
-  credential?: string | undefined;
+  credential?: string | Redacted.Redacted<string> | undefined;
 }
 /** The URL of the API endpoint */
 export interface InlineHookRequestObjectUrl {
@@ -18939,7 +18939,7 @@ export interface SocialAuthToken {
   /** The scopes that the token is good for */
   scopes?: SocialAuthTokenScopesList | undefined;
   /** The raw token */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   /** The token authentication scheme as defined by the social provider */
   tokenAuthScheme?: string | undefined;
   /** The type of token defined by the [OAuth Token Exchange Spec](https://tools.ietf.org/html/draft-ietf-oauth-token-exchange-07#section-3) */
@@ -20943,7 +20943,7 @@ export interface UpdateCustomTelephonyProviderCredentialRequest {
   /** ID of the custom telephony provider */
   id?: string | undefined;
   /** The authentication token that's used to authenticate requests to the telephony provider. Your telephony provider gives you this token. */
-  providerAuthToken?: string | undefined;
+  providerAuthToken?: string | Redacted.Redacted<string> | undefined;
   providerSettings?: CustomTelephonyProviderSettings | undefined;
   /** The account string identifier (SID) for your telephony provider account. Your telephony provider gives you this SID. */
   providerSid?: string | undefined;
@@ -20951,7 +20951,7 @@ export interface UpdateCustomTelephonyProviderCredentialRequest {
 export interface ProvisioningConnectionTokenRequestProfile {
   authScheme: ProvisioningConnectionTokenAuthScheme | (string & {});
   /** Token used to authenticate with the app */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
 }
 export interface ProvisioningConnectionTokenRequest {
   /** Only used for the Zscaler 2.0 (`zscalerbyz`) app. The base URL for the Zscaler 2.0 target app, which also contains the Zscaler ID. */
@@ -35715,7 +35715,7 @@ function __c34(j: number): any {
       return S.suspend(() =>
         S.Struct({
           actions: S.optional(__S(1121, __c35, 1)),
-          conditions: S.optional(__S(1122, __c35, 2)),
+          conditions: S.optional(__S(1123, __c35, 3)),
           name: S.optional(S.String),
           priority: S.optional(S.Number),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/realm-assignments", code: 200 })),
@@ -35739,7 +35739,13 @@ function __c35(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          expression: S.optional(__S(22656, __c708, 0)),
+          value: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Expression" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          expression: S.optional(__S(1122, __c35, 2)),
           profileSourceId: S.optional(S.String),
         }),
       ).annotate({ identifier: "Conditions" });
@@ -35751,7 +35757,7 @@ function __c36(j: number): any {
       return S.suspend(() =>
         S.Struct({
           actions: S.optional(__S(1121, __c35, 1)),
-          conditions: S.optional(__S(1122, __c35, 2)),
+          conditions: S.optional(__S(1123, __c35, 3)),
           created: S.optional(S.String),
           domains: S.optional(__S(64, __c2, 0)),
           id: S.optional(S.String),
@@ -38371,7 +38377,7 @@ function __c189(j: number): any {
       return S.suspend(() =>
         S.Struct({
           actions: S.optional(__S(1121, __c35, 1)),
-          conditions: S.optional(__S(1122, __c35, 2)),
+          conditions: S.optional(__S(1123, __c35, 3)),
           id: S.optional(S.String),
           name: S.optional(S.String),
         }),
@@ -41609,7 +41615,7 @@ function __c352(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          activationToken: S.optional(S.String),
+          activationToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           activationUrl: S.optional(S.String),
         }),
       ).annotate({ identifier: "UserActivationToken" });
@@ -46377,7 +46383,7 @@ function __c610(j: number): any {
           expiresAt: S.optional(S.String),
           id: S.optional(S.String),
           scopes: S.optional(__S(64, __c2, 0)),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           tokenAuthScheme: S.optional(S.String),
           tokenType: S.optional(S.String),
         }),
@@ -47924,7 +47930,7 @@ function __c702(j: number): any {
         S.Struct({
           assignmentId: S.String.pipe(T.Label()),
           actions: S.optional(__S(1121, __c35, 1)),
-          conditions: S.optional(__S(1122, __c35, 2)),
+          conditions: S.optional(__S(1123, __c35, 3)),
           name: S.optional(S.String),
           priority: S.optional(S.Number),
         }).pipe(
@@ -48044,7 +48050,7 @@ function __c708(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(S.String),
+          value: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "AppUserPasswordCredential" });
   }
@@ -48652,7 +48658,7 @@ function __c744(j: number): any {
         S.Struct({
           hash: S.optional(__S(23776, __c743, 0)),
           hook: S.optional(__S(23777, __c743, 1)),
-          value: S.optional(S.String),
+          value: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "PasswordCredential" });
   }
@@ -49682,7 +49688,7 @@ function __c810(j: number): any {
         S.Struct({
           customTelephonyProviderId: S.String.pipe(T.Label()),
           id: S.optional(S.String),
-          providerAuthToken: S.optional(S.String),
+          providerAuthToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           providerSettings: S.optional(__S(2272, __c71, 0)),
           providerSid: S.optional(S.String),
         }).pipe(
@@ -51182,7 +51188,7 @@ function __c889(j: number): any {
           settings: S.optional(__S(20704, __c647, 0)),
           status: S.optional(S.String),
           subdomain: S.String,
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           tokenType: S.optional(S.String),
           website: S.optional(S.String),
           _links: S.optional(__S(20704, __c647, 0)),
@@ -51315,7 +51321,7 @@ function __c895(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          providerAuthToken: S.optional(S.String),
+          providerAuthToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           providerCapability: S.optional(S.String),
           providerName: S.optional(S.String),
           providerSettings: S.optional(__S(2272, __c71, 0)),

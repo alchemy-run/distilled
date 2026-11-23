@@ -1477,7 +1477,7 @@ export interface MinimalRepository {
   permissions?: MinimalRepositoryPermissions | undefined;
   role_name?: string | undefined;
   /** When present and non-empty, a temporary credential for read-only Git access to this repository. It expires five minutes after generation and cannot be used to push changes. Treat this value as sensitive and avoid recording it in logs. */
-  temp_clone_token?: string | undefined;
+  temp_clone_token?: string | Redacted.Redacted<string> | undefined;
   delete_branch_on_merge?: boolean | undefined;
   subscribers_count?: number | undefined;
   network_count?: number | undefined;
@@ -7028,7 +7028,7 @@ function __c76(j: number): any {
           updated_at: S.optional(S.NullOr(S.String)),
           permissions: S.optional(__S(1216, __c76, 0)),
           role_name: S.optional(S.String),
-          temp_clone_token: S.optional(S.String),
+          temp_clone_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           delete_branch_on_merge: S.optional(S.Boolean),
           subscribers_count: S.optional(S.Number),
           network_count: S.optional(S.Number),

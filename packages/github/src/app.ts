@@ -287,7 +287,7 @@ export const installationCredentials = (config: InstallationConfig): Layer.Layer
       );
       return {
         config: {
-          token: Redacted.make(minted.token),
+          token: Redacted.isRedacted(minted.token) ? minted.token : Redacted.make(minted.token),
           ...endpoint(config),
           issuedAt: Date.now(),
         },

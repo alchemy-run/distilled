@@ -854,7 +854,7 @@ export type FipsValidatedModules = "Disabled" | "Enabled";
 /** ClusterProfile represents a cluster profile. */
 export interface ClusterProfile {
   /** The pull secret for the cluster. */
-  pullSecret?: string | undefined;
+  pullSecret?: string | Redacted.Redacted<string> | undefined;
   /** The domain for the cluster. */
   domain?: string | undefined;
   /** The version of the cluster. */
@@ -1273,7 +1273,7 @@ export interface HcpOpenShiftClustersRequestAdminCredentialRequest {
 /** HCP cluster admin credential */
 export interface HcpOpenShiftClusterAdminCredential {
   /** Admin kubeconfig with a temporary client certificate */
-  kubeconfig: string;
+  kubeconfig: string | Redacted.Redacted<string>;
   /** Expiration timestamp for the kubeconfig's client certificate */
   expirationTimestamp: string;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
@@ -1496,7 +1496,7 @@ export interface ListOpenShiftClusterAdminCredentialsRequest {
 /** OpenShiftClusterAdminKubeconfig represents an OpenShift cluster's admin kubeconfig. */
 export interface OpenShiftClusterAdminKubeconfig {
   /** The base64-encoded kubeconfig file. */
-  kubeconfig?: string | undefined;
+  kubeconfig?: string | Redacted.Redacted<string> | undefined;
 }
 export interface ListOpenShiftClusterByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1764,7 +1764,7 @@ export type OpenShiftClustersCreateOrUpdateRequestTagsMap = { [key: string]: str
 /** ClusterProfile represents a cluster profile. */
 export interface ClusterProfileInput {
   /** The pull secret for the cluster. */
-  pullSecret?: string | undefined;
+  pullSecret?: string | Redacted.Redacted<string> | undefined;
   /** The domain for the cluster. */
   domain?: string | undefined;
   /** The version of the cluster. */
@@ -3131,7 +3131,7 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pullSecret: S.optional(S.String),
+          pullSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           domain: S.optional(S.String),
           version: S.optional(S.String),
           resourceGroupId: S.optional(S.String),
@@ -3472,7 +3472,7 @@ function __c14(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          kubeconfig: S.String,
+          kubeconfig: S.String.pipe(T.SensitiveValue({})),
           expirationTimestamp: S.String,
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -3690,7 +3690,7 @@ function __c23(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          kubeconfig: S.optional(S.String),
+          kubeconfig: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "OpenShiftClusterAdminKubeconfig" });
   }
@@ -3955,7 +3955,7 @@ function __c33(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pullSecret: S.optional(S.String),
+          pullSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           domain: S.optional(S.String),
           version: S.optional(S.String),
           resourceGroupId: S.optional(S.String),

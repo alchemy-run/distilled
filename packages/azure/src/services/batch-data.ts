@@ -741,7 +741,7 @@ export interface LinuxUserConfiguration {
   /** The group ID for the user Account. The uid and gid properties must be specified together or not at all. If not specified the underlying operating system picks the gid. */
   gid?: number | undefined;
   /** The SSH private key for the user Account. The private key must not be password protected. The private key is used to automatically configure asymmetric-key based authentication for SSH between Compute Nodes in a Linux Pool when the Pool's enableInterNodeCommunication property is true (it is ignored if enableInterNodeCommunication is false). It does this by placing the key pair into the user's .ssh directory. If not specified, password-less SSH is not configured between Compute Nodes (no modification of the user's .ssh directory is done). */
-  sshPrivateKey?: string | undefined;
+  sshPrivateKey?: string | Redacted.Redacted<string> | undefined;
 }
 /** LoginMode enums */
 export type LoginMode = "batch" | "interactive";
@@ -781,9 +781,9 @@ export interface AzureBlobFileSystemConfiguration {
   /** The Azure Blob Storage Container name. */
   containerName: string;
   /** The Azure Storage Account key. This property is mutually exclusive with both sasKey and identity; exactly one must be specified. */
-  accountKey?: string | undefined;
+  accountKey?: string | Redacted.Redacted<string> | undefined;
   /** The Azure Storage SAS token. This property is mutually exclusive with both accountKey and identity; exactly one must be specified. */
-  sasKey?: string | undefined;
+  sasKey?: string | Redacted.Redacted<string> | undefined;
   /** Additional command line options to pass to the mount command. These are 'net use' options in Windows and 'mount' options in Linux. */
   blobfuseOptions?: string | undefined;
   /** The relative path on the compute node where the file system will be mounted. All file systems are mounted relative to the Batch mounts directory, accessible via the AZ_BATCH_NODE_MOUNTS_DIR environment variable. */
@@ -818,7 +818,7 @@ export interface AzureFileShareConfiguration {
   /** The Azure Storage account name. */
   accountName: string;
   /** The Azure Storage account key. */
-  accountKey: string;
+  accountKey: string | Redacted.Redacted<string>;
   /** The Azure Files URL. This is of the form 'https://{account}.file.core.windows.net/'. */
   azureFileUrl: string;
   /** The relative path on the compute node where the file system will be mounted. All file systems are mounted relative to the Batch mounts directory, accessible via the AZ_BATCH_NODE_MOUNTS_DIR environment variable. */
@@ -9167,7 +9167,7 @@ function __c68(j: number): any {
         S.Struct({
           uid: S.optional(S.Number),
           gid: S.optional(S.Number),
-          sshPrivateKey: S.optional(S.String),
+          sshPrivateKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "LinuxUserConfiguration" });
     case 28:
@@ -9193,8 +9193,8 @@ function __c68(j: number): any {
         S.Struct({
           accountName: S.String,
           containerName: S.String,
-          accountKey: S.optional(S.String),
-          sasKey: S.optional(S.String),
+          accountKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          sasKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           blobfuseOptions: S.optional(S.String),
           relativeMountPath: S.String,
           identityReference: S.optional(__S(2400, __c75, 0)),
@@ -9226,7 +9226,7 @@ function __c69(j: number): any {
       return S.suspend(() =>
         S.Struct({
           accountName: S.String,
-          accountKey: S.String,
+          accountKey: S.String.pipe(T.SensitiveValue({})),
           azureFileUrl: S.String,
           relativeMountPath: S.String,
           mountOptions: S.optional(S.String),

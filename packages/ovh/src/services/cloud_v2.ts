@@ -347,7 +347,7 @@ export interface PublicCloudAiAgentsKagentJwtConfig {
   /** Maximum lifetime, in seconds, allowed for a newly issued token; requests for a longer lifetime are rejected. Unset means no cap. */
   maxTtlSeconds?: number | null | undefined;
   /** Signing key used to issue and validate self-issued tokens. Kept secret and never returned in plain text once set. Empty means no key is provisioned, so token minting and validation both fail. */
-  secretB64?: string | null | undefined;
+  secretB64?: string | Redacted.Redacted<string> | null | undefined;
 }
 /** Which authentication mode is enforced on the agent's HTTP API. */
 export type PublicCloudAiAgentsAuthModeEnum = "KAGENT_JWT" | "NONE" | "OAUTH2";
@@ -384,7 +384,7 @@ export interface PublicCloudAiAgentsBuiltinsConfig {
   /** Whether the agent can perform web searches. Defaults to true. */
   search?: boolean | null | undefined;
   /** API key for the configured search provider, when the provider requires one. */
-  searchApiKey?: string | null | undefined;
+  searchApiKey?: string | Redacted.Redacted<string> | null | undefined;
   /** Which search engine the agent uses for web searches. Defaults to 'duckduckgo'. */
   searchProvider?: string | null | undefined;
   /** Tools this agent must not be offered, as glob patterns matched against the tool name ('*' = any run of characters). The 'builtins' flags above are all-or-nothing per subsystem -- 'relay' exposes twenty 'relay_*' tools or none. A product built on kadk routinely wants *most* of a subsystem plus a composite of its own, and then finds the model reaching past the composite for the primitives it wraps: offered both 'revision_room' and 'relay_create_room', a model will happily assemble the room by hand and skip everything the composite also did. Naming the primitives here is how the product says 'that path is mine to own'. */
@@ -395,11 +395,11 @@ export interface PublicCloudAiAgentsBuiltinsConfig {
 /** Telegram integration settings. Unset means Telegram is not connected. */
 export interface PublicCloudAiAgentsTelegramChannelConfig {
   /** Bot token issued by Telegram's BotFather. Kept secret and never returned in plain text once set. */
-  botToken?: string | null | undefined;
+  botToken?: string | Redacted.Redacted<string> | null | undefined;
   /** Master switch for the Telegram integration. When false, this channel is unavailable to the agent. */
   enabled?: boolean | null | undefined;
   /** Shared secret used to verify that incoming Telegram messages genuinely come from Telegram. Leaving it empty disables this verification, which is not recommended. */
-  webhookSecret?: string | null | undefined;
+  webhookSecret?: string | Redacted.Redacted<string> | null | undefined;
 }
 /** Webex integration settings. Unset means Webex is not connected. */
 export interface PublicCloudAiAgentsWebexChannelConfig {
@@ -408,7 +408,7 @@ export interface PublicCloudAiAgentsWebexChannelConfig {
   /** Master switch for the Webex integration. When false, this channel is unavailable to the agent. */
   enabled?: boolean | null | undefined;
   /** Shared secret used to verify that incoming Webex messages genuinely come from Webex. Leaving it empty skips this verification. */
-  webhookSecret?: string | null | undefined;
+  webhookSecret?: string | Redacted.Redacted<string> | null | undefined;
 }
 /** Messaging-platform integrations, such as Telegram and Webex, the agent can send and receive messages through. */
 export interface PublicCloudAiAgentsChannelsConfig {
@@ -885,7 +885,7 @@ export interface PublicCloudAiAgentsAgentToken {
   /** Role granted to the token */
   role?: PublicCloudAiAgentsAgentTokenRoleEnum | undefined;
   /** Bearer token used to authenticate against the AI agent. Returned only once, at mint time */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
 }
 /** Desired specification of the template to create. */
 export interface PublicCloudAiAgentsTemplateCreationTargetSpec {
@@ -1820,7 +1820,7 @@ export interface PublicCloudKeyManagerSecretTargetSpec {
   /** Human-readable name of the secret */
   name?: string | null | undefined;
   /** Secret payload data (base64-encoded). Write-only, never returned in responses. Requires payloadContentType. */
-  payload?: string | null | undefined;
+  payload?: string | Redacted.Redacted<string> | null | undefined;
   /** Content type of the secret payload */
   payloadContentType?:
     | PublicCloudKeyManagerPayloadContentTypeEnum
@@ -1920,7 +1920,7 @@ export interface CreatePublicCloudProjectKeyManagerSecretPayloadRequest {
 /** Payload content of a Key Manager secret */
 export interface PublicCloudKeyManagerSecretPayload {
   /** Secret payload data */
-  payload?: string | undefined;
+  payload?: string | Redacted.Redacted<string> | undefined;
 }
 /** Available Octavia load balancer flavor names */
 export type PublicCloudLoadbalancerLoadbalancerFlavorNameEnum = "LARGE" | "MEDIUM" | "SMALL" | "XL";
@@ -8433,7 +8433,7 @@ export interface PublicCloudDatabaseKafkaUserAccess {
   /** Client certificate in PEM format. */
   cert?: string | undefined;
   /** Private key for the client certificate. */
-  key?: string | undefined;
+  key?: string | Redacted.Redacted<string> | undefined;
 }
 export interface GetPublicCloudProjectManagedAnalyticsLakehouseRequest {
   /** Project ID */
@@ -31751,7 +31751,7 @@ function __c2(j: number): any {
           allowUnlimited: S.optional(S.NullOr(S.Boolean)),
           enabled: S.optional(S.NullOr(S.Boolean)),
           maxTtlSeconds: S.optional(S.NullOr(S.Number)),
-          secretB64: S.optional(S.NullOr(S.String)),
+          secretB64: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "PublicCloudAiAgentsKagentJwtConfig" });
     case 2:
@@ -31777,7 +31777,7 @@ function __c2(j: number): any {
         S.Struct({
           network: S.optional(S.NullOr(S.Boolean)),
           search: S.optional(S.NullOr(S.Boolean)),
-          searchApiKey: S.optional(S.NullOr(S.String)),
+          searchApiKey: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           searchProvider: S.optional(S.NullOr(S.String)),
           toolsDeny: S.optional(S.NullOr(__S(160, __c5, 0))),
           wizard: S.optional(S.NullOr(S.Boolean)),
@@ -31786,9 +31786,9 @@ function __c2(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          botToken: S.optional(S.NullOr(S.String)),
+          botToken: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           enabled: S.optional(S.NullOr(S.Boolean)),
-          webhookSecret: S.optional(S.NullOr(S.String)),
+          webhookSecret: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "PublicCloudAiAgentsTelegramChannelConfig" });
     case 6:
@@ -31796,7 +31796,7 @@ function __c2(j: number): any {
         S.Struct({
           accessToken: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           enabled: S.optional(S.NullOr(S.Boolean)),
-          webhookSecret: S.optional(S.NullOr(S.String)),
+          webhookSecret: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "PublicCloudAiAgentsWebexChannelConfig" });
     case 7:
@@ -32803,7 +32803,7 @@ function __c26(j: number): any {
         S.Struct({
           expiresAt: S.optional(S.NullOr(S.String)),
           role: S.optional(S.String),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "PublicCloudAiAgentsAgentToken" });
   }
@@ -36634,7 +36634,7 @@ function __c200(j: number): any {
           metadata: S.optional(S.NullOr(__S(128, __c4, 0))),
           mode: S.optional(S.NullOr(S.String)),
           name: S.optional(S.NullOr(S.String)),
-          payload: S.optional(S.NullOr(S.String)),
+          payload: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           payloadContentType: S.optional(S.NullOr(S.String)),
           secretType: S.String,
         }),
@@ -37121,7 +37121,7 @@ function __c225(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          payload: S.optional(S.String),
+          payload: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "PublicCloudKeyManagerSecretPayload" });
   }
@@ -38407,7 +38407,7 @@ function __c282(j: number): any {
       return S.suspend(() =>
         S.Struct({
           cert: S.optional(S.String),
-          key: S.optional(S.String),
+          key: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "PublicCloudDatabaseKafkaUserAccess" });
   }

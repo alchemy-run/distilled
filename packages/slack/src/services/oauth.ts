@@ -35,7 +35,7 @@ export interface BeginShortTokenRotationResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
   /** A new xoxp access token to replace the token with a shorter secret. Not yet active until completeShortTokenRotation is called. */
-  new_token: string;
+  new_token: string | Redacted.Redacted<string>;
 }
 export interface CompleteShortTokenRotationRequest {
   /** Issued when you created your application. Must be the app the token being rotated was issued to. */
@@ -43,13 +43,13 @@ export interface CompleteShortTokenRotationRequest {
   /** Issued when you created your application. */
   client_secret: string | Redacted.Redacted<string>;
   /** The new xoxp token returned by oauth.v2.beginShortTokenRotation. */
-  new_token: string;
+  new_token: string | Redacted.Redacted<string>;
 }
 export interface CompleteShortTokenRotationResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
   /** The new xoxp access token, now active. The previous token is no longer valid. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 export interface OauthAccessRequest {
   /** Issued when you created your application. If possible, avoid sending `client_id` and `client_secret` as parameters in your request and instead supply the Client ID and Client Secret using the HTTP Basic authentication scheme. */
@@ -84,7 +84,7 @@ export interface OauthAccessResponseScopes {
 }
 export interface OauthAccessResponseBot {
   bot_user_id?: string | undefined;
-  bot_access_token?: string | undefined;
+  bot_access_token?: string | Redacted.Redacted<string> | undefined;
   scope?: string | undefined;
 }
 export interface OauthAccessResponseUser {
@@ -438,7 +438,7 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
-          new_token: S.String,
+          new_token: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "BeginShortTokenRotationResponse" });
   }
@@ -450,7 +450,7 @@ function __c1(j: number): any {
         S.Struct({
           client_id: S.String,
           client_secret: S.String.pipe(T.SensitiveValue({})),
-          new_token: S.String,
+          new_token: S.String.pipe(T.SensitiveValue({})),
         }).pipe(
           T.Http({
             method: "POST",
@@ -464,7 +464,7 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "CompleteShortTokenRotationResponse" });
   }
@@ -512,7 +512,7 @@ function __c2(j: number): any {
       return S.suspend(() =>
         S.Struct({
           bot_user_id: S.optional(S.String),
-          bot_access_token: S.optional(S.String),
+          bot_access_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           scope: S.optional(S.String),
         }),
       ).annotate({ identifier: "OauthAccessResponseBot" });

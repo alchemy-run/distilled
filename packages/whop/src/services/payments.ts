@@ -603,7 +603,7 @@ export interface CreatePaymentRequest {
   /** Whether to capture a card payment immediately. Defaults to true. Pass false to place an authorization hold that must be captured in full within five days via the capture endpoint, or automatically after `auto_capture_after_minutes`. */
   capture?: boolean | null | undefined;
   /** A confirmation token describing a payment method the buyer just supplied. Provide this instead of `member_id` and `payment_method_id`; the buyer is resolved from the token's billing email, or from `email`. The buyer may still have a step to complete -- poll the payment's status for what to do next. */
-  confirmation_token?: string | null | undefined;
+  confirmation_token?: string | Redacted.Redacted<string> | null | undefined;
   /** Overrides the buyer email carried on the confirmation token, resolving or creating the user the payment belongs to. Ignored unless `confirmation_token` is provided, and when the token was created by a signed-in buyer. */
   email?: string | null | undefined;
   /** What the buyer is purchasing. One entry charges that plan; several entries form a cart, which requires every plan to be a compatible plan from this account in the same currency. */
@@ -1831,7 +1831,7 @@ function __c8(j: number): any {
           account_id: S.String,
           auto_capture_after_minutes: S.optional(S.NullOr(S.Number)),
           capture: S.optional(S.NullOr(S.Boolean)),
-          confirmation_token: S.optional(S.NullOr(S.String)),
+          confirmation_token: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           email: S.optional(S.NullOr(S.String)),
           line_items: S.optional(__S(129, __c8, 1)),
           member_id: S.optional(S.NullOr(S.String)),

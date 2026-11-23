@@ -33,7 +33,7 @@ export interface RotateTokenResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
   /** The app configuration token used to access App Manifest APIs */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** Refresh token for this credential */
   refresh_token: string | Redacted.Redacted<string>;
   /** ID of the team associated with the access token. */
@@ -83,7 +83,7 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           refresh_token: S.String.pipe(T.SensitiveValue({})),
           team_id: S.String,
           user_id: S.String,

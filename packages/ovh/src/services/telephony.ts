@@ -263,7 +263,7 @@ export interface TelephonyConferenceRoom {
   /** The conference sounds language */
   language?: TelephonyConferenceLanguageEnum | undefined;
   /** The conference pin number */
-  pin?: string | undefined;
+  pin?: string | Redacted.Redacted<string> | undefined;
   /** Whether conference is recorded */
   recordStatus?: boolean | undefined;
   /** The email address to send conference report to */
@@ -1155,7 +1155,7 @@ export interface CreateTelephonyLineSoftphoneTokenRequest {
 /** Softphone provisioning token */
 export interface TelephonySoftphoneToken {
   /** Provisioning token used to register device */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
 }
 /** Tones type */
 export type TelephonyTonesTypeEnum = "callWaiting" | "endCall" | "onHold" | "ringback";
@@ -2956,7 +2956,7 @@ export interface TelephonyConferenceProperties {
   /** The conference sounds language */
   language?: TelephonyConferenceLanguageEnum | undefined;
   /** The conference pin number */
-  pin?: string | undefined;
+  pin?: string | Redacted.Redacted<string> | undefined;
   /** Whether conference is recorded */
   recordStatus?: boolean | undefined;
   /** The email address to send conference report to */
@@ -3095,7 +3095,7 @@ export interface GetTelephonyEasyHuntingHuntingAgentEventTokenRequest {
 }
 /** Token associated to the service for live event */
 export interface TelephonyEventToken {
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
 }
 export interface GetTelephonyEasyHuntingHuntingAgentLiveStatusRequest {
   /** The name of your billingAccount */
@@ -7000,7 +7000,7 @@ export interface PutTelephonyConferenceRoomRequest {
   /** The conference sounds language */
   language?: TelephonyConferenceLanguageEnum | (string & {}) | undefined;
   /** The conference pin number */
-  pin?: string | undefined;
+  pin?: string | Redacted.Redacted<string> | undefined;
   /** Whether conference is recorded */
   recordStatus?: boolean | undefined;
   /** The email address to send conference report to */
@@ -7026,7 +7026,7 @@ export interface PutTelephonyConferenceSettingsRequest {
   /** The conference sounds language */
   language?: TelephonyConferenceLanguageEnum | (string & {}) | undefined;
   /** The conference pin number */
-  pin?: string | undefined;
+  pin?: string | Redacted.Redacted<string> | undefined;
   /** Whether conference is recorded */
   recordStatus?: boolean | undefined;
   /** The email address to send conference report to */
@@ -22141,7 +22141,7 @@ function __c146(j: number): any {
           eventsChannel: S.optional(S.String),
           expirationDate: S.optional(S.NullOr(S.String)),
           language: S.optional(S.String),
-          pin: S.optional(S.String),
+          pin: S.optional(S.String.pipe(T.SensitiveValue({}))),
           recordStatus: S.optional(S.Boolean),
           reportEmail: S.optional(S.NullOr(S.String)),
           reportStatus: S.optional(S.String),
@@ -22195,7 +22195,7 @@ function __c148(j: number): any {
           enterMuted: S.optional(S.Boolean),
           eventsChannel: S.optional(S.String),
           language: S.optional(S.String),
-          pin: S.optional(S.String),
+          pin: S.optional(S.String.pipe(T.SensitiveValue({}))),
           recordStatus: S.optional(S.Boolean),
           reportEmail: S.optional(S.NullOr(S.String)),
           reportStatus: S.optional(S.String),
@@ -29117,7 +29117,7 @@ function __c514(j: number): any {
           enterMuted: S.optional(S.Boolean),
           expirationDate: S.optional(S.NullOr(S.String)),
           language: S.optional(S.String),
-          pin: S.optional(S.String),
+          pin: S.optional(S.String.pipe(T.SensitiveValue({}))),
           recordStatus: S.optional(S.Boolean),
           reportEmail: S.optional(S.NullOr(S.String)),
           reportStatus: S.optional(S.String),
@@ -29144,7 +29144,7 @@ function __c515(j: number): any {
           anonymousRejection: S.optional(S.Boolean),
           enterMuted: S.optional(S.Boolean),
           language: S.optional(S.String),
-          pin: S.optional(S.String),
+          pin: S.optional(S.String.pipe(T.SensitiveValue({}))),
           recordStatus: S.optional(S.Boolean),
           reportEmail: S.optional(S.NullOr(S.String)),
           reportStatus: S.optional(S.String),
@@ -31465,7 +31465,7 @@ function __c630(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "TelephonySoftphoneToken" });
   }
