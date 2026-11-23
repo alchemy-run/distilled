@@ -288,7 +288,7 @@ export interface HostingUser {
   /** Contact email used for the hosting. */
   contact_email?: string | undefined;
   /** One-time-password used for the first login to the control panel, cleared after first use, encoded in base64. */
-  one_time_password_b64?: string | null | undefined;
+  one_time_password_b64?: string | Redacted.Redacted<string> | null | undefined;
 }
 export interface HostingCommitment {
   /** Offer commitment for the specified hosting. */
@@ -469,7 +469,7 @@ export interface ResetHostingPasswordResponse {
   /** New temporary password (deprecated, use password_b64 instead). */
   one_time_password?: string | Redacted.Redacted<string> | undefined;
   /** New temporary password, encoded in base64. */
-  one_time_password_b64?: string | undefined;
+  one_time_password_b64?: string | Redacted.Redacted<string> | undefined;
 }
 export type UpdateHostingRequestRegion = "fr-par" | "nl-ams" | "pl-waw";
 /** New tags for the Web Hosting plan. */
@@ -988,7 +988,7 @@ function __c5(j: number): any {
           username: S.optional(S.String),
           one_time_password: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           contact_email: S.optional(S.String),
-          one_time_password_b64: S.optional(S.NullOr(S.String)),
+          one_time_password_b64: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "HostingUser" });
     case 12:
@@ -1072,7 +1072,7 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           one_time_password: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          one_time_password_b64: S.optional(S.String),
+          one_time_password_b64: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "ResetHostingPasswordResponse" });
   }

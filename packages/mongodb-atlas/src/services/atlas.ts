@@ -2100,7 +2100,7 @@ export type DatadogNotificationTypeName = "DATADOG";
 /** Datadog notification configuration for MongoDB Cloud to send information when an event triggers an alert condition. */
 export interface DatadogNotification {
   /** Datadog API Key that MongoDB Cloud needs to send alert notifications to Datadog. You can find this API key in the Datadog dashboard. The resource requires this parameter when `"notifications.[n].typeName" : "DATADOG"`. **NOTE**: After you create a notification which requires an API or integration key, the key appears partially redacted when you: * View or edit the alert through the Atlas UI. * Query the alert for the notification through the Atlas Administration API. */
-  datadogApiKey?: string | undefined;
+  datadogApiKey?: string | Redacted.Redacted<string> | undefined;
   /** Datadog region that indicates which API Uniform Resource Locator (URL) to use. The resource requires this parameter when `"notifications.[n].typeName" : "DATADOG"`. */
   datadogRegion?: DatadogNotificationDatadogRegion | (string & {}) | undefined;
   /** Number of minutes that MongoDB Cloud waits after detecting an alert condition before it sends out the first notification. */
@@ -2161,7 +2161,7 @@ export interface HipChatNotification {
   /** Number of minutes to wait between successive notifications. MongoDB Cloud sends notifications until someone acknowledges the unacknowledged alert. PagerDuty, VictorOps, and OpsGenie notifications don't return this element. Configure and manage the notification interval within each of those services. */
   intervalMin?: number | undefined;
   /** HipChat API token that MongoDB Cloud needs to send alert notifications to HipChat. The resource requires this parameter when `"notifications.[n].typeName" : "HIP_CHAT"`". If the token later becomes invalid, MongoDB Cloud sends an email to the project owners. If the token remains invalid, MongoDB Cloud removes it. **NOTE**: After you create a notification which requires an API or integration key, the key appears partially redacted when you: * View or edit the alert through the Atlas UI. * Query the alert for the notification through the Atlas Administration API. */
-  notificationToken?: string | undefined;
+  notificationToken?: string | Redacted.Redacted<string> | undefined;
   /** The `notifierId` is a system-generated unique identifier assigned to each notification method. This is needed when updating third-party notifications without requiring explicit authentication credentials. */
   notifierId?: string | undefined;
   /** HipChat API room name to which MongoDB Cloud sends alert notifications. The resource requires this parameter when `"notifications.[n].typeName" : "HIP_CHAT"`". */
@@ -2214,7 +2214,7 @@ export interface OpsGenieNotification {
   /** The `notifierId` is a system-generated unique identifier assigned to each notification method. This is needed when updating third-party notifications without requiring explicit authentication credentials. */
   notifierId?: string | undefined;
   /** API Key that MongoDB Cloud needs to send this notification via OpsGenie. The resource requires this parameter when `"notifications.[n].typeName" : "OPS_GENIE"`. If the key later becomes invalid, MongoDB Cloud sends an email to the project owners. If the key remains invalid, MongoDB Cloud removes it. **NOTE**: After you create a notification which requires an API or integration key, the key appears partially redacted when you: * View or edit the alert through the Atlas UI. * Query the alert for the notification through the Atlas Administration API. */
-  opsGenieApiKey?: string | undefined;
+  opsGenieApiKey?: string | Redacted.Redacted<string> | undefined;
   /** OpsGenie region that indicates which API Uniform Resource Locator (URL) to use. */
   opsGenieRegion?: OpsGenieNotificationOpsGenieRegion | (string & {}) | undefined;
   /** Human-readable label that displays the alert notification type. */
@@ -2359,7 +2359,7 @@ export interface VictorOpsNotification {
   /** Human-readable label that displays the alert notification type. */
   typeName: VictorOpsNotificationTypeName;
   /** API key that MongoDB Cloud needs to send alert notifications to Splunk On-Call. The resource requires this parameter when `"notifications.[n].typeName" : "VICTOR_OPS"`. If the key later becomes invalid, MongoDB Cloud sends an email to the project owners. If the key remains invalid, MongoDB Cloud removes it. **NOTE**: After you create a notification which requires an API or integration key, the key appears partially redacted when you: * View or edit the alert through the Atlas UI. * Query the alert for the notification through the Atlas Administration API. */
-  victorOpsApiKey?: string | undefined;
+  victorOpsApiKey?: string | Redacted.Redacted<string> | undefined;
   /** Routing key that MongoDB Cloud needs to send alert notifications to Splunk On-Call. The resource requires this parameter when `"notifications.[n].typeName" : "VICTOR_OPS"`. If the key later becomes invalid, MongoDB Cloud sends an email to the project owners. If the key remains invalid, MongoDB Cloud removes it. */
   victorOpsRoutingKey?: string | undefined;
 }
@@ -2378,11 +2378,11 @@ export interface WebhookNotification {
   /** Human-readable label that displays the alert notification type. */
   typeName: WebhookNotificationTypeName;
   /** Template, using ${field} interpolation, that renders the HTTP body MongoDB Cloud sends with each webhook notification. Must render valid JSON. When unset, MongoDB Cloud sends its default JSON payload. */
-  webhookBodyTemplate?: string | undefined;
+  webhookBodyTemplate?: string | Redacted.Redacted<string> | undefined;
   /** Template, using ${field} interpolation, that renders the HTTP headers MongoDB Cloud sends with each webhook notification. Must render a JSON object mapping header name to header value. The webhook secret and the signature header are NOT exposed to templates. */
-  webhookHeadersTemplate?: string | undefined;
+  webhookHeadersTemplate?: string | Redacted.Redacted<string> | undefined;
   /** Authentication secret for a webhook-based alert. Atlas returns this value if you set `notifications.[n].typeName` :`WEBHOOK` and either: * You set `notification.[n].webhookSecret` to a non-empty string * You set a default webhook secret either on the Integrations page, or with the Integrations API **NOTE**: When you view or edit the alert for a webhook notification, the secret appears completely redacted. */
-  webhookSecret?: string | undefined;
+  webhookSecret?: string | Redacted.Redacted<string> | undefined;
   /** Target URL for a webhook-based alert. Atlas returns this value if you set `"notifications.[n].typeName" :"WEBHOOK"` and either: * You set `notification.[n].webhookURL` to a non-empty string * You set a default webhook URL either on the Integrations page, or with the Integrations API **NOTE**: When you view or edit the alert for a Webhook URL notification, the URL appears partially redacted. */
   webhookUrl?: string | undefined;
 }
@@ -8688,9 +8688,9 @@ export interface ClusterDescriptionConnectionStringsPrivateEndpoint {
   /** List that contains the private endpoints through which you connect to MongoDB Cloud when you use `connectionStrings.privateEndpoint[n].connectionString` or `connectionStrings.privateEndpoint[n].srvConnectionString`. */
   endpoints?: ClusterDescriptionConnectionStringsPrivateEndpointEndpointsList | undefined;
   /** Private endpoint-aware connection string that uses the `mongodb+srv://` protocol to connect to MongoDB Cloud through a private endpoint. The `mongodb+srv` protocol tells the driver to look up the seed list of hosts in the Domain Name System (DNS). This list synchronizes with the nodes in a cluster. If the connection string uses this Uniform Resource Identifier (URI) format, you don't need to append the seed list or change the Uniform Resource Identifier (URI) if the nodes change. Use this Uniform Resource Identifier (URI) format if your application supports it. If it doesn't, use `connectionStrings.privateEndpoint[n].connectionString`. */
-  srvConnectionString?: string | undefined;
+  srvConnectionString?: string | Redacted.Redacted<string> | undefined;
   /** Private endpoint-aware connection string optimized for sharded clusters that uses the `mongodb+srv://` protocol to connect to MongoDB Cloud through a private endpoint. If the connection string uses this Uniform Resource Identifier (URI) format, you don't need to change the Uniform Resource Identifier (URI) if the nodes change. Use this Uniform Resource Identifier (URI) format if your application and Atlas cluster supports it. If it doesn't, use and consult the documentation for `connectionStrings.privateEndpoint[n].srvConnectionString`. */
-  srvShardOptimizedConnectionString?: string | undefined;
+  srvShardOptimizedConnectionString?: string | Redacted.Redacted<string> | undefined;
   /** MongoDB process type to which your application connects. Use `MONGOD` for replica sets and `MONGOS` for sharded clusters. */
   type?: ClusterDescriptionConnectionStringsPrivateEndpointType | undefined;
 }
@@ -14397,13 +14397,13 @@ export interface NewRelic {
   /** Integration id. */
   id?: string | null | undefined;
   /** Unique 40-hexadecimal digit string that identifies your New Relic license. **IMPORTANT**: Effective Wednesday, June 16th, 2021, New Relic no longer supports the plugin-based integration with MongoDB. We do not recommend that you sign up for the plugin-based integration. Consider configuring an alternative monitoring integration before June 16th to maintain visibility into your MongoDB deployments. */
-  licenseKey: string;
+  licenseKey: string | Redacted.Redacted<string>;
   /** Query key used to access your New Relic account. */
-  readToken: string;
+  readToken: string | Redacted.Redacted<string>;
   /** Human-readable label that identifies the service to which you want to integrate with MongoDB Cloud. The value must match the third-party service integration type. */
   type?: NewRelicType | undefined;
   /** Insert key associated with your New Relic account. */
-  writeToken: string;
+  writeToken: string | Redacted.Redacted<string>;
 }
 /** Two-letter code that indicates which regional URL MongoDB uses to access the OpsGenie API. */
 export type OpsGenieRegion = "US" | "EU";
@@ -14438,9 +14438,9 @@ export type WebhookType = "WEBHOOK";
 /** Details to integrate one webhook with one MongoDB Cloud project. */
 export interface Webhook {
   /** HTTP body template for a webhook-based alert. The rendered output MUST be valid JSON -- MongoDB Cloud sends the rendered body with `Content-Type: application/json`. If the template fails to render, exceeds the 16 KB limit, or renders non-JSON output, MongoDB Cloud sends the webhook with its default JSON payload instead. */
-  bodyTemplate?: string | undefined;
+  bodyTemplate?: string | Redacted.Redacted<string> | undefined;
   /** HTTP headers template for a webhook-based alert. The rendered output MUST be a JSON object mapping header name to header value (e.g. `{"X-Custom-Header": "static-value", "X-Alert-Id": "${id}"}`). Placeholders may reference any alert-view field plus `${eventType}`; the webhook secret and the signature header are NOT exposed to templates. If the template fails to render, exceeds the 4 KB limit, or renders output that is not a valid JSON name->value object, MongoDB Cloud sends the webhook with its default set of headers instead. */
-  headersTemplate?: string | undefined;
+  headersTemplate?: string | Redacted.Redacted<string> | undefined;
   /** Integration id. */
   id?: string | null | undefined;
   /** An optional field returned if your webhook is configured with a secret. **NOTE**: When you view or edit the alert for a webhook notification, the secret appears completely redacted. */
@@ -14665,7 +14665,7 @@ export interface S3LogIntegrationResponseOutput {
   /** HTTP headers for authentication and configuration. Maximum 10 headers, total size limit 2KB. */
   otelSuppliedHeaders?: S3LogIntegrationResponseOutputOtelSuppliedHeadersList | undefined;
   /** HTTP Event Collector (HEC) token for authentication. */
-  hecToken?: string | undefined;
+  hecToken?: string | Redacted.Redacted<string> | undefined;
   /** HTTP Event Collector (HEC) endpoint URL. */
   hecUrl?: string | undefined;
   /** Storage account name where logs will be stored. */
@@ -14724,7 +14724,7 @@ export interface DatadogLogIntegrationResponseOutput {
   /** HTTP headers for authentication and configuration. Maximum 10 headers, total size limit 2KB. */
   otelSuppliedHeaders?: DatadogLogIntegrationResponseOutputOtelSuppliedHeadersList | undefined;
   /** HTTP Event Collector (HEC) token for authentication. */
-  hecToken?: string | undefined;
+  hecToken?: string | Redacted.Redacted<string> | undefined;
   /** HTTP Event Collector (HEC) endpoint URL. */
   hecUrl?: string | undefined;
   /** Storage account name where logs will be stored. */
@@ -14783,7 +14783,7 @@ export interface GcsLogIntegrationResponseOutput {
   /** HTTP headers for authentication and configuration. Maximum 10 headers, total size limit 2KB. */
   otelSuppliedHeaders?: GcsLogIntegrationResponseOutputOtelSuppliedHeadersList | undefined;
   /** HTTP Event Collector (HEC) token for authentication. */
-  hecToken?: string | undefined;
+  hecToken?: string | Redacted.Redacted<string> | undefined;
   /** HTTP Event Collector (HEC) endpoint URL. */
   hecUrl?: string | undefined;
   /** Storage account name where logs will be stored. */
@@ -14842,7 +14842,7 @@ export interface OtelLogIntegrationResponseOutput {
   /** HTTP headers for authentication and configuration. Maximum 10 headers, total size limit 2KB. */
   otelSuppliedHeaders: OtelLogIntegrationResponseOutputOtelSuppliedHeadersList;
   /** HTTP Event Collector (HEC) token for authentication. */
-  hecToken?: string | undefined;
+  hecToken?: string | Redacted.Redacted<string> | undefined;
   /** HTTP Event Collector (HEC) endpoint URL. */
   hecUrl?: string | undefined;
   /** Storage account name where logs will be stored. */
@@ -14901,7 +14901,7 @@ export interface SplunkLogIntegrationResponseOutput {
   /** HTTP headers for authentication and configuration. Maximum 10 headers, total size limit 2KB. */
   otelSuppliedHeaders?: SplunkLogIntegrationResponseOutputOtelSuppliedHeadersList | undefined;
   /** HTTP Event Collector (HEC) token for authentication. */
-  hecToken: string;
+  hecToken: string | Redacted.Redacted<string>;
   /** HTTP Event Collector (HEC) endpoint URL. */
   hecUrl: string;
   /** Storage account name where logs will be stored. */
@@ -14960,7 +14960,7 @@ export interface AzureLogIntegrationResponseOutput {
   /** HTTP headers for authentication and configuration. Maximum 10 headers, total size limit 2KB. */
   otelSuppliedHeaders?: AzureLogIntegrationResponseOutputOtelSuppliedHeadersList | undefined;
   /** HTTP Event Collector (HEC) token for authentication. */
-  hecToken?: string | undefined;
+  hecToken?: string | Redacted.Redacted<string> | undefined;
   /** HTTP Event Collector (HEC) endpoint URL. */
   hecUrl?: string | undefined;
   /** Storage account name where logs will be stored. */
@@ -15070,7 +15070,7 @@ export interface Header {
   /** Header name. */
   name: string;
   /** Header value. */
-  value: string;
+  value: string | Redacted.Redacted<string>;
 }
 /** HTTP headers for authentication and configuration. Total size limit 2KB. Required when `authType` is `HEADER`. */
 export type CreateGroupMetricIntegrationRequestHeadersList = Array<Header>;
@@ -17563,7 +17563,7 @@ export interface CreateOrgLiveMigrationLinkTokenRequest {
 }
 export interface TargetOrg {
   /** Link token that contains all the information required to complete the link. */
-  linkToken: string;
+  linkToken: string | Redacted.Redacted<string>;
 }
 export type CreateOrgLogIntegrationRequestLogTypesItem = "EVENTS";
 /** Array of log types exported by this integration. */
@@ -30418,7 +30418,7 @@ export interface OrgLogIntegrationHeader {
   /** Header name. */
   name: string;
   /** Header value. Redacted in responses. */
-  value: string;
+  value: string | Redacted.Redacted<string>;
 }
 /** HTTP headers for authentication and configuration. Maximum 10 headers, total size limit 2KB. Values are redacted. */
 export type OrgOtelLogIntegrationResponseOtelSuppliedHeadersList = Array<OrgLogIntegrationHeader>;
@@ -30757,7 +30757,7 @@ export interface MigrateGroupRequest {
   /** Unique 24-hexadecimal digit string that identifies the organization to move the specified project to. */
   destinationOrgId?: string | undefined;
   /** Unique string that identifies the private part of the API Key used to verify access to the destination organization. This parameter is required only when you authenticate with Programmatic API Keys. */
-  destinationOrgPrivateApiKey?: string | undefined;
+  destinationOrgPrivateApiKey?: string | Redacted.Redacted<string> | undefined;
   /** Unique string that identifies the public part of the API Key used to verify access to the destination organization. This parameter is required only when you authenticate with Programmatic API Keys. */
   destinationOrgPublicApiKey?: string | undefined;
 }
@@ -32474,7 +32474,7 @@ export interface GoogleCloudKMSInput {
   /** Unique 24-hexadecimal digit string that identifies the Google Cloud Provider Access Role that MongoDB Cloud uses to access the Google Cloud KMS. */
   roleId?: string | undefined;
   /** JavaScript Object Notation (JSON) object that contains the Google Cloud Key Management Service (KMS). Format the JSON as a string and not as an object. */
-  serviceAccountKey?: string | undefined;
+  serviceAccountKey?: string | Redacted.Redacted<string> | undefined;
 }
 export interface UpdateGroupEncryptionAtRestRequest {
   /** Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](#tag/Projects/operation/listProjects) endpoint to retrieve all projects to which the authenticated user has access. **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups. */
@@ -36490,7 +36490,7 @@ export const createGroupMetricIntegration: API.OperationMethod<
   MongodbAtlasOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17696, __c553, 0) as any as S.Schema<CreateGroupMetricIntegrationRequest>,
-  output: __S(17762, __c555, 2) as any as S.Schema<MetricIntegrationResponse>,
+  output: __S(17732, __c554, 4) as any as S.Schema<MetricIntegrationResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: MongodbAtlasServiceErrors,
   protocol: MongodbAtlasProtocol,
@@ -40270,7 +40270,7 @@ export const getGroupMetricIntegration: API.OperationMethod<
   MongodbAtlasOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6176, __c193, 0) as any as S.Schema<GetGroupMetricIntegrationRequest>,
-  output: __S(17762, __c555, 2) as any as S.Schema<MetricIntegrationResponse>,
+  output: __S(17732, __c554, 4) as any as S.Schema<MetricIntegrationResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: MongodbAtlasServiceErrors,
   protocol: MongodbAtlasProtocol,
@@ -45077,7 +45077,7 @@ export const updateGroupMetricIntegration: API.OperationMethod<
   MongodbAtlasOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16416, __c513, 0) as any as S.Schema<UpdateGroupMetricIntegrationRequest>,
-  output: __S(17762, __c555, 2) as any as S.Schema<MetricIntegrationResponse>,
+  output: __S(17732, __c554, 4) as any as S.Schema<MetricIntegrationResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: MongodbAtlasServiceErrors,
   protocol: MongodbAtlasProtocol,
@@ -50451,8 +50451,8 @@ function __c225(j: number): any {
         S.Struct({
           connectionString: S.optional(S.String.pipe(T.SensitiveValue({}))),
           endpoints: S.optional(__S(7201, __c225, 1)),
-          srvConnectionString: S.optional(S.String),
-          srvShardOptimizedConnectionString: S.optional(S.String),
+          srvConnectionString: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          srvShardOptimizedConnectionString: S.optional(S.String.pipe(T.SensitiveValue({}))),
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "ClusterDescriptionConnectionStringsPrivateEndpoint" });
@@ -54629,7 +54629,7 @@ function __c377(j: number): any {
         ),
       ).annotate({ identifier: "ListGroupMetricIntegrationsRequest" });
     case 1:
-      return S.Array(__S(17762, __c555, 2));
+      return S.Array(__S(17732, __c554, 4));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -55731,7 +55731,7 @@ function __c413(j: number): any {
           logTypes: __S(7328, __c229, 0),
           type: S.String,
           otelEndpoint: S.String,
-          otelSuppliedHeaders: __S(17729, __c554, 1),
+          otelSuppliedHeaders: __S(17761, __c555, 1),
         }),
       ).annotate({ identifier: "OrgOtelLogIntegrationResponse" });
     case 2:
@@ -56176,7 +56176,7 @@ function __c429(j: number): any {
           groupId: S.String.pipe(T.Label()),
           envelope: S.optional(S.Boolean.pipe(T.Query())),
           destinationOrgId: S.optional(S.String),
-          destinationOrgPrivateApiKey: S.optional(S.String),
+          destinationOrgPrivateApiKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           destinationOrgPublicApiKey: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -58259,7 +58259,7 @@ function __c507(j: number): any {
           enabled: S.optional(S.Boolean),
           keyVersionResourceID: S.optional(S.String),
           roleId: S.optional(S.String),
-          serviceAccountKey: S.optional(S.String),
+          serviceAccountKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "GoogleCloudKMSInput" });
     case 3:
@@ -58411,7 +58411,7 @@ function __c513(j: number): any {
           aggregationTemporality: S.String,
           authType: S.String,
           endpoint: S.String,
-          headers: S.optional(__S(17729, __c554, 1)),
+          headers: S.optional(__S(17761, __c555, 1)),
           integrationType: S.String,
           metricSelection: __S(7328, __c229, 0),
           oauth: S.optional(__S(17792, __c556, 0)),
@@ -59428,7 +59428,7 @@ function __c553(j: number): any {
           aggregationTemporality: S.String,
           authType: S.String,
           endpoint: S.String,
-          headers: S.optional(__S(17729, __c554, 1)),
+          headers: S.optional(__S(17761, __c555, 1)),
           integrationType: S.String,
           metricSelection: __S(7328, __c229, 0),
           oauth: S.optional(__S(17792, __c556, 0)),
@@ -59452,14 +59452,10 @@ function __c554(j: number): any {
           name: S.String,
           value: S.String,
         }),
-      ).annotate({ identifier: "Header" });
+      ).annotate({ identifier: "RedactedHeader" });
     case 1:
       return S.Array(__S(17728, __c554, 0));
-  }
-}
-function __c555(j: number): any {
-  switch (j) {
-    case 0:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           algorithm: S.optional(S.String),
@@ -59468,18 +59464,18 @@ function __c555(j: number): any {
           kid: S.optional(S.String),
         }),
       ).annotate({ identifier: "OAuthSigningKeyInfo" });
-    case 1:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           clientAuthMethod: S.String,
           clientId: S.String,
           scopes: S.optional(__S(19136, __c598, 0)),
-          signingKeyInfo: S.optional(__S(17760, __c555, 0)),
+          signingKeyInfo: S.optional(__S(17730, __c554, 2)),
           tokenEndpoint: S.String,
           tokenRequestParams: S.optional(__S(7264, __c227, 0)),
         }),
       ).annotate({ identifier: "OAuthConfigResponse" });
-    case 2:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           aggregationTemporality: S.String,
@@ -59489,10 +59485,23 @@ function __c555(j: number): any {
           integrationType: S.String,
           metricIntegrationId: S.String,
           metricSelection: __S(7328, __c229, 0),
-          oauth: S.optional(__S(17761, __c555, 1)),
+          oauth: S.optional(__S(17731, __c554, 3)),
           providerType: S.String,
         }),
       ).annotate({ identifier: "MetricIntegrationResponse" });
+  }
+}
+function __c555(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          value: S.String.pipe(T.SensitiveValue({})),
+        }),
+      ).annotate({ identifier: "Header" });
+    case 1:
+      return S.Array(__S(17760, __c555, 0));
   }
 }
 function __c556(j: number): any {
@@ -60405,7 +60414,7 @@ function __c599(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          linkToken: S.String,
+          linkToken: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "TargetOrg" });
   }

@@ -76,7 +76,7 @@ export class NotFound
 export interface CreateVaultProviderRequestConfigCase0 {
   providerType: string;
   url: string;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   namespace?: string | undefined;
   mount?: string | undefined;
 }
@@ -106,7 +106,7 @@ export interface CreateVaultProviderRequestConfigCase3 {
 }
 export interface CreateVaultProviderRequestConfigCase4 {
   providerType: string;
-  serviceToken: string;
+  serviceToken: string | Redacted.Redacted<string>;
   project?: string | undefined;
   config?: string | undefined;
 }
@@ -126,7 +126,7 @@ export interface CreateVaultProviderRequestConfigCase6 {
 }
 export interface CreateVaultProviderRequestConfigCase7 {
   providerType: string;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   appId: string;
   env: string;
   path?: string | undefined;

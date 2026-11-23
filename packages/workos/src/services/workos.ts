@@ -254,9 +254,9 @@ export interface AcceptUserlandUserInvitesControllerResponse {
   /** An ISO 8601 timestamp. */
   updated_at: string;
   /** The token used to accept the invitation. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The URL where the recipient can accept the invitation. */
-  accept_invitation_url: string;
+  accept_invitation_url: string | Redacted.Redacted<string>;
 }
 export interface AddAuthorizationOrganizationRolePermissionsControllerPermissionRequest {
   /** The ID of the organization. */
@@ -361,7 +361,7 @@ export interface AgentAdminControllerLinkClaimAttemptToExternalUserRequest {
   /** The operation to perform on the claim attempt. Currently only `link_external_user` is supported. */
   type: string;
   /** The token identifying the claim attempt. */
-  claim_attempt_token: string;
+  claim_attempt_token: string | Redacted.Redacted<string>;
   /** The user to attach to the claim attempt, identified by email and external ID. */
   user: AgentAdminControllerLinkClaimAttemptToExternalUserRequestUser;
   /** The organization to place the agent in. Required when the user belongs to more than one organization. */
@@ -383,7 +383,7 @@ export interface ClaimViewResponse {
   /** Current status of the agent registration. */
   status: ClaimViewResponseStatus;
   /** The user code the agent needs to complete the claim. */
-  user_code: string;
+  user_code: string | Redacted.Redacted<string>;
   /** Organizations the user belongs to, offered as placement choices. */
   organizations: ClaimViewResponseOrganizationsList;
 }
@@ -391,7 +391,7 @@ export interface AgentBlueprintsTokenControllerMintTokenRequestBodyCase0 {
   /** How the session is minted: `user_delegated`, `autonomous`, `agent_delegated`, or `refresh`. */
   type: string;
   /** The access token of the user delegating to the agent. The token identifies the user and organization; effective permissions are resolved server-side. */
-  user_access_token: string;
+  user_access_token: string | Redacted.Redacted<string>;
   /** Optional caller-supplied context, echoed as an object with a `text` field in the `intent` claim of the minted access token. */
   intent?: string | undefined;
 }
@@ -407,7 +407,7 @@ export interface AgentBlueprintsTokenControllerMintTokenRequestBodyCase2 {
   /** How the session is minted: `user_delegated`, `autonomous`, `agent_delegated`, or `refresh`. */
   type: string;
   /** The agent's own access token to exchange for a new session on the same instance. The token must have been minted from this blueprint; permissions are re-derived from current authority. */
-  agent_access_token: string;
+  agent_access_token: string | Redacted.Redacted<string>;
   /** Optional caller-supplied context, echoed as an object with a `text` field in the `intent` claim of the minted access token. */
   intent?: string | undefined;
 }
@@ -765,7 +765,7 @@ export interface AuthenticationChallenge {
   /** The timestamp when the challenge will expire. Does not apply to TOTP factors. */
   expires_at?: string | undefined;
   /** The one-time code for the challenge. */
-  code?: string | undefined;
+  code?: string | Redacted.Redacted<string> | undefined;
   /** The unique ID of the authentication factor the challenge belongs to. */
   authentication_factor_id?: string | undefined;
   /** An ISO 8601 timestamp. */
@@ -909,7 +909,7 @@ export interface AuthorizeUserlandSsoControllerRequest {
   /** Additional OAuth scopes to request from the identity provider. */
   provider_scopes?: AuthorizeUserlandSsoControllerRequestProviderScopesList | undefined;
   /** A token representing a user invitation to redeem during authentication. */
-  invitation_token?: string | undefined;
+  invitation_token?: string | Redacted.Redacted<string> | undefined;
   /** Maximum allowable elapsed time, in seconds, since the user last actively authenticated. If the last authentication is older than this value, the user is prompted to re-authenticate; a value of `0` forces re-authentication. Only supported when the provider is `authkit`. */
   max_age?: number | undefined;
   /** Used to specify which screen to display when the provider is `authkit`. */
@@ -956,7 +956,7 @@ export interface ClientApiTokenControllerIssueClientApiTokenRequest {
 }
 export interface ClientApiTokenResponse {
   /** The Client API token. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 /** A set of key-value pairs to attach to the user. */
 export type UserObjectMetadataMap = { [key: string]: string | undefined };
@@ -1013,7 +1013,7 @@ export interface ConfirmUserlandUsersControllerEmailChangeRequest {
   /** The unique ID of the user. */
   id: string;
   /** The one-time code used to confirm the email change. */
-  code?: string | undefined;
+  code?: string | Redacted.Redacted<string> | undefined;
 }
 /** Object containing metadata key/value pairs associated with the user. */
 export type ConfirmUserlandUsersControllerEmailChangeResponseUserMetadataMap = {
@@ -1477,9 +1477,9 @@ export interface AuthenticationFactorEnrolledTotp {
   /** TOTP secret that can be manually entered into some authenticator apps in place of scanning a QR code. */
   secret: string | Redacted.Redacted<string>;
   /** Base64 encoded image containing scannable QR code. */
-  qr_code: string;
+  qr_code: string | Redacted.Redacted<string>;
   /** The `otpauth` URI that is encoded by the provided `qr_code`. */
-  uri: string;
+  uri: string | Redacted.Redacted<string>;
 }
 export interface AuthenticationFactorEnrolled {
   /** Distinguishes the authentication factor object. */
@@ -1723,7 +1723,7 @@ export interface CreateConnectionAttributeMapsDto {
 export type CreateConnectionSamlOptionsDtoIdpSigningCertsList = Array<string>;
 export interface CreateConnectionKeyPairDto {
   /** The PEM-encoded private key. */
-  key: string;
+  key: string | Redacted.Redacted<string>;
   /** The PEM-encoded X.509 certificate for the key. */
   cert: string;
 }
@@ -2289,7 +2289,7 @@ export interface CreateJumpWireWebDataVaultControllerRequest {
   /** Unique name for the object. */
   name: string;
   /** Plaintext data to encrypt and store. */
-  value: string;
+  value: string | Redacted.Redacted<string>;
 }
 /** Map of values used to determine the encryption key. */
 export type ObjectMetadataContextMap = { [key: string]: string | undefined };
@@ -2354,7 +2354,7 @@ export interface OrganizationApiKeyWithValue {
   /** An ISO 8601 timestamp. */
   updated_at: string;
   /** The full API Key value. Only returned once at creation time. */
-  value: string;
+  value: string | Redacted.Redacted<string>;
 }
 export interface CreateOrganizationDomainsControllerRequest {
   /** The domain to add to the organization. */
@@ -2385,7 +2385,7 @@ export interface CreateOrganizationDomainsControllerResponse {
   /** The prefix used in DNS verification. */
   verification_prefix?: string | undefined;
   /** Validation token to be used in DNS TXT record. */
-  verification_token?: string | undefined;
+  verification_token?: string | Redacted.Redacted<string> | undefined;
   /** Strategy used to verify the domain. */
   verification_strategy?:
     | CreateOrganizationDomainsControllerResponseVerificationStrategy
@@ -2446,7 +2446,7 @@ export interface OrganizationDomainsItem {
   /** The prefix used in DNS verification. */
   verification_prefix?: string | undefined;
   /** Validation token to be used in DNS TXT record. */
-  verification_token?: string | undefined;
+  verification_token?: string | Redacted.Redacted<string> | undefined;
   /** Strategy used to verify the domain. */
   verification_strategy?: OrganizationDomainsItemVerificationStrategy | undefined;
   /** An ISO 8601 timestamp. */
@@ -2507,7 +2507,7 @@ export interface CreatePortalSessionsControllerRequest {
 }
 export interface PortalLinkResponse {
   /** An ephemeral link to initiate the Admin Portal. */
-  link?: string | undefined;
+  link?: string | Redacted.Redacted<string> | undefined;
 }
 export interface CreateRedirectUrisControllerRequest {
   /** The redirect URI to create. */
@@ -2647,7 +2647,7 @@ export interface UserApiKeyWithValue {
   /** An ISO 8601 timestamp. */
   updated_at: string;
   /** The full API Key value. Only returned once at creation time. */
-  value: string;
+  value: string | Redacted.Redacted<string>;
 }
 /** The locale to use when rendering the invitation email. Defaults to the environment's default locale. See [supported locales](/authkit/hosted-ui#localization). */
 export type CreateUserlandUserInvitesControllerRequestLocale =
@@ -2785,9 +2785,9 @@ export interface UserlandUserInvite {
   /** An ISO 8601 timestamp. */
   updated_at?: string | undefined;
   /** The token used to accept the invitation. */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   /** The URL where the recipient can accept the invitation. */
-  accept_invitation_url?: string | undefined;
+  accept_invitation_url?: string | Redacted.Redacted<string> | undefined;
 }
 /** An array of role identifiers. Limited to one role when Multiple Roles is disabled. Mutually exclusive with `role_slug`. */
 export type CreateUserlandUserOrganizationMembershipsControllerRequestRoleSlugsList = Array<string>;
@@ -3158,7 +3158,7 @@ export interface DataIntegrationVendedCredentialCase0 {
   /** The authentication method for this credential. Additional values may be added in the future; handle unknown values gracefully. */
   auth_method: string;
   /** The vended secret. An OAuth access token when `auth_method` is `oauth`, the API key when `api_key`, or the client-credentials access token when `client_credentials`. */
-  value: string;
+  value: string | Redacted.Redacted<string>;
   /** The ISO-8601 formatted timestamp indicating when the credential expires, or `null` if it does not expire. Present for `oauth` and `client_credentials` credentials; absent for `api_key`. */
   expires_at: string | null;
   /** The scopes granted to the access token. Present for `oauth` and `client_credentials` credentials; absent for `api_key`. */
@@ -3178,7 +3178,7 @@ export interface DataIntegrationVendedCredentialCase1 {
   /** The authentication method for this credential. Additional values may be added in the future; handle unknown values gracefully. */
   auth_method: string;
   /** The API key secret. */
-  value: string;
+  value: string | Redacted.Redacted<string>;
   /** Provider-declared, non-secret config from the installation snapshot, with current defaults for unset fields. Includes both integration- and installation-scope fields; omits undeclared fields and fields marked secret. Use these values to address a per-tenant host, such as Snowflake's `account` or Zendesk's `subdomain`. Empty when no values are disclosable. Changes to integration or organization pins require reconnecting or explicitly rebinding the connection. Defaults are live and can differ from a cached token's audience until refresh or re-mint. */
   config: DataIntegrationVendedCredentialCase1ConfigMap;
 }
@@ -3198,7 +3198,7 @@ export interface DataIntegrationVendedCredentialCase2 {
   /** The authentication method for this credential. Additional values may be added in the future; handle unknown values gracefully. */
   auth_method: string;
   /** The client-credentials access token. */
-  value: string;
+  value: string | Redacted.Redacted<string>;
   /** The ISO-8601 formatted timestamp indicating when the credential expires. */
   expires_at: string | null;
   /** The scopes granted to the access token. */
@@ -4352,7 +4352,7 @@ export interface OrganizationDomainStandAlone {
   /** The prefix used in DNS verification. */
   verification_prefix?: string | undefined;
   /** Validation token to be used in DNS TXT record. */
-  verification_token?: string | undefined;
+  verification_token?: string | Redacted.Redacted<string> | undefined;
   /** Strategy used to verify the domain. */
   verification_strategy?: OrganizationDomainStandAloneVerificationStrategy | undefined;
   /** An ISO 8601 timestamp. */
@@ -4426,7 +4426,7 @@ export interface RadarChallenge {
   /** An ISO 8601 timestamp. */
   updated_at: string;
   /** The code used to verify the Radar Challenge. */
-  code: string;
+  code: string | Redacted.Redacted<string>;
 }
 export interface GetSamlSpSigningCertificatesControllerRequest {
   /** Unique identifier for the Connection. */
@@ -4548,7 +4548,7 @@ export interface MagicAuth {
   /** An ISO 8601 timestamp. */
   updated_at?: string | undefined;
   /** The code used to verify the Magic Auth code. */
-  code?: string | undefined;
+  code?: string | Redacted.Redacted<string> | undefined;
 }
 export interface GetUserlandUserIdentitiesControllerRequest {
   /** The unique ID of the user. */
@@ -4653,7 +4653,7 @@ export interface EmailVerification {
   /** An ISO 8601 timestamp. */
   updated_at?: string | undefined;
   /** The code used to verify the email. */
-  code?: string | undefined;
+  code?: string | Redacted.Redacted<string> | undefined;
 }
 export type InviteItContactsControllerRequestIntentsItem =
   | "sso"
@@ -4724,7 +4724,7 @@ export interface Object {
   /** Unique name of the object. */
   name: string;
   /** Decrypted plaintext value. */
-  value: string;
+  value: string | Redacted.Redacted<string>;
 }
 export interface JumpWireWebDataVaultControllerShowByNameRequest {
   /** Unique name of the object. */
@@ -5770,7 +5770,7 @@ export interface EventSchemaDataDomainsItem {
   /** The prefix used in DNS verification. */
   verification_prefix?: string | undefined;
   /** Validation token to be used in DNS TXT record. */
-  verification_token?: string | undefined;
+  verification_token?: string | Redacted.Redacted<string> | undefined;
   /** Strategy used to verify the domain. */
   verification_strategy?: EventSchemaDataDomainsItemVerificationStrategy | undefined;
   /** An ISO 8601 timestamp. */
@@ -5894,7 +5894,7 @@ export interface EventSchemaDataOrganizationDomain {
   /** The prefix used in DNS verification. */
   verification_prefix?: string | undefined;
   /** Validation token to be used in DNS TXT record. */
-  verification_token?: string | undefined;
+  verification_token?: string | Redacted.Redacted<string> | undefined;
   /** Strategy used to verify the domain. */
   verification_strategy?: EventSchemaDataOrganizationDomainVerificationStrategy | undefined;
   /** An ISO 8601 timestamp. */
@@ -6119,7 +6119,7 @@ export interface EventSchemaData {
   /** The prefix used in DNS verification. */
   verification_prefix?: string | undefined;
   /** Validation token to be used in DNS TXT record. */
-  verification_token?: string | undefined;
+  verification_token?: string | Redacted.Redacted<string> | undefined;
   /** Strategy used to verify the domain. */
   verification_strategy?: EventSchemaDataVerificationStrategy | undefined;
   /** The reason the domain verification failed. */
@@ -7003,7 +7003,7 @@ export interface WebhookEndpointList {
 }
 export interface LogoutSsoControllerRequest {
   /** The logout token returned from the [Logout Authorize](/reference/sso/logout/authorize) endpoint. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 export interface LogoutSsoControllerResponse {}
 export interface LogoutUserlandSessionsControllerRequest {
@@ -7424,7 +7424,7 @@ export interface ResendUserlandUserInvitesControllerRequest {
 }
 export interface ResetUserlandUsersControllerPassword0Request {
   /** The password reset token. */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   /** The new password to set for the user. */
   new_password?: string | Redacted.Redacted<string> | undefined;
 }
@@ -7497,15 +7497,15 @@ export interface RevokeUserlandUserInvitesControllerResponse {
   /** An ISO 8601 timestamp. */
   updated_at: string;
   /** The token used to accept the invitation. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The URL where the recipient can accept the invitation. */
-  accept_invitation_url: string;
+  accept_invitation_url: string | Redacted.Redacted<string>;
 }
 export interface SendPublicRadarChallengesControllerRadarSmsChallengeRequest {
   /** The ID of the user to send the SMS challenge to. */
   user_id: string;
   /** The pending authentication token from a previous authentication attempt that triggered the Radar challenge. */
-  pending_authentication_token: string;
+  pending_authentication_token: string | Redacted.Redacted<string>;
   /** The phone number to send the SMS verification code to. */
   phone_number: string;
   /** The IP address of the user's request. */
@@ -7850,9 +7850,9 @@ export interface SsoControllerLogoutAuthorizeRequest {
 }
 export interface SsoLogoutAuthorizeResponse {
   /** The URL to redirect the user to in order to log out ([Logout Redirect](/reference/sso/logout) endpoint ready to use). */
-  logout_url?: string | undefined;
+  logout_url?: string | Redacted.Redacted<string> | undefined;
   /** The logout token to be used in the [Logout Redirect](/reference/sso/logout) endpoint. */
-  logout_token?: string | undefined;
+  logout_token?: string | Redacted.Redacted<string> | undefined;
 }
 export type SsoControllerTokenRequestGrantType =
   | "authorization_code"
@@ -7861,15 +7861,15 @@ export interface SsoControllerTokenRequest {
   /** The client ID of the WorkOS environment. */
   client_id: string;
   /** The client secret of the WorkOS environment. */
-  client_secret: string;
+  client_secret: string | Redacted.Redacted<string>;
   /** The authorization code received from the authorization callback. Required when `grant_type` is `authorization_code`. */
-  code?: string | undefined;
+  code?: string | Redacted.Redacted<string> | undefined;
   /** The grant type for the token request. */
   grant_type: SsoControllerTokenRequestGrantType | (string & {});
   /** The PKCE code verifier matching the `code_challenge` sent with the authorization request. Required when the authorization request included a `code_challenge`. Must be sent in the request body. */
-  code_verifier?: string | undefined;
+  code_verifier?: string | Redacted.Redacted<string> | undefined;
   /** The OIDC ID token to exchange. Required when `grant_type` is `urn:ietf:params:oauth:grant-type:token-exchange`. Must be sent in the request body. */
-  subject_token?: string | undefined;
+  subject_token?: string | Redacted.Redacted<string> | undefined;
   /** The type of the subject token. Required when `grant_type` is `urn:ietf:params:oauth:grant-type:token-exchange`. Must be sent in the request body. */
   subject_token_type?: string | undefined;
   /** The ID of the organization whose connection the subject token is validated against. Required when `grant_type` is `urn:ietf:params:oauth:grant-type:token-exchange`. Must be sent in the request body. */
@@ -8415,7 +8415,7 @@ export interface UpdateJumpWireWebDataVaultControllerRequest {
   /** Unique identifier of the object. */
   id: string;
   /** New plaintext value. */
-  value: string;
+  value: string | Redacted.Redacted<string>;
   /** ID of the expected current version for optimistic locking. */
   version_check?: string | null | undefined;
 }
@@ -8764,7 +8764,7 @@ export interface UserlandMagicAuthControllerSendMagicAuthCodeAndReturnRequest {
   /** The email address to send the magic code to. */
   email?: string | undefined;
   /** The invitation token to associate with this magic code. */
-  invitation_token?: string | undefined;
+  invitation_token?: string | Redacted.Redacted<string> | undefined;
   /** The IP address of the user's request. Required when Radar is in Decision mode. */
   ip_address?: string | undefined;
   /** The user agent string from the user's request. */
@@ -8795,7 +8795,7 @@ export interface UserlandMagicAuthControllerSendMagicAuthCodeAndReturnResponse {
   /** An ISO 8601 timestamp. */
   updated_at?: string | undefined;
   /** The code used to verify the Magic Auth code. */
-  code?: string | undefined;
+  code?: string | Redacted.Redacted<string> | undefined;
   /** The ID of the Radar authentication attempt created for this request when Radar is enabled. Pass this value to the authenticate endpoint to associate the subsequent authentication with this Radar attempt. */
   radar_auth_attempt_id?: string | undefined;
 }
@@ -8806,11 +8806,11 @@ export interface UserlandSessionsControllerAuthenticate0RequestBodyCase0 {
   client_secret?: string | Redacted.Redacted<string> | undefined;
   grant_type: string;
   /** The authorization code received from the redirect. */
-  code: string;
+  code: string | Redacted.Redacted<string>;
   /** The PKCE code verifier used to derive the code challenge passed to the authorization URL. */
-  code_verifier?: string | undefined;
+  code_verifier?: string | Redacted.Redacted<string> | undefined;
   /** An invitation token to accept during authentication. */
-  invitation_token?: string | undefined;
+  invitation_token?: string | Redacted.Redacted<string> | undefined;
   /** The IP address of the user's request. Required when Radar is in Decision mode. */
   ip_address?: string | undefined;
   /** A unique identifier for the device. */
@@ -8831,7 +8831,7 @@ export interface UserlandSessionsControllerAuthenticate0RequestBodyCase1 {
   /** The user's password. */
   password: string | Redacted.Redacted<string>;
   /** An invitation token to accept during authentication. */
-  invitation_token?: string | undefined;
+  invitation_token?: string | Redacted.Redacted<string> | undefined;
   /** The IP address of the user's request. Required when Radar is in Decision mode. */
   ip_address?: string | undefined;
   /** A unique identifier for the device. */
@@ -8867,11 +8867,11 @@ export interface UserlandSessionsControllerAuthenticate0RequestBodyCase3 {
   client_secret: string | Redacted.Redacted<string>;
   grant_type: string;
   /** The one-time code for Magic Auth authentication. */
-  code: string;
+  code: string | Redacted.Redacted<string>;
   /** The user's email address. */
   email: string;
   /** An invitation token to accept during authentication. */
-  invitation_token?: string | undefined;
+  invitation_token?: string | Redacted.Redacted<string> | undefined;
   /** The IP address of the user's request. */
   ip_address?: string | undefined;
   /** A unique identifier for the device. */
@@ -8888,9 +8888,9 @@ export interface UserlandSessionsControllerAuthenticate0RequestBodyCase4 {
   client_secret: string | Redacted.Redacted<string>;
   grant_type: string;
   /** The email verification code. */
-  code: string;
+  code: string | Redacted.Redacted<string>;
   /** The pending authentication token from a previous authentication attempt. */
-  pending_authentication_token: string;
+  pending_authentication_token: string | Redacted.Redacted<string>;
   /** The IP address of the user's request. */
   ip_address?: string | undefined;
   /** A unique identifier for the device. */
@@ -8905,9 +8905,9 @@ export interface UserlandSessionsControllerAuthenticate0RequestBodyCase5 {
   client_secret: string | Redacted.Redacted<string>;
   grant_type: string;
   /** The TOTP code from the authenticator app. */
-  code: string;
+  code: string | Redacted.Redacted<string>;
   /** The pending authentication token from a previous authentication attempt. */
-  pending_authentication_token: string;
+  pending_authentication_token: string | Redacted.Redacted<string>;
   /** The ID of the MFA authentication challenge. */
   authentication_challenge_id: string;
   /** The IP address of the user's request. */
@@ -8924,7 +8924,7 @@ export interface UserlandSessionsControllerAuthenticate0RequestBodyCase6 {
   client_secret: string | Redacted.Redacted<string>;
   grant_type: string;
   /** The token from the `email_completion_required` response. */
-  email_completion_token: string;
+  email_completion_token: string | Redacted.Redacted<string>;
   /** The email address the user supplied for a profile the identity provider left without one. */
   email: string;
   /** The IP address of the user's request. Required when Radar is in Decision mode. */
@@ -8943,7 +8943,7 @@ export interface UserlandSessionsControllerAuthenticate0RequestBodyCase7 {
   client_secret: string | Redacted.Redacted<string>;
   grant_type: string;
   /** The pending authentication token from a previous authentication attempt. */
-  pending_authentication_token: string;
+  pending_authentication_token: string | Redacted.Redacted<string>;
   /** The ID of the organization the user selected. */
   organization_id: string;
   /** The IP address of the user's request. */
@@ -8960,11 +8960,11 @@ export interface UserlandSessionsControllerAuthenticate0RequestBodyCase8 {
   client_secret: string | Redacted.Redacted<string>;
   grant_type: string;
   /** The one-time code from the Radar email challenge. */
-  code: string;
+  code: string | Redacted.Redacted<string>;
   /** The ID of the Radar email challenge being verified. */
   radar_challenge_id: string;
   /** The pending authentication token from a previous authentication attempt. */
-  pending_authentication_token: string;
+  pending_authentication_token: string | Redacted.Redacted<string>;
   /** The IP address of the user's request. */
   ip_address?: string | undefined;
   /** A unique identifier for the device. */
@@ -8979,13 +8979,13 @@ export interface UserlandSessionsControllerAuthenticate0RequestBodyCase9 {
   client_secret: string | Redacted.Redacted<string>;
   grant_type: string;
   /** The one-time code from the Radar SMS challenge. */
-  code: string;
+  code: string | Redacted.Redacted<string>;
   /** The ID of the Radar SMS verification being confirmed. Required for sign-up challenges; omitted for sign-in challenges, where the verification is resolved server-side. */
   verification_id?: string | undefined;
   /** The phone number the Radar SMS challenge was sent to. Required for sign-up challenges; omitted for sign-in challenges, where the phone number on file is resolved server-side. */
   phone_number?: string | undefined;
   /** The pending authentication token from a previous authentication attempt. */
-  pending_authentication_token: string;
+  pending_authentication_token: string | Redacted.Redacted<string>;
   /** The IP address of the user's request. */
   ip_address?: string | undefined;
   /** A unique identifier for the device. */
@@ -8998,7 +8998,7 @@ export interface UserlandSessionsControllerAuthenticate0RequestBodyCase10 {
   client_id: string;
   grant_type: string;
   /** The device verification code. */
-  device_code: string;
+  device_code: string | Redacted.Redacted<string>;
   /** The IP address of the user's request. */
   ip_address?: string | undefined;
   /** A unique identifier for the device. */
@@ -9067,7 +9067,7 @@ export interface UserlandAuthenticateResponse {
   /** The ID of the organization the user selected to sign in to. */
   organization_id?: string | undefined;
   /** An authorization code that can be exchanged for tokens by a different application. */
-  authkit_authorization_code?: string | undefined;
+  authkit_authorization_code?: string | Redacted.Redacted<string> | undefined;
   /** A JWT containing information about the current session. */
   access_token?: string | Redacted.Redacted<string> | undefined;
   /** [Exchange this token](/reference/authkit/authentication/refresh-token) for a new access token. */
@@ -9085,9 +9085,9 @@ export interface UserlandSsoControllerDeviceAuthorizationRequest {
 }
 export interface DeviceAuthorizationResponse {
   /** The device verification code. */
-  device_code?: string | undefined;
+  device_code?: string | Redacted.Redacted<string> | undefined;
   /** The end-user verification code. */
-  user_code?: string | undefined;
+  user_code?: string | Redacted.Redacted<string> | undefined;
   /** The end-user verification URI. */
   verification_uri?: string | undefined;
   /** Verification URI that includes the user code. */
@@ -9356,7 +9356,7 @@ export interface UserlandUsersControllerEmailVerification0Request {
   /** The ID of the user. */
   id: string;
   /** The one-time email verification code. */
-  code?: string | undefined;
+  code?: string | Redacted.Redacted<string> | undefined;
 }
 export interface VerifyEmailResponse {
   /** The user whose email was verified. */
@@ -9452,13 +9452,13 @@ export interface ValidateAgentAdminControllerCredentialRequestBodyCase0 {
   /** The kind of credential being validated -- an agent API key or an agent access token. */
   type: string;
   /** The credential value to validate: the API key value for `api_key`, or the access token (JWT) for `access_token`. */
-  credential: string;
+  credential: string | Redacted.Redacted<string>;
 }
 export interface ValidateAgentAdminControllerCredentialRequestBodyCase1 {
   /** The kind of credential being validated -- an agent API key or an agent access token. */
   type: string;
   /** The credential value to validate: the API key value for `api_key`, or the access token (JWT) for `access_token`. */
-  credential: string;
+  credential: string | Redacted.Redacted<string>;
   /** When provided, the access token's `aud` claim is verified against this value. Tokens issued for a different resource are rejected. */
   audience?: string | undefined;
 }
@@ -9481,7 +9481,7 @@ export interface ValidateAgentBlueprintsTokenControllerTokenRequest {
   /** The unique ID of the agent blueprint. */
   agent_blueprint_id: string;
   /** The agent access token (a JWT) to validate. */
-  agent_access_token: string;
+  agent_access_token: string | Redacted.Redacted<string>;
 }
 /** The effective permission slugs carried by the token. */
 export type AgentTokenValidationPermissionsList = Array<string>;
@@ -9505,7 +9505,7 @@ export interface AgentTokenValidation {
 }
 export interface ValidateApiKeysControllerApiKeyRequest {
   /** The value for an API key. */
-  value?: string | undefined;
+  value?: string | Redacted.Redacted<string> | undefined;
 }
 export interface ApiKeyValidationResponse {
   api_key?: ApiKey | null | undefined;
@@ -9516,7 +9516,7 @@ export interface VerifyAuthenticationChallengesControllerRequest {
   /** The unique ID of the Authentication Challenge. */
   id: string;
   /** The one-time code to verify. */
-  code: string;
+  code: string | Redacted.Redacted<string>;
 }
 export interface AuthenticationChallengeVerifyResponse {
   /** The authentication challenge object. */
@@ -9586,7 +9586,7 @@ export interface WidgetsPublicControllerIssueWidgetSessionTokenRequest {
 }
 export interface WidgetSessionTokenResponse {
   /** The widget session token. */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
 }
 export interface ErrorBodyWithCode {
   /** The error code identifying the type of error. */
@@ -9953,7 +9953,7 @@ export interface Error400BodyCase34 {
   /** The email address of the user that must authenticate via SSO. */
   email: string;
   /** A token that links the subsequent SSO authentication back to the pending authentication so the authorization session can be completed. */
-  pending_authentication_token?: string | undefined;
+  pending_authentication_token?: string | Redacted.Redacted<string> | undefined;
 }
 export type Error400Body6 =
   | ErrorBodyWithCode
@@ -10088,7 +10088,7 @@ export interface EmailCompletionRequiredErrorBodyWithEmailCompletionToken {
   /** A human-readable description of the error. */
   message: string;
   /** Pass this to the `email-completion` grant, with the address the user supplies, to finish authenticating. */
-  email_completion_token: string;
+  email_completion_token: string | Redacted.Redacted<string>;
 }
 export type EmailVerificationRequiredErrorBody = ErrorBodyWithCode;
 export type EmailPasswordAuthDisabledErrorBody = ErrorBodyWithCode;
@@ -17051,7 +17051,7 @@ function __c55(j: number): any {
           domain: S.optional(S.String),
           state: S.optional(S.String),
           verification_prefix: S.optional(S.String),
-          verification_token: S.optional(S.String),
+          verification_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           verification_strategy: S.optional(S.String),
           created_at: S.optional(S.String),
           updated_at: S.optional(S.String),
@@ -17163,7 +17163,7 @@ function __c61(j: number): any {
           expires_at: S.String,
           created_at: S.String,
           updated_at: S.String,
-          code: S.String,
+          code: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "RadarChallenge" });
   }
@@ -17248,7 +17248,7 @@ function __c67(j: number): any {
           expires_at: S.optional(S.String),
           created_at: S.optional(S.String),
           updated_at: S.optional(S.String),
-          code: S.optional(S.String),
+          code: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "MagicAuth" });
   }
@@ -17517,7 +17517,7 @@ function __c83(j: number): any {
           id: S.String,
           metadata: __S(9472, __c296, 0),
           name: S.String,
-          value: S.String,
+          value: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "Object" });
   }
@@ -18529,7 +18529,7 @@ function __c130(j: number): any {
           organization_id: S.String,
           state: S.optional(S.String),
           verification_prefix: S.optional(S.String),
-          verification_token: S.optional(S.String),
+          verification_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           verification_strategy: S.optional(S.String),
           created_at: S.String,
           updated_at: S.String,
@@ -18673,7 +18673,7 @@ function __c130(j: number): any {
             stripe_customer_id: S.optional(S.String),
             domain: S.optional(S.String),
             verification_prefix: S.optional(S.String),
-            verification_token: S.optional(S.String),
+            verification_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
             verification_strategy: S.optional(S.String),
             reason: S.optional(S.String),
             organization_domain: S.optional(__S(9600, __c300, 0)),
@@ -18984,7 +18984,7 @@ function __c139(j: number): any {
           object: S.optional(S.String),
           id: S.optional(S.String),
           expires_at: S.optional(S.String),
-          code: S.optional(S.String),
+          code: S.optional(S.String.pipe(T.SensitiveValue({}))),
           authentication_factor_id: S.optional(S.String),
           created_at: S.optional(S.String),
           updated_at: S.optional(S.String),
@@ -19534,7 +19534,7 @@ function __c162(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          token: S.String.pipe(T.Query()),
+          token: S.String.pipe(T.Query(), T.SensitiveValue({})),
         }).pipe(T.Http({ method: "GET", uri: "/sso/logout", code: 200 })),
       ).annotate({ identifier: "LogoutSsoControllerRequest" });
   }
@@ -19935,7 +19935,7 @@ function __c183(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           new_password: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }).pipe(
           T.Http({ method: "POST", uri: "/user_management/password_reset/confirm", code: 200 }),
@@ -20028,7 +20028,7 @@ function __c190(j: number): any {
           connection_id: S.optional(S.String.pipe(T.Query())),
           provider_query_params: S.optional(__S(1888, __c59, 0).pipe(T.Query())),
           provider_scopes: S.optional(__S(10048, __c314, 0).pipe(T.Query())),
-          invitation_token: S.optional(S.String.pipe(T.Query())),
+          invitation_token: S.optional(S.String.pipe(T.Query(), T.SensitiveValue({}))),
           max_age: S.optional(S.Number.pipe(T.Query())),
           screen_hint: S.optional(S.String.pipe(T.Query())),
           login_hint: S.optional(S.String.pipe(T.Query())),
@@ -20069,7 +20069,7 @@ function __c193(j: number): any {
       return S.suspend(() =>
         S.Struct({
           user_id: S.String,
-          pending_authentication_token: S.String,
+          pending_authentication_token: S.String.pipe(T.SensitiveValue({})),
           phone_number: S.String,
           ip_address: S.optional(S.String),
           user_agent: S.optional(S.String),
@@ -20204,8 +20204,8 @@ function __c199(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          logout_url: S.optional(S.String),
-          logout_token: S.optional(S.String),
+          logout_url: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          logout_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "SsoLogoutAuthorizeResponse" });
   }
@@ -20216,11 +20216,11 @@ function __c200(j: number): any {
       return S.suspend(() =>
         S.Struct({
           client_id: S.String.pipe(T.Query()),
-          client_secret: S.String.pipe(T.Query()),
-          code: S.optional(S.String.pipe(T.Query())),
+          client_secret: S.String.pipe(T.Query(), T.SensitiveValue({})),
+          code: S.optional(S.String.pipe(T.Query(), T.SensitiveValue({}))),
           grant_type: S.String.pipe(T.Query()),
-          code_verifier: S.optional(S.String),
-          subject_token: S.optional(S.String),
+          code_verifier: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          subject_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           subject_token_type: S.optional(S.String),
           organization_id: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/sso/token", code: 200 })),
@@ -20505,7 +20505,7 @@ function __c215(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "ClientApiTokenResponse" });
   }
@@ -20617,7 +20617,7 @@ function __c220(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          value: S.String,
+          value: S.String.pipe(T.SensitiveValue({})),
           version_check: S.optional(S.NullOr(S.String)),
         }).pipe(T.Http({ method: "PUT", uri: "/vault/v1/kv/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateJumpWireWebDataVaultControllerRequest" });
@@ -20787,7 +20787,7 @@ function __c229(j: number): any {
       return S.suspend(() =>
         S.Struct({
           email: S.optional(S.String),
-          invitation_token: S.optional(S.String),
+          invitation_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           ip_address: S.optional(S.String),
           user_agent: S.optional(S.String),
           radar_auth_attempt_id: S.optional(S.String),
@@ -20805,7 +20805,7 @@ function __c229(j: number): any {
           expires_at: S.optional(S.String),
           created_at: S.optional(S.String),
           updated_at: S.optional(S.String),
-          code: S.optional(S.String),
+          code: S.optional(S.String.pipe(T.SensitiveValue({}))),
           radar_auth_attempt_id: S.optional(S.String),
         }),
       ).annotate({ identifier: "UserlandMagicAuthControllerSendMagicAuthCodeAndReturnResponse" });
@@ -20824,7 +20824,7 @@ function __c230(j: number): any {
         S.Struct({
           user: S.optional(__S(10336, __c323, 0)),
           organization_id: S.optional(S.String),
-          authkit_authorization_code: S.optional(S.String),
+          authkit_authorization_code: S.optional(S.String.pipe(T.SensitiveValue({}))),
           access_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           refresh_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           authentication_method: S.optional(S.String),
@@ -20845,8 +20845,8 @@ function __c231(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          device_code: S.optional(S.String),
-          user_code: S.optional(S.String),
+          device_code: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          user_code: S.optional(S.String.pipe(T.SensitiveValue({}))),
           verification_uri: S.optional(S.String),
           verification_uri_complete: S.optional(S.String),
           expires_in: S.optional(S.Number),
@@ -21005,7 +21005,7 @@ function __c238(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          code: S.optional(S.String),
+          code: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -21058,7 +21058,7 @@ function __c240(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          code: S.optional(S.String),
+          code: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -21161,7 +21161,7 @@ function __c246(j: number): any {
       return S.suspend(() =>
         S.Struct({
           agent_blueprint_id: S.String.pipe(T.Label()),
-          agent_access_token: S.String,
+          agent_access_token: S.String.pipe(T.SensitiveValue({})),
         }).pipe(
           T.Http({
             method: "POST",
@@ -21190,7 +21190,7 @@ function __c247(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(S.String),
+          value: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }).pipe(T.Http({ method: "POST", uri: "/api_keys/validations", code: 200 })),
       ).annotate({ identifier: "ValidateApiKeysControllerApiKeyRequest" });
     case 1:
@@ -21208,7 +21208,7 @@ function __c248(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          code: S.String,
+          code: S.String.pipe(T.SensitiveValue({})),
         }).pipe(T.Http({ method: "POST", uri: "/auth/challenges/{id}/verify", code: 200 })),
       ).annotate({ identifier: "VerifyAuthenticationChallengesControllerRequest" });
     case 1:
@@ -21304,7 +21304,7 @@ function __c254(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "WidgetSessionTokenResponse" });
   }
@@ -21534,8 +21534,8 @@ function __c266(j: number): any {
           issuer: S.String,
           user: S.String,
           secret: S.String.pipe(T.SensitiveValue({})),
-          qr_code: S.String,
-          uri: S.String,
+          qr_code: S.String.pipe(T.SensitiveValue({})),
+          uri: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "AuthenticationFactorEnrolledTotp" });
     case 1:
@@ -21745,7 +21745,7 @@ function __c277(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          key: S.String,
+          key: S.String.pipe(T.SensitiveValue({})),
           cert: S.String,
         }),
       ).annotate({ identifier: "CreateConnectionKeyPairDto" });
@@ -22171,8 +22171,8 @@ function __c294(j: number): any {
           role_slug: S.NullOr(S.String),
           created_at: S.String,
           updated_at: S.String,
-          token: S.String,
-          accept_invitation_url: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
+          accept_invitation_url: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "AcceptUserlandUserInvitesControllerResponse" });
   }
@@ -22184,7 +22184,7 @@ function __c295(j: number): any {
         S.Struct({
           key_context: __S(1888, __c59, 0),
           name: S.String,
-          value: S.String,
+          value: S.String.pipe(T.SensitiveValue({})),
         }).pipe(T.Http({ method: "POST", uri: "/vault/v1/kv", code: 200 })),
       ).annotate({ identifier: "CreateJumpWireWebDataVaultControllerRequest" });
   }
@@ -22231,7 +22231,7 @@ function __c297(j: number): any {
           permissions: __S(10048, __c314, 0),
           created_at: S.String,
           updated_at: S.String,
-          value: S.String,
+          value: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "OrganizationApiKeyWithValue" });
   }
@@ -22269,7 +22269,7 @@ function __c300(j: number): any {
           domain: S.String,
           state: S.optional(S.String),
           verification_prefix: S.optional(S.String),
-          verification_token: S.optional(S.String),
+          verification_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           verification_strategy: S.optional(S.String),
           created_at: S.String,
           updated_at: S.String,
@@ -22342,7 +22342,7 @@ function __c304(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          link: S.optional(S.String),
+          link: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "PortalLinkResponse" });
   }
@@ -22536,7 +22536,7 @@ function __c316(j: number): any {
           permissions: __S(10048, __c314, 0),
           created_at: S.String,
           updated_at: S.String,
-          value: S.String,
+          value: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "UserApiKeyWithValue" });
   }
@@ -22586,8 +22586,8 @@ function __c319(j: number): any {
           role_slug: S.optional(S.NullOr(S.String)),
           created_at: S.optional(S.String),
           updated_at: S.optional(S.String),
-          token: S.optional(S.String),
-          accept_invitation_url: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          accept_invitation_url: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "UserlandUserInvite" });
   }
@@ -23142,7 +23142,7 @@ function __c355(j: number): any {
       return S.suspend(() =>
         S.Struct({
           type: S.String,
-          claim_attempt_token: S.String,
+          claim_attempt_token: S.String.pipe(T.SensitiveValue({})),
           user: __S(11360, __c355, 0),
           organization_id: S.optional(S.String),
         }).pipe(T.Http({ method: "PATCH", uri: "/agents/claims/attempts", code: 200 })),
@@ -23152,7 +23152,7 @@ function __c355(j: number): any {
         S.Struct({
           id: S.String,
           status: S.String,
-          user_code: S.String,
+          user_code: S.String.pipe(T.SensitiveValue({})),
           organizations: __S(11424, __c357, 0),
         }),
       ).annotate({ identifier: "ClaimViewResponse" });

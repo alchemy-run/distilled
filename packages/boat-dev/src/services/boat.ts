@@ -1919,7 +1919,7 @@ export interface AiUsageRow {
   /** UTC day. */
   day: string;
   /** The credential used: a `CredentialId`, or `custom:<NAME>` for a custom API. */
-  credential: string;
+  credential: string | Redacted.Redacted<string>;
   /** The model the provider reported, or empty. */
   model: string;
   requests: number;
@@ -9195,7 +9195,7 @@ function __c134(j: number): any {
       return S.suspend(() =>
         S.Struct({
           day: S.String,
-          credential: S.String,
+          credential: S.String.pipe(T.SensitiveValue({})),
           model: S.String,
           requests: S.Number,
           errors: S.Number,

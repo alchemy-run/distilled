@@ -6,6 +6,9 @@
  * parameter. Use a non-expiring API token (`user/createToken` or Administration > Sessions >
  * Create Token in the web console) of a user that has only the permissions it needs.
  *
+ * A layer here reads and checks its configuration when it is built: a missing variable or an
+ * address that is not an HTTPS origin is a `ConfigError` at setup, and no call fails for it.
+ *
  * Every Technitium server is self-hosted, so there is no default address. Operation paths start
  * with `/api`, so the address is an origin without a path, such as `https://dns.example.com:53443`.
  */
@@ -24,7 +27,7 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
     "TechnitiumCredentials",
   ) {}
 
@@ -51,13 +54,19 @@ export function normalizeApiUrl(value: string): Effect.Effect<string, ConfigErro
   return Effect.succeed(url.origin);
 }
 
-/** Credentials from a token and the web service origin. */
+/** A layer that resolves and checks `config` once, when it is built. */
+const layer = (config: Effect.Effect<Config, ConfigError>): Layer.Layer<Credentials, ConfigError> =>
+  Layer.effect(
+    Credentials,
+    Effect.map(config, (resolved) => Effect.succeed(resolved)),
+  );
+
+/** Credentials from a token and the web service origin, which is checked when the layer is built. */
 export const fromApiToken = (config: {
   readonly apiToken: Redacted.Redacted<string>;
   readonly apiUrl: string;
-}): Layer.Layer<Credentials> =>
-  Layer.succeed(
-    Credentials,
+}): Layer.Layer<Credentials, ConfigError> =>
+  layer(
     Effect.map(normalizeApiUrl(config.apiUrl), (apiUrl) => ({ apiToken: config.apiToken, apiUrl })),
   );
 
@@ -66,9 +75,11 @@ const envConfig = /*@__PURE__*/ EffectConfig.all({
   apiUrl: /*@__PURE__*/ EffectConfig.String("TECHNITIUM_API_URL"),
 });
 
-/** Reads `TECHNITIUM_API_TOKEN` and `TECHNITIUM_API_URL`, both required. */
-export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.succeed(
-  Credentials,
+/**
+ * Reads `TECHNITIUM_API_TOKEN` and `TECHNITIUM_API_URL`, both required. The environment is read,
+ * and the values checked, once: when the layer is built.
+ */
+export const CredentialsFromEnv: Layer.Layer<Credentials, ConfigError> = /*@__PURE__*/ layer(
   /*@__PURE__*/ envConfig.pipe(
     /*@__PURE__*/ Effect.mapError(
       () =>

@@ -855,7 +855,7 @@ export interface ApiKey {
   /** A name for the key describing its usage. */
   name?: string | undefined;
   /** The value of the key that is used for authentication purposes. */
-  value?: string | undefined;
+  value?: string | Redacted.Redacted<string> | undefined;
   /** A connection string that can be used by supporting clients for authentication. */
   connectionString?: string | Redacted.Redacted<string> | undefined;
   /** The last time any of the key's properties were modified. */
@@ -2275,7 +2275,7 @@ function __c22(j: number): any {
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
-          value: S.optional(S.String),
+          value: S.optional(S.String.pipe(T.SensitiveValue({}))),
           connectionString: S.optional(S.String.pipe(T.SensitiveValue({}))),
           lastModified: S.optional(S.String),
           readOnly: S.optional(S.Boolean),

@@ -4,9 +4,9 @@ Effect-native UniFi SDK, generated from the OpenAPI specs Ubiquiti publishes at 
 
 | Service        | Import                                  | Reached                                | Layers it needs   |
 | -------------- | --------------------------------------- | -------------------------------------- | ----------------- |
-| Network        | `@distilled.cloud/unifi` (package root) | on the console, local or via connector | `ApiKey`, `Console` |
-| Protect        | `@distilled.cloud/unifi/protect`        | on the console, local or via connector | `ApiKey`, `Console` |
-| InnerSpace     | `@distilled.cloud/unifi/innerspace`     | on the console, local or via connector | `ApiKey`, `Console` |
+| Network        | `@distilled.cloud/unifi` (package root) | on the console, local or via connector | `ApiKey`, and `Console` or a per-call `console` |
+| Protect        | `@distilled.cloud/unifi/protect`        | on the console, local or via connector | `ApiKey`, and `Console` or a per-call `console` |
+| InnerSpace     | `@distilled.cloud/unifi/innerspace`     | on the console, local or via connector | `ApiKey`, and `Console` or a per-call `console` |
 | Site Manager   | `@distilled.cloud/unifi/site_manager`   | `api.ui.com` only                      | `ApiKey`          |
 | Mobility       | `@distilled.cloud/unifi/mobility`       | `api.ui.com` only                      | `ApiKey`          |
 | Carrier Fabric | `@distilled.cloud/unifi/carrier_fabric` | `api.ui.com` only                      | `ApiKey`          |
@@ -101,12 +101,31 @@ is `id` in Site Manager's `listHosts`. Ubiquiti issues the two kinds of key in d
 places (the console's Integrations settings for local, unifi.ui.com for the connector and the
 cloud-only APIs), so provide the `ApiKey` that matches the way in.
 
-From the environment, `Unifi.CredentialsFromEnv` provides both layers (a layer is only
-resolved by the calls that need it):
+Every Network, Protect and InnerSpace operation also takes an optional `console`, which wins
+over the layer for that call and is not sent. Build it with `Unifi.ConsoleLocation`; the same
+value makes a layer with `Unifi.consoleLayer`. Like AWS's `Region`, `Console` is an optional
+layer that operations do not list in their types: a call with neither fails with `ConfigError`,
+and a malformed `console` fails it with `InvalidInput`:
 
-- `ApiKeyFromEnv`: `UNIFI_API_KEY`.
+```ts
+const office = Unifi.ConsoleLocation.remote("<consoleId>");
+const home = Unifi.ConsoleLocation.local("192.168.0.1");
+
+const sites = yield* Unifi.getSiteOverviewPage({ console: office }); // one call
+program.pipe(Effect.provide(Unifi.consoleLayer(home))); // every call in a scope
+```
+
+A console layer checks its location when it is built: a host that is more than a host, or a
+console ID that can't be a URL path segment, fails the layer with `ConfigError`.
+
+From the environment, `Unifi.CredentialsFromEnv` provides both layers. Each reads the
+environment once, when the layer is built:
+
+- `ApiKeyFromEnv`: `UNIFI_API_KEY`. Without it the layer fails with `ConfigError`.
 - `ConsoleFromEnv`: `UNIFI_CONSOLE_HOST` (local, a host or origin) or else `UNIFI_CONSOLE_ID`
-  (cloud connector, on `UNIFI_CLOUD_API_BASE_URL` when set).
+  (cloud connector, on `UNIFI_CLOUD_API_BASE_URL` when set). A console ID that can't be a URL
+  path segment fails the layer with `ConfigError`. With neither variable set the layer still
+  builds, and only a Network, Protect or InnerSpace call fails with `ConfigError`.
 
 ## Not covered
 
@@ -114,5 +133,3 @@ resolved by the calls that need it):
   operation is generated for them.
 - **Binary bodies.** Protect's camera snapshot and InnerSpace's floor-plan assets answer
   `image/*`, which the generator cannot model, so those two operations are not generated.
-- **Site Manager's `/v1/connector/consoles/{id}/*path`** passthrough is not generated:
-  Network, Protect and InnerSpace already go through the connector with typed operations.

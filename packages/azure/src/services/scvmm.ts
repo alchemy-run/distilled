@@ -736,7 +736,7 @@ export interface OsProfileForVmInstance {
   /** Gets or sets the workgroup. */
   workgroup?: string | undefined;
   /** Gets or sets the product key.Input format xxxxx-xxxxx-xxxxx-xxxxx-xxxxx */
-  productKey?: string | undefined;
+  productKey?: string | Redacted.Redacted<string> | undefined;
   /** Gets or sets the index value of the timezone. */
   timezone?: number | undefined;
   /** Get or sets the commands to be run once at the time of creation separated by semicolons. */
@@ -1861,7 +1861,7 @@ export interface OsProfileForVmInstanceInput {
   /** Gets or sets the workgroup. */
   workgroup?: string | undefined;
   /** Gets or sets the product key.Input format xxxxx-xxxxx-xxxxx-xxxxx-xxxxx */
-  productKey?: string | undefined;
+  productKey?: string | Redacted.Redacted<string> | undefined;
   /** Gets or sets the index value of the timezone. */
   timezone?: number | undefined;
   /** Get or sets the commands to be run once at the time of creation separated by semicolons. */
@@ -3743,7 +3743,7 @@ function __c22(j: number): any {
           domainUsername: S.optional(S.String),
           domainPassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
           workgroup: S.optional(S.String),
-          productKey: S.optional(S.String),
+          productKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           timezone: S.optional(S.Number),
           runOnceCommands: S.optional(S.String),
         }),
@@ -5033,7 +5033,7 @@ function __c72(j: number): any {
           domainUsername: S.optional(S.String),
           domainPassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
           workgroup: S.optional(S.String),
-          productKey: S.optional(S.String),
+          productKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           timezone: S.optional(S.Number),
           runOnceCommands: S.optional(S.String),
         }),

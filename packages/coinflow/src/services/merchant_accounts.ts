@@ -237,7 +237,7 @@ export interface Verification {
   vendor: VerificationVendor;
   name?: string | undefined;
   attested?: boolean | undefined;
-  shareToken?: string | undefined;
+  shareToken?: string | Redacted.Redacted<string> | undefined;
   shareTokenStatus?: string | undefined;
   sessionToken?: string | Redacted.Redacted<string> | undefined;
   rejectionReasons?: VerificationRejectionReasonsList | undefined;
@@ -487,7 +487,7 @@ export interface UboEntry {
   vendor: VerificationVendor;
   name?: string | undefined;
   attested?: boolean | undefined;
-  shareToken?: string | undefined;
+  shareToken?: string | Redacted.Redacted<string> | undefined;
   shareTokenStatus?: string | undefined;
   sessionToken?: string | Redacted.Redacted<string> | undefined;
   rejectionReasons?: UboEntryRejectionReasonsList | undefined;
@@ -1903,7 +1903,7 @@ export interface VendorSettings {
   verisoul?: VerisoulVendorSettings | undefined;
 }
 export interface MerchantBankSettlementOptions {
-  token: string;
+  token: string | Redacted.Redacted<string>;
   minRemainingBalance: Cents;
   useWire?: boolean | undefined;
 }
@@ -2012,7 +2012,7 @@ export interface LinkedBankAccount {
   accountNumber: string;
   accountType: LinkedBankAccountAccountType;
   institutionName?: string | undefined;
-  plaidAccessToken: string;
+  plaidAccessToken: string | Redacted.Redacted<string>;
   plaidAccountId: string;
 }
 export interface IMerchantStringProcessing {
@@ -2037,7 +2037,7 @@ export interface IMerchantString {
   apiKey: string | Redacted.Redacted<string>;
   webhookValidationKey?: string | undefined;
   nmiWebhookValidationKey?: string | undefined;
-  nmiApiKey?: string | undefined;
+  nmiApiKey?: string | Redacted.Redacted<string> | undefined;
   apiKeys: IMerchantStringApiKeysList;
   kycType: KycType;
   settlementToken: StableCoin;
@@ -2237,7 +2237,7 @@ export type WithdrawSpeed =
 export interface CreateWithdrawalRequest {
   accountId: string;
   speed: WithdrawSpeed | (string & {});
-  token: string;
+  token: string | Redacted.Redacted<string>;
   amount: Cents;
 }
 export interface CreateWithdrawalResponse {}
@@ -2302,7 +2302,7 @@ export type EmbeddedWithdrawalOptionSpeedsList = Array<WithdrawSpeed>;
 export interface EmbeddedWithdrawalOption {
   alias: string;
   speeds: EmbeddedWithdrawalOptionSpeedsList;
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 export type GetWithdrawalOptionsResponseBodyList = Array<EmbeddedWithdrawalOption>;
 export type GetWithdrawalOptionsResponse = GetWithdrawalOptionsResponseBodyList;
@@ -2577,7 +2577,7 @@ function __c0(j: number): any {
           vendor: S.String,
           name: S.optional(S.String),
           attested: S.optional(S.Boolean),
-          shareToken: S.optional(S.String),
+          shareToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           shareTokenStatus: S.optional(S.String),
           sessionToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           rejectionReasons: S.optional(__S(4, __c0, 4)),
@@ -2714,7 +2714,7 @@ function __c8(j: number): any {
         S.Struct({
           accountId: S.String,
           speed: S.String,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           amount: __S(48, __c6, 0),
         }).pipe(T.Http({ method: "POST", uri: "/merchant/accounts/withdraws", code: 200 })),
       ).annotate({ identifier: "CreateWithdrawalRequest" });
@@ -2866,7 +2866,7 @@ function __c17(j: number): any {
         S.Struct({
           alias: S.String,
           speeds: __S(136, __c17, 0),
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "EmbeddedWithdrawalOption" });
     case 3:

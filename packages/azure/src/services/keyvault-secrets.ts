@@ -68,7 +68,7 @@ export interface BackupSecretRequest {
 /** The backup secret result, containing the backup blob. */
 export interface BackupSecretResult {
   /** The backup blob containing the backed up secret. */
-  value?: string | undefined;
+  value?: string | Redacted.Redacted<string> | undefined;
 }
 export interface DeleteSecretRequest {
   vaultBaseUrl: string;
@@ -255,7 +255,7 @@ export interface RecoverDeletedSecretRequest {
 export interface RestoreSecretRequest {
   vaultBaseUrl: string;
   /** The backup blob associated with a secret bundle. */
-  value: string;
+  value: string | Redacted.Redacted<string>;
 }
 /** Application specific metadata in the form of key-value pairs. */
 export type SetSecretRequestTagsMap = { [key: string]: string | undefined };
@@ -561,7 +561,7 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           vaultBaseUrl: S.String.pipe(T.HostLabel()),
-          value: S.String,
+          value: S.String.pipe(T.SensitiveValue({})),
         }).pipe(
           T.Http({
             method: "POST",
@@ -660,7 +660,7 @@ function __c5(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(S.String),
+          value: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "BackupSecretResult" });
   }

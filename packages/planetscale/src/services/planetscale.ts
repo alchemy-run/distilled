@@ -10387,7 +10387,7 @@ export interface PaginatedServiceTokenDataItem {
   /** The display name of the service token */
   display_name: string;
   /** The plaintext token. Available only after create. */
-  token?: string | null | undefined;
+  token?: Redacted.Redacted<string> | null | undefined;
   /** The plaintext refresh token. Available only after create. */
   plain_text_refresh_token?: Redacted.Redacted<string> | null | undefined;
   /** The image source for the avatar of the service token */
@@ -12874,8 +12874,8 @@ export const addOrganizationTeamMember: API.OperationMethod<
   AddOrganizationTeamMemberError,
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8960, __c280, 0) as any as S.Schema<AddOrganizationTeamMemberRequest>,
-  output: __S(9056, __c283, 0) as any as S.Schema<OrganizationTeamMembership>,
+  input: __S(8928, __c279, 0) as any as S.Schema<AddOrganizationTeamMemberRequest>,
+  output: __S(9024, __c282, 0) as any as S.Schema<OrganizationTeamMembership>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -12896,8 +12896,8 @@ export const addServiceTokenAccess: API.OperationMethod<
   AddServiceTokenAccessError,
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9984, __c312, 0) as any as S.Schema<AddServiceTokenAccessRequest>,
-  output: __S(10019, __c313, 3) as any as S.Schema<ServiceTokenAccessesResponse>,
+  input: __S(9952, __c311, 0) as any as S.Schema<AddServiceTokenAccessRequest>,
+  output: __S(9987, __c312, 3) as any as S.Schema<ServiceTokenAccessesResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -12918,8 +12918,8 @@ export const assignShardConfigurationProfileShards: API.OperationMethod<
   AssignShardConfigurationProfileShardsError,
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10400, __c325, 0) as any as S.Schema<AssignShardConfigurationProfileShardsRequest>,
-  output: __S(10403, __c325, 3) as any as S.Schema<AssignShardConfigurationProfileShardsResponse>,
+  input: __S(10368, __c324, 0) as any as S.Schema<AssignShardConfigurationProfileShardsRequest>,
+  output: __S(10371, __c324, 3) as any as S.Schema<AssignShardConfigurationProfileShardsResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -12940,10 +12940,10 @@ export const bulkCreateShardConfigurationProfileShards: API.OperationMethod<
   BulkCreateShardConfigurationProfileShardsError,
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10784, __c337, 0) as any as S.Schema<BulkCreateShardConfigurationProfileShardsRequest>,
+  input: __S(10752, __c336, 0) as any as S.Schema<BulkCreateShardConfigurationProfileShardsRequest>,
   output: __S(
-    10785,
-    __c337,
+    10753,
+    __c336,
     1,
   ) as any as S.Schema<BulkCreateShardConfigurationProfileShardsResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
@@ -12966,8 +12966,8 @@ export const cancelAdminChangeRequest: API.OperationMethod<
   CancelAdminChangeRequestError,
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11136, __c348, 0) as any as S.Schema<CancelAdminChangeRequestRequest>,
-  output: __S(11168, __c349, 0) as any as S.Schema<CancelAdminChangeRequestResponse>,
+  input: __S(11104, __c347, 0) as any as S.Schema<CancelAdminChangeRequestRequest>,
+  output: __S(11136, __c348, 0) as any as S.Schema<CancelAdminChangeRequestResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -12988,8 +12988,8 @@ export const cancelBouncerResizeRequest: API.OperationMethod<
   CancelBouncerResizeRequestError,
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11680, __c365, 0) as any as S.Schema<CancelBouncerResizeRequestRequest>,
-  output: __S(11168, __c349, 0) as any as S.Schema<CancelBouncerResizeRequestResponse>,
+  input: __S(11648, __c364, 0) as any as S.Schema<CancelBouncerResizeRequestRequest>,
+  output: __S(11136, __c348, 0) as any as S.Schema<CancelBouncerResizeRequestResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -13011,7 +13011,7 @@ export const cancelBranchChangeRequest: API.OperationMethod<
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CancelBranchChangeRequestRequest>,
-  output: __S(11168, __c349, 0) as any as S.Schema<CancelBranchChangeRequestResponse>,
+  output: __S(11136, __c348, 0) as any as S.Schema<CancelBranchChangeRequestResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -13033,7 +13033,7 @@ export const cancelBranchConfigChangeRequest: API.OperationMethod<
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c17, 0) as any as S.Schema<CancelBranchConfigChangeRequestRequest>,
-  output: __S(11168, __c349, 0) as any as S.Schema<CancelBranchConfigChangeRequestResponse>,
+  output: __S(11136, __c348, 0) as any as S.Schema<CancelBranchConfigChangeRequestResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -13055,7 +13055,7 @@ export const cancelChangeRequest: API.OperationMethod<
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c32, 0) as any as S.Schema<CancelChangeRequestRequest>,
-  output: __S(11168, __c349, 0) as any as S.Schema<CancelChangeRequestResponse>,
+  output: __S(11136, __c348, 0) as any as S.Schema<CancelChangeRequestResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -13099,7 +13099,7 @@ export const cancelKeyspaceConfigChangeRequest: API.OperationMethod<
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2048, __c64, 0) as any as S.Schema<CancelKeyspaceConfigChangeRequestRequest>,
-  output: __S(11168, __c349, 0) as any as S.Schema<CancelKeyspaceConfigChangeRequestResponse>,
+  output: __S(11136, __c348, 0) as any as S.Schema<CancelKeyspaceConfigChangeRequestResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -13121,7 +13121,7 @@ export const cancelKeyspaceResizeRequest: API.OperationMethod<
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2496, __c78, 0) as any as S.Schema<CancelKeyspaceResizeRequestRequest>,
-  output: __S(11168, __c349, 0) as any as S.Schema<CancelKeyspaceResizeRequestResponse>,
+  output: __S(11136, __c348, 0) as any as S.Schema<CancelKeyspaceResizeRequestResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -13143,7 +13143,7 @@ export const cancelMoveTablesWorkflow: API.OperationMethod<
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2880, __c90, 0) as any as S.Schema<CancelMoveTablesWorkflowRequest>,
-  output: __S(11168, __c349, 0) as any as S.Schema<CancelMoveTablesWorkflowResponse>,
+  output: __S(11136, __c348, 0) as any as S.Schema<CancelMoveTablesWorkflowResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -13165,7 +13165,7 @@ export const cancelNekiChangeRequest: API.OperationMethod<
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3232, __c101, 0) as any as S.Schema<CancelNekiChangeRequestRequest>,
-  output: __S(11168, __c349, 0) as any as S.Schema<CancelNekiChangeRequestResponse>,
+  output: __S(11136, __c348, 0) as any as S.Schema<CancelNekiChangeRequestResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -13187,7 +13187,7 @@ export const cancelOrganizationInvitation: API.OperationMethod<
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3680, __c115, 0) as any as S.Schema<CancelOrganizationInvitationRequest>,
-  output: __S(11168, __c349, 0) as any as S.Schema<CancelOrganizationInvitationResponse>,
+  output: __S(11136, __c348, 0) as any as S.Schema<CancelOrganizationInvitationResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -13209,7 +13209,7 @@ export const cancelRouterChangeRequest: API.OperationMethod<
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4064, __c127, 0) as any as S.Schema<CancelRouterChangeRequestRequest>,
-  output: __S(11168, __c349, 0) as any as S.Schema<CancelRouterChangeRequestResponse>,
+  output: __S(11136, __c348, 0) as any as S.Schema<CancelRouterChangeRequestResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -13236,8 +13236,8 @@ export const cancelShardConfigurationProfileChangeRequest: API.OperationMethod<
     0,
   ) as any as S.Schema<CancelShardConfigurationProfileChangeRequestRequest>,
   output: __S(
-    11168,
-    __c349,
+    11136,
+    __c348,
     0,
   ) as any as S.Schema<CancelShardConfigurationProfileChangeRequestResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
@@ -13545,7 +13545,7 @@ export const createMoveTablesWorkflow: API.OperationMethod<
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8672, __c271, 0) as any as S.Schema<CreateMoveTablesWorkflowRequest>,
-  output: __S(11168, __c349, 0) as any as S.Schema<CreateMoveTablesWorkflowResponse>,
+  output: __S(11136, __c348, 0) as any as S.Schema<CreateMoveTablesWorkflowResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -13563,7 +13563,7 @@ export const createOauthToken: API.OperationMethod<
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8704, __c272, 0) as any as S.Schema<CreateOauthTokenRequest>,
-  output: __S(8736, __c273, 0) as any as S.Schema<ServiceToken>,
+  output: __S(8753, __c273, 17) as any as S.Schema<ServiceToken>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -13584,8 +13584,8 @@ export const createOrganizationInvitation: API.OperationMethod<
   CreateOrganizationInvitationError,
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8800, __c275, 0) as any as S.Schema<CreateOrganizationInvitationRequest>,
-  output: __S(8832, __c276, 0) as any as S.Schema<OrganizationInvitation>,
+  input: __S(8768, __c274, 0) as any as S.Schema<CreateOrganizationInvitationRequest>,
+  output: __S(8800, __c275, 0) as any as S.Schema<OrganizationInvitation>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -13606,7 +13606,7 @@ export const createOrganizationSsoDomain: API.OperationMethod<
   CreateOrganizationSsoDomainError,
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8864, __c277, 0) as any as S.Schema<CreateOrganizationSsoDomainRequest>,
+  input: __S(8832, __c276, 0) as any as S.Schema<CreateOrganizationSsoDomainRequest>,
   output: __S(5248, __c164, 0) as any as S.Schema<CreateOrganizationSsoDomainResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
@@ -13629,8 +13629,8 @@ export const createOrganizationTeam: API.OperationMethod<
   CreateOrganizationTeamError,
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8896, __c278, 0) as any as S.Schema<CreateOrganizationTeamRequest>,
-  output: __S(8931, __c279, 3) as any as S.Schema<OrganizationTeam>,
+  input: __S(8864, __c277, 0) as any as S.Schema<CreateOrganizationTeamRequest>,
+  output: __S(8899, __c278, 3) as any as S.Schema<OrganizationTeam>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -13647,8 +13647,8 @@ export const createPassword: API.OperationMethod<
   CreatePasswordError,
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9280, __c290, 0) as any as S.Schema<CreatePasswordRequest>,
-  output: __S(9312, __c291, 0) as any as S.Schema<DatabaseBranchPasswordWithSecret>,
+  input: __S(9248, __c289, 0) as any as S.Schema<CreatePasswordRequest>,
+  output: __S(9280, __c290, 0) as any as S.Schema<DatabaseBranchPasswordWithSecret>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -13669,8 +13669,8 @@ export const createQueryPatternsReport: API.OperationMethod<
   CreateQueryPatternsReportError,
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9344, __c292, 0) as any as S.Schema<CreateQueryPatternsReportRequest>,
-  output: __S(9376, __c293, 0) as any as S.Schema<QueryPatternsDownload>,
+  input: __S(9312, __c291, 0) as any as S.Schema<CreateQueryPatternsReportRequest>,
+  output: __S(9344, __c292, 0) as any as S.Schema<QueryPatternsDownload>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -13687,8 +13687,8 @@ export const createRole: API.OperationMethod<
   CreateRoleError,
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9408, __c294, 0) as any as S.Schema<CreateRoleRequest>,
-  output: __S(9441, __c295, 1) as any as S.Schema<PostgresRole>,
+  input: __S(9376, __c293, 0) as any as S.Schema<CreateRoleRequest>,
+  output: __S(9409, __c294, 1) as any as S.Schema<PostgresRole>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -13705,8 +13705,8 @@ export const createRouter: API.OperationMethod<
   CreateRouterError,
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9504, __c297, 0) as any as S.Schema<CreateRouterRequest>,
-  output: __S(9568, __c299, 0) as any as S.Schema<NekiRouter>,
+  input: __S(9472, __c296, 0) as any as S.Schema<CreateRouterRequest>,
+  output: __S(9536, __c298, 0) as any as S.Schema<NekiRouter>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -13727,8 +13727,8 @@ export const createServiceToken: API.OperationMethod<
   CreateServiceTokenError,
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9600, __c300, 0) as any as S.Schema<CreateServiceTokenRequest>,
-  output: __S(8736, __c273, 0) as any as S.Schema<ServiceToken>,
+  input: __S(9568, __c299, 0) as any as S.Schema<CreateServiceTokenRequest>,
+  output: __S(8753, __c273, 17) as any as S.Schema<ServiceToken>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -13745,8 +13745,8 @@ export const createShard: API.OperationMethod<
   CreateShardError,
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9632, __c301, 0) as any as S.Schema<CreateShardRequest>,
-  output: __S(11168, __c349, 0) as any as S.Schema<CreateShardResponse>,
+  input: __S(9600, __c300, 0) as any as S.Schema<CreateShardRequest>,
+  output: __S(11136, __c348, 0) as any as S.Schema<CreateShardResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -13767,8 +13767,8 @@ export const createShardConfigurationProfile: API.OperationMethod<
   CreateShardConfigurationProfileError,
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9664, __c302, 0) as any as S.Schema<CreateShardConfigurationProfileRequest>,
-  output: __S(9728, __c304, 0) as any as S.Schema<NekiShardConfigurationProfile>,
+  input: __S(9632, __c301, 0) as any as S.Schema<CreateShardConfigurationProfileRequest>,
+  output: __S(9696, __c303, 0) as any as S.Schema<NekiShardConfigurationProfile>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -13789,8 +13789,8 @@ export const createShardConfigurationProfileShard: API.OperationMethod<
   CreateShardConfigurationProfileShardError,
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9760, __c305, 0) as any as S.Schema<CreateShardConfigurationProfileShardRequest>,
-  output: __S(9792, __c306, 0) as any as S.Schema<NekiShard>,
+  input: __S(9728, __c304, 0) as any as S.Schema<CreateShardConfigurationProfileShardRequest>,
+  output: __S(9760, __c305, 0) as any as S.Schema<NekiShard>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -13812,8 +13812,8 @@ export const createSwitchover: API.OperationMethod<
   CreateSwitchoverError,
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9824, __c307, 0) as any as S.Schema<CreateSwitchoverRequest>,
-  output: __S(9856, __c308, 0) as any as S.Schema<PostgresSwitchover>,
+  input: __S(9792, __c306, 0) as any as S.Schema<CreateSwitchoverRequest>,
+  output: __S(9824, __c307, 0) as any as S.Schema<PostgresSwitchover>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -13834,8 +13834,8 @@ export const createTrafficBudget: API.OperationMethod<
   CreateTrafficBudgetError,
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9888, __c309, 0) as any as S.Schema<CreateTrafficBudgetRequest>,
-  output: __S(9921, __c310, 1) as any as S.Schema<TrafficBudget>,
+  input: __S(9856, __c308, 0) as any as S.Schema<CreateTrafficBudgetRequest>,
+  output: __S(9889, __c309, 1) as any as S.Schema<TrafficBudget>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -13856,8 +13856,8 @@ export const createTrafficRule: API.OperationMethod<
   CreateTrafficRuleError,
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10048, __c314, 0) as any as S.Schema<CreateTrafficRuleRequest>,
-  output: __S(9954, __c311, 2) as any as S.Schema<TrafficRule>,
+  input: __S(10016, __c313, 0) as any as S.Schema<CreateTrafficRuleRequest>,
+  output: __S(9922, __c310, 2) as any as S.Schema<TrafficRule>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -13874,8 +13874,8 @@ export const createWebhook: API.OperationMethod<
   CreateWebhookError,
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10080, __c315, 0) as any as S.Schema<CreateWebhookRequest>,
-  output: __S(10112, __c316, 0) as any as S.Schema<DatabaseWebhook>,
+  input: __S(10048, __c314, 0) as any as S.Schema<CreateWebhookRequest>,
+  output: __S(10080, __c315, 0) as any as S.Schema<DatabaseWebhook>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -13892,8 +13892,8 @@ export const deleteBackup: API.OperationMethod<
   DeleteBackupError,
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10144, __c317, 0) as any as S.Schema<DeleteBackupRequest>,
-  output: __S(11168, __c349, 0) as any as S.Schema<DeleteBackupResponse>,
+  input: __S(10112, __c316, 0) as any as S.Schema<DeleteBackupRequest>,
+  output: __S(11136, __c348, 0) as any as S.Schema<DeleteBackupResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -13914,8 +13914,8 @@ export const deleteBackupPolicy: API.OperationMethod<
   DeleteBackupPolicyError,
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10176, __c318, 0) as any as S.Schema<DeleteBackupPolicyRequest>,
-  output: __S(11168, __c349, 0) as any as S.Schema<DeleteBackupPolicyResponse>,
+  input: __S(10144, __c317, 0) as any as S.Schema<DeleteBackupPolicyRequest>,
+  output: __S(11136, __c348, 0) as any as S.Schema<DeleteBackupPolicyResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -13932,8 +13932,8 @@ export const deleteBouncer: API.OperationMethod<
   DeleteBouncerError,
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10208, __c319, 0) as any as S.Schema<DeleteBouncerRequest>,
-  output: __S(11168, __c349, 0) as any as S.Schema<DeleteBouncerResponse>,
+  input: __S(10176, __c318, 0) as any as S.Schema<DeleteBouncerRequest>,
+  output: __S(11136, __c348, 0) as any as S.Schema<DeleteBouncerResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -13950,8 +13950,8 @@ export const deleteBranch: API.OperationMethod<
   DeleteBranchError,
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10240, __c320, 0) as any as S.Schema<DeleteBranchRequest>,
-  output: __S(11168, __c349, 0) as any as S.Schema<DeleteBranchResponse>,
+  input: __S(10208, __c319, 0) as any as S.Schema<DeleteBranchRequest>,
+  output: __S(11136, __c348, 0) as any as S.Schema<DeleteBranchResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -13968,8 +13968,8 @@ export const deleteDatabase: API.OperationMethod<
   DeleteDatabaseError,
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10272, __c321, 0) as any as S.Schema<DeleteDatabaseRequest>,
-  output: __S(11168, __c349, 0) as any as S.Schema<DeleteDatabaseResponse>,
+  input: __S(10240, __c320, 0) as any as S.Schema<DeleteDatabaseRequest>,
+  output: __S(11136, __c348, 0) as any as S.Schema<DeleteDatabaseResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -13990,8 +13990,8 @@ export const deleteDatabasePostgresCidr: API.OperationMethod<
   DeleteDatabasePostgresCidrError,
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10304, __c322, 0) as any as S.Schema<DeleteDatabasePostgresCidrRequest>,
-  output: __S(11168, __c349, 0) as any as S.Schema<DeleteDatabasePostgresCidrResponse>,
+  input: __S(10272, __c321, 0) as any as S.Schema<DeleteDatabasePostgresCidrRequest>,
+  output: __S(11136, __c348, 0) as any as S.Schema<DeleteDatabasePostgresCidrResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -14012,8 +14012,8 @@ export const deleteDedicatedReadReplica: API.OperationMethod<
   DeleteDedicatedReadReplicaError,
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10336, __c323, 0) as any as S.Schema<DeleteDedicatedReadReplicaRequest>,
-  output: __S(11168, __c349, 0) as any as S.Schema<DeleteDedicatedReadReplicaResponse>,
+  input: __S(10304, __c322, 0) as any as S.Schema<DeleteDedicatedReadReplicaRequest>,
+  output: __S(11136, __c348, 0) as any as S.Schema<DeleteDedicatedReadReplicaResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -14030,8 +14030,8 @@ export const deleteKeyspace: API.OperationMethod<
   DeleteKeyspaceError,
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10368, __c324, 0) as any as S.Schema<DeleteKeyspaceRequest>,
-  output: __S(11168, __c349, 0) as any as S.Schema<DeleteKeyspaceResponse>,
+  input: __S(10336, __c323, 0) as any as S.Schema<DeleteKeyspaceRequest>,
+  output: __S(11136, __c348, 0) as any as S.Schema<DeleteKeyspaceResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -14048,8 +14048,8 @@ export const deleteOauthToken: API.OperationMethod<
   DeleteOauthTokenError,
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10464, __c327, 0) as any as S.Schema<DeleteOauthTokenRequest>,
-  output: __S(11168, __c349, 0) as any as S.Schema<DeleteOauthTokenResponse>,
+  input: __S(10432, __c326, 0) as any as S.Schema<DeleteOauthTokenRequest>,
+  output: __S(11136, __c348, 0) as any as S.Schema<DeleteOauthTokenResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -14070,8 +14070,8 @@ export const deleteOrganizationBillingPaymentMethod: API.OperationMethod<
   DeleteOrganizationBillingPaymentMethodError,
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10496, __c328, 0) as any as S.Schema<DeleteOrganizationBillingPaymentMethodRequest>,
-  output: __S(11168, __c349, 0) as any as S.Schema<DeleteOrganizationBillingPaymentMethodResponse>,
+  input: __S(10464, __c327, 0) as any as S.Schema<DeleteOrganizationBillingPaymentMethodRequest>,
+  output: __S(11136, __c348, 0) as any as S.Schema<DeleteOrganizationBillingPaymentMethodResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -14092,8 +14092,8 @@ export const deleteOrganizationSsoDomain: API.OperationMethod<
   DeleteOrganizationSsoDomainError,
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10528, __c329, 0) as any as S.Schema<DeleteOrganizationSsoDomainRequest>,
-  output: __S(11168, __c349, 0) as any as S.Schema<DeleteOrganizationSsoDomainResponse>,
+  input: __S(10496, __c328, 0) as any as S.Schema<DeleteOrganizationSsoDomainRequest>,
+  output: __S(11136, __c348, 0) as any as S.Schema<DeleteOrganizationSsoDomainResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -14115,8 +14115,8 @@ export const deleteOrganizationTeam: API.OperationMethod<
   DeleteOrganizationTeamError,
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10560, __c330, 0) as any as S.Schema<DeleteOrganizationTeamRequest>,
-  output: __S(11168, __c349, 0) as any as S.Schema<DeleteOrganizationTeamResponse>,
+  input: __S(10528, __c329, 0) as any as S.Schema<DeleteOrganizationTeamRequest>,
+  output: __S(11136, __c348, 0) as any as S.Schema<DeleteOrganizationTeamResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -14133,8 +14133,8 @@ export const deletePassword: API.OperationMethod<
   DeletePasswordError,
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10592, __c331, 0) as any as S.Schema<DeletePasswordRequest>,
-  output: __S(11168, __c349, 0) as any as S.Schema<DeletePasswordResponse>,
+  input: __S(10560, __c330, 0) as any as S.Schema<DeletePasswordRequest>,
+  output: __S(11136, __c348, 0) as any as S.Schema<DeletePasswordResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -14155,8 +14155,8 @@ export const deleteQueryPatternsReport: API.OperationMethod<
   DeleteQueryPatternsReportError,
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10624, __c332, 0) as any as S.Schema<DeleteQueryPatternsReportRequest>,
-  output: __S(11168, __c349, 0) as any as S.Schema<DeleteQueryPatternsReportResponse>,
+  input: __S(10592, __c331, 0) as any as S.Schema<DeleteQueryPatternsReportRequest>,
+  output: __S(11136, __c348, 0) as any as S.Schema<DeleteQueryPatternsReportResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -14173,8 +14173,8 @@ export const deleteRole: API.OperationMethod<
   DeleteRoleError,
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10656, __c333, 0) as any as S.Schema<DeleteRoleRequest>,
-  output: __S(11168, __c349, 0) as any as S.Schema<DeleteRoleResponse>,
+  input: __S(10624, __c332, 0) as any as S.Schema<DeleteRoleRequest>,
+  output: __S(11136, __c348, 0) as any as S.Schema<DeleteRoleResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -14191,8 +14191,8 @@ export const deleteRouter: API.OperationMethod<
   DeleteRouterError,
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10688, __c334, 0) as any as S.Schema<DeleteRouterRequest>,
-  output: __S(11168, __c349, 0) as any as S.Schema<DeleteRouterResponse>,
+  input: __S(10656, __c333, 0) as any as S.Schema<DeleteRouterRequest>,
+  output: __S(11136, __c348, 0) as any as S.Schema<DeleteRouterResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -14213,8 +14213,8 @@ export const deleteServiceToken: API.OperationMethod<
   DeleteServiceTokenError,
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10720, __c335, 0) as any as S.Schema<DeleteServiceTokenRequest>,
-  output: __S(11168, __c349, 0) as any as S.Schema<DeleteServiceTokenResponse>,
+  input: __S(10688, __c334, 0) as any as S.Schema<DeleteServiceTokenRequest>,
+  output: __S(11136, __c348, 0) as any as S.Schema<DeleteServiceTokenResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -14231,8 +14231,8 @@ export const deleteShard: API.OperationMethod<
   DeleteShardError,
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10752, __c336, 0) as any as S.Schema<DeleteShardRequest>,
-  output: __S(11168, __c349, 0) as any as S.Schema<DeleteShardResponse>,
+  input: __S(10720, __c335, 0) as any as S.Schema<DeleteShardRequest>,
+  output: __S(11136, __c348, 0) as any as S.Schema<DeleteShardResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -14253,8 +14253,8 @@ export const deleteShardConfigurationProfile: API.OperationMethod<
   DeleteShardConfigurationProfileError,
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10816, __c338, 0) as any as S.Schema<DeleteShardConfigurationProfileRequest>,
-  output: __S(11168, __c349, 0) as any as S.Schema<DeleteShardConfigurationProfileResponse>,
+  input: __S(10784, __c337, 0) as any as S.Schema<DeleteShardConfigurationProfileRequest>,
+  output: __S(11136, __c348, 0) as any as S.Schema<DeleteShardConfigurationProfileResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -14275,8 +14275,8 @@ export const deleteShardConfigurationProfileShard: API.OperationMethod<
   DeleteShardConfigurationProfileShardError,
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10848, __c339, 0) as any as S.Schema<DeleteShardConfigurationProfileShardRequest>,
-  output: __S(11168, __c349, 0) as any as S.Schema<DeleteShardConfigurationProfileShardResponse>,
+  input: __S(10816, __c338, 0) as any as S.Schema<DeleteShardConfigurationProfileShardRequest>,
+  output: __S(11136, __c348, 0) as any as S.Schema<DeleteShardConfigurationProfileShardResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -14297,8 +14297,8 @@ export const deleteShardConfigurationProfileShards: API.OperationMethod<
   DeleteShardConfigurationProfileShardsError,
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10880, __c340, 0) as any as S.Schema<DeleteShardConfigurationProfileShardsRequest>,
-  output: __S(11168, __c349, 0) as any as S.Schema<DeleteShardConfigurationProfileShardsResponse>,
+  input: __S(10848, __c339, 0) as any as S.Schema<DeleteShardConfigurationProfileShardsRequest>,
+  output: __S(11136, __c348, 0) as any as S.Schema<DeleteShardConfigurationProfileShardsResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -14319,8 +14319,8 @@ export const deleteTrafficBudget: API.OperationMethod<
   DeleteTrafficBudgetError,
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10912, __c341, 0) as any as S.Schema<DeleteTrafficBudgetRequest>,
-  output: __S(11168, __c349, 0) as any as S.Schema<DeleteTrafficBudgetResponse>,
+  input: __S(10880, __c340, 0) as any as S.Schema<DeleteTrafficBudgetRequest>,
+  output: __S(11136, __c348, 0) as any as S.Schema<DeleteTrafficBudgetResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -14341,8 +14341,8 @@ export const deleteTrafficRule: API.OperationMethod<
   DeleteTrafficRuleError,
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10944, __c342, 0) as any as S.Schema<DeleteTrafficRuleRequest>,
-  output: __S(11168, __c349, 0) as any as S.Schema<DeleteTrafficRuleResponse>,
+  input: __S(10912, __c341, 0) as any as S.Schema<DeleteTrafficRuleRequest>,
+  output: __S(11136, __c348, 0) as any as S.Schema<DeleteTrafficRuleResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -14359,8 +14359,8 @@ export const deleteWebhook: API.OperationMethod<
   DeleteWebhookError,
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10976, __c343, 0) as any as S.Schema<DeleteWebhookRequest>,
-  output: __S(11168, __c349, 0) as any as S.Schema<DeleteWebhookResponse>,
+  input: __S(10944, __c342, 0) as any as S.Schema<DeleteWebhookRequest>,
+  output: __S(11136, __c348, 0) as any as S.Schema<DeleteWebhookResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -14377,7 +14377,7 @@ export const demoteBranch: API.OperationMethod<
   DemoteBranchError,
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11008, __c344, 0) as any as S.Schema<DemoteBranchRequest>,
+  input: __S(10976, __c343, 0) as any as S.Schema<DemoteBranchRequest>,
   output: __S(6976, __c218, 0) as any as S.Schema<DatabaseBranch>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
@@ -14399,8 +14399,8 @@ export const deployCheckRequestStorage: API.OperationMethod<
   DeployCheckRequestStorageError,
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11040, __c345, 0) as any as S.Schema<DeployCheckRequestStorageRequest>,
-  output: __S(11044, __c345, 4) as any as S.Schema<DeployCheckRequestStorageResponse>,
+  input: __S(11008, __c344, 0) as any as S.Schema<DeployCheckRequestStorageRequest>,
+  output: __S(11012, __c344, 4) as any as S.Schema<DeployCheckRequestStorageResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -14421,7 +14421,7 @@ export const deployCloseRequest: API.OperationMethod<
   DeployCloseRequestError,
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11072, __c346, 0) as any as S.Schema<DeployCloseRequestRequest>,
+  input: __S(11040, __c345, 0) as any as S.Schema<DeployCloseRequestRequest>,
   output: __S(1568, __c49, 0) as any as S.Schema<DatabaseDeployRequest>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
@@ -14443,7 +14443,7 @@ export const deployCompleteErrored: API.OperationMethod<
   DeployCompleteErroredError,
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11104, __c347, 0) as any as S.Schema<DeployCompleteErroredRequest>,
+  input: __S(11072, __c346, 0) as any as S.Schema<DeployCompleteErroredRequest>,
   output: __S(1568, __c49, 0) as any as S.Schema<DatabaseDeployRequest>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
@@ -14465,7 +14465,7 @@ export const deployCompleteGatedRequest: API.OperationMethod<
   DeployCompleteGatedRequestError,
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11200, __c350, 0) as any as S.Schema<DeployCompleteGatedRequestRequest>,
+  input: __S(11168, __c349, 0) as any as S.Schema<DeployCompleteGatedRequestRequest>,
   output: __S(1568, __c49, 0) as any as S.Schema<DatabaseDeployRequest>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
@@ -14487,7 +14487,7 @@ export const deployForceCutoverRequest: API.OperationMethod<
   DeployForceCutoverRequestError,
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11232, __c351, 0) as any as S.Schema<DeployForceCutoverRequestRequest>,
+  input: __S(11200, __c350, 0) as any as S.Schema<DeployForceCutoverRequestRequest>,
   output: __S(1568, __c49, 0) as any as S.Schema<DatabaseDeployRequest>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
@@ -14509,7 +14509,7 @@ export const deployQueueRequest: API.OperationMethod<
   DeployQueueRequestError,
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11264, __c352, 0) as any as S.Schema<DeployQueueRequestRequest>,
+  input: __S(11232, __c351, 0) as any as S.Schema<DeployQueueRequestRequest>,
   output: __S(1568, __c49, 0) as any as S.Schema<DatabaseDeployRequest>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
@@ -14531,8 +14531,8 @@ export const deployReviewRequest: API.OperationMethod<
   DeployReviewRequestError,
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11296, __c353, 0) as any as S.Schema<DeployReviewRequestRequest>,
-  output: __S(11328, __c354, 0) as any as S.Schema<DeployRequestReview>,
+  input: __S(11264, __c352, 0) as any as S.Schema<DeployReviewRequestRequest>,
+  output: __S(11296, __c353, 0) as any as S.Schema<DeployRequestReview>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -14553,8 +14553,8 @@ export const disableOrganizationSso: API.OperationMethod<
   DisableOrganizationSsoError,
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11360, __c355, 0) as any as S.Schema<DisableOrganizationSsoRequest>,
-  output: __S(11392, __c356, 0) as any as S.Schema<OrganizationSsoSerializer>,
+  input: __S(11328, __c354, 0) as any as S.Schema<DisableOrganizationSsoRequest>,
+  output: __S(11360, __c355, 0) as any as S.Schema<OrganizationSsoSerializer>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -14575,8 +14575,8 @@ export const disableOrganizationSsoDirectory: API.OperationMethod<
   DisableOrganizationSsoDirectoryError,
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11488, __c359, 0) as any as S.Schema<DisableOrganizationSsoDirectoryRequest>,
-  output: __S(11392, __c356, 0) as any as S.Schema<OrganizationSsoSerializer>,
+  input: __S(11456, __c358, 0) as any as S.Schema<DisableOrganizationSsoDirectoryRequest>,
+  output: __S(11360, __c355, 0) as any as S.Schema<OrganizationSsoSerializer>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -14597,7 +14597,7 @@ export const disableSafeMigrations: API.OperationMethod<
   DisableSafeMigrationsError,
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11520, __c360, 0) as any as S.Schema<DisableSafeMigrationsRequest>,
+  input: __S(11488, __c359, 0) as any as S.Schema<DisableSafeMigrationsRequest>,
   output: __S(6976, __c218, 0) as any as S.Schema<DatabaseBranch>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
@@ -14619,8 +14619,8 @@ export const dismissSchemaRecommendation: API.OperationMethod<
   DismissSchemaRecommendationError,
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11552, __c361, 0) as any as S.Schema<DismissSchemaRecommendationRequest>,
-  output: __S(11585, __c362, 1) as any as S.Schema<SchemaRecommendation>,
+  input: __S(11520, __c360, 0) as any as S.Schema<DismissSchemaRecommendationRequest>,
+  output: __S(11553, __c361, 1) as any as S.Schema<SchemaRecommendation>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -14641,8 +14641,8 @@ export const duplicateShardConfigurationProfile: API.OperationMethod<
   DuplicateShardConfigurationProfileError,
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11616, __c363, 0) as any as S.Schema<DuplicateShardConfigurationProfileRequest>,
-  output: __S(9728, __c304, 0) as any as S.Schema<NekiShardConfigurationProfile>,
+  input: __S(11584, __c362, 0) as any as S.Schema<DuplicateShardConfigurationProfileRequest>,
+  output: __S(9696, __c303, 0) as any as S.Schema<NekiShardConfigurationProfile>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -14663,8 +14663,8 @@ export const enableOrganizationSso: API.OperationMethod<
   EnableOrganizationSsoError,
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11648, __c364, 0) as any as S.Schema<EnableOrganizationSsoRequest>,
-  output: __S(11392, __c356, 0) as any as S.Schema<OrganizationSsoSerializer>,
+  input: __S(11616, __c363, 0) as any as S.Schema<EnableOrganizationSsoRequest>,
+  output: __S(11360, __c355, 0) as any as S.Schema<OrganizationSsoSerializer>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -14685,7 +14685,7 @@ export const enableOrganizationSsoDirectory: API.OperationMethod<
   EnableOrganizationSsoDirectoryError,
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11712, __c366, 0) as any as S.Schema<EnableOrganizationSsoDirectoryRequest>,
+  input: __S(11680, __c365, 0) as any as S.Schema<EnableOrganizationSsoDirectoryRequest>,
   output: __S(5248, __c164, 0) as any as S.Schema<EnableOrganizationSsoDirectoryResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
@@ -14707,7 +14707,7 @@ export const enableSafeMigrations: API.OperationMethod<
   EnableSafeMigrationsError,
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11744, __c367, 0) as any as S.Schema<EnableSafeMigrationsRequest>,
+  input: __S(11712, __c366, 0) as any as S.Schema<EnableSafeMigrationsRequest>,
   output: __S(6976, __c218, 0) as any as S.Schema<DatabaseBranch>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
@@ -14725,8 +14725,8 @@ export const getAdmin: API.OperationMethod<
   GetAdminError,
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11776, __c368, 0) as any as S.Schema<GetAdminRequest>,
-  output: __S(11808, __c369, 0) as any as S.Schema<NekiAdmin>,
+  input: __S(11744, __c367, 0) as any as S.Schema<GetAdminRequest>,
+  output: __S(11776, __c368, 0) as any as S.Schema<NekiAdmin>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -14747,8 +14747,8 @@ export const getAdminChangeRequest: API.OperationMethod<
   GetAdminChangeRequestError,
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11840, __c370, 0) as any as S.Schema<GetAdminChangeRequestRequest>,
-  output: __S(11168, __c349, 0) as any as S.Schema<GetAdminChangeRequestResponse>,
+  input: __S(11808, __c369, 0) as any as S.Schema<GetAdminChangeRequestRequest>,
+  output: __S(11136, __c348, 0) as any as S.Schema<GetAdminChangeRequestResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -14765,7 +14765,7 @@ export const getBackup: API.OperationMethod<
   GetBackupError,
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11872, __c371, 0) as any as S.Schema<GetBackupRequest>,
+  input: __S(11840, __c370, 0) as any as S.Schema<GetBackupRequest>,
   output: __S(5666, __c177, 2) as any as S.Schema<Backup>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
@@ -14783,7 +14783,7 @@ export const getBackupPolicy: API.OperationMethod<
   GetBackupPolicyError,
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11904, __c372, 0) as any as S.Schema<GetBackupPolicyRequest>,
+  input: __S(11872, __c371, 0) as any as S.Schema<GetBackupPolicyRequest>,
   output: __S(5632, __c176, 0) as any as S.Schema<BackupPolicy>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
@@ -14801,7 +14801,7 @@ export const getBouncer: API.OperationMethod<
   GetBouncerError,
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11936, __c373, 0) as any as S.Schema<GetBouncerRequest>,
+  input: __S(11904, __c372, 0) as any as S.Schema<GetBouncerRequest>,
   output: __S(6528, __c204, 0) as any as S.Schema<PostgresBouncer>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
@@ -14819,7 +14819,7 @@ export const getBranch: API.OperationMethod<
   GetBranchError,
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11968, __c374, 0) as any as S.Schema<GetBranchRequest>,
+  input: __S(11936, __c373, 0) as any as S.Schema<GetBranchRequest>,
   output: __S(6976, __c218, 0) as any as S.Schema<DatabaseBranch>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
@@ -14837,8 +14837,8 @@ export const getBranchAnomaly: API.OperationMethod<
   GetBranchAnomalyError,
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12000, __c375, 0) as any as S.Schema<GetBranchAnomalyRequest>,
-  output: __S(12034, __c376, 2) as any as S.Schema<Anomaly>,
+  input: __S(11968, __c374, 0) as any as S.Schema<GetBranchAnomalyRequest>,
+  output: __S(12002, __c375, 2) as any as S.Schema<Anomaly>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -14859,8 +14859,8 @@ export const getBranchChangeRequest: API.OperationMethod<
   GetBranchChangeRequestError,
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12064, __c377, 0) as any as S.Schema<GetBranchChangeRequestRequest>,
-  output: __S(12096, __c378, 0) as any as S.Schema<PostgresClusterResizeRequest>,
+  input: __S(12032, __c376, 0) as any as S.Schema<GetBranchChangeRequestRequest>,
+  output: __S(12064, __c377, 0) as any as S.Schema<PostgresClusterResizeRequest>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -14904,7 +14904,7 @@ export const getBranchKeyspaceTableMetrics: API.OperationMethod<
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c2, 0) as any as S.Schema<GetBranchKeyspaceTableMetricsRequest>,
-  output: __S(11168, __c349, 0) as any as S.Schema<GetBranchKeyspaceTableMetricsResponse>,
+  output: __S(11136, __c348, 0) as any as S.Schema<GetBranchKeyspaceTableMetricsResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -15107,7 +15107,7 @@ export const getBranchTableMetrics: API.OperationMethod<
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c18, 0) as any as S.Schema<GetBranchTableMetricsRequest>,
-  output: __S(11168, __c349, 0) as any as S.Schema<GetBranchTableMetricsResponse>,
+  output: __S(11136, __c348, 0) as any as S.Schema<GetBranchTableMetricsResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -15286,7 +15286,7 @@ export const getDefaultRole: API.OperationMethod<
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c31, 0) as any as S.Schema<GetDefaultRoleRequest>,
-  output: __S(9441, __c295, 1) as any as S.Schema<PostgresRole>,
+  output: __S(9409, __c294, 1) as any as S.Schema<PostgresRole>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -15308,7 +15308,7 @@ export const getDefaultShardConfigurationProfile: API.OperationMethod<
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c33, 0) as any as S.Schema<GetDefaultShardConfigurationProfileRequest>,
-  output: __S(11168, __c349, 0) as any as S.Schema<GetDefaultShardConfigurationProfileResponse>,
+  output: __S(11136, __c348, 0) as any as S.Schema<GetDefaultShardConfigurationProfileResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -15706,7 +15706,7 @@ export const getNekiChangeRequest: API.OperationMethod<
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1952, __c61, 0) as any as S.Schema<GetNekiChangeRequestRequest>,
-  output: __S(11168, __c349, 0) as any as S.Schema<GetNekiChangeRequestResponse>,
+  output: __S(11136, __c348, 0) as any as S.Schema<GetNekiChangeRequestResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -15746,7 +15746,7 @@ export const getOauthToken: API.OperationMethod<
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2080, __c65, 0) as any as S.Schema<GetOauthTokenRequest>,
-  output: __S(8736, __c273, 0) as any as S.Schema<ServiceToken>,
+  output: __S(8753, __c273, 17) as any as S.Schema<ServiceToken>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -15830,7 +15830,7 @@ export const getOrganizationSso: API.OperationMethod<
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2272, __c71, 0) as any as S.Schema<GetOrganizationSsoRequest>,
-  output: __S(11392, __c356, 0) as any as S.Schema<OrganizationSsoSerializer>,
+  output: __S(11360, __c355, 0) as any as S.Schema<OrganizationSsoSerializer>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -15852,7 +15852,7 @@ export const getOrganizationSsoDomain: API.OperationMethod<
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2304, __c72, 0) as any as S.Schema<GetOrganizationSsoDomainRequest>,
-  output: __S(11424, __c357, 0) as any as S.Schema<OrganizationDomain>,
+  output: __S(11392, __c356, 0) as any as S.Schema<OrganizationDomain>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -15875,7 +15875,7 @@ export const getOrganizationTeam: API.OperationMethod<
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2336, __c73, 0) as any as S.Schema<GetOrganizationTeamRequest>,
-  output: __S(8931, __c279, 3) as any as S.Schema<OrganizationTeam>,
+  output: __S(8899, __c278, 3) as any as S.Schema<OrganizationTeam>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -15898,7 +15898,7 @@ export const getOrganizationTeamMember: API.OperationMethod<
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2368, __c74, 0) as any as S.Schema<GetOrganizationTeamMemberRequest>,
-  output: __S(9056, __c283, 0) as any as S.Schema<OrganizationTeamMembership>,
+  output: __S(9024, __c282, 0) as any as S.Schema<OrganizationTeamMembership>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -15916,7 +15916,7 @@ export const getPassword: API.OperationMethod<
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2400, __c75, 0) as any as S.Schema<GetPasswordRequest>,
-  output: __S(9024, __c282, 0) as any as S.Schema<DatabaseBranchPassword>,
+  output: __S(8992, __c281, 0) as any as S.Schema<DatabaseBranchPassword>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -15960,7 +15960,7 @@ export const getQueryPatternsReport: API.OperationMethod<
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2528, __c79, 0) as any as S.Schema<GetQueryPatternsReportRequest>,
-  output: __S(11168, __c349, 0) as any as S.Schema<GetQueryPatternsReportResponse>,
+  output: __S(11136, __c348, 0) as any as S.Schema<GetQueryPatternsReportResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -15982,7 +15982,7 @@ export const getQueryPatternsReportStatus: API.OperationMethod<
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2560, __c80, 0) as any as S.Schema<GetQueryPatternsReportStatusRequest>,
-  output: __S(9376, __c293, 0) as any as S.Schema<QueryPatternsDownload>,
+  output: __S(9344, __c292, 0) as any as S.Schema<QueryPatternsDownload>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -16055,7 +16055,7 @@ export const getRole: API.OperationMethod<
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2688, __c84, 0) as any as S.Schema<GetRoleRequest>,
-  output: __S(9441, __c295, 1) as any as S.Schema<PostgresRole>,
+  output: __S(9409, __c294, 1) as any as S.Schema<PostgresRole>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -16073,7 +16073,7 @@ export const getRouter: API.OperationMethod<
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2720, __c85, 0) as any as S.Schema<GetRouterRequest>,
-  output: __S(9568, __c299, 0) as any as S.Schema<NekiRouter>,
+  output: __S(9536, __c298, 0) as any as S.Schema<NekiRouter>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -16095,7 +16095,7 @@ export const getRouterChangeRequest: API.OperationMethod<
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2752, __c86, 0) as any as S.Schema<GetRouterChangeRequestRequest>,
-  output: __S(11168, __c349, 0) as any as S.Schema<GetRouterChangeRequestResponse>,
+  output: __S(11136, __c348, 0) as any as S.Schema<GetRouterChangeRequestResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -16117,7 +16117,7 @@ export const getSchemaRecommendation: API.OperationMethod<
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2784, __c87, 0) as any as S.Schema<GetSchemaRecommendationRequest>,
-  output: __S(11585, __c362, 1) as any as S.Schema<SchemaRecommendation>,
+  output: __S(11553, __c361, 1) as any as S.Schema<SchemaRecommendation>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -16135,7 +16135,7 @@ export const getServiceToken: API.OperationMethod<
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2816, __c88, 0) as any as S.Schema<GetServiceTokenRequest>,
-  output: __S(8736, __c273, 0) as any as S.Schema<ServiceToken>,
+  output: __S(8753, __c273, 17) as any as S.Schema<ServiceToken>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -16153,7 +16153,7 @@ export const getShard: API.OperationMethod<
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2848, __c89, 0) as any as S.Schema<GetShardRequest>,
-  output: __S(9792, __c306, 0) as any as S.Schema<NekiShard>,
+  output: __S(9760, __c305, 0) as any as S.Schema<NekiShard>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -16175,7 +16175,7 @@ export const getShardConfigurationProfile: API.OperationMethod<
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2912, __c91, 0) as any as S.Schema<GetShardConfigurationProfileRequest>,
-  output: __S(9728, __c304, 0) as any as S.Schema<NekiShardConfigurationProfile>,
+  output: __S(9696, __c303, 0) as any as S.Schema<NekiShardConfigurationProfile>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -16198,8 +16198,8 @@ export const getShardConfigurationProfileChangeRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2944, __c92, 0) as any as S.Schema<GetShardConfigurationProfileChangeRequestRequest>,
   output: __S(
-    11168,
-    __c349,
+    11136,
+    __c348,
     0,
   ) as any as S.Schema<GetShardConfigurationProfileChangeRequestResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
@@ -16223,7 +16223,7 @@ export const getShardConfigurationProfileShard: API.OperationMethod<
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2976, __c93, 0) as any as S.Schema<GetShardConfigurationProfileShardRequest>,
-  output: __S(9792, __c306, 0) as any as S.Schema<NekiShard>,
+  output: __S(9760, __c305, 0) as any as S.Schema<NekiShard>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -16241,7 +16241,7 @@ export const getSwitchover: API.OperationMethod<
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3008, __c94, 0) as any as S.Schema<GetSwitchoverRequest>,
-  output: __S(9856, __c308, 0) as any as S.Schema<PostgresSwitchover>,
+  output: __S(9824, __c307, 0) as any as S.Schema<PostgresSwitchover>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -16282,7 +16282,7 @@ export const getTrafficBudget: API.OperationMethod<
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3072, __c96, 0) as any as S.Schema<GetTrafficBudgetRequest>,
-  output: __S(9921, __c310, 1) as any as S.Schema<TrafficBudget>,
+  output: __S(9889, __c309, 1) as any as S.Schema<TrafficBudget>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -16322,7 +16322,7 @@ export const getWebhook: API.OperationMethod<
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3136, __c98, 0) as any as S.Schema<GetWebhookRequest>,
-  output: __S(10112, __c316, 0) as any as S.Schema<DatabaseWebhook>,
+  output: __S(10080, __c315, 0) as any as S.Schema<DatabaseWebhook>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -16372,7 +16372,7 @@ export const listAdminChangeRequests: API.OperationMethod<
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3200, __c100, 0) as any as S.Schema<ListAdminChangeRequestsRequest>,
-  output: __S(11168, __c349, 0) as any as S.Schema<ListAdminChangeRequestsResponse>,
+  output: __S(11136, __c348, 0) as any as S.Schema<ListAdminChangeRequestsResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -17491,7 +17491,7 @@ export const listNekiChangeRequests: API.OperationMethod<
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4768, __c149, 0) as any as S.Schema<ListNekiChangeRequestsRequest>,
-  output: __S(11168, __c349, 0) as any as S.Schema<ListNekiChangeRequestsResponse>,
+  output: __S(11136, __c348, 0) as any as S.Schema<ListNekiChangeRequestsResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -17543,7 +17543,7 @@ export const listOauthTokens: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
     input: __S(4864, __c152, 0) as any as S.Schema<ListOauthTokensRequest>,
-    output: __S(4898, __c153, 2) as any as S.Schema<PaginatedServiceToken>,
+    output: __S(4897, __c153, 1) as any as S.Schema<PaginatedServiceToken>,
     errors: [Forbidden, NotFound, UnprocessableEntity],
     serviceErrors: PlanetScaleServiceErrors,
     protocol: PlanetScaleProtocol,
@@ -17949,7 +17949,7 @@ export const listRouterChangeRequests: API.OperationMethod<
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5408, __c169, 0) as any as S.Schema<ListRouterChangeRequestsRequest>,
-  output: __S(11168, __c349, 0) as any as S.Schema<ListRouterChangeRequestsResponse>,
+  output: __S(11136, __c348, 0) as any as S.Schema<ListRouterChangeRequestsResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -18065,7 +18065,7 @@ export const listServiceTokenAccesses: API.OperationMethod<
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5568, __c174, 0) as any as S.Schema<ListServiceTokenAccessesRequest>,
-  output: __S(10019, __c313, 3) as any as S.Schema<ServiceTokenAccessesResponse>,
+  output: __S(9987, __c312, 3) as any as S.Schema<ServiceTokenAccessesResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -18089,7 +18089,7 @@ export const listServiceTokens: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
     input: __S(5696, __c178, 0) as any as S.Schema<ListServiceTokensRequest>,
-    output: __S(4898, __c153, 2) as any as S.Schema<PaginatedServiceToken>,
+    output: __S(4897, __c153, 1) as any as S.Schema<PaginatedServiceToken>,
     errors: [Forbidden, NotFound, UnprocessableEntity],
     serviceErrors: PlanetScaleServiceErrors,
     protocol: PlanetScaleProtocol,
@@ -18124,8 +18124,8 @@ export const listShardConfigurationProfileChangeRequests: API.OperationMethod<
     0,
   ) as any as S.Schema<ListShardConfigurationProfileChangeRequestsRequest>,
   output: __S(
-    11168,
-    __c349,
+    11136,
+    __c348,
     0,
   ) as any as S.Schema<ListShardConfigurationProfileChangeRequestsResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
@@ -18395,7 +18395,7 @@ export const moveCompleteTablesWorkflow: API.OperationMethod<
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6144, __c192, 0) as any as S.Schema<MoveCompleteTablesWorkflowRequest>,
-  output: __S(11168, __c349, 0) as any as S.Schema<MoveCompleteTablesWorkflowResponse>,
+  output: __S(11136, __c348, 0) as any as S.Schema<MoveCompleteTablesWorkflowResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -18417,7 +18417,7 @@ export const moveReverseTrafficTablesWorkflow: API.OperationMethod<
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6176, __c193, 0) as any as S.Schema<MoveReverseTrafficTablesWorkflowRequest>,
-  output: __S(11168, __c349, 0) as any as S.Schema<MoveReverseTrafficTablesWorkflowResponse>,
+  output: __S(11136, __c348, 0) as any as S.Schema<MoveReverseTrafficTablesWorkflowResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -18439,7 +18439,7 @@ export const moveSwitchTrafficTablesWorkflow: API.OperationMethod<
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6208, __c194, 0) as any as S.Schema<MoveSwitchTrafficTablesWorkflowRequest>,
-  output: __S(11168, __c349, 0) as any as S.Schema<MoveSwitchTrafficTablesWorkflowResponse>,
+  output: __S(11136, __c348, 0) as any as S.Schema<MoveSwitchTrafficTablesWorkflowResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -18479,7 +18479,7 @@ export const reassignRoleObjects: API.OperationMethod<
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6272, __c196, 0) as any as S.Schema<ReassignRoleObjectsRequest>,
-  output: __S(11168, __c349, 0) as any as S.Schema<ReassignRoleObjectsResponse>,
+  output: __S(11136, __c348, 0) as any as S.Schema<ReassignRoleObjectsResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -18501,7 +18501,7 @@ export const removeOrganizationMember: API.OperationMethod<
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6304, __c197, 0) as any as S.Schema<RemoveOrganizationMemberRequest>,
-  output: __S(11168, __c349, 0) as any as S.Schema<RemoveOrganizationMemberResponse>,
+  output: __S(11136, __c348, 0) as any as S.Schema<RemoveOrganizationMemberResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -18524,7 +18524,7 @@ export const removeOrganizationTeamMember: API.OperationMethod<
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6336, __c198, 0) as any as S.Schema<RemoveOrganizationTeamMemberRequest>,
-  output: __S(11168, __c349, 0) as any as S.Schema<RemoveOrganizationTeamMemberResponse>,
+  output: __S(11136, __c348, 0) as any as S.Schema<RemoveOrganizationTeamMemberResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -18546,7 +18546,7 @@ export const removeServiceTokenAccess: API.OperationMethod<
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6368, __c199, 0) as any as S.Schema<RemoveServiceTokenAccessRequest>,
-  output: __S(11168, __c349, 0) as any as S.Schema<RemoveServiceTokenAccessResponse>,
+  output: __S(11136, __c348, 0) as any as S.Schema<RemoveServiceTokenAccessResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -18564,7 +18564,7 @@ export const renewPassword: API.OperationMethod<
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6400, __c200, 0) as any as S.Schema<RenewPasswordRequest>,
-  output: __S(9312, __c291, 0) as any as S.Schema<DatabaseBranchPasswordWithSecret>,
+  output: __S(9280, __c290, 0) as any as S.Schema<DatabaseBranchPasswordWithSecret>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -18582,7 +18582,7 @@ export const renewRole: API.OperationMethod<
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6560, __c205, 0) as any as S.Schema<RenewRoleRequest>,
-  output: __S(9441, __c295, 1) as any as S.Schema<PostgresRole>,
+  output: __S(9409, __c294, 1) as any as S.Schema<PostgresRole>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -18622,7 +18622,7 @@ export const resetDefaultRole: API.OperationMethod<
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6624, __c207, 0) as any as S.Schema<ResetDefaultRoleRequest>,
-  output: __S(9441, __c295, 1) as any as S.Schema<PostgresRole>,
+  output: __S(9409, __c294, 1) as any as S.Schema<PostgresRole>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -18640,7 +18640,7 @@ export const resetRole: API.OperationMethod<
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6656, __c208, 0) as any as S.Schema<ResetRoleRequest>,
-  output: __S(9441, __c295, 1) as any as S.Schema<PostgresRole>,
+  output: __S(9409, __c294, 1) as any as S.Schema<PostgresRole>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -18662,7 +18662,7 @@ export const runBranchMaintenance: API.OperationMethod<
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6688, __c209, 0) as any as S.Schema<RunBranchMaintenanceRequest>,
-  output: __S(11168, __c349, 0) as any as S.Schema<RunBranchMaintenanceResponse>,
+  output: __S(11136, __c348, 0) as any as S.Schema<RunBranchMaintenanceResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -18684,7 +18684,7 @@ export const runShardConfigurationProfileMaintenance: API.OperationMethod<
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6720, __c210, 0) as any as S.Schema<RunShardConfigurationProfileMaintenanceRequest>,
-  output: __S(11168, __c349, 0) as any as S.Schema<RunShardConfigurationProfileMaintenanceResponse>,
+  output: __S(11136, __c348, 0) as any as S.Schema<RunShardConfigurationProfileMaintenanceResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -18707,8 +18707,8 @@ export const runShardConfigurationProfilesMaintenance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6752, __c211, 0) as any as S.Schema<RunShardConfigurationProfilesMaintenanceRequest>,
   output: __S(
-    11168,
-    __c349,
+    11136,
+    __c348,
     0,
   ) as any as S.Schema<RunShardConfigurationProfilesMaintenanceResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
@@ -18732,7 +18732,7 @@ export const setDefaultShardConfigurationProfile: API.OperationMethod<
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6784, __c212, 0) as any as S.Schema<SetDefaultShardConfigurationProfileRequest>,
-  output: __S(9728, __c304, 0) as any as S.Schema<NekiShardConfigurationProfile>,
+  output: __S(9696, __c303, 0) as any as S.Schema<NekiShardConfigurationProfile>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -18834,7 +18834,7 @@ export const testWebhook: API.OperationMethod<
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7072, __c221, 0) as any as S.Schema<TestWebhookRequest>,
-  output: __S(11168, __c349, 0) as any as S.Schema<TestWebhookResponse>,
+  output: __S(11136, __c348, 0) as any as S.Schema<TestWebhookResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -18852,7 +18852,7 @@ export const updateAdmin: API.OperationMethod<
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7104, __c222, 0) as any as S.Schema<UpdateAdminRequest>,
-  output: __S(11808, __c369, 0) as any as S.Schema<NekiAdmin>,
+  output: __S(11776, __c368, 0) as any as S.Schema<NekiAdmin>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -19016,7 +19016,7 @@ export const updateBranchChangeRequest: API.OperationMethod<
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7425, __c232, 1) as any as S.Schema<UpdateBranchChangeRequestRequest>,
-  output: __S(12096, __c378, 0) as any as S.Schema<PostgresClusterResizeRequest>,
+  output: __S(12064, __c377, 0) as any as S.Schema<PostgresClusterResizeRequest>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -19038,7 +19038,7 @@ export const updateBranchClusterConfig: API.OperationMethod<
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7456, __c233, 0) as any as S.Schema<UpdateBranchClusterConfigRequest>,
-  output: __S(11168, __c349, 0) as any as S.Schema<UpdateBranchClusterConfigResponse>,
+  output: __S(11136, __c348, 0) as any as S.Schema<UpdateBranchClusterConfigResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -19365,7 +19365,7 @@ export const updateOrganizationTeam: API.OperationMethod<
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7968, __c249, 0) as any as S.Schema<UpdateOrganizationTeamRequest>,
-  output: __S(8931, __c279, 3) as any as S.Schema<OrganizationTeam>,
+  output: __S(8899, __c278, 3) as any as S.Schema<OrganizationTeam>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -19383,7 +19383,7 @@ export const updatePassword: API.OperationMethod<
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8000, __c250, 0) as any as S.Schema<UpdatePasswordRequest>,
-  output: __S(9024, __c282, 0) as any as S.Schema<DatabaseBranchPassword>,
+  output: __S(8992, __c281, 0) as any as S.Schema<DatabaseBranchPassword>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -19423,7 +19423,7 @@ export const updateRole: API.OperationMethod<
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8128, __c254, 0) as any as S.Schema<UpdateRoleRequest>,
-  output: __S(9441, __c295, 1) as any as S.Schema<PostgresRole>,
+  output: __S(9409, __c294, 1) as any as S.Schema<PostgresRole>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -19441,7 +19441,7 @@ export const updateRouter: API.OperationMethod<
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8160, __c255, 0) as any as S.Schema<UpdateRouterRequest>,
-  output: __S(9568, __c299, 0) as any as S.Schema<NekiRouter>,
+  output: __S(9536, __c298, 0) as any as S.Schema<NekiRouter>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -19481,7 +19481,7 @@ export const updateShard: API.OperationMethod<
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8224, __c257, 0) as any as S.Schema<UpdateShardRequest>,
-  output: __S(11168, __c349, 0) as any as S.Schema<UpdateShardResponse>,
+  output: __S(11136, __c348, 0) as any as S.Schema<UpdateShardResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -19503,7 +19503,7 @@ export const updateShardConfigurationProfile: API.OperationMethod<
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8256, __c258, 0) as any as S.Schema<UpdateShardConfigurationProfileRequest>,
-  output: __S(9728, __c304, 0) as any as S.Schema<NekiShardConfigurationProfile>,
+  output: __S(9696, __c303, 0) as any as S.Schema<NekiShardConfigurationProfile>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -19525,7 +19525,7 @@ export const updateShardConfigurationProfileShard: API.OperationMethod<
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8288, __c259, 0) as any as S.Schema<UpdateShardConfigurationProfileShardRequest>,
-  output: __S(9792, __c306, 0) as any as S.Schema<NekiShard>,
+  output: __S(9760, __c305, 0) as any as S.Schema<NekiShard>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -19547,7 +19547,7 @@ export const updateTrafficBudget: API.OperationMethod<
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8320, __c260, 0) as any as S.Schema<UpdateTrafficBudgetRequest>,
-  output: __S(9921, __c310, 1) as any as S.Schema<TrafficBudget>,
+  output: __S(9889, __c309, 1) as any as S.Schema<TrafficBudget>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -19565,7 +19565,7 @@ export const updateWebhook: API.OperationMethod<
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8352, __c261, 0) as any as S.Schema<UpdateWebhookRequest>,
-  output: __S(10112, __c316, 0) as any as S.Schema<DatabaseWebhook>,
+  output: __S(10080, __c315, 0) as any as S.Schema<DatabaseWebhook>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
@@ -20301,7 +20301,7 @@ function __c5(j: number): any {
           organization: S.String.pipe(T.Label()),
           database: S.String.pipe(T.Label()),
           branch: S.String.pipe(T.Label()),
-          metrics: S.optional(__S(9472, __c296, 0).pipe(T.Query())),
+          metrics: S.optional(__S(9440, __c295, 0).pipe(T.Query())),
           period: S.optional(S.String.pipe(T.Query())),
           from: S.optional(S.String.pipe(T.Query())),
           to: S.optional(S.String.pipe(T.Query())),
@@ -20314,8 +20314,8 @@ function __c5(j: number): any {
           role: S.optional(S.String.pipe(T.Query())),
           container: S.optional(S.String.pipe(T.Query())),
           pod: S.optional(S.String.pipe(T.Query())),
-          pods: S.optional(__S(9248, __c289, 0).pipe(T.Query())),
-          query_ids: S.optional(__S(9248, __c289, 0).pipe(T.Query())),
+          pods: S.optional(__S(9216, __c288, 0).pipe(T.Query())),
+          query_ids: S.optional(__S(9216, __c288, 0).pipe(T.Query())),
           fingerprint: S.optional(S.String.pipe(T.Query())),
           budget_id: S.optional(S.String.pipe(T.Query())),
           rule_id: S.optional(S.String.pipe(T.Query())),
@@ -20342,7 +20342,7 @@ function __c6(j: number): any {
           type: S.String,
           metric: S.String,
           label: S.String,
-          labels: __S(10432, __c326, 0),
+          labels: __S(10400, __c325, 0),
           points: __S(193, __c6, 1),
         }),
       ).annotate({ identifier: "MetricSeriesSeriesItem" });
@@ -20385,13 +20385,13 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          password: __S(10432, __c326, 0),
+          password: __S(10400, __c325, 0),
           tags: __S(1472, __c46, 0),
           fingerprint: S.String,
           started_at: S.NullOr(S.String),
           statement_type: S.String,
           keyspace: S.String,
-          tables: __S(9248, __c289, 0),
+          tables: __S(9216, __c288, 0),
           username: S.String,
           remote_address: S.String,
           shard_queries: S.Number,
@@ -20463,8 +20463,8 @@ function __c11(j: number): any {
           organization: S.String.pipe(T.Label()),
           database: S.String.pipe(T.Label()),
           branch: S.String.pipe(T.Label()),
-          metrics: S.optional(__S(9472, __c296, 0).pipe(T.Query())),
-          query_ids: S.optional(__S(9248, __c289, 0).pipe(T.Query())),
+          metrics: S.optional(__S(9440, __c295, 0).pipe(T.Query())),
+          query_ids: S.optional(__S(9216, __c288, 0).pipe(T.Query())),
           fingerprint: S.optional(S.String.pipe(T.Query())),
           keyspace: S.optional(S.String.pipe(T.Query())),
           period: S.optional(S.String.pipe(T.Query())),
@@ -20580,7 +20580,7 @@ function __c15(j: number): any {
           vtgate_display_name: S.String,
           previous_vtgate_name: S.String,
           previous_vtgate_display_name: S.String,
-          actor: __S(8992, __c281, 0),
+          actor: __S(8960, __c280, 0),
         }),
       ).annotate({ identifier: "MysqlClusterResizeRequest" });
   }
@@ -20666,8 +20666,8 @@ function __c19(j: number): any {
           organization: S.String.pipe(T.Label()),
           database: S.String.pipe(T.Label()),
           branch: S.String.pipe(T.Label()),
-          metrics: S.optional(__S(9472, __c296, 0).pipe(T.Query())),
-          tag_sets: S.optional(__S(9248, __c289, 0).pipe(T.Query())),
+          metrics: S.optional(__S(9440, __c295, 0).pipe(T.Query())),
+          tag_sets: S.optional(__S(9216, __c288, 0).pipe(T.Query())),
           period: S.optional(S.String.pipe(T.Query())),
           from: S.optional(S.String.pipe(T.Query())),
           to: S.optional(S.String.pipe(T.Query())),
@@ -20718,16 +20718,16 @@ function __c21(j: number): any {
           completed_at: S.NullOr(S.String),
           created_at: S.String,
           updated_at: S.String,
-          actor: __S(8992, __c281, 0),
+          actor: __S(8960, __c280, 0),
           target_id: S.NullOr(S.String),
           target_type: S.String,
           target_name: S.String,
           admin_size: S.optional(S.NullOr(S.String)),
           admin_size_display_name: S.optional(S.NullOr(S.String)),
-          parameters: S.optional(S.NullOr(__S(10432, __c326, 0))),
+          parameters: S.optional(S.NullOr(__S(10400, __c325, 0))),
           previous_admin_size: S.optional(S.NullOr(S.String)),
           previous_admin_size_display_name: S.optional(S.NullOr(S.String)),
-          previous_parameters: S.optional(S.NullOr(__S(10432, __c326, 0))),
+          previous_parameters: S.optional(S.NullOr(__S(10400, __c325, 0))),
           replicas: S.optional(S.NullOr(S.Number)),
           previous_replicas: S.optional(S.NullOr(S.Number)),
           cluster_name: S.optional(S.NullOr(S.String)),
@@ -20753,13 +20753,13 @@ function __c21(j: number): any {
           cluster_rank: S.optional(S.NullOr(S.Number)),
           shards: S.optional(S.NullOr(S.Number)),
           postgres_image_version: S.optional(S.NullOr(S.String)),
-          storage: S.optional(S.NullOr(__S(9696, __c303, 0))),
+          storage: S.optional(S.NullOr(__S(9664, __c302, 0))),
           previous_cluster_size: S.optional(S.NullOr(S.String)),
           previous_metal: S.optional(S.NullOr(S.Boolean)),
           previous_cluster_rank: S.optional(S.NullOr(S.Number)),
           previous_shards: S.optional(S.NullOr(S.Number)),
           previous_postgres_image_version: S.optional(S.NullOr(S.String)),
-          previous_storage: S.optional(S.NullOr(__S(9696, __c303, 0))),
+          previous_storage: S.optional(S.NullOr(__S(9664, __c302, 0))),
           bouncer_size: S.optional(S.NullOr(S.String)),
           bouncer_size_display_name: S.optional(S.NullOr(S.String)),
           bouncer_rank: S.optional(S.NullOr(S.Number)),
@@ -20793,7 +20793,7 @@ function __c23(j: number): any {
           created_at: S.String,
           updated_at: S.String,
           two_factor_auth_configured: S.Boolean,
-          default_organization: S.optional(S.NullOr(__S(9120, __c285, 0))),
+          default_organization: S.optional(S.NullOr(__S(9088, __c284, 0))),
           sso: S.optional(S.NullOr(S.Boolean)),
           managed: S.optional(S.NullOr(S.Boolean)),
           directory_managed: S.optional(S.NullOr(S.Boolean)),
@@ -20868,8 +20868,8 @@ function __c27(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          keyspaces: __S(9248, __c289, 0),
-          configurable: __S(9120, __c285, 0),
+          keyspaces: __S(9216, __c288, 0),
+          configurable: __S(9088, __c284, 0),
           configurations: __S(865, __c27, 1),
         }),
       ).annotate({ identifier: "ThrottlerConfigurations" });
@@ -20898,7 +20898,7 @@ function __c29(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          data_topology: __S(10432, __c326, 0),
+          data_topology: __S(10400, __c325, 0),
           synced_at: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "NekiDataTopology" });
@@ -21074,7 +21074,7 @@ function __c38(j: number): any {
           organization: S.String.pipe(T.Label()),
           database: S.String.pipe(T.Label()),
           branch: S.String.pipe(T.Label()),
-          metrics: S.optional(__S(9472, __c296, 0).pipe(T.Query())),
+          metrics: S.optional(__S(9440, __c295, 0).pipe(T.Query())),
           role: S.optional(S.String.pipe(T.Query())),
           shard: S.optional(S.String.pipe(T.Query())),
           shard_config_profile: S.optional(S.String.pipe(T.Query())),
@@ -21116,7 +21116,7 @@ function __c39(j: number): any {
       return S.suspend(() =>
         S.Struct({
           type: S.String,
-          branch: __S(9120, __c285, 0),
+          branch: __S(9088, __c284, 0),
           metrics: __S(1251, __c39, 3),
         }),
       ).annotate({ identifier: "GetInstantBranchMetricsResponse" });
@@ -21130,7 +21130,7 @@ function __c40(j: number): any {
           organization: S.String.pipe(T.Label()),
           database: S.String.pipe(T.Label()),
           branch: S.String.pipe(T.Label()),
-          metrics: S.optional(__S(9472, __c296, 0).pipe(T.Query())),
+          metrics: S.optional(__S(9440, __c295, 0).pipe(T.Query())),
           keyspace: S.optional(S.String.pipe(T.Query())),
           shard: S.optional(S.String.pipe(T.Query())),
         }).pipe(
@@ -21198,7 +21198,7 @@ function __c43(j: number): any {
           cloudflare_billed: S.Boolean,
           database_id: S.String,
           database_name: S.String,
-          resource: __S(9120, __c285, 0),
+          resource: __S(9088, __c284, 0),
         }),
       ).annotate({ identifier: "PaginatedLineItemDataItem" });
     case 2:
@@ -21258,7 +21258,7 @@ function __c45(j: number): any {
 function __c46(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(10432, __c326, 0));
+      return S.Array(__S(10400, __c325, 0));
   }
 }
 function __c47(j: number): any {
@@ -21283,7 +21283,7 @@ function __c47(j: number): any {
           table_locked: S.Boolean,
           table_recently_used: S.Boolean,
           table_recently_used_at: S.NullOr(S.String),
-          removed_foreign_key_names: S.NullOr(__S(9248, __c289, 0)),
+          removed_foreign_key_names: S.NullOr(__S(9216, __c288, 0)),
           deploy_errors: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "DatabaseDeployRequestDeploymentDeployOperationsItem" });
@@ -21323,9 +21323,9 @@ function __c48(j: number): any {
           table_name: S.String,
           table_recently_used_at: S.NullOr(S.String),
           throttled_at: S.NullOr(S.String),
-          removed_foreign_key_names: __S(9248, __c289, 0),
+          removed_foreign_key_names: __S(9216, __c288, 0),
           shard_count: S.Number,
-          shard_names: __S(9248, __c289, 0),
+          shard_names: __S(9216, __c288, 0),
           can_drop_data: S.Boolean,
           table_recently_used: S.Boolean,
           sharded: S.Boolean,
@@ -21364,11 +21364,11 @@ function __c48(j: number): any {
           lint_errors: __S(1472, __c46, 0),
           sequential_diff_dependencies: __S(1472, __c46, 0),
           lookup_vindex_operations: __S(1472, __c46, 0),
-          throttler_configurations: S.optional(S.NullOr(__S(10432, __c326, 0))),
-          deployment_revert_request: S.NullOr(__S(10432, __c326, 0)),
-          actor: S.optional(S.NullOr(__S(8992, __c281, 0))),
-          cutover_actor: S.optional(S.NullOr(__S(8992, __c281, 0))),
-          cancelled_actor: S.optional(S.NullOr(__S(8992, __c281, 0))),
+          throttler_configurations: S.optional(S.NullOr(__S(10400, __c325, 0))),
+          deployment_revert_request: S.NullOr(__S(10400, __c325, 0)),
+          actor: S.optional(S.NullOr(__S(8960, __c280, 0))),
+          cutover_actor: S.optional(S.NullOr(__S(8960, __c280, 0))),
+          cancelled_actor: S.optional(S.NullOr(__S(8960, __c280, 0))),
           schema_last_updated_at: S.NullOr(S.String),
           table_locked: S.Boolean,
           locked_table_name: S.optional(S.NullOr(S.String)),
@@ -21387,12 +21387,12 @@ function __c49(j: number): any {
         S.Struct({
           id: S.String,
           number: S.Number,
-          actor: __S(8992, __c281, 0),
-          closed_by: S.optional(S.NullOr(__S(8992, __c281, 0))),
+          actor: __S(8960, __c280, 0),
+          closed_by: S.optional(S.NullOr(__S(8960, __c280, 0))),
           branch: S.String,
           branch_id: S.String,
           branch_deleted: S.Boolean,
-          branch_deleted_by: S.optional(S.NullOr(__S(8992, __c281, 0))),
+          branch_deleted_by: S.optional(S.NullOr(__S(8960, __c280, 0))),
           branch_deleted_at: S.NullOr(S.String),
           into_branch: S.String,
           into_branch_sharded: S.Boolean,
@@ -21474,7 +21474,7 @@ function __c52(j: number): any {
           previous_cluster_display_name: S.String,
           replicas: S.Number,
           previous_replicas: S.Number,
-          actor: __S(8992, __c281, 0),
+          actor: __S(8960, __c280, 0),
         }),
       ).annotate({ identifier: "KeyspaceResizeRequest" });
   }
@@ -21580,8 +21580,8 @@ function __c57(j: number): any {
           not_after: S.String,
           completed_at: S.NullOr(S.String),
           reschedules_remaining: S.Number,
-          branch: __S(9120, __c285, 0),
-          available_times: __S(9248, __c289, 0),
+          branch: __S(9088, __c284, 0),
+          available_times: __S(9216, __c288, 0),
         }),
       ).annotate({ identifier: "PostgresBranchMaintenanceEvent" });
   }
@@ -21672,7 +21672,7 @@ function __c60(j: number): any {
         S.Struct({
           traffic_state: S.optional(S.String),
           table_copy_state: S.optional(__S(1922, __c60, 2)),
-          shard_streams: S.optional(__S(10432, __c326, 0)),
+          shard_streams: S.optional(__S(10400, __c325, 0)),
         }),
       ).annotate({ identifier: "GetMoveTablesWorkflowStatusResponseData" });
     case 4:
@@ -21737,8 +21737,8 @@ function __c63(j: number): any {
           dcr: S.Boolean,
           single_org_authorization: S.Boolean,
           requires_org_scope: S.Boolean,
-          scopes_by_resource: __S(10432, __c326, 0),
-          all_scopes_by_resource: __S(10432, __c326, 0),
+          scopes_by_resource: __S(10400, __c325, 0),
+          all_scopes_by_resource: __S(10400, __c325, 0),
           mcp_tool_groups: S.optional(S.NullOr(__S(1472, __c46, 0))),
         }),
       ).annotate({ identifier: "OauthApplication" });
@@ -21811,7 +21811,7 @@ function __c67(j: number): any {
           has_past_due_invoices: S.optional(S.NullOr(S.Boolean)),
           database_count: S.Number,
           sso_portal_url: S.optional(S.NullOr(S.String)),
-          features: __S(10432, __c326, 0),
+          features: __S(10400, __c325, 0),
           idp_managed_roles: S.Boolean,
           invoice_budget_amount: S.String,
           keyspace_shard_limit: S.Number,
@@ -22111,9 +22111,9 @@ function __c83(j: number): any {
           comment_count: S.Number,
           query_count: S.Number,
           error_count: S.Number,
-          tables: __S(9248, __c289, 0),
-          qualified_tables: __S(9248, __c289, 0),
-          table_keyspaces: __S(9248, __c289, 0),
+          tables: __S(9216, __c288, 0),
+          qualified_tables: __S(9216, __c288, 0),
+          table_keyspaces: __S(9216, __c288, 0),
           index_usages: __S(1472, __c46, 0),
           routing_index_usages: __S(1472, __c46, 0),
           sum_shard_queries: S.Number,
@@ -22378,7 +22378,7 @@ function __c95(j: number): any {
           organization: S.String.pipe(T.Label()),
           database: S.String.pipe(T.Label()),
           branch: S.String.pipe(T.Label()),
-          metrics: S.optional(__S(9472, __c296, 0).pipe(T.Query())),
+          metrics: S.optional(__S(9440, __c295, 0).pipe(T.Query())),
           period: S.optional(S.String.pipe(T.Query())),
           from: S.optional(S.String.pipe(T.Query())),
           to: S.optional(S.String.pipe(T.Query())),
@@ -22444,8 +22444,8 @@ function __c97(j: number): any {
           completed_at: S.NullOr(S.String),
           state: S.String,
           completed: S.String,
-          metadata: S.optional(__S(10432, __c326, 0)),
-          result: S.optional(__S(10432, __c326, 0)),
+          metadata: S.optional(__S(10400, __c325, 0)),
+          result: S.optional(__S(10400, __c325, 0)),
           error: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetVtctldOperationResponse" });
@@ -22497,8 +22497,8 @@ function __c99(j: number): any {
           error_description: S.NullOr(S.String),
           docs_url: S.String,
           column_name: S.NullOr(S.String),
-          foreign_key_column_names: S.NullOr(__S(9248, __c289, 0)),
-          auto_increment_column_names: S.NullOr(__S(9248, __c289, 0)),
+          foreign_key_column_names: S.NullOr(__S(9216, __c288, 0)),
+          auto_increment_column_names: S.NullOr(__S(9216, __c288, 0)),
           charset_name: S.NullOr(S.String),
           engine_name: S.NullOr(S.String),
           vindex_name: S.NullOr(S.String),
@@ -22652,7 +22652,7 @@ function __c105(j: number): any {
           remote_ip: S.NullOr(S.String),
           created_at: S.String,
           updated_at: S.String,
-          metadata: S.NullOr(__S(10432, __c326, 0)),
+          metadata: S.NullOr(__S(10400, __c325, 0)),
         }),
       ).annotate({ identifier: "PaginatedAuditLogEventDataItem" });
     case 2:
@@ -22797,16 +22797,16 @@ function __c110(j: number): any {
           state: S.String,
           replicas_per_cell: S.Number,
           target: S.String,
-          parameters: __S(10432, __c326, 0),
+          parameters: __S(10400, __c325, 0),
           previous_replicas_per_cell: S.Number,
           previous_target: S.String,
-          previous_parameters: __S(10432, __c326, 0),
+          previous_parameters: __S(10400, __c325, 0),
           started_at: S.NullOr(S.String),
           completed_at: S.NullOr(S.String),
           created_at: S.String,
           updated_at: S.String,
-          actor: __S(8992, __c281, 0),
-          bouncer: __S(9120, __c285, 0),
+          actor: __S(8960, __c280, 0),
+          bouncer: __S(9088, __c284, 0),
           sku: __S(6496, __c203, 0),
           previous_sku: __S(6496, __c203, 0),
         }),
@@ -22870,7 +22870,7 @@ function __c112(j: number): any {
         ),
       ).annotate({ identifier: "ListBranchAnomaliesRequest" });
     case 1:
-      return S.Array(__S(12034, __c376, 2));
+      return S.Array(__S(12002, __c375, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -22925,7 +22925,7 @@ function __c114(j: number): any {
         ),
       ).annotate({ identifier: "ListBranchChangeRequestsRequest" });
     case 1:
-      return S.Array(__S(12096, __c378, 0));
+      return S.Array(__S(12064, __c377, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -23054,7 +23054,7 @@ function __c119(j: number): any {
           dir: S.optional(S.String.pipe(T.Query())),
           tablet_type: S.optional(S.String.pipe(T.Query())),
           type: S.optional(S.String.pipe(T.Query())),
-          fields: S.optional(__S(9248, __c289, 0).pipe(T.Query())),
+          fields: S.optional(__S(9216, __c288, 0).pipe(T.Query())),
           page: S.optional(S.Number.pipe(T.Query())),
           per_page: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
@@ -23188,7 +23188,7 @@ function __c122(j: number): any {
           organization: S.String.pipe(T.Label()),
           database: S.String.pipe(T.Label()),
           branch: S.String.pipe(T.Label()),
-          tags: S.optional(__S(9248, __c289, 0).pipe(T.Query())),
+          tags: S.optional(__S(9216, __c288, 0).pipe(T.Query())),
           q: S.optional(S.String.pipe(T.Query())),
           from: S.optional(S.String.pipe(T.Query())),
           to: S.optional(S.String.pipe(T.Query())),
@@ -23197,7 +23197,7 @@ function __c122(j: number): any {
           dir: S.optional(S.String.pipe(T.Query())),
           tablet_type: S.optional(S.String.pipe(T.Query())),
           type: S.optional(S.String.pipe(T.Query())),
-          fields: S.optional(__S(9248, __c289, 0).pipe(T.Query())),
+          fields: S.optional(__S(9216, __c288, 0).pipe(T.Query())),
           page: S.optional(S.Number.pipe(T.Query())),
           per_page: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
@@ -23211,12 +23211,12 @@ function __c122(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          dimensions: __S(10432, __c326, 0),
+          dimensions: __S(10400, __c325, 0),
           query_count: S.Number,
           error_count: S.Number,
-          tables: __S(9248, __c289, 0),
-          qualified_tables: __S(9248, __c289, 0),
-          table_keyspaces: __S(9248, __c289, 0),
+          tables: __S(9216, __c288, 0),
+          qualified_tables: __S(9216, __c288, 0),
+          table_keyspaces: __S(9216, __c288, 0),
           index_usages: __S(1472, __c46, 0),
           routing_index_usages: __S(1472, __c46, 0),
           sum_shard_queries: S.Number,
@@ -23338,7 +23338,7 @@ function __c124(j: number): any {
           default_value: S.NullOr(S.String),
           value: S.NullOr(S.String),
           override: S.Boolean,
-          options: S.optional(__S(9248, __c289, 0)),
+          options: S.optional(__S(9216, __c288, 0)),
         }),
       ).annotate({ identifier: "ListBranchVitessParametersResponseVtgateItem" });
     case 2:
@@ -23374,8 +23374,8 @@ function __c125(j: number): any {
           branch: S.String.pipe(T.Label()),
           page: S.optional(S.Number.pipe(T.Query())),
           per_page: S.optional(S.Number.pipe(T.Query())),
-          state: S.optional(__S(9248, __c289, 0).pipe(T.Query())),
-          target_types: S.optional(__S(9248, __c289, 0).pipe(T.Query())),
+          state: S.optional(__S(9216, __c288, 0).pipe(T.Query())),
+          target_types: S.optional(__S(9216, __c288, 0).pipe(T.Query())),
           target_id: S.optional(S.String.pipe(T.Query())),
           period: S.optional(S.String.pipe(T.Query())),
           completed_at: S.optional(S.String.pipe(T.Query())),
@@ -23534,7 +23534,7 @@ function __c129(j: number): any {
 function __c130(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(9152, __c286, 0));
+      return S.Array(__S(9120, __c285, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -23612,7 +23612,7 @@ function __c132(j: number): any {
           cluster_display_name: S.String,
           cluster_rank: S.Number,
           replicas: S.Number,
-          parameters: __S(10432, __c326, 0),
+          parameters: __S(10400, __c325, 0),
           minimum_storage_bytes: S.NullOr(S.Number),
           maximum_storage_bytes: S.NullOr(S.Number),
           storage_autoscaling: S.NullOr(S.Boolean),
@@ -23623,7 +23623,7 @@ function __c132(j: number): any {
           previous_cluster_display_name: S.String,
           previous_cluster_rank: S.Number,
           previous_replicas: S.Number,
-          previous_parameters: __S(10432, __c326, 0),
+          previous_parameters: __S(10400, __c325, 0),
           previous_minimum_storage_bytes: S.NullOr(S.Number),
           previous_maximum_storage_bytes: S.NullOr(S.Number),
           previous_storage_autoscaling: S.NullOr(S.Boolean),
@@ -23634,8 +23634,8 @@ function __c132(j: number): any {
           completed_at: S.NullOr(S.String),
           created_at: S.String,
           updated_at: S.String,
-          actor: __S(8992, __c281, 0),
-          replica: __S(9120, __c285, 0),
+          actor: __S(8960, __c280, 0),
+          replica: __S(9088, __c284, 0),
         }),
       ).annotate({ identifier: "PaginatedPostgresReadOnlyReplicaChangeRequestDataItem" });
     case 2:
@@ -23731,7 +23731,7 @@ function __c135(j: number): any {
         ),
       ).annotate({ identifier: "ListDeployRequestReviewsRequest" });
     case 1:
-      return S.Array(__S(11328, __c354, 0));
+      return S.Array(__S(11296, __c353, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -23849,7 +23849,7 @@ function __c139(j: number): any {
         ),
       ).annotate({ identifier: "ListGeneratedQueryPatternsReportsRequest" });
     case 1:
-      return S.Array(__S(9376, __c293, 0));
+      return S.Array(__S(9344, __c292, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -24161,8 +24161,8 @@ function __c149(j: number): any {
           branch: S.String.pipe(T.Label()),
           page: S.optional(S.Number.pipe(T.Query())),
           per_page: S.optional(S.Number.pipe(T.Query())),
-          state: S.optional(__S(9248, __c289, 0).pipe(T.Query())),
-          target_types: S.optional(__S(9248, __c289, 0).pipe(T.Query())),
+          state: S.optional(__S(9216, __c288, 0).pipe(T.Query())),
+          target_types: S.optional(__S(9216, __c288, 0).pipe(T.Query())),
           target_id: S.optional(S.String.pipe(T.Query())),
           period: S.optional(S.String.pipe(T.Query())),
           completed_at: S.optional(S.String.pipe(T.Query())),
@@ -24251,32 +24251,8 @@ function __c152(j: number): any {
 function __c153(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          name: S.optional(S.NullOr(S.String)),
-          display_name: S.String,
-          token: S.optional(S.NullOr(S.String)),
-          plain_text_refresh_token: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
-          avatar_url: S.String,
-          created_at: S.String,
-          updated_at: S.String,
-          expires_at: S.optional(S.NullOr(S.String)),
-          last_used_at: S.optional(S.NullOr(S.String)),
-          last_used_ip: S.NullOr(S.String),
-          last_used_location: S.NullOr(S.String),
-          last_used_asn: S.NullOr(S.Number),
-          last_used_asn_organization: S.NullOr(S.String),
-          actor_id: S.NullOr(S.String),
-          actor_display_name: S.NullOr(S.String),
-          actor_type: S.NullOr(S.String),
-          service_token_accesses: S.optional(S.NullOr(__S(8769, __c274, 1))),
-          oauth_accesses_by_resource: S.optional(S.NullOr(__S(8784, __c274, 16))),
-        }),
-      ).annotate({ identifier: "PaginatedServiceTokenDataItem" });
+      return S.Array(__S(8753, __c273, 17));
     case 1:
-      return S.Array(__S(4896, __c153, 0));
-    case 2:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
@@ -24288,7 +24264,7 @@ function __c153(j: number): any {
           prev_page_url: S.NullOr(S.String),
           total_count: S.Number,
           total_pages: S.Number,
-          data: __S(4897, __c153, 1),
+          data: __S(4896, __c153, 0),
         }),
       ).annotate({ identifier: "PaginatedServiceToken" });
   }
@@ -24306,7 +24282,7 @@ function __c154(j: number): any {
         ),
       ).annotate({ identifier: "ListOrganizationInvitationsRequest" });
     case 1:
-      return S.Array(__S(8832, __c276, 0));
+      return S.Array(__S(8800, __c275, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -24391,7 +24367,7 @@ function __c157(j: number): any {
         ),
       ).annotate({ identifier: "ListOrganizationSsoDomainsRequest" });
     case 1:
-      return S.suspend(() => __S(11456, __c358, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(11424, __c357, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListOrganizationSsoDomainsResponse",
       });
   }
@@ -24414,7 +24390,7 @@ function __c158(j: number): any {
         ),
       ).annotate({ identifier: "ListOrganizationTeamMembersRequest" });
     case 1:
-      return S.Array(__S(9056, __c283, 0));
+      return S.Array(__S(9024, __c282, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -24444,7 +24420,7 @@ function __c159(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/organizations/{organization}/teams", code: 200 })),
       ).annotate({ identifier: "ListOrganizationTeamsRequest" });
     case 1:
-      return S.Array(__S(8931, __c279, 3));
+      return S.Array(__S(8899, __c278, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -24514,7 +24490,7 @@ function __c161(j: number): any {
           prev_page_url: S.NullOr(S.String),
           total_count: S.Number,
           total_pages: S.Number,
-          data: __S(9088, __c284, 0),
+          data: __S(9056, __c283, 0),
         }),
       ).annotate({ identifier: "PaginatedDatabaseBranchPassword" });
   }
@@ -24582,7 +24558,7 @@ function __c165(j: number): any {
           id: S.String,
           provider: S.String,
           enabled: S.Boolean,
-          public_ip_addresses: __S(9248, __c289, 0),
+          public_ip_addresses: __S(9216, __c288, 0),
           display_name: S.String,
           location: S.String,
           slug: S.String,
@@ -24631,8 +24607,8 @@ function __c166(j: number): any {
           updated_at: S.String,
           ready_at: S.NullOr(S.String),
           ready: S.Boolean,
-          actor: __S(8992, __c281, 0),
-          region: __S(9152, __c286, 0),
+          actor: __S(8960, __c280, 0),
+          region: __S(9120, __c285, 0),
         }),
       ).annotate({ identifier: "PaginatedDatabaseBranchReadOnlyRegionDataItem" });
     case 2:
@@ -24685,7 +24661,7 @@ function __c168(j: number): any {
         ),
       ).annotate({ identifier: "ListRolesRequest" });
     case 1:
-      return S.Array(__S(9441, __c295, 1));
+      return S.Array(__S(9409, __c294, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -24763,7 +24739,7 @@ function __c171(j: number): any {
         ),
       ).annotate({ identifier: "ListRoutersRequest" });
     case 1:
-      return S.Array(__S(9568, __c299, 0));
+      return S.Array(__S(9536, __c298, 0));
     case 2:
       return S.suspend(() => __S(5473, __c171, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListRoutersResponse",
@@ -24787,7 +24763,7 @@ function __c172(j: number): any {
         ),
       ).annotate({ identifier: "ListRouterSizeSkusRequest" });
     case 1:
-      return S.Array(__S(9536, __c298, 0));
+      return S.Array(__S(9504, __c297, 0));
     case 2:
       return S.suspend(() => __S(5505, __c172, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListRouterSizeSkusResponse",
@@ -24814,7 +24790,7 @@ function __c173(j: number): any {
         ),
       ).annotate({ identifier: "ListSchemaRecommendationsRequest" });
     case 1:
-      return S.Array(__S(11585, __c362, 1));
+      return S.Array(__S(11553, __c361, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -24899,7 +24875,7 @@ function __c176(j: number): any {
 function __c177(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(9120, __c285, 0));
+      return S.Array(__S(9088, __c284, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -24932,10 +24908,10 @@ function __c177(j: number): any {
           emergency: S.Boolean,
           emergency_source: S.optional(S.NullOr(S.String)),
           restored_branches: __S(5664, __c177, 0),
-          actor: S.NullOr(__S(8992, __c281, 0)),
+          actor: S.NullOr(__S(8960, __c280, 0)),
           backup_policy: S.optional(S.NullOr(__S(5632, __c176, 0))),
           schema_snapshot: S.optional(S.NullOr(__S(5665, __c177, 1))),
-          database_branch: S.optional(S.NullOr(__S(9120, __c285, 0))),
+          database_branch: S.optional(S.NullOr(__S(9088, __c284, 0))),
         }),
       ).annotate({ identifier: "Backup" });
   }
@@ -25033,7 +25009,7 @@ function __c182(j: number): any {
         ),
       ).annotate({ identifier: "ListShardConfigurationProfilesRequest" });
     case 1:
-      return S.Array(__S(9728, __c304, 0));
+      return S.Array(__S(9696, __c303, 0));
     case 2:
       return S.suspend(() => __S(5825, __c182, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListShardConfigurationProfilesResponse",
@@ -25065,7 +25041,7 @@ function __c183(j: number): any {
 function __c184(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(9792, __c306, 0));
+      return S.Array(__S(9760, __c305, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -25124,7 +25100,7 @@ function __c186(j: number): any {
         ),
       ).annotate({ identifier: "ListSwitchoversRequest" });
     case 1:
-      return S.Array(__S(9856, __c308, 0));
+      return S.Array(__S(9824, __c307, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -25166,7 +25142,7 @@ function __c187(j: number): any {
 function __c188(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(9921, __c310, 1));
+      return S.Array(__S(9889, __c309, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -25248,7 +25224,7 @@ function __c191(j: number): any {
         ),
       ).annotate({ identifier: "ListWebhooksRequest" });
     case 1:
-      return S.Array(__S(10112, __c316, 0));
+      return S.Array(__S(10080, __c315, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -25407,7 +25383,7 @@ function __c199(j: number): any {
           organization: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
           database: S.String,
-          access: __S(9248, __c289, 0),
+          access: __S(9216, __c288, 0),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -25484,10 +25460,10 @@ function __c202(j: number): any {
           restart: S.Boolean,
           max: S.optional(S.NullOr(S.String)),
           min: S.optional(S.NullOr(S.String)),
-          options: S.optional(S.NullOr(__S(9248, __c289, 0))),
-          units: S.optional(S.NullOr(__S(9248, __c289, 0))),
+          options: S.optional(S.NullOr(__S(9216, __c288, 0))),
+          units: S.optional(S.NullOr(__S(9216, __c288, 0))),
           url: S.String,
-          actor: __S(8992, __c281, 0),
+          actor: __S(8960, __c280, 0),
         }),
       ).annotate({ identifier: "PostgresBouncerParametersItem" });
     case 1:
@@ -25521,8 +25497,8 @@ function __c204(j: number): any {
           created_at: S.String,
           updated_at: S.String,
           deleted_at: S.NullOr(S.String),
-          actor: __S(8992, __c281, 0),
-          branch: __S(9120, __c285, 0),
+          actor: __S(8960, __c280, 0),
+          branch: __S(9088, __c284, 0),
           parameters: __S(6465, __c202, 1),
         }),
       ).annotate({ identifier: "PostgresBouncer" });
@@ -25649,7 +25625,7 @@ function __c211(j: number): any {
           organization: S.String.pipe(T.Label()),
           database: S.String.pipe(T.Label()),
           branch: S.String.pipe(T.Label()),
-          configuration_profile_names: __S(9248, __c289, 0),
+          configuration_profile_names: __S(9216, __c288, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -25748,9 +25724,9 @@ function __c216(j: number): any {
           replicas: S.optional(S.Number),
           seed_data: S.optional(S.String),
           cluster_size: S.optional(S.String),
-          keyspace_cluster_sizes: S.optional(__S(9248, __c289, 0)),
-          configuration_profile_sizes: S.optional(__S(9248, __c289, 0)),
-          router_sizes: S.optional(__S(9248, __c289, 0)),
+          keyspace_cluster_sizes: S.optional(__S(9216, __c288, 0)),
+          configuration_profile_sizes: S.optional(__S(9216, __c288, 0)),
+          router_sizes: S.optional(__S(9216, __c288, 0)),
           storage: S.optional(__S(6944, __c217, 0)),
           major_version: S.optional(S.String),
           create_database_if_missing: S.optional(S.Boolean),
@@ -25811,16 +25787,16 @@ function __c218(j: number): any {
           shard_count: S.optional(S.NullOr(S.Number)),
           keyspace_count: S.optional(S.Number),
           stale_schema: S.Boolean,
-          actor: S.NullOr(__S(8992, __c281, 0)),
-          restored_from_branch: S.NullOr(__S(9120, __c285, 0)),
+          actor: S.NullOr(__S(8960, __c280, 0)),
+          restored_from_branch: S.NullOr(__S(9088, __c284, 0)),
           private_edge_connectivity: S.Boolean,
           has_replicas: S.Boolean,
           has_read_only_replicas: S.Boolean,
           html_url: S.String,
           url: S.String,
-          region: __S(9152, __c286, 0),
+          region: __S(9120, __c285, 0),
           parent_branch: S.NullOr(S.String),
-          vtgate_options: S.optional(S.NullOr(__S(10432, __c326, 0))),
+          vtgate_options: S.optional(S.NullOr(__S(10400, __c325, 0))),
           cluster_architecture: S.optional(S.String),
         }),
       ).annotate({ identifier: "DatabaseBranch" });
@@ -25853,7 +25829,7 @@ function __c220(j: number): any {
           organization: S.String.pipe(T.Label()),
           database: S.String.pipe(T.Label()),
           branch: S.String.pipe(T.Label()),
-          ids: __S(9248, __c289, 0),
+          ids: __S(9216, __c288, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -25897,7 +25873,7 @@ function __c222(j: number): any {
           database: S.String.pipe(T.Label()),
           branch: S.String.pipe(T.Label()),
           admin_size: S.optional(S.String),
-          parameters: S.optional(__S(10432, __c326, 0)),
+          parameters: S.optional(__S(10400, __c325, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -26024,7 +26000,7 @@ function __c228(j: number): any {
           bouncer_size: S.optional(S.String),
           replicas_per_cell: S.optional(S.Number),
           target: S.optional(S.String),
-          parameters: S.optional(__S(10432, __c326, 0)),
+          parameters: S.optional(__S(10400, __c325, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -26044,7 +26020,7 @@ function __c229(j: number): any {
           database: S.String.pipe(T.Label()),
           branch: S.String.pipe(T.Label()),
           change_type: S.String,
-          options: __S(10432, __c326, 0),
+          options: __S(10400, __c325, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -26063,8 +26039,8 @@ function __c230(j: number): any {
           id: S.String,
           state: S.String,
           change_type: S.String,
-          previous_options: __S(10432, __c326, 0),
-          new_options: __S(10432, __c326, 0),
+          previous_options: __S(10400, __c325, 0),
+          new_options: __S(10400, __c325, 0),
           error_message: S.NullOr(S.String),
           started_at: S.NullOr(S.String),
           completed_at: S.NullOr(S.String),
@@ -26072,7 +26048,7 @@ function __c230(j: number): any {
           updated_at: S.String,
           keyspace_name: S.NullOr(S.String),
           queued_until: S.NullOr(S.String),
-          actor: __S(8992, __c281, 0),
+          actor: __S(8960, __c280, 0),
         }),
       ).annotate({ identifier: "BranchConfigChangeRequest" });
   }
@@ -26118,8 +26094,8 @@ function __c232(j: number): any {
           branch: S.String.pipe(T.Label()),
           cluster_size: S.optional(S.String),
           replicas: S.optional(S.Number),
-          extensions: S.optional(__S(9248, __c289, 0)),
-          parameters: S.optional(__S(10432, __c326, 0)),
+          extensions: S.optional(__S(9216, __c288, 0)),
+          parameters: S.optional(__S(10400, __c325, 0)),
           storage: S.optional(__S(7424, __c232, 0)),
         }).pipe(
           T.Http({
@@ -26203,7 +26179,7 @@ function __c236(j: number): any {
           id: S.String.pipe(T.Label()),
           schema: S.optional(S.String),
           role: S.optional(S.String),
-          cidrs: S.optional(__S(9248, __c289, 0)),
+          cidrs: S.optional(__S(9216, __c288, 0)),
           description: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -26253,7 +26229,7 @@ function __c238(j: number): any {
           organization: S.String.pipe(T.Label()),
           database: S.String.pipe(T.Label()),
           ratio: S.optional(S.Number),
-          configurations: S.optional(__S(9248, __c289, 0)),
+          configurations: S.optional(__S(9216, __c288, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -26272,7 +26248,7 @@ function __c239(j: number): any {
           organization: S.String.pipe(T.Label()),
           database: S.String.pipe(T.Label()),
           branch: S.String.pipe(T.Label()),
-          data_topology: __S(10432, __c326, 0),
+          data_topology: __S(10400, __c325, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -26294,7 +26270,7 @@ function __c240(j: number): any {
           dedicated_read_replica: S.String.pipe(T.Label()),
           replicas: S.optional(S.Number),
           cluster_size: S.optional(S.String),
-          parameters: S.optional(__S(10432, __c326, 0)),
+          parameters: S.optional(__S(10400, __c325, 0)),
           storage: S.optional(__S(8512, __c266, 0)),
         }).pipe(
           T.Http({
@@ -26341,7 +26317,7 @@ function __c242(j: number): any {
           database: S.String.pipe(T.Label()),
           number: S.Number.pipe(T.Label()),
           ratio: S.optional(S.Number),
-          configurations: S.optional(__S(9248, __c289, 0)),
+          configurations: S.optional(__S(9216, __c288, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -26520,7 +26496,7 @@ function __c250(j: number): any {
           branch: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
           name: S.optional(S.String),
-          cidrs: S.optional(__S(9248, __c289, 0)),
+          cidrs: S.optional(__S(9216, __c288, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -26584,7 +26560,7 @@ function __c253(j: number): any {
           ready: S.Boolean,
           at_backup_restore_branches_limit: S.optional(S.Boolean),
           at_development_branch_usage_limit: S.optional(S.Boolean),
-          region: __S(9152, __c286, 0),
+          region: __S(9120, __c285, 0),
           html_url: S.String,
           name: S.String,
           state: S.String,
@@ -26654,7 +26630,7 @@ function __c255(j: number): any {
           autoscaling: S.optional(S.Boolean),
           max_replicas_per_cell: S.optional(S.Number),
           target_cpu_utilization: S.optional(S.Number),
-          parameters: S.optional(__S(10432, __c326, 0)),
+          parameters: S.optional(__S(10400, __c325, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -26714,10 +26690,10 @@ function __c258(j: number): any {
           configuration_profile: S.String.pipe(T.Label()),
           name: S.optional(S.String),
           cluster_size: S.optional(S.String),
-          extensions: S.optional(__S(9248, __c289, 0)),
+          extensions: S.optional(__S(9216, __c288, 0)),
           replicas: S.optional(S.Number),
           read_only_replicas: S.optional(S.Number),
-          parameters: S.optional(__S(10432, __c326, 0)),
+          parameters: S.optional(__S(10400, __c325, 0)),
           postgres_major_version: S.optional(S.String),
           postgres_minor_version: S.optional(S.String),
           storage: S.optional(__S(8512, __c266, 0)),
@@ -26768,7 +26744,7 @@ function __c260(j: number): any {
           burst: S.optional(S.Number),
           concurrency: S.optional(S.Number),
           warning_threshold: S.optional(S.Number),
-          rules: S.optional(__S(9248, __c289, 0)),
+          rules: S.optional(__S(9216, __c288, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -26790,7 +26766,7 @@ function __c261(j: number): any {
           url: S.optional(S.String),
           authorization_header: S.optional(S.String),
           enabled: S.optional(S.Boolean),
-          events: S.optional(__S(9248, __c289, 0)),
+          events: S.optional(__S(9216, __c288, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -26810,7 +26786,7 @@ function __c262(j: number): any {
           database: S.String.pipe(T.Label()),
           schema: S.optional(S.String),
           role: S.optional(S.String),
-          cidrs: __S(9248, __c289, 0),
+          cidrs: __S(9216, __c288, 0),
           description: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -26830,12 +26806,12 @@ function __c263(j: number): any {
           id: S.String,
           schema: S.String,
           role: S.String,
-          cidrs: __S(9248, __c289, 0),
+          cidrs: __S(9216, __c288, 0),
           description: S.NullOr(S.String),
           created_at: S.String,
           updated_at: S.String,
           deleted_at: S.NullOr(S.String),
-          actor: __S(8992, __c281, 0),
+          actor: __S(8960, __c280, 0),
         }),
       ).annotate({ identifier: "PostgresClusterCidr" });
   }
@@ -26888,8 +26864,8 @@ function __c265(j: number): any {
           updated_at: S.String,
           ready_at: S.NullOr(S.String),
           ready: S.Boolean,
-          actor: __S(8992, __c281, 0),
-          region: __S(9152, __c286, 0),
+          actor: __S(8960, __c280, 0),
+          region: __S(9120, __c285, 0),
           parameters: __S(6465, __c202, 1),
         }),
       ).annotate({ identifier: "PostgresReadOnlyReplica" });
@@ -27015,8 +26991,8 @@ function __c269(j: number): any {
           replication_durability_constraints: __S(8609, __c269, 1),
           vreplication_flags: __S(8610, __c269, 2),
           throttler: __S(8611, __c269, 3),
-          mysqld_options: __S(10432, __c326, 0),
-          vttablet_options: __S(10432, __c326, 0),
+          mysqld_options: __S(10400, __c325, 0),
+          vttablet_options: __S(10400, __c325, 0),
         }),
       ).annotate({ identifier: "DatabaseBranchKeyspace" });
   }
@@ -27031,7 +27007,7 @@ function __c270(j: number): any {
           branch: S.String.pipe(T.Label()),
           keyspace: S.String.pipe(T.Label()),
           change_type: S.String,
-          options: __S(10432, __c326, 0),
+          options: __S(10400, __c325, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -27089,6 +27065,110 @@ function __c273(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String,
+          access: S.String,
+          description: S.String,
+          resource_name: S.String,
+          resource_id: S.String,
+          resource_type: S.String,
+          resource: __S(9088, __c284, 0),
+        }),
+      ).annotate({ identifier: "ServiceTokenServiceTokenAccessesItem" });
+    case 1:
+      return S.Array(__S(8736, __c273, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          id: S.String,
+          organization: S.String,
+          url: S.String,
+        }),
+      ).annotate({ identifier: "ServiceTokenOauthAccessesByResourceDatabaseDatabasesItem" });
+    case 3:
+      return S.Array(__S(8738, __c273, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          description: S.String,
+        }),
+      ).annotate({ identifier: "ServiceTokenOauthAccessesByResourceDatabaseAccessesItem" });
+    case 5:
+      return S.Array(__S(8740, __c273, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          databases: __S(8739, __c273, 3),
+          accesses: __S(8741, __c273, 5),
+        }),
+      ).annotate({ identifier: "ServiceTokenOauthAccessesByResourceDatabase" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          id: S.String,
+          url: S.String,
+        }),
+      ).annotate({
+        identifier: "ServiceTokenOauthAccessesByResourceOrganizationOrganizationsItem",
+      });
+    case 8:
+      return S.Array(__S(8743, __c273, 7));
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          organizations: __S(8744, __c273, 8),
+          accesses: __S(8741, __c273, 5),
+        }),
+      ).annotate({ identifier: "ServiceTokenOauthAccessesByResourceOrganization" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          id: S.String,
+          database: S.String,
+          organization: S.String,
+          url: S.String,
+        }),
+      ).annotate({ identifier: "ServiceTokenOauthAccessesByResourceBranchBranchesItem" });
+    case 11:
+      return S.Array(__S(8746, __c273, 10));
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          branches: __S(8747, __c273, 11),
+          accesses: __S(8741, __c273, 5),
+        }),
+      ).annotate({ identifier: "ServiceTokenOauthAccessesByResourceBranch" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          id: S.String,
+        }),
+      ).annotate({ identifier: "ServiceTokenOauthAccessesByResourceUserUsersItem" });
+    case 14:
+      return S.Array(__S(8749, __c273, 13));
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          users: __S(8750, __c273, 14),
+          accesses: __S(8741, __c273, 5),
+        }),
+      ).annotate({ identifier: "ServiceTokenOauthAccessesByResourceUser" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          database: __S(8742, __c273, 6),
+          organization: __S(8745, __c273, 9),
+          branch: __S(8748, __c273, 12),
+          user: __S(8751, __c273, 15),
+        }),
+      ).annotate({ identifier: "ServiceTokenOauthAccessesByResource" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
           name: S.optional(S.NullOr(S.String)),
           display_name: S.String,
           token: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
@@ -27105,121 +27185,13 @@ function __c273(j: number): any {
           actor_id: S.NullOr(S.String),
           actor_display_name: S.NullOr(S.String),
           actor_type: S.NullOr(S.String),
-          service_token_accesses: S.optional(S.NullOr(__S(8769, __c274, 1))),
-          oauth_accesses_by_resource: S.optional(S.NullOr(__S(8784, __c274, 16))),
+          service_token_accesses: S.optional(S.NullOr(__S(8737, __c273, 1))),
+          oauth_accesses_by_resource: S.optional(S.NullOr(__S(8752, __c273, 16))),
         }),
       ).annotate({ identifier: "ServiceToken" });
   }
 }
 function __c274(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          access: S.String,
-          description: S.String,
-          resource_name: S.String,
-          resource_id: S.String,
-          resource_type: S.String,
-          resource: __S(9120, __c285, 0),
-        }),
-      ).annotate({ identifier: "ServiceTokenServiceTokenAccessesItem" });
-    case 1:
-      return S.Array(__S(8768, __c274, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          id: S.String,
-          organization: S.String,
-          url: S.String,
-        }),
-      ).annotate({ identifier: "ServiceTokenOauthAccessesByResourceDatabaseDatabasesItem" });
-    case 3:
-      return S.Array(__S(8770, __c274, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          description: S.String,
-        }),
-      ).annotate({ identifier: "ServiceTokenOauthAccessesByResourceDatabaseAccessesItem" });
-    case 5:
-      return S.Array(__S(8772, __c274, 4));
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          databases: __S(8771, __c274, 3),
-          accesses: __S(8773, __c274, 5),
-        }),
-      ).annotate({ identifier: "ServiceTokenOauthAccessesByResourceDatabase" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          id: S.String,
-          url: S.String,
-        }),
-      ).annotate({
-        identifier: "ServiceTokenOauthAccessesByResourceOrganizationOrganizationsItem",
-      });
-    case 8:
-      return S.Array(__S(8775, __c274, 7));
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          organizations: __S(8776, __c274, 8),
-          accesses: __S(8773, __c274, 5),
-        }),
-      ).annotate({ identifier: "ServiceTokenOauthAccessesByResourceOrganization" });
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          id: S.String,
-          database: S.String,
-          organization: S.String,
-          url: S.String,
-        }),
-      ).annotate({ identifier: "ServiceTokenOauthAccessesByResourceBranchBranchesItem" });
-    case 11:
-      return S.Array(__S(8778, __c274, 10));
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          branches: __S(8779, __c274, 11),
-          accesses: __S(8773, __c274, 5),
-        }),
-      ).annotate({ identifier: "ServiceTokenOauthAccessesByResourceBranch" });
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          id: S.String,
-        }),
-      ).annotate({ identifier: "ServiceTokenOauthAccessesByResourceUserUsersItem" });
-    case 14:
-      return S.Array(__S(8781, __c274, 13));
-    case 15:
-      return S.suspend(() =>
-        S.Struct({
-          users: __S(8782, __c274, 14),
-          accesses: __S(8773, __c274, 5),
-        }),
-      ).annotate({ identifier: "ServiceTokenOauthAccessesByResourceUser" });
-    case 16:
-      return S.suspend(() =>
-        S.Struct({
-          database: __S(8774, __c274, 6),
-          organization: __S(8777, __c274, 9),
-          branch: __S(8780, __c274, 12),
-          user: __S(8783, __c274, 15),
-        }),
-      ).annotate({ identifier: "ServiceTokenOauthAccessesByResource" });
-  }
-}
-function __c275(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27233,7 +27205,7 @@ function __c275(j: number): any {
       ).annotate({ identifier: "CreateOrganizationInvitationRequest" });
   }
 }
-function __c276(j: number): any {
+function __c275(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27241,8 +27213,8 @@ function __c276(j: number): any {
           id: S.String,
           email: S.String,
           role: S.String,
-          sender: __S(9184, __c287, 0),
-          recipient: S.NullOr(__S(9184, __c287, 0)),
+          sender: __S(9152, __c286, 0),
+          recipient: S.NullOr(__S(9152, __c286, 0)),
           expired: S.Boolean,
           expires_at: S.String,
           created_at: S.String,
@@ -27251,7 +27223,7 @@ function __c276(j: number): any {
       ).annotate({ identifier: "OrganizationInvitation" });
   }
 }
-function __c277(j: number): any {
+function __c276(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27263,7 +27235,7 @@ function __c277(j: number): any {
       ).annotate({ identifier: "CreateOrganizationSsoDomainRequest" });
   }
 }
-function __c278(j: number): any {
+function __c277(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27275,10 +27247,10 @@ function __c278(j: number): any {
       ).annotate({ identifier: "CreateOrganizationTeamRequest" });
   }
 }
-function __c279(j: number): any {
+function __c278(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(9184, __c287, 0));
+      return S.Array(__S(9152, __c286, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -27289,16 +27261,16 @@ function __c279(j: number): any {
         }),
       ).annotate({ identifier: "OrganizationTeamDatabasesItem" });
     case 2:
-      return S.Array(__S(8929, __c279, 1));
+      return S.Array(__S(8897, __c278, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           display_name: S.String,
-          creator: __S(8992, __c281, 0),
-          members: __S(8928, __c279, 0),
-          databases: __S(8930, __c279, 2),
-          analyst_databases: __S(8930, __c279, 2),
+          creator: __S(8960, __c280, 0),
+          members: __S(8896, __c278, 0),
+          databases: __S(8898, __c278, 2),
+          analyst_databases: __S(8898, __c278, 2),
           name: S.String,
           slug: S.String,
           created_at: S.String,
@@ -27309,7 +27281,7 @@ function __c279(j: number): any {
       ).annotate({ identifier: "OrganizationTeam" });
   }
 }
-function __c280(j: number): any {
+function __c279(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27327,7 +27299,7 @@ function __c280(j: number): any {
       ).annotate({ identifier: "AddOrganizationTeamMemberRequest" });
   }
 }
-function __c281(j: number): any {
+function __c280(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27339,7 +27311,7 @@ function __c281(j: number): any {
       ).annotate({ identifier: "OrganizationTeamMembershipActor" });
   }
 }
-function __c282(j: number): any {
+function __c281(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27347,52 +27319,52 @@ function __c282(j: number): any {
           id: S.String,
           name: S.String,
           role: S.String,
-          cidrs: S.NullOr(__S(9248, __c289, 0)),
+          cidrs: S.NullOr(__S(9216, __c288, 0)),
           created_at: S.String,
           deleted_at: S.NullOr(S.String),
           expires_at: S.NullOr(S.String),
           last_used_at: S.NullOr(S.String),
           expired: S.Boolean,
           direct_vtgate: S.Boolean,
-          direct_vtgate_addresses: __S(9248, __c289, 0),
+          direct_vtgate_addresses: __S(9216, __c288, 0),
           ttl_seconds: S.NullOr(S.Number),
           access_host_url: S.String,
           access_host_regional_url: S.String,
-          access_host_regional_urls: __S(9248, __c289, 0),
-          actor: S.NullOr(__S(8992, __c281, 0)),
-          region: __S(9152, __c286, 0),
+          access_host_regional_urls: __S(9216, __c288, 0),
+          actor: S.NullOr(__S(8960, __c280, 0)),
+          region: __S(9120, __c285, 0),
           username: S.String,
           plain_text: S.NullOr(S.String).pipe(T.SensitiveValue({})),
           replica: S.Boolean,
           read_only_region: S.Boolean,
           renewable: S.Boolean,
-          database_branch: __S(9216, __c288, 0),
+          database_branch: __S(9184, __c287, 0),
         }),
       ).annotate({ identifier: "OrganizationTeamMembershipPasswordsItem" });
   }
 }
-function __c283(j: number): any {
+function __c282(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          user: __S(9184, __c287, 0),
-          actor: __S(8992, __c281, 0),
+          user: __S(9152, __c286, 0),
+          actor: __S(8960, __c280, 0),
           created_at: S.String,
           updated_at: S.String,
-          passwords: __S(9088, __c284, 0),
+          passwords: __S(9056, __c283, 0),
         }),
       ).annotate({ identifier: "OrganizationTeamMembership" });
   }
 }
-function __c284(j: number): any {
+function __c283(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(9024, __c282, 0));
+      return S.Array(__S(8992, __c281, 0));
   }
 }
-function __c285(j: number): any {
+function __c284(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27406,7 +27378,7 @@ function __c285(j: number): any {
       ).annotate({ identifier: "OrganizationTeamMembershipUserDefaultOrganization" });
   }
 }
-function __c286(j: number): any {
+function __c285(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27414,7 +27386,7 @@ function __c286(j: number): any {
           id: S.String,
           provider: S.String,
           enabled: S.Boolean,
-          public_ip_addresses: __S(9248, __c289, 0),
+          public_ip_addresses: __S(9216, __c288, 0),
           display_name: S.String,
           location: S.String,
           slug: S.String,
@@ -27426,7 +27398,7 @@ function __c286(j: number): any {
       ).annotate({ identifier: "OrganizationTeamMembershipPasswordsItemRegion" });
   }
 }
-function __c287(j: number): any {
+function __c286(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27439,7 +27411,7 @@ function __c287(j: number): any {
           created_at: S.String,
           updated_at: S.String,
           two_factor_auth_configured: S.Boolean,
-          default_organization: S.optional(S.NullOr(__S(9120, __c285, 0))),
+          default_organization: S.optional(S.NullOr(__S(9088, __c284, 0))),
           sso: S.optional(S.NullOr(S.Boolean)),
           managed: S.optional(S.NullOr(S.Boolean)),
           directory_managed: S.optional(S.NullOr(S.Boolean)),
@@ -27448,7 +27420,7 @@ function __c287(j: number): any {
       ).annotate({ identifier: "OrganizationTeamMembershipUser" });
   }
 }
-function __c288(j: number): any {
+function __c287(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27462,13 +27434,13 @@ function __c288(j: number): any {
       ).annotate({ identifier: "OrganizationTeamMembershipPasswordsItemDatabaseBranch" });
   }
 }
-function __c289(j: number): any {
+function __c288(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c290(j: number): any {
+function __c289(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27480,7 +27452,7 @@ function __c290(j: number): any {
           role: S.optional(S.String),
           replica: S.optional(S.Boolean),
           ttl: S.optional(S.Number),
-          cidrs: S.optional(__S(9248, __c289, 0)),
+          cidrs: S.optional(__S(9216, __c288, 0)),
           direct_vtgate: S.optional(S.Boolean),
         }).pipe(
           T.Http({
@@ -27492,7 +27464,7 @@ function __c290(j: number): any {
       ).annotate({ identifier: "CreatePasswordRequest" });
   }
 }
-function __c291(j: number): any {
+function __c290(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27500,31 +27472,31 @@ function __c291(j: number): any {
           id: S.String,
           name: S.String,
           role: S.String,
-          cidrs: S.NullOr(__S(9248, __c289, 0)),
+          cidrs: S.NullOr(__S(9216, __c288, 0)),
           created_at: S.String,
           deleted_at: S.NullOr(S.String),
           expires_at: S.NullOr(S.String),
           last_used_at: S.NullOr(S.String),
           expired: S.Boolean,
           direct_vtgate: S.Boolean,
-          direct_vtgate_addresses: __S(9248, __c289, 0),
+          direct_vtgate_addresses: __S(9216, __c288, 0),
           ttl_seconds: S.NullOr(S.Number),
           access_host_url: S.String,
           access_host_regional_url: S.String,
-          access_host_regional_urls: __S(9248, __c289, 0),
-          actor: S.NullOr(__S(8992, __c281, 0)),
-          region: __S(9152, __c286, 0),
+          access_host_regional_urls: __S(9216, __c288, 0),
+          actor: S.NullOr(__S(8960, __c280, 0)),
+          region: __S(9120, __c285, 0),
           username: S.String,
           plain_text: S.String.pipe(T.SensitiveValue({})),
           replica: S.Boolean,
           read_only_region: S.Boolean,
           renewable: S.Boolean,
-          database_branch: __S(9216, __c288, 0),
+          database_branch: __S(9184, __c287, 0),
         }),
       ).annotate({ identifier: "DatabaseBranchPasswordWithSecret" });
   }
 }
-function __c292(j: number): any {
+function __c291(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27542,7 +27514,7 @@ function __c292(j: number): any {
       ).annotate({ identifier: "CreateQueryPatternsReportRequest" });
   }
 }
-function __c293(j: number): any {
+function __c292(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27553,12 +27525,12 @@ function __c293(j: number): any {
           finished_at: S.NullOr(S.String),
           url: S.String,
           download_url: S.String,
-          actor: __S(8992, __c281, 0),
+          actor: __S(8960, __c280, 0),
         }),
       ).annotate({ identifier: "QueryPatternsDownload" });
   }
 }
-function __c294(j: number): any {
+function __c293(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27568,7 +27540,7 @@ function __c294(j: number): any {
           branch: S.String.pipe(T.Label()),
           name: S.optional(S.String),
           ttl: S.optional(S.Number),
-          inherited_roles: S.optional(__S(9472, __c296, 0)),
+          inherited_roles: S.optional(__S(9440, __c295, 0)),
           with_replication: S.optional(S.Boolean),
           require_where_on_delete: S.optional(S.String),
           require_where_on_update: S.optional(S.String),
@@ -27582,7 +27554,7 @@ function __c294(j: number): any {
       ).annotate({ identifier: "CreateRoleRequest" });
   }
 }
-function __c295(j: number): any {
+function __c294(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27614,22 +27586,22 @@ function __c295(j: number): any {
           expired: S.Boolean,
           default: S.Boolean,
           ttl: S.NullOr(S.Number),
-          inherited_roles: __S(9472, __c296, 0),
+          inherited_roles: __S(9440, __c295, 0),
           with_replication: S.Boolean,
-          branch: __S(9120, __c285, 0),
-          actor: __S(8992, __c281, 0),
-          query_safety_settings: __S(9440, __c295, 0),
+          branch: __S(9088, __c284, 0),
+          actor: __S(8960, __c280, 0),
+          query_safety_settings: __S(9408, __c294, 0),
         }),
       ).annotate({ identifier: "PostgresRole" });
   }
 }
-function __c296(j: number): any {
+function __c295(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c297(j: number): any {
+function __c296(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27650,7 +27622,7 @@ function __c297(j: number): any {
       ).annotate({ identifier: "CreateRouterRequest" });
   }
 }
-function __c298(j: number): any {
+function __c297(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27666,7 +27638,7 @@ function __c298(j: number): any {
       ).annotate({ identifier: "NekiRouterSku" });
   }
 }
-function __c299(j: number): any {
+function __c298(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27674,7 +27646,7 @@ function __c299(j: number): any {
           id: S.String,
           name: S.String,
           default: S.Boolean,
-          sku: __S(9536, __c298, 0),
+          sku: __S(9504, __c297, 0),
           router_size: S.String,
           replicas_per_cell: S.Number,
           autoscaling: S.Boolean,
@@ -27687,7 +27659,7 @@ function __c299(j: number): any {
       ).annotate({ identifier: "NekiRouter" });
   }
 }
-function __c300(j: number): any {
+function __c299(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27705,7 +27677,7 @@ function __c300(j: number): any {
       ).annotate({ identifier: "CreateServiceTokenRequest" });
   }
 }
-function __c301(j: number): any {
+function __c300(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27723,7 +27695,7 @@ function __c301(j: number): any {
       ).annotate({ identifier: "CreateShardRequest" });
   }
 }
-function __c302(j: number): any {
+function __c301(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27748,7 +27720,7 @@ function __c302(j: number): any {
       ).annotate({ identifier: "CreateShardConfigurationProfileRequest" });
   }
 }
-function __c303(j: number): any {
+function __c302(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27762,7 +27734,7 @@ function __c303(j: number): any {
       ).annotate({ identifier: "NekiShardConfigurationProfileStorage" });
   }
 }
-function __c304(j: number): any {
+function __c303(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27782,7 +27754,7 @@ function __c304(j: number): any {
           postgres_minor_version: S.Number,
           latest_postgres_minor_version: S.Number,
           shards: S.Number,
-          storage: __S(9696, __c303, 0),
+          storage: __S(9664, __c302, 0),
           state: S.String,
           created_at: S.String,
           updated_at: S.String,
@@ -27790,7 +27762,7 @@ function __c304(j: number): any {
       ).annotate({ identifier: "NekiShardConfigurationProfile" });
   }
 }
-function __c305(j: number): any {
+function __c304(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27810,7 +27782,7 @@ function __c305(j: number): any {
       ).annotate({ identifier: "CreateShardConfigurationProfileShardRequest" });
   }
 }
-function __c306(j: number): any {
+function __c305(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27826,7 +27798,7 @@ function __c306(j: number): any {
       ).annotate({ identifier: "NekiShard" });
   }
 }
-function __c307(j: number): any {
+function __c306(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27845,7 +27817,7 @@ function __c307(j: number): any {
       ).annotate({ identifier: "CreateSwitchoverRequest" });
   }
 }
-function __c308(j: number): any {
+function __c307(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27858,12 +27830,12 @@ function __c308(j: number): any {
           completed_at: S.NullOr(S.String),
           created_at: S.String,
           updated_at: S.String,
-          actor: __S(8992, __c281, 0),
+          actor: __S(8960, __c280, 0),
         }),
       ).annotate({ identifier: "PostgresSwitchover" });
   }
 }
-function __c309(j: number): any {
+function __c308(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27878,7 +27850,7 @@ function __c309(j: number): any {
           burst: S.optional(S.Number),
           concurrency: S.optional(S.Number),
           warning_threshold: S.optional(S.Number),
-          rules: S.optional(__S(9248, __c289, 0)),
+          rules: S.optional(__S(9216, __c288, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -27889,10 +27861,10 @@ function __c309(j: number): any {
       ).annotate({ identifier: "CreateTrafficBudgetRequest" });
   }
 }
-function __c310(j: number): any {
+function __c309(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(9954, __c311, 2));
+      return S.Array(__S(9922, __c310, 2));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -27904,15 +27876,15 @@ function __c310(j: number): any {
           burst: S.optional(S.NullOr(S.Number)),
           concurrency: S.optional(S.NullOr(S.Number)),
           warning_threshold: S.optional(S.NullOr(S.Number)),
-          actor: __S(8992, __c281, 0),
-          rules: __S(9920, __c310, 0),
+          actor: __S(8960, __c280, 0),
+          rules: __S(9888, __c309, 0),
           created_at: S.String,
           updated_at: S.String,
         }),
       ).annotate({ identifier: "TrafficBudget" });
   }
 }
-function __c311(j: number): any {
+function __c310(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27924,16 +27896,16 @@ function __c311(j: number): any {
         }),
       ).annotate({ identifier: "TrafficBudgetRulesItemTagsItem" });
     case 1:
-      return S.Array(__S(9952, __c311, 0));
+      return S.Array(__S(9920, __c310, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           kind: S.String,
-          tags: __S(9953, __c311, 1),
+          tags: __S(9921, __c310, 1),
           fingerprint: S.optional(S.NullOr(S.String)),
           keyspace: S.optional(S.NullOr(S.String)),
-          actor: __S(8992, __c281, 0),
+          actor: __S(8960, __c280, 0),
           syntax_highlighted_sql: S.String,
           created_at: S.String,
           updated_at: S.String,
@@ -27941,7 +27913,7 @@ function __c311(j: number): any {
       ).annotate({ identifier: "TrafficBudgetRulesItem" });
   }
 }
-function __c312(j: number): any {
+function __c311(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27949,7 +27921,7 @@ function __c312(j: number): any {
           organization: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
           database: S.String,
-          access: __S(9248, __c289, 0),
+          access: __S(9216, __c288, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -27960,7 +27932,7 @@ function __c312(j: number): any {
       ).annotate({ identifier: "AddServiceTokenAccessRequest" });
   }
 }
-function __c313(j: number): any {
+function __c312(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27978,23 +27950,23 @@ function __c313(j: number): any {
           id: S.String,
           type: S.String,
           access: S.String,
-          resource: __S(10016, __c313, 0),
+          resource: __S(9984, __c312, 0),
         }),
       ).annotate({ identifier: "ServiceTokenAccess" });
     case 2:
-      return S.Array(__S(10017, __c313, 1));
+      return S.Array(__S(9985, __c312, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
           next_page: S.NullOr(S.Number),
           prev_page: S.NullOr(S.Number),
-          data: __S(10018, __c313, 2),
+          data: __S(9986, __c312, 2),
         }),
       ).annotate({ identifier: "ServiceTokenAccessesResponse" });
   }
 }
-function __c314(j: number): any {
+function __c313(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28006,7 +27978,7 @@ function __c314(j: number): any {
           kind: S.optional(S.String),
           keyspace: S.optional(S.String),
           fingerprint: S.optional(S.String),
-          tags: S.optional(__S(9248, __c289, 0)),
+          tags: S.optional(__S(9216, __c288, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -28017,7 +27989,7 @@ function __c314(j: number): any {
       ).annotate({ identifier: "CreateTrafficRuleRequest" });
   }
 }
-function __c315(j: number): any {
+function __c314(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28027,7 +27999,7 @@ function __c315(j: number): any {
           url: S.String,
           authorization_header: S.optional(S.String),
           enabled: S.optional(S.Boolean),
-          events: S.optional(__S(9248, __c289, 0)),
+          events: S.optional(__S(9216, __c288, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -28038,7 +28010,7 @@ function __c315(j: number): any {
       ).annotate({ identifier: "CreateWebhookRequest" });
   }
 }
-function __c316(j: number): any {
+function __c315(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28053,12 +28025,12 @@ function __c316(j: number): any {
           last_sent_at: S.NullOr(S.String),
           created_at: S.String,
           updated_at: S.String,
-          events: __S(9472, __c296, 0),
+          events: __S(9440, __c295, 0),
         }),
       ).annotate({ identifier: "DatabaseWebhook" });
   }
 }
-function __c317(j: number): any {
+function __c316(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28077,7 +28049,7 @@ function __c317(j: number): any {
       ).annotate({ identifier: "DeleteBackupRequest" });
   }
 }
-function __c318(j: number): any {
+function __c317(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28095,7 +28067,7 @@ function __c318(j: number): any {
       ).annotate({ identifier: "DeleteBackupPolicyRequest" });
   }
 }
-function __c319(j: number): any {
+function __c318(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28114,7 +28086,7 @@ function __c319(j: number): any {
       ).annotate({ identifier: "DeleteBouncerRequest" });
   }
 }
-function __c320(j: number): any {
+function __c319(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28133,7 +28105,7 @@ function __c320(j: number): any {
       ).annotate({ identifier: "DeleteBranchRequest" });
   }
 }
-function __c321(j: number): any {
+function __c320(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28150,7 +28122,7 @@ function __c321(j: number): any {
       ).annotate({ identifier: "DeleteDatabaseRequest" });
   }
 }
-function __c322(j: number): any {
+function __c321(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28168,7 +28140,7 @@ function __c322(j: number): any {
       ).annotate({ identifier: "DeleteDatabasePostgresCidrRequest" });
   }
 }
-function __c323(j: number): any {
+function __c322(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28187,7 +28159,7 @@ function __c323(j: number): any {
       ).annotate({ identifier: "DeleteDedicatedReadReplicaRequest" });
   }
 }
-function __c324(j: number): any {
+function __c323(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28206,7 +28178,7 @@ function __c324(j: number): any {
       ).annotate({ identifier: "DeleteKeyspaceRequest" });
   }
 }
-function __c325(j: number): any {
+function __c324(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28215,7 +28187,7 @@ function __c325(j: number): any {
           database: S.String.pipe(T.Label()),
           branch: S.String.pipe(T.Label()),
           configuration_profile: S.String.pipe(T.Label()),
-          shard_ids: __S(9248, __c289, 0),
+          shard_ids: __S(9216, __c288, 0),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -28229,24 +28201,24 @@ function __c325(j: number): any {
         S.Struct({
           id: S.String,
           status: S.String,
-          error: S.optional(S.NullOr(__S(10432, __c326, 0))),
+          error: S.optional(S.NullOr(__S(10400, __c325, 0))),
         }),
       ).annotate({ identifier: "NekiShardAssignment" });
     case 2:
-      return S.Array(__S(10401, __c325, 1));
+      return S.Array(__S(10369, __c324, 1));
     case 3:
-      return S.suspend(() => __S(10402, __c325, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(10370, __c324, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "AssignShardConfigurationProfileShardsResponse",
       });
   }
 }
-function __c326(j: number): any {
+function __c325(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c327(j: number): any {
+function __c326(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28264,7 +28236,7 @@ function __c327(j: number): any {
       ).annotate({ identifier: "DeleteOauthTokenRequest" });
   }
 }
-function __c328(j: number): any {
+function __c327(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28280,7 +28252,7 @@ function __c328(j: number): any {
       ).annotate({ identifier: "DeleteOrganizationBillingPaymentMethodRequest" });
   }
 }
-function __c329(j: number): any {
+function __c328(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28297,7 +28269,7 @@ function __c329(j: number): any {
       ).annotate({ identifier: "DeleteOrganizationSsoDomainRequest" });
   }
 }
-function __c330(j: number): any {
+function __c329(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28314,7 +28286,7 @@ function __c330(j: number): any {
       ).annotate({ identifier: "DeleteOrganizationTeamRequest" });
   }
 }
-function __c331(j: number): any {
+function __c330(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28333,7 +28305,7 @@ function __c331(j: number): any {
       ).annotate({ identifier: "DeletePasswordRequest" });
   }
 }
-function __c332(j: number): any {
+function __c331(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28352,7 +28324,7 @@ function __c332(j: number): any {
       ).annotate({ identifier: "DeleteQueryPatternsReportRequest" });
   }
 }
-function __c333(j: number): any {
+function __c332(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28372,7 +28344,7 @@ function __c333(j: number): any {
       ).annotate({ identifier: "DeleteRoleRequest" });
   }
 }
-function __c334(j: number): any {
+function __c333(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28391,7 +28363,7 @@ function __c334(j: number): any {
       ).annotate({ identifier: "DeleteRouterRequest" });
   }
 }
-function __c335(j: number): any {
+function __c334(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28408,7 +28380,7 @@ function __c335(j: number): any {
       ).annotate({ identifier: "DeleteServiceTokenRequest" });
   }
 }
-function __c336(j: number): any {
+function __c335(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28427,7 +28399,7 @@ function __c336(j: number): any {
       ).annotate({ identifier: "DeleteShardRequest" });
   }
 }
-function __c337(j: number): any {
+function __c336(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28449,12 +28421,12 @@ function __c337(j: number): any {
       return S.suspend(() =>
         S.Struct({
           created: S.Number,
-          shard_ids: __S(9248, __c289, 0),
+          shard_ids: __S(9216, __c288, 0),
         }),
       ).annotate({ identifier: "BulkCreateShardConfigurationProfileShardsResponse" });
   }
 }
-function __c338(j: number): any {
+function __c337(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28473,7 +28445,7 @@ function __c338(j: number): any {
       ).annotate({ identifier: "DeleteShardConfigurationProfileRequest" });
   }
 }
-function __c339(j: number): any {
+function __c338(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28493,7 +28465,7 @@ function __c339(j: number): any {
       ).annotate({ identifier: "DeleteShardConfigurationProfileShardRequest" });
   }
 }
-function __c340(j: number): any {
+function __c339(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28502,7 +28474,7 @@ function __c340(j: number): any {
           database: S.String.pipe(T.Label()),
           branch: S.String.pipe(T.Label()),
           configuration_profile: S.String.pipe(T.Label()),
-          shard_ids: __S(9248, __c289, 0).pipe(T.Query()),
+          shard_ids: __S(9216, __c288, 0).pipe(T.Query()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -28513,7 +28485,7 @@ function __c340(j: number): any {
       ).annotate({ identifier: "DeleteShardConfigurationProfileShardsRequest" });
   }
 }
-function __c341(j: number): any {
+function __c340(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28532,7 +28504,7 @@ function __c341(j: number): any {
       ).annotate({ identifier: "DeleteTrafficBudgetRequest" });
   }
 }
-function __c342(j: number): any {
+function __c341(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28552,7 +28524,7 @@ function __c342(j: number): any {
       ).annotate({ identifier: "DeleteTrafficRuleRequest" });
   }
 }
-function __c343(j: number): any {
+function __c342(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28570,7 +28542,7 @@ function __c343(j: number): any {
       ).annotate({ identifier: "DeleteWebhookRequest" });
   }
 }
-function __c344(j: number): any {
+function __c343(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28590,7 +28562,7 @@ function __c344(j: number): any {
       ).annotate({ identifier: "DemoteBranchRequest" });
   }
 }
-function __c345(j: number): any {
+function __c344(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28619,21 +28591,21 @@ function __c345(j: number): any {
         }),
       ).annotate({ identifier: "DeployCheckRequestStorageResponseStorageReportValueValue" });
     case 2:
-      return S.Record(S.String, __S(11041, __c345, 1));
+      return S.Record(S.String, __S(11009, __c344, 1));
     case 3:
-      return S.Record(S.String, __S(11042, __c345, 2));
+      return S.Record(S.String, __S(11010, __c344, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           enough_storage: S.Boolean,
           upgradeable: S.Boolean,
           storage_bytes_needed: S.Number,
-          storage_report: __S(11043, __c345, 3),
+          storage_report: __S(11011, __c344, 3),
         }),
       ).annotate({ identifier: "DeployCheckRequestStorageResponse" });
   }
 }
-function __c346(j: number): any {
+function __c345(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28652,7 +28624,7 @@ function __c346(j: number): any {
       ).annotate({ identifier: "DeployCloseRequestRequest" });
   }
 }
-function __c347(j: number): any {
+function __c346(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28670,7 +28642,7 @@ function __c347(j: number): any {
       ).annotate({ identifier: "DeployCompleteErroredRequest" });
   }
 }
-function __c348(j: number): any {
+function __c347(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28689,7 +28661,7 @@ function __c348(j: number): any {
       ).annotate({ identifier: "CancelAdminChangeRequestRequest" });
   }
 }
-function __c349(j: number): any {
+function __c348(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -28697,7 +28669,7 @@ function __c349(j: number): any {
       });
   }
 }
-function __c350(j: number): any {
+function __c349(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28715,7 +28687,7 @@ function __c350(j: number): any {
       ).annotate({ identifier: "DeployCompleteGatedRequestRequest" });
   }
 }
-function __c351(j: number): any {
+function __c350(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28733,7 +28705,7 @@ function __c351(j: number): any {
       ).annotate({ identifier: "DeployForceCutoverRequestRequest" });
   }
 }
-function __c352(j: number): any {
+function __c351(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28752,7 +28724,7 @@ function __c352(j: number): any {
       ).annotate({ identifier: "DeployQueueRequestRequest" });
   }
 }
-function __c353(j: number): any {
+function __c352(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28772,7 +28744,7 @@ function __c353(j: number): any {
       ).annotate({ identifier: "DeployReviewRequestRequest" });
   }
 }
-function __c354(j: number): any {
+function __c353(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28783,12 +28755,12 @@ function __c354(j: number): any {
           state: S.String,
           created_at: S.String,
           updated_at: S.String,
-          actor: __S(8992, __c281, 0),
+          actor: __S(8960, __c280, 0),
         }),
       ).annotate({ identifier: "DeployRequestReview" });
   }
 }
-function __c355(j: number): any {
+function __c354(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28798,7 +28770,7 @@ function __c355(j: number): any {
       ).annotate({ identifier: "DisableOrganizationSsoRequest" });
   }
 }
-function __c356(j: number): any {
+function __c355(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28809,13 +28781,13 @@ function __c356(j: number): any {
           configured: S.Boolean,
           directory: S.Boolean,
           has_verified_domain: S.Boolean,
-          domains: __S(11456, __c358, 0),
+          domains: __S(11424, __c357, 0),
           domain_verification_url: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "OrganizationSsoSerializer" });
   }
 }
-function __c357(j: number): any {
+function __c356(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28832,13 +28804,13 @@ function __c357(j: number): any {
       ).annotate({ identifier: "OrganizationSsoSerializerDomainsItem" });
   }
 }
-function __c358(j: number): any {
+function __c357(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(11424, __c357, 0));
+      return S.Array(__S(11392, __c356, 0));
   }
 }
-function __c359(j: number): any {
+function __c358(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28854,7 +28826,7 @@ function __c359(j: number): any {
       ).annotate({ identifier: "DisableOrganizationSsoDirectoryRequest" });
   }
 }
-function __c360(j: number): any {
+function __c359(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28872,7 +28844,7 @@ function __c360(j: number): any {
       ).annotate({ identifier: "DisableSafeMigrationsRequest" });
   }
 }
-function __c361(j: number): any {
+function __c360(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28891,7 +28863,7 @@ function __c361(j: number): any {
       ).annotate({ identifier: "DismissSchemaRecommendationRequest" });
   }
 }
-function __c362(j: number): any {
+function __c361(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28917,13 +28889,13 @@ function __c362(j: number): any {
           updated_at: S.String,
           applied_at: S.NullOr(S.String),
           dismissed_at: S.NullOr(S.String),
-          closed_by_deploy_request: S.NullOr(__S(11584, __c362, 0)),
-          dismissed_by: S.NullOr(__S(8992, __c281, 0)),
+          closed_by_deploy_request: S.NullOr(__S(11552, __c361, 0)),
+          dismissed_by: S.NullOr(__S(8960, __c280, 0)),
         }),
       ).annotate({ identifier: "SchemaRecommendation" });
   }
 }
-function __c363(j: number): any {
+function __c362(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28943,7 +28915,7 @@ function __c363(j: number): any {
       ).annotate({ identifier: "DuplicateShardConfigurationProfileRequest" });
   }
 }
-function __c364(j: number): any {
+function __c363(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28953,7 +28925,7 @@ function __c364(j: number): any {
       ).annotate({ identifier: "EnableOrganizationSsoRequest" });
   }
 }
-function __c365(j: number): any {
+function __c364(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28972,7 +28944,7 @@ function __c365(j: number): any {
       ).annotate({ identifier: "CancelBouncerResizeRequestRequest" });
   }
 }
-function __c366(j: number): any {
+function __c365(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28984,7 +28956,7 @@ function __c366(j: number): any {
       ).annotate({ identifier: "EnableOrganizationSsoDirectoryRequest" });
   }
 }
-function __c367(j: number): any {
+function __c366(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29002,7 +28974,7 @@ function __c367(j: number): any {
       ).annotate({ identifier: "EnableSafeMigrationsRequest" });
   }
 }
-function __c368(j: number): any {
+function __c367(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29020,7 +28992,7 @@ function __c368(j: number): any {
       ).annotate({ identifier: "GetAdminRequest" });
   }
 }
-function __c369(j: number): any {
+function __c368(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29035,7 +29007,7 @@ function __c369(j: number): any {
       ).annotate({ identifier: "NekiAdmin" });
   }
 }
-function __c370(j: number): any {
+function __c369(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29054,7 +29026,7 @@ function __c370(j: number): any {
       ).annotate({ identifier: "GetAdminChangeRequestRequest" });
   }
 }
-function __c371(j: number): any {
+function __c370(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29073,7 +29045,7 @@ function __c371(j: number): any {
       ).annotate({ identifier: "GetBackupRequest" });
   }
 }
-function __c372(j: number): any {
+function __c371(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29091,7 +29063,7 @@ function __c372(j: number): any {
       ).annotate({ identifier: "GetBackupPolicyRequest" });
   }
 }
-function __c373(j: number): any {
+function __c372(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29110,7 +29082,7 @@ function __c373(j: number): any {
       ).annotate({ identifier: "GetBouncerRequest" });
   }
 }
-function __c374(j: number): any {
+function __c373(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29128,7 +29100,7 @@ function __c374(j: number): any {
       ).annotate({ identifier: "GetBranchRequest" });
   }
 }
-function __c375(j: number): any {
+function __c374(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29147,7 +29119,7 @@ function __c375(j: number): any {
       ).annotate({ identifier: "GetBranchAnomalyRequest" });
   }
 }
-function __c376(j: number): any {
+function __c375(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29162,7 +29134,7 @@ function __c376(j: number): any {
         }),
       ).annotate({ identifier: "AnomalyCorrelationsItem" });
     case 1:
-      return S.Array(__S(12032, __c376, 0));
+      return S.Array(__S(12000, __c375, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -29174,12 +29146,12 @@ function __c376(j: number): any {
           duration: S.Number,
           metrics_start: S.String,
           metrics_end: S.String,
-          correlations: S.optional(S.NullOr(__S(12033, __c376, 1))),
+          correlations: S.optional(S.NullOr(__S(12001, __c375, 1))),
         }),
       ).annotate({ identifier: "Anomaly" });
   }
 }
-function __c377(j: number): any {
+function __c376(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29198,7 +29170,7 @@ function __c377(j: number): any {
       ).annotate({ identifier: "GetBranchChangeRequestRequest" });
   }
 }
-function __c378(j: number): any {
+function __c377(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29209,19 +29181,19 @@ function __c378(j: number): any {
           completed_at: S.NullOr(S.String),
           created_at: S.String,
           updated_at: S.String,
-          actor: __S(8992, __c281, 0),
+          actor: __S(8960, __c280, 0),
           cluster_name: S.String,
           cluster_display_name: S.String,
           cluster_metal: S.Boolean,
           replicas: S.Number,
           version: S.String,
-          parameters: __S(10432, __c326, 0),
+          parameters: __S(10400, __c325, 0),
           previous_cluster_name: S.String,
           previous_cluster_display_name: S.String,
           previous_cluster_metal: S.Boolean,
           previous_replicas: S.Number,
           previous_version: S.String,
-          previous_parameters: __S(10432, __c326, 0),
+          previous_parameters: __S(10400, __c325, 0),
           minimum_storage_bytes: S.Number,
           maximum_storage_bytes: S.Number,
           storage_autoscaling: S.Boolean,

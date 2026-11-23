@@ -193,7 +193,7 @@ export interface TeamsUserOperationsExchangeTeamsUserAccessTokenRequest {
   /** The communication resource, for example https://my-resource.communication.azure.com */
   endpoint: string;
   /** Entra ID access token of a Teams User to acquire a new Communication Identity access token. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** Client ID of an Entra ID application to be verified against the appid claim in the Entra ID access token. */
   appId: string;
   /** Object ID of an Entra ID user (Teams User) to be verified against the oid claim in the Entra ID access token. */
@@ -415,7 +415,7 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           endpoint: S.String.pipe(T.HostLabel()),
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           appId: S.String,
           userId: S.String,
         }).pipe(

@@ -45,14 +45,14 @@ export class BadRequest
 export interface AssetReportAuditCopyCreateRequest {
   client_id?: string | undefined;
   secret?: string | Redacted.Redacted<string> | undefined;
-  asset_report_token: string;
+  asset_report_token: string | Redacted.Redacted<string>;
   /** The `auditor_id` of the third party with whom you would like to share the Asset Report. */
   auditor_id?: string | undefined;
 }
 /** AssetReportAuditCopyCreateResponse defines the response schema for `/asset_report/audit_copy/create` */
 export interface AssetReportAuditCopyCreateResponse {
   /** A token that can be shared with a third party auditor to allow them to obtain access to the Asset Report. This token should be stored securely. */
-  audit_copy_token: string;
+  audit_copy_token: string | Redacted.Redacted<string>;
   request_id: string;
   [key: string]: unknown;
 }
@@ -60,7 +60,7 @@ export interface AssetReportAuditCopyGetRequest {
   client_id?: string | undefined;
   secret?: string | Redacted.Redacted<string> | undefined;
   /** The `audit_copy_token` granting access to the Audit Copy you would like to get. */
-  audit_copy_token: string;
+  audit_copy_token: string | Redacted.Redacted<string>;
 }
 /** The monthly average amount calculated by dividing the total by the number of calendar months in the time period. */
 export interface MonthlyAverage {
@@ -950,7 +950,7 @@ export interface AssetReportAuditCopyPdfGetRequest {
   client_id?: string | undefined;
   secret?: string | Redacted.Redacted<string> | undefined;
   /** The `audit_copy_token` granting access to the Audit Copy you would like to get as a PDF. */
-  audit_copy_token: string;
+  audit_copy_token: string | Redacted.Redacted<string>;
   options?: AssetReportPDFGetRequestOptions | undefined;
 }
 export interface AssetReportAuditCopyPdfGetResponse {}
@@ -958,7 +958,7 @@ export interface AssetReportAuditCopyRemoveRequest {
   client_id?: string | undefined;
   secret?: string | Redacted.Redacted<string> | undefined;
   /** The `audit_copy_token` granting access to the Audit Copy you would like to revoke. */
-  audit_copy_token: string;
+  audit_copy_token: string | Redacted.Redacted<string>;
 }
 /** AssetReportAuditCopyRemoveResponse defines the response schema for `/asset_report/audit_copy/remove` */
 export interface AssetReportAuditCopyRemoveResponse {
@@ -972,13 +972,13 @@ export type AssetReportFilterRequestAccountIdsToExcludeList = Array<string>;
 export interface AssetReportFilterRequest {
   client_id?: string | undefined;
   secret?: string | Redacted.Redacted<string> | undefined;
-  asset_report_token: string;
+  asset_report_token: string | Redacted.Redacted<string>;
   /** The accounts to exclude from the Asset Report, identified by `account_id`. */
   account_ids_to_exclude: AssetReportFilterRequestAccountIdsToExcludeList;
 }
 /** AssetReportFilterResponse defines the response schema for `/asset_report/filter` */
 export interface AssetReportFilterResponse {
-  asset_report_token: string;
+  asset_report_token: string | Redacted.Redacted<string>;
   asset_report_id: string;
   request_id: string;
   [key: string]: unknown;
@@ -1220,7 +1220,7 @@ export interface CreateAssetReportRequest {
 }
 /** AssetReportCreateResponse defines the response schema for `/asset_report/create` */
 export interface AssetReportCreateResponse {
-  asset_report_token: string;
+  asset_report_token: string | Redacted.Redacted<string>;
   asset_report_id: string;
   request_id: string;
   [key: string]: unknown;
@@ -1814,7 +1814,7 @@ export interface CreateCraCheckReportRequest {
   client_id?: string | undefined;
   secret?: string | Redacted.Redacted<string> | undefined;
   user_id?: string | undefined;
-  user_token?: string | undefined;
+  user_token?: string | Redacted.Redacted<string> | undefined;
   /** The destination URL to which webhooks will be sent */
   webhook: string;
   /** The number of days of data to request for the report. Maximum is 731; minimum is 180. If a value lower than 180 is provided, a minimum of 180 days of history will be requested. */
@@ -2071,7 +2071,7 @@ export interface CreateCreditRelayRequest {
 /** CreditRelayCreateResponse defines the response schema for `/credit/relay/create` */
 export interface CreditRelayCreateResponse {
   /** A token that can be shared with a third party to allow them to access the Asset Report. This token should be stored securely. */
-  relay_token: string;
+  relay_token: string | Redacted.Redacted<string>;
   request_id: string;
   [key: string]: unknown;
 }
@@ -3375,7 +3375,7 @@ export interface LinkTokenCreateRequestTransfer {
   /** The `id` returned by the `/transfer/authorization/create` endpoint. Used to indicate Link session to complete required user action in order to make a decision for the authorization. If set, `access_token` can be omitted. */
   authorization_id?: string | undefined;
   /** The `payment_profile_token` returned by the `/payment_profile/create` endpoint. */
-  payment_profile_token?: string | undefined;
+  payment_profile_token?: string | Redacted.Redacted<string> | undefined;
 }
 /** An array of `item_id`s associated with the user to be updated in update mode. If empty or `null`, this field will default to initializing update mode for the most recent unhealthy Item associated with the user. A `user_token` or `user_id` must also be provided, and `update.user` must be `true`. Only one `item_id` may currently be specified. */
 export type LinkTokenCreateRequestUpdateItemIdsList = Array<string>;
@@ -3520,7 +3520,7 @@ export interface CreateLinkTokenRequest {
   identity_verification?: LinkTokenCreateRequestIdentityVerification | undefined;
   statements?: LinkTokenCreateRequestStatements | undefined;
   /** A third party user token associated with the current user. */
-  third_party_user_token?: string | undefined;
+  third_party_user_token?: string | Redacted.Redacted<string> | undefined;
   investments?: LinkTokenInvestments | undefined;
   investments_auth?: LinkTokenInvestmentsAuth | undefined;
   hosted_link?: LinkTokenCreateHostedLink | undefined;
@@ -3534,12 +3534,12 @@ export interface CreateLinkTokenRequest {
   /** If `true`, enable linking multiple items in the same Link session. Defaults to `false`. */
   enable_multi_item_link?: boolean | undefined;
   /** A user token generated using `/user/create`. Any Item created during the Link session will be associated with the user. Integrations that began using Plaid Protect, Multi-Item Link, or Plaid Check Consumer Report before December 10, 2025 use this field instead of the `user_id`. */
-  user_token?: string | undefined;
+  user_token?: string | Redacted.Redacted<string> | undefined;
 }
 /** LinkTokenCreateResponse defines the response schema for `/link/token/create` */
 export interface LinkTokenCreateResponse {
   /** A `link_token`, which can be supplied to Link in order to initialize it and receive a `public_token`, which can be exchanged for an `access_token`. */
-  link_token: string;
+  link_token: string | Redacted.Redacted<string>;
   /** The expiration date and time for the `link_token`, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format. By default, a `link_token` created to generate a `public_token` that will be exchanged for a new `access_token` expires after 4 hours, and a `link_token` created for an existing Item (such as when updating an existing `access_token` by launching Link in update mode) expires after 30 minutes. If using [Hosted Link](https://plaid.com/docs/link/hosted-link/), the `link_token` will expire at the same time as the Hosted Link URL, and you can customize the duration using the `hosted_link.url_lifetime_seconds` option in the request. If using Link Delivery (beta), the `link_token` will expire by default after 24 hours if sent via SMS and after 7 days if sent via email. If using Identity Verification, Link token expiration will not be enforced; an Identity Verification Link session can be created with an expired Link token. */
   expiration: string;
   request_id: string;
@@ -3815,7 +3815,7 @@ export interface CreateProcessorApexProcessorTokenRequest {
 /** ProcessorTokenCreateResponse defines the response schema for `/processor/token/create` and `/processor/apex/processor_token/create` */
 export interface ProcessorTokenCreateResponse {
   /** The `processor_token` that can then be used by the Plaid partner to make API requests */
-  processor_token: string;
+  processor_token: string | Redacted.Redacted<string>;
   request_id: string;
   [key: string]: unknown;
 }
@@ -3829,7 +3829,7 @@ export interface CreateProcessorStripeBankAccountTokenRequest {
 /** ProcessorStripeBankAccountTokenCreateResponse defines the response schema for `/processor/stripe/bank_account_token/create` */
 export interface ProcessorStripeBankAccountTokenCreateResponse {
   /** A token that can be sent to Stripe for use in making API calls to Plaid */
-  stripe_bank_account_token: string;
+  stripe_bank_account_token: string | Redacted.Redacted<string>;
   request_id: string;
   [key: string]: unknown;
 }
@@ -4036,7 +4036,7 @@ export interface ProtectIncidentEvent {
   time?: string | null | undefined;
   amount?: ProtectIncidentAmount | null | undefined;
   /** An access token associated with the Item related to this incident. */
-  access_token?: string | null | undefined;
+  access_token?: string | Redacted.Redacted<string> | null | undefined;
   /** An `item_id` associated with the Item related to this incident. To identify an Item when creating a report, provide `access_token`. */
   item_id?: string | null | undefined;
   [key: string]: unknown;
@@ -4122,7 +4122,7 @@ export interface CreateSandboxProcessorTokenRequest {
 /** SandboxProcessorTokenCreateResponse defines the response schema for `/sandbox/processor_token/create` */
 export interface SandboxProcessorTokenCreateResponse {
   /** A processor token that can be used to call the `/processor/` endpoints. */
-  processor_token: string;
+  processor_token: string | Redacted.Redacted<string>;
   request_id: string;
   [key: string]: unknown;
 }
@@ -4179,7 +4179,7 @@ export interface CreateSandboxPublicTokenRequest {
   /** The products to initially pull for the Item. May be any products that the specified `institution_id` supports. This array may not be empty. */
   initial_products: CreateSandboxPublicTokenRequestInitialProductsList;
   options?: SandboxPublicTokenCreateRequestOptions | undefined;
-  user_token?: string | undefined;
+  user_token?: string | Redacted.Redacted<string> | undefined;
   user_id?: string | undefined;
 }
 /** SandboxPublicTokenCreateResponse defines the response schema for `/sandbox/public_token/create` */
@@ -4259,7 +4259,7 @@ export interface CreateSessionTokenRequest {
 /** Response data for `/session/token/create` intended for use with the Link SDK. */
 export interface SessionTokenCreateResponseLink {
   /** A Link token, which can be supplied to Link in order to initialize it and receive a `public_token`. */
-  link_token: string;
+  link_token: string | Redacted.Redacted<string>;
   /** The expiration date for the `link_token`, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format. A `link_token` created to generate a `public_token` that will be exchanged for a new `access_token` expires after 4 hours. A `link_token` created for an existing Item (such as when updating an existing `access_token` by launching Link in update mode) expires after 30 minutes. */
   expiration: string;
   user_id?: string | undefined;
@@ -4594,7 +4594,7 @@ export interface CreateTransferAuthorizationRequest {
   funding_account_id?: string | null | undefined;
   /** Specify which ledger balance should be used to fund the transfer. You can find a list of `ledger_id`s in the Accounts page of your Plaid Dashboard. If this field is left blank, this will default to the id of the default ledger balance. */
   ledger_id?: string | null | undefined;
-  payment_profile_token?: string | undefined;
+  payment_profile_token?: string | Redacted.Redacted<string> | undefined;
   type: TransferType | (string & {});
   network: TransferNetwork | (string & {});
   amount: string;
@@ -5137,7 +5137,7 @@ export interface CreateUserRequest {
 }
 /** UserCreateResponse defines the response schema for `/user/create` */
 export interface UserCreateResponse {
-  user_token?: string | undefined;
+  user_token?: string | Redacted.Redacted<string> | undefined;
   user_id: string;
   request_id: string;
   [key: string]: unknown;
@@ -5145,7 +5145,7 @@ export interface UserCreateResponse {
 export interface CreateUserThirdPartyTokenRequest {
   client_id?: string | undefined;
   secret?: string | Redacted.Redacted<string> | undefined;
-  user_token?: string | undefined;
+  user_token?: string | Redacted.Redacted<string> | undefined;
   /** The Plaid API `client_id` of the third-party client the token will be shared with. The token will only be valid for the specified client. */
   third_party_client_id: string;
   /** The expiration date and time for the third-party user token in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format (`YYYY-MM-DDThh:mm:ssZ`). The expiration is restricted to a maximum of 24 hours from the token's creation time. If not provided, the token will automatically expire after 24 hours. */
@@ -5155,7 +5155,7 @@ export interface CreateUserThirdPartyTokenRequest {
 /** UserThirdPartyTokenCreateResponse defines the response schema for `/user/third_party_token/create` */
 export interface UserThirdPartyTokenCreateResponse {
   request_id: string;
-  third_party_user_token: string;
+  third_party_user_token: string | Redacted.Redacted<string>;
   [key: string]: unknown;
 }
 /** An ISO-4217 currency code, used with e-wallets and transactions. */
@@ -5360,7 +5360,7 @@ export interface CreditAuditCopyTokenCreateRequest {
 /** CreditAuditCopyTokenCreateResponse defines the response schema for `/credit/audit_copy_token/create` */
 export interface CreditAuditCopyTokenCreateResponse {
   /** A token that can be shared with a third party auditor, which allows them to fetch the Asset Reports attached to the token. This token should be stored securely. */
-  audit_copy_token: string;
+  audit_copy_token: string | Redacted.Redacted<string>;
   request_id: string;
   [key: string]: unknown;
 }
@@ -5370,7 +5370,7 @@ export interface CreditAuditCopyTokenUpdateRequest {
   client_id?: string | undefined;
   secret?: string | Redacted.Redacted<string> | undefined;
   /** The `audit_copy_token` you would like to update. */
-  audit_copy_token: string;
+  audit_copy_token: string | Redacted.Redacted<string>;
   /** Array of tokens which the specified Audit Copy Token will be updated with. The types of token supported are asset report token and employment report token. There can be at most 1 of each token type in the array. */
   report_tokens: CreditAuditCopyTokenUpdateRequestReportTokensList;
 }
@@ -5385,7 +5385,7 @@ export interface CreditReportAuditCopyRemoveRequest {
   client_id?: string | undefined;
   secret?: string | Redacted.Redacted<string> | undefined;
   /** The `audit_copy_token` granting access to the Audit Copy you would like to revoke. */
-  audit_copy_token: string;
+  audit_copy_token: string | Redacted.Redacted<string>;
 }
 /** CreditAuditCopyTokenRemoveResponse defines the response schema for `/credit/audit_copy_token/remove` */
 export interface CreditAuditCopyTokenRemoveResponse {
@@ -5926,9 +5926,9 @@ export interface AssetReportGetRequestOptions {
 export interface GetAssetReportRequest {
   client_id?: string | undefined;
   secret?: string | Redacted.Redacted<string> | undefined;
-  asset_report_token?: string | undefined;
+  asset_report_token?: string | Redacted.Redacted<string> | undefined;
   /** The user token associated with the User for which to create an asset report for. The latest asset report associated with the User will be returned */
-  user_token?: string | undefined;
+  user_token?: string | Redacted.Redacted<string> | undefined;
   /** `true` if you would like to retrieve the Asset Report with Insights, `false` otherwise. This field defaults to `false` if omitted. */
   include_insights?: boolean | undefined;
   /** `true` to fetch "fast" version of asset report. Defaults to false if omitted. Can only be used if `/asset_report/create` was called with `options.add_ons` set to `["fast_assets"]`. */
@@ -5938,7 +5938,7 @@ export interface GetAssetReportRequest {
 export interface GetAssetReportPdfRequest {
   client_id?: string | undefined;
   secret?: string | Redacted.Redacted<string> | undefined;
-  asset_report_token: string;
+  asset_report_token: string | Redacted.Redacted<string>;
   options?: AssetReportPDFGetRequestOptions | undefined;
 }
 export interface GetAssetReportPdfResponse {}
@@ -6641,7 +6641,7 @@ export interface ConsentEventsGetResponse {
 export interface GetConsumerReportPdfRequest {
   client_id?: string | undefined;
   secret?: string | Redacted.Redacted<string> | undefined;
-  user_token: string;
+  user_token: string | Redacted.Redacted<string>;
 }
 export interface GetConsumerReportPdfResponse {}
 /** The Item IDs to include in the Base Report. If not provided, all Items associated with the user will be included. */
@@ -6658,10 +6658,10 @@ export interface GetCraCheckReportBaseReportRequest {
   client_id?: string | undefined;
   secret?: string | Redacted.Redacted<string> | undefined;
   user_id?: string | undefined;
-  third_party_user_token?: string | undefined;
+  third_party_user_token?: string | Redacted.Redacted<string> | undefined;
   /** The Item IDs to include in the Base Report. If not provided, all Items associated with the user will be included. */
   item_ids?: GetCraCheckReportBaseReportRequestItemIdsList | null | undefined;
-  user_token?: string | undefined;
+  user_token?: string | Redacted.Redacted<string> | undefined;
   user_tier?: CraUserTier | (string & {}) | null | undefined;
   /** The CRA report token (formatted `cra-report-<env>-<uuid>`) identifying a specific consumer report. When provided alongside `consumer_report_permissible_purpose`, pins retrieval to that report and stamps its permissible purpose. If omitted, the most recently generated report for the user is returned. */
   report_id?: string | undefined;
@@ -7029,8 +7029,8 @@ export interface GetCraCheckReportCashflowInsightRequest {
   client_id?: string | undefined;
   secret?: string | Redacted.Redacted<string> | undefined;
   user_id?: string | undefined;
-  third_party_user_token?: string | undefined;
-  user_token?: string | undefined;
+  third_party_user_token?: string | Redacted.Redacted<string> | undefined;
+  user_token?: string | Redacted.Redacted<string> | undefined;
   options?: CraCheckReportCreateCashflowInsightsOptions | null | undefined;
 }
 /** Contains data for the CRA Cashflow Insights Report. */
@@ -7070,8 +7070,8 @@ export type CraCheckReportIncomeInsightsGetOptions = CraCheckReportCreateIncomeI
 export interface GetCraCheckReportIncomeInsightRequest {
   client_id?: string | undefined;
   secret?: string | Redacted.Redacted<string> | undefined;
-  user_token?: string | undefined;
-  third_party_user_token?: string | undefined;
+  user_token?: string | Redacted.Redacted<string> | undefined;
+  third_party_user_token?: string | Redacted.Redacted<string> | undefined;
   user_id?: string | undefined;
   options?: CraCheckReportCreateIncomeInsightsOptions | null | undefined;
   /** The CRA report token (formatted `cra-report-<env>-<uuid>`) identifying a specific consumer report. When provided alongside `consumer_report_permissible_purpose`, pins retrieval to that report and stamps its permissible purpose. If omitted, the most recently generated report for the user is returned. */
@@ -7499,8 +7499,8 @@ export interface GetCraCheckReportLendScoreRequest {
   client_id?: string | undefined;
   secret?: string | Redacted.Redacted<string> | undefined;
   user_id?: string | undefined;
-  third_party_user_token?: string | undefined;
-  user_token?: string | undefined;
+  third_party_user_token?: string | Redacted.Redacted<string> | undefined;
+  user_token?: string | Redacted.Redacted<string> | undefined;
   options?: CraCheckReportCreateLendScoreOptions | null | undefined;
 }
 /** The reasons for an individual having risk according to the LendScore. For a full list of possible reason codes and a mapping of reason codes to human-readable reasons, contact your Plaid account manager. Different LendScore versions will use different sets of reason codes. */
@@ -7541,8 +7541,8 @@ export interface GetCraCheckReportNetworkInsightRequest {
   secret?: string | Redacted.Redacted<string> | undefined;
   user_id?: string | undefined;
   options?: CraCheckReportCreateNetworkInsightsOptions | null | undefined;
-  third_party_user_token?: string | undefined;
-  user_token?: string | undefined;
+  third_party_user_token?: string | Redacted.Redacted<string> | undefined;
+  user_token?: string | Redacted.Redacted<string> | undefined;
 }
 /** Contains data about the connected Item. */
 export interface CraNetworkInsightsItem {
@@ -7589,8 +7589,8 @@ export interface GetCraCheckReportPartnerInsightRequest {
   client_id?: string | undefined;
   secret?: string | Redacted.Redacted<string> | undefined;
   user_id?: string | undefined;
-  third_party_user_token?: string | undefined;
-  user_token?: string | undefined;
+  third_party_user_token?: string | Redacted.Redacted<string> | undefined;
+  user_token?: string | Redacted.Redacted<string> | undefined;
   user_tier?: CraUserTier | (string & {}) | null | undefined;
   partner_insights?: CraCheckReportCreatePartnerInsightsOptions | undefined;
   options?: CraCheckReportPartnerInsightsGetOptions | null | undefined;
@@ -7869,10 +7869,10 @@ export interface GetCraCheckReportPdfRequest {
   client_id?: string | undefined;
   secret?: string | Redacted.Redacted<string> | undefined;
   user_id?: string | undefined;
-  third_party_user_token?: string | undefined;
+  third_party_user_token?: string | Redacted.Redacted<string> | undefined;
   /** Use this field to include the most recent Income Insights, Partner Insights, or LendScore report in the PDF. */
   add_ons?: GetCraCheckReportPdfRequestAddOnsList | undefined;
-  user_token?: string | undefined;
+  user_token?: string | Redacted.Redacted<string> | undefined;
 }
 export interface GetCraCheckReportPdfResponse {}
 /** Specifies which types of home lending reports are expected in the response */
@@ -7889,7 +7889,7 @@ export interface GetCraCheckReportVerificationRequest {
   /** Specifies which types of home lending reports are expected in the response */
   reports_requested: GetCraCheckReportVerificationRequestReportsRequestedList;
   employment_refresh_options?: CraCheckReportCreateEmploymentRefreshOptions | null | undefined;
-  user_token?: string | undefined;
+  user_token?: string | Redacted.Redacted<string> | undefined;
 }
 /** An object representing a balance held by an account in the past. */
 export interface CraVoaReportAccountHistoricalBalance {
@@ -8269,13 +8269,13 @@ export interface GetCraCheckReportVerificationPdfRequest {
   client_id?: string | undefined;
   secret?: string | Redacted.Redacted<string> | undefined;
   user_id?: string | undefined;
-  third_party_user_token?: string | undefined;
+  third_party_user_token?: string | Redacted.Redacted<string> | undefined;
   report_requested?: unknown | undefined;
   /** Specifies which types of verification reports to include in the returned PDF. Supported combinations are: `[voa]`, `[employment_refresh]`, `[income]`, or `[voa, income]`. Other combinations are not supported. */
   reports_requested?: GetCraCheckReportVerificationPdfRequestReportsRequestedList | undefined;
   /** If `true`, the GSE identifiers (the Report ID and `gse_reference_id`) are omitted from the returned Home Lending Report PDF. Defaults to `false`. These identifiers are always present in the `/cra/check_report/verification/get` JSON response regardless of this field. */
   hide_gse_details?: boolean | undefined;
-  user_token?: string | undefined;
+  user_token?: string | Redacted.Redacted<string> | undefined;
 }
 export interface GetCraCheckReportVerificationPdfResponse {}
 /** The product type for the credit profile report request. */
@@ -8373,7 +8373,7 @@ export interface CraCreditProfileReportGetResponse {
 export interface GetCraPartnerInsightRequest {
   client_id?: string | undefined;
   secret?: string | Redacted.Redacted<string> | undefined;
-  user_token: string;
+  user_token: string | Redacted.Redacted<string>;
   user_tier?: CraUserTier | (string & {}) | null | undefined;
 }
 export type CraPartnerInsightsGetResponseReportList = Array<CraPartnerInsights>;
@@ -9401,7 +9401,7 @@ export interface CraServicingSubscriptionGetResponse {
 }
 export interface GetCreditAssetReportFreddieMacRequest {
   /** A token that can be shared with a third party auditor to allow them to obtain access to the Asset Report. This token should be stored securely. */
-  audit_copy_token: string;
+  audit_copy_token: string | Redacted.Redacted<string>;
   client_id?: string | undefined;
   secret?: string | Redacted.Redacted<string> | undefined;
 }
@@ -9843,7 +9843,7 @@ export interface AssetReportFreddieGetResponse {
 export interface GetCreditBankEmploymentRequest {
   client_id?: string | undefined;
   secret?: string | Redacted.Redacted<string> | undefined;
-  user_token: string;
+  user_token: string | Redacted.Redacted<string>;
 }
 /** Object containing employer data. */
 export interface CreditBankEmployer {
@@ -9960,7 +9960,7 @@ export interface CreditBankIncomeGetRequestOptions {
 export interface GetCreditBankIncomeRequest {
   client_id?: string | undefined;
   secret?: string | Redacted.Redacted<string> | undefined;
-  user_token?: string | undefined;
+  user_token?: string | Redacted.Redacted<string> | undefined;
   user_id?: string | undefined;
   options?: CreditBankIncomeGetRequestOptions | undefined;
 }
@@ -10104,7 +10104,7 @@ export interface CreditBankIncomeGetResponse {
 export interface GetCreditBankIncomePdfRequest {
   client_id?: string | undefined;
   secret?: string | Redacted.Redacted<string> | undefined;
-  user_token?: string | undefined;
+  user_token?: string | Redacted.Redacted<string> | undefined;
   user_id?: string | undefined;
 }
 export interface GetCreditBankIncomePdfResponse {}
@@ -10118,7 +10118,7 @@ export interface CreditBankStatementsUploadsGetRequestOptions {
 export interface GetCreditBankStatementsUploadRequest {
   client_id?: string | undefined;
   secret?: string | Redacted.Redacted<string> | undefined;
-  user_token?: string | undefined;
+  user_token?: string | Redacted.Redacted<string> | undefined;
   user_id?: string | undefined;
   options?: CreditBankStatementsUploadsGetRequestOptions | undefined;
 }
@@ -10245,7 +10245,7 @@ export interface CreditBankStatementsUploadsGetResponse {
 export interface GetCreditEmploymentRequest {
   client_id?: string | undefined;
   secret?: string | Redacted.Redacted<string> | undefined;
-  user_token?: string | undefined;
+  user_token?: string | Redacted.Redacted<string> | undefined;
   user_id?: string | undefined;
 }
 /** An object containing employer data. */
@@ -10288,7 +10288,7 @@ export interface CreditEmploymentItem {
   item_id: string;
   employments: CreditEmploymentItemEmploymentsList;
   /** Token to represent the underlying Employment data */
-  employment_report_token?: string | undefined;
+  employment_report_token?: string | Redacted.Redacted<string> | undefined;
   [key: string]: unknown;
 }
 /** Array of employment items. */
@@ -10302,7 +10302,7 @@ export interface CreditEmploymentGetResponse {
 }
 export interface GetCreditFreddieMacReportRequest {
   /** A token that can be shared with a third party auditor to allow them to obtain access to the Asset Report. This token should be stored securely. */
-  audit_copy_token: string;
+  audit_copy_token: string | Redacted.Redacted<string>;
   client_id?: string | undefined;
   secret?: string | Redacted.Redacted<string> | undefined;
 }
@@ -10489,7 +10489,7 @@ export interface CreditPayrollIncomeGetRequestOptions {
 export interface GetCreditPayrollIncomeRequest {
   client_id?: string | undefined;
   secret?: string | Redacted.Redacted<string> | undefined;
-  user_token?: string | undefined;
+  user_token?: string | Redacted.Redacted<string> | undefined;
   user_id?: string | undefined;
   options?: CreditPayrollIncomeGetRequestOptions | undefined;
 }
@@ -10989,7 +10989,7 @@ export interface CreditPayrollIncomeGetResponse {
 export interface GetCreditPayrollIncomeRiskSignalRequest {
   client_id?: string | undefined;
   secret?: string | Redacted.Redacted<string> | undefined;
-  user_token?: string | undefined;
+  user_token?: string | Redacted.Redacted<string> | undefined;
   user_id?: string | undefined;
 }
 /** Status of a document for risk signal analysis */
@@ -11126,7 +11126,7 @@ export interface GetCreditRelayRequest {
   client_id?: string | undefined;
   secret?: string | Redacted.Redacted<string> | undefined;
   /** The `relay_token` granting access to the report you would like to get. */
-  relay_token: string;
+  relay_token: string | Redacted.Redacted<string>;
   report_type: ReportType | (string & {});
   /** `true` if you would like to retrieve the Asset Report with Insights, `false` otherwise. This field defaults to `false` if omitted. */
   include_insights?: boolean | undefined;
@@ -11135,14 +11135,14 @@ export interface GetCreditRelayPdfRequest {
   client_id?: string | undefined;
   secret?: string | Redacted.Redacted<string> | undefined;
   /** The `relay_token` granting access to the report you would like to get. */
-  relay_token: string;
+  relay_token: string | Redacted.Redacted<string>;
   report_type: ReportType | (string & {});
 }
 export interface GetCreditRelayPdfResponse {}
 export interface GetCreditSessionRequest {
   client_id?: string | undefined;
   secret?: string | Redacted.Redacted<string> | undefined;
-  user_token?: string | undefined;
+  user_token?: string | Redacted.Redacted<string> | undefined;
   user_id?: string | undefined;
 }
 /** The details of an Item add in Link. */
@@ -12731,7 +12731,7 @@ export interface GetLinkTokenRequest {
   client_id?: string | undefined;
   secret?: string | Redacted.Redacted<string> | undefined;
   /** A `link_token` from a previous invocation of `/link/token/create` */
-  link_token: string;
+  link_token: string | Redacted.Redacted<string>;
 }
 /** An institution object. If the Item was created via Same-Day or Instant micro-deposit verification, `name` and `institution_id` will be omitted. */
 export interface LinkSessionSuccessMetadataInstitution {
@@ -13009,7 +13009,7 @@ export interface LinkTokenGetMetadataResponse {
 /** LinkTokenGetResponse defines the response schema for `/link/token/get` */
 export interface LinkTokenGetResponse {
   /** A `link_token`, which can be supplied to Link in order to initialize it and receive a `public_token`, which can be exchanged for an `access_token`. */
-  link_token: string;
+  link_token: string | Redacted.Redacted<string>;
   /** The creation timestamp for the `link_token`, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format. */
   created_at: string | null;
   /** The expiration timestamp for the `link_token`, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format. */
@@ -13240,7 +13240,7 @@ export interface GetPaymentInitiationRecipientResponse {
 }
 export interface GetProcessorAccountRequest {
   client_id?: string | undefined;
-  processor_token: string;
+  processor_token: string | Redacted.Redacted<string>;
   secret?: string | Redacted.Redacted<string> | undefined;
 }
 /** ProcessorAccountGetResponse defines the response schema for `/processor/account/get` */
@@ -13254,7 +13254,7 @@ export interface ProcessorAccountGetResponse {
 export interface GetProcessorAuthRequest {
   client_id?: string | undefined;
   secret?: string | Redacted.Redacted<string> | undefined;
-  processor_token: string;
+  processor_token: string | Redacted.Redacted<string>;
 }
 /** Identifying information for transferring money to or from a US account via ACH or wire transfer. */
 export type NumbersACHNullable = NumbersACH;
@@ -13286,7 +13286,7 @@ export interface ProcessorBalanceGetRequestOptions {
 export interface GetProcessorBalanceRequest {
   client_id?: string | undefined;
   secret?: string | Redacted.Redacted<string> | undefined;
-  processor_token: string;
+  processor_token: string | Redacted.Redacted<string>;
   options?: ProcessorBalanceGetRequestOptions | undefined;
 }
 /** ProcessorBalanceGetResponse defines the response schema for `/processor/balance/get` */
@@ -13298,7 +13298,7 @@ export interface ProcessorBalanceGetResponse {
 export interface GetProcessorIdentityRequest {
   client_id?: string | undefined;
   secret?: string | Redacted.Redacted<string> | undefined;
-  processor_token: string;
+  processor_token: string | Redacted.Redacted<string>;
 }
 /** ProcessorIdentityGetResponse defines the response schema for `/processor/identity/get` */
 export interface ProcessorIdentityGetResponse {
@@ -13309,7 +13309,7 @@ export interface ProcessorIdentityGetResponse {
 export interface GetProcessorInvestmentsAuthRequest {
   client_id?: string | undefined;
   secret?: string | Redacted.Redacted<string> | undefined;
-  processor_token: string;
+  processor_token: string | Redacted.Redacted<string>;
 }
 /** The holdings belonging to the investment account. Details of the securities in the holdings are provided in the `securities` field. */
 export type ProcessorInvestmentsAuthGetResponseHoldingsList = Array<Holding>;
@@ -13340,7 +13340,7 @@ export interface ProcessorInvestmentsAuthGetResponse {
 }
 export interface GetProcessorInvestmentsHoldingRequest {
   client_id?: string | undefined;
-  processor_token: string;
+  processor_token: string | Redacted.Redacted<string>;
   secret?: string | Redacted.Redacted<string> | undefined;
 }
 /** The holdings belonging to investment accounts associated with the Item. Details of the securities in the holdings are provided in the `securities` field. */
@@ -13362,7 +13362,7 @@ export interface ProcessorInvestmentsHoldingsGetResponse {
 export interface GetProcessorInvestmentsTransactionRequest {
   client_id?: string | undefined;
   options?: InvestmentsTransactionsGetRequestOptions | undefined;
-  processor_token: string;
+  processor_token: string | Redacted.Redacted<string>;
   secret?: string | Redacted.Redacted<string> | undefined;
   /** The earliest date for which data should be returned. Dates should be formatted as YYYY-MM-DD. Plaid returns all investment transaction history stored for the Item (up to 2 years prior to the initial linking of the Item). */
   start_date: string;
@@ -13391,7 +13391,7 @@ export interface ProcessorInvestmentsTransactionsGetResponse {
 export interface GetProcessorLiabilityRequest {
   client_id?: string | undefined;
   secret?: string | Redacted.Redacted<string> | undefined;
-  processor_token: string;
+  processor_token: string | Redacted.Redacted<string>;
 }
 /** ProcessorLiabilitiesGetResponse defines the response schema for `/processor/liabilities/get` */
 export interface ProcessorLiabilitiesGetResponse {
@@ -13403,7 +13403,7 @@ export interface ProcessorLiabilitiesGetResponse {
 export interface GetProcessorTokenPermissionsRequest {
   client_id?: string | undefined;
   secret?: string | Redacted.Redacted<string> | undefined;
-  processor_token: string;
+  processor_token: string | Redacted.Redacted<string>;
 }
 /** A list of products the processor token should have access to. An empty list means that the processor has access to all available products, including future products. */
 export type ProcessorTokenPermissionsGetResponseProductsList = Array<Products>;
@@ -13432,7 +13432,7 @@ export interface ProcessorTransactionsGetRequestOptions {
 export interface GetProcessorTransactionRequest {
   client_id?: string | undefined;
   options?: ProcessorTransactionsGetRequestOptions | undefined;
-  processor_token: string;
+  processor_token: string | Redacted.Redacted<string>;
   secret?: string | Redacted.Redacted<string> | undefined;
   /** The earliest date for which data should be returned. Dates should be formatted as YYYY-MM-DD. Plaid returns all transaction history stored for the Item (up to 2 years prior to the initial linking of the Item). */
   start_date: string;
@@ -13537,7 +13537,7 @@ export interface TransactionsRecurringGetRequestOptions {
 }
 export interface GetProcessorTransactionsRecurringRequest {
   client_id?: string | undefined;
-  processor_token: string;
+  processor_token: string | Redacted.Redacted<string>;
   secret?: string | Redacted.Redacted<string> | undefined;
   options?: TransactionsRecurringGetRequestOptions | undefined;
 }
@@ -14004,7 +14004,7 @@ export interface GetTransferCapabilityRequest {
   secret?: string | Redacted.Redacted<string> | undefined;
   access_token: string | Redacted.Redacted<string>;
   account_id: string;
-  payment_profile_token?: string | undefined;
+  payment_profile_token?: string | Redacted.Redacted<string> | undefined;
 }
 /** Contains the supported service types in RTP */
 export interface TransferCapabilitiesGetRTP {
@@ -14461,7 +14461,7 @@ export interface UserAccountSessionGetResponse {
 export interface GetUserItemRequest {
   client_id?: string | undefined;
   secret?: string | Redacted.Redacted<string> | undefined;
-  user_token?: string | undefined;
+  user_token?: string | Redacted.Redacted<string> | undefined;
   user_id?: string | undefined;
 }
 export type UserItemsGetResponseItemsList = Array<Item>;
@@ -14850,7 +14850,7 @@ export interface ItemImportRequestUserAuth {
   /** Your persistent, unique identifier for the customer. */
   user_id: string;
   /** Authorization token used by the legacy Plaid Exchange integration; not required for Permissions Manager callers. */
-  auth_token?: string | undefined;
+  auth_token?: string | Redacted.Redacted<string> | undefined;
 }
 /** An optional object to configure `/item/import` request. Retained for the legacy Plaid Exchange integration; not required for Permissions Manager callers. */
 export interface ItemImportRequestOptions {
@@ -14907,7 +14907,7 @@ export interface InvalidateItemAccessTokenRequest {
 }
 /** ItemAccessTokenInvalidateResponse defines the response schema for `/item/access_token/invalidate` */
 export interface ItemAccessTokenInvalidateResponse {
-  new_access_token: string;
+  new_access_token: string | Redacted.Redacted<string>;
   request_id: string;
   [key: string]: unknown;
 }
@@ -14934,7 +14934,7 @@ export interface LinkOauthCorrelationIdExchangeRequest {
 /** LinkOAuthCorrelationIdExchangeResponse defines the response schema for `/link/oauth/correlation_id/exchange` */
 export interface LinkOAuthCorrelationIdExchangeResponse {
   /** The `link_token` associated to the given `link_correlation_id`, which can be used to re-initialize Link. */
-  link_token: string;
+  link_token: string | Redacted.Redacted<string>;
   request_id: string;
   [key: string]: unknown;
 }
@@ -16523,7 +16523,7 @@ export interface WatchlistScreeningIndividualReviewListResponse {
   [key: string]: unknown;
 }
 export interface OauthIntrospectRequest {
-  token: string;
+  token: string | Redacted.Redacted<string>;
   client_id?: string | undefined;
   client_secret?: string | Redacted.Redacted<string> | undefined;
   secret?: string | Redacted.Redacted<string> | undefined;
@@ -16573,7 +16573,7 @@ export interface OauthTokenRequest {
   /** Used when exchanging a token. The meaning depends on the `subject_token_type`: - For `urn:plaid:params:tokens:user`: Must be the same as the `client_id`. - For `urn:plaid:params:oauth:user-token`: The other `client_id` to exchange tokens to. - For `urn:plaid:params:credit:multi-user`: a `client_id` or one of the supported CRA partner URNs: `urn:plaid:params:cra-partner:experian`, `urn:plaid:params:cra-partner:fannie-mae`, or `urn:plaid:params:cra-partner:freddie-mac`. */
   audience?: string | undefined;
   /** Token representing the subject. The meaning depends on the `subject_token_type`. For `urn:plaid:params:tokens:user`, the `subject_token` must be a Plaid-issued user token from the `/user/create` endpoint. For `urn:plaid:params:oauth:user-token`, the `subject_token` must be an OAuth refresh token issued from the `/oauth/token` endpoint. */
-  subject_token?: string | undefined;
+  subject_token?: string | Redacted.Redacted<string> | undefined;
   subject_token_type?: OAuthSubjectTokenType | (string & {}) | undefined;
 }
 /** OAuth token grant success response */
@@ -16618,7 +16618,7 @@ export interface PaymentInitiationPaymentReverseResponse {
 export interface ProcessorIdentityMatchRequest {
   client_id?: string | undefined;
   secret?: string | Redacted.Redacted<string> | undefined;
-  processor_token: string;
+  processor_token: string | Redacted.Redacted<string>;
   user?: IdentityMatchUser | undefined;
 }
 /** ProcessorIdentityMatchResponse defines the response schema for `/processor/identity/match` */
@@ -16643,7 +16643,7 @@ export type SignalPaymentMethod =
 export interface ProcessorSignalDecisionReportRequest {
   client_id?: string | undefined;
   secret?: string | Redacted.Redacted<string> | undefined;
-  processor_token: string;
+  processor_token: string | Redacted.Redacted<string>;
   /** Must be the same as the `client_transaction_id` supplied when calling `/processor/signal/evaluate` */
   client_transaction_id: string;
   /** `true` if the ACH transaction was initiated, `false` otherwise. This field must be returned as a boolean. If formatted incorrectly, this will result in an [`INVALID_FIELD`](https://plaid.com/docs/errors/invalid-request/#invalid_field) error. */
@@ -16706,7 +16706,7 @@ export interface SignalDevice {
 export interface ProcessorSignalEvaluateRequest {
   client_id?: string | undefined;
   secret?: string | Redacted.Redacted<string> | undefined;
-  processor_token: string;
+  processor_token: string | Redacted.Redacted<string>;
   /** The unique ID that you would like to use to refer to this transaction. For your convenience mapping your internal data, you could use your internal ID/identifier for this transaction. The max length for this field is 36 characters. */
   client_transaction_id: string;
   /** The transaction amount, in USD (e.g. `102.05`) */
@@ -16937,7 +16937,7 @@ export interface ProcessorSignalEvaluateResponse {
 export interface ProcessorSignalPrepareRequest {
   client_id?: string | undefined;
   secret?: string | Redacted.Redacted<string> | undefined;
-  processor_token: string;
+  processor_token: string | Redacted.Redacted<string>;
 }
 /** ProcessorSignalPrepareResponse defines the response schema for `/processor/signal/prepare` */
 export interface ProcessorSignalPrepareResponse {
@@ -16947,7 +16947,7 @@ export interface ProcessorSignalPrepareResponse {
 export interface ProcessorSignalReturnReportRequest {
   client_id?: string | undefined;
   secret?: string | Redacted.Redacted<string> | undefined;
-  processor_token: string;
+  processor_token: string | Redacted.Redacted<string>;
   /** Must be the same as the `client_transaction_id` supplied when calling `/processor/signal/evaluate` */
   client_transaction_id: string;
   /** Must be a valid ACH return code (e.g. "R01") If formatted incorrectly, this will result in an [`INVALID_FIELD`](https://plaid.com/docs/errors/invalid-request/#invalid_field) error. */
@@ -17027,7 +17027,7 @@ export interface AssetReportRefreshRequestOptions {
 export interface RefreshAssetReportRequest {
   client_id?: string | undefined;
   secret?: string | Redacted.Redacted<string> | undefined;
-  asset_report_token: string;
+  asset_report_token: string | Redacted.Redacted<string>;
   /** The maximum number of days of history to include in the Asset Report. Must be an integer. If not specified, the value from the original call to `/asset_report/create` will be used. */
   days_requested?: number | null | undefined;
   options?: AssetReportRefreshRequestOptions | undefined;
@@ -17035,7 +17035,7 @@ export interface RefreshAssetReportRequest {
 /** AssetReportRefreshResponse defines the response schema for `/asset_report/refresh` */
 export interface AssetReportRefreshResponse {
   asset_report_id: string;
-  asset_report_token: string;
+  asset_report_token: string | Redacted.Redacted<string>;
   request_id: string;
   [key: string]: unknown;
 }
@@ -17063,7 +17063,7 @@ export interface CreditPayrollIncomeRefreshRequestOptions {
 export interface RefreshCreditPayrollIncomeRequest {
   client_id?: string | undefined;
   secret?: string | Redacted.Redacted<string> | undefined;
-  user_token?: string | undefined;
+  user_token?: string | Redacted.Redacted<string> | undefined;
   user_id?: string | undefined;
   options?: CreditPayrollIncomeRefreshRequestOptions | undefined;
 }
@@ -17077,14 +17077,14 @@ export interface RefreshCreditRelayRequest {
   client_id?: string | undefined;
   secret?: string | Redacted.Redacted<string> | undefined;
   /** The `relay_token` granting access to the report you would like to refresh. */
-  relay_token: string;
+  relay_token: string | Redacted.Redacted<string>;
   report_type: ReportType | (string & {});
   /** The URL registered to receive webhooks when the report of a relay token has been refreshed. */
   webhook?: string | null | undefined;
 }
 /** CreditRelayRefreshResponse defines the response schema for `/credit/relay/refresh` */
 export interface CreditRelayRefreshResponse {
-  relay_token: string;
+  relay_token: string | Redacted.Redacted<string>;
   asset_report_id?: string | undefined;
   request_id: string;
   [key: string]: unknown;
@@ -17111,7 +17111,7 @@ export interface InvestmentsRefreshResponse {
 }
 export interface RefreshProcessorTransactionRequest {
   client_id?: string | undefined;
-  processor_token: string;
+  processor_token: string | Redacted.Redacted<string>;
   secret?: string | Redacted.Redacted<string> | undefined;
 }
 /** ProcessorTransactionsRefreshResponse defines the response schema for `/processor/transactions/refresh` */
@@ -17229,7 +17229,7 @@ export interface CraLoanRegisterApplication {
 }
 /** Contains loan data to register. */
 export interface CraLoanRegister {
-  user_token: string;
+  user_token: string | Redacted.Redacted<string>;
   loan_id: string;
   type: CraLoanType | (string & {});
   payment_schedule: CraLoanPaymentSchedule | (string & {});
@@ -17258,7 +17258,7 @@ export interface CraLoansRegisterResponse {
 export type CraLoanApplicationDecision = "APPROVED" | "DECLINED" | "OTHER";
 /** Contains loan application data. */
 export interface CraLoanApplication {
-  user_token: string;
+  user_token: string | Redacted.Redacted<string>;
   application_id: string;
   type: CraLoanType | (string & {});
   decision: CraLoanApplicationDecision | (string & {});
@@ -17284,7 +17284,7 @@ export interface CraLoansApplicationsRegisterResponse {
 export interface RemoveAssetReportRequest {
   client_id?: string | undefined;
   secret?: string | Redacted.Redacted<string> | undefined;
-  asset_report_token: string;
+  asset_report_token: string | Redacted.Redacted<string>;
 }
 /** AssetReportRemoveResponse defines the response schema for `/asset_report/remove` */
 export interface AssetReportRemoveResponse {
@@ -17297,7 +17297,7 @@ export interface RemoveCreditRelayRequest {
   client_id?: string | undefined;
   secret?: string | Redacted.Redacted<string> | undefined;
   /** The `relay_token` you would like to revoke. */
-  relay_token: string;
+  relay_token: string | Redacted.Redacted<string>;
 }
 /** CreditRelayRemoveResponse defines the response schema for `/credit/relay/remove` */
 export interface CreditRelayRemoveResponse {
@@ -17355,7 +17355,7 @@ export interface RemoveUserRequest {
   client_id?: string | undefined;
   secret?: string | Redacted.Redacted<string> | undefined;
   user_id?: string | undefined;
-  user_token?: string | undefined;
+  user_token?: string | Redacted.Redacted<string> | undefined;
 }
 /** UserRemoveResponse defines the response schema for `/user/remove` */
 export interface UserRemoveResponse {
@@ -17377,7 +17377,7 @@ export type RemoveUserItemRequestItemIdsList = Array<string>;
 export interface RemoveUserItemRequest {
   client_id?: string | undefined;
   secret?: string | Redacted.Redacted<string> | undefined;
-  user_token?: string | undefined;
+  user_token?: string | Redacted.Redacted<string> | undefined;
   user_id?: string | undefined;
   /** An array of `item_id`s to be deleted. All Items for removal must be currently associated with the provided `user_id` or `user_token`. Otherwise, the entire operation will error and no Items will be deleted. */
   item_ids: RemoveUserItemRequestItemIdsList;
@@ -17390,7 +17390,7 @@ export interface UserItemsRemoveResponse {
 export interface RemoveUserThirdPartyTokenRequest {
   client_id?: string | undefined;
   secret?: string | Redacted.Redacted<string> | undefined;
-  third_party_user_token: string;
+  third_party_user_token: string | Redacted.Redacted<string>;
 }
 /** UserThirdPartyTokenRemoveResponse defines the response schema for `/user/third_party_token/remove` */
 export interface UserThirdPartyTokenRemoveResponse {
@@ -17470,7 +17470,7 @@ export interface RevokeFdxConsentRequest {
 }
 export interface RevokeFdxConsentResponse {}
 export interface RevokeOauthRequest {
-  token: string;
+  token: string | Redacted.Redacted<string>;
   client_id?: string | undefined;
   client_secret?: string | Redacted.Redacted<string> | undefined;
   secret?: string | Redacted.Redacted<string> | undefined;
@@ -17817,7 +17817,7 @@ export interface SandboxUserFireWebhookRequest {
   client_id?: string | undefined;
   secret?: string | Redacted.Redacted<string> | undefined;
   user_id?: string | undefined;
-  user_token?: string | undefined;
+  user_token?: string | Redacted.Redacted<string> | undefined;
   webhook_type: SandboxUserFireWebhookType | (string & {});
   webhook_code: SandboxUserFireWebhookCode | (string & {});
   /** The destination URL that the test webhook will be sent to. */
@@ -17835,7 +17835,7 @@ export type SandboxUserResetLoginRequestItemIdsList = Array<string>;
 export interface SandboxUserResetLoginRequest {
   client_id?: string | undefined;
   secret?: string | Redacted.Redacted<string> | undefined;
-  user_token?: string | undefined;
+  user_token?: string | Redacted.Redacted<string> | undefined;
   /** An array of `item_id`s associated with the User to be reset. If empty or `null`, this field will default to resetting all Items associated with the User. */
   item_ids?: SandboxUserResetLoginRequestItemIdsList | null | undefined;
   user_id?: string | undefined;
@@ -17935,7 +17935,7 @@ export type SetProcessorTokenPermissionsRequestProductsList = Array<Products | (
 export interface SetProcessorTokenPermissionsRequest {
   client_id?: string | undefined;
   secret?: string | Redacted.Redacted<string> | undefined;
-  processor_token: string;
+  processor_token: string | Redacted.Redacted<string>;
   /** A list of products the processor token should have access to. An empty list will grant access to all products. */
   products: SetProcessorTokenPermissionsRequestProductsList;
 }
@@ -18242,7 +18242,7 @@ export interface TransactionsSyncRequestOptions {
 }
 export interface SyncProcessorTransactionRequest {
   client_id?: string | undefined;
-  processor_token: string;
+  processor_token: string | Redacted.Redacted<string>;
   secret?: string | Redacted.Redacted<string> | undefined;
   /** The cursor value represents the last update requested. Providing it will cause the response to only return changes after this update. If omitted, the entire history of updates will be returned, starting with the first-added transactions on the Item. Note: The upper-bound length of this cursor is 256 characters of base64. */
   cursor?: string | undefined;
@@ -18787,7 +18787,7 @@ export type UpdateCreditPayrollIncomeParsingConfigRequestParsingConfigList = Arr
 export interface UpdateCreditPayrollIncomeParsingConfigRequest {
   client_id?: string | undefined;
   secret?: string | Redacted.Redacted<string> | undefined;
-  user_token?: string | undefined;
+  user_token?: string | Redacted.Redacted<string> | undefined;
   user_id?: string | undefined;
   item_id?: string | undefined;
   /** The types of analysis to enable for the document income verification session */
@@ -18838,7 +18838,7 @@ export interface ItemWebhookUpdateResponse {
 export interface UpdateProcessorTokenWebhookRequest {
   client_id?: string | undefined;
   secret?: string | Redacted.Redacted<string> | undefined;
-  processor_token: string;
+  processor_token: string | Redacted.Redacted<string>;
   /** The new webhook URL to associate with the processor token. To remove a webhook from a processor token, set to `null`. */
   webhook: string | null;
 }
@@ -18860,7 +18860,7 @@ export type UpdateSandboxCraCashflowUpdateRequestWebhookCodesList = Array<
 export interface UpdateSandboxCraCashflowUpdateRequest {
   client_id?: string | undefined;
   secret?: string | Redacted.Redacted<string> | undefined;
-  user_token?: string | undefined;
+  user_token?: string | Redacted.Redacted<string> | undefined;
   /** Webhook codes corresponding to the Cash Flow Updates events to be simulated. */
   webhook_codes?: UpdateSandboxCraCashflowUpdateRequestWebhookCodesList | null | undefined;
   user_id?: string | undefined;
@@ -18887,7 +18887,7 @@ export interface UpdateUserRequest {
   secret?: string | Redacted.Redacted<string> | undefined;
   user_id?: string | undefined;
   identity?: ClientUserIdentity | null | undefined;
-  user_token?: string | undefined;
+  user_token?: string | Redacted.Redacted<string> | undefined;
   consumer_report_user_identity?: ConsumerReportUserIdentity | null | undefined;
 }
 /** UserUpdateResponse defines the response schema for `/user/update` */
@@ -24539,7 +24539,7 @@ function __c3(j: number): any {
         S.Struct({
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          asset_report_token: S.String,
+          asset_report_token: S.String.pipe(T.SensitiveValue({})),
           auditor_id: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/asset_report/audit_copy/create", code: 200 })),
       ).annotate({ identifier: "AssetReportAuditCopyCreateRequest" });
@@ -24551,7 +24551,7 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            audit_copy_token: S.String,
+            audit_copy_token: S.String.pipe(T.SensitiveValue({})),
             request_id: S.String,
           }),
           [S.Record(S.String, S.Unknown)],
@@ -24578,7 +24578,7 @@ function __c6(j: number): any {
         S.Struct({
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          user_token: S.optional(S.String),
+          user_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           user_id: S.optional(S.String),
           options: S.optional(__S(14624, __c457, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/credit/payroll_income/get", code: 200 })),
@@ -25023,7 +25023,7 @@ function __c8(j: number): any {
         S.Struct({
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          user_token: S.optional(S.String),
+          user_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           user_id: S.optional(S.String),
         }).pipe(
           T.Http({ method: "POST", uri: "/credit/payroll_income/risk_signals/get", code: 200 }),
@@ -25150,7 +25150,7 @@ function __c9(j: number): any {
         S.Struct({
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          relay_token: S.String,
+          relay_token: S.String.pipe(T.SensitiveValue({})),
           report_type: S.String,
           include_insights: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/credit/relay/get", code: 200 })),
@@ -25164,7 +25164,7 @@ function __c10(j: number): any {
         S.Struct({
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          relay_token: S.String,
+          relay_token: S.String.pipe(T.SensitiveValue({})),
           report_type: S.String,
         }).pipe(T.Http({ method: "POST", uri: "/credit/relay/pdf/get", code: 200 })),
       ).annotate({ identifier: "GetCreditRelayPdfRequest" });
@@ -25177,7 +25177,7 @@ function __c11(j: number): any {
         S.Struct({
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          user_token: S.optional(S.String),
+          user_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           user_id: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/credit/sessions/get", code: 200 })),
       ).annotate({ identifier: "GetCreditSessionRequest" });
@@ -26512,7 +26512,7 @@ function __c40(j: number): any {
         S.Struct({
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          link_token: S.String,
+          link_token: S.String.pipe(T.SensitiveValue({})),
         }).pipe(T.Http({ method: "POST", uri: "/link/token/get", code: 200 })),
       ).annotate({ identifier: "GetLinkTokenRequest" });
     case 1:
@@ -26756,7 +26756,7 @@ function __c40(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            link_token: S.String,
+            link_token: S.String.pipe(T.SensitiveValue({})),
             created_at: S.NullOr(S.String),
             expiration: S.NullOr(S.String),
             link_sessions: S.optional(__S(1304, __c40, 24)),
@@ -27204,7 +27204,7 @@ function __c55(j: number): any {
       return S.suspend(() =>
         S.Struct({
           client_id: S.optional(S.String),
-          processor_token: S.String,
+          processor_token: S.String.pipe(T.SensitiveValue({})),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }).pipe(T.Http({ method: "POST", uri: "/processor/account/get", code: 200 })),
       ).annotate({ identifier: "GetProcessorAccountRequest" });
@@ -27228,7 +27228,7 @@ function __c56(j: number): any {
         S.Struct({
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          processor_token: S.String,
+          processor_token: S.String.pipe(T.SensitiveValue({})),
         }).pipe(T.Http({ method: "POST", uri: "/processor/auth/get", code: 200 })),
       ).annotate({ identifier: "GetProcessorAuthRequest" });
     case 1:
@@ -27269,7 +27269,7 @@ function __c57(j: number): any {
         S.Struct({
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          processor_token: S.String,
+          processor_token: S.String.pipe(T.SensitiveValue({})),
           options: S.optional(__S(1824, __c57, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/processor/balance/get", code: 200 })),
       ).annotate({ identifier: "GetProcessorBalanceRequest" });
@@ -27292,7 +27292,7 @@ function __c58(j: number): any {
         S.Struct({
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          processor_token: S.String,
+          processor_token: S.String.pipe(T.SensitiveValue({})),
         }).pipe(T.Http({ method: "POST", uri: "/processor/identity/get", code: 200 })),
       ).annotate({ identifier: "GetProcessorIdentityRequest" });
     case 1:
@@ -27314,7 +27314,7 @@ function __c59(j: number): any {
         S.Struct({
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          processor_token: S.String,
+          processor_token: S.String.pipe(T.SensitiveValue({})),
         }).pipe(T.Http({ method: "POST", uri: "/processor/investments/auth/get", code: 200 })),
       ).annotate({ identifier: "GetProcessorInvestmentsAuthRequest" });
     case 1:
@@ -27638,7 +27638,7 @@ function __c64(j: number): any {
       return S.suspend(() =>
         S.Struct({
           client_id: S.optional(S.String),
-          processor_token: S.String,
+          processor_token: S.String.pipe(T.SensitiveValue({})),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }).pipe(T.Http({ method: "POST", uri: "/processor/investments/holdings/get", code: 200 })),
       ).annotate({ identifier: "GetProcessorInvestmentsHoldingRequest" });
@@ -27664,7 +27664,7 @@ function __c65(j: number): any {
         S.Struct({
           client_id: S.optional(S.String),
           options: S.optional(__S(1088, __c34, 0)),
-          processor_token: S.String,
+          processor_token: S.String.pipe(T.SensitiveValue({})),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           start_date: S.String,
           end_date: S.String,
@@ -27695,7 +27695,7 @@ function __c66(j: number): any {
         S.Struct({
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          processor_token: S.String,
+          processor_token: S.String.pipe(T.SensitiveValue({})),
         }).pipe(T.Http({ method: "POST", uri: "/processor/liabilities/get", code: 200 })),
       ).annotate({ identifier: "GetProcessorLiabilityRequest" });
     case 1:
@@ -27718,7 +27718,7 @@ function __c67(j: number): any {
         S.Struct({
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          processor_token: S.String,
+          processor_token: S.String.pipe(T.SensitiveValue({})),
         }).pipe(T.Http({ method: "POST", uri: "/processor/token/permissions/get", code: 200 })),
       ).annotate({ identifier: "GetProcessorTokenPermissionsRequest" });
     case 1:
@@ -27751,7 +27751,7 @@ function __c68(j: number): any {
         S.Struct({
           client_id: S.optional(S.String),
           options: S.optional(__S(2176, __c68, 0)),
-          processor_token: S.String,
+          processor_token: S.String.pipe(T.SensitiveValue({})),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           start_date: S.String,
           end_date: S.String,
@@ -27837,7 +27837,7 @@ function __c71(j: number): any {
       return S.suspend(() =>
         S.Struct({
           client_id: S.optional(S.String),
-          processor_token: S.String,
+          processor_token: S.String.pipe(T.SensitiveValue({})),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           options: S.optional(__S(2304, __c72, 0)),
         }).pipe(
@@ -28066,7 +28066,7 @@ function __c78(j: number): any {
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           user_id: S.optional(S.String),
-          user_token: S.optional(S.String),
+          user_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           webhook: S.String,
           days_requested: S.Number,
           days_required: S.optional(S.Number),
@@ -28481,7 +28481,7 @@ function __c92(j: number): any {
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           access_token: S.String.pipe(T.SensitiveValue({})),
           account_id: S.String,
-          payment_profile_token: S.optional(S.String),
+          payment_profile_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }).pipe(T.Http({ method: "POST", uri: "/transfer/capabilities/get", code: 200 })),
       ).annotate({ identifier: "GetTransferCapabilityRequest" });
     case 1:
@@ -29039,7 +29039,7 @@ function __c107(j: number): any {
         S.Struct({
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          user_token: S.optional(S.String),
+          user_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           user_id: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/user/items/get", code: 200 })),
       ).annotate({ identifier: "GetUserItemRequest" });
@@ -29433,7 +29433,7 @@ function __c124(j: number): any {
       return S.suspend(() =>
         S.Struct({
           user_id: S.String,
-          auth_token: S.optional(S.String),
+          auth_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "ItemImportRequestUserAuth" });
     case 1:
@@ -29512,7 +29512,7 @@ function __c126(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            new_access_token: S.String,
+            new_access_token: S.String.pipe(T.SensitiveValue({})),
             request_id: S.String,
           }),
           [S.Record(S.String, S.Unknown)],
@@ -29559,7 +29559,7 @@ function __c128(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            relay_token: S.String,
+            relay_token: S.String.pipe(T.SensitiveValue({})),
             request_id: S.String,
           }),
           [S.Record(S.String, S.Unknown)],
@@ -29581,7 +29581,7 @@ function __c129(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            link_token: S.String,
+            link_token: S.String.pipe(T.SensitiveValue({})),
             request_id: S.String,
           }),
           [S.Record(S.String, S.Unknown)],
@@ -31819,7 +31819,7 @@ function __c176(j: number): any {
         S.Struct({
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          audit_copy_token: S.String,
+          audit_copy_token: S.String.pipe(T.SensitiveValue({})),
         }).pipe(T.Http({ method: "POST", uri: "/asset_report/audit_copy/get", code: 200 })),
       ).annotate({ identifier: "AssetReportAuditCopyGetRequest" });
   }
@@ -32609,7 +32609,7 @@ function __c189(j: number): any {
         S.Struct({
           intent_id: S.optional(S.String),
           authorization_id: S.optional(S.String),
-          payment_profile_token: S.optional(S.String),
+          payment_profile_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "LinkTokenCreateRequestTransfer" });
     case 17:
@@ -32706,7 +32706,7 @@ function __c189(j: number): any {
           update: S.optional(__S(6065, __c189, 17)),
           identity_verification: S.optional(__S(6066, __c189, 18)),
           statements: S.optional(__S(6113, __c191, 1)),
-          third_party_user_token: S.optional(S.String),
+          third_party_user_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           investments: S.optional(__S(6067, __c189, 19)),
           investments_auth: S.optional(__S(6068, __c189, 20)),
           hosted_link: S.optional(__S(6069, __c189, 21)),
@@ -32716,14 +32716,14 @@ function __c189(j: number): any {
           identity: S.optional(__S(6070, __c189, 22)),
           financekit_supported: S.optional(S.Boolean),
           enable_multi_item_link: S.optional(S.Boolean),
-          user_token: S.optional(S.String),
+          user_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }).pipe(T.Http({ method: "POST", uri: "/link/token/create", code: 200 })),
       ).annotate({ identifier: "CreateLinkTokenRequest" });
     case 24:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            link_token: S.String,
+            link_token: S.String.pipe(T.SensitiveValue({})),
             expiration: S.String,
             request_id: S.String,
             hosted_link_url: S.optional(S.String),
@@ -33046,7 +33046,7 @@ function __c200(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           client_id: S.optional(S.String),
           client_secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
@@ -33086,7 +33086,7 @@ function __c201(j: number): any {
           refresh_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           resource: S.optional(S.String),
           audience: S.optional(S.String),
-          subject_token: S.optional(S.String),
+          subject_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           subject_token_type: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/oauth/token", code: 200 })),
       ).annotate({ identifier: "OauthTokenRequest" });
@@ -33140,7 +33140,7 @@ function __c203(j: number): any {
         S.Struct({
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          processor_token: S.String,
+          processor_token: S.String.pipe(T.SensitiveValue({})),
           user: S.optional(__S(3937, __c123, 1)),
         }).pipe(T.Http({ method: "POST", uri: "/processor/identity/match", code: 200 })),
       ).annotate({ identifier: "ProcessorIdentityMatchRequest" });
@@ -33222,7 +33222,7 @@ function __c205(j: number): any {
         S.Struct({
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          processor_token: S.String,
+          processor_token: S.String.pipe(T.SensitiveValue({})),
           client_transaction_id: S.String,
           initiated: S.Boolean,
           days_funds_on_hold: S.optional(S.NullOr(S.Number)),
@@ -33240,7 +33240,7 @@ function __c206(j: number): any {
         S.Struct({
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          processor_token: S.String,
+          processor_token: S.String.pipe(T.SensitiveValue({})),
           client_transaction_id: S.String,
           amount: S.Number,
           user_present: S.optional(S.NullOr(S.Boolean)),
@@ -33442,7 +33442,7 @@ function __c208(j: number): any {
         S.Struct({
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          processor_token: S.String,
+          processor_token: S.String.pipe(T.SensitiveValue({})),
         }).pipe(T.Http({ method: "POST", uri: "/processor/signal/prepare", code: 200 })),
       ).annotate({ identifier: "ProcessorSignalPrepareRequest" });
   }
@@ -33454,7 +33454,7 @@ function __c209(j: number): any {
         S.Struct({
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          processor_token: S.String,
+          processor_token: S.String.pipe(T.SensitiveValue({})),
           client_transaction_id: S.String,
           return_code: S.String,
           returned_at: S.optional(S.NullOr(S.String)),
@@ -33540,7 +33540,7 @@ function __c211(j: number): any {
         S.Struct({
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          asset_report_token: S.String,
+          asset_report_token: S.String.pipe(T.SensitiveValue({})),
           days_requested: S.optional(S.NullOr(S.Number)),
           options: S.optional(__S(6752, __c211, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/asset_report/refresh", code: 200 })),
@@ -33550,7 +33550,7 @@ function __c211(j: number): any {
         S.StructWithRest(
           S.Struct({
             asset_report_id: S.String,
-            asset_report_token: S.String,
+            asset_report_token: S.String.pipe(T.SensitiveValue({})),
             request_id: S.String,
           }),
           [S.Record(S.String, S.Unknown)],
@@ -33585,7 +33585,7 @@ function __c213(j: number): any {
         S.Struct({
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          user_token: S.optional(S.String),
+          user_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           user_id: S.optional(S.String),
           options: S.optional(__S(6816, __c213, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/credit/payroll_income/refresh", code: 200 })),
@@ -33609,7 +33609,7 @@ function __c214(j: number): any {
         S.Struct({
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          relay_token: S.String,
+          relay_token: S.String.pipe(T.SensitiveValue({})),
           report_type: S.String,
           webhook: S.optional(S.NullOr(S.String)),
         }).pipe(T.Http({ method: "POST", uri: "/credit/relay/refresh", code: 200 })),
@@ -33618,7 +33618,7 @@ function __c214(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            relay_token: S.String,
+            relay_token: S.String.pipe(T.SensitiveValue({})),
             asset_report_id: S.optional(S.String),
             request_id: S.String,
           }),
@@ -33789,7 +33789,7 @@ function __c222(j: number): any {
       return S.suspend(() =>
         S.Struct({
           client_id: S.optional(S.String),
-          processor_token: S.String,
+          processor_token: S.String.pipe(T.SensitiveValue({})),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }).pipe(T.Http({ method: "POST", uri: "/processor/transactions/refresh", code: 200 })),
       ).annotate({ identifier: "RefreshProcessorTransactionRequest" });
@@ -33889,7 +33889,7 @@ function __c228(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            user_token: S.String,
+            user_token: S.String.pipe(T.SensitiveValue({})),
             loan_id: S.String,
             type: S.String,
             payment_schedule: S.String,
@@ -33933,7 +33933,7 @@ function __c230(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            user_token: S.String,
+            user_token: S.String.pipe(T.SensitiveValue({})),
             application_id: S.String,
             type: S.String,
             decision: S.String,
@@ -33962,7 +33962,7 @@ function __c231(j: number): any {
         S.Struct({
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          asset_report_token: S.String,
+          asset_report_token: S.String.pipe(T.SensitiveValue({})),
         }).pipe(T.Http({ method: "POST", uri: "/asset_report/remove", code: 200 })),
       ).annotate({ identifier: "RemoveAssetReportRequest" });
   }
@@ -33974,7 +33974,7 @@ function __c232(j: number): any {
         S.Struct({
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          relay_token: S.String,
+          relay_token: S.String.pipe(T.SensitiveValue({})),
         }).pipe(T.Http({ method: "POST", uri: "/credit/relay/remove", code: 200 })),
       ).annotate({ identifier: "RemoveCreditRelayRequest" });
   }
@@ -34076,7 +34076,7 @@ function __c237(j: number): any {
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           user_id: S.optional(S.String),
-          user_token: S.optional(S.String),
+          user_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }).pipe(T.Http({ method: "POST", uri: "/user/remove", code: 200 })),
       ).annotate({ identifier: "RemoveUserRequest" });
   }
@@ -34100,7 +34100,7 @@ function __c239(j: number): any {
         S.Struct({
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          user_token: S.optional(S.String),
+          user_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           user_id: S.optional(S.String),
           item_ids: __S(32, __c1, 0),
         }).pipe(T.Http({ method: "POST", uri: "/user/items/remove", code: 200 })),
@@ -34114,7 +34114,7 @@ function __c240(j: number): any {
         S.Struct({
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          third_party_user_token: S.String,
+          third_party_user_token: S.String.pipe(T.SensitiveValue({})),
         }).pipe(T.Http({ method: "POST", uri: "/user/third_party_token/remove", code: 200 })),
       ).annotate({ identifier: "RemoveUserThirdPartyTokenRequest" });
   }
@@ -34178,7 +34178,7 @@ function __c243(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           client_id: S.optional(S.String),
           client_secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
@@ -34451,7 +34451,7 @@ function __c257(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            processor_token: S.String,
+            processor_token: S.String.pipe(T.SensitiveValue({})),
             request_id: S.String,
           }),
           [S.Record(S.String, S.Unknown)],
@@ -34596,7 +34596,7 @@ function __c266(j: number): any {
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           user_id: S.optional(S.String),
-          user_token: S.optional(S.String),
+          user_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           webhook_type: S.String,
           webhook_code: S.String,
           webhook: S.String,
@@ -34611,7 +34611,7 @@ function __c267(j: number): any {
         S.Struct({
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          user_token: S.optional(S.String),
+          user_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           item_ids: S.optional(S.NullOr(__S(32, __c1, 0))),
           user_id: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/sandbox/user/reset_login", code: 200 })),
@@ -34635,7 +34635,7 @@ function __c268(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            stripe_bank_account_token: S.String,
+            stripe_bank_account_token: S.String.pipe(T.SensitiveValue({})),
             request_id: S.String,
           }),
           [S.Record(S.String, S.Unknown)],
@@ -34740,7 +34740,7 @@ function __c272(j: number): any {
         S.Struct({
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          processor_token: S.String,
+          processor_token: S.String.pipe(T.SensitiveValue({})),
           products: __S(12320, __c385, 0),
         }).pipe(T.Http({ method: "POST", uri: "/processor/token/permissions/set", code: 200 })),
       ).annotate({ identifier: "SetProcessorTokenPermissionsRequest" });
@@ -35016,7 +35016,7 @@ function __c285(j: number): any {
       return S.suspend(() =>
         S.Struct({
           client_id: S.optional(S.String),
-          processor_token: S.String,
+          processor_token: S.String.pipe(T.SensitiveValue({})),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           cursor: S.optional(S.String),
           count: S.optional(S.Number),
@@ -35577,7 +35577,7 @@ function __c307(j: number): any {
         S.Struct({
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          user_token: S.optional(S.String),
+          user_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           user_id: S.optional(S.String),
           item_id: S.optional(S.String),
           parsing_config: __S(12320, __c385, 0),
@@ -35645,7 +35645,7 @@ function __c310(j: number): any {
         S.Struct({
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          processor_token: S.String,
+          processor_token: S.String.pipe(T.SensitiveValue({})),
           webhook: S.NullOr(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/processor/token/webhook/update", code: 200 })),
       ).annotate({ identifier: "UpdateProcessorTokenWebhookRequest" });
@@ -35658,7 +35658,7 @@ function __c311(j: number): any {
         S.Struct({
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          user_token: S.optional(S.String),
+          user_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           webhook_codes: S.optional(S.NullOr(__S(12320, __c385, 0))),
           user_id: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/sandbox/cra/cashflow_updates/update", code: 200 })),
@@ -35689,7 +35689,7 @@ function __c313(j: number): any {
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           user_id: S.optional(S.String),
           identity: S.optional(S.NullOr(__S(11525, __c360, 5))),
-          user_token: S.optional(S.String),
+          user_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           consumer_report_user_identity: S.optional(S.NullOr(__S(11552, __c361, 0))),
         }).pipe(T.Http({ method: "POST", uri: "/user/update", code: 200 })),
       ).annotate({ identifier: "UpdateUserRequest" });
@@ -35760,7 +35760,7 @@ function __c316(j: number): any {
         S.Struct({
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          audit_copy_token: S.String,
+          audit_copy_token: S.String.pipe(T.SensitiveValue({})),
           options: S.optional(__S(10176, __c318, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/asset_report/audit_copy/pdf/get", code: 200 })),
       ).annotate({ identifier: "AssetReportAuditCopyPdfGetRequest" });
@@ -35797,7 +35797,7 @@ function __c319(j: number): any {
             internal_reference: S.optional(S.NullOr(S.String)),
             time: S.optional(S.NullOr(S.String)),
             amount: S.optional(S.NullOr(__S(10240, __c320, 0))),
-            access_token: S.optional(S.NullOr(S.String)),
+            access_token: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
             item_id: S.optional(S.NullOr(S.String)),
           }),
           [S.Record(S.String, S.Unknown)],
@@ -35998,7 +35998,7 @@ function __c326(j: number): any {
           institution_id: S.String,
           initial_products: __S(12320, __c385, 0),
           options: S.optional(__S(10434, __c326, 2)),
-          user_token: S.optional(S.String),
+          user_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           user_id: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/sandbox/public_token/create", code: 200 })),
       ).annotate({ identifier: "CreateSandboxPublicTokenRequest" });
@@ -36109,7 +36109,7 @@ function __c331(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            link_token: S.String,
+            link_token: S.String.pipe(T.SensitiveValue({})),
             expiration: S.String,
             user_id: S.optional(S.String),
           }),
@@ -36446,7 +36446,7 @@ function __c344(j: number): any {
           account_id: S.String,
           funding_account_id: S.optional(S.NullOr(S.String)),
           ledger_id: S.optional(S.NullOr(S.String)),
-          payment_profile_token: S.optional(S.String),
+          payment_profile_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           type: S.String,
           network: S.String,
           amount: S.String,
@@ -36645,7 +36645,7 @@ function __c348(j: number): any {
         S.Struct({
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          audit_copy_token: S.String,
+          audit_copy_token: S.String.pipe(T.SensitiveValue({})),
         }).pipe(T.Http({ method: "POST", uri: "/asset_report/audit_copy/remove", code: 200 })),
       ).annotate({ identifier: "AssetReportAuditCopyRemoveRequest" });
   }
@@ -36948,7 +36948,7 @@ function __c359(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            user_token: S.optional(S.String),
+            user_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
             user_id: S.String,
             request_id: S.String,
           }),
@@ -37027,7 +37027,7 @@ function __c362(j: number): any {
         S.Struct({
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          user_token: S.optional(S.String),
+          user_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           third_party_client_id: S.String,
           expiration_time: S.optional(S.NullOr(S.String)),
           user_id: S.optional(S.String),
@@ -37038,7 +37038,7 @@ function __c362(j: number): any {
         S.StructWithRest(
           S.Struct({
             request_id: S.String,
-            third_party_user_token: S.String,
+            third_party_user_token: S.String.pipe(T.SensitiveValue({})),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -37114,7 +37114,7 @@ function __c366(j: number): any {
         S.Struct({
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          asset_report_token: S.String,
+          asset_report_token: S.String.pipe(T.SensitiveValue({})),
           account_ids_to_exclude: __S(32, __c1, 0),
         }).pipe(T.Http({ method: "POST", uri: "/asset_report/filter", code: 200 })),
       ).annotate({ identifier: "AssetReportFilterRequest" });
@@ -37126,7 +37126,7 @@ function __c367(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            asset_report_token: S.String,
+            asset_report_token: S.String.pipe(T.SensitiveValue({})),
             asset_report_id: S.String,
             request_id: S.String,
           }),
@@ -37351,7 +37351,7 @@ function __c379(j: number): any {
         S.Struct({
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          audit_copy_token: S.String,
+          audit_copy_token: S.String.pipe(T.SensitiveValue({})),
           report_tokens: __S(32, __c1, 0),
         }).pipe(T.Http({ method: "POST", uri: "/credit/audit_copy_token/update", code: 200 })),
       ).annotate({ identifier: "CreditAuditCopyTokenUpdateRequest" });
@@ -37374,7 +37374,7 @@ function __c380(j: number): any {
         S.Struct({
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          audit_copy_token: S.String,
+          audit_copy_token: S.String.pipe(T.SensitiveValue({})),
         }).pipe(T.Http({ method: "POST", uri: "/credit/audit_copy_token/remove", code: 200 })),
       ).annotate({ identifier: "CreditReportAuditCopyRemoveRequest" });
   }
@@ -37928,8 +37928,8 @@ function __c404(j: number): any {
         S.Struct({
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          asset_report_token: S.optional(S.String),
-          user_token: S.optional(S.String),
+          asset_report_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          user_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           include_insights: S.optional(S.Boolean),
           fast_report: S.optional(S.Boolean),
           options: S.optional(__S(10176, __c318, 0)),
@@ -37944,7 +37944,7 @@ function __c405(j: number): any {
         S.Struct({
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          asset_report_token: S.String,
+          asset_report_token: S.String.pipe(T.SensitiveValue({})),
           options: S.optional(__S(10176, __c318, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/asset_report/pdf/get", code: 200 })),
       ).annotate({ identifier: "GetAssetReportPdfRequest" });
@@ -38610,7 +38610,7 @@ function __c425(j: number): any {
         S.Struct({
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          user_token: S.String,
+          user_token: S.String.pipe(T.SensitiveValue({})),
         }).pipe(T.Http({ method: "POST", uri: "/consumer_report/pdf/get", code: 200 })),
       ).annotate({ identifier: "GetConsumerReportPdfRequest" });
   }
@@ -38635,9 +38635,9 @@ function __c427(j: number): any {
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           user_id: S.optional(S.String),
-          third_party_user_token: S.optional(S.String),
+          third_party_user_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           item_ids: S.optional(S.NullOr(__S(32, __c1, 0))),
-          user_token: S.optional(S.String),
+          user_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           user_tier: S.optional(S.NullOr(S.String)),
           report_id: S.optional(S.String),
           consumer_report_permissible_purpose: S.optional(S.String),
@@ -38918,8 +38918,8 @@ function __c430(j: number): any {
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           user_id: S.optional(S.String),
-          third_party_user_token: S.optional(S.String),
-          user_token: S.optional(S.String),
+          third_party_user_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          user_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           options: S.optional(S.NullOr(__S(2560, __c80, 0))),
         }).pipe(
           T.Http({ method: "POST", uri: "/cra/check_report/cashflow_insights/get", code: 200 }),
@@ -38956,8 +38956,8 @@ function __c431(j: number): any {
         S.Struct({
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          user_token: S.optional(S.String),
-          third_party_user_token: S.optional(S.String),
+          user_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          third_party_user_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           user_id: S.optional(S.String),
           options: S.optional(S.NullOr(__S(2593, __c81, 1))),
           report_id: S.optional(S.String),
@@ -39321,8 +39321,8 @@ function __c436(j: number): any {
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           user_id: S.optional(S.String),
-          third_party_user_token: S.optional(S.String),
-          user_token: S.optional(S.String),
+          third_party_user_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          user_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           options: S.optional(S.NullOr(__S(2624, __c82, 0))),
         }).pipe(T.Http({ method: "POST", uri: "/cra/check_report/lend_score/get", code: 200 })),
       ).annotate({ identifier: "GetCraCheckReportLendScoreRequest" });
@@ -39370,8 +39370,8 @@ function __c437(j: number): any {
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           user_id: S.optional(S.String),
           options: S.optional(S.NullOr(__S(2656, __c83, 0))),
-          third_party_user_token: S.optional(S.String),
-          user_token: S.optional(S.String),
+          third_party_user_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          user_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }).pipe(
           T.Http({ method: "POST", uri: "/cra/check_report/network_insights/get", code: 200 }),
         ),
@@ -39425,8 +39425,8 @@ function __c438(j: number): any {
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           user_id: S.optional(S.String),
-          third_party_user_token: S.optional(S.String),
-          user_token: S.optional(S.String),
+          third_party_user_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          user_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           user_tier: S.optional(S.NullOr(S.String)),
           partner_insights: S.optional(__S(2693, __c84, 5)),
           options: S.optional(S.NullOr(__S(14016, __c438, 0))),
@@ -39640,9 +39640,9 @@ function __c440(j: number): any {
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           user_id: S.optional(S.String),
-          third_party_user_token: S.optional(S.String),
+          third_party_user_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           add_ons: S.optional(__S(12320, __c385, 0)),
-          user_token: S.optional(S.String),
+          user_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }).pipe(T.Http({ method: "POST", uri: "/cra/check_report/pdf/get", code: 200 })),
       ).annotate({ identifier: "GetCraCheckReportPdfRequest" });
   }
@@ -39657,7 +39657,7 @@ function __c441(j: number): any {
           user_id: S.optional(S.String),
           reports_requested: __S(12320, __c385, 0),
           employment_refresh_options: S.optional(S.NullOr(__S(2720, __c85, 0))),
-          user_token: S.optional(S.String),
+          user_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }).pipe(T.Http({ method: "POST", uri: "/cra/check_report/verification/get", code: 200 })),
       ).annotate({ identifier: "GetCraCheckReportVerificationRequest" });
     case 1:
@@ -39990,11 +39990,11 @@ function __c443(j: number): any {
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           user_id: S.optional(S.String),
-          third_party_user_token: S.optional(S.String),
+          third_party_user_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           report_requested: S.optional(S.Unknown),
           reports_requested: S.optional(__S(12320, __c385, 0)),
           hide_gse_details: S.optional(S.Boolean),
-          user_token: S.optional(S.String),
+          user_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }).pipe(
           T.Http({ method: "POST", uri: "/cra/check_report/verification/pdf/get", code: 200 }),
         ),
@@ -40098,7 +40098,7 @@ function __c446(j: number): any {
         S.Struct({
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          user_token: S.String,
+          user_token: S.String.pipe(T.SensitiveValue({})),
           user_tier: S.optional(S.NullOr(S.String)),
         }).pipe(T.Http({ method: "POST", uri: "/cra/partner_insights/get", code: 200 })),
       ).annotate({ identifier: "GetCraPartnerInsightRequest" });
@@ -40210,7 +40210,7 @@ function __c450(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          audit_copy_token: S.String,
+          audit_copy_token: S.String.pipe(T.SensitiveValue({})),
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }).pipe(T.Http({ method: "POST", uri: "/credit/asset_report/freddie_mac/get", code: 200 })),
@@ -40624,7 +40624,7 @@ function __c452(j: number): any {
         S.Struct({
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          user_token: S.String,
+          user_token: S.String.pipe(T.SensitiveValue({})),
         }).pipe(T.Http({ method: "POST", uri: "/beta/credit/v1/bank_employment/get", code: 200 })),
       ).annotate({ identifier: "GetCreditBankEmploymentRequest" });
     case 1:
@@ -40733,7 +40733,7 @@ function __c454(j: number): any {
         S.Struct({
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          user_token: S.optional(S.String),
+          user_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           user_id: S.optional(S.String),
           options: S.optional(__S(14528, __c454, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/credit/bank_income/get", code: 200 })),
@@ -40864,7 +40864,7 @@ function __c455(j: number): any {
         S.Struct({
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          user_token: S.optional(S.String),
+          user_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           user_id: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/credit/bank_income/pdf/get", code: 200 })),
       ).annotate({ identifier: "GetCreditBankIncomePdfRequest" });
@@ -40877,7 +40877,7 @@ function __c456(j: number): any {
         S.Struct({
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          user_token: S.optional(S.String),
+          user_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           user_id: S.optional(S.String),
           options: S.optional(__S(14624, __c457, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/credit/bank_statements/uploads/get", code: 200 })),
@@ -41025,7 +41025,7 @@ function __c459(j: number): any {
         S.Struct({
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          user_token: S.optional(S.String),
+          user_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           user_id: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/credit/employment/get", code: 200 })),
       ).annotate({ identifier: "GetCreditEmploymentRequest" });
@@ -41065,7 +41065,7 @@ function __c459(j: number): any {
           S.Struct({
             item_id: S.String,
             employments: __S(14691, __c459, 3),
-            employment_report_token: S.optional(S.String),
+            employment_report_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -41089,7 +41089,7 @@ function __c460(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          audit_copy_token: S.String,
+          audit_copy_token: S.String.pipe(T.SensitiveValue({})),
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }).pipe(T.Http({ method: "POST", uri: "/credit/freddie_mac/reports/get", code: 200 })),

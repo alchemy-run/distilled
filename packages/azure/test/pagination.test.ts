@@ -14,7 +14,7 @@ import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import * as Stream from "effect/Stream";
 import { describe, expect, test } from "vitest";
-import { ARM_SCOPE, Credentials, fromClientSecret, type Config } from "../src/credentials.ts";
+import { ARM_SCOPE, check, Credentials, fromClientSecret } from "../src/credentials.ts";
 import * as Retry from "../src/retry.ts";
 import { ListServers } from "../src/services/analysisservices.ts";
 import { ListResourceGroups } from "../src/services/resources.ts";
@@ -36,14 +36,17 @@ const ARM = "https://management.azure.com";
 const RG_LIST = `${ARM}/subscriptions/${subscriptionId}/resourcegroups`;
 const BLOB = "https://acct.blob.core.windows.net";
 
-const credentials = Layer.succeed(
+const credentials = Layer.effect(
   Credentials,
-  Effect.succeed<Config>({
-    token: (scope) =>
-      Effect.succeed(Redacted.make(scope === ARM_SCOPE ? "arm-token" : `aad:${scope}`)),
-    subscriptionId,
-    apiBaseUrl: ARM,
-  }),
+  Effect.map(
+    check({
+      token: (scope) =>
+        Effect.succeed(Redacted.make(scope === ARM_SCOPE ? "arm-token" : `aad:${scope}`)),
+      subscriptionId,
+      apiBaseUrl: ARM,
+    }),
+    Effect.succeed,
+  ),
 );
 
 /** A client answering the i-th request with `pages[i]`; extra requests fail the test. */

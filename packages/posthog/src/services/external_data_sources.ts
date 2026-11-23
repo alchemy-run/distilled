@@ -144,7 +144,7 @@ export interface CreateExternalDataSourcesCheckCdcPrerequisitesForSourceRequest 
 export interface CreateExternalDataSourcesCheckCdcPrerequisitesForSourceResponse {}
 /** Values of the sibling fields named by the picker's `credentialFields`. Any other key is rejected. */
 export type CreateExternalDataSourcesCredentialAccountRequestCredentialsMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | Redacted.Redacted<string> | undefined;
 };
 export interface CreateExternalDataSourcesCredentialAccountRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1576,7 +1576,7 @@ export const createExternalDataSourcesCredentialAccount: API.OperationMethod<
   CreateExternalDataSourcesCredentialAccountError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(720, __c45, 0) as any as S.Schema<CreateExternalDataSourcesCredentialAccountRequest>,
+  input: __S(721, __c45, 1) as any as S.Schema<CreateExternalDataSourcesCredentialAccountRequest>,
   output: __S(738, __c46, 2) as any as S.Schema<IntegrationAccountsResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
@@ -1598,7 +1598,7 @@ export const createExternalDataSourcesDatabaseSchema: API.OperationMethod<
   CreateExternalDataSourcesDatabaseSchemaError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c48, 0) as any as S.Schema<CreateExternalDataSourcesDatabaseSchemaRequest>,
+  input: __S(752, __c47, 0) as any as S.Schema<CreateExternalDataSourcesDatabaseSchemaRequest>,
   output: __S(704, __c44, 0) as any as S.Schema<CreateExternalDataSourcesDatabaseSchemaResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
@@ -1616,8 +1616,8 @@ export const createExternalDataSourcesDraftCustomManifest: API.OperationMethod<
   CreateExternalDataSourcesDraftCustomManifestError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(784, __c49, 0) as any as S.Schema<CreateExternalDataSourcesDraftCustomManifestRequest>,
-  output: __S(785, __c49, 1) as any as S.Schema<DraftCustomManifestResponse>,
+  input: __S(768, __c48, 0) as any as S.Schema<CreateExternalDataSourcesDraftCustomManifestRequest>,
+  output: __S(769, __c48, 1) as any as S.Schema<DraftCustomManifestResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2067,7 +2067,7 @@ export const getExternalDataSourcesWebhookInfo: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c28, 0) as any as S.Schema<GetExternalDataSourcesWebhookInfoRequest>,
-  output: __S(454, __c28, 6) as any as S.Schema<WebhookInfoResponse>,
+  output: __S(455, __c28, 7) as any as S.Schema<WebhookInfoResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3077,21 +3077,23 @@ function __c28(j: number): any {
         }),
       ).annotate({ identifier: "WebhookHogFunction" });
     case 2:
-      return S.Array(S.Unknown);
+      return S.Record(S.String, S.String);
     case 3:
+      return S.Array(S.Unknown);
+    case 4:
       return S.suspend(() =>
         S.Struct({
           value: S.optional(S.Unknown),
           templating: S.optional(S.String),
-          bytecode: S.optional(__S(450, __c28, 2)),
+          bytecode: S.optional(__S(451, __c28, 3)),
           bytecode_contract: S.optional(S.String),
           order: S.optional(S.Number),
           transpiled: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "InputsItem" });
-    case 4:
-      return S.Record(S.String, __S(451, __c28, 3));
     case 5:
+      return S.Record(S.String, __S(452, __c28, 4));
+    case 6:
       return S.suspend(() =>
         S.Struct({
           exists: S.Boolean,
@@ -3104,7 +3106,7 @@ function __c28(j: number): any {
           error: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "WebhookExternalStatus" });
-    case 6:
+    case 7:
       return S.suspend(() =>
         S.Struct({
           supports_webhooks: S.Boolean,
@@ -3112,9 +3114,9 @@ function __c28(j: number): any {
           auto_creation_blocked_reason: S.NullOr(S.String),
           hog_function: S.NullOr(__S(449, __c28, 1)),
           webhook_url: S.NullOr(S.String),
-          schema_mapping: __S(752, __c47, 0),
-          inputs: S.optional(__S(452, __c28, 4)),
-          external_status: S.NullOr(__S(453, __c28, 5)),
+          schema_mapping: __S(450, __c28, 2),
+          inputs: S.optional(__S(453, __c28, 5)),
+          external_status: S.NullOr(__S(454, __c28, 6)),
           missing_events: S.optional(__S(608, __c38, 0)),
           missing_inputs: S.optional(__S(608, __c38, 0)),
         }),
@@ -3584,11 +3586,13 @@ function __c44(j: number): any {
 function __c45(j: number): any {
   switch (j) {
     case 0:
+      return S.Record(S.String, /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.SensitiveValue({})));
+    case 1:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           source_type: S.String,
-          credentials: __S(752, __c47, 0),
+          credentials: __S(720, __c45, 0),
           api_version: S.optional(S.NullOr(S.String)),
         }).pipe(
           T.Http({
@@ -3626,12 +3630,6 @@ function __c46(j: number): any {
 function __c47(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, S.String);
-  }
-}
-function __c48(j: number): any {
-  switch (j) {
-    case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
@@ -3646,7 +3644,7 @@ function __c48(j: number): any {
       ).annotate({ identifier: "CreateExternalDataSourcesDatabaseSchemaRequest" });
   }
 }
-function __c49(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

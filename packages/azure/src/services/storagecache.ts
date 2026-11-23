@@ -806,7 +806,7 @@ export interface PrimingJobInput {
   /** The priming job name. */
   primingJobName: string;
   /** The URL for the priming manifest file to download. This file must be readable from the HPC Cache. When the file is in Azure blob storage the URL should include a Shared Access Signature (SAS) granting read permissions on the blob. */
-  primingManifestUrl: string;
+  primingManifestUrl: string | Redacted.Redacted<string>;
 }
 /** Specifies the priming jobs defined in the cache. */
 export type CachePropertiesInputPrimingJobsList = Array<PrimingJobInput>;
@@ -956,7 +956,7 @@ export interface PrimingJob {
   /** The priming job name. */
   primingJobName: string;
   /** The URL for the priming manifest file to download. This file must be readable from the HPC Cache. When the file is in Azure blob storage the URL should include a Shared Access Signature (SAS) granting read permissions on the blob. */
-  primingManifestUrl: string;
+  primingManifestUrl: string | Redacted.Redacted<string>;
   /** The unique identifier of the priming job. */
   primingJobId?: string | undefined;
   /** The state of the priming operation. */
@@ -2617,7 +2617,7 @@ export interface StartCachPrimingJobRequest {
   /** The priming job name. */
   primingJobName: string;
   /** The URL for the priming manifest file to download. This file must be readable from the HPC Cache. When the file is in Azure blob storage the URL should include a Shared Access Signature (SAS) granting read permissions on the blob. */
-  primingManifestUrl: string;
+  primingManifestUrl: string | Redacted.Redacted<string>;
 }
 export interface StartCachPrimingJobResponse {
   /** A link to the status monitor */
@@ -6393,7 +6393,7 @@ function __c72(j: number): any {
       return S.suspend(() =>
         S.Struct({
           primingJobName: S.String,
-          primingManifestUrl: S.String,
+          primingManifestUrl: S.String.pipe(T.SensitiveValue({})),
           primingJobId: S.optional(S.String),
           primingJobState: S.optional(S.String),
           primingJobStatus: S.optional(S.String),
@@ -6439,7 +6439,7 @@ function __c73(j: number): any {
       return S.suspend(() =>
         S.Struct({
           primingJobName: S.String,
-          primingManifestUrl: S.String,
+          primingManifestUrl: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "PrimingJobInput" });
     case 2:
@@ -6541,7 +6541,7 @@ function __c78(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           cacheName: S.String.pipe(T.Label()),
           primingJobName: S.String,
-          primingManifestUrl: S.String,
+          primingManifestUrl: S.String.pipe(T.SensitiveValue({})),
         }).pipe(
           T.Http({
             method: "POST",

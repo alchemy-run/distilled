@@ -197,7 +197,7 @@ export interface AdditionalUnattendContent {
   /** Specifies the name of the setting to which the content applies. Possible values are: FirstLogonCommands and AutoLogon. */
   settingName?: SettingNames | (string & {}) | undefined;
   /** Specifies the XML formatted content that is added to the unattend.xml file for the specified path and component. The XML must be less than 4KB and must include the root element for the setting or feature that is being inserted. */
-  content?: string | undefined;
+  content?: string | Redacted.Redacted<string> | undefined;
 }
 /** Specifies additional base-64 encoded XML formatted information that can be included in the Unattend.xml file, which is used by Windows Setup. */
 export type WindowsConfigurationAdditionalUnattendContentList = Array<AdditionalUnattendContent>;
@@ -347,7 +347,7 @@ export interface VirtualMachineScaleSetOSProfile {
   /** Specifies the password of the administrator account. <br><br> **Minimum-length (Windows):** 8 characters <br><br> **Minimum-length (Linux):** 6 characters <br><br> **Max-length (Windows):** 123 characters <br><br> **Max-length (Linux):** 72 characters <br><br> **Complexity requirements:** 3 out of 4 conditions below need to be fulfilled <br> Has lower characters <br>Has upper characters <br> Has a digit <br> Has a special character (Regex match [\W_]) <br><br> **Disallowed values:** "abc@123", "P@$$w0rd", "P@ssw0rd", "P@ssword123", "Pa$$word", "pass@word1", "Password!", "Password1", "Password22", "iloveyou!" <br><br> For resetting the password, see [How to reset the Remote Desktop service or its login password in a Windows VM](https://learn.microsoft.com/troubleshoot/azure/virtual-machines/reset-rdp) <br><br> For resetting root password, see [Manage users, SSH, and check or repair disks on Azure Linux VMs using the VMAccess Extension](https://learn.microsoft.com/troubleshoot/azure/virtual-machines/troubleshoot-ssh-connection) */
   adminPassword?: string | Redacted.Redacted<string> | undefined;
   /** Specifies a base-64 encoded string of custom data. The base-64 encoded string is decoded to a binary array that is saved as a file on the Virtual Machine. The maximum length of the binary array is 65535 bytes. For using cloud-init for your VM, see [Using cloud-init to customize a Linux VM during creation](https://learn.microsoft.com/azure/virtual-machines/linux/using-cloud-init) */
-  customData?: string | undefined;
+  customData?: string | Redacted.Redacted<string> | undefined;
   /** Specifies Windows operating system settings on the virtual machine. */
   windowsConfiguration?: WindowsConfiguration | undefined;
   /** Specifies the Linux operating system settings on the virtual machine. For a list of supported Linux distributions, see [Linux on Azure-Endorsed Distributions](https://learn.microsoft.com/azure/virtual-machines/linux/endorsed-distros). */
@@ -1931,7 +1931,7 @@ function __c2(j: number): any {
           passName: S.optional(S.String),
           componentName: S.optional(S.String),
           settingName: S.optional(S.String),
-          content: S.optional(S.String),
+          content: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "AdditionalUnattendContent" });
     case 10:
@@ -2042,7 +2042,7 @@ function __c2(j: number): any {
           computerNamePrefix: S.optional(S.String),
           adminUsername: S.optional(S.String),
           adminPassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          customData: S.optional(S.String),
+          customData: S.optional(S.String.pipe(T.SensitiveValue({}))),
           windowsConfiguration: S.optional(__S(80, __c2, 16)),
           linuxConfiguration: S.optional(__S(85, __c2, 21)),
           secrets: S.optional(__S(90, __c2, 26)),

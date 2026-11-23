@@ -2698,7 +2698,7 @@ export interface CreateSecurityGuestTokenRequest {
   user?: User2 | undefined;
 }
 export interface CreateSecurityGuestTokenResponse {
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
 }
 export interface CreateSecurityPasswordRecoveryRequest {
   email: string;
@@ -4307,7 +4307,7 @@ export interface DatasetPurgeImpactCollection {
 export interface DatasetPurgeImpactSchema {
   charts: DatasetPurgeImpactCollection;
   dashboards: DatasetPurgeImpactCollection;
-  impact_token: string;
+  impact_token: string | Redacted.Redacted<string>;
 }
 export interface GetDatasetRelatedRequest {
   column_name: string;
@@ -7433,7 +7433,7 @@ export interface PurgeDashboardResponse {
 }
 export interface PurgeDatasetRequest {
   uuid: string;
-  confirmed_impact_token: string;
+  confirmed_impact_token: string | Redacted.Redacted<string>;
 }
 export interface PurgeDatasetResponse {
   message?: string | undefined;
@@ -9738,7 +9738,7 @@ export interface RefreshSecurityResponse {
 }
 export interface ResetSecurityPasswordRecoveryRequest {
   password: string | Redacted.Redacted<string>;
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 export interface ResetSecurityPasswordRecoveryResponse {
   message?: string | undefined;
@@ -17234,7 +17234,7 @@ function __c4(j: number): any {
         S.Struct({
           charts: __S(66, __c4, 2),
           dashboards: __S(66, __c4, 2),
-          impact_token: S.String,
+          impact_token: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "DatasetPurgeImpactSchema" });
   }
@@ -23069,7 +23069,7 @@ function __c263(j: number): any {
       return S.suspend(() =>
         S.Struct({
           uuid: S.String.pipe(T.Label()),
-          confirmed_impact_token: S.String,
+          confirmed_impact_token: S.String.pipe(T.SensitiveValue({})),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/dataset/{uuid}/purge", code: 200 })),
       ).annotate({ identifier: "PurgeDatasetRequest" });
   }
@@ -24185,7 +24185,7 @@ function __c306(j: number): any {
       return S.suspend(() =>
         S.Struct({
           password: S.String.pipe(T.SensitiveValue({})),
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/v1/security/password_recovery/reset/", code: 200 }),
         ),
@@ -24270,7 +24270,7 @@ function __c310(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "CreateSecurityGuestTokenResponse" });
   }

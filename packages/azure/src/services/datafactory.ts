@@ -4538,7 +4538,7 @@ export interface AmazonMWSLinkedServiceTypeProperties {
   /** Specifies whether to verify the identity of the server when connecting over SSL. The default value is true. */
   usePeerVerification?: unknown | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
 }
 /** Amazon Marketplace Web Service linked service. */
 export interface AmazonMWSLinkedService {
@@ -4603,7 +4603,7 @@ export interface AmazonRdsForLinkedServiceTypeProperties {
   /** Specifies whether the driver returns column value with the TIMESTAMP WITH TIME ZONE data type as DateTime or string. This setting is ignored if supportV1DataTypes is not true, default value is true. Type: boolean. Only used for Version 2.0. */
   fetchTswtzAsTimestamp?: unknown | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
 }
 /** AmazonRdsForOracle database. This linked service has supported version property. The Version 1.0 is scheduled for deprecation while your pipeline will continue to run after EOL but without any bug fix or new features. */
 export interface AmazonRdsForOracleLinkedService {
@@ -4708,7 +4708,7 @@ export interface AmazonRdsForSqlServerLinkedServiceTypeProperties {
   /** The on-premises Windows authentication password. */
   password?: SecretBase | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
   /** Sql always encrypted properties. */
   alwaysEncryptedSettings?: SqlAlwaysEncryptedProperties | undefined;
 }
@@ -4751,7 +4751,7 @@ export interface AmazonRedshiftLinkedServiceTypeProperties {
   /** The TCP port number that the Amazon Redshift server uses to listen for client connections. The default value is 5439. Type: integer (or Expression with resultType integer). */
   port?: unknown | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
 }
 /** Linked service for Amazon Redshift. */
 export interface AmazonRedshiftLinkedService {
@@ -4790,7 +4790,7 @@ export interface AmazonS3CompatibleLinkedServiceTypeProperties {
   /** If true, use S3 path-style access instead of virtual hosted-style access. Default value is false. Type: boolean (or Expression with resultType boolean). */
   forcePathStyle?: unknown | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
 }
 /** Linked service for Amazon S3 Compatible. */
 export interface AmazonS3CompatibleLinkedService {
@@ -4831,7 +4831,7 @@ export interface AmazonS3LinkedServiceTypeProperties {
   /** The session token for the S3 temporary security credential. */
   sessionToken?: SecretBase | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
 }
 /** Linked service for Amazon S3. */
 export interface AmazonS3LinkedService {
@@ -4897,7 +4897,7 @@ export interface AsanaLinkedServiceTypeProperties {
   /** The api token for the Asana source. */
   apiToken: SecretBase;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
 }
 /** Linked service for Asana. */
 export interface AsanaLinkedService {
@@ -4938,7 +4938,7 @@ export interface AzureBatchLinkedServiceTypeProperties {
   /** The Azure Storage linked service reference. */
   linkedServiceName: LinkedServiceReference;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
   /** The credential reference containing authentication information. */
   credential?: CredentialReference | undefined;
 }
@@ -4983,7 +4983,7 @@ export interface AzureBlobFSLinkedServiceTypeProperties {
   /** Indicates the azure cloud type of the service principle auth. Allowed values are AzurePublic, AzureChina, AzureUsGovernment, AzureGermany. Default value is the data factory regions' cloud type. Type: string (or Expression with resultType string). */
   azureCloudType?: unknown | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
   /** The credential reference containing authentication information. */
   credential?: CredentialReference | undefined;
   /** The service principal credential type to use in Server-To-Server authentication. 'ServicePrincipalKey' for key/secret, 'ServicePrincipalCert' for certificate. Type: string (or Expression with resultType string). */
@@ -5051,7 +5051,7 @@ export interface AzureBlobStorageLinkedServiceTypeProperties {
   /** Specify the kind of your storage account. Allowed values are: Storage (general purpose v1), StorageV2 (general purpose v2), BlobStorage, or BlockBlobStorage. Type: string (or Expression with resultType string). */
   accountKind?: unknown | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
   /** The credential reference containing authentication information. */
   credential?: CredentialReference | undefined;
   /** The type used for authentication. Type: string. */
@@ -5143,7 +5143,7 @@ export interface AzureDataLakeAnalyticsLinkedServiceTypeProperties {
   /** Azure Data Lake Analytics URI Type: string (or Expression with resultType string). */
   dataLakeAnalyticsUri?: unknown | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
 }
 /** Azure Data Lake Analytics linked service. */
 export interface AzureDataLakeAnalyticsLinkedService {
@@ -5190,7 +5190,7 @@ export interface AzureDataLakeStoreLinkedServiceTypeProperties {
   /** Data Lake Store account resource group name (if different from Data Factory account). Type: string (or Expression with resultType string). */
   resourceGroupName?: unknown | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
   /** The credential reference containing authentication information. */
   credential?: CredentialReference | undefined;
 }
@@ -5229,7 +5229,7 @@ export interface AzureDatabricksDetltaLakeLinkedServiceTypeProperties {
   /** The id of an existing interactive cluster that will be used for all runs of this job. Type: string (or Expression with resultType string). */
   clusterId?: unknown | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
   /** The credential reference containing authentication information. */
   credential?: CredentialReference | undefined;
   /** Workspace resource id for databricks REST API. Type: string (or Expression with resultType string). */
@@ -5314,7 +5314,7 @@ export interface AzureDatabricksLinkedServiceTypeProperties {
   /** Enable the elastic disk on the new cluster. This property is now ignored, and takes the default elastic disk behavior in Databricks (elastic disks are always enabled). Type: boolean (or Expression with resultType boolean). */
   newClusterEnableElasticDisk?: unknown | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
   /** The policy id for limiting the ability to configure clusters based on a user defined set of rules. Type: string (or Expression with resultType string). */
   policyId?: unknown | undefined;
   /** The credential reference containing authentication information. */
@@ -5369,7 +5369,7 @@ export interface AzureFileStorageLinkedServiceTypeProperties {
   /** The azure file share snapshot version. Type: string (or Expression with resultType string). */
   snapshot?: unknown | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
   /** File service endpoint of the Azure File Storage resource. It is mutually exclusive with connectionString, sasUri property. */
   serviceEndpoint?: unknown | undefined;
   /** The credential reference containing authentication information. */
@@ -5408,7 +5408,7 @@ export interface AzureFunctionLinkedServiceTypeProperties {
   /** Function or Host key for Azure Function App. */
   functionKey?: SecretBase | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
   /** The credential reference containing authentication information. */
   credential?: CredentialReference | undefined;
   /** Allowed token audiences for azure function. Type: string (or Expression with resultType string). */
@@ -5490,7 +5490,7 @@ export interface AzureMLLinkedServiceTypeProperties {
   /** The name or ID of the tenant to which the service principal belongs. Type: string (or Expression with resultType string). */
   tenant?: unknown | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
   /** Type of authentication (Required to specify MSI) used to connect to AzureML. Type: string (or Expression with resultType string). */
   authentication?: unknown | undefined;
 }
@@ -5537,7 +5537,7 @@ export interface AzureMLServiceLinkedServiceTypeProperties {
   /** The name or ID of the tenant to which the service principal belongs. Type: string (or Expression with resultType string). */
   tenant?: unknown | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
 }
 /** Azure ML Service linked service. */
 export interface AzureMLServiceLinkedService {
@@ -5572,7 +5572,7 @@ export interface AzureMariaDBLinkedServiceTypeProperties {
   /** The Azure key vault secret reference of password in connection string. */
   pwd?: AzureKeyVaultSecretReference | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
 }
 /** Azure Database for MariaDB linked service. */
 export interface AzureMariaDBLinkedService {
@@ -5607,7 +5607,7 @@ export interface AzureMySqlLinkedServiceTypeProperties {
   /** The Azure key vault secret reference of password in connection string. */
   password?: AzureKeyVaultSecretReference | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
 }
 /** Azure MySQL database linked service. */
 export interface AzureMySqlLinkedService {
@@ -5664,7 +5664,7 @@ export interface AzurePostgreSqlLinkedServiceTypeProperties {
   /** The Azure key vault secret reference of password in connection string. */
   password?: AzureKeyVaultSecretReference | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
   /** The ID of the service principal used to authenticate against Azure Database for PostgreSQL Flexible server. Type: string (or Expression with resultType string). */
   servicePrincipalId?: unknown | undefined;
   /** The key of the service principal used to authenticate against Azure Database for PostgreSQL Flexible server. */
@@ -5715,7 +5715,7 @@ export interface AzureSearchLinkedServiceTypeProperties {
   /** Admin Key for Azure Search service */
   key?: SecretBase | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
 }
 /** Linked service for Windows Azure Search Service. */
 export interface AzureSearchLinkedService {
@@ -5810,7 +5810,7 @@ export interface AzureSqlDWLinkedServiceTypeProperties {
   /** Indicates the azure cloud type of the service principle auth. Allowed values are AzurePublic, AzureChina, AzureUsGovernment, AzureGermany. Default value is the data factory regions' cloud type. Type: string (or Expression with resultType string). */
   azureCloudType?: unknown | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
   /** The credential reference containing authentication information. */
   credential?: CredentialReference | undefined;
 }
@@ -5907,7 +5907,7 @@ export interface AzureSqlDatabaseLinkedServiceTypeProperties {
   /** Indicates the azure cloud type of the service principle auth. Allowed values are AzurePublic, AzureChina, AzureUsGovernment, AzureGermany. Default value is the data factory regions' cloud type. Type: string (or Expression with resultType string). */
   azureCloudType?: unknown | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
   /** Sql always encrypted properties. */
   alwaysEncryptedSettings?: SqlAlwaysEncryptedProperties | undefined;
   /** The credential reference containing authentication information. */
@@ -6006,7 +6006,7 @@ export interface AzureSqlMILinkedServiceTypeProperties {
   /** Indicates the azure cloud type of the service principle auth. Allowed values are AzurePublic, AzureChina, AzureUsGovernment, AzureGermany. Default value is the data factory regions' cloud type. Type: string (or Expression with resultType string). */
   azureCloudType?: unknown | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
   /** Sql always encrypted properties. */
   alwaysEncryptedSettings?: SqlAlwaysEncryptedProperties | undefined;
   /** The credential reference containing authentication information. */
@@ -6049,7 +6049,7 @@ export interface AzureStorageLinkedServiceTypeProperties {
   /** The Azure key vault secret reference of sasToken in sas uri. */
   sasToken?: AzureKeyVaultSecretReference | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
 }
 /** The storage account linked service. */
 export interface AzureStorageLinkedService {
@@ -6123,7 +6123,7 @@ export interface AzureTableStorageLinkedServiceTypeProperties {
   /** The Azure key vault secret reference of sasToken in sas uri. */
   sasToken?: AzureKeyVaultSecretReference | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
   /** Table service endpoint of the Azure Table Storage resource. It is mutually exclusive with connectionString, sasUri property. */
   serviceEndpoint?: unknown | undefined;
   /** The credential reference containing authentication information. */
@@ -6168,7 +6168,7 @@ export interface CassandraLinkedServiceTypeProperties {
   /** Password for authentication. */
   password?: SecretBase | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
 }
 /** Linked service for Cassandra data source. */
 export interface CassandraLinkedService {
@@ -6223,7 +6223,7 @@ export interface CommonDataServiceForAppsLinkedServiceTypeProperties {
   /** The credential of the service principal object in Azure Active Directory. If servicePrincipalCredentialType is 'ServicePrincipalKey', servicePrincipalCredential can be SecureString or AzureKeyVaultSecretReference. If servicePrincipalCredentialType is 'ServicePrincipalCert', servicePrincipalCredential can only be AzureKeyVaultSecretReference. */
   servicePrincipalCredential?: SecretBase | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
 }
 /** Common Data Service for Apps linked service. */
 export interface CommonDataServiceForAppsLinkedService {
@@ -6268,7 +6268,7 @@ export interface ConcurLinkedServiceTypeProperties {
   /** Specifies whether to verify the identity of the server when connecting over SSL. The default value is true. */
   usePeerVerification?: unknown | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
 }
 /** Concur Service linked service. */
 export interface ConcurLinkedService {
@@ -6321,7 +6321,7 @@ export interface CosmosDbLinkedServiceTypeProperties {
   /** The connection mode used to access CosmosDB account. Type: string. */
   connectionMode?: CosmosDbConnectionMode | (string & {}) | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
   /** The credential reference containing authentication information. */
   credential?: CredentialReference | undefined;
 }
@@ -6393,7 +6393,7 @@ export interface CouchbaseLinkedServiceTypeProperties {
   /** The Azure key vault secret reference of credString in connection string. */
   credString?: AzureKeyVaultSecretReference | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
 }
 /** Couchbase server linked service. */
 export interface CouchbaseLinkedService {
@@ -6452,7 +6452,7 @@ export interface DataworldLinkedServiceTypeProperties {
   /** The api token for the Dataworld source. */
   apiToken: SecretBase;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
 }
 /** Linked service for Dataworld. */
 export interface DataworldLinkedService {
@@ -6499,7 +6499,7 @@ export interface Db2LinkedServiceTypeProperties {
   /** Certificate Common Name when TLS is enabled. It is mutually exclusive with connectionString property. Type: string (or Expression with resultType string). */
   certificateCommonName?: unknown | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. It is mutually exclusive with connectionString property. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
 }
 /** Linked service for DB2 data source. */
 export interface Db2LinkedService {
@@ -6566,7 +6566,7 @@ export interface DynamicsAXLinkedServiceTypeProperties {
   /** Specify the resource you are requesting authorization. Type: string (or Expression with resultType string). */
   aadResourceId: unknown;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
 }
 /** Dynamics AX linked service. */
 export interface DynamicsAXLinkedService {
@@ -6623,7 +6623,7 @@ export interface DynamicsCrmLinkedServiceTypeProperties {
   /** The credential reference containing authentication information. */
   credential?: CredentialReference | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
 }
 /** Dynamics CRM linked service. */
 export interface DynamicsCrmLinkedService {
@@ -6678,7 +6678,7 @@ export interface DynamicsLinkedServiceTypeProperties {
   /** The credential of the service principal object in Azure Active Directory. If servicePrincipalCredentialType is 'ServicePrincipalKey', servicePrincipalCredential can be SecureString or AzureKeyVaultSecretReference. If servicePrincipalCredentialType is 'ServicePrincipalCert', servicePrincipalCredential can only be AzureKeyVaultSecretReference. */
   servicePrincipalCredential?: SecretBase | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
   /** The credential reference containing authentication information. */
   credential?: CredentialReference | undefined;
 }
@@ -6723,7 +6723,7 @@ export interface EloquaLinkedServiceTypeProperties {
   /** Specifies whether to verify the identity of the server when connecting over SSL. The default value is true. */
   usePeerVerification?: unknown | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
 }
 /** Eloqua server linked service. */
 export interface EloquaLinkedService {
@@ -6760,7 +6760,7 @@ export interface FileServerLinkedServiceTypeProperties {
   /** Password to logon the server. */
   password?: SecretBase | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
 }
 /** File system linked service. */
 export interface FileServerLinkedService {
@@ -6803,7 +6803,7 @@ export interface FtpServerLinkedServiceTypeProperties {
   /** Password to logon the FTP server. */
   password?: SecretBase | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
   /** If true, connect to the FTP server over SSL/TLS channel. Default value is true. Type: boolean (or Expression with resultType boolean). */
   enableSsl?: unknown | undefined;
   /** If true, validate the FTP server SSL certificate when connect over SSL/TLS channel. Default value is true. Type: boolean (or Expression with resultType boolean). */
@@ -6870,7 +6870,7 @@ export interface GoogleAdWordsLinkedServiceTypeProperties {
   /** Specifies whether to use the legacy data type mappings, which maps float, int32 and int64 from Google to string. Do not set this to true unless you want to keep backward compatibility with legacy driver's data type mappings. Type: boolean (or Expression with resultType boolean). */
   supportLegacyDataTypes?: unknown | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
 }
 /** Google AdWords service linked service. */
 export interface GoogleAdWordsLinkedService {
@@ -6925,7 +6925,7 @@ export interface GoogleBigQueryLinkedServiceTypeProperties {
   /** Specifies whether to use a CA certificate from the system trust store or from a specified PEM file. The default value is false.Type: boolean (or Expression with resultType boolean). */
   useSystemTrustStore?: unknown | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
 }
 /** Google BigQuery service linked service. */
 export interface GoogleBigQueryLinkedService {
@@ -6970,7 +6970,7 @@ export interface GoogleBigQueryV2LinkedServiceTypeProperties {
   /** The content of the .json key file that is used to authenticate the service account. Type: string (or Expression with resultType string). */
   keyFileContent?: SecretBase | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
 }
 /** Google BigQuery service linked service. */
 export interface GoogleBigQueryV2LinkedService {
@@ -7007,7 +7007,7 @@ export interface GoogleCloudStorageLinkedServiceTypeProperties {
   /** This value specifies the endpoint to access with the Google Cloud Storage Connector. This is an optional property; change it only if you want to try a different service endpoint or want to switch between https and http. Type: string (or Expression with resultType string). */
   serviceUrl?: unknown | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
 }
 /** Linked service for Google Cloud Storage. */
 export interface GoogleCloudStorageLinkedService {
@@ -7040,7 +7040,7 @@ export interface GoogleSheetsLinkedServiceTypeProperties {
   /** The api token for the GoogleSheets source. */
   apiToken: SecretBase;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
 }
 /** Linked service for GoogleSheets. */
 export interface GoogleSheetsLinkedService {
@@ -7077,7 +7077,7 @@ export interface GreenplumLinkedServiceTypeProperties {
   /** The Azure key vault secret reference of password in connection string. */
   pwd?: AzureKeyVaultSecretReference | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
   /** The authentication type to use. Type: string. Only used for V2. */
   authenticationType?: GreenplumAuthenticationType | (string & {}) | undefined;
   /** Host name for connection. Type: string. Only used for V2. */
@@ -7144,7 +7144,7 @@ export interface HBaseLinkedServiceTypeProperties {
   /** Specifies whether to allow self-signed certificates from the server. The default value is false. */
   allowSelfSignedServerCert?: unknown | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
 }
 /** HBase server linked service. */
 export interface HBaseLinkedService {
@@ -7192,7 +7192,7 @@ export interface HDInsightLinkedServiceTypeProperties {
   /** A reference to the Azure SQL linked service that points to the HCatalog database. */
   hcatalogLinkedServiceName?: LinkedServiceReference | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
   /** Specify if the HDInsight is created with ESP (Enterprise Security Package). Type: Boolean. */
   isEspEnabled?: unknown | undefined;
   /** Specify the FileSystem if the main storage for the HDInsight is ADLS Gen2. Type: string (or Expression with resultType string). */
@@ -7309,7 +7309,7 @@ export interface HDInsightOnDemandLinkedServiceTypeProperties {
   /** Specifies the Yarn configuration parameters (yarn-site.xml) for the HDInsight cluster. */
   yarnConfiguration?: unknown | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
   /** Specifies the size of the head node for the HDInsight cluster. */
   headNodeSize?: unknown | undefined;
   /** Specifies the size of the data node for the HDInsight cluster. */
@@ -7356,7 +7356,7 @@ export interface HdfsLinkedServiceTypeProperties {
   /** Type of authentication used to connect to the HDFS. Possible values are: Anonymous and Windows. Type: string (or Expression with resultType string). */
   authenticationType?: unknown | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
   /** User name for Windows authentication. Type: string (or Expression with resultType string). */
   userName?: unknown | undefined;
   /** Password for Windows authentication. */
@@ -7433,7 +7433,7 @@ export interface HiveLinkedServiceTypeProperties {
   /** Specifies whether to allow self-signed certificates from the server. The default value is false. */
   allowSelfSignedServerCert?: unknown | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
 }
 /** Hive Server linked service. */
 export interface HiveLinkedService {
@@ -7483,7 +7483,7 @@ export interface HttpLinkedServiceTypeProperties {
   /** Thumbprint of certificate for ClientCertificate authentication. Only valid for on-premises copy. For on-premises copy with ClientCertificate authentication, either CertThumbprint or EmbeddedCertData/Password should be specified. Type: string (or Expression with resultType string). */
   certThumbprint?: unknown | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
   /** If true, validate the HTTPS server SSL certificate. Default value is true. Type: boolean (or Expression with resultType boolean). */
   enableServerCertificateValidation?: unknown | undefined;
 }
@@ -7530,7 +7530,7 @@ export interface HubspotLinkedServiceTypeProperties {
   /** Specifies whether to verify the identity of the server when connecting over SSL. The default value is true. */
   usePeerVerification?: unknown | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
 }
 /** Hubspot Service linked service. */
 export interface HubspotLinkedService {
@@ -7589,7 +7589,7 @@ export interface ImpalaLinkedServiceTypeProperties {
   /** Specifies whether to allow self-signed certificates from the server. The default value is false. */
   allowSelfSignedServerCert?: unknown | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
 }
 /** Impala server linked service. */
 export interface ImpalaLinkedService {
@@ -7630,7 +7630,7 @@ export interface InformixLinkedServiceTypeProperties {
   /** Password for Basic authentication. */
   password?: SecretBase | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
 }
 /** Informix linked service. */
 export interface InformixLinkedService {
@@ -7673,7 +7673,7 @@ export interface JiraLinkedServiceTypeProperties {
   /** Specifies whether to verify the identity of the server when connecting over SSL. The default value is true. */
   usePeerVerification?: unknown | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
 }
 /** Jira Service linked service. */
 export interface JiraLinkedService {
@@ -7721,7 +7721,7 @@ export interface LakeHouseLinkedServiceTypeProperties {
   /** The name or ID of the tenant to which the service principal belongs. Type: string (or Expression with resultType string). */
   tenant?: unknown | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
   /** The service principal credential type to use in Server-To-Server authentication. 'ServicePrincipalKey' for key/secret, 'ServicePrincipalCert' for certificate. Type: string (or Expression with resultType string). */
   servicePrincipalCredentialType?: unknown | undefined;
   /** The credential of the service principal object in Azure Active Directory. If servicePrincipalCredentialType is 'ServicePrincipalKey', servicePrincipalCredential can be SecureString or AzureKeyVaultSecretReference. If servicePrincipalCredentialType is 'ServicePrincipalCert', servicePrincipalCredential can only be AzureKeyVaultSecretReference. */
@@ -7768,7 +7768,7 @@ export interface MagentoLinkedServiceTypeProperties {
   /** Specifies whether to verify the identity of the server when connecting over SSL. The default value is true. */
   usePeerVerification?: unknown | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
 }
 /** Magento server linked service. */
 export interface MagentoLinkedService {
@@ -7817,7 +7817,7 @@ export interface MariaDBLinkedServiceTypeProperties {
   /** The Azure key vault secret reference of password in connection string. */
   password?: AzureKeyVaultSecretReference | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
 }
 /** MariaDB server linked service. */
 export interface MariaDBLinkedService {
@@ -7860,7 +7860,7 @@ export interface MarketoLinkedServiceTypeProperties {
   /** Specifies whether to verify the identity of the server when connecting over SSL. The default value is true. */
   usePeerVerification?: unknown | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
 }
 /** Marketo server linked service. */
 export interface MarketoLinkedService {
@@ -7901,7 +7901,7 @@ export interface MicrosoftAccessLinkedServiceTypeProperties {
   /** Password for Basic authentication. */
   password?: SecretBase | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
 }
 /** Microsoft Access linked service. */
 export interface MicrosoftAccessLinkedService {
@@ -7987,7 +7987,7 @@ export interface MongoDbLinkedServiceTypeProperties {
   /** Specifies whether to allow self-signed certificates from the server. The default value is false. Type: boolean (or Expression with resultType boolean). */
   allowSelfSignedServerCert?: unknown | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
 }
 /** Linked service for MongoDb data source. */
 export interface MongoDbLinkedService {
@@ -8067,7 +8067,7 @@ export interface MySqlLinkedServiceTypeProperties {
   /** The Azure key vault secret reference of password in connection string. */
   password?: AzureKeyVaultSecretReference | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
   /** This allows the special "zero" date value 0000-00-00 to be retrieved from the database. Type: boolean. */
   allowZeroDateTime?: unknown | undefined;
   /** The length of time (in seconds) to wait for a connection to the server before terminating the attempt and generating an error. Type: integer. */
@@ -8128,7 +8128,7 @@ export interface NetezzaLinkedServiceTypeProperties {
   /** The Azure key vault secret reference of password in connection string. */
   pwd?: AzureKeyVaultSecretReference | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
 }
 /** Netezza linked service. */
 export interface NetezzaLinkedService {
@@ -8195,7 +8195,7 @@ export interface ODataLinkedServiceTypeProperties {
   /** Specify the password of your certificate if your certificate has a password and you are using AadServicePrincipal authentication. Type: string (or Expression with resultType string). */
   servicePrincipalEmbeddedCertPassword?: SecretBase | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
 }
 /** Open Data Protocol (OData) linked service. */
 export interface ODataLinkedService {
@@ -8234,7 +8234,7 @@ export interface OdbcLinkedServiceTypeProperties {
   /** Password for Basic authentication. */
   password?: SecretBase | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
 }
 /** Open Database Connectivity (ODBC) linked service. */
 export interface OdbcLinkedService {
@@ -8279,7 +8279,7 @@ export interface Office365LinkedServiceTypeProperties {
   /** Specify the password of your certificate if your certificate has a password and you are using AadServicePrincipal authentication. Type: string (or Expression with resultType string). */
   servicePrincipalEmbeddedCertPassword?: SecretBase | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
 }
 /** Office365 linked service. */
 export interface Office365LinkedService {
@@ -8316,7 +8316,7 @@ export interface OracleCloudStorageLinkedServiceTypeProperties {
   /** This value specifies the endpoint to access with the Oracle Cloud Storage Connector. This is an optional property; change it only if you want to try a different service endpoint or want to switch between https and http. Type: string (or Expression with resultType string). */
   serviceUrl?: unknown | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
 }
 /** Linked service for Oracle Cloud Storage. */
 export interface OracleCloudStorageLinkedService {
@@ -8381,7 +8381,7 @@ export interface OracleLinkedServiceTypeProperties {
   /** Specifies whether the driver returns column value with the TIMESTAMP WITH TIME ZONE data type as DateTime or string. This setting is ignored if supportV1DataTypes is not true, default value is true. Type: boolean. Only used for Version 2.0. */
   fetchTswtzAsTimestamp?: unknown | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
 }
 /** Oracle database. This linked service has supported version property. The Version 1.0 is scheduled for deprecation while your pipeline will continue to run after EOL but without any bug fix or new features. */
 export interface OracleLinkedService {
@@ -8424,7 +8424,7 @@ export interface OracleServiceCloudLinkedServiceTypeProperties {
   /** Specifies whether to verify the identity of the server when connecting over SSL. The default value is true. Type: boolean (or Expression with resultType boolean). */
   usePeerVerification?: unknown | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
 }
 /** Oracle Service Cloud linked service. */
 export interface OracleServiceCloudLinkedService {
@@ -8467,7 +8467,7 @@ export interface PaypalLinkedServiceTypeProperties {
   /** Specifies whether to verify the identity of the server when connecting over SSL. The default value is true. */
   usePeerVerification?: unknown | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
 }
 /** Paypal Service linked service. */
 export interface PaypalLinkedService {
@@ -8525,7 +8525,7 @@ export interface PhoenixLinkedServiceTypeProperties {
   /** Specifies whether to allow self-signed certificates from the server. The default value is false. */
   allowSelfSignedServerCert?: unknown | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
 }
 /** Phoenix server linked service. */
 export interface PhoenixLinkedService {
@@ -8622,7 +8622,7 @@ export interface PostgreSqlV2LinkedServiceTypeProperties {
   /** The Azure key vault secret reference of password in connection string. Type: string. */
   password?: AzureKeyVaultSecretReference | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
 }
 /** Linked service for PostgreSQLV2 data source. */
 export interface PostgreSqlV2LinkedService {
@@ -8683,7 +8683,7 @@ export interface PrestoLinkedServiceTypeProperties {
   /** The local time zone used by the connection. Valid values for this option are specified in the IANA Time Zone Database. The default value for Version 1.0 is the client system time zone. The default value for Version 2.0 is server system timeZone */
   timeZoneID?: unknown | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
 }
 /** Presto server linked service. This linked service has supported version property. The Version 1.0 is scheduled for deprecation while your pipeline will continue to run after EOL but without any bug fix or new features. */
 export interface PrestoLinkedService {
@@ -8732,7 +8732,7 @@ export interface QuickBooksLinkedServiceTypeProperties {
   /** Specifies whether the data source endpoints are encrypted using HTTPS. The default value is true. Only used for version 1.0. */
   useEncryptedEndpoints?: unknown | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
 }
 /** QuickBooks server linked service. This linked service has supported version property. The Version 1.0 is scheduled for deprecation while your pipeline will continue to run after EOL but without any bug fix or new features. */
 export interface QuickBooksLinkedService {
@@ -8767,7 +8767,7 @@ export interface QuickbaseLinkedServiceTypeProperties {
   /** The user token for the Quickbase source. */
   userToken: SecretBase;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
 }
 /** Linked service for Quickbase. */
 export interface QuickbaseLinkedService {
@@ -8810,7 +8810,7 @@ export interface ResponsysLinkedServiceTypeProperties {
   /** Specifies whether to verify the identity of the server when connecting over SSL. The default value is true. Type: boolean (or Expression with resultType boolean). */
   usePeerVerification?: unknown | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
 }
 /** Responsys linked service. */
 export interface ResponsysLinkedService {
@@ -8870,7 +8870,7 @@ export interface RestServiceLinkedServiceTypeProperties {
   /** The resource you are requesting authorization to use. Type: string (or Expression with resultType string). */
   aadResourceId?: unknown | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
   /** The credential reference containing authentication information. */
   credential?: CredentialReference | undefined;
   /** The client ID associated with your application. Type: string (or Expression with resultType string). */
@@ -8929,7 +8929,7 @@ export interface SalesforceLinkedServiceTypeProperties {
   /** The Salesforce API version used in ADF. Type: string (or Expression with resultType string). */
   apiVersion?: unknown | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
 }
 /** Linked service for Salesforce. */
 export interface SalesforceLinkedService {
@@ -8972,7 +8972,7 @@ export interface SalesforceMarketingCloudLinkedServiceTypeProperties {
   /** Specifies whether to verify the identity of the server when connecting over SSL. The default value is true. Type: boolean (or Expression with resultType boolean). */
   usePeerVerification?: unknown | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
 }
 /** Salesforce Marketing Cloud linked service. */
 export interface SalesforceMarketingCloudLinkedService {
@@ -9015,7 +9015,7 @@ export interface SalesforceServiceCloudLinkedServiceTypeProperties {
   /** Extended properties appended to the connection string. Type: string (or Expression with resultType string). */
   extendedProperties?: unknown | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
 }
 /** Linked service for Salesforce Service Cloud. */
 export interface SalesforceServiceCloudLinkedService {
@@ -9056,7 +9056,7 @@ export interface SalesforceServiceCloudV2LinkedServiceTypeProperties {
   /** The Salesforce API version used in ADF. The version must be larger than or equal to 47.0 which is required by Salesforce BULK API 2.0. Type: string (or Expression with resultType string). */
   apiVersion?: unknown | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
 }
 /** Linked service for Salesforce Service Cloud V2. */
 export interface SalesforceServiceCloudV2LinkedService {
@@ -9097,7 +9097,7 @@ export interface SalesforceV2LinkedServiceTypeProperties {
   /** The Salesforce API version used in ADF. The version must be larger than or equal to 47.0 which is required by Salesforce BULK API 2.0. Type: string (or Expression with resultType string). */
   apiVersion?: unknown | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
 }
 /** Linked service for Salesforce V2. */
 export interface SalesforceV2LinkedService {
@@ -9136,7 +9136,7 @@ export interface SapBWLinkedServiceTypeProperties {
   /** Password to access the SAP BW server. */
   password?: SecretBase | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
 }
 /** SAP Business Warehouse Linked Service. */
 export interface SapBWLinkedService {
@@ -9173,7 +9173,7 @@ export interface SapCloudForCustomerLinkedServiceTypeProperties {
   /** The password for Basic authentication. */
   password?: SecretBase | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Either encryptedCredential or username/password must be provided. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
 }
 /** Linked service for SAP Cloud for Customer. */
 export interface SapCloudForCustomerLinkedService {
@@ -9210,7 +9210,7 @@ export interface SapEccLinkedServiceTypeProperties {
   /** The password for Basic authentication. */
   password?: SecretBase | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Either encryptedCredential or username/password must be provided. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
 }
 /** Linked service for SAP ERP Central Component(SAP ECC). */
 export interface SapEccLinkedService {
@@ -9253,7 +9253,7 @@ export interface SapHanaLinkedServiceProperties {
   /** Password to access the SAP HANA server. */
   password?: SecretBase | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
 }
 /** SAP HANA Linked Service. */
 export interface SapHanaLinkedService {
@@ -9318,7 +9318,7 @@ export interface SapOdpLinkedServiceTypeProperties {
   /** The subscriber name. Type: string (or Expression with resultType string). */
   subscriberName?: unknown | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
 }
 /** SAP ODP Linked Service. */
 export interface SapOdpLinkedService {
@@ -9369,7 +9369,7 @@ export interface SapOpenHubLinkedServiceTypeProperties {
   /** The Logon Group for the SAP System. Type: string (or Expression with resultType string). */
   logonGroup?: unknown | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
 }
 /** SAP Business Warehouse Open Hub Destination Linked Service. */
 export interface SapOpenHubLinkedService {
@@ -9430,7 +9430,7 @@ export interface SapTableLinkedServiceTypeProperties {
   /** The Logon Group for the SAP System. Type: string (or Expression with resultType string). */
   logonGroup?: unknown | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
 }
 /** SAP Table Linked Service. */
 export interface SapTableLinkedService {
@@ -9481,7 +9481,7 @@ export interface ServiceNowLinkedServiceTypeProperties {
   /** Specifies whether to verify the identity of the server when connecting over SSL. The default value is true. */
   usePeerVerification?: unknown | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
 }
 /** ServiceNow server linked service. */
 export interface ServiceNowLinkedService {
@@ -9528,7 +9528,7 @@ export interface ServiceNowV2LinkedServiceTypeProperties {
   /** GrantType for OAuth2 authentication. Default value is password. */
   grantType?: unknown | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
 }
 /** ServiceNowV2 server linked service. */
 export interface ServiceNowV2LinkedService {
@@ -9571,7 +9571,7 @@ export interface SftpServerLinkedServiceTypeProperties {
   /** Password to logon the SFTP server for Basic authentication. */
   password?: SecretBase | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
   /** The SSH private key file path for SshPublicKey authentication. Only valid for on-premises copy. For on-premises copy with SshPublicKey authentication, either PrivateKeyPath or PrivateKeyContent should be specified. SSH private key should be OpenSSH format. Type: string (or Expression with resultType string). */
   privateKeyPath?: unknown | undefined;
   /** Base64 encoded SSH private key content for SshPublicKey authentication. For on-premises copy with SshPublicKey authentication, either PrivateKeyPath or PrivateKeyContent should be specified. SSH private key should be OpenSSH format. */
@@ -9626,7 +9626,7 @@ export interface SharePointOnlineListLinkedServiceTypeProperties {
   /** Specify the password of your certificate if your certificate has a password and you are using AadServicePrincipal authentication. Type: string (or Expression with resultType string). */
   servicePrincipalEmbeddedCertPassword?: SecretBase | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
 }
 /** SharePoint Online List linked service. */
 export interface SharePointOnlineListLinkedService {
@@ -9667,7 +9667,7 @@ export interface ShopifyLinkedServiceTypeProperties {
   /** Specifies whether to verify the identity of the server when connecting over SSL. The default value is true. */
   usePeerVerification?: unknown | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
 }
 /** Shopify Service linked service. */
 export interface ShopifyLinkedService {
@@ -9700,7 +9700,7 @@ export interface SmartsheetLinkedServiceTypeProperties {
   /** The api token for the Smartsheet source. */
   apiToken: SecretBase;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
 }
 /** Linked service for Smartsheet. */
 export interface SmartsheetLinkedService {
@@ -9735,7 +9735,7 @@ export interface SnowflakeLinkedServiceTypeProperties {
   /** The Azure key vault secret reference of password in connection string. */
   password?: AzureKeyVaultSecretReference | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
 }
 /** Snowflake linked service. */
 export interface SnowflakeLinkedService {
@@ -9804,7 +9804,7 @@ export interface SnowflakeLinkedV2ServiceTypeProperties {
   /** Schema name for connection. Type: string (or Expression with resultType string). */
   schema?: unknown | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
   /** Indicates whether to use UTC timezone for timestamp data types. Type: boolean. */
   useUtcTimestamps?: unknown | undefined;
 }
@@ -9873,7 +9873,7 @@ export interface SparkLinkedServiceTypeProperties {
   /** Specifies whether to allow self-signed certificates from the server. The default value is false. */
   allowSelfSignedServerCert?: unknown | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
 }
 /** Spark Server linked service. */
 export interface SparkLinkedService {
@@ -9952,7 +9952,7 @@ export interface SqlServerLinkedServiceTypeProperties {
   /** The on-premises Windows authentication password. */
   password?: SecretBase | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
   /** Sql always encrypted properties. */
   alwaysEncryptedSettings?: SqlAlwaysEncryptedProperties | undefined;
   /** The credential reference containing authentication information. */
@@ -10003,7 +10003,7 @@ export interface SquareLinkedServiceTypeProperties {
   /** Specifies whether to verify the identity of the server when connecting over SSL. The default value is true. */
   usePeerVerification?: unknown | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
 }
 /** Square Service linked service. */
 export interface SquareLinkedService {
@@ -10048,7 +10048,7 @@ export interface SybaseLinkedServiceTypeProperties {
   /** Password for authentication. */
   password?: SecretBase | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
 }
 /** Linked service for Sybase data source. */
 export interface SybaseLinkedService {
@@ -10091,7 +10091,7 @@ export interface TeamDeskLinkedServiceTypeProperties {
   /** The api token for the TeamDesk source. */
   apiToken?: SecretBase | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
 }
 /** Linked service for TeamDesk. */
 export interface TeamDeskLinkedService {
@@ -10146,7 +10146,7 @@ export interface TeradataLinkedServiceTypeProperties {
   /** The maximum size of the response buffer for SQL requests, in bytes. Type: integer. Only applied for version 2.0. */
   maxRespSize?: unknown | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
 }
 /** Linked service for Teradata data source. */
 export interface TeradataLinkedService {
@@ -10222,7 +10222,7 @@ export interface VerticaLinkedServiceTypeProperties {
   /** The Azure key vault secret reference of password in connection string. */
   pwd?: AzureKeyVaultSecretReference | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
 }
 /** Vertica linked service. */
 export interface VerticaLinkedService {
@@ -10272,7 +10272,7 @@ export interface WarehouseLinkedServiceTypeProperties {
   /** The name or ID of the tenant to which the service principal belongs. Type: string (or Expression with resultType string). */
   tenant?: unknown | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
   /** The service principal credential type to use in Server-To-Server authentication. 'ServicePrincipalKey' for key/secret, 'ServicePrincipalCert' for certificate. Type: string (or Expression with resultType string). */
   servicePrincipalCredentialType?: unknown | undefined;
   /** The credential of the service principal object in Azure Active Directory. If servicePrincipalCredentialType is 'ServicePrincipalKey', servicePrincipalCredential can be SecureString or AzureKeyVaultSecretReference. If servicePrincipalCredentialType is 'ServicePrincipalCert', servicePrincipalCredential can only be AzureKeyVaultSecretReference. */
@@ -10385,7 +10385,7 @@ export interface XeroLinkedServiceTypeProperties {
   /** Specifies whether to verify the identity of the server when connecting over SSL. The default value is true. */
   usePeerVerification?: unknown | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
 }
 /** Xero Service linked service. */
 export interface XeroLinkedService {
@@ -10428,7 +10428,7 @@ export interface ZendeskLinkedServiceTypeProperties {
   /** The api token for the Zendesk source. */
   apiToken?: SecretBase | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
 }
 /** Linked service for Zendesk. */
 export interface ZendeskLinkedService {
@@ -10469,7 +10469,7 @@ export interface ZohoLinkedServiceTypeProperties {
   /** Specifies whether to verify the identity of the server when connecting over SSL. The default value is true. */
   usePeerVerification?: unknown | undefined;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string | undefined;
+  encryptedCredential?: string | Redacted.Redacted<string> | undefined;
 }
 /** Zoho server linked service. */
 export interface ZohoLinkedService {
@@ -12483,7 +12483,7 @@ export interface GetFactoryGitHubAccessTokenRequest {
 /** Get GitHub access token response definition. */
 export interface GitHubAccessTokenResponse {
   /** GitHub access token. */
-  gitHubAccessToken?: string | undefined;
+  gitHubAccessToken?: string | Redacted.Redacted<string> | undefined;
 }
 export interface GetGlobalParameterRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -12550,7 +12550,7 @@ export interface GetIntegrationRuntimeConnectionInfoRequest {
 /** Connection information for encrypting the on-premises data source credentials. */
 export interface IntegrationRuntimeConnectionInfo {
   /** The token generated in service. Callers use this token to authenticate to integration runtime. */
-  serviceToken?: string | undefined;
+  serviceToken?: string | Redacted.Redacted<string> | undefined;
   /** The integration runtime SSL certificate thumbprint. Click-Once application uses it to do server validation. */
   identityCertThumbprint?: string | undefined;
   /** The on-premises integration runtime host URL. */
@@ -26489,7 +26489,7 @@ function __c41(j: number): any {
           useEncryptedEndpoints: S.optional(S.Unknown),
           useHostVerification: S.optional(S.Unknown),
           usePeerVerification: S.optional(S.Unknown),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "AmazonMWSLinkedServiceTypeProperties" });
     case 1:
@@ -26526,7 +26526,7 @@ function __c41(j: number): any {
           enableBulkLoad: S.optional(S.Unknown),
           supportV1DataTypes: S.optional(S.Unknown),
           fetchTswtzAsTimestamp: S.optional(S.Unknown),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "AmazonRdsForLinkedServiceTypeProperties" });
     case 3:
@@ -26579,7 +26579,7 @@ function __c41(j: number): any {
           authenticationType: S.optional(S.String),
           userName: S.optional(S.Unknown),
           password: S.optional(__S(1729, __c54, 1)),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
           alwaysEncryptedSettings: S.optional(__S(1316, __c41, 4)),
         }),
       ).annotate({ identifier: "AmazonRdsForSqlServerLinkedServiceTypeProperties" });
@@ -26606,7 +26606,7 @@ function __c41(j: number): any {
           password: S.optional(__S(1729, __c54, 1)),
           database: S.Unknown,
           port: S.optional(S.Unknown),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "AmazonRedshiftLinkedServiceTypeProperties" });
     case 8:
@@ -26631,7 +26631,7 @@ function __c41(j: number): any {
           secretAccessKey: S.optional(__S(1729, __c54, 1)),
           serviceUrl: S.optional(S.Unknown),
           forcePathStyle: S.optional(S.Unknown),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "AmazonS3CompatibleLinkedServiceTypeProperties" });
     case 10:
@@ -26657,7 +26657,7 @@ function __c41(j: number): any {
           secretAccessKey: S.optional(__S(1729, __c54, 1)),
           serviceUrl: S.optional(S.Unknown),
           sessionToken: S.optional(__S(1729, __c54, 1)),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "AmazonS3LinkedServiceTypeProperties" });
     case 12:
@@ -26702,7 +26702,7 @@ function __c41(j: number): any {
       return S.suspend(() =>
         S.Struct({
           apiToken: __S(1729, __c54, 1),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "AsanaLinkedServiceTypeProperties" });
     case 16:
@@ -26728,7 +26728,7 @@ function __c41(j: number): any {
           batchUri: S.Unknown,
           poolName: S.Unknown,
           linkedServiceName: __S(1664, __c52, 0),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
           credential: S.optional(__S(1730, __c54, 2)),
         }),
       ).annotate({ identifier: "AzureBatchLinkedServiceTypeProperties" });
@@ -26756,7 +26756,7 @@ function __c41(j: number): any {
           servicePrincipalKey: S.optional(__S(1729, __c54, 1)),
           tenant: S.optional(S.Unknown),
           azureCloudType: S.optional(S.Unknown),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
           credential: S.optional(__S(1730, __c54, 2)),
           servicePrincipalCredentialType: S.optional(S.Unknown),
           servicePrincipalCredential: S.optional(__S(1729, __c54, 1)),
@@ -26792,7 +26792,7 @@ function __c41(j: number): any {
           tenant: S.optional(S.Unknown),
           azureCloudType: S.optional(S.Unknown),
           accountKind: S.optional(S.Unknown),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
           credential: S.optional(__S(1730, __c54, 2)),
           authenticationType: S.optional(S.String),
           containerUri: S.optional(S.Unknown),
@@ -26849,7 +26849,7 @@ function __c41(j: number): any {
           subscriptionId: S.optional(S.Unknown),
           resourceGroupName: S.optional(S.Unknown),
           dataLakeAnalyticsUri: S.optional(S.Unknown),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "AzureDataLakeAnalyticsLinkedServiceTypeProperties" });
     case 26:
@@ -26878,7 +26878,7 @@ function __c41(j: number): any {
           accountName: S.optional(S.Unknown),
           subscriptionId: S.optional(S.Unknown),
           resourceGroupName: S.optional(S.Unknown),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
           credential: S.optional(__S(1730, __c54, 2)),
         }),
       ).annotate({ identifier: "AzureDataLakeStoreLinkedServiceTypeProperties" });
@@ -26903,7 +26903,7 @@ function __c41(j: number): any {
           domain: S.Unknown,
           accessToken: S.optional(__S(1729, __c54, 1)),
           clusterId: S.optional(S.Unknown),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
           credential: S.optional(__S(1730, __c54, 2)),
           workspaceResourceId: S.optional(S.Unknown),
         }),
@@ -26942,7 +26942,7 @@ function __c41(j: number): any {
           newClusterDriverNodeType: S.optional(S.Unknown),
           newClusterInitScripts: S.optional(S.Unknown),
           newClusterEnableElasticDisk: S.optional(S.Unknown),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
           policyId: S.optional(S.Unknown),
           credential: S.optional(__S(1730, __c54, 2)),
           dataSecurityMode: S.optional(S.Unknown),
@@ -26979,7 +26979,7 @@ function __c42(j: number): any {
           sasToken: S.optional(__S(1696, __c53, 0)),
           fileShare: S.optional(S.Unknown),
           snapshot: S.optional(S.Unknown),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
           serviceEndpoint: S.optional(S.Unknown),
           credential: S.optional(__S(1730, __c54, 2)),
         }),
@@ -27004,7 +27004,7 @@ function __c42(j: number): any {
         S.Struct({
           functionAppUrl: S.Unknown,
           functionKey: S.optional(__S(1729, __c54, 1)),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
           credential: S.optional(__S(1730, __c54, 2)),
           resourceId: S.optional(S.Unknown),
           authentication: S.optional(S.Unknown),
@@ -27056,7 +27056,7 @@ function __c42(j: number): any {
           servicePrincipalId: S.optional(S.Unknown),
           servicePrincipalKey: S.optional(__S(1729, __c54, 1)),
           tenant: S.optional(S.Unknown),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
           authentication: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "AzureMLLinkedServiceTypeProperties" });
@@ -27085,7 +27085,7 @@ function __c42(j: number): any {
           servicePrincipalId: S.optional(S.Unknown),
           servicePrincipalKey: S.optional(__S(1729, __c54, 1)),
           tenant: S.optional(S.Unknown),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "AzureMLServiceLinkedServiceTypeProperties" });
     case 10:
@@ -27108,7 +27108,7 @@ function __c42(j: number): any {
         S.Struct({
           connectionString: S.optional(S.Unknown),
           pwd: S.optional(__S(1696, __c53, 0)),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "AzureMariaDBLinkedServiceTypeProperties" });
     case 12:
@@ -27131,7 +27131,7 @@ function __c42(j: number): any {
         S.Struct({
           connectionString: S.Unknown,
           password: S.optional(__S(1696, __c53, 0)),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "AzureMySqlLinkedServiceTypeProperties" });
     case 14:
@@ -27165,7 +27165,7 @@ function __c42(j: number): any {
           timezone: S.optional(S.Unknown),
           encoding: S.optional(S.Unknown),
           password: S.optional(__S(1696, __c53, 0)),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
           servicePrincipalId: S.optional(S.Unknown),
           servicePrincipalKey: S.optional(__S(1729, __c54, 1)),
           servicePrincipalCredentialType: S.optional(S.Unknown),
@@ -27196,7 +27196,7 @@ function __c42(j: number): any {
         S.Struct({
           url: S.Unknown,
           key: S.optional(__S(1729, __c54, 1)),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "AzureSearchLinkedServiceTypeProperties" });
     case 18:
@@ -27246,7 +27246,7 @@ function __c42(j: number): any {
           servicePrincipalCredential: S.optional(__S(1729, __c54, 1)),
           tenant: S.optional(S.Unknown),
           azureCloudType: S.optional(S.Unknown),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
           credential: S.optional(__S(1730, __c54, 2)),
         }),
       ).annotate({ identifier: "AzureSqlDWLinkedServiceTypeProperties" });
@@ -27297,7 +27297,7 @@ function __c42(j: number): any {
           servicePrincipalCredential: S.optional(__S(1729, __c54, 1)),
           tenant: S.optional(S.Unknown),
           azureCloudType: S.optional(S.Unknown),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
           alwaysEncryptedSettings: S.optional(__S(1316, __c41, 4)),
           credential: S.optional(__S(1730, __c54, 2)),
         }),
@@ -27324,7 +27324,7 @@ function __c42(j: number): any {
           accountKey: S.optional(__S(1696, __c53, 0)),
           sasUri: S.optional(S.Unknown),
           sasToken: S.optional(__S(1696, __c53, 0)),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "AzureStorageLinkedServiceTypeProperties" });
     case 24:
@@ -27372,7 +27372,7 @@ function __c42(j: number): any {
           accountKey: S.optional(__S(1696, __c53, 0)),
           sasUri: S.optional(S.Unknown),
           sasToken: S.optional(__S(1696, __c53, 0)),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
           serviceEndpoint: S.optional(S.Unknown),
           credential: S.optional(__S(1730, __c54, 2)),
         }),
@@ -27400,7 +27400,7 @@ function __c42(j: number): any {
           port: S.optional(S.Unknown),
           username: S.optional(S.Unknown),
           password: S.optional(__S(1729, __c54, 1)),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "CassandraLinkedServiceTypeProperties" });
     case 30:
@@ -27433,7 +27433,7 @@ function __c42(j: number): any {
           servicePrincipalId: S.optional(S.Unknown),
           servicePrincipalCredentialType: S.optional(S.Unknown),
           servicePrincipalCredential: S.optional(__S(1729, __c54, 1)),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "CommonDataServiceForAppsLinkedServiceTypeProperties" });
   }
@@ -27465,7 +27465,7 @@ function __c43(j: number): any {
           useEncryptedEndpoints: S.optional(S.Unknown),
           useHostVerification: S.optional(S.Unknown),
           usePeerVerification: S.optional(S.Unknown),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "ConcurLinkedServiceTypeProperties" });
     case 2:
@@ -27496,7 +27496,7 @@ function __c43(j: number): any {
           tenant: S.optional(S.Unknown),
           azureCloudType: S.optional(S.Unknown),
           connectionMode: S.optional(S.String),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
           credential: S.optional(__S(1730, __c54, 2)),
         }),
       ).annotate({ identifier: "CosmosDbLinkedServiceTypeProperties" });
@@ -27543,7 +27543,7 @@ function __c43(j: number): any {
         S.Struct({
           connectionString: S.optional(S.Unknown),
           credString: S.optional(__S(1696, __c53, 0)),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "CouchbaseLinkedServiceTypeProperties" });
     case 8:
@@ -27587,7 +27587,7 @@ function __c43(j: number): any {
           password: S.optional(__S(1729, __c54, 1)),
           packageCollection: S.optional(S.Unknown),
           certificateCommonName: S.optional(S.Unknown),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "Db2LinkedServiceTypeProperties" });
     case 11:
@@ -27613,7 +27613,7 @@ function __c43(j: number): any {
           servicePrincipalKey: __S(1729, __c54, 1),
           tenant: S.Unknown,
           aadResourceId: S.Unknown,
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "DynamicsAXLinkedServiceTypeProperties" });
     case 13:
@@ -27647,7 +27647,7 @@ function __c43(j: number): any {
           servicePrincipalCredentialType: S.optional(S.Unknown),
           servicePrincipalCredential: S.optional(__S(1729, __c54, 1)),
           credential: S.optional(__S(1730, __c54, 2)),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "DynamicsCrmLinkedServiceTypeProperties" });
     case 15:
@@ -27680,7 +27680,7 @@ function __c43(j: number): any {
           servicePrincipalId: S.optional(S.Unknown),
           servicePrincipalCredentialType: S.optional(S.Unknown),
           servicePrincipalCredential: S.optional(__S(1729, __c54, 1)),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
           credential: S.optional(__S(1730, __c54, 2)),
         }),
       ).annotate({ identifier: "DynamicsLinkedServiceTypeProperties" });
@@ -27708,7 +27708,7 @@ function __c43(j: number): any {
           useEncryptedEndpoints: S.optional(S.Unknown),
           useHostVerification: S.optional(S.Unknown),
           usePeerVerification: S.optional(S.Unknown),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "EloquaLinkedServiceTypeProperties" });
     case 19:
@@ -27732,7 +27732,7 @@ function __c43(j: number): any {
           host: S.Unknown,
           userId: S.optional(S.Unknown),
           password: S.optional(__S(1729, __c54, 1)),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "FileServerLinkedServiceTypeProperties" });
     case 21:
@@ -27758,7 +27758,7 @@ function __c43(j: number): any {
           authenticationType: S.optional(S.String),
           userName: S.optional(S.Unknown),
           password: S.optional(__S(1729, __c54, 1)),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
           enableSsl: S.optional(S.Unknown),
           enableServerCertificateValidation: S.optional(S.Unknown),
         }),
@@ -27796,7 +27796,7 @@ function __c43(j: number): any {
           loginCustomerID: S.optional(S.Unknown),
           googleAdsApiVersion: S.optional(S.Unknown),
           supportLegacyDataTypes: S.optional(S.Unknown),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "GoogleAdWordsLinkedServiceTypeProperties" });
     case 25:
@@ -27828,7 +27828,7 @@ function __c43(j: number): any {
           keyFilePath: S.optional(S.Unknown),
           trustedCertPath: S.optional(S.Unknown),
           useSystemTrustStore: S.optional(S.Unknown),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "GoogleBigQueryLinkedServiceTypeProperties" });
     case 27:
@@ -27855,7 +27855,7 @@ function __c43(j: number): any {
           clientSecret: S.optional(__S(1729, __c54, 1)),
           refreshToken: S.optional(__S(1729, __c54, 1)),
           keyFileContent: S.optional(__S(1729, __c54, 1)),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "GoogleBigQueryV2LinkedServiceTypeProperties" });
     case 29:
@@ -27879,7 +27879,7 @@ function __c43(j: number): any {
           accessKeyId: S.optional(S.Unknown),
           secretAccessKey: S.optional(__S(1729, __c54, 1)),
           serviceUrl: S.optional(S.Unknown),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "GoogleCloudStorageLinkedServiceTypeProperties" });
     case 31:
@@ -27906,7 +27906,7 @@ function __c44(j: number): any {
         S.Struct({
           connectionString: S.optional(S.Unknown),
           pwd: S.optional(__S(1696, __c53, 0)),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
           authenticationType: S.optional(S.String),
           host: S.optional(S.Unknown),
           port: S.optional(S.Unknown),
@@ -27945,7 +27945,7 @@ function __c44(j: number): any {
           trustedCertPath: S.optional(S.Unknown),
           allowHostNameCNMismatch: S.optional(S.Unknown),
           allowSelfSignedServerCert: S.optional(S.Unknown),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "HBaseLinkedServiceTypeProperties" });
     case 3:
@@ -27972,7 +27972,7 @@ function __c44(j: number): any {
           password: S.optional(__S(1729, __c54, 1)),
           linkedServiceName: S.optional(__S(1664, __c52, 0)),
           hcatalogLinkedServiceName: S.optional(__S(1664, __c52, 0)),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
           isEspEnabled: S.optional(S.Unknown),
           fileSystem: S.optional(S.Unknown),
           credential: S.optional(__S(1730, __c54, 2)),
@@ -28034,7 +28034,7 @@ function __c44(j: number): any {
           oozieConfiguration: S.optional(S.Unknown),
           stormConfiguration: S.optional(S.Unknown),
           yarnConfiguration: S.optional(S.Unknown),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
           headNodeSize: S.optional(S.Unknown),
           dataNodeSize: S.optional(S.Unknown),
           zookeeperNodeSize: S.optional(S.Unknown),
@@ -28064,7 +28064,7 @@ function __c44(j: number): any {
         S.Struct({
           url: S.Unknown,
           authenticationType: S.optional(S.Unknown),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
           userName: S.optional(S.Unknown),
           password: S.optional(__S(1729, __c54, 1)),
         }),
@@ -28104,7 +28104,7 @@ function __c44(j: number): any {
           useSystemTrustStore: S.optional(S.Unknown),
           allowHostNameCNMismatch: S.optional(S.Unknown),
           allowSelfSignedServerCert: S.optional(S.Unknown),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "HiveLinkedServiceTypeProperties" });
     case 13:
@@ -28132,7 +28132,7 @@ function __c44(j: number): any {
           authHeaders: S.optional(S.Unknown),
           embeddedCertData: S.optional(S.Unknown),
           certThumbprint: S.optional(S.Unknown),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
           enableServerCertificateValidation: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "HttpLinkedServiceTypeProperties" });
@@ -28161,7 +28161,7 @@ function __c44(j: number): any {
           useEncryptedEndpoints: S.optional(S.Unknown),
           useHostVerification: S.optional(S.Unknown),
           usePeerVerification: S.optional(S.Unknown),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "HubspotLinkedServiceTypeProperties" });
     case 17:
@@ -28194,7 +28194,7 @@ function __c44(j: number): any {
           useSystemTrustStore: S.optional(S.Unknown),
           allowHostNameCNMismatch: S.optional(S.Unknown),
           allowSelfSignedServerCert: S.optional(S.Unknown),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "ImpalaLinkedServiceTypeProperties" });
     case 19:
@@ -28220,7 +28220,7 @@ function __c44(j: number): any {
           credential: S.optional(__S(1729, __c54, 1)),
           userName: S.optional(S.Unknown),
           password: S.optional(__S(1729, __c54, 1)),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "InformixLinkedServiceTypeProperties" });
     case 21:
@@ -28248,7 +28248,7 @@ function __c44(j: number): any {
           useEncryptedEndpoints: S.optional(S.Unknown),
           useHostVerification: S.optional(S.Unknown),
           usePeerVerification: S.optional(S.Unknown),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "JiraLinkedServiceTypeProperties" });
     case 23:
@@ -28275,7 +28275,7 @@ function __c44(j: number): any {
           servicePrincipalId: S.optional(S.Unknown),
           servicePrincipalKey: S.optional(__S(1729, __c54, 1)),
           tenant: S.optional(S.Unknown),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
           servicePrincipalCredentialType: S.optional(S.Unknown),
           servicePrincipalCredential: S.optional(__S(1729, __c54, 1)),
           credential: S.optional(__S(1730, __c54, 2)),
@@ -28304,7 +28304,7 @@ function __c44(j: number): any {
           useEncryptedEndpoints: S.optional(S.Unknown),
           useHostVerification: S.optional(S.Unknown),
           usePeerVerification: S.optional(S.Unknown),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "MagentoLinkedServiceTypeProperties" });
     case 27:
@@ -28334,7 +28334,7 @@ function __c44(j: number): any {
           sslMode: S.optional(S.Unknown),
           useSystemTrustStore: S.optional(S.Unknown),
           password: S.optional(__S(1696, __c53, 0)),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "MariaDBLinkedServiceTypeProperties" });
     case 29:
@@ -28361,7 +28361,7 @@ function __c44(j: number): any {
           useEncryptedEndpoints: S.optional(S.Unknown),
           useHostVerification: S.optional(S.Unknown),
           usePeerVerification: S.optional(S.Unknown),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "MarketoLinkedServiceTypeProperties" });
     case 31:
@@ -28418,7 +28418,7 @@ function __c45(j: number): any {
           port: S.optional(S.Unknown),
           enableSsl: S.optional(S.Unknown),
           allowSelfSignedServerCert: S.optional(S.Unknown),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "MongoDbLinkedServiceTypeProperties" });
     case 3:
@@ -28470,7 +28470,7 @@ function __c45(j: number): any {
           sslMode: S.optional(S.Unknown),
           useSystemTrustStore: S.optional(S.Unknown),
           password: S.optional(__S(1696, __c53, 0)),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
           allowZeroDateTime: S.optional(S.Unknown),
           connectionTimeout: S.optional(S.Unknown),
           convertZeroDateTime: S.optional(S.Unknown),
@@ -28505,7 +28505,7 @@ function __c45(j: number): any {
           database: S.optional(S.Unknown),
           securityLevel: S.optional(S.String),
           pwd: S.optional(__S(1696, __c53, 0)),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "NetezzaLinkedServiceTypeProperties" });
     case 9:
@@ -28539,7 +28539,7 @@ function __c45(j: number): any {
           servicePrincipalKey: S.optional(__S(1729, __c54, 1)),
           servicePrincipalEmbeddedCert: S.optional(__S(1729, __c54, 1)),
           servicePrincipalEmbeddedCertPassword: S.optional(__S(1729, __c54, 1)),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "ODataLinkedServiceTypeProperties" });
     case 11:
@@ -28567,7 +28567,7 @@ function __c45(j: number): any {
           servicePrincipalCredentialType: S.optional(S.Unknown),
           servicePrincipalEmbeddedCert: S.optional(__S(1729, __c54, 1)),
           servicePrincipalEmbeddedCertPassword: S.optional(__S(1729, __c54, 1)),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "Office365LinkedServiceTypeProperties" });
     case 13:
@@ -28604,7 +28604,7 @@ function __c45(j: number): any {
           enableBulkLoad: S.optional(S.Unknown),
           supportV1DataTypes: S.optional(S.Unknown),
           fetchTswtzAsTimestamp: S.optional(S.Unknown),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "OracleLinkedServiceTypeProperties" });
     case 15:
@@ -28631,7 +28631,7 @@ function __c45(j: number): any {
           useEncryptedEndpoints: S.optional(S.Unknown),
           useHostVerification: S.optional(S.Unknown),
           usePeerVerification: S.optional(S.Unknown),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "OracleServiceCloudLinkedServiceTypeProperties" });
     case 17:
@@ -28658,7 +28658,7 @@ function __c45(j: number): any {
           useEncryptedEndpoints: S.optional(S.Unknown),
           useHostVerification: S.optional(S.Unknown),
           usePeerVerification: S.optional(S.Unknown),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "PaypalLinkedServiceTypeProperties" });
     case 19:
@@ -28690,7 +28690,7 @@ function __c45(j: number): any {
           useSystemTrustStore: S.optional(S.Unknown),
           allowHostNameCNMismatch: S.optional(S.Unknown),
           allowSelfSignedServerCert: S.optional(S.Unknown),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "PhoenixLinkedServiceTypeProperties" });
     case 21:
@@ -28730,7 +28730,7 @@ function __c45(j: number): any {
           timezone: S.optional(S.Unknown),
           encoding: S.optional(S.Unknown),
           password: S.optional(__S(1696, __c53, 0)),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "PostgreSqlV2LinkedServiceTypeProperties" });
     case 23:
@@ -28765,7 +28765,7 @@ function __c45(j: number): any {
           allowHostNameCNMismatch: S.optional(S.Unknown),
           allowSelfSignedServerCert: S.optional(S.Unknown),
           timeZoneID: S.optional(S.Unknown),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "PrestoLinkedServiceTypeProperties" });
     case 25:
@@ -28795,7 +28795,7 @@ function __c45(j: number): any {
           accessTokenSecret: S.optional(__S(1729, __c54, 1)),
           refreshToken: S.optional(__S(1729, __c54, 1)),
           useEncryptedEndpoints: S.optional(S.Unknown),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "QuickBooksLinkedServiceTypeProperties" });
     case 27:
@@ -28818,7 +28818,7 @@ function __c45(j: number): any {
         S.Struct({
           url: S.Unknown,
           userToken: __S(1729, __c54, 1),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "QuickbaseLinkedServiceTypeProperties" });
     case 29:
@@ -28850,7 +28850,7 @@ function __c45(j: number): any {
           tenant: S.optional(S.Unknown),
           azureCloudType: S.optional(S.Unknown),
           aadResourceId: S.optional(S.Unknown),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
           credential: S.optional(__S(1730, __c54, 2)),
           clientId: S.optional(S.Unknown),
           clientSecret: S.optional(__S(1729, __c54, 1)),
@@ -28889,7 +28889,7 @@ function __c46(j: number): any {
           password: S.optional(__S(1729, __c54, 1)),
           securityToken: S.optional(__S(1729, __c54, 1)),
           apiVersion: S.optional(S.Unknown),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "SalesforceLinkedServiceTypeProperties" });
     case 1:
@@ -28916,7 +28916,7 @@ function __c46(j: number): any {
           useEncryptedEndpoints: S.optional(S.Unknown),
           useHostVerification: S.optional(S.Unknown),
           usePeerVerification: S.optional(S.Unknown),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "SalesforceMarketingCloudLinkedServiceTypeProperties" });
     case 3:
@@ -28943,7 +28943,7 @@ function __c46(j: number): any {
           securityToken: S.optional(__S(1729, __c54, 1)),
           apiVersion: S.optional(S.Unknown),
           extendedProperties: S.optional(S.Unknown),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "SalesforceServiceCloudLinkedServiceTypeProperties" });
     case 5:
@@ -28969,7 +28969,7 @@ function __c46(j: number): any {
           clientId: S.optional(S.Unknown),
           clientSecret: S.optional(__S(1729, __c54, 1)),
           apiVersion: S.optional(S.Unknown),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "SalesforceServiceCloudV2LinkedServiceTypeProperties" });
     case 7:
@@ -28995,7 +28995,7 @@ function __c46(j: number): any {
           clientId: S.Unknown,
           userName: S.optional(S.Unknown),
           password: S.optional(__S(1729, __c54, 1)),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "SapBWLinkedServiceTypeProperties" });
     case 9:
@@ -29019,7 +29019,7 @@ function __c46(j: number): any {
           url: S.Unknown,
           username: S.optional(S.Unknown),
           password: S.optional(__S(1729, __c54, 1)),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "SapCloudForCustomerLinkedServiceTypeProperties" });
     case 11:
@@ -29045,7 +29045,7 @@ function __c46(j: number): any {
           authenticationType: S.optional(S.String),
           userName: S.optional(S.Unknown),
           password: S.optional(__S(1729, __c54, 1)),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "SapHanaLinkedServiceProperties" });
     case 13:
@@ -29083,7 +29083,7 @@ function __c46(j: number): any {
           x509CertificatePath: S.optional(S.Unknown),
           logonGroup: S.optional(S.Unknown),
           subscriberName: S.optional(S.Unknown),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "SapOdpLinkedServiceTypeProperties" });
     case 15:
@@ -29114,7 +29114,7 @@ function __c46(j: number): any {
           messageServer: S.optional(S.Unknown),
           messageServerService: S.optional(S.Unknown),
           logonGroup: S.optional(S.Unknown),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "SapOpenHubLinkedServiceTypeProperties" });
     case 17:
@@ -29150,7 +29150,7 @@ function __c46(j: number): any {
           sncLibraryPath: S.optional(S.Unknown),
           sncQop: S.optional(S.Unknown),
           logonGroup: S.optional(S.Unknown),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "SapTableLinkedServiceTypeProperties" });
     case 19:
@@ -29180,7 +29180,7 @@ function __c46(j: number): any {
           useEncryptedEndpoints: S.optional(S.Unknown),
           useHostVerification: S.optional(S.Unknown),
           usePeerVerification: S.optional(S.Unknown),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "ServiceNowLinkedServiceTypeProperties" });
     case 21:
@@ -29208,7 +29208,7 @@ function __c46(j: number): any {
           clientId: S.optional(S.Unknown),
           clientSecret: S.optional(__S(1729, __c54, 1)),
           grantType: S.optional(S.Unknown),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "ServiceNowV2LinkedServiceTypeProperties" });
     case 23:
@@ -29234,7 +29234,7 @@ function __c46(j: number): any {
           authenticationType: S.optional(S.String),
           userName: S.optional(S.Unknown),
           password: S.optional(__S(1729, __c54, 1)),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
           privateKeyPath: S.optional(S.Unknown),
           privateKeyContent: S.optional(__S(1729, __c54, 1)),
           passPhrase: S.optional(__S(1729, __c54, 1)),
@@ -29267,7 +29267,7 @@ function __c46(j: number): any {
           servicePrincipalCredentialType: S.optional(S.Unknown),
           servicePrincipalEmbeddedCert: S.optional(__S(1729, __c54, 1)),
           servicePrincipalEmbeddedCertPassword: S.optional(__S(1729, __c54, 1)),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "SharePointOnlineListLinkedServiceTypeProperties" });
     case 27:
@@ -29303,7 +29303,7 @@ function __c46(j: number): any {
           role: S.optional(S.Unknown),
           host: S.optional(S.Unknown),
           schema: S.optional(S.Unknown),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
           useUtcTimestamps: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "SnowflakeLinkedV2ServiceTypeProperties" });
@@ -29339,7 +29339,7 @@ function __c46(j: number): any {
           useSystemTrustStore: S.optional(S.Unknown),
           allowHostNameCNMismatch: S.optional(S.Unknown),
           allowSelfSignedServerCert: S.optional(S.Unknown),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "SparkLinkedServiceTypeProperties" });
     case 31:
@@ -29387,7 +29387,7 @@ function __c47(j: number): any {
           authenticationType: S.optional(S.String),
           userName: S.optional(S.Unknown),
           password: S.optional(__S(1729, __c54, 1)),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
           alwaysEncryptedSettings: S.optional(__S(1316, __c41, 4)),
           credential: S.optional(__S(1730, __c54, 2)),
         }),
@@ -29418,7 +29418,7 @@ function __c47(j: number): any {
           useEncryptedEndpoints: S.optional(S.Unknown),
           useHostVerification: S.optional(S.Unknown),
           usePeerVerification: S.optional(S.Unknown),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "SquareLinkedServiceTypeProperties" });
     case 3:
@@ -29445,7 +29445,7 @@ function __c47(j: number): any {
           authenticationType: S.optional(S.String),
           username: S.optional(S.Unknown),
           password: S.optional(__S(1729, __c54, 1)),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "SybaseLinkedServiceTypeProperties" });
     case 5:
@@ -29471,7 +29471,7 @@ function __c47(j: number): any {
           userName: S.optional(S.Unknown),
           password: S.optional(__S(1729, __c54, 1)),
           apiToken: S.optional(__S(1729, __c54, 1)),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "TeamDeskLinkedServiceTypeProperties" });
     case 7:
@@ -29503,7 +29503,7 @@ function __c47(j: number): any {
           useDataEncryption: S.optional(S.Unknown),
           characterSet: S.optional(S.Unknown),
           maxRespSize: S.optional(S.Unknown),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "TeradataLinkedServiceTypeProperties" });
     case 9:
@@ -29552,7 +29552,7 @@ function __c47(j: number): any {
           uid: S.optional(S.Unknown),
           database: S.optional(S.Unknown),
           pwd: S.optional(__S(1696, __c53, 0)),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "VerticaLinkedServiceTypeProperties" });
     case 13:
@@ -29580,7 +29580,7 @@ function __c47(j: number): any {
           servicePrincipalId: S.optional(S.Unknown),
           servicePrincipalKey: S.optional(__S(1729, __c54, 1)),
           tenant: S.optional(S.Unknown),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
           servicePrincipalCredentialType: S.optional(S.Unknown),
           servicePrincipalCredential: S.optional(__S(1729, __c54, 1)),
           credential: S.optional(__S(1730, __c54, 2)),
@@ -29653,7 +29653,7 @@ function __c47(j: number): any {
           useEncryptedEndpoints: S.optional(S.Unknown),
           useHostVerification: S.optional(S.Unknown),
           usePeerVerification: S.optional(S.Unknown),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "XeroLinkedServiceTypeProperties" });
     case 22:
@@ -29680,7 +29680,7 @@ function __c47(j: number): any {
           useEncryptedEndpoints: S.optional(S.Unknown),
           useHostVerification: S.optional(S.Unknown),
           usePeerVerification: S.optional(S.Unknown),
-          encryptedCredential: S.optional(S.String),
+          encryptedCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "ZohoLinkedServiceTypeProperties" });
     case 24:
@@ -30426,7 +30426,7 @@ function __c76(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          gitHubAccessToken: S.optional(S.String),
+          gitHubAccessToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "GitHubAccessTokenResponse" });
   }
@@ -30523,7 +30523,7 @@ function __c81(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            serviceToken: S.optional(S.String),
+            serviceToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
             identityCertThumbprint: S.optional(S.String),
             hostServiceUri: S.optional(S.String),
             version: S.optional(S.String),

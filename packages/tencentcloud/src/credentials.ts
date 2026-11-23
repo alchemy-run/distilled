@@ -10,9 +10,14 @@
  * {@link CredentialsFromEnv} reads the variables Tencent's own CLI and SDKs
  * read: `TENCENTCLOUD_SECRET_ID`, `TENCENTCLOUD_SECRET_KEY`, and optionally
  * `TENCENTCLOUD_SESSION_TOKEN` and `TENCENTCLOUD_REGION`.
+ *
+ * A layer here reads and checks its configuration when it is built: a
+ * missing variable or a root domain that is not a host name is a
+ * `ConfigError` at setup, and no call fails for it.
  */
 import * as EffectConfig from "@distilled.cloud/core/config";
 import { ConfigError } from "@distilled.cloud/core/errors";
+import { invalidHostLabelConfig } from "@distilled.cloud/core/protocol-http";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
@@ -38,7 +43,7 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
     "TencentCloudCredentials",
   ) {}
 
@@ -51,9 +56,18 @@ const envConfig = /*@__PURE__*/ EffectConfig.all({
   region: /*@__PURE__*/ EffectConfig.String("TENCENTCLOUD_REGION").pipe(EffectConfig.option),
 });
 
-/** Credentials from `TENCENTCLOUD_SECRET_ID` / `TENCENTCLOUD_SECRET_KEY` (+ token, region). */
-export const CredentialsFromEnv = /*@__PURE__*/ Layer.succeed(
-  Credentials,
+/** A layer that resolves and checks `config` once, when it is built. */
+const layer = (config: Effect.Effect<Config, ConfigError>): Layer.Layer<Credentials, ConfigError> =>
+  Layer.effect(
+    Credentials,
+    Effect.map(config, (resolved) => Effect.succeed(resolved)),
+  );
+
+/**
+ * Credentials from `TENCENTCLOUD_SECRET_ID` / `TENCENTCLOUD_SECRET_KEY` (+
+ * token, region). The environment is read once: when the layer is built.
+ */
+export const CredentialsFromEnv: Layer.Layer<Credentials, ConfigError> = /*@__PURE__*/ layer(
   /*@__PURE__*/ envConfig.pipe(
     /*@__PURE__*/ Effect.mapError(
       () =>
@@ -72,21 +86,29 @@ export const CredentialsFromEnv = /*@__PURE__*/ Layer.succeed(
   ),
 );
 
-/** Credentials from a key pair (and optional session token, region and root domain). */
+/**
+ * Credentials from a key pair (and optional session token, region and root
+ * domain). The root domain ends every API host name, so a value that is not
+ * DNS labels fails the layer with `ConfigError` when it is built.
+ */
 export const credentials = (config: {
   readonly secretId: string;
   readonly secretKey: Redacted.Redacted<string>;
   readonly sessionToken?: Redacted.Redacted<string>;
   readonly region?: string;
   readonly rootDomain?: string;
-}): Layer.Layer<Credentials> =>
-  Layer.succeed(
-    Credentials,
-    Effect.succeed({
-      secretId: config.secretId,
-      secretKey: config.secretKey,
-      sessionToken: config.sessionToken,
-      region: config.region,
-      rootDomain: config.rootDomain ?? DEFAULT_ROOT_DOMAIN,
-    }),
+}): Layer.Layer<Credentials, ConfigError> => {
+  const rootDomain = config.rootDomain ?? DEFAULT_ROOT_DOMAIN;
+  const invalid = invalidHostLabelConfig("Tencent Cloud rootDomain", rootDomain, true);
+  return layer(
+    invalid !== undefined
+      ? Effect.fail(invalid)
+      : Effect.succeed({
+          secretId: config.secretId,
+          secretKey: config.secretKey,
+          sessionToken: config.sessionToken,
+          region: config.region,
+          rootDomain,
+        }),
   );
+};

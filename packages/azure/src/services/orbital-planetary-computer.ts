@@ -204,7 +204,7 @@ export interface SharedAccessSignatureTokenConnectionInput {
   /** Azure Blob Storage container URL */
   containerUrl: string;
   /** SAS token */
-  sasToken?: string | undefined;
+  sasToken?: string | Redacted.Redacted<string> | undefined;
 }
 /** SAS Token ingestion source */
 export interface SharedAccessSignatureTokenIngestionSourceInput {
@@ -244,7 +244,7 @@ export interface SharedAccessSignatureTokenConnection {
   /** Azure Blob Storage container URL */
   containerUrl: string;
   /** SAS token */
-  sasToken?: string | undefined;
+  sasToken?: string | Redacted.Redacted<string> | undefined;
   /** Azure Blob Storage SAS token expiration in UTC format */
   expiration?: string | undefined;
 }
@@ -1072,7 +1072,7 @@ export interface CreateStacSearchRequest {
   /** Filter language to use for the filter expression. */
   filter_lang?: CreateStacSearchRequestFilterLang | (string & {}) | undefined;
   /** Pagination token for fetching the next set of results. */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
 }
 /** Discriminator property for StacItemOrStacItemCollection. */
 export type CreateStacSearchResponseType = "FeatureCollection";
@@ -20661,7 +20661,7 @@ export interface GetStacItemFeaturesRequest {
   /** URL signature duration in minutes. */
   duration?: number | undefined;
   /** Pagination token for fetching the next set of results. */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
 }
 /** Discriminator property for StacItemOrStacItemCollection. */
 export type GetStacItemFeaturesResponseType = "FeatureCollection";
@@ -20780,7 +20780,7 @@ export interface GetStacSearchRequest {
   /** The CQL filter encoding that the 'filter' value uses. */
   filter_lang?: GetStacSearchRequestFilterLang | (string & {}) | undefined;
   /** Pagination token for fetching the next set of results. */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
 }
 /** Discriminator property for StacItemOrStacItemCollection. */
 export type GetStacSearchResponseType = "FeatureCollection";
@@ -28554,7 +28554,7 @@ function __c20(j: number): any {
           datetime: S.optional(S.String.pipe(T.Query())),
           sign: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
           duration: S.optional(S.Number.pipe(T.Query())),
-          token: S.optional(S.String.pipe(T.Query())),
+          token: S.optional(S.String.pipe(T.Query(), T.SensitiveValue({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -28666,7 +28666,7 @@ function __c24(j: number): any {
           filter: S.optional(S.String.pipe(T.Query())),
           filter_crs: S.optional(S.String.pipe(T.Query("filter-crs"))),
           filter_lang: S.optional(S.String.pipe(T.Query("filter-lang"))),
-          token: S.optional(S.String.pipe(T.Query())),
+          token: S.optional(S.String.pipe(T.Query(), T.SensitiveValue({}))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -30576,7 +30576,7 @@ function __c85(j: number): any {
       return S.suspend(() =>
         S.Struct({
           containerUrl: S.String,
-          sasToken: S.optional(S.String),
+          sasToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "SharedAccessSignatureTokenConnectionInput" });
     case 2:
@@ -30613,7 +30613,7 @@ function __c86(j: number): any {
       return S.suspend(() =>
         S.Struct({
           containerUrl: S.String,
-          sasToken: S.optional(S.String),
+          sasToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           expiration: S.optional(S.String),
         }),
       ).annotate({ identifier: "SharedAccessSignatureTokenConnection" });
@@ -34409,7 +34409,7 @@ function __c181(j: number): any {
           filter: S.optional(__S(16, __c2, 0)),
           filter_crs: S.optional(S.String.pipe(T.Body("filter-crs"))),
           filter_lang: S.optional(S.String.pipe(T.Body("filter-lang"))),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }).pipe(
           T.Http({
             method: "POST",

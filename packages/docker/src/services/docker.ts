@@ -1321,7 +1321,7 @@ export interface CreateImageRequest {
   /** Platform in the format os[/arch[/variant]]. When used in combination with the `fromImage` option, the daemon checks if the given image is present in the local image cache with the given OS and Architecture, and otherwise attempts to pull the image. If the option is not set, the host's native OS and Architecture are used. If the given image does not exist in the local image cache, the daemon attempts to pull the image with the host's native OS and Architecture. If the given image does exists in the local image cache, but its OS or architecture does not match, a warning is produced. When used with the `fromSrc` option to import an image from an archive, this option sets the platform information for the imported image. If the option is not set, the host's native OS and Architecture are used for the imported image. */
   platform?: string | undefined;
   /** A base64url-encoded auth configuration. Refer to the [authentication section](#section/Authentication) for details. */
-  xRegistryAuth?: string | undefined;
+  xRegistryAuth?: string | Redacted.Redacted<string> | undefined;
   body?: string | undefined;
 }
 export interface CreateImageResponse {}
@@ -1822,7 +1822,7 @@ export interface EndpointSpec {
 }
 export interface CreateServiceRequest {
   /** A base64url-encoded auth configuration for pulling from private registries. Refer to the [authentication section](#section/Authentication) for details. */
-  xRegistryAuth?: string | undefined;
+  xRegistryAuth?: string | Redacted.Redacted<string> | undefined;
   /** Name of the service. */
   Name?: string | undefined;
   /** User-defined key/value metadata. */
@@ -2702,7 +2702,7 @@ export interface ImagePushRequest {
   /** JSON-encoded OCI platform to select the platform-variant to push. If not provided, all available variants will attempt to be pushed. If the daemon provides a multi-platform image store, this selects the platform-variant to push to the registry. If the image is a single-platform image, or if the multi-platform image does not provide a variant matching the given platform, an error is returned. Example: `{"os": "linux", "architecture": "arm", "variant": "v5"}` */
   platform?: string | undefined;
   /** A base64url-encoded auth configuration. Refer to the [authentication section](#section/Authentication) for details. */
-  xRegistryAuth: string;
+  xRegistryAuth: string | Redacted.Redacted<string>;
 }
 export interface ImagePushResponse {}
 export interface ImageTagRequest {
@@ -2726,7 +2726,7 @@ export interface JoinSwarmRequest {
   /** Addresses of manager nodes already participating in the swarm. */
   RemoteAddrs: JoinSwarmRequestRemoteAddrsList;
   /** Secret token for joining this swarm. */
-  JoinToken: string;
+  JoinToken: string | Redacted.Redacted<string>;
 }
 export interface JoinSwarmResponse {}
 export interface KillContainerRequest {
@@ -3049,7 +3049,7 @@ export interface SecretSpec {
   /** User-defined key/value metadata. */
   Labels?: SecretSpecLabelsMap | undefined;
   /** Data is the data to store as a secret, formatted as a standard base64-encoded ([RFC 4648](https://tools.ietf.org/html/rfc4648#section-4)) string. It must be empty if the Driver field is set, in which case the data is loaded from an external secret store. The maximum allowed size is 500KB, as defined in [MaxSecretSize](https://pkg.go.dev/github.com/moby/swarmkit/v2@v2.0.0/api/validation#MaxSecretSize). This field is only used to _create_ a secret, and is not returned by other endpoints. */
-  Data?: string | undefined;
+  Data?: string | Redacted.Redacted<string> | undefined;
   /** Name of the secrets driver used to fetch the secret's value from an external secret store. */
   Driver?: Driver | undefined;
   /** Templating driver, if applicable Templating controls whether and how to evaluate the config payload as a template. If no driver is set, no templating is used. */
@@ -3389,7 +3389,7 @@ export interface PluginPullRequest {
   /** Local name for the pulled plugin. The `:latest` tag is optional, and is used as the default if omitted. */
   name?: string | undefined;
   /** A base64url-encoded auth configuration to use when pulling a plugin from a registry. Refer to the [authentication section](#section/Authentication) for details. */
-  xRegistryAuth?: string | undefined;
+  xRegistryAuth?: string | Redacted.Redacted<string> | undefined;
   body?: PluginPullRequestBodyList | undefined;
 }
 export interface PluginPullResponse {}
@@ -3405,7 +3405,7 @@ export interface PluginUpgradeRequest {
   /** Remote reference to upgrade to. The `:latest` tag is optional, and is used as the default if omitted. */
   remote: string;
   /** A base64url-encoded auth configuration to use when pulling a plugin from a registry. Refer to the [authentication section](#section/Authentication) for details. */
-  xRegistryAuth?: string | undefined;
+  xRegistryAuth?: string | Redacted.Redacted<string> | undefined;
   body?: PluginUpgradeRequestBodyList | undefined;
 }
 export interface PluginUpgradeResponse {}
@@ -3675,7 +3675,7 @@ export interface AuthResponse {
   /** The status of the authentication */
   Status: string;
   /** An opaque token used to authenticate a user after a successful login */
-  IdentityToken?: string | undefined;
+  IdentityToken?: string | Redacted.Redacted<string> | undefined;
 }
 export type SystemDataUsageRequestTypeItem = "container" | "image" | "volume" | "build-cache";
 export type SystemDataUsageRequestTypeList = Array<SystemDataUsageRequestTypeItem | (string & {})>;
@@ -4375,7 +4375,7 @@ export interface UpdateServiceRequest {
   /** Set to this parameter to `previous` to cause a server-side rollback to the previous service spec. The supplied spec will be ignored in this case. */
   rollback?: string | undefined;
   /** A base64url-encoded auth configuration for pulling from private registries. Refer to the [authentication section](#section/Authentication) for details. */
-  xRegistryAuth?: string | undefined;
+  xRegistryAuth?: string | Redacted.Redacted<string> | undefined;
   /** Name of the service. */
   Name?: string | undefined;
   /** User-defined key/value metadata. */
@@ -6570,7 +6570,9 @@ function __c7(j: number): any {
           version: S.Number.pipe(T.Query()),
           registryAuthFrom: S.optional(S.String.pipe(T.Query())),
           rollback: S.optional(S.String.pipe(T.Query())),
-          xRegistryAuth: S.optional(S.String.pipe(T.Header("X-Registry-Auth"))),
+          xRegistryAuth: S.optional(
+            S.String.pipe(T.Header("X-Registry-Auth"), T.SensitiveValue({})),
+          ),
           Name: S.optional(S.String),
           Labels: S.optional(__S(3552, __c111, 0)),
           TaskTemplate: S.optional(__S(1368, __c42, 24)),
@@ -7389,7 +7391,9 @@ function __c33(j: number): any {
           message: S.optional(S.String.pipe(T.Query())),
           changes: S.optional(__S(2848, __c89, 0).pipe(T.Query())),
           platform: S.optional(S.String.pipe(T.Query())),
-          xRegistryAuth: S.optional(S.String.pipe(T.Header("X-Registry-Auth"))),
+          xRegistryAuth: S.optional(
+            S.String.pipe(T.Header("X-Registry-Auth"), T.SensitiveValue({})),
+          ),
           body: S.optional(S.String.pipe(T.HttpBody())),
         }).pipe(T.Http({ method: "POST", uri: "/images/create", code: 200 })),
       ).annotate({ identifier: "CreateImageRequest" });
@@ -7483,7 +7487,9 @@ function __c38(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          xRegistryAuth: S.optional(S.String.pipe(T.Header("X-Registry-Auth"))),
+          xRegistryAuth: S.optional(
+            S.String.pipe(T.Header("X-Registry-Auth"), T.SensitiveValue({})),
+          ),
           Name: S.optional(S.String),
           Labels: S.optional(__S(3552, __c111, 0)),
           TaskTemplate: S.optional(__S(1368, __c42, 24)),
@@ -8718,7 +8724,7 @@ function __c80(j: number): any {
           name: S.String.pipe(T.Label()),
           tag: S.optional(S.String.pipe(T.Query())),
           platform: S.optional(S.String.pipe(T.Query())),
-          xRegistryAuth: S.String.pipe(T.Header("X-Registry-Auth")),
+          xRegistryAuth: S.String.pipe(T.Header("X-Registry-Auth"), T.SensitiveValue({})),
         }).pipe(T.Http({ method: "POST", uri: "/images/{name}/push", code: 200 })),
       ).annotate({ identifier: "ImagePushRequest" });
   }
@@ -8744,7 +8750,7 @@ function __c82(j: number): any {
           AdvertiseAddr: S.optional(S.String),
           DataPathAddr: S.optional(S.String),
           RemoteAddrs: __S(2848, __c89, 0),
-          JoinToken: S.String,
+          JoinToken: S.String.pipe(T.SensitiveValue({})),
         }).pipe(T.Http({ method: "POST", uri: "/swarm/join", code: 200 })),
       ).annotate({ identifier: "JoinSwarmRequest" });
   }
@@ -9112,7 +9118,7 @@ function __c98(j: number): any {
         S.Struct({
           Name: S.optional(S.String),
           Labels: S.optional(__S(3552, __c111, 0)),
-          Data: S.optional(S.String),
+          Data: S.optional(S.String.pipe(T.SensitiveValue({}))),
           Driver: S.optional(__S(3936, __c123, 0)),
           Templating: S.optional(__S(3936, __c123, 0)),
         }),
@@ -9518,7 +9524,9 @@ function __c115(j: number): any {
         S.Struct({
           remote: S.String.pipe(T.Query()),
           name: S.optional(S.String.pipe(T.Query())),
-          xRegistryAuth: S.optional(S.String.pipe(T.Header("X-Registry-Auth"))),
+          xRegistryAuth: S.optional(
+            S.String.pipe(T.Header("X-Registry-Auth"), T.SensitiveValue({})),
+          ),
           body: S.optional(__S(1249, __c39, 1).pipe(T.HttpBody())),
         }).pipe(T.Http({ method: "POST", uri: "/plugins/pull", code: 200 })),
       ).annotate({ identifier: "PluginPullRequest" });
@@ -9541,7 +9549,9 @@ function __c117(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           remote: S.String.pipe(T.Query()),
-          xRegistryAuth: S.optional(S.String.pipe(T.Header("X-Registry-Auth"))),
+          xRegistryAuth: S.optional(
+            S.String.pipe(T.Header("X-Registry-Auth"), T.SensitiveValue({})),
+          ),
           body: S.optional(__S(1249, __c39, 1).pipe(T.HttpBody())),
         }).pipe(T.Http({ method: "POST", uri: "/plugins/{name}/upgrade", code: 200 })),
       ).annotate({ identifier: "PluginUpgradeRequest" });
@@ -9954,7 +9964,7 @@ function __c141(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Status: S.String,
-          IdentityToken: S.optional(S.String),
+          IdentityToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "AuthResponse" });
   }

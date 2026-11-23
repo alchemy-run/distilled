@@ -370,7 +370,7 @@ export interface Authorization {
   url: string;
   /** A list of scopes that this authorization is in. */
   scopes: AuthorizationScopesList | null;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   token_last_eight: string | null;
   hashed_token: string | null;
   app: AuthorizationApp;
@@ -586,7 +586,7 @@ export interface Repository {
   /** Whether to allow rebase merges for pull requests. */
   allow_rebase_merge?: boolean | undefined;
   /** When present and non-empty, a temporary credential for read-only Git access to this repository. It expires five minutes after generation and cannot be used to push changes. Treat this value as sensitive and avoid recording it in logs. */
-  temp_clone_token?: string | undefined;
+  temp_clone_token?: string | Redacted.Redacted<string> | undefined;
   /** Whether to allow squash merges for pull requests. */
   allow_squash_merge?: boolean | undefined;
   /** Whether to allow Auto-merge to be used on pull requests. */
@@ -624,7 +624,7 @@ export type InstallationTokenRepositoriesList = Array<Repository>;
 export type InstallationTokenSingleFilePathsList = Array<string>;
 /** Authentication token for a GitHub App installed on a user or org. */
 export interface InstallationToken {
-  token: string;
+  token: string | Redacted.Redacted<string>;
   expires_at: string;
   permissions?: AppPermissions | undefined;
   repository_selection?: InstallationTokenRepositorySelection | undefined;
@@ -1024,7 +1024,7 @@ export interface ListInstallationReposForAuthenticatedUserResponseRepositoriesIt
   /** Whether to allow rebase merges for pull requests. */
   allow_rebase_merge?: boolean | undefined;
   /** When present and non-empty, a temporary credential for read-only Git access to this repository. It expires five minutes after generation and cannot be used to push changes. Treat this value as sensitive and avoid recording it in logs. */
-  temp_clone_token?: string | undefined;
+  temp_clone_token?: string | Redacted.Redacted<string> | undefined;
   /** Whether to allow squash merges for pull requests. */
   allow_squash_merge?: boolean | undefined;
   /** Whether to allow Auto-merge to be used on pull requests. */
@@ -1273,7 +1273,7 @@ export interface ListReposAccessibleToInstallationResponseRepositoriesItem {
   /** Whether to allow rebase merges for pull requests. */
   allow_rebase_merge?: boolean | undefined;
   /** When present and non-empty, a temporary credential for read-only Git access to this repository. It expires five minutes after generation and cannot be used to push changes. Treat this value as sensitive and avoid recording it in logs. */
-  temp_clone_token?: string | undefined;
+  temp_clone_token?: string | Redacted.Redacted<string> | undefined;
   /** Whether to allow squash merges for pull requests. */
   allow_squash_merge?: boolean | undefined;
   /** Whether to allow Auto-merge to be used on pull requests. */
@@ -2385,7 +2385,7 @@ function __c6(j: number): any {
           id: S.Number,
           url: S.String,
           scopes: S.NullOr(__S(12, __c3, 0)),
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           token_last_eight: S.NullOr(S.String),
           hashed_token: S.NullOr(S.String),
           app: __S(24, __c6, 0),
@@ -2746,7 +2746,7 @@ function __c22(j: number): any {
           created_at: S.NullOr(S.String),
           updated_at: S.NullOr(S.String),
           allow_rebase_merge: S.optional(S.Boolean),
-          temp_clone_token: S.optional(S.String),
+          temp_clone_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           allow_squash_merge: S.optional(S.Boolean),
           allow_auto_merge: S.optional(S.Boolean),
           delete_branch_on_merge: S.optional(S.Boolean),
@@ -3145,7 +3145,7 @@ function __c38(j: number): any {
           created_at: S.NullOr(S.String),
           updated_at: S.NullOr(S.String),
           allow_rebase_merge: S.optional(S.Boolean),
-          temp_clone_token: S.optional(S.String),
+          temp_clone_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           allow_squash_merge: S.optional(S.Boolean),
           allow_auto_merge: S.optional(S.Boolean),
           delete_branch_on_merge: S.optional(S.Boolean),
@@ -3171,7 +3171,7 @@ function __c38(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           expires_at: S.String,
           permissions: S.optional(__S(20, __c5, 0)),
           repository_selection: S.optional(S.String),

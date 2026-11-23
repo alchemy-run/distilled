@@ -886,9 +886,9 @@ export interface CommunicationServiceKeys {
   /** The secondary access key. */
   secondaryKey?: string | undefined;
   /** CommunicationService connection string constructed via the primaryKey */
-  primaryConnectionString?: string | undefined;
+  primaryConnectionString?: string | Redacted.Redacted<string> | undefined;
   /** CommunicationService connection string constructed via the secondaryKey */
-  secondaryConnectionString?: string | undefined;
+  secondaryConnectionString?: string | Redacted.Redacted<string> | undefined;
 }
 export interface ListDomainByEmailServiceResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3014,8 +3014,8 @@ function __c36(j: number): any {
         S.Struct({
           primaryKey: S.optional(S.String),
           secondaryKey: S.optional(S.String),
-          primaryConnectionString: S.optional(S.String),
-          secondaryConnectionString: S.optional(S.String),
+          primaryConnectionString: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          secondaryConnectionString: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "CommunicationServiceKeys" });
   }

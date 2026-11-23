@@ -2914,7 +2914,7 @@ export interface ExpressRouteConnectionInformation {
   /** The express route circuit Azure resource ID, must be of type Microsoft.Network/expressRouteCircuits/circuitName. The ExpressRoute Circuit is a mandatory attribute. */
   expressRouteCircuitId: string;
   /** Authorization key for the circuit, must be of type Microsoft.Network/expressRouteCircuits/authorizations. The Auth Key is a mandatory attribute. */
-  expressRouteAuthorizationKey: string;
+  expressRouteAuthorizationKey: string | Redacted.Redacted<string>;
 }
 /** As part of an update, the Infrastructure ExpressRoute CircuitID should be provided to create and Provision a NFC. This Express route is dedicated for Infrastructure services. (This is a Mandatory attribute) */
 export type NetworkFabricControllerPropertiesInputInfrastructureExpressRouteConnectionsList =
@@ -19986,7 +19986,7 @@ function __c157(j: number): any {
       return S.suspend(() =>
         S.Struct({
           expressRouteCircuitId: S.String,
-          expressRouteAuthorizationKey: S.String,
+          expressRouteAuthorizationKey: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "ExpressRouteConnectionInformation" });
     case 1:

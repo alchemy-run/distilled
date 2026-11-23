@@ -30,6 +30,7 @@ import * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import * as Queue from "effect/Queue";
+import * as Redacted from "effect/Redacted";
 import type * as Scope from "effect/Scope";
 import * as Socket from "effect/socket/Socket";
 import * as Stream from "effect/Stream";
@@ -115,7 +116,10 @@ const socketUrl = Effect.fn(function* (path: string, query: Record<string, strin
   for (const [key, value] of Object.entries(query)) {
     if (value !== undefined) params.set(key, value);
   }
-  params.set("DAYTONA_SANDBOX_AUTH_KEY", token);
+  params.set(
+    "DAYTONA_SANDBOX_AUTH_KEY",
+    Redacted.isRedacted(token) ? Redacted.value(token) : token,
+  );
   return `${root.replace(/^http/, "ws")}${path}?${params.toString()}`;
 });
 

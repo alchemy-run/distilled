@@ -261,7 +261,7 @@ export interface RegisterUserRunnerRequest {
 }
 export interface RegisterRunnerResponse {
   id?: number | undefined;
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   uuid?: string | undefined;
 }
 export type SearchUserRequestSort =
@@ -297,7 +297,7 @@ export interface UpdateUserSecretRequest {
   /** name of the secret */
   secretname: string;
   /** Data of the secret. Special characters will be retained. Line endings will be normalized to LF to match the behaviour of browsers. Encode the data with Base64 if line endings should be retained. */
-  data: string;
+  data: string | Redacted.Redacted<string>;
 }
 export interface UpdateUserSecretResponse {}
 export interface UpdateUserSettingsRequest {
@@ -2924,7 +2924,7 @@ function __c10(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.Number),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           uuid: S.optional(S.String),
         }),
       ).annotate({ identifier: "RegisterRunnerResponse" });
@@ -2973,7 +2973,7 @@ function __c14(j: number): any {
       return S.suspend(() =>
         S.Struct({
           secretname: S.String.pipe(T.Label()),
-          data: S.String,
+          data: S.String.pipe(T.SensitiveValue({})),
         }).pipe(T.Http({ method: "PUT", uri: "/user/actions/secrets/{secretname}", code: 200 })),
       ).annotate({ identifier: "UpdateUserSecretRequest" });
   }

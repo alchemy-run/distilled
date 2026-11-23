@@ -359,7 +359,7 @@ export interface RegistryTokenRequest {
 }
 export interface RegistryTokenResponse {
   /** EdDSA JWT signed by the moon JWT key, carrying `access[]`. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** Identical to `token` -- Docker Distribution v2 accepts either field. */
   access_token: string | Redacted.Redacted<string>;
   /** JWT lifetime in seconds. */
@@ -870,7 +870,7 @@ function __c8(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           access_token: S.String.pipe(T.SensitiveValue({})),
           expires_in: S.Number,
           issued_at: S.String,

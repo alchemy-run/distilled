@@ -318,7 +318,7 @@ export type CreateLogStreamResponseCase0LogStreamType = "webhook";
 export interface CreateLogStreamResponseCase0 {
   id: string;
   /** Use this secret to verify webhook signatures. */
-  hmacSecret: string;
+  hmacSecret: Redacted.Redacted<string>;
   logStreamType: CreateLogStreamResponseCase0LogStreamType;
 }
 export type CreateLogStreamResponseCase1LogStreamType = "datadog";
@@ -568,7 +568,7 @@ export interface LogStreamConfigCase1 {
   /** Format for the webhook payload. JSONL sends one object per line of request, JSON sends one array per request. */
   format: WebhookFormat;
   /** Use this secret to verify webhook signatures. */
-  hmacSecret: string;
+  hmacSecret: Redacted.Redacted<string>;
   /** The topics this log stream is subscribed to. `null` means subscribed to all topics, including ones added in the future. */
   topics?: LogStreamConfigCase1TopicsList | null | undefined;
   logStreamType: LogStreamConfigCase1LogStreamType;

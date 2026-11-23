@@ -7427,7 +7427,7 @@ export type CommonAnalysisShingleTokenFilterType = "shingle";
 export interface CommonAnalysisShingleTokenFilter {
   version?: string | undefined;
   type: CommonAnalysisShingleTokenFilterType;
-  filler_token?: string | undefined;
+  filler_token?: string | Redacted.Redacted<string> | undefined;
   max_shingle_size?: CommonStringifiedInteger | undefined;
   min_shingle_size?: CommonStringifiedInteger | undefined;
   output_unigrams?: boolean | undefined;
@@ -13048,7 +13048,7 @@ export interface IndicesAnalyzeExplainAnalyzeToken {
   /** The frequency of the term. */
   termFrequency: number;
   /** The token string. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The type of the token. */
   type: string;
 }
@@ -13105,7 +13105,7 @@ export interface IndicesAnalyzeAnalyzeToken {
   /** The starting character offset of the token. */
   start_offset: number;
   /** The token string. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The type of the token. */
   type: string;
 }
@@ -31526,7 +31526,7 @@ export interface SecurityCommonGenerateOBOToken {
   /** The name of the entity requesting token. */
   user?: string | undefined;
   /** The generated OBO token. */
-  authenticationToken?: string | undefined;
+  authenticationToken?: string | Redacted.Redacted<string> | undefined;
   /** The duration of the token. */
   durationSeconds?: string | undefined;
 }
@@ -47345,7 +47345,7 @@ function __c37(j: number): any {
           positionLength: S.Number,
           start_offset: S.Number,
           termFrequency: S.Number,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           type: S.String,
         }),
       ).annotate({ identifier: "IndicesAnalyzeExplainAnalyzeToken" });
@@ -47386,7 +47386,7 @@ function __c37(j: number): any {
           position: S.Number,
           positionLength: S.optional(S.Number),
           start_offset: S.Number,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           type: S.String,
         }),
       ).annotate({ identifier: "IndicesAnalyzeAnalyzeToken" });
@@ -65931,7 +65931,7 @@ function __c625(j: number): any {
       return S.suspend(() =>
         S.Struct({
           user: S.optional(S.String),
-          authenticationToken: S.optional(S.String),
+          authenticationToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           durationSeconds: S.optional(S.String),
         }),
       ).annotate({ identifier: "SecurityCommonGenerateOBOToken" });

@@ -133,7 +133,7 @@ export interface ArtifactSourcePropertiesInput {
   /** The artifact source's branch reference. */
   branchRef?: string | undefined;
   /** The security token to authenticate to the artifact source. */
-  securityToken?: string | undefined;
+  securityToken?: string | Redacted.Redacted<string> | undefined;
   /** Indicates if the artifact source is enabled (values: Enabled, Disabled). */
   status?: EnableStatus | (string & {}) | undefined;
 }
@@ -189,7 +189,7 @@ export interface ArtifactSourceProperties {
   /** The artifact source's branch reference. */
   branchRef?: string | undefined;
   /** The security token to authenticate to the artifact source. */
-  securityToken?: string | undefined;
+  securityToken?: string | Redacted.Redacted<string> | undefined;
   /** Indicates if the artifact source is enabled (values: Enabled, Disabled). */
   status?: EnableStatus | undefined;
   /** The artifact source's creation date. */
@@ -2270,7 +2270,7 @@ export interface GetSecretRequest {
 /** Properties of a secret. */
 export interface SecretProperties {
   /** The value of the secret for secret creation. */
-  value?: string | undefined;
+  value?: string | Redacted.Redacted<string> | undefined;
   /** The provisioning status of the resource. */
   provisioningState?: string | undefined;
   /** The unique immutable identifier of a resource (Guid). */
@@ -4320,7 +4320,7 @@ export interface SchedulesCreateOrUpdateResponse {
 /** Properties of a secret. */
 export interface SecretPropertiesInput {
   /** The value of the secret for secret creation. */
-  value?: string | undefined;
+  value?: string | Redacted.Redacted<string> | undefined;
 }
 /** Resource tags. */
 export type SecretsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -8104,7 +8104,7 @@ function __c10(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(S.String),
+          value: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "SecretPropertiesInput" });
     case 1:
@@ -9079,7 +9079,7 @@ function __c49(j: number): any {
           folderPath: S.optional(S.String),
           armTemplateFolderPath: S.optional(S.String),
           branchRef: S.optional(S.String),
-          securityToken: S.optional(S.String),
+          securityToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           status: S.optional(S.String),
         }),
       ).annotate({ identifier: "ArtifactSourcePropertiesInput" });
@@ -9115,7 +9115,7 @@ function __c50(j: number): any {
           folderPath: S.optional(S.String),
           armTemplateFolderPath: S.optional(S.String),
           branchRef: S.optional(S.String),
-          securityToken: S.optional(S.String),
+          securityToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           status: S.optional(S.String),
           createdDate: S.optional(S.String),
           provisioningState: S.optional(S.String),
@@ -10472,7 +10472,7 @@ function __c107(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(S.String),
+          value: S.optional(S.String.pipe(T.SensitiveValue({}))),
           provisioningState: S.optional(S.String),
           uniqueIdentifier: S.optional(S.String),
         }),

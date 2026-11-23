@@ -49,5 +49,7 @@ await runOpenApiConvert({
     serviceName: "Polymarket",
     skipDeprecated: true,
     statusToErrorClass: {},
+    // `token` is a crypto asset here, never a credential.
+    notSecretNouns: ["token"],
   },
 });

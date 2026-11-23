@@ -1796,7 +1796,7 @@ export interface PayloadEncryptionSettingsResponse {
   /** Client encryption key fingerprint (when encryption is enabled) */
   client_encryption_key_fingerprint?: string | undefined;
   /** Cloud encryption key (when encryption is enabled) */
-  cloud_encryption_key?: string | undefined;
+  cloud_encryption_key?: string | Redacted.Redacted<string> | undefined;
 }
 /** Data storage configuration status */
 export type StorageConfigurationSettingsResponseStatus = "default" | "in_country_storage_enabled";
@@ -3434,7 +3434,7 @@ export interface SubscribeToWabaWebhooksRequest {
   /** Custom webhook callback URL to override app default */
   override_callback_uri?: string | undefined;
   /** Verification token for webhook security */
-  verify_token?: string | undefined;
+  verify_token?: string | Redacted.Redacted<string> | undefined;
 }
 /** Array containing subscription details */
 export type SubscriptionResponseDataList = Array<SubscribedApp>;
@@ -3643,7 +3643,7 @@ export interface WebhookConfiguration {
   /** Override callback URI for webhook notifications (can be empty string) */
   override_callback_uri: string;
   /** Token used to verify webhook requests */
-  verify_token?: string | undefined;
+  verify_token?: string | Redacted.Redacted<string> | undefined;
 }
 export interface UpdatePhoneNumberRequest {
   /** Your WhatsApp Business Account phone number ID (CSID). This ID is provided when you register the phone number and can be found in your WhatsApp Business Manager. */
@@ -3714,7 +3714,7 @@ export interface PayloadEncryptionSettings {
   /** Enable or disable payload encryption */
   status: PayloadEncryptionSettingsStatus | (string & {});
   /** Base64-encoded public key for payload encryption (required when enabling encryption) */
-  client_encryption_key?: string | undefined;
+  client_encryption_key?: string | Redacted.Redacted<string> | undefined;
 }
 export interface PayloadEncryptionSettingsRequest {
   payload_encryption: PayloadEncryptionSettings;
@@ -6772,7 +6772,7 @@ function __c6(j: number): any {
         S.Struct({
           WABA_ID: S.String.pipe(T.Label()),
           override_callback_uri: S.optional(S.String),
-          verify_token: S.optional(S.String),
+          verify_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }).pipe(T.Http({ method: "POST", uri: "/{WABA_ID}/subscribed_apps", code: 200 })),
       ).annotate({ identifier: "SubscribeToWabaWebhooksRequest" });
   }
@@ -7004,7 +7004,7 @@ function __c18(j: number): any {
       return S.suspend(() =>
         S.Struct({
           override_callback_uri: S.String,
-          verify_token: S.optional(S.String),
+          verify_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "WebhookConfiguration" });
     case 2:
@@ -8843,7 +8843,7 @@ function __c97(j: number): any {
         S.Struct({
           status: S.String,
           client_encryption_key_fingerprint: S.optional(S.String),
-          cloud_encryption_key: S.optional(S.String),
+          cloud_encryption_key: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "PayloadEncryptionSettingsResponse" });
     case 14:

@@ -67,6 +67,6 @@ Each layer mints a Microsoft Entra ID token for a scope when an operation first 
 - `Azure.fromStaticToken({ bearerToken: Redacted.make(token), subscriptionId })` / `Azure.CredentialsFromEnv` -- one pre-acquired token, sent to every operation (`AZURE_BEARER_TOKEN`, `AZURE_SUBSCRIPTION_ID`; optional `AZURE_TENANT_ID`, `AZURE_API_BASE_URL`).
 - `Azure.fromEnv()` -- `AZURE_TENANT_ID` + `AZURE_CLIENT_ID` + `AZURE_CLIENT_SECRET`, else a managed or workload identity, else `AZURE_BEARER_TOKEN`.
 
-A custom layer provides `Config.token(scope)`. Failures are typed: `InvalidClientSecret`, `ManagedIdentityUnavailable`, `TokenRequestFailed`.
+A layer reads the environment and checks the subscription and the tenant when it is built: one that can't be a URL path segment, or an environment with no credentials, fails the layer with `ConfigError`. A custom layer provides `Config.token(scope)` and passes its `Config` through `Azure.check`. Token failures are typed: `InvalidClientSecret`, `ManagedIdentityUnavailable`, `TokenRequestFailed`.
 
 Data-plane token audiences come from each spec's security scheme; a spec that declares none, or the wrong one, is corrected in `patches/<module>/audience.json`.

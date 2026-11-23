@@ -354,7 +354,7 @@ export interface AutoBackupSettings {
   /** Storage container name where backup will be taken to. */
   storageContainerName?: string | undefined;
   /** Storage account key where backup will be taken to. */
-  storageAccessKey?: string | undefined;
+  storageAccessKey?: string | Redacted.Redacted<string> | undefined;
   /** Password for encryption on backup. */
   password?: string | Redacted.Redacted<string> | undefined;
   /** Include or exclude system databases from auto backup. */
@@ -383,7 +383,7 @@ export interface KeyVaultCredentialSettings {
   /** Service principal name to access key vault. */
   servicePrincipalName?: string | undefined;
   /** Service principal name secret to access key vault. */
-  servicePrincipalSecret?: string | undefined;
+  servicePrincipalSecret?: string | Redacted.Redacted<string> | undefined;
 }
 /** SQL Server connectivity option. */
 export type ConnectivityType = "LOCAL" | "PRIVATE" | "PUBLIC";
@@ -2331,7 +2331,7 @@ function __c27(j: number): any {
           retentionPeriod: S.optional(S.Number),
           storageAccountUrl: S.optional(S.String),
           storageContainerName: S.optional(S.String),
-          storageAccessKey: S.optional(S.String),
+          storageAccessKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           password: S.optional(S.String.pipe(T.SensitiveValue({}))),
           backupSystemDbs: S.optional(S.Boolean),
           backupScheduleType: S.optional(S.String),
@@ -2349,7 +2349,7 @@ function __c27(j: number): any {
           credentialName: S.optional(S.String),
           azureKeyVaultUrl: S.optional(S.String),
           servicePrincipalName: S.optional(S.String),
-          servicePrincipalSecret: S.optional(S.String),
+          servicePrincipalSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "KeyVaultCredentialSettings" });
     case 5:

@@ -153,12 +153,12 @@ export type GetUserBackupsResponse = unknown;
 export interface GetUserBookmarkedTemplatesRequest {}
 export type GetUserBookmarkedTemplatesResponse = unknown;
 export interface GetUserByTokenRequest {
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 export type GetUserByTokenResponse = unknown;
 export interface GetUserContainerMetricsRequest {
   url: string;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   appName: string;
   dataPoints: string;
 }
@@ -838,7 +838,7 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          token: S.String.pipe(T.Query()),
+          token: S.String.pipe(T.Query(), T.SensitiveValue({})),
         }).pipe(T.Http({ method: "GET", uri: "/user.getUserByToken", code: 200 })),
       ).annotate({ identifier: "GetUserByTokenRequest" });
   }
@@ -849,7 +849,7 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           url: S.String.pipe(T.Query()),
-          token: S.String.pipe(T.Query()),
+          token: S.String.pipe(T.Query(), T.SensitiveValue({})),
           appName: S.String.pipe(T.Query()),
           dataPoints: S.String.pipe(T.Query()),
         }).pipe(T.Http({ method: "GET", uri: "/user.getContainerMetrics", code: 200 })),

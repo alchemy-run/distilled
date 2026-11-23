@@ -259,7 +259,7 @@ export interface BulkDomainCheckDomainResponse {
 }
 export interface ClaimApikeyRequest {
   /** The token from the share link (the part after /share/) or the handoff prompt. */
-  shareToken: string;
+  shareToken: string | Redacted.Redacted<string>;
 }
 export interface ClaimApikeyResponse {
   status?: string | undefined;
@@ -421,7 +421,7 @@ export interface CreateAccountInviteRequest {
 export interface CreateAccountInviteResponse {
   status: string;
   /** Opaque token -- pass to `/account/inviteStatus` to track completion */
-  inviteToken: string;
+  inviteToken: string | Redacted.Redacted<string>;
   /** URL to send to the prospective user. Opens Porkbun's standard registration page. */
   inviteUrl: string;
   /** UTC datetime when the invite token expires (48 hours from creation) */
@@ -1738,7 +1738,7 @@ export interface EmailSetupMailboxResponse {
 }
 export interface GetAccountInviteStatusRequest {
   /** The `inviteToken` returned by `/account/invite` */
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 /** Current state of the invite */
 export type GetAccountInviteStatusResponseInviteStatus = "PENDING" | "ACCEPTED" | "EXPIRED";
@@ -7687,7 +7687,7 @@ function __c35(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          shareToken: S.String,
+          shareToken: S.String.pipe(T.SensitiveValue({})),
         }).pipe(T.Http({ method: "POST", uri: "/apikey/claim", code: 200 })),
       ).annotate({ identifier: "ClaimApikeyRequest" });
     case 1:
@@ -9213,7 +9213,7 @@ function __c116(j: number): any {
       return S.suspend(() =>
         S.Struct({
           status: S.String,
-          inviteToken: S.String,
+          inviteToken: S.String.pipe(T.SensitiveValue({})),
           inviteUrl: S.String,
           expires: S.String,
         }),
@@ -10726,7 +10726,7 @@ function __c189(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          token: S.String.pipe(T.Query()),
+          token: S.String.pipe(T.Query(), T.SensitiveValue({})),
         }).pipe(T.Http({ method: "GET", uri: "/account/inviteStatus", code: 200 })),
       ).annotate({ identifier: "GetAccountInviteStatusRequest" });
     case 1:

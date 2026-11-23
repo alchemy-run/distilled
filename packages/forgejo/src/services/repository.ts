@@ -1060,7 +1060,7 @@ export type MigrateRepoRequestService =
   | "pagure";
 export interface MigrateRepoRequest {
   auth_password?: string | Redacted.Redacted<string> | undefined;
-  auth_token?: string | undefined;
+  auth_token?: string | Redacted.Redacted<string> | undefined;
   auth_username?: string | undefined;
   clone_addr: string;
   description?: string | undefined;
@@ -1096,7 +1096,7 @@ export interface RegisterRepoRunnerRequest {
 }
 export interface RegisterRunnerResponse {
   id?: number | undefined;
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   uuid?: string | undefined;
 }
 export interface RejectRepoTransferRequest {
@@ -3702,7 +3702,7 @@ export interface UpdateRepoSecretRequest {
   /** name of the secret */
   secretname: string;
   /** Data of the secret. Special characters will be retained. Line endings will be normalized to LF to match the behaviour of browsers. Encode the data with Base64 if line endings should be retained. */
-  data: string;
+  data: string | Redacted.Redacted<string>;
 }
 export interface UpdateRepoSecretResponse {}
 export interface UpdateRepoVariableRequest {
@@ -9454,7 +9454,7 @@ function __c118(j: number): any {
           owner: S.String.pipe(T.Label()),
           repo: S.String.pipe(T.Label()),
           secretname: S.String.pipe(T.Label()),
-          data: S.String,
+          data: S.String.pipe(T.SensitiveValue({})),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -10185,7 +10185,7 @@ function __c158(j: number): any {
       return S.suspend(() =>
         S.Struct({
           auth_password: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          auth_token: S.optional(S.String),
+          auth_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           auth_username: S.optional(S.String),
           clone_addr: S.String,
           description: S.optional(S.String),
@@ -10226,7 +10226,7 @@ function __c159(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.Number),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           uuid: S.optional(S.String),
         }),
       ).annotate({ identifier: "RegisterRunnerResponse" });
