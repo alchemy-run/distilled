@@ -37,7 +37,7 @@ export interface PostNodesByNodeVncshellResult {
   cert: string;
   password?: string | Redacted.Redacted<string> | undefined;
   port: number;
-  ticket: string;
+  ticket: string | Redacted.Redacted<string>;
   upid: string;
   user: string;
 }
@@ -79,7 +79,7 @@ function __c0(j: number): any {
           cert: S.String,
           password: S.optional(S.String.pipe(T.SensitiveValue({}))),
           port: S.Number,
-          ticket: S.String,
+          ticket: S.String.pipe(T.SensitiveValue({})),
           upid: S.String,
           user: S.String,
         }),

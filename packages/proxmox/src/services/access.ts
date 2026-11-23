@@ -392,7 +392,7 @@ export interface PostAccessOpenidLoginResult {
   CSRFPreventionToken: string | Redacted.Redacted<string>;
   cap: PostAccessOpenidLoginResultCap;
   clustername?: string | undefined;
-  ticket: string;
+  ticket: string | Redacted.Redacted<string>;
   username: string;
 }
 export type PostAccessOpenidLoginResponse = PostAccessOpenidLoginResult;
@@ -431,7 +431,7 @@ export interface PostAccessTicketRequest {
 export interface PostAccessTicketResult {
   CSRFPreventionToken?: string | Redacted.Redacted<string> | undefined;
   clustername?: string | undefined;
-  ticket?: string | undefined;
+  ticket?: string | Redacted.Redacted<string> | undefined;
   username: string;
 }
 export type PostAccessTicketResponse = PostAccessTicketResult;
@@ -469,7 +469,7 @@ export interface PostAccessVncticketRequest {
   path: string;
   port?: number | undefined;
   privs: string;
-  vncticket: string;
+  vncticket: string | Redacted.Redacted<string>;
 }
 export type PostAccessVncticketResponse = null;
 export interface PutAccessAclRequest {
@@ -1900,7 +1900,7 @@ function __c30(j: number): any {
           CSRFPreventionToken: S.String.pipe(T.SensitiveValue({})),
           cap: __S(32, __c8, 0),
           clustername: S.optional(S.String),
-          ticket: S.String,
+          ticket: S.String.pipe(T.SensitiveValue({})),
           username: S.String,
         }),
       ).annotate({ identifier: "PostAccessOpenidLoginResult" });
@@ -1981,7 +1981,7 @@ function __c34(j: number): any {
         S.Struct({
           CSRFPreventionToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           clustername: S.optional(S.String),
-          ticket: S.optional(S.String),
+          ticket: S.optional(S.String.pipe(T.SensitiveValue({}))),
           username: S.String,
         }),
       ).annotate({ identifier: "PostAccessTicketResult" });
@@ -2047,7 +2047,7 @@ function __c37(j: number): any {
           path: S.String,
           port: S.optional(S.Number),
           privs: S.String,
-          vncticket: S.String,
+          vncticket: S.String.pipe(T.SensitiveValue({})),
         }).pipe(T.Http({ method: "POST", uri: "/access/vncticket", code: 200 })),
       ).annotate({ identifier: "PostAccessVncticketRequest" });
   }

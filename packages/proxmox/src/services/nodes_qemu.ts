@@ -741,7 +741,7 @@ export type GetNodesByNodeQemuByVmidMigrateResponse = GetNodesByNodeQemuByVmidMi
 export interface GetNodesByNodeQemuByVmidMtunnelwebsocketRequest {
   node: string;
   socket: string;
-  ticket: string;
+  ticket: string | Redacted.Redacted<string>;
   vmid: number;
 }
 export interface GetNodesByNodeQemuByVmidMtunnelwebsocketResult {
@@ -883,7 +883,7 @@ export interface GetNodesByNodeQemuByVmidVncwebsocketRequest {
   node: string;
   port: number;
   vmid: number;
-  vncticket: string;
+  vncticket: string | Redacted.Redacted<string>;
 }
 export interface GetNodesByNodeQemuByVmidVncwebsocketResult {
   port: string;
@@ -2095,7 +2095,7 @@ export interface PostNodesByNodeQemuByVmidMtunnelRequest {
 }
 export interface PostNodesByNodeQemuByVmidMtunnelResult {
   socket: string;
-  ticket: string;
+  ticket: string | Redacted.Redacted<string>;
   upid: string;
 }
 export type PostNodesByNodeQemuByVmidMtunnelResponse = PostNodesByNodeQemuByVmidMtunnelResult;
@@ -2283,7 +2283,7 @@ export interface PostNodesByNodeQemuByVmidTermproxyRequest {
 }
 export interface PostNodesByNodeQemuByVmidTermproxyResult {
   port: number;
-  ticket: string;
+  ticket: string | Redacted.Redacted<string>;
   upid: string;
   user: string;
 }
@@ -2298,7 +2298,7 @@ export interface PostNodesByNodeQemuByVmidVncproxyResult {
   cert: string;
   password?: string | Redacted.Redacted<string> | undefined;
   port: number;
-  ticket: string;
+  ticket: string | Redacted.Redacted<string>;
   upid: string;
   user: string;
 }
@@ -5447,7 +5447,7 @@ function __c45(j: number): any {
         S.Struct({
           node: S.String.pipe(T.Label()),
           socket: S.String.pipe(T.Query()),
-          ticket: S.String.pipe(T.Query()),
+          ticket: S.String.pipe(T.Query(), T.SensitiveValue({})),
           vmid: S.Number.pipe(T.Label()),
         }).pipe(
           T.Http({ method: "GET", uri: "/nodes/{node}/qemu/{vmid}/mtunnelwebsocket", code: 200 }),
@@ -5669,7 +5669,7 @@ function __c55(j: number): any {
           node: S.String.pipe(T.Label()),
           port: S.Number.pipe(T.Query()),
           vmid: S.Number.pipe(T.Label()),
-          vncticket: S.String.pipe(T.Query()),
+          vncticket: S.String.pipe(T.Query(), T.SensitiveValue({})),
         }).pipe(
           T.Http({ method: "GET", uri: "/nodes/{node}/qemu/{vmid}/vncwebsocket", code: 200 }),
         ),
@@ -6354,7 +6354,7 @@ function __c82(j: number): any {
       return S.suspend(() =>
         S.Struct({
           socket: S.String,
-          ticket: S.String,
+          ticket: S.String.pipe(T.SensitiveValue({})),
           upid: S.String,
         }),
       ).annotate({ identifier: "PostNodesByNodeQemuByVmidMtunnelResult" });
@@ -6641,7 +6641,7 @@ function __c100(j: number): any {
       return S.suspend(() =>
         S.Struct({
           port: S.Number,
-          ticket: S.String,
+          ticket: S.String.pipe(T.SensitiveValue({})),
           upid: S.String,
           user: S.String,
         }),
@@ -6669,7 +6669,7 @@ function __c101(j: number): any {
           cert: S.String,
           password: S.optional(S.String.pipe(T.SensitiveValue({}))),
           port: S.Number,
-          ticket: S.String,
+          ticket: S.String.pipe(T.SensitiveValue({})),
           upid: S.String,
           user: S.String,
         }),

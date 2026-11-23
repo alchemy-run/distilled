@@ -1,0 +1,10 @@
+{
+  "description": "A Proxmox `ticket` is a credential. POST /access/ticket and /access/openid/login return the authentication ticket that the client sends as the `PVEAuthCookie` cookie (https://pve.proxmox.com/wiki/Proxmox_VE_API#Authentication). The vncproxy, termproxy, vncshell and mtunnel endpoints return a one-time ticket that the `vncwebsocket` and `mtunnelwebsocket` calls and POST /access/vncticket take back (as `vncticket` or `ticket`) to open the console or the migration tunnel. The spec types them as plain strings, and the shared name rule skips `ticket`, which means a support ticket in other APIs. This marks every `ticket` and `vncticket` member sensitive.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_vncwebsocket#GetNodesByNodeVncwebsocketRequest/members/vncticket/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}
