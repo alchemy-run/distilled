@@ -1,5 +1,6 @@
 import * as EffectConfig from "@distilled.cloud/core/config";
 import { ConfigError } from "@distilled.cloud/core/errors";
+import { originFromConfig } from "@distilled.cloud/core/protocol-http";
 import { refreshing } from "@distilled.cloud/core/token-cache";
 /**
  * Starburst Galaxy credentials -- hand-written.
@@ -66,18 +67,13 @@ const LOOPBACK = new Set(["127.0.0.1", "localhost", "[::1]"]);
  * test servers.
  */
 const apiBaseUrlFor = (domain: string): Effect.Effect<string, ConfigError> => {
-  const invalid = (reason: string) =>
-    Effect.fail(new ConfigError({ message: `Starburst Galaxy domain ${reason}` }));
-  const candidate = /^[a-z][a-z0-9+.-]*:\/\//i.test(domain) ? domain : `https://${domain}`;
-  if (!URL.canParse(candidate)) return invalid("is not a host name or URL");
-  const url = new URL(candidate);
-  if (url.username || url.password || url.search || url.hash || url.pathname !== "/") {
-    return invalid("must be a host such as yourco.galaxy.starburst.io, without a path");
-  }
+  const origin = originFromConfig("Starburst Galaxy domain", domain);
+  if (typeof origin !== "string") return Effect.fail(origin);
+  const url = new URL(origin);
   if (url.protocol !== "https:" && !(url.protocol === "http:" && LOOPBACK.has(url.hostname))) {
-    return invalid("must use HTTPS");
+    return Effect.fail(new ConfigError({ message: "Starburst Galaxy domain must use HTTPS" }));
   }
-  return Effect.succeed(url.origin);
+  return Effect.succeed(origin);
 };
 
 /** A successful token response; `access_token` is redacted as it is decoded. */

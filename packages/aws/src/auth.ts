@@ -1,4 +1,5 @@
 import { createHash } from "node:crypto";
+import { isHostLabel } from "@distilled.cloud/core/protocol-http";
 import { dnsSuffix } from "@distilled.cloud/s3/rules-engine/aws-functions";
 import * as Console from "effect/Console";
 import * as Effect from "effect/Effect";
@@ -206,6 +207,14 @@ export const makeAuthService = () =>
               `"sso_region", "sso_role_name", "sso_start_url". Got ${Object.keys(profile).join(
                 ", ",
               )}\nReference: https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sso.html`,
+          });
+        }
+        // The SSO OIDC and portal hosts are built from it.
+        if (!isHostLabel(profile.sso_region)) {
+          return yield* new InvalidSSOProfile({
+            profile: profileName,
+            missingFields: [],
+            message: `Profile ${profileName} sets sso_region = ${JSON.stringify(profile.sso_region)}, which is not a region: it must be one DNS label, such as "us-east-1".`,
           });
         }
         // Every field in `ssoFields` was just checked to be present.
