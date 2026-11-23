@@ -106,7 +106,7 @@ const consoleProtocol = (app: ConsoleApp) => {
       if (Option.isNone(fromLayer)) {
         return yield* new ConfigError({
           message:
-            "No UniFi console: set the call's `console` or provide a Console layer (consoleLayer, localConsole, remoteConsole or ConsoleFromEnv)",
+            "No UniFi console: set the call's `console` or provide one in the credentials layer (fromApiKey's `console` or CredentialsFromEnv)",
         });
       }
       const location = yield* fromLayer.value;

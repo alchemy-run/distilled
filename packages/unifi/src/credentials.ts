@@ -56,7 +56,7 @@ export type ConsoleLocation =
 
 /**
  * Builds a {@link ConsoleLocation}, for one call's `console` member or for
- * {@link consoleLayer}.
+ * {@link fromApiKey}.
  *
  * @example
  * ```ts
@@ -215,39 +215,11 @@ export function fromApiKey(config: {
   return config.console === undefined ? key : Layer.mergeAll(key, consoleLayer(config.console));
 }
 
-/**
- * Layer that sends every call in its scope to one console, built with
- * {@link ConsoleLocation}. The location is checked once, when the layer is
- * built ({@link check}).
- */
-export const consoleLayer = (location: ConsoleLocation): Layer.Layer<Console, ConfigError> =>
+/** The {@link Console} layer for one location, checked once when it is built ({@link check}). */
+const consoleLayer = (location: ConsoleLocation): Layer.Layer<Console, ConfigError> =>
   Layer.effect(
     Console,
     Effect.map(check(location), (location) => Effect.succeed(location)),
-  );
-
-/**
- * Layer for a console on the local network: a host (`192.168.0.1`) or an
- * origin (`https://192.168.0.1`). Use with a key created in the console. A
- * host that is more than a host fails the layer with `ConfigError`.
- */
-export const localConsole = (host: string): Layer.Layer<Console, ConfigError> =>
-  consoleLayer(ConsoleLocation.local(host));
-
-/**
- * Layer for a console behind the cloud connector, by its ID (`id` in Site
- * Manager's `listHosts`). Use with a Site Manager key. `apiBaseUrl` replaces
- * `https://api.ui.com`. A console ID that can't be a URL path segment fails
- * the layer with `ConfigError`.
- */
-export const remoteConsole = (
-  consoleId: string,
-  apiBaseUrl?: string,
-): Layer.Layer<Console, ConfigError> =>
-  consoleLayer(
-    apiBaseUrl === undefined
-      ? ConsoleLocation.remote(consoleId)
-      : { _tag: "Remote", consoleId, apiBaseUrl },
   );
 
 /**
