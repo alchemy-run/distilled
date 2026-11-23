@@ -52,6 +52,7 @@ export const SPEC_REPOS: readonly SpecRepo[] = [
   { package: "aws" },
   { package: "axiom" },
   { package: "azure" },
+  { package: "bitbucket" },
   { package: "boat-dev" },
   { package: "boxd" },
   { package: "browserbase" },
