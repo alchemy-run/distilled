@@ -1300,9 +1300,12 @@ export const frame = (payload: Uint8Array): Uint8Array => {
  */
 export class FrameReader {
   private buf: Uint8Array<ArrayBufferLike> = new Uint8Array(0);
+  private readonly maxBytes: number;
 
   /** `maxBytes`: the largest frame payload accepted; a larger one throws {@link FrameTooLargeError}. */
-  constructor(private readonly maxBytes: number = Infinity) {}
+  constructor(maxBytes: number = Infinity) {
+    this.maxBytes = maxBytes;
+  }
 
   /** The trailers of the gRPC-Web trailer frames read so far, names lowercase. */
   readonly trailers: Record<string, string> = {};
