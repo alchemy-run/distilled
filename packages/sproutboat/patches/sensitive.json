@@ -1,11 +1,6 @@
 {
-  "description": "Mark secret values sensitive, so they accept `Redacted` and never print in logs or errors. The spec has no `x-sensitive` marks, and the values are named `value` or are map values, which no default name pattern matches: `value` of PUT /v1/apps/{project}/secrets/{name} (putSecret), the `set` map of PATCH /v1/apps/{project}/secrets (patchSecrets) and of `secrets_patch`, and the `secrets` map of PUT /v1/apps/{project} (putApp). The spec's own descriptions: \"Per-app secrets. Names can be listed, values never come back\", and \"Secrets are not allowed in a build's `spec` (it is stored in plain text)\".",
+  "description": "Mark the secret map values sensitive, so they accept `Redacted` and never print in logs or errors. The spec marks every secret value `format: password, writeOnly: true, x-sensitive: true`, but the converter carries the mark only to named members (`value` of PUT /v1/apps/{project}/secrets/{name} is already `Redacted`), not to the values of an `additionalProperties` map: the `set` map of PATCH /v1/apps/{project}/secrets (patchSecrets) and of `secrets_patch`, and the `secrets` map of PUT /v1/apps/{project} (putApp). The spec's own descriptions: \"Per-app secrets. Names can be listed, values never come back\", and \"Secrets are not allowed in a build's `spec` (it is stored in plain text)\".",
   "patches": [
-    {
-      "op": "add",
-      "path": "/shapes/com.sproutboat#PutSecretRequest/members/value/traits/smithy.api#sensitive",
-      "value": {}
-    },
     {
       "op": "add",
       "path": "/shapes/com.sproutboat#PatchSecretsRequestSetMap/value/traits",
