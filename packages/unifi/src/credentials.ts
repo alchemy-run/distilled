@@ -191,7 +191,8 @@ export class Console
 /**
  * Layer from a redacted API key and, for Network, Protect and InnerSpace, the
  * console every call in its scope goes to. Site Manager, Mobility and Carrier
- * Fabric need no console.
+ * Fabric need no console. A console that fails {@link check} fails the
+ * layer with {@link ConfigError}.
  *
  * @example
  * ```ts
@@ -201,7 +202,7 @@ export class Console
 export function fromApiKey(config: {
   readonly apiKey: Redacted.Redacted<string>;
   readonly console: ConsoleLocation;
-}): Layer.Layer<ApiKey | Console>;
+}): Layer.Layer<ApiKey | Console, ConfigError>;
 export function fromApiKey(config: {
   readonly apiKey: Redacted.Redacted<string>;
   readonly console?: undefined;
@@ -209,7 +210,7 @@ export function fromApiKey(config: {
 export function fromApiKey(config: {
   readonly apiKey: Redacted.Redacted<string>;
   readonly console?: ConsoleLocation | undefined;
-}): Layer.Layer<ApiKey> | Layer.Layer<ApiKey | Console> {
+}): Layer.Layer<ApiKey> | Layer.Layer<ApiKey | Console, ConfigError> {
   const key = Layer.succeed(ApiKey, Effect.succeed(config.apiKey));
   return config.console === undefined ? key : Layer.mergeAll(key, consoleLayer(config.console));
 }
