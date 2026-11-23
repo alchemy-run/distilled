@@ -46,6 +46,23 @@ export type ConsoleLocation =
   /** Through the cloud connector, by the console's ID (Site Manager `listHosts`). */
   | { readonly _tag: "Remote"; readonly consoleId: string; readonly apiBaseUrl?: string };
 
+/**
+ * Builds a {@link ConsoleLocation}, for one call's `console` member or for
+ * {@link consoleLayer}.
+ *
+ * @example
+ * ```ts
+ * const office = Unifi.ConsoleLocation.remote("<consoleId>");
+ * Unifi.getSiteOverviewPage({ console: office });
+ * ```
+ */
+export const ConsoleLocation = {
+  /** A console on the local network: a host (`192.168.0.1`, `udm.lan:8443`) or an origin. */
+  local: (host: string): ConsoleLocation => ({ _tag: "Local", host }),
+  /** A console behind the cloud connector, by its ID (`id` in Site Manager's `listHosts`). */
+  remote: (consoleId: string): ConsoleLocation => ({ _tag: "Remote", consoleId }),
+};
+
 /** What a console-hosted call needs: the key and where the console is. */
 export interface ConsoleConfig {
   readonly apiKey: Redacted.Redacted<string>;
@@ -91,7 +108,7 @@ export const checkConsoleLocation = (value: unknown): ConsoleLocation | InvalidI
   const invalid = (why: string) =>
     new InvalidInput({
       member: "console",
-      message: `Input member console ${why}: expected { _tag: "Local", host } or { _tag: "Remote", consoleId }`,
+      message: `Input member console ${why}: expected ConsoleLocation.local(host) or ConsoleLocation.remote(consoleId)`,
     });
   if (value === null || typeof value !== "object") return invalid("is not an object");
   const location = value as Record<string, unknown>;
@@ -132,11 +149,18 @@ export const apiKey = (key: Redacted.Redacted<string>): Layer.Layer<ApiKey> =>
   Layer.succeed(ApiKey, Effect.succeed(key));
 
 /**
+ * Layer that sends every call in its scope to one console, built with
+ * {@link ConsoleLocation}.
+ */
+export const consoleLayer = (location: ConsoleLocation): Layer.Layer<Console> =>
+  Layer.succeed(Console, Effect.succeed(location));
+
+/**
  * Layer for a console on the local network: a host (`192.168.0.1`) or an
  * origin (`https://192.168.0.1`). Use with a key created in the console.
  */
 export const localConsole = (host: string): Layer.Layer<Console> =>
-  Layer.succeed(Console, Effect.succeed({ _tag: "Local", host }));
+  consoleLayer(ConsoleLocation.local(host));
 
 /**
  * Layer for a console behind the cloud connector, by its ID (`id` in Site
@@ -144,13 +168,10 @@ export const localConsole = (host: string): Layer.Layer<Console> =>
  * `https://api.ui.com`.
  */
 export const remoteConsole = (consoleId: string, apiBaseUrl?: string): Layer.Layer<Console> =>
-  Layer.succeed(
-    Console,
-    Effect.succeed({
-      _tag: "Remote",
-      consoleId,
-      ...(apiBaseUrl === undefined ? {} : { apiBaseUrl }),
-    }),
+  consoleLayer(
+    apiBaseUrl === undefined
+      ? ConsoleLocation.remote(consoleId)
+      : { _tag: "Remote", consoleId, apiBaseUrl },
   );
 
 /** Reads `UNIFI_API_KEY`. */

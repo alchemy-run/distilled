@@ -102,13 +102,16 @@ places (the console's Integrations settings for local, unifi.ui.com for the conn
 cloud-only APIs), so provide the `ApiKey` that matches the way in.
 
 Every Network, Protect and InnerSpace operation also takes an optional `console`, which wins
-over the layer for that call and is not sent. A malformed one fails the call with
+over the layer for that call and is not sent. Build it with `Unifi.ConsoleLocation`; the same
+value makes a layer with `Unifi.consoleLayer`. A malformed one fails the call with
 `InvalidInput`:
 
 ```ts
-const sites = yield* Unifi.getSiteOverviewPage({
-  console: { _tag: "Remote", consoleId: "<consoleId>" },
-});
+const office = Unifi.ConsoleLocation.remote("<consoleId>");
+const home = Unifi.ConsoleLocation.local("192.168.0.1");
+
+const sites = yield* Unifi.getSiteOverviewPage({ console: office }); // one call
+program.pipe(Effect.provide(Unifi.consoleLayer(home))); // every call in a scope
 ```
 
 From the environment, `Unifi.CredentialsFromEnv` provides both layers (a layer is only

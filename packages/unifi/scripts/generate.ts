@@ -205,7 +205,7 @@ const addConsoleMember = (model: any): string => {
       traits: {
         [CONSOLE_TRAIT]: {},
         "smithy.api#documentation":
-          "The console this call goes to, over the Console layer. Not sent.",
+          "The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent.",
       },
     };
   }

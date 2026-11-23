@@ -35,7 +35,7 @@ export interface AdoptDeviceRequest {
   siteId: string;
   ignoreDeviceLimit: boolean;
   macAddress: string;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export type UserDefinedEntityMetadataOrigin = "USER_DEFINED";
@@ -203,7 +203,7 @@ export type ACLRuleUpdate =
 export interface CreateAclRuleRequest {
   siteId: string;
   body: ACLRuleUpdate;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 /** ACL rule action */
@@ -347,7 +347,7 @@ export type CreateOrUpdateDNSPolicy =
 export interface CreateDnsPolicyRequest {
   siteId: string;
   body: CreateOrUpdateDNSPolicy;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export type IntegrationDnsAaaaRecordDtoType = "AAAA_RECORD";
@@ -1351,7 +1351,7 @@ export interface CreateFirewallPolicyRequest {
   reportFlowEnabled?: boolean | undefined;
   schedule?: FirewallSchedule | undefined;
   source: FirewallPolicySource;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export type FirewallPolicyConnectionStateFilterItem = "NEW" | "INVALID" | "ESTABLISHED" | "RELATED";
@@ -1397,7 +1397,7 @@ export interface CreateFirewallZoneRequest {
   name: string;
   /** List of Network IDs */
   networkIds: CreateFirewallZoneRequestNetworkIdsList;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export type UserOrSystemDefinedEntityMetadata =
@@ -1691,7 +1691,7 @@ export type CreateOrUpdateNetwork =
 export interface CreateNetworkRequest {
   siteId: string;
   body: CreateOrUpdateNetwork;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export type GatewayManagedNetworkDetailsManagement = "GATEWAY";
@@ -1833,7 +1833,7 @@ export type CreateOrUpdateTrafficMatchingList =
 export interface CreateTrafficMatchingListRequest {
   siteId: string;
   body: CreateOrUpdateTrafficMatchingList;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export type IntegrationIpV4TrafficMatchingListDtoType = "IPV4_ADDRESSES";
@@ -1881,7 +1881,7 @@ export interface CreateVouchersRequest {
   timeLimitMinutes: number;
   /** (Optional) upload rate limit in kilobits per second */
   txRateLimitKbps?: number | undefined;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export interface HotspotVoucherDetails {
@@ -2341,7 +2341,7 @@ export type WifiBroadcastCreateOrUpdate =
 export interface CreateWifiBroadcastRequest {
   siteId: string;
   body: WifiBroadcastCreateOrUpdate;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export type UserOrDerivedOrOrchestratedEntityMetadata =
@@ -2424,28 +2424,28 @@ export type CreateWifiBroadcastResponse = WifiBroadcastDetails;
 export interface DeleteAclRuleRequest {
   siteId: string;
   aclRuleId: string;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export interface DeleteAclRuleResponse {}
 export interface DeleteDnsPolicyRequest {
   siteId: string;
   dnsPolicyId: string;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export interface DeleteDnsPolicyResponse {}
 export interface DeleteFirewallPolicyRequest {
   siteId: string;
   firewallPolicyId: string;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export interface DeleteFirewallPolicyResponse {}
 export interface DeleteFirewallZoneRequest {
   siteId: string;
   firewallZoneId: string;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export interface DeleteFirewallZoneResponse {}
@@ -2453,21 +2453,21 @@ export interface DeleteNetworkRequest {
   siteId: string;
   networkId: string;
   force?: boolean | undefined;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export interface DeleteNetworkResponse {}
 export interface DeleteTrafficMatchingListRequest {
   siteId: string;
   trafficMatchingListId: string;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export interface DeleteTrafficMatchingListResponse {}
 export interface DeleteVoucherRequest {
   siteId: string;
   voucherId: string;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export interface VoucherDeletionResults {
@@ -2476,14 +2476,14 @@ export interface VoucherDeletionResults {
 export interface DeleteVouchersRequest {
   siteId: string;
   filter: string;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export interface DeleteWifiBroadcastRequest {
   siteId: string;
   wifiBroadcastId: string;
   force?: boolean | undefined;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export interface DeleteWifiBroadcastResponse {}
@@ -2495,7 +2495,7 @@ export interface ExecuteAdoptedDeviceActionRequest {
   siteId: string;
   deviceId: string;
   body: DeviceRestartRequest;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export interface ExecuteAdoptedDeviceActionResponse {}
@@ -2523,7 +2523,7 @@ export interface ExecuteConnectedClientActionRequest {
   siteId: string;
   clientId: string;
   body: ClientActionRequest;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export type GuestAccessAuthorizationResponseAction = "AUTHORIZE_GUEST_ACCESS";
@@ -2576,20 +2576,20 @@ export interface ExecutePortActionRequest {
   deviceId: string;
   portIdx: number;
   body: PortPoEPowerCycleRequest;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export interface ExecutePortActionResponse {}
 export interface GetAclRuleRequest {
   siteId: string;
   aclRuleId: string;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export type GetAclRuleResponse = ACLRule;
 export interface GetAclRuleOrderingRequest {
   siteId: string;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export type ACLRuleOrderingOrderedAclRuleIdsList = Array<string>;
@@ -2601,7 +2601,7 @@ export interface GetAclRulePageRequest {
   offset?: number | undefined;
   limit?: number | undefined;
   filter?: string | undefined;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export type ACLRuleObject = IntegrationIpAclRuleDto | IntegrationMacAclRuleDto;
@@ -2616,13 +2616,13 @@ export interface IntegrationAclRulePageDto {
 export interface GetAdoptedDeviceDetailsRequest {
   siteId: string;
   deviceId: string;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export interface GetAdoptedDeviceLatestStatisticsRequest {
   siteId: string;
   deviceId: string;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export type LatestStatisticsForWirelessRadioFrequencyGHz = 0.9 | 2.4 | 5 | 6 | 60;
@@ -2655,7 +2655,7 @@ export interface GetAdoptedDeviceOverviewPageRequest {
   offset?: number | undefined;
   limit?: number | undefined;
   filter?: string | undefined;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export type AdoptedDeviceOverviewFeaturesItem = "switching" | "accessPoint" | "gateway";
@@ -2697,7 +2697,7 @@ export interface AdoptedDeviceOverviewPage {
 export interface GetConnectedClientDetailsRequest {
   siteId: string;
   clientId: string;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export type DefaultClientAccessDetailsType = "DEFAULT";
@@ -2754,7 +2754,7 @@ export interface GetConnectedClientOverviewPageRequest {
   offset?: number | undefined;
   limit?: number | undefined;
   filter?: string | undefined;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export type TeleportClientConnectionOverviewType = "TELEPORT";
@@ -2814,7 +2814,7 @@ export interface GetCountriesRequest {
   offset?: number | undefined;
   limit?: number | undefined;
   filter?: string | undefined;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export interface CountryDefinition {
@@ -2911,7 +2911,7 @@ export interface GetDeviceTagPageRequest {
   offset?: number | undefined;
   limit?: number | undefined;
   filter?: FilterExpression | undefined;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export type DeviceTagDeviceIdsList = Array<string>;
@@ -2935,7 +2935,7 @@ export interface IntegrationDeviceTagPageDto {
 export interface GetDnsPolicyRequest {
   siteId: string;
   dnsPolicyId: string;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export type GetDnsPolicyResponse = DNSPolicy;
@@ -2944,7 +2944,7 @@ export interface GetDnsPolicyPageRequest {
   offset?: number | undefined;
   limit?: number | undefined;
   filter?: string | undefined;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export type IntegrationDnsPolicyPageDtoDataList = Array<DNSPolicy>;
@@ -2959,7 +2959,7 @@ export interface GetDpiApplicationCategoriesRequest {
   offset?: number | undefined;
   limit?: number | undefined;
   filter?: string | undefined;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export interface DPICategory {
@@ -2978,7 +2978,7 @@ export interface GetDpiApplicationsRequest {
   offset?: number | undefined;
   limit?: number | undefined;
   filter?: string | undefined;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export type DPIApplication = DPICategory;
@@ -2995,7 +2995,7 @@ export interface GetFirewallPoliciesRequest {
   offset?: number | undefined;
   limit?: number | undefined;
   filter?: string | undefined;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export type FirewallPolicyPageDataList = Array<FirewallPolicy>;
@@ -3009,14 +3009,14 @@ export interface FirewallPolicyPage {
 export interface GetFirewallPolicyRequest {
   siteId: string;
   firewallPolicyId: string;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export interface GetFirewallPolicyOrderingRequest {
   siteId: string;
   sourceFirewallZoneId: string;
   destinationFirewallZoneId: string;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export type OrderedFirewallPolicyIDsAfterSystemDefinedList = Array<string>;
@@ -3031,7 +3031,7 @@ export interface IntegrationFirewallPolicyOrderingDto {
 export interface GetFirewallZoneRequest {
   siteId: string;
   firewallZoneId: string;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export interface GetFirewallZonesRequest {
@@ -3039,7 +3039,7 @@ export interface GetFirewallZonesRequest {
   offset?: number | undefined;
   limit?: number | undefined;
   filter?: string | undefined;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export type FirewallZonesPageDataList = Array<FirewallZone>;
@@ -3051,7 +3051,7 @@ export interface FirewallZonesPage {
   totalCount: number;
 }
 export interface GetInfoRequest {
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export interface ApplicationInfo {
@@ -3060,7 +3060,7 @@ export interface ApplicationInfo {
 export interface GetLagRequest {
   siteId: string;
   lagId: string;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export type IntegrationLocalLagGlobalDtoType = "LOCAL";
@@ -3111,7 +3111,7 @@ export interface GetLagPageRequest {
   offset?: number | undefined;
   limit?: number | undefined;
   filter?: string | undefined;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export type IntegrationLagPageDtoDataList = Array<LAGDetails>;
@@ -3125,7 +3125,7 @@ export interface IntegrationLagPageDto {
 export interface GetMcLagDomainRequest {
   siteId: string;
   mcLagDomainId: string;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export type IntegrationMcLagLocalDtoMembersList = Array<IntegrationLagMemberDto>;
@@ -3155,7 +3155,7 @@ export interface GetMcLagDomainPageRequest {
   offset?: number | undefined;
   limit?: number | undefined;
   filter?: string | undefined;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export type IntegrationMcLagDomainDtoPageDtoDataList = Array<IntegrationMcLagDomainDto>;
@@ -3169,14 +3169,14 @@ export interface IntegrationMcLagDomainDtoPageDto {
 export interface GetNetworkDetailsRequest {
   siteId: string;
   networkId: string;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export type GetNetworkDetailsResponse = NetworkDetails;
 export interface GetNetworkReferencesRequest {
   siteId: string;
   networkId: string;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export interface NetworkReferenceDetail {
@@ -3211,7 +3211,7 @@ export interface GetNetworksOverviewPageRequest {
   offset?: number | undefined;
   limit?: number | undefined;
   filter?: string | undefined;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export type GatewayManagedNetworkOverviewManagement = "GATEWAY";
@@ -3269,7 +3269,7 @@ export interface GetPendingDevicePageRequest {
   offset?: number | undefined;
   limit?: number | undefined;
   filter?: string | undefined;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export type DevicePendingAdoptionAdoptionTargetSiteIdsList = Array<string>;
@@ -3310,7 +3310,7 @@ export interface GetRadiusProfileOverviewPageRequest {
   offset?: number | undefined;
   limit?: number | undefined;
   filter?: string | undefined;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export interface RadiusProfileOverview {
@@ -3330,7 +3330,7 @@ export interface GetSiteOverviewPageRequest {
   offset?: number | undefined;
   limit?: number | undefined;
   filter?: string | undefined;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export interface SiteOverview {
@@ -3352,7 +3352,7 @@ export interface GetSiteToSiteVpnTunnelPageRequest {
   offset?: number | undefined;
   limit?: number | undefined;
   filter?: string | undefined;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export type IntegrationDerivedSiteToSiteTunnelMetadataOrigin = "DERIVED";
@@ -3401,7 +3401,7 @@ export interface IntegrationSiteToSiteVpnTunnelOverviewPageDto {
 export interface GetSwitchStackRequest {
   siteId: string;
   switchStackId: string;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export type IntegrationSwitchStackLagLocalDtoMembersList =
@@ -3436,7 +3436,7 @@ export interface GetSwitchStackPageRequest {
   offset?: number | undefined;
   limit?: number | undefined;
   filter?: string | undefined;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export type IntegrationSwitchStackDtoPageDtoDataList = Array<IntegrationSwitchStackDto>;
@@ -3450,7 +3450,7 @@ export interface IntegrationSwitchStackDtoPageDto {
 export interface GetTrafficMatchingListRequest {
   siteId: string;
   trafficMatchingListId: string;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export type GetTrafficMatchingListResponse = TrafficMatchingList;
@@ -3459,7 +3459,7 @@ export interface GetTrafficMatchingListsRequest {
   offset?: number | undefined;
   limit?: number | undefined;
   filter?: string | undefined;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export type TrafficMatchingListsPageDataList = Array<TrafficMatchingList>;
@@ -3473,7 +3473,7 @@ export interface TrafficMatchingListsPage {
 export interface GetVoucherRequest {
   siteId: string;
   voucherId: string;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export interface GetVouchersRequest {
@@ -3481,7 +3481,7 @@ export interface GetVouchersRequest {
   offset?: number | undefined;
   limit?: number | undefined;
   filter?: string | undefined;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export type HotspotVoucherDetailPageDataList = Array<HotspotVoucherDetails>;
@@ -3497,7 +3497,7 @@ export interface GetVpnServerPageRequest {
   offset?: number | undefined;
   limit?: number | undefined;
   filter?: string | undefined;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export type IntegrationL2tpServerOverviewDtoType = "L2TP";
@@ -3558,7 +3558,7 @@ export interface GetWansOverviewPageRequest {
   siteId: string;
   offset?: number | undefined;
   limit?: number | undefined;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export interface WANOverview {
@@ -3576,7 +3576,7 @@ export interface WANOverviewPage {
 export interface GetWifiBroadcastDetailsRequest {
   siteId: string;
   wifiBroadcastId: string;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export type GetWifiBroadcastDetailsResponse = WifiBroadcastDetails;
@@ -3585,7 +3585,7 @@ export interface GetWifiBroadcastPageRequest {
   offset?: number | undefined;
   limit?: number | undefined;
   filter?: string | undefined;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export type IntegrationWifiOpenSecurityConfigurationOverviewDtoType = "OPEN";
@@ -3681,13 +3681,13 @@ export interface PatchFirewallPolicyRequest {
   loggingEnabled?: boolean | undefined;
   /** Report traffic matched by this policy in Insights Flows. Ignored for the predefined Allow Return Traffic policies and the predefined policies allowing only multicast or IPv6 neighbor discovery traffic, which are never reported. */
   reportFlowEnabled?: boolean | undefined;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export interface RemoveDeviceRequest {
   siteId: string;
   deviceId: string;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export interface RemoveDeviceResponse {}
@@ -3695,7 +3695,7 @@ export interface UpdateAclRuleRequest {
   siteId: string;
   aclRuleId: string;
   body: ACLRuleUpdate;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export type UpdateAclRuleResponse = ACLRule;
@@ -3703,14 +3703,14 @@ export type UpdateAclRuleOrderingRequestOrderedAclRuleIdsList = Array<string>;
 export interface UpdateAclRuleOrderingRequest {
   siteId: string;
   orderedAclRuleIds: UpdateAclRuleOrderingRequestOrderedAclRuleIdsList;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export interface UpdateDnsPolicyRequest {
   siteId: string;
   dnsPolicyId: string;
   body: CreateOrUpdateDNSPolicy;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export type UpdateDnsPolicyResponse = DNSPolicy;
@@ -3744,7 +3744,7 @@ export interface UpdateFirewallPolicyRequest {
   reportFlowEnabled?: boolean | undefined;
   schedule?: FirewallSchedule | undefined;
   source: FirewallPolicySource;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export interface UpdateFirewallPolicyOrderingRequest {
@@ -3752,7 +3752,7 @@ export interface UpdateFirewallPolicyOrderingRequest {
   sourceFirewallZoneId: string;
   destinationFirewallZoneId: string;
   orderedFirewallPolicyIds: OrderedFirewallPolicyIDs;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 /** List of Network IDs */
@@ -3764,14 +3764,14 @@ export interface UpdateFirewallZoneRequest {
   name: string;
   /** List of Network IDs */
   networkIds: UpdateFirewallZoneRequestNetworkIdsList;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export interface UpdateNetworkRequest {
   siteId: string;
   networkId: string;
   body: CreateOrUpdateNetwork;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export type UpdateNetworkResponse = NetworkDetails;
@@ -3779,7 +3779,7 @@ export interface UpdateTrafficMatchingListRequest {
   siteId: string;
   trafficMatchingListId: string;
   body: CreateOrUpdateTrafficMatchingList;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export type UpdateTrafficMatchingListResponse = TrafficMatchingList;
@@ -3787,7 +3787,7 @@ export interface UpdateWifiBroadcastRequest {
   siteId: string;
   wifiBroadcastId: string;
   body: WifiBroadcastCreateOrUpdate;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export type UpdateWifiBroadcastResponse = WifiBroadcastDetails;

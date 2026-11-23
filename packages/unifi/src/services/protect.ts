@@ -69,13 +69,13 @@ export interface ActivateRelayOutputRequest {
   state?: ActivateRelayOutputRequestState | (string & {}) | undefined;
   /** Auto-off duration in milliseconds (only applies when state is "on"). If greater than 0, the output auto-turns off after the specified duration. */
   pulseDuration?: number | undefined;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export interface ActivateRelayOutputResponse {}
 export interface ArmExternalArmProfileRequest {
   id: string;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export type ExternalArmProfileAlarmIdsList = Array<string>;
@@ -253,7 +253,7 @@ export interface CreateArmProfileRequest {
   schedules: Schedules;
   recordEverything: boolean;
   activationDelay: number;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export interface ArmProfile {
@@ -274,7 +274,7 @@ export interface CreateCameraRtspsStreamRequest {
   /** The primary key of camera */
   id: string;
   qualities: CreatedQualities;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 /** The RTSPS stream URLs for the camera */
@@ -287,7 +287,7 @@ export interface CreatedRtspsStreams {
 export interface CreateCameraTalkbackSessionRequest {
   /** The primary key of camera */
   id: string;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 /** Talkback session information */
@@ -498,7 +498,7 @@ export interface CreateExternalArmProfileRequest {
   schedule?: CreateExternalArmProfileRequestSchedule | undefined;
   alarm_ids?: CreateExternalArmProfileRequestAlarmIdsList | undefined;
   pin_code?: string | null | undefined;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export type CreateLiveviewRequestSlotsItemCamerasList = Array<string>;
@@ -528,7 +528,7 @@ export interface CreateLiveviewRequest {
   layout: number;
   /** List of cameras visible in each given slot. And cycling settings for each slot if it has multiple cameras listed. */
   slots: CreateLiveviewRequestSlotsList;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export type LiveviewSlotsItemCamerasList = Array<string>;
@@ -595,7 +595,7 @@ export interface CreatePosTransactionRequest {
   paymentTypes?: CreatePosTransactionRequestPaymentTypesList | undefined;
   /** Transaction time in epoch milliseconds. Must be within the last 24 hours and no more than 5 minutes ahead of server time; out-of-range values are rejected. A value within the allowed skew is clamped to now. */
   timestamp?: number | undefined;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 /** Result of POS transaction ingestion */
@@ -609,7 +609,7 @@ export interface PosTransactionResponse {
 export interface DeleteArmProfileRequest {
   /** The primary key of armProfile */
   id: string;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export interface DeleteArmProfileResponse {}
@@ -621,25 +621,25 @@ export interface DeleteCameraRtspsStreamRequest {
   id: string;
   /** The array of quality levels for the RTSPS streams to be removed. All qualities (high, medium, low) are available for all cameras. The package quality is only available for cameras with hasPackageCamera: true. */
   qualities: RemovedQualities;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export interface DeleteCameraRtspsStreamResponse {}
 export interface DeleteExternalArmProfileRequest {
   id: string;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export interface DeleteExternalArmProfileResponse {}
 export interface DisableArmAlarmRequest {
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export interface DisableArmAlarmResponse {}
 export interface DisableCameraMicPermanentlyRequest {
   /** The primary key of camera */
   id: string;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 /** Connection state of the device. */
@@ -779,18 +779,18 @@ export interface Camera {
 }
 export interface DisarmExternalArmProfileRequest {
   id: string;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export interface EnableArmAlarmRequest {
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export interface EnableArmAlarmResponse {}
 export interface GetAlarmHubRequest {
   /** The primary key of linkStation */
   id: string;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 /** Status LED settings. */
@@ -1158,7 +1158,7 @@ export interface LinkStation {
 export interface GetBridgeRequest {
   /** The primary key of bridge */
   id: string;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 /** Array of IoT devices mac that bridge is reserving for */
@@ -1178,13 +1178,13 @@ export interface Bridge {
 export interface GetCameraRequest {
   /** The primary key of camera */
   id: string;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export interface GetCameraRtspsStreamRequest {
   /** The primary key of camera */
   id: string;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 /** The RTSPS stream URLs for the camera. All qualities (high, medium, low) are available for all cameras. The package quality is only available for cameras with hasPackageCamera: true. */
@@ -1197,7 +1197,7 @@ export interface ExistingRtspsStreams {
 export interface GetChimeRequest {
   /** The primary key of chime */
   id: string;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 /** The list of (doorbell-only) cameras which this chime is paired to. */
@@ -1229,7 +1229,7 @@ export interface Chime {
 }
 export interface GetExternalArmProfileRequest {
   id: string;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 /** Device asset file type */
@@ -1237,7 +1237,7 @@ export type GetFileRequestFileType = "animations";
 export interface GetFileRequest {
   /** Device asset file type */
   fileType: GetFileRequestFileType | (string & {});
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 /** Device asset file type */
@@ -1253,7 +1253,7 @@ export type GetFileResponse = GetFileResponseBodyList;
 export interface GetFobRequest {
   /** The primary key of fob */
   id: string;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 /** Fob presence/away state. */
@@ -1330,7 +1330,7 @@ export interface Fob {
 export interface GetLightRequest {
   /** The primary key of light */
   id: string;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 /** Settings for when and how your light gets activated */
@@ -1370,24 +1370,24 @@ export interface Light {
 export interface GetLinkStationRequest {
   /** The primary key of linkStation */
   id: string;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export interface GetLiveviewRequest {
   /** The primary key of liveview */
   id: string;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export interface GetMetaInfoRequest {
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export interface GetMetaInfoResponse {
   applicationVersion: string;
 }
 export interface GetNvrRequest {
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 /** Feature flags. */
@@ -1448,7 +1448,7 @@ export interface Nvr {
 export interface GetRelayRequest {
   /** The primary key of relay */
   id: string;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 /** Status LED settings. */
@@ -1502,7 +1502,7 @@ export interface Relay {
 export interface GetSensorRequest {
   /** The primary key of sensor */
   id: string;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 /** Mounting type of the sensor. */
@@ -1661,7 +1661,7 @@ export interface Sensor {
 export interface GetSirenRequest {
   /** The primary key of siren */
   id: string;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 /** Status LED settings. */
@@ -1691,7 +1691,7 @@ export interface Siren {
 export interface GetSpeakerRequest {
   /** The primary key of speaker */
   id: string;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 /** Current status of the speaker */
@@ -1724,7 +1724,7 @@ export interface Speaker {
 export interface GetUlpUserRequest {
   /** The primary key of ulpUser */
   id: string;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 /** Active status of ulp user */
@@ -1746,7 +1746,7 @@ export interface UlpUser {
 export interface GetUserRequest {
   /** The primary key of user */
   id: string;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export interface User {
@@ -1766,7 +1766,7 @@ export interface User {
 export interface GetViewerRequest {
   /** The primary key of viewer */
   id: string;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export interface Viewer {
@@ -1785,108 +1785,108 @@ export interface GotoCameraPtzPresetRequest {
   id: string;
   /** Which slot this preset belongs to (-1 home preset, >=0 other presets). */
   slot: string;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export interface GotoCameraPtzPresetResponse {}
 export interface ListAlarmHubsRequest {
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export type ListAlarmHubsResponseBodyList = Array<LinkStation>;
 export type ListAlarmHubsResponse = ListAlarmHubsResponseBodyList;
 export interface ListArmProfilesRequest {
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export type ListArmProfilesResponseBodyList = Array<ArmProfile>;
 export type ListArmProfilesResponse = ListArmProfilesResponseBodyList;
 export interface ListBridgesRequest {
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export type ListBridgesResponseBodyList = Array<Bridge>;
 export type ListBridgesResponse = ListBridgesResponseBodyList;
 export interface ListCamerasRequest {
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export type ListCamerasResponseBodyList = Array<Camera>;
 export type ListCamerasResponse = ListCamerasResponseBodyList;
 export interface ListChimesRequest {
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export type ListChimesResponseBodyList = Array<Chime>;
 export type ListChimesResponse = ListChimesResponseBodyList;
 export interface ListExternalArmProfilesRequest {
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export type ExternalArmProfiles = Array<ExternalArmProfile>;
 export type ListExternalArmProfilesResponse = ExternalArmProfiles;
 export interface ListFobsRequest {
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export type ListFobsResponseBodyList = Array<Fob>;
 export type ListFobsResponse = ListFobsResponseBodyList;
 export interface ListLightsRequest {
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export type ListLightsResponseBodyList = Array<Light>;
 export type ListLightsResponse = ListLightsResponseBodyList;
 export interface ListLinkStationsRequest {
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export type ListLinkStationsResponseBodyList = Array<LinkStation>;
 export type ListLinkStationsResponse = ListLinkStationsResponseBodyList;
 export interface ListLiveviewsRequest {
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export type ListLiveviewsResponseBodyList = Array<Liveview>;
 export type ListLiveviewsResponse = ListLiveviewsResponseBodyList;
 export interface ListRelaysRequest {
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export type ListRelaysResponseBodyList = Array<Relay>;
 export type ListRelaysResponse = ListRelaysResponseBodyList;
 export interface ListSensorsRequest {
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export type ListSensorsResponseBodyList = Array<Sensor>;
 export type ListSensorsResponse = ListSensorsResponseBodyList;
 export interface ListSirensRequest {
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export type ListSirensResponseBodyList = Array<Siren>;
 export type ListSirensResponse = ListSirensResponseBodyList;
 export interface ListSpeakersRequest {
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export type ListSpeakersResponseBodyList = Array<Speaker>;
 export type ListSpeakersResponse = ListSpeakersResponseBodyList;
 export interface ListUlpUsersRequest {
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export type ListUlpUsersResponseBodyList = Array<UlpUser>;
 export type ListUlpUsersResponse = ListUlpUsersResponseBodyList;
 export interface ListUsersRequest {
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export type ListUsersResponseBodyList = Array<User>;
 export type ListUsersResponse = ListUsersResponseBodyList;
 export interface ListViewersRequest {
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export type ListViewersResponseBodyList = Array<Viewer>;
@@ -1896,20 +1896,20 @@ export interface PlaySirenRequest {
   id: string;
   /** Duration of the siren activation in seconds. Defaults to 5 seconds. */
   duration?: number | undefined;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export interface PlaySirenResponse {}
 export interface SendAlarmManagerWebhookRequest {
   /** User defined string used to trigger only specific alarms. Alarm should be configured with the same ID to be triggered. */
   id: string;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export interface SendAlarmManagerWebhookResponse {}
 export interface SetArmProfileSettingsRequest {
   armProfileId: string;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export interface SetArmProfileSettingsResponse {}
@@ -1918,27 +1918,27 @@ export interface StartCameraPtzPatrolRequest {
   id: string;
   /** The slot number (0-4) of the patrol that is currently running, or null if no patrol is running */
   slot: string;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export interface StartCameraPtzPatrolResponse {}
 export interface StopCameraPtzPatrolRequest {
   /** The primary key of camera */
   id: string;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export interface StopCameraPtzPatrolResponse {}
 export interface StopSirenRequest {
   /** The primary key of siren */
   id: string;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export interface StopSirenResponse {}
 export interface StopSpeakerSirenRequest {
   id: string;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export interface StopSpeakerSirenResponse {}
@@ -1947,7 +1947,7 @@ export interface TestSirenSoundRequest {
   id: string;
   /** The volume for testing the siren sound. Defaults to the configured device volume. */
   volume?: number | undefined;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export interface TestSirenSoundResponse {}
@@ -1956,7 +1956,7 @@ export interface TestSpeakerSoundRequest {
   id: string;
   /** The volume for testing the speaker sound. Defaults to the configured device volume. */
   volume?: number | undefined;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export interface TestSpeakerSoundResponse {}
@@ -1971,7 +1971,7 @@ export interface TriggerAlarmHubOutputRequest {
   delay?: number | undefined;
   /** Duration in milliseconds to keep the output active. 0 means indefinite until manually turned off. */
   duration?: number | undefined;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export interface TriggerAlarmHubOutputResponse {}
@@ -1979,7 +1979,7 @@ export interface UpdateAlarmHubRequest {
   /** The primary key of linkStation */
   id: string;
   name?: string | undefined;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export interface UpdateArmProfileRequest {
@@ -1990,14 +1990,14 @@ export interface UpdateArmProfileRequest {
   schedules?: Schedules | undefined;
   recordEverything?: boolean | undefined;
   activationDelay?: number | undefined;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export interface UpdateBridgeRequest {
   /** The primary key of bridge */
   id: string;
   name?: string | undefined;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 /** On Screen Display settings. */
@@ -2061,7 +2061,7 @@ export interface UpdateCameraRequest {
   hdrType?: HdrType | (string & {}) | undefined;
   /** Smart detection settings for the camera. */
   smartDetectSettings?: UpdateCameraRequestSmartDetectSettings | undefined;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 /** The list of (doorbell-only) cameras which this chime is paired to. */
@@ -2077,7 +2077,7 @@ export interface UpdateChimeRequest {
   cameraIds?: UpdateChimeRequestCameraIdsList | undefined;
   /** List of custom ringtone settings for (doorbell-only) cameras paired to this chime. */
   ringSettings?: UpdateChimeRequestRingSettingsList | undefined;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export type UpdateExternalArmProfileRequestScheduleSunCase0EntriesItemStart =
@@ -2286,14 +2286,14 @@ export interface UpdateExternalArmProfileRequest {
   alarm_ids?: UpdateExternalArmProfileRequestAlarmIdsList | null | undefined;
   /** Omit to retain the existing PIN; use null to clear it. */
   pin_code?: string | null | undefined;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export interface UpdateFobRequest {
   /** The primary key of fob */
   id: string;
   name?: string | undefined;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export interface UpdateLightRequest {
@@ -2303,14 +2303,14 @@ export interface UpdateLightRequest {
   isLightForceEnabled?: boolean | undefined;
   lightModeSettings?: LightModeSettings | undefined;
   lightDeviceSettings?: LightDeviceSettings | undefined;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export interface UpdateLinkStationRequest {
   /** The primary key of linkStation */
   id: string;
   name?: string | undefined;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export type UpdateLiveviewRequestSlotsItemCamerasList = Array<string>;
@@ -2341,7 +2341,7 @@ export interface UpdateLiveviewRequest {
   layout: number;
   /** List of cameras visible in each given slot. And cycling settings for each slot if it has multiple cameras listed. */
   slots: UpdateLiveviewRequestSlotsList;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 /** Status LED settings. */
@@ -2354,7 +2354,7 @@ export interface UpdateRelayRequest {
   name?: string | undefined;
   /** Status LED settings. */
   ledSettings?: UpdateRelayRequestLedSettings | undefined;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export type UpdateSensorRequestScheduleMode = "always" | "when_armed";
@@ -2372,7 +2372,7 @@ export interface UpdateSensorRequest {
   armProfileIds?: UpdateSensorRequestArmProfileIdsList | null | undefined;
   hasCustomSensitivityWhenArmed?: boolean | undefined;
   alarmSettings?: AlarmSettings | undefined;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export interface UpdateSirenRequest {
@@ -2381,7 +2381,7 @@ export interface UpdateSirenRequest {
   name?: string | undefined;
   volume?: number | undefined;
   ledSettings?: LinkStationLedSettings | undefined;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export interface UpdateSpeakerRequest {
@@ -2391,7 +2391,7 @@ export interface UpdateSpeakerRequest {
   volume?: number | undefined;
   micVolume?: number | undefined;
   isMicEnabled?: boolean | undefined;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export interface UpdateViewerRequest {
@@ -2399,7 +2399,7 @@ export interface UpdateViewerRequest {
   id: string;
   name?: string | undefined;
   liveview?: string | null | undefined;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 /** Device asset file type */
@@ -2408,7 +2408,7 @@ export interface UploadFileRequest {
   /** Device asset file type */
   fileType: UploadFileRequestFileType | (string & {});
   body?: string | undefined;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 /** An optional nested cause for the parent error */

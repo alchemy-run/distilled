@@ -31,7 +31,7 @@ const TELEMETRY = {
 export type GetProjectRequestMode = "3D" | "2D";
 export interface GetProjectRequest {
   mode?: GetProjectRequestMode | (string & {}) | undefined;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export interface GetProjectResponseDataShapesItemCase0PositionItem {
@@ -288,7 +288,7 @@ export interface GetProjectResponse {
 export interface ListAccessPointsRequest {
   /** Optional UniFi site filter. When set, only devices whose product siteId matches are returned. */
   siteId?: string | undefined;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export type ListAccessPointsResponseAccessPointsItemMount = "ceiling" | "wall" | "rack" | "floor";
@@ -322,7 +322,7 @@ export interface ListAccessPointsResponse {
 export interface ListFloorPlansRequest {
   /** Optional UniFi site filter. When set, only devices whose product siteId matches are returned. */
   siteId?: string | undefined;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export interface ListFloorPlansResponseFloorPlansItem {
@@ -352,7 +352,7 @@ export interface ListFloorPlansResponse {
 export interface ListInventoryRequest {
   /** Optional UniFi site filter. When set, only devices whose product siteId matches are returned. */
   siteId?: string | undefined;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export interface ListInventoryResponseDevicesItem {
@@ -373,7 +373,7 @@ export interface ListInventoryResponse {
 export interface ListSwitchesRequest {
   /** Optional UniFi site filter. When set, only devices whose product siteId matches are returned. */
   siteId?: string | undefined;
-  /** The console this call goes to, over the Console layer. Not sent. */
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
   console?: ConsoleLocation | undefined;
 }
 export type ListSwitchesResponseSwitchesItemStatus = "online" | "offline";
