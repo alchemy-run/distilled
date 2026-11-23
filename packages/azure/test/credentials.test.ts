@@ -2,6 +2,7 @@
  * Credential providers, no network: every token endpoint is a fake
  * HttpClient, and the environment is a ConfigProvider.
  */
+import type { ConfigError } from "@distilled.cloud/core/errors";
 import * as NodeFileSystem from "@effect/platform-node/NodeFileSystem";
 import * as ConfigProvider from "effect/ConfigProvider";
 import * as Effect from "effect/Effect";
@@ -84,7 +85,7 @@ const env = (vars: Record<string, string>) =>
 
 const run = <A, E>(
   effect: Effect.Effect<A, E, Credentials | HttpClient.HttpClient>,
-  credentials: Layer.Layer<Credentials>,
+  credentials: Layer.Layer<Credentials, ConfigError>,
   http: Layer.Layer<HttpClient.HttpClient>,
   vars: Record<string, string> = {},
 ) =>
@@ -99,7 +100,7 @@ const run = <A, E>(
 
 const runFlip = <A, E>(
   effect: Effect.Effect<A, E, Credentials | HttpClient.HttpClient>,
-  credentials: Layer.Layer<Credentials>,
+  credentials: Layer.Layer<Credentials, ConfigError>,
   http: Layer.Layer<HttpClient.HttpClient>,
   vars: Record<string, string> = {},
 ) => run(Effect.flip(effect), credentials, http, vars);
@@ -675,9 +676,16 @@ describe("fromEnv", () => {
     expect(calls).toHaveLength(1);
   });
 
-  test("nothing configured fails with ConfigError", async () => {
+  test("nothing configured fails with ConfigError when the layer is built", async () => {
     const { layer } = fakeHttp(() => "unreachable");
-    const error = await runFlip(config, fromEnv(), layer);
+    const error = await Effect.runPromise(
+      Layer.build(fromEnv()).pipe(
+        Effect.scoped,
+        Effect.flip,
+        Effect.provide(layer),
+        Effect.provide(env({})),
+      ),
+    );
     expect(error._tag).toBe("ConfigError");
     expect(error.message).toContain("AZURE_CLIENT_SECRET");
   });

@@ -12,6 +12,10 @@ import { originFromConfig } from "@distilled.cloud/core/protocol-http";
  * OpenAPI document already include the `/api/v2` prefix, so `apiBaseUrl` is
  * the account origin (`https://{subdomain}.zendesk.com`).
  *
+ * A layer here reads and checks its configuration when it is built: a
+ * missing value or a subdomain that is more than a host is a `ConfigError`
+ * at setup, and no call fails for it.
+ *
  * @see https://developer.zendesk.com/api-reference/introduction/security-and-auth/
  */
 import * as Context from "effect/Context";
@@ -26,7 +30,7 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
     "ZendeskCredentials",
   ) {}
 
@@ -72,29 +76,40 @@ const resolveBaseUrl = (config: {
   return Effect.fail(new ConfigError({ message: "Zendesk subdomain or apiBaseUrl is required" }));
 };
 
-/** Layer from an API token (`{email}/token`) + subdomain. */
+/** A layer that resolves and checks `config` once, when it is built. */
+const layer = (config: Effect.Effect<Config, ConfigError>): Layer.Layer<Credentials, ConfigError> =>
+  Layer.effect(
+    Credentials,
+    Effect.map(config, (resolved) => Effect.succeed(resolved)),
+  );
+
+/**
+ * Layer from an API token (`{email}/token`) + subdomain, which is checked
+ * when the layer is built.
+ */
 export const fromApiToken = (config: {
   readonly email: string;
   readonly apiToken: Redacted.Redacted<string>;
   readonly subdomain?: string;
   readonly apiBaseUrl?: string;
-}): Layer.Layer<Credentials> =>
-  Layer.succeed(
-    Credentials,
+}): Layer.Layer<Credentials, ConfigError> =>
+  layer(
     Effect.map(resolveBaseUrl(config), (apiBaseUrl) => ({
       authorization: basicToken(config.email, config.apiToken),
       apiBaseUrl,
     })),
   );
 
-/** Layer from an OAuth access token + subdomain. */
+/**
+ * Layer from an OAuth access token + subdomain, which is checked when the
+ * layer is built.
+ */
 export const fromAccessToken = (config: {
   readonly accessToken: Redacted.Redacted<string>;
   readonly subdomain?: string;
   readonly apiBaseUrl?: string;
-}): Layer.Layer<Credentials> =>
-  Layer.succeed(
-    Credentials,
+}): Layer.Layer<Credentials, ConfigError> =>
+  layer(
     Effect.map(resolveBaseUrl(config), (apiBaseUrl) => ({
       authorization: bearerToken(config.accessToken),
       apiBaseUrl,
@@ -103,10 +118,10 @@ export const fromAccessToken = (config: {
 
 /**
  * Reads ZENDESK_SUBDOMAIN (or ZENDESK_API_BASE_URL) plus either
- * ZENDESK_EMAIL + ZENDESK_API_TOKEN or ZENDESK_ACCESS_TOKEN.
+ * ZENDESK_EMAIL + ZENDESK_API_TOKEN or ZENDESK_ACCESS_TOKEN. The environment
+ * is read, and the subdomain checked, once: when the layer is built.
  */
-export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.succeed(
-  Credentials,
+export const CredentialsFromEnv: Layer.Layer<Credentials, ConfigError> = /*@__PURE__*/ layer(
   /*@__PURE__*/ Effect.gen(function* () {
     const subdomain = process.env.ZENDESK_SUBDOMAIN;
     const apiBaseUrl = process.env.ZENDESK_API_BASE_URL;

@@ -14,7 +14,7 @@ import * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import { describe, expect, test } from "vitest";
-import { ARM_SCOPE, Credentials, type Config } from "../src/credentials.ts";
+import { ARM_SCOPE, check, Credentials } from "../src/credentials.ts";
 import { AzureDataPlaneProtocol } from "../src/data-plane-protocol.ts";
 import { AzureProtocol } from "../src/protocol.ts";
 import * as Retry from "../src/retry.ts";
@@ -86,16 +86,19 @@ const subscriptionId = "00000000-0000-0000-0000-000000000001";
  * token answers every scope with `arm-token`.
  */
 const credentials = (staticToken = false) =>
-  Layer.succeed(
+  Layer.effect(
     Credentials,
-    Effect.succeed<Config>({
-      token: (scope) =>
-        Effect.succeed(
-          Redacted.make(staticToken || scope === ARM_SCOPE ? "arm-token" : `aad:${scope}`),
-        ),
-      subscriptionId,
-      apiBaseUrl: "https://management.azure.com",
-    }),
+    Effect.map(
+      check({
+        token: (scope) =>
+          Effect.succeed(
+            Redacted.make(staticToken || scope === ARM_SCOPE ? "arm-token" : `aad:${scope}`),
+          ),
+        subscriptionId,
+        apiBaseUrl: "https://management.azure.com",
+      }),
+      Effect.succeed,
+    ),
   );
 
 /** Run one operation and return the single request it sent (the response is not under test). */
@@ -546,16 +549,20 @@ describe("data-plane protocol details", () => {
       ledgerIdentity.GetLedgerIdentity({ ledgerId: "my-ledger" }).pipe(
         Retry.none,
         Effect.provide(
-          Layer.succeed(
+          Layer.effect(
             Credentials,
-            Effect.sync((): Config => {
-              resolved++;
-              return {
+            Effect.map(
+              check({
                 token: () => Effect.succeed(Redacted.make("arm-token")),
                 subscriptionId,
                 apiBaseUrl: "",
-              };
-            }),
+              }),
+              (checked) =>
+                Effect.sync(() => {
+                  resolved++;
+                  return checked;
+                }),
+            ),
           ),
         ),
         Effect.provide(layer),

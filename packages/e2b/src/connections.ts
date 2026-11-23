@@ -6,6 +6,7 @@
  * turn those results into the {@link SandboxConnection} /
  * {@link VolumeConnection} layers the envd and volume-content services read.
  */
+import type { ConfigError } from "@distilled.cloud/core/errors";
 import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import {
@@ -21,10 +22,13 @@ import type { VolumeAndToken } from "./services/volumes.ts";
 const redact = (value: NonNullable<Sandbox["envdAccessToken"]>): Redacted.Redacted<string> =>
   Redacted.isRedacted(value) ? value : Redacted.make(value);
 
-/** Addresses the envd services below it to a sandbox the control plane returned. */
+/**
+ * Addresses the envd services below it to a sandbox the control plane
+ * returned. The sandbox is checked once, when the layer is built.
+ */
 export const sandboxConnectionFor = (
   sandbox: Pick<Sandbox | SandboxDetail, "sandboxID" | "envdAccessToken" | "domain">,
-): Layer.Layer<SandboxConnection> =>
+): Layer.Layer<SandboxConnection, ConfigError> =>
   sandboxConnection({
     sandboxId: sandbox.sandboxID,
     accessToken:
@@ -34,8 +38,11 @@ export const sandboxConnectionFor = (
     domain: sandbox.domain ?? undefined,
   });
 
-/** Authenticates the `volumeContent` calls below it with a volume `getVolume` returned. */
+/**
+ * Authenticates the `volumeContent` calls below it with a volume `getVolume`
+ * returned. The volume is checked once, when the layer is built.
+ */
 export const volumeConnectionFor = (
   volume: Pick<VolumeAndToken, "token" | "domain">,
-): Layer.Layer<VolumeConnection> =>
+): Layer.Layer<VolumeConnection, ConfigError> =>
   volumeConnection({ token: redact(volume.token), domain: volume.domain ?? undefined });

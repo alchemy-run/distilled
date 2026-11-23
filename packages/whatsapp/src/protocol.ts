@@ -1,6 +1,5 @@
-import { ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
+import type { Checked } from "@distilled.cloud/core/config";
 import type { ErrorOf } from "@distilled.cloud/core/protocol";
-import { encodeLabel } from "@distilled.cloud/core/protocol-http";
 import { restProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
 /**
  * WhatsAppProtocol -- hand-written.
@@ -50,21 +49,12 @@ const graphError = (body: unknown): { code?: number; message?: string } | undefi
 };
 
 /**
- * `<apiBaseUrl>/<apiVersion>`. Refuses a version that can't be a URL path
- * segment (`""`, `.`, `..`, a lone UTF-16 surrogate) with
- * {@link ConfigError}; the protocol fails the call with it.
+ * `<apiBaseUrl>/<apiVersion>`. A version that can't be a URL path segment
+ * (`""`, `.`, `..`, a lone UTF-16 surrogate) is refused earlier, when the
+ * credentials layer is built (`check` in ./credentials.ts).
  */
-const baseUrlFor = (creds: Config): string | Effect.Effect<never, ConfigError> => {
-  const version = encodeLabel("apiVersion", creds.apiVersion);
-  if (version instanceof InvalidInput) {
-    return Effect.fail(
-      new ConfigError({
-        message: `The configured WhatsApp API version ${JSON.stringify(creds.apiVersion)} cannot be a URL path segment`,
-      }),
-    );
-  }
-  return `${creds.apiBaseUrl}/${version}`;
-};
+const baseUrlFor = (creds: Checked<Config>): string =>
+  `${creds.apiBaseUrl}/${encodeURIComponent(creds.apiVersion)}`;
 
 export const WhatsAppProtocol = /*@__PURE__*/ restProtocol({
   // Resolved on the calling fiber per request.

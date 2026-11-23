@@ -1,6 +1,6 @@
+import type { Checked } from "@distilled.cloud/core/config";
 import { ConfigError } from "@distilled.cloud/core/errors";
 import type { ErrorOf } from "@distilled.cloud/core/protocol";
-import { invalidHostLabelConfig } from "@distilled.cloud/core/protocol-http";
 import { restProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
 /**
  * S2Protocol -- the shared bearer-REST protocol instantiated for S2 (s2.dev).
@@ -17,7 +17,9 @@ import { restProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-
  * operations (`/streams`, `/streams/{stream}`, `/streams/{stream}/records...`)
  * go to the basin's own host -- `https://{basin}.b.s2.dev/v1` in the spec's
  * per-path `servers` -- with the configured `basin` substituted. A
- * basin-scoped call without a configured basin fails with `ConfigError`.
+ * basin-scoped call without a configured basin fails with `ConfigError`:
+ * only that call knows it needs one. A basin that can't be a host label is
+ * refused earlier, when the credentials layer is built (./credentials.ts).
  */
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
@@ -45,8 +47,11 @@ export type S2OpContext = Credentials | HttpClient.HttpClient;
  */
 const isBasinScoped = (uri: string): boolean => uri === "/streams" || uri.startsWith("/streams/");
 
-/** The route's base URL; credentials without a usable basin refuse a basin route. */
-const baseUrlFor = (creds: Config, uri: string): string | Effect.Effect<never, ConfigError> => {
+/** The route's base URL; credentials without a basin refuse a basin route. */
+const baseUrlFor = (
+  creds: Checked<Config>,
+  uri: string,
+): string | Effect.Effect<never, ConfigError> => {
   if (!isBasinScoped(uri)) return creds.accountBaseUrl;
   if (creds.basin === undefined || creds.basin === "") {
     return Effect.fail(
@@ -57,9 +62,7 @@ const baseUrlFor = (creds: Config, uri: string): string | Effect.Effect<never, C
       }),
     );
   }
-  // The basin becomes a label of the host name.
-  const invalid = invalidHostLabelConfig("S2 basin", creds.basin);
-  if (invalid !== undefined) return Effect.fail(invalid);
+  // The basin becomes a label of the host name; `check` made sure it can.
   return creds.basinBaseUrl.replace("{basin}", creds.basin);
 };
 

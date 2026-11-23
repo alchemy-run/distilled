@@ -278,7 +278,7 @@ const encode = ({ input, inputAst }: EncodeArgs) =>
     //     the URL already carries one (or the operation sends it as a header).
     let url = request.url;
     if (url.includes("{subscriptionId}")) {
-      const subscriptionId = configuredSubscriptionId(creds?.subscriptionId, http?.uri);
+      const subscriptionId = configuredSubscriptionId(creds, http?.uri);
       if (subscriptionId instanceof ConfigError) return yield* Effect.fail(subscriptionId);
       url = url.split("{subscriptionId}").join(subscriptionId);
     }
