@@ -1,4 +1,5 @@
 import { ConfigError } from "@distilled.cloud/core/errors";
+import { originFromConfig } from "@distilled.cloud/core/protocol-http";
 /**
  * Chronosphere credentials -- hand-written.
  *
@@ -30,11 +31,20 @@ export class Credentials
     "ChronosphereCredentials",
   ) {}
 
-/** Turn a domain or origin into `https://<host>`. */
-const originFrom = (value: string): string => {
+/**
+ * Turn an instance name (`acme`), host or origin into `https://<host>`. It
+ * picks the host only, so a value with a path, query or user fails with
+ * `ConfigError` (core `originFromConfig`).
+ */
+const originFrom = (value: string): Effect.Effect<string, ConfigError> => {
   const trimmed = value.replace(/\/+$/, "");
-  if (/^https?:\/\//i.test(trimmed)) return trimmed;
-  return trimmed.includes(".") ? `https://${trimmed}` : `https://${trimmed}.chronosphere.io`;
+  const origin = originFromConfig(
+    "Chronosphere instance",
+    /^[a-z][a-z0-9+.-]*:\/\//i.test(trimmed) || trimmed.includes(".")
+      ? trimmed
+      : `${trimmed}.chronosphere.io`,
+  );
+  return typeof origin === "string" ? Effect.succeed(origin) : Effect.fail(origin);
 };
 
 /** Layer from a redacted API token + instance origin. */
@@ -45,11 +55,11 @@ export const fromApiKey = (config: {
 }): Layer.Layer<Credentials> =>
   Layer.succeed(
     Credentials,
-    Effect.succeed({
+    Effect.map(originFrom(config.apiBaseUrl), (apiBaseUrl) => ({
       apiKey: config.apiKey,
-      apiBaseUrl: originFrom(config.apiBaseUrl),
+      apiBaseUrl,
       actor: config.actor,
-    }),
+    })),
   );
 
 /**
@@ -77,7 +87,7 @@ export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.
 
     return {
       apiKey: Redacted.make(apiKey),
-      apiBaseUrl: originFrom(domain),
+      apiBaseUrl: yield* originFrom(domain),
       actor: process.env.CHRONOSPHERE_ACTOR,
     };
   }),

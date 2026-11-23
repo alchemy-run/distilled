@@ -13,6 +13,7 @@
  */
 import * as EffectConfig from "@distilled.cloud/core/config";
 import { ConfigError } from "@distilled.cloud/core/errors";
+import { invalidHostLabelConfig } from "@distilled.cloud/core/protocol-http";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
@@ -72,21 +73,30 @@ export const CredentialsFromEnv = /*@__PURE__*/ Layer.succeed(
   ),
 );
 
-/** Credentials from a key pair (and optional session token, region and root domain). */
+/**
+ * Credentials from a key pair (and optional session token, region and root
+ * domain). The root domain ends every API host name, so a value that is not
+ * DNS labels fails each call with `ConfigError`.
+ */
 export const credentials = (config: {
   readonly secretId: string;
   readonly secretKey: Redacted.Redacted<string>;
   readonly sessionToken?: Redacted.Redacted<string>;
   readonly region?: string;
   readonly rootDomain?: string;
-}): Layer.Layer<Credentials> =>
-  Layer.succeed(
+}): Layer.Layer<Credentials> => {
+  const rootDomain = config.rootDomain ?? DEFAULT_ROOT_DOMAIN;
+  const invalid = invalidHostLabelConfig("Tencent Cloud rootDomain", rootDomain, true);
+  return Layer.succeed(
     Credentials,
-    Effect.succeed({
-      secretId: config.secretId,
-      secretKey: config.secretKey,
-      sessionToken: config.sessionToken,
-      region: config.region,
-      rootDomain: config.rootDomain ?? DEFAULT_ROOT_DOMAIN,
-    }),
+    invalid !== undefined
+      ? Effect.fail(invalid)
+      : Effect.succeed({
+          secretId: config.secretId,
+          secretKey: config.secretKey,
+          sessionToken: config.sessionToken,
+          region: config.region,
+          rootDomain,
+        }),
   );
+};

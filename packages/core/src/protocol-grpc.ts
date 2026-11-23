@@ -51,11 +51,13 @@ import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Stream from "effect/Stream";
 import { GrpcTransport, hasTrailers, trailersOf } from "./grpc-transport.ts";
+import * as MaxMessageBytes from "./max-message-bytes.ts";
 import {
   decodeMessage,
   encodeMessage,
   frame,
   FrameReader,
+  FrameTooLargeError,
   type ProtoDescriptors,
 } from "./protobuf.ts";
 import { InvalidInput, matchTypedError } from "./protocol-http.ts";
@@ -180,6 +182,12 @@ export interface GrpcProtocolOptions<
    * carries its trailers in its body, so `fetch` sees every status.
    */
   readonly web?: boolean;
+  /**
+   * The largest message the server may send, when neither the call's
+   * `maxMessageBytes` nor the `MaxMessageBytes` layer sets one. Default
+   * `DEFAULT_MAX_MESSAGE_BYTES` (16 MiB). See `max-message-bytes.ts`.
+   */
+  readonly maxMessageBytes?: number;
 }
 
 /** A non-OK gRPC status, as `statusError` receives it. */
@@ -322,6 +330,7 @@ interface GrpcOptions<ParseError, StatusError> {
   readonly descriptors: ProtoDescriptors;
   readonly statusError?: (info: StatusInfo) => StatusError;
   readonly web?: boolean;
+  readonly maxMessageBytes?: number;
   readonly parseError: (info: RestParseErrorInfo) => ParseError;
 }
 
@@ -567,8 +576,40 @@ const grpcMethods = <RestError, Requirements, ParseError, StatusError>(
       },
     );
 
+  /** The call's message size limit, or `InvalidInput` for a bad `maxMessageBytes`. */
+  const limitOf = (
+    context: Context.Context<any>,
+    input: unknown,
+  ): Effect.Effect<number, InvalidInput> => {
+    const limit = MaxMessageBytes.resolve(context, input, options.maxMessageBytes);
+    return typeof limit === "number"
+      ? Effect.succeed(limit)
+      : Effect.fail(new InvalidInput({ member: "maxMessageBytes", message: limit.invalid }));
+  };
+
+  /** A frame the reader refused: over the size limit (the SDK's parse error), or malformed. */
+  const frameFailure = (
+    args: DecodeArgs,
+    response: HttpClientResponse.HttpClientResponse,
+    cause: unknown,
+  ): Effect.Effect<never, Failure, Requirements> =>
+    cause instanceof FrameTooLargeError
+      ? parseFailure(undefined, cause.message)
+      : badFrame(args, response, cause);
+
+  /** Decode a whole reply (its body read to the end), with the limit in scope. */
+  const decode = (args: ProtocolDecodeArgs): Effect.Effect<unknown, Failure, Requirements> =>
+    Effect.withFiber((fiber) =>
+      Effect.flatMap(limitOf(fiber.context as Context.Context<any>, undefined), (limit) =>
+        decodeWith(args, limit),
+      ),
+    );
+
   /** Decode a whole reply (its body read to the end). */
-  const decode = (args: ProtocolDecodeArgs): Effect.Effect<unknown, Failure, Requirements> => {
+  const decodeWith = (
+    args: ProtocolDecodeArgs,
+    limit: number,
+  ): Effect.Effect<unknown, Failure, Requirements> => {
     const { response } = args;
     const failed = notGrpc(args, response);
     if (failed) return failed;
@@ -582,13 +623,13 @@ const grpcMethods = <RestError, Requirements, ParseError, StatusError>(
       Effect.flatMap(
         trailersOf(response),
         (trailers): Effect.Effect<unknown, Failure, Requirements> => {
-          const reader = new FrameReader();
+          const reader = new FrameReader(limit);
           let frames: Uint8Array[];
           try {
             frames = reader.push(new Uint8Array(buffer));
           } catch (cause) {
             return Effect.flatMap(endOf(args, response, trailers, true), () =>
-              badFrame(args, response, cause),
+              frameFailure(args, response, cause),
             );
           }
           const all = { ...trailers, ...reader.trailers };
@@ -637,8 +678,10 @@ const grpcMethods = <RestError, Requirements, ParseError, StatusError>(
           config: operation.config,
         };
         const ms = deadlineMillis(context);
-        const run = Effect.flatMap(send(context, operation, input, ms), (response) =>
-          decode({ ...args, response }),
+        const run = Effect.flatMap(limitOf(context, input), (limit) =>
+          Effect.flatMap(send(context, operation, input, ms), (response) =>
+            decodeWith({ ...args, response }, limit),
+          ),
         );
         return ms === undefined
           ? run
@@ -657,8 +700,10 @@ const grpcMethods = <RestError, Requirements, ParseError, StatusError>(
             config: operation.config,
           };
           const ms = deadlineMillis(context);
-          const messages = Effect.map(send(context, operation, input, ms), (response) =>
-            streamReply(args, response),
+          const messages = Effect.flatMap(limitOf(context, input), (limit) =>
+            Effect.map(send(context, operation, input, ms), (response) =>
+              streamReply(args, response, limit),
+            ),
           );
           const stream = Stream.unwrap(messages);
           return Effect.succeed(
@@ -677,6 +722,7 @@ const grpcMethods = <RestError, Requirements, ParseError, StatusError>(
   function streamReply(
     args: DecodeArgs,
     response: HttpClientResponse.HttpClientResponse,
+    limit: number,
   ): Stream.Stream<unknown, Failure, Requirements> {
     const headers = response.headers as Headers;
     const request = response.request;
@@ -685,7 +731,7 @@ const grpcMethods = <RestError, Requirements, ParseError, StatusError>(
     const method = methodOf(request.url);
     if (!method) return Stream.fromEffect(sdkFailure(`no gRPC descriptor for ${request.url}`));
     const [, responseType] = method;
-    const reader = new FrameReader();
+    const reader = new FrameReader(limit);
     const item = (payload: Uint8Array): Effect.Effect<unknown, Failure, Requirements> => {
       let value: unknown;
       try {
@@ -706,7 +752,7 @@ const grpcMethods = <RestError, Requirements, ParseError, StatusError>(
           try {
             frames = reader.push(chunk);
           } catch (cause) {
-            return badFrame(args, response, cause);
+            return frameFailure(args, response, cause);
           }
           return Effect.forEach(frames, item);
         }),

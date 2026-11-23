@@ -830,6 +830,40 @@ export const invalidHostLabelConfig = (
       });
 
 /**
+ * The origin (`https://host[:port]`) that a host or origin read from
+ * credentials config names, or the `ConfigError` refusing it. The value is
+ * a host (`acme.zendesk.com`, `udm.lan:8443`, given `defaultScheme`) or an
+ * origin (`https://acme.zendesk.com/`). It picks the host and nothing else:
+ * a user, path, query or fragment, a scheme other than `http`/`https`, or a
+ * host name that is not DNS labels ({@link isHostLabel}) or an IPv6 literal
+ * is refused.
+ */
+export const originFromConfig = (
+  name: string,
+  value: string,
+  defaultScheme: "https" | "http" = "https",
+): string | ConfigError => {
+  const refuse = (reason: string) =>
+    new ConfigError({ message: `${name} ${JSON.stringify(value)} ${reason}` });
+  const trimmed = value.replace(/\/+$/, "");
+  const candidate = /^[a-z][a-z0-9+.-]*:\/\//i.test(trimmed)
+    ? trimmed
+    : `${defaultScheme}://${trimmed}`;
+  if (!URL.canParse(candidate)) return refuse("is not a host name or origin");
+  const url = new URL(candidate);
+  if (url.protocol !== "https:" && url.protocol !== "http:") {
+    return refuse("must use https:// or http://");
+  }
+  if (url.href !== `${url.origin}/`) {
+    return refuse("must be a host, such as example.com, with no user, path, query or fragment");
+  }
+  if (!url.hostname.startsWith("[") && !isHostLabel(url.hostname, true)) {
+    return refuse("cannot be a host name: each label must be letters, digits and hyphens");
+  }
+  return url.origin;
+};
+
+/**
  * Build an HTTP request from an operation input and its schema, driven by
  * the trait annotations: `Http()` supplies method + URI template, `Label()`
  * members fill URI placeholders, `Header()`/`Query()` members bind to

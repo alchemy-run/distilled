@@ -35,6 +35,20 @@ export const ENVD_PORT = 49983;
 /** The control plane root for a domain. */
 export const apiBaseUrlFor = (domain: string): string => `https://api.${domain}`;
 
+/** The domain ends every E2B host name, so it must be DNS labels. */
+const invalidDomain = (domain: string): ConfigError | undefined =>
+  invalidHostLabelConfig("E2B domain", domain, true);
+
+/** `apiBaseUrl` when given, else the domain's control plane root. */
+const resolveApiBaseUrl = (
+  domain: string,
+  apiBaseUrl: string | undefined,
+): Effect.Effect<string, ConfigError> => {
+  if (apiBaseUrl !== undefined) return Effect.succeed(apiBaseUrl);
+  const invalid = invalidDomain(domain);
+  return invalid === undefined ? Effect.succeed(apiBaseUrlFor(domain)) : Effect.fail(invalid);
+};
+
 export interface Config {
   /** Team API key, sent as `X-API-Key`. Every control-plane call except API keys and auth takes it. */
   readonly apiKey?: Redacted.Redacted<string>;
@@ -88,13 +102,16 @@ export const CredentialsFromEnv = /*@__PURE__*/ Layer.succeed(
           }),
         );
       }
-      return Effect.succeed<Config>({
-        apiKey,
-        accessToken,
-        teamId: optional(env.teamId),
-        domain: env.domain,
-        apiBaseUrl: optional(env.apiBaseUrl) ?? apiBaseUrlFor(env.domain),
-      });
+      return Effect.map(
+        resolveApiBaseUrl(env.domain, optional(env.apiBaseUrl)),
+        (apiBaseUrl): Config => ({
+          apiKey,
+          accessToken,
+          teamId: optional(env.teamId),
+          domain: env.domain,
+          apiBaseUrl,
+        }),
+      );
     }),
   ),
 );
@@ -110,13 +127,13 @@ export const credentials = (config: {
   const domain = config.domain ?? DEFAULT_DOMAIN;
   return Layer.succeed(
     Credentials,
-    Effect.succeed({
+    Effect.map(resolveApiBaseUrl(domain, config.apiBaseUrl), (apiBaseUrl) => ({
       apiKey: config.apiKey,
       accessToken: config.accessToken,
       teamId: config.teamId,
       domain,
-      apiBaseUrl: config.apiBaseUrl ?? apiBaseUrlFor(domain),
-    }),
+      apiBaseUrl,
+    })),
   );
 };
 
@@ -163,9 +180,9 @@ export const envdBaseUrlFor = (config: SandboxConnectionConfig): string => {
 
 /**
  * The {@link SandboxConnection} on the calling fiber, for the envd calls.
- * Fails with `ConfigError` when none is provided, or when the sandbox is
- * addressed by host name (`<port>-<id>.<domain>`) and that label is not one
- * DNS label.
+ * Fails with `ConfigError` when none is provided, when the domain is not
+ * DNS labels, or when the sandbox is addressed by host name
+ * (`<port>-<id>.<domain>`) and that label is not one DNS label.
  */
 export const resolveSandboxConnection: Effect.Effect<SandboxConnectionConfig, ConfigError> =
   /*@__PURE__*/ Effect.flatMap(Effect.serviceOption(SandboxConnection), (option) => {
@@ -178,12 +195,15 @@ export const resolveSandboxConnection: Effect.Effect<SandboxConnectionConfig, Co
       );
     }
     const sandbox = option.value;
-    const invalid = SHARED_SANDBOX_HOST_DOMAINS.has(sandbox.domain ?? DEFAULT_DOMAIN)
-      ? undefined
-      : invalidHostLabelConfig(
-          "E2B sandbox host label (<port>-<sandboxId>)",
-          `${sandbox.port ?? ENVD_PORT}-${sandbox.sandboxId}`,
-        );
+    const domain = sandbox.domain ?? DEFAULT_DOMAIN;
+    const invalid =
+      invalidDomain(domain) ??
+      (SHARED_SANDBOX_HOST_DOMAINS.has(domain)
+        ? undefined
+        : invalidHostLabelConfig(
+            "E2B sandbox host label (<port>-<sandboxId>)",
+            `${sandbox.port ?? ENVD_PORT}-${sandbox.sandboxId}`,
+          ));
     return invalid === undefined ? Effect.succeed(sandbox) : Effect.fail(invalid);
   });
 
@@ -210,3 +230,22 @@ export class VolumeConnection
 /** Authenticates the `volumeContent` calls below it with one volume's token. */
 export const volumeConnection = (config: VolumeConnectionConfig): Layer.Layer<VolumeConnection> =>
   Layer.succeed(VolumeConnection, config);
+
+/**
+ * The {@link VolumeConnection} on the calling fiber, for the volume content
+ * calls. Fails with `ConfigError` when none is provided, or when its domain
+ * is not DNS labels.
+ */
+export const resolveVolumeConnection: Effect.Effect<VolumeConnectionConfig, ConfigError> =
+  /*@__PURE__*/ Effect.flatMap(Effect.serviceOption(VolumeConnection), (option) => {
+    if (option._tag === "None") {
+      return Effect.fail(
+        new ConfigError({
+          message:
+            "E2B volume content operations authenticate with the volume's token -- provide E2B.volumeConnection({ token })",
+        }),
+      );
+    }
+    const invalid = invalidDomain(option.value.domain ?? DEFAULT_DOMAIN);
+    return invalid === undefined ? Effect.succeed(option.value) : Effect.fail(invalid);
+  });

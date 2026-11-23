@@ -573,6 +573,17 @@ export interface SdkSpec {
     /** The retry tag expression (e.g. `Retry.Retry`). Omit to disable retries. */
     readonly retry?: string;
     /**
+     * A type intersected with every operation's input: optional members the
+     * protocol reads and never sends, e.g. `maxMessageBytes` from
+     * `MaxMessageBytesInput` in `@distilled.cloud/core/max-message-bytes`.
+     * An input that models a member of the same name keeps its own.
+     */
+    readonly callInput?: {
+      readonly type: string;
+      readonly from: string;
+      readonly member: string;
+    };
+    /**
      * Extra config lines inserted before the pagination entry (e.g. AWS's
      * `operationName` and `endpointHostPrefix`).
      */
@@ -1472,10 +1483,17 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
         : streamWhen !== undefined
           ? tsRef(streamWhen.items)
           : undefined;
+      const callInput =
+        decl.callInput !== undefined &&
+        !memberInfos(shapes[ctx.op.def.__input] ?? {}).some(
+          (m) => m.tsName === decl.callInput!.member,
+        )
+          ? ` & ${decl.callInput.type}`
+          : "";
       const typeAnnotation =
         overrides?.typeAnnotation ??
         `API.${paginated ? "PaginatedOperationMethod" : streaming ? "StreamingOperationMethod" : "OperationMethod"}<\n` +
-          `  ${ctx.inputName},\n` +
+          `  ${ctx.inputName}${callInput},\n` +
           `  ${ctx.outputTsType},\n` +
           `  ${ctx.opName}Error,\n` +
           `  ${contextType}` +
@@ -1873,6 +1891,9 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
         ? `import { ${pagImports.join(", ")} } from "../pagination.ts";\n`
         : "") +
       (errorImports.length ? `import { ${errorImports.join(", ")} } from "../errors.ts";\n` : "") +
+      (decl.callInput
+        ? `import type { ${decl.callInput.type} } from "${decl.callInput.from}";\n`
+        : "") +
       (retryNs ? `import * as ${retryNs} from "../retry.ts";\n\n` : "\n") +
       // Re-exported so inferred provider types downstream can always name them.
       `export type { ${decl.commonErrorType}, ${decl.contextType} };\n\n` +
