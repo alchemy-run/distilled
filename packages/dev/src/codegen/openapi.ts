@@ -47,7 +47,7 @@
  */
 
 import { unionizeDiscriminators } from "./discriminators.ts";
-import { ERROR_BODIES_TRAIT } from "./generator.ts";
+import { ERROR_BODIES_TRAIT, RAW_RESPONSE_TRAIT } from "./generator.ts";
 import { ADDITIONAL_PROPERTIES_TRAIT } from "./members.ts";
 import {
   isMechanicalOperationId,
@@ -66,13 +66,8 @@ import {
 
 /** Member-level nullability (`S.NullOr` + `| null` via `SdkSpec.nullableTrait`). */
 export const NULLABLE_TRAIT = "com.distilled.openapi#nullable";
-/**
- * Marks the sole member of a synthesized response wrapper for bare
- * array/scalar response bodies. SdkSpecs bind it with a `rootPipe`
- * (`T.RawResponseRoot()` from `core/protocol-rest`), so the emitted response
- * type IS the payload type.
- */
-export const RAW_RESPONSE_TRAIT = "com.distilled.openapi#rawResponse";
+/** Defined next to the generator, which emits binary bodies from it. */
+export { RAW_RESPONSE_TRAIT };
 /**
  * Wire-matching rules for a generated error class (see
  * `SdkSpec.errorMatchersTrait` + `applyErrorMatchers`). The converter stamps

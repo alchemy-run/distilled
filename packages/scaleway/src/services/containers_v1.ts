@@ -533,7 +533,11 @@ export interface GetPrivateEndpointCertificateAuthorityRawRequest {
   /** The region you want to target */
   region?: GetPrivateEndpointCertificateAuthorityRequestRegion | (string & {}) | undefined;
 }
-export type GetPrivateEndpointCertificateAuthorityRawResponse = Uint8Array;
+export interface GetPrivateEndpointCertificateAuthorityRawResponse {
+  body: Uint8Array;
+  /** Media type of the body, from the response's `Content-Type` header (e.g. `image/jpeg`). */
+  contentType?: string | undefined;
+}
 export type GetTriggerRequestRegion = "fr-par" | "nl-ams" | "pl-waw" | "it-mil";
 export interface GetTriggerRequest {
   /** The region you want to target */
@@ -1489,7 +1493,12 @@ function __c9(j: number): any {
         ),
       ).annotate({ identifier: "GetPrivateEndpointCertificateAuthorityRawRequest" });
     case 1:
-      return S.instanceOf(Uint8Array).pipe(/*@__PURE__*/ T.BinaryResponse());
+      return S.suspend(() =>
+        S.Struct({
+          body: S.instanceOf(Uint8Array).pipe(T.RawResponse(), T.BinaryResponse()),
+          contentType: S.optional(S.String.pipe(T.Header("Content-Type"))),
+        }),
+      ).annotate({ identifier: "GetPrivateEndpointCertificateAuthorityRawResponse" });
   }
 }
 function __c10(j: number): any {

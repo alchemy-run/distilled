@@ -45,7 +45,11 @@ export interface DownloadImpactReportRawRequest {
   /** Type of report to download (e.g. `monthly`). */
   type?: ReportType | (string & {}) | undefined;
 }
-export type DownloadImpactReportRawResponse = Uint8Array;
+export interface DownloadImpactReportRawResponse {
+  body: Uint8Array;
+  /** Media type of the body, from the response's `Content-Type` header (e.g. `image/jpeg`). */
+  contentType?: string | undefined;
+}
 export type GetImpactDataRequestRegionsList = Array<string>;
 export type GetImpactDataRequestZonesList = Array<string>;
 export type GetImpactDataRequestProjectIdsList = Array<string>;
@@ -296,7 +300,12 @@ function __c1(j: number): any {
         ),
       ).annotate({ identifier: "DownloadImpactReportRawRequest" });
     case 1:
-      return S.instanceOf(Uint8Array).pipe(/*@__PURE__*/ T.BinaryResponse());
+      return S.suspend(() =>
+        S.Struct({
+          body: S.instanceOf(Uint8Array).pipe(T.RawResponse(), T.BinaryResponse()),
+          contentType: S.optional(S.String.pipe(T.Header("Content-Type"))),
+        }),
+      ).annotate({ identifier: "DownloadImpactReportRawResponse" });
   }
 }
 function __c2(j: number): any {

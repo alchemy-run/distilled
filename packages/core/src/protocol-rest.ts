@@ -109,7 +109,12 @@ export const binaryResponseSymbol = /*@__PURE__*/ Symbol.for(
   "@distilled.cloud/core/binary-response",
 );
 
-/** Decode a successful raw binary response as bytes, without text conversion. */
+/**
+ * Decode a successful raw binary response as bytes, without text conversion.
+ * On a whole output, the output is the bytes. On the `RawResponse()` member
+ * of a structure output, that member gets the bytes and the structure's
+ * `Header` members get their response headers (a download's `Content-Type`).
+ */
 export const BinaryResponse = () => makeAnnotation(binaryResponseSymbol, true);
 
 // =============================================================================
@@ -397,7 +402,10 @@ export const validateSuccess = <E>(
 
 /** Per-operation decode facts, read from the output schema once. */
 interface DecodePlan {
+  /** The whole output is the body's bytes. */
   readonly binary: boolean;
+  /** The structure member that gets the body's bytes, next to its header members. */
+  readonly binaryMember: string | undefined;
   readonly verbatim: boolean;
   /**
    * A member of a structure output that receives the whole body
@@ -415,16 +423,46 @@ const decodePlans = /*@__PURE__*/ new WeakMap<AST.AST, DecodePlan>();
 const decodePlanFor = (outputAst: AST.AST): DecodePlan => {
   let plan = decodePlans.get(outputAst);
   if (plan === undefined) {
+    const bodyMember = getProps(outputAst).find((prop) => hasPropAnn(prop, rawResponseSymbol));
     plan = {
       binary: getAnn(outputAst, binaryResponseSymbol) !== undefined,
+      binaryMember:
+        bodyMember !== undefined && hasPropAnn(bodyMember, binaryResponseSymbol)
+          ? String(bodyMember.name)
+          : undefined,
       verbatim: mapsVerbatim(outputAst, "decode"),
       text: resolveNode(outputAst)._tag === "String",
       headers: responseHeaderMembers(outputAst),
-      bodyMember: getProps(outputAst).find((prop) => hasPropAnn(prop, rawResponseSymbol)),
+      bodyMember,
     };
     decodePlans.set(outputAst, plan);
   }
   return plan;
+};
+
+/**
+ * Read a 2xx response of a binary output ({@link BinaryResponse}) as bytes:
+ * the bytes themselves for a binary whole output, or the structure with the
+ * bytes in its body member and its header members filled. `undefined` when
+ * the output is not binary. A body read that fails (reset or abort
+ * mid-body) fails with its `HttpClientError`. For hand-written protocols
+ * too, so every SDK decodes a download the same way.
+ */
+export const readBinaryResponse = (
+  response: HttpClientResponse.HttpClientResponse,
+  outputAst: AST.AST,
+): Effect.Effect<unknown, HttpClientError.HttpClientError> | undefined => {
+  const plan = decodePlanFor(outputAst);
+  if (plan.binary) return Effect.map(response.arrayBuffer, (bytes) => new Uint8Array(bytes));
+  const member = plan.binaryMember;
+  if (member === undefined) return undefined;
+  return Effect.map(response.arrayBuffer, (bytes) =>
+    withResponseHeaders(
+      plan.headers,
+      { [member]: new Uint8Array(bytes) },
+      response.headers as Record<string, string | undefined>,
+    ),
+  );
 };
 
 /**
@@ -683,21 +721,22 @@ export const restProtocolMethods = <
   ): Effect.Effect<unknown, Failure> =>
     // A body read that fails (reset or abort mid-body) fails the call with
     // its `HttpClientError`, a protocol error.
-    response.status >= 200 && response.status < 300 && decodePlanFor(outputAst).binary
-      ? Effect.map(response.arrayBuffer, (bytes) => new Uint8Array(bytes))
-      : Effect.flatMap(response.text, (text) => {
-          recordPageHeaders(context, response.headers);
-          const decoded = decodeText(
-            context,
-            response.status,
-            response.headers as Record<string, string | undefined>,
-            text ?? "",
-            outputAst,
-            errorClasses,
-            framing,
-          );
-          return decoded.ok ? Effect.succeed(decoded.value) : Effect.fail(decoded.error);
-        });
+    (response.status >= 200 && response.status < 300
+      ? readBinaryResponse(response, outputAst)
+      : undefined) ??
+    Effect.flatMap(response.text, (text) => {
+      recordPageHeaders(context, response.headers);
+      const decoded = decodeText(
+        context,
+        response.status,
+        response.headers as Record<string, string | undefined>,
+        text ?? "",
+        outputAst,
+        errorClasses,
+        framing,
+      );
+      return decoded.ok ? Effect.succeed(decoded.value) : Effect.fail(decoded.error);
+    });
 
   /**
    * Send `op`'s request on the calling fiber, then `receive` its response:

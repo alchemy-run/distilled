@@ -674,7 +674,11 @@ export interface GetR2ObjectRequest {
   /** The object key. May contain `/`, which must stay literal in the path. Percent-encoded dots, slashes and backslashes are refused. */
   key: string;
 }
-export type GetR2ObjectResponse = Uint8Array;
+export interface GetR2ObjectResponse {
+  body: Uint8Array;
+  /** Media type of the body, from the response's `Content-Type` header (e.g. `image/jpeg`). */
+  contentType?: string | undefined;
+}
 export interface GetWhoamiRequest {}
 export type WhoamiKeyPermissionsValueList = Array<string>;
 /** Grants by resource, for example `{"app": ["read", "write"], "secret": ["list", "write"]}`. */
@@ -1314,7 +1318,7 @@ export const getR2Object: API.OperationMethod<
   SproutboatOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(464, __c29, 0) as any as S.Schema<GetR2ObjectRequest>,
-  output: __S(465, __c29, 1) as any as S.Codec<GetR2ObjectResponse>,
+  output: __S(465, __c29, 1) as any as S.Schema<GetR2ObjectResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
@@ -2338,7 +2342,12 @@ function __c29(j: number): any {
         ),
       ).annotate({ identifier: "GetR2ObjectRequest" });
     case 1:
-      return S.instanceOf(Uint8Array).pipe(/*@__PURE__*/ T.BinaryResponse());
+      return S.suspend(() =>
+        S.Struct({
+          body: S.instanceOf(Uint8Array).pipe(T.RawResponse(), T.BinaryResponse()),
+          contentType: S.optional(S.String.pipe(T.Header("Content-Type"))),
+        }),
+      ).annotate({ identifier: "GetR2ObjectResponse" });
   }
 }
 function __c30(j: number): any {

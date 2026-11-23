@@ -368,7 +368,11 @@ export interface GetClusterCertificateRawRequest {
   /** UUID of the cluster. (UUID format) */
   cluster_id: string;
 }
-export type GetClusterCertificateRawResponse = Uint8Array;
+export interface GetClusterCertificateRawResponse {
+  body: Uint8Array;
+  /** Media type of the body, from the response's `Content-Type` header (e.g. `image/jpeg`). */
+  contentType?: string | undefined;
+}
 export type GetClusterMetricsRequestZone =
   | "fr-par-1"
   | "fr-par-2"
@@ -1305,7 +1309,12 @@ function __c8(j: number): any {
         ),
       ).annotate({ identifier: "GetClusterCertificateRawRequest" });
     case 1:
-      return S.instanceOf(Uint8Array).pipe(/*@__PURE__*/ T.BinaryResponse());
+      return S.suspend(() =>
+        S.Struct({
+          body: S.instanceOf(Uint8Array).pipe(T.RawResponse(), T.BinaryResponse()),
+          contentType: S.optional(S.String.pipe(T.Header("Content-Type"))),
+        }),
+      ).annotate({ identifier: "GetClusterCertificateRawResponse" });
   }
 }
 function __c9(j: number): any {

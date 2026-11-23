@@ -140,6 +140,15 @@ export const errorCategories = (
  */
 export const ERROR_BODIES_TRAIT = "distilled.errors#bodies";
 
+/**
+ * Marks the member of a synthesized response wrapper that receives the whole
+ * response body (bare array/scalar bodies, binary downloads). SdkSpecs bind
+ * it with a `rootPipe` (`T.RawResponseRoot()` from `core/protocol-rest`), so
+ * a sole such member makes the emitted response type the payload type. A
+ * `Blob` one is a binary download: see {@link binaryBody}.
+ */
+export const RAW_RESPONSE_TRAIT = "com.distilled.openapi#rawResponse";
+
 /** The HTTP statuses an error class stands for: its `httpError`, then its matchers' statuses. */
 const errorStatuses = (
   traits: Record<string, any> | undefined,
@@ -216,6 +225,16 @@ export interface EmittedMember {
   readonly doc: string | undefined;
   readonly traits: Record<string, any>;
 }
+
+/**
+ * A binary download's body: a `Blob` member receiving the whole response
+ * ({@link RAW_RESPONSE_TRAIT}). It decodes as the response's bytes
+ * (`T.BinaryResponse()`, core `protocol-rest`), whatever the SDK's `Blob`
+ * prelude is for requests. `finalizeConvert` gives its output a
+ * `contentType` header member (`./binary-response.ts`).
+ */
+export const binaryBody = (m: Pick<EmittedMember, "target" | "traits">): boolean =>
+  m.target === "smithy.api#Blob" && RAW_RESPONSE_TRAIT in m.traits;
 
 export interface PaginationProfile {
   /** Protocol const for paginated ops. Defaults to operationDecl.protocol. */
@@ -946,15 +965,18 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
     info: EmittedMember,
     tsRefFn: (target: string) => string,
   ): string | undefined =>
+    (binaryBody(info) ? "Uint8Array" : undefined) ??
     spec.memberTsType?.(info, tsRefFn) ??
     (spec.extraBindings ?? []).find((b) => b.binding === info.binding && b.tsType !== undefined)
       ?.tsType;
 
   const memberExpr = (info: EmittedMember, selfIdx: number): string => {
-    let expr =
-      spec.memberSchema?.(info, (target) => ref(target, selfIdx)) ?? ref(info.target, selfIdx);
+    const binary = binaryBody(info);
+    let expr = binary
+      ? "S.instanceOf(Uint8Array)"
+      : (spec.memberSchema?.(info, (target) => ref(target, selfIdx)) ?? ref(info.target, selfIdx));
     if (info.nullable) expr = `S.NullOr(${expr})`;
-    const pipes = memberPipes(info);
+    const pipes = [...memberPipes(info), ...(binary ? ["T.BinaryResponse()"] : [])];
     if (pipes.length) expr = `${expr}.pipe(${pipes.join(", ")})`;
     return expr;
   };

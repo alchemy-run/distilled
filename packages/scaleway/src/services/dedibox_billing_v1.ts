@@ -49,14 +49,22 @@ export interface ScalewayStdFile {
 export interface DownloadInvoiceRawRequest {
   invoice_id: number;
 }
-export type DownloadInvoiceRawResponse = Uint8Array;
+export interface DownloadInvoiceRawResponse {
+  body: Uint8Array;
+  /** Media type of the body, from the response's `Content-Type` header (e.g. `image/jpeg`). */
+  contentType?: string | undefined;
+}
 export interface DownloadRefundRequest {
   refund_id: number;
 }
 export interface DownloadRefundRawRequest {
   refund_id: number;
 }
-export type DownloadRefundRawResponse = Uint8Array;
+export interface DownloadRefundRawResponse {
+  body: Uint8Array;
+  /** Media type of the body, from the response's `Content-Type` header (e.g. `image/jpeg`). */
+  contentType?: string | undefined;
+}
 export interface GetInvoiceRequest {
   invoice_id: number;
 }
@@ -187,7 +195,7 @@ export const downloadInvoiceRaw: API.OperationMethod<
   ScalewayOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12, __c3, 0) as any as S.Schema<DownloadInvoiceRawRequest>,
-  output: __S(13, __c3, 1) as any as S.Schema<DownloadInvoiceRawResponse>,
+  output: __S(16, __c4, 0) as any as S.Schema<DownloadInvoiceRawResponse>,
   errors: [],
   serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
@@ -204,7 +212,7 @@ export const downloadRefund: API.OperationMethod<
   DownloadRefundError,
   ScalewayOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c4, 0) as any as S.Schema<DownloadRefundRequest>,
+  input: __S(20, __c5, 0) as any as S.Schema<DownloadRefundRequest>,
   output: __S(8, __c2, 0) as any as S.Schema<ScalewayStdFile>,
   errors: [],
   serviceErrors: ScalewayServiceErrors,
@@ -222,8 +230,8 @@ export const downloadRefundRaw: API.OperationMethod<
   DownloadRefundRawError,
   ScalewayOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20, __c5, 0) as any as S.Schema<DownloadRefundRawRequest>,
-  output: __S(21, __c5, 1) as any as S.Schema<DownloadRefundRawResponse>,
+  input: __S(24, __c6, 0) as any as S.Schema<DownloadRefundRawRequest>,
+  output: __S(16, __c4, 0) as any as S.Schema<DownloadRefundRawResponse>,
   errors: [],
   serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
@@ -240,8 +248,8 @@ export const getInvoice: API.OperationMethod<
   GetInvoiceError,
   ScalewayOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c6, 0) as any as S.Schema<GetInvoiceRequest>,
-  output: __S(25, __c6, 1) as any as S.Schema<Invoice>,
+  input: __S(28, __c7, 0) as any as S.Schema<GetInvoiceRequest>,
+  output: __S(29, __c7, 1) as any as S.Schema<Invoice>,
   errors: [],
   serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
@@ -258,8 +266,8 @@ export const getRefund: API.OperationMethod<
   GetRefundError,
   ScalewayOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c8, 0) as any as S.Schema<GetRefundRequest>,
-  output: __S(33, __c8, 1) as any as S.Schema<Refund>,
+  input: __S(36, __c9, 0) as any as S.Schema<GetRefundRequest>,
+  output: __S(37, __c9, 1) as any as S.Schema<Refund>,
   errors: [],
   serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
@@ -278,8 +286,8 @@ export const listInvoices: API.PaginatedOperationMethod<
   InvoiceSummary
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(36, __c9, 0) as any as S.Schema<ListInvoicesRequest>,
-    output: __S(39, __c9, 3) as any as S.Schema<ListInvoicesResponse>,
+    input: __S(40, __c10, 0) as any as S.Schema<ListInvoicesRequest>,
+    output: __S(43, __c10, 3) as any as S.Schema<ListInvoicesResponse>,
     errors: [],
     serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
@@ -307,8 +315,8 @@ export const listRefunds: API.PaginatedOperationMethod<
   RefundSummary
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(40, __c10, 0) as any as S.Schema<ListRefundsRequest>,
-    output: __S(43, __c10, 3) as any as S.Schema<ListRefundsResponse>,
+    input: __S(44, __c11, 0) as any as S.Schema<ListRefundsRequest>,
+    output: __S(47, __c11, 3) as any as S.Schema<ListRefundsResponse>,
     errors: [],
     serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
@@ -402,11 +410,20 @@ function __c3(j: number): any {
           }),
         ),
       ).annotate({ identifier: "DownloadInvoiceRawRequest" });
-    case 1:
-      return S.instanceOf(Uint8Array).pipe(/*@__PURE__*/ T.BinaryResponse());
   }
 }
 function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          body: S.instanceOf(Uint8Array).pipe(T.RawResponse(), T.BinaryResponse()),
+          contentType: S.optional(S.String.pipe(T.Header("Content-Type"))),
+        }),
+      ).annotate({ identifier: "DownloadInvoiceRawResponse" });
+  }
+}
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -423,7 +440,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "DownloadRefundRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -439,11 +456,9 @@ function __c5(j: number): any {
           }),
         ),
       ).annotate({ identifier: "DownloadRefundRawRequest" });
-    case 1:
-      return S.instanceOf(Uint8Array).pipe(/*@__PURE__*/ T.BinaryResponse());
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -462,8 +477,8 @@ function __c6(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.Number),
-          total_with_taxes: S.optional(__S(28, __c7, 0)),
-          total_without_taxes: S.optional(__S(28, __c7, 0)),
+          total_with_taxes: S.optional(__S(32, __c8, 0)),
+          total_without_taxes: S.optional(__S(32, __c8, 0)),
           created_at: S.optional(S.String),
           paid_at: S.optional(S.String),
           status: S.optional(S.String),
@@ -474,7 +489,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "Invoice" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -486,7 +501,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "GoogleTypeMoney" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -505,8 +520,8 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.Number),
-          total_with_taxes: S.optional(__S(28, __c7, 0)),
-          total_without_taxes: S.optional(__S(28, __c7, 0)),
+          total_with_taxes: S.optional(__S(32, __c8, 0)),
+          total_without_taxes: S.optional(__S(32, __c8, 0)),
           created_at: S.optional(S.String),
           refunded_at: S.optional(S.String),
           status: S.optional(S.String),
@@ -516,7 +531,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "Refund" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -538,8 +553,8 @@ function __c9(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.Number),
-          total_with_taxes: S.optional(__S(28, __c7, 0)),
-          total_without_taxes: S.optional(__S(28, __c7, 0)),
+          total_with_taxes: S.optional(__S(32, __c8, 0)),
+          total_without_taxes: S.optional(__S(32, __c8, 0)),
           created_at: S.optional(S.String),
           paid_at: S.optional(S.String),
           status: S.optional(S.String),
@@ -548,17 +563,17 @@ function __c9(j: number): any {
         }),
       ).annotate({ identifier: "InvoiceSummary" });
     case 2:
-      return S.Array(__S(37, __c9, 1));
+      return S.Array(__S(41, __c10, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           total_count: S.optional(S.Number),
-          invoices: __S(38, __c9, 2),
+          invoices: __S(42, __c10, 2),
         }),
       ).annotate({ identifier: "ListInvoicesResponse" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -580,8 +595,8 @@ function __c10(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.Number),
-          total_with_taxes: S.optional(__S(28, __c7, 0)),
-          total_without_taxes: S.optional(__S(28, __c7, 0)),
+          total_with_taxes: S.optional(__S(32, __c8, 0)),
+          total_without_taxes: S.optional(__S(32, __c8, 0)),
           created_at: S.optional(S.String),
           refunded_at: S.optional(S.String),
           status: S.optional(S.String),
@@ -589,12 +604,12 @@ function __c10(j: number): any {
         }),
       ).annotate({ identifier: "RefundSummary" });
     case 2:
-      return S.Array(__S(41, __c10, 1));
+      return S.Array(__S(45, __c11, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           total_count: S.optional(S.Number),
-          refunds: __S(42, __c10, 2),
+          refunds: __S(46, __c11, 2),
         }),
       ).annotate({ identifier: "ListRefundsResponse" });
   }
