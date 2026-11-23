@@ -2432,11 +2432,27 @@ export interface StorageLensExpandedPrefixesDataExport {
   S3BucketDestination?: S3BucketDestination | undefined;
   StorageLensTableDestination?: StorageLensTableDestination | undefined;
 }
+export type StorageLensCostAndUsageReportsMinDepth = number;
+export type StorageLensCostAndUsageReportsMaxDepth = number;
+export interface StorageLensCostAndUsageReportsSelectionCriteria {
+  MinDepth?: number | undefined;
+  MaxDepth?: number | undefined;
+}
+export interface StorageLensCostAndUsageReportsPrefixLevel {
+  IsEnabled: boolean;
+  SelectionCriteria?: StorageLensCostAndUsageReportsSelectionCriteria | undefined;
+}
+export interface StorageLensCostAndUsageReportsPublish {
+  PrefixLevel?: StorageLensCostAndUsageReportsPrefixLevel | undefined;
+}
 export type AwsOrgArn = string;
 export interface StorageLensAwsOrg {
   Arn: string;
 }
 export type StorageLensArn = string;
+export interface IntAccessTiers {
+  IsEnabled?: boolean | undefined;
+}
 export interface StorageLensConfiguration {
   Id: string;
   AccountLevel: AccountLevel;
@@ -2444,10 +2460,12 @@ export interface StorageLensConfiguration {
   Exclude?: Exclude | undefined;
   DataExport?: StorageLensDataExport | undefined;
   ExpandedPrefixesDataExport?: StorageLensExpandedPrefixesDataExport | undefined;
+  CostAndUsageReportsPublish?: StorageLensCostAndUsageReportsPublish | undefined;
   IsEnabled: boolean;
   AwsOrg?: StorageLensAwsOrg | undefined;
   StorageLensArn?: string | undefined;
   PrefixDelimiter?: string | undefined;
+  IntAccessTiers?: IntAccessTiers | undefined;
 }
 export interface GetStorageLensConfigurationResult {
   StorageLensConfiguration?: StorageLensConfiguration | undefined;
@@ -6993,7 +7011,7 @@ function __c10(j: number): any {
             T.ContextParam("AccountId"),
             T.HostLabel(),
           ),
-          StorageLensConfiguration: __S(3291, __c102, 27),
+          StorageLensConfiguration: __S(3295, __c102, 31),
           Tags: S.optional(__S(3329, __c104, 1)),
         }).pipe(
           T.all(
@@ -10160,7 +10178,7 @@ function __c101(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          StorageLensConfiguration: S.optional(__S(3291, __c102, 27))
+          StorageLensConfiguration: S.optional(__S(3295, __c102, 31))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "StorageLensConfiguration" }),
         }).pipe(ns),
@@ -10318,10 +10336,26 @@ function __c102(j: number): any {
         }),
       ).annotate({ identifier: "StorageLensExpandedPrefixesDataExport" });
     case 26:
+      return S.suspend(() =>
+        S.Struct({ MinDepth: S.optional(S.Number), MaxDepth: S.optional(S.Number) }),
+      ).annotate({ identifier: "StorageLensCostAndUsageReportsSelectionCriteria" });
+    case 27:
+      return S.suspend(() =>
+        S.Struct({ IsEnabled: S.Boolean, SelectionCriteria: S.optional(__S(3290, __c102, 26)) }),
+      ).annotate({ identifier: "StorageLensCostAndUsageReportsPrefixLevel" });
+    case 28:
+      return S.suspend(() => S.Struct({ PrefixLevel: S.optional(__S(3291, __c102, 27)) })).annotate(
+        { identifier: "StorageLensCostAndUsageReportsPublish" },
+      );
+    case 29:
       return S.suspend(() => S.Struct({ Arn: S.String })).annotate({
         identifier: "StorageLensAwsOrg",
       });
-    case 27:
+    case 30:
+      return S.suspend(() => S.Struct({ IsEnabled: S.optional(S.Boolean) })).annotate({
+        identifier: "IntAccessTiers",
+      });
+    case 31:
       return S.suspend(() =>
         S.Struct({
           Id: S.String,
@@ -10330,10 +10364,12 @@ function __c102(j: number): any {
           Exclude: S.optional(__S(3281, __c102, 17)),
           DataExport: S.optional(__S(3288, __c102, 24)),
           ExpandedPrefixesDataExport: S.optional(__S(3289, __c102, 25)),
+          CostAndUsageReportsPublish: S.optional(__S(3292, __c102, 28)),
           IsEnabled: S.Boolean,
-          AwsOrg: S.optional(__S(3290, __c102, 26)),
+          AwsOrg: S.optional(__S(3293, __c102, 29)),
           StorageLensArn: S.optional(S.String),
           PrefixDelimiter: S.optional(S.String),
+          IntAccessTiers: S.optional(__S(3294, __c102, 30)),
         }),
       ).annotate({ identifier: "StorageLensConfiguration" });
   }

@@ -1,0 +1,115 @@
+{
+  "description": "Environment variable `value` holds the variable's content, and for `encrypted` and `sensitive` variables that content is a secret (Vercel docs, https://vercel.com/docs/environment-variables/sensitive-environment-variables; the REST reference describes `value` as \"The value of the Environment Variable\", returned in plain text when `decrypt=true`). The spec does not mark it, and the member is named `value`, so the converter's name rule cannot tell it from other `value` fields. This marks `value` on every environment-variable request and response shape, so the SDK returns it as Redacted and debug logs hide it.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.vercel.projects#GetProjectsResponseBodyCase0ItemEnvItem/members/value/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.vercel.projects#GetProjectsResponseBodyCase1ProjectsItemEnvItem/members/value/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.vercel.projects#GetProjectsResponseBodyCase2ProjectsItemEnvItem/members/value/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.vercel.projects#CreateProjectRequestEnvironmentVariablesItem/members/value/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.vercel.projects#CreateProjectResponseEnvItem/members/value/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.vercel.projects#GetProjectResponseEnvItem/members/value/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.vercel.projects#UpdateProjectResponseEnvItem/members/value/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.vercel.projects#UploadProjectAvatarResponseEnvItem/members/value/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.vercel.projects#DeleteProjectAvatarResponseEnvItem/members/value/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.vercel.projects#FilterProjectEnvsResponseBodyCase0/members/value/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.vercel.projects#FilterProjectEnvsResponseBodyCase1EnvsItem/members/value/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.vercel.projects#FilterProjectEnvsResponseBodyCase2EnvsItem/members/value/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.vercel.projects#CreateProjectEnvResponseCreatedCase0/members/value/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.vercel.projects#CreateProjectEnvResponseCreatedCase1Item/members/value/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.vercel.projects#GetProjectEnvResponseBodyCase1/members/value/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.vercel.projects#GetProjectEnvResponseBodyCase2/members/value/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.vercel.projects#EditProjectEnvRequest/members/value/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.vercel.projects#EditProjectEnvResponse/members/value/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.vercel.projects#RemoveProjectEnvResponseBodyCase0Item/members/value/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.vercel.projects#RemoveProjectEnvResponseBodyCase1/members/value/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.vercel.projects#RemoveProjectEnvResponseBodyCase2/members/value/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.vercel.projects#UpdateMicrofrontendsResponseEnvItem/members/value/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

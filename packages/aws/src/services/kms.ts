@@ -1330,9 +1330,12 @@ export interface ListKeyRotationsResponse {
   NextMarker?: string | undefined;
   Truncated?: boolean | undefined;
 }
+export type ResourceOwnerType = "SELF" | "OTHER_ACCOUNTS_VIA_RAM" | (string & {});
+export type ResourceOwnersList = ResourceOwnerType[];
 export interface ListKeysRequest {
   Limit?: number | undefined;
   Marker?: string | undefined;
+  ResourceOwners?: ResourceOwnerType[] | undefined;
 }
 export interface KeyListEntry {
   KeyId?: string | undefined;
@@ -4066,9 +4069,24 @@ export type GetKeyPolicyError =
 /**
  * Gets a key policy attached to the specified KMS key.
  *
+ * A KMS key can have two key policies. You manage the `default` key policy.
+ * Resource Access Manager (RAM) manages the `AWS_RAM` key policy for KMS keys that you share
+ * through RAM. You can use `GetKeyPolicy` to view the `AWS_RAM` key
+ * policy, but you can't change it with PutKeyPolicy. To get the
+ * `AWS_RAM` key policy, set the `PolicyName` parameter to
+ * `AWS_RAM`. If the KMS key doesn't have an `AWS_RAM` key policy,
+ * `GetKeyPolicy` returns a `NotFoundException`. For information about sharing KMS keys, see Sharing KMS keys with RAM in the
+ * *Key Management Service Developer Guide*. For information about RAM managed permissions, see Managing
+ * permissions in RAM in the *RAM User Guide*.
+ *
  * **Cross-account use**: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account.
  *
  * **Required permissions**: kms:GetKeyPolicy (key policy)
+ *
+ * You can use the kms:PolicyName condition key to control access to this operation based on
+ * the value of the `PolicyName` parameter in the request. If the request doesn't
+ * include `PolicyName`, the value of `kms:PolicyName` is
+ * `default`.
  *
  * **Related operations**: PutKeyPolicy
  *
@@ -4694,7 +4712,10 @@ export type ListKeyPoliciesError =
 /**
  * Gets the names of the key policies that are attached to a KMS key. This operation is
  * designed to get policy names that you can use in a GetKeyPolicy operation.
- * However, the only valid policy name is `default`.
+ * The valid policy names are `default` and `AWS_RAM`.
+ *
+ * For information about the `AWS_RAM` key policy, see Sharing KMS keys with
+ * RAM in the *Key Management Service Developer Guide*.
  *
  * **Cross-account use**: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account.
  *
@@ -4818,9 +4839,29 @@ export type ListKeysError =
 /**
  * Gets a list of all KMS keys in the caller's Amazon Web Services account and Region.
  *
- * **Cross-account use**: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account.
+ * You can also use `ListKeys` to list KMS keys in the Region that other
+ * Amazon Web Services accounts shared with the caller's Amazon Web Services account through Resource Access Manager (RAM). To list
+ * them, use the `ResourceOwners` parameter. If you omit `ResourceOwners`,
+ * `ListKeys` lists only the KMS keys in the caller's Amazon Web Services account.
+ *
+ * When `ResourceOwners` includes `OTHER_ACCOUNTS_VIA_RAM`,
+ * `ListKeys` returns the KMS keys that other Amazon Web Services accounts currently share with
+ * the caller's Amazon Web Services account through RAM. For information about how and when a resource
+ * that another account shares becomes available to your Amazon Web Services account, see Access Amazon Web Services
+ * resources shared with you in the *RAM User Guide*.
+ *
+ * **Cross-account use**: No. This operation doesn't take a KMS
+ * key parameter, so you can't use it to list the KMS keys of a specific Amazon Web Services account. The only
+ * KMS keys in other Amazon Web Services accounts that `ListKeys` returns are the ones that other
+ * accounts shared with the caller's Amazon Web Services account through RAM. To list them, set the
+ * `ResourceOwners` parameter to include `OTHER_ACCOUNTS_VIA_RAM`.
  *
  * **Required permissions**: kms:ListKeys (IAM policy)
+ *
+ * The same `kms:ListKeys` permission lets you list the KMS keys that other
+ * accounts shared with you through RAM. KMS doesn't evaluate the key policies of shared KMS
+ * keys when it lists them. To use a shared KMS key, you need permission for each operation on
+ * that KMS key.
  *
  * **Related operations:**
  *
@@ -4834,6 +4875,10 @@ export type ListKeysError =
  *
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
+ *
+ * KMS keys that other Amazon Web Services accounts share with you can take some time to appear in or
+ * disappear from `ListKeys` results after changes to resource shares, such as
+ * accepting an invitation or deleting a resource share.
  */
 export const listKeys: API.PaginatedOperationMethod<
   ListKeysRequest & RegionInput,
@@ -5009,7 +5054,8 @@ export type PutKeyPolicyError =
   | UnsupportedOperationException
   | CommonErrors;
 /**
- * Attaches a key policy to the specified KMS key.
+ * Attaches a key policy to the specified KMS key. You can use this operation to set only the
+ * `default` key policy.
  *
  * For more information about key policies, see Key Policies in the *Key Management Service Developer Guide*.
  * For help writing and formatting a JSON policy document, see the IAM JSON Policy Reference in the
@@ -5018,9 +5064,22 @@ export type PutKeyPolicyError =
  * see Use
  * PutKeyPolicy with an Amazon Web Services SDK or CLI in the *Key Management Service Developer Guide*.
  *
+ * A KMS key can also have an `AWS_RAM` key policy, which Resource Access Manager (RAM)
+ * manages for KMS keys that you share through RAM. You can't use `PutKeyPolicy` to
+ * create, change, or delete the `AWS_RAM` key policy. If you set
+ * `PolicyName` to `AWS_RAM`, the request fails with a
+ * `ValidationException` and the message The AWS_RAM policy can only be
+ * managed by the RAM service. To view the `AWS_RAM` key policy, use GetKeyPolicy. For information about sharing KMS keys, see Sharing KMS keys with
+ * RAM in the *Key Management Service Developer Guide*.
+ *
  * **Cross-account use**: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account.
  *
  * **Required permissions**: kms:PutKeyPolicy (key policy)
+ *
+ * You can use the kms:PolicyName condition key to control access to this operation based on
+ * the value of the `PolicyName` parameter in the request. If the request doesn't
+ * include `PolicyName`, the value of `kms:PolicyName` is
+ * `default`.
  *
  * **Related operations**: GetKeyPolicy
  *
@@ -7325,9 +7384,11 @@ function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ Limit: S.optional(S.Number), Marker: S.optional(S.String) }).pipe(
-          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-        ),
+        S.Struct({
+          Limit: S.optional(S.Number),
+          Marker: S.optional(S.String),
+          ResourceOwners: S.optional(__S(96, __c12, 0)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ListKeysRequest" });
     case 1:
       return S.suspend(() =>

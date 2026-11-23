@@ -203,6 +203,7 @@ export type ProviderType =
   | "GitLab"
   | "GitLabSelfManaged"
   | "AzureDevOps"
+  | "GitHubEnterpriseCloudDataResidency"
   | (string & {});
 export type ConnectionName = string;
 export type TagKey = string;
@@ -213,11 +214,13 @@ export interface Tag {
 }
 export type TagList = Tag[];
 export type HostArn = string;
+export type Url = string;
 export interface CreateConnectionInput {
   ProviderType?: ProviderType | undefined;
   ConnectionName: string;
   Tags?: Tag[] | undefined;
   HostArn?: string | undefined;
+  ProviderEndpoint?: string | undefined;
 }
 export type ConnectionArn = string;
 export interface CreateConnectionOutput {
@@ -225,7 +228,6 @@ export interface CreateConnectionOutput {
   Tags?: Tag[] | undefined;
 }
 export type HostName = string;
-export type Url = string;
 export type VpcId = string;
 export type SubnetId = string;
 export type SubnetIds = string[];
@@ -338,6 +340,7 @@ export interface Connection {
   OwnerAccountId?: string | undefined;
   ConnectionStatus?: ConnectionStatus | undefined;
   HostArn?: string | undefined;
+  ProviderEndpoint?: string | undefined;
 }
 export interface GetConnectionOutput {
   Connection?: Connection | undefined;
@@ -475,8 +478,8 @@ export interface GetSyncConfigurationOutput {
 export type MaxResults = number;
 export type NextToken = string;
 export interface ListConnectionsInput {
-  ProviderTypeFilter?: ProviderType | undefined;
   HostArnFilter?: string | undefined;
+  ProviderTypeFilter?: ProviderType | undefined;
   MaxResults?: number | undefined;
   NextToken?: string | undefined;
 }
@@ -600,9 +603,11 @@ export interface UpdateSyncConfigurationOutput {
 }
 export type ErrorMessage = string;
 export type CreateConnectionError =
+  | InvalidInputException
   | LimitExceededException
   | ResourceNotFoundException
   | ResourceUnavailableException
+  | UnsupportedProviderTypeException
   | CommonErrors;
 /**
  * Creates a connection that can then be given to other Amazon Web Services services like CodePipeline so
@@ -617,7 +622,13 @@ export const createConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateConnectionInput>,
   output: __S(1, __c0, 1) as any as S.Schema<CreateConnectionOutput>,
-  errors: [LimitExceededException, ResourceNotFoundException, ResourceUnavailableException],
+  errors: [
+    InvalidInputException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ResourceUnavailableException,
+    UnsupportedProviderTypeException,
+  ],
   serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
@@ -660,6 +671,7 @@ export type CreateRepositoryLinkError =
   | InvalidInputException
   | LimitExceededException
   | ResourceAlreadyExistsException
+  | ResourceNotFoundException
   | ThrottlingException
   | CommonErrors;
 /**
@@ -680,6 +692,7 @@ export const createRepositoryLink: API.OperationMethod<
     InvalidInputException,
     LimitExceededException,
     ResourceAlreadyExistsException,
+    ResourceNotFoundException,
     ThrottlingException,
   ],
   serviceErrors: AwsServiceErrors,
@@ -697,6 +710,7 @@ export type CreateSyncConfigurationError =
   | InvalidInputException
   | LimitExceededException
   | ResourceAlreadyExistsException
+  | ResourceNotFoundException
   | ThrottlingException
   | CommonErrors;
 /**
@@ -719,6 +733,7 @@ export const createSyncConfiguration: API.OperationMethod<
     InvalidInputException,
     LimitExceededException,
     ResourceAlreadyExistsException,
+    ResourceNotFoundException,
     ThrottlingException,
   ],
   serviceErrors: AwsServiceErrors,
@@ -1451,6 +1466,7 @@ function __c0(j: number): any {
           ConnectionName: S.String,
           Tags: S.optional(__S(5, __c1, 1)),
           HostArn: S.optional(S.String),
+          ProviderEndpoint: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateConnectionInput" });
     case 1:
@@ -1662,6 +1678,7 @@ function __c17(j: number): any {
           OwnerAccountId: S.optional(S.String),
           ConnectionStatus: S.optional(S.String),
           HostArn: S.optional(S.String),
+          ProviderEndpoint: S.optional(S.String),
         }),
       ).annotate({ identifier: "Connection" });
   }
@@ -1829,8 +1846,8 @@ function __c26(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          ProviderTypeFilter: S.optional(S.String),
           HostArnFilter: S.optional(S.String),
+          ProviderTypeFilter: S.optional(S.String),
           MaxResults: S.optional(S.Number),
           NextToken: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),

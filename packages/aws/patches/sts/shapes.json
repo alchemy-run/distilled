@@ -1,0 +1,10 @@
+{
+  "description": "sts: Members that hold secrets (sensitive). The model marks `SecretAccessKey` of temporary credentials but not their `SessionToken`, which signs requests together with it. AWS: \"The token that users must pass to the service API to use the temporary credentials\" (https://docs.aws.amazon.com/STS/latest/APIReference/API_Credentials.html).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sts#Credentials/members/SessionToken/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

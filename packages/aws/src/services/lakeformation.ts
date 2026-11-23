@@ -782,11 +782,18 @@ export interface GetResourceLFTagsResponse {
 export interface GetRLSPolicyRequest {
   Name: string;
 }
+export type RLSPolicyStatus = "VALID" | "INVALID" | (string & {});
+export type RLSPolicyStatusReason =
+  | "REFERENCED_UDF_DELETED"
+  | "REFERENCED_LOOKUP_TABLE_DELETED"
+  | (string & {});
 export interface RLSPolicy {
   CatalogId?: string | undefined;
   Name?: string | undefined;
   AttachmentColumns?: Column[] | undefined;
   FilterExpression?: string | undefined;
+  Status?: RLSPolicyStatus | undefined;
+  StatusReason?: RLSPolicyStatusReason | undefined;
 }
 export interface GetRLSPolicyResponse {
   RLSPolicy?: RLSPolicy | undefined;
@@ -5035,6 +5042,8 @@ function __c64(j: number): any {
           Name: S.optional(S.String),
           AttachmentColumns: S.optional(__S(257, __c32, 1)),
           FilterExpression: S.optional(S.String),
+          Status: S.optional(S.String),
+          StatusReason: S.optional(S.String),
         }),
       ).annotate({ identifier: "RLSPolicy" });
   }

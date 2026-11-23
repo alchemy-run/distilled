@@ -214,7 +214,7 @@ export class ValidationException
         }),
       ),
       Fields: /*@__PURE__*/ S.optional(
-        /*@__PURE__*/ S.suspend(() => __S(2497, __c78, 1)).annotate({
+        /*@__PURE__*/ S.suspend(() => __S(3073, __c96, 1)).annotate({
           identifier: "ValidationExceptionFieldList",
         }),
       ),
@@ -236,7 +236,22 @@ export interface AssociateProfilesInput {
   ProfileArns?: string[] | undefined;
 }
 export interface AssociateProfilesResponse {}
+export interface Tag {
+  key: string;
+  value: string;
+}
+export type Tags = Tag[];
+export interface CreateAgentBasicProfileRequest {
+  tags?: Tag[] | undefined;
+}
 export type AgentProfileArn = string;
+export interface CreateAgentBasicProfileResponse {
+  createdBy: string;
+  createdAt: Date;
+  lastModifiedBy?: string | undefined;
+  lastModifiedAt?: Date | undefined;
+  arn: string;
+}
 export type SensitiveString = string | redacted.Redacted<string>;
 export type ContextType = "APPLICATION" | (string & {});
 export type ContextAccountIdList = string[];
@@ -248,6 +263,7 @@ export interface ContextResourceTag {
   value: string;
 }
 export type ContextResourceTagList = ContextResourceTag[];
+export type ContextOrganizationalUnitIdList = string[];
 export type ApplicationType = "SAS" | "DESKTOP_APPLICATION" | "OTHER" | (string & {});
 export type Criticality =
   | "MISSION_CRITICAL"
@@ -261,6 +277,7 @@ export interface ContextContent {
   awsServices?: string[] | undefined;
   resourceTypes?: string[] | undefined;
   resourceTags?: ContextResourceTag[] | undefined;
+  organizationalUnitIds?: string[] | undefined;
   applicationOverview?: string | redacted.Redacted<string> | undefined;
   industry?: string | redacted.Redacted<string> | undefined;
   applicationType?: ApplicationType | undefined;
@@ -321,21 +338,107 @@ export interface GoalSummary {
 export interface CreateAgentGoalResponse {
   goal: GoalSummary;
 }
-export type RoleArn = string;
-export type AccountId = string;
+export type OrganizationalNodeId = string;
 export type Region = string;
 export type Regions = string[];
+export interface OrganizationalUnitEntry {
+  organizationalUnitId: string;
+  regions: string[];
+}
+export type OrganizationalUnitEntryList = OrganizationalUnitEntry[];
+export type AccountId = string;
+export interface OrganizationalAccountEntry {
+  accountId: string;
+  regions: string[];
+}
+export type OrganizationalAccountEntryList = OrganizationalAccountEntry[];
+export interface OrganizationalAggregationConfiguration {
+  organizationalUnits?: OrganizationalUnitEntry[] | undefined;
+  accounts?: OrganizationalAccountEntry[] | undefined;
+}
+export interface CreateAgentOrganizationalProfileRequest {
+  name: string;
+  displayName?: string | redacted.Redacted<string> | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  businessOverview?: string | redacted.Redacted<string> | undefined;
+  pillars: Pillar[];
+  deletionProtection?: boolean | undefined;
+  clientToken?: string | undefined;
+  organizationalAggregationConfiguration?: OrganizationalAggregationConfiguration | undefined;
+  tags?: Tag[] | undefined;
+}
+export type FieldErrorPath = string;
+export type FieldErrorMessage = string;
+export type FieldErrors = { [key: string]: string | undefined };
+export interface CreateAgentOrganizationalProfileResponse {
+  name: string;
+  displayName?: string | redacted.Redacted<string> | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  businessOverview?: string | redacted.Redacted<string> | undefined;
+  pillars: Pillar[];
+  deletionProtection?: boolean | undefined;
+  organizationId: string;
+  organizationalAggregationConfiguration?: OrganizationalAggregationConfiguration | undefined;
+  arn: string;
+  eligibleForScheduledGeneration?: boolean | undefined;
+  eligibleForArchitectureGeneration?: boolean | undefined;
+  fieldErrors?: { [key: string]: string | undefined } | undefined;
+  tags?: Tag[] | undefined;
+  createdBy: string;
+  createdAt: Date;
+  lastModifiedBy?: string | undefined;
+  lastModifiedAt?: Date | undefined;
+}
+export type ReportLabel = string;
+export type OrganizationalReportAccountIdList = string[];
+export type OrganizationalUnitId = string;
+export type OrganizationalUnitIdList = string[];
+export type PillarList = Pillar[];
+export type RecommendationType = "RESOURCE" | "ARCHITECTURE" | "APPLICATION" | (string & {});
+export type RecommendationTypeList = RecommendationType[];
+export type RecommendationStatus = "ACTIVE" | "SUPPRESSED" | "COMPLETED" | (string & {});
+export type RecommendationStatusList = RecommendationStatus[];
+export type Priority = "HIGH" | "MEDIUM" | "LOW" | (string & {});
+export type PriorityList = Priority[];
+export interface TimeWindow {
+  from?: Date | undefined;
+  to?: Date | undefined;
+}
+export interface OrganizationalReportFilters {
+  accountIds?: string[] | undefined;
+  organizationalUnitIds?: string[] | undefined;
+  pillars?: Pillar[] | undefined;
+  recommendationTypes?: RecommendationType[] | undefined;
+  statuses?: RecommendationStatus[] | undefined;
+  priorities?: Priority[] | undefined;
+  createdAtRange?: TimeWindow | undefined;
+  updatedAtRange?: TimeWindow | undefined;
+}
+export interface CreateAgentOrganizationalReportRequest {
+  clientToken?: string | undefined;
+  label?: string | undefined;
+  filters?: OrganizationalReportFilters | undefined;
+}
+export type OrganizationalReportState =
+  | "DISCOVERING"
+  | "SNAPSHOTTING"
+  | "AGGREGATING"
+  | "COMPRESSING"
+  | "COMPLETED"
+  | "FAILED"
+  | "DELETING"
+  | (string & {});
+export interface CreateAgentOrganizationalReportResponse {
+  reportId: string;
+  state: OrganizationalReportState;
+}
+export type RoleArn = string;
 export interface AggregationConfiguration {
   accountId: string;
   regions: string[];
   accessRoleArn: string;
 }
 export type AggregationConfigurations = AggregationConfiguration[];
-export interface Tag {
-  key: string;
-  value: string;
-}
-export type Tags = Tag[];
 export interface CreateAgentProfileRequest {
   name: string;
   displayName?: string | redacted.Redacted<string> | undefined;
@@ -348,9 +451,6 @@ export interface CreateAgentProfileRequest {
   clientToken?: string | undefined;
   tags?: Tag[] | undefined;
 }
-export type FieldErrorPath = string;
-export type FieldErrorMessage = string;
-export type FieldErrors = { [key: string]: string | undefined };
 export interface CreateAgentProfileResponse {
   name: string;
   displayName?: string | redacted.Redacted<string> | undefined;
@@ -547,10 +647,23 @@ export interface DeleteAgentGoalRequest {
   id: string;
 }
 export interface DeleteAgentGoalResponse {}
+export interface DeleteAgentOrganizationalReportRequest {
+  reportId: string;
+}
+export interface DeleteAgentOrganizationalReportResponse {}
 export interface DeleteAgentProfileRequest {
   profileArn: string;
 }
 export interface DeleteAgentProfileResponse {}
+export interface DeleteAgentProfilePolicyRequest {
+  profileArn: string;
+}
+export interface DeleteAgentProfilePolicyResponse {}
+export type AgentRecommendationArn = string;
+export interface DeleteAgentRecommendationPolicyRequest {
+  recommendationArn: string;
+}
+export interface DeleteAgentRecommendationPolicyResponse {}
 export type LensStatusType = "ALL" | "DRAFT" | "PUBLISHED" | (string & {});
 export interface DeleteLensInput {
   LensAlias: string;
@@ -629,18 +742,86 @@ export interface GetAgentGoalRequest {
 export interface GetAgentGoalResponse {
   goal: GoalSummary;
 }
+export interface GetAgentOrganizationalReportRequest {
+  reportId: string;
+}
+export interface PillarCount {
+  pillar: Pillar;
+  count: number;
+}
+export type PillarCountList = PillarCount[];
+export interface PriorityCount {
+  priority: Priority;
+  count: number;
+}
+export type PriorityCountList = PriorityCount[];
+export interface FailedAccount {
+  accountId: string;
+  reason: string;
+}
+export type FailedAccountList = FailedAccount[];
+export interface FailedOrganizationalUnit {
+  organizationalUnitId: string;
+  reason: string;
+}
+export type FailedOrganizationalUnitList = FailedOrganizationalUnit[];
+export interface CoverageSummary {
+  totalAccountsInScope: number;
+  accountsWithProfile: number;
+  accountsWithoutProfile: number;
+  failedAccountCount: number;
+  totalProfiles: number;
+  totalRecommendations: number;
+  recommendationCountByPillar?: PillarCount[] | undefined;
+  recommendationCountByPriority?: PriorityCount[] | undefined;
+  failedAccounts?: FailedAccount[] | undefined;
+  failedOrganizationalUnits?: FailedOrganizationalUnit[] | undefined;
+}
+export interface GetAgentOrganizationalReportResponse {
+  reportId: string;
+  ownerAccountId: string;
+  organizationId: string;
+  label?: string | undefined;
+  state: OrganizationalReportState;
+  createdAt: Date;
+  filters?: OrganizationalReportFilters | undefined;
+  coverageSummary?: CoverageSummary | undefined;
+}
+export type OrganizationalReportFormat = "CSV" | "JSON" | "PARQUET" | (string & {});
+export interface GetAgentOrganizationalReportDataRequest {
+  reportId: string;
+  format: OrganizationalReportFormat;
+}
+export interface GetAgentOrganizationalReportDataResponse {
+  downloadUrl: string;
+  expiresAt: Date;
+}
+export interface GetAgentPreferencesRequest {}
+export type PreferenceKey = "ORG_INTEGRATION" | (string & {});
+export type PreferenceStatus = "ENABLED" | "DISABLED" | "FAILED" | (string & {});
+export interface PreferenceEntry {
+  key: PreferenceKey;
+  status: PreferenceStatus;
+  detail?: string | undefined;
+}
+export type PreferenceEntries = PreferenceEntry[];
+export interface GetAgentPreferencesResponse {
+  preferences: PreferenceEntry[];
+}
 export interface GetAgentProfileRequest {
   profileArn: string;
 }
+export type ProfileType = "STANDARD" | "BASIC" | "ORGANIZATIONAL" | (string & {});
 export interface GetAgentProfileResponse {
   name: string;
   displayName?: string | redacted.Redacted<string> | undefined;
   description?: string | redacted.Redacted<string> | undefined;
   businessOverview?: string | redacted.Redacted<string> | undefined;
-  pillars: Pillar[];
+  pillars?: Pillar[] | undefined;
   deletionProtection?: boolean | undefined;
-  executionRoleArn: string;
-  aggregationConfiguration: AggregationConfiguration[];
+  profileType?: ProfileType | undefined;
+  executionRoleArn?: string | undefined;
+  aggregationConfiguration?: AggregationConfiguration[] | undefined;
   arn: string;
   eligibleForScheduledGeneration?: boolean | undefined;
   eligibleForArchitectureGeneration?: boolean | undefined;
@@ -650,8 +831,16 @@ export interface GetAgentProfileResponse {
   createdAt: Date;
   lastModifiedBy?: string | undefined;
   lastModifiedAt?: Date | undefined;
+  organizationalAggregationConfiguration?: OrganizationalAggregationConfiguration | undefined;
 }
-export type AgentRecommendationArn = string;
+export interface GetAgentProfilePolicyRequest {
+  profileArn: string;
+}
+export type ResourcePolicy = string;
+export interface GetAgentProfilePolicyResponse {
+  profileArn: string;
+  policy: string;
+}
 export type RemediationType =
   | "AUTO_REMEDIATION"
   | "CONSOLE"
@@ -665,10 +854,7 @@ export interface GetAgentRecommendationRequest {
   remediationType?: RemediationType | undefined;
 }
 export type RecommendationArn = string;
-export type RecommendationType = "RESOURCE" | "ARCHITECTURE" | "APPLICATION" | (string & {});
-export type Priority = "HIGH" | "MEDIUM" | "LOW" | (string & {});
 export type Effort = "LARGE" | "MEDIUM" | "SMALL" | (string & {});
-export type RecommendationStatus = "ACTIVE" | "SUPPRESSED" | "COMPLETED" | (string & {});
 export type RecommendationState = "OPEN" | "CLOSED" | (string & {});
 export type ImpactCategory = "HIGH" | "MEDIUM" | "LOW" | (string & {});
 export interface Roi {
@@ -781,6 +967,13 @@ export interface GetAgentRecommendationGenerationRequest {
   generationId: string;
 }
 export type GenerationStatus = "QUEUED" | "IN_PROGRESS" | "COMPLETED" | "ERROR" | (string & {});
+export type GenerationType = "ONDEMAND" | "SCHEDULED" | "BASIC" | (string & {});
+export type GenerationRecommendationTypes = RecommendationType[];
+export interface ErrorDetails {
+  code: string;
+  message: string;
+}
+export type SensitiveDocument = unknown;
 export type GoalIdList = string[];
 export type ItemId = string;
 export type ItemIds = string[];
@@ -799,10 +992,6 @@ export interface Progress {
   totalSteps: number;
   completionPercentage: number;
 }
-export interface ErrorDetails {
-  code: string;
-  message: string;
-}
 export interface GetAgentRecommendationGenerationResponse {
   id: string;
   profileArn: string;
@@ -813,12 +1002,21 @@ export interface GetAgentRecommendationGenerationResponse {
   createdAt: Date;
   lastModifiedBy?: string | undefined;
   lastModifiedAt?: Date | undefined;
-  additionalContext?: any | undefined;
-  scope?: Scope | undefined;
+  generationType?: GenerationType | undefined;
+  generationRecommendationTypes?: RecommendationType[] | undefined;
   startedAt?: Date | undefined;
   endedAt?: Date | undefined;
-  progress?: Progress | undefined;
   errorDetails?: ErrorDetails | undefined;
+  additionalContext?: any | undefined;
+  scope?: Scope | undefined;
+  progress?: Progress | undefined;
+}
+export interface GetAgentRecommendationPolicyRequest {
+  recommendationArn: string;
+}
+export interface GetAgentRecommendationPolicyResponse {
+  recommendationArn: string;
+  policy: string;
 }
 export interface GetAnswerInput {
   WorkloadId: string;
@@ -1339,6 +1537,24 @@ export interface ListAgentGoalsResponse {
   items: GoalSummary[];
   nextToken?: string | undefined;
 }
+export interface ListAgentOrganizationalReportsRequest {
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  state?: OrganizationalReportState | undefined;
+}
+export interface OrganizationalReportSummary {
+  reportId: string;
+  ownerAccountId: string;
+  organizationId: string;
+  label?: string | undefined;
+  state: OrganizationalReportState;
+  createdAt: Date;
+}
+export type OrganizationalReportSummaryList = OrganizationalReportSummary[];
+export interface ListAgentOrganizationalReportsResponse {
+  items: OrganizationalReportSummary[];
+  nextToken?: string | undefined;
+}
 export interface ListAgentProfilesRequest {
   maxResults?: number | undefined;
   nextToken?: string | undefined;
@@ -1348,19 +1564,20 @@ export interface AgentProfileSummary {
   displayName?: string | redacted.Redacted<string> | undefined;
   description?: string | redacted.Redacted<string> | undefined;
   businessOverview?: string | redacted.Redacted<string> | undefined;
-  pillars: Pillar[];
+  pillars?: Pillar[] | undefined;
   deletionProtection?: boolean | undefined;
-  executionRoleArn: string;
-  aggregationConfiguration: AggregationConfiguration[];
+  profileType?: ProfileType | undefined;
+  executionRoleArn?: string | undefined;
+  aggregationConfiguration?: AggregationConfiguration[] | undefined;
   arn: string;
   eligibleForScheduledGeneration?: boolean | undefined;
   eligibleForArchitectureGeneration?: boolean | undefined;
   fieldErrors?: { [key: string]: string | undefined } | undefined;
-  tags?: Tag[] | undefined;
   createdBy: string;
   createdAt: Date;
   lastModifiedBy?: string | undefined;
   lastModifiedAt?: Date | undefined;
+  organizationalAggregationConfiguration?: OrganizationalAggregationConfiguration | undefined;
 }
 export type AgentProfileSummaries = AgentProfileSummary[];
 export interface ListAgentProfilesResponse {
@@ -1383,6 +1600,11 @@ export interface AgentRecommendationGenerationSummary {
   createdAt: Date;
   lastModifiedBy?: string | undefined;
   lastModifiedAt?: Date | undefined;
+  generationType?: GenerationType | undefined;
+  generationRecommendationTypes?: RecommendationType[] | undefined;
+  startedAt?: Date | undefined;
+  endedAt?: Date | undefined;
+  errorDetails?: ErrorDetails | undefined;
 }
 export type AgentRecommendationGenerationSummaries = AgentRecommendationGenerationSummary[];
 export interface ListAgentRecommendationGenerationsResponse {
@@ -1396,6 +1618,10 @@ export interface ListAgentRecommendationItemsRequest {
   maxResults?: number | undefined;
   nextToken?: string | undefined;
 }
+export interface AutoRemediation {
+  deepLink?: string | undefined;
+  cliCommand?: string | undefined;
+}
 export interface AgentRecommendationItemSummary {
   id: string;
   recommendationArn: string;
@@ -1405,6 +1631,7 @@ export interface AgentRecommendationItemSummary {
   createdAt: Date;
   lastModifiedBy?: string | undefined;
   lastModifiedAt?: Date | undefined;
+  autoRemediation?: AutoRemediation | undefined;
 }
 export type AgentRecommendationItemSummaries = AgentRecommendationItemSummary[];
 export interface ListAgentRecommendationItemsResponse {
@@ -1921,6 +2148,21 @@ export interface ListWorkloadSharesOutput {
   WorkloadShareSummaries?: WorkloadShareSummary[] | undefined;
   NextToken?: string | undefined;
 }
+export type PreferenceState = "ENABLED" | "DISABLED" | (string & {});
+export interface PreferenceUpdate {
+  key: PreferenceKey;
+  state: PreferenceState;
+}
+export type PreferenceUpdates = PreferenceUpdate[];
+export interface PutAgentPreferencesRequest {
+  preferences: PreferenceUpdate[];
+}
+export interface PutAgentPreferencesResponse {}
+export interface PutAgentProfilePolicyRequest {
+  profileArn: string;
+  policy: string;
+}
+export interface PutAgentProfilePolicyResponse {}
 export type RecommendationFeedbackType = "USEFUL" | "NOT_USEFUL" | (string & {});
 export type FeedbackCategory =
   | "OTHER"
@@ -1933,16 +2175,32 @@ export interface PutAgentRecommendationFeedbackRequest {
   recommendationArn: string;
   type: RecommendationFeedbackType;
   feedbackCategory?: FeedbackCategory | undefined;
-  comments?: string | undefined;
+  comments?: string | redacted.Redacted<string> | undefined;
 }
 export interface PutAgentRecommendationFeedbackResponse {}
+export interface PutAgentRecommendationPolicyRequest {
+  recommendationArn: string;
+  policy: string;
+}
+export interface PutAgentRecommendationPolicyResponse {}
+export type S3BucketArn = string;
+export type S3ObjectKey = string;
+export interface SendAgentOrganizationalReportDataToS3Request {
+  reportId: string;
+  format: OrganizationalReportFormat;
+  bucketArn: string;
+  objectKey: string;
+}
+export interface SendAgentOrganizationalReportDataToS3Response {
+  deliveredTo: string;
+}
 export type RecommendationTypes = RecommendationType[];
 export interface StartAgentRecommendationGenerationRequest {
   profileArn: string;
   types: RecommendationType[];
   name?: string | undefined;
   additionalContext?: any | undefined;
-  scope: Scope;
+  scope?: Scope | undefined;
 }
 export interface StartAgentRecommendationGenerationResponse {
   id: string;
@@ -1987,6 +2245,34 @@ export interface UpdateAgentGoalRequest {
 export interface UpdateAgentGoalResponse {
   goal: GoalSummary;
 }
+export interface UpdateAgentOrganizationalProfileRequest {
+  clientToken?: string | undefined;
+  profileArn: string;
+  displayName?: string | redacted.Redacted<string> | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  businessOverview?: string | redacted.Redacted<string> | undefined;
+  pillars?: Pillar[] | undefined;
+  deletionProtection?: boolean | undefined;
+  organizationalAggregationConfiguration?: OrganizationalAggregationConfiguration | undefined;
+}
+export interface UpdateAgentOrganizationalProfileResponse {
+  name: string;
+  displayName?: string | redacted.Redacted<string> | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  businessOverview?: string | redacted.Redacted<string> | undefined;
+  pillars: Pillar[];
+  deletionProtection?: boolean | undefined;
+  organizationId: string;
+  organizationalAggregationConfiguration?: OrganizationalAggregationConfiguration | undefined;
+  arn: string;
+  eligibleForScheduledGeneration?: boolean | undefined;
+  eligibleForArchitectureGeneration?: boolean | undefined;
+  fieldErrors?: { [key: string]: string | undefined } | undefined;
+  createdBy: string;
+  createdAt: Date;
+  lastModifiedBy?: string | undefined;
+  lastModifiedAt?: Date | undefined;
+}
 export interface UpdateAgentProfileRequest {
   clientToken?: string | undefined;
   profileArn: string;
@@ -2011,7 +2297,6 @@ export interface UpdateAgentProfileResponse {
   eligibleForScheduledGeneration?: boolean | undefined;
   eligibleForArchitectureGeneration?: boolean | undefined;
   fieldErrors?: { [key: string]: string | undefined } | undefined;
-  tags?: Tag[] | undefined;
   createdBy: string;
   createdAt: Date;
   lastModifiedBy?: string | undefined;
@@ -2240,8 +2525,8 @@ export const associateLenses: API.OperationMethod<
   AssociateLensesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2944, __c92, 0) as any as S.Schema<AssociateLensesInput>,
-  output: __S(2976, __c93, 0) as any as S.Schema<AssociateLensesResponse>,
+  input: __S(3552, __c111, 0) as any as S.Schema<AssociateLensesInput>,
+  output: __S(3616, __c113, 0) as any as S.Schema<AssociateLensesResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2275,8 +2560,8 @@ export const associateProfiles: API.OperationMethod<
   AssociateProfilesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3360, __c105, 0) as any as S.Schema<AssociateProfilesInput>,
-  output: __S(2976, __c93, 0) as any as S.Schema<AssociateProfilesResponse>,
+  input: __S(4032, __c126, 0) as any as S.Schema<AssociateProfilesInput>,
+  output: __S(3616, __c113, 0) as any as S.Schema<AssociateProfilesResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2291,6 +2576,41 @@ export const associateProfiles: API.OperationMethod<
   operationName: "AssociateProfiles",
   telemetry: TELEMETRY,
   span: "AssociateProfiles",
+}));
+
+export type CreateAgentBasicProfileError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Creates a Basic profile for the calling account. No configuration input is required because the account and region are inferred from the caller. The profile uses the reserved name `basic`. This operation is idempotent. Calling it twice returns the same ARN. Each account can have at most one Basic profile.
+ */
+export const createAgentBasicProfile: API.OperationMethod<
+  CreateAgentBasicProfileRequest & RegionInput,
+  CreateAgentBasicProfileResponse,
+  CreateAgentBasicProfileError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(4416, __c138, 0) as any as S.Schema<CreateAgentBasicProfileRequest>,
+  output: __S(4417, __c138, 1) as any as S.Schema<CreateAgentBasicProfileResponse>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "CreateAgentBasicProfile",
+  telemetry: TELEMETRY,
+  span: "CreateAgentBasicProfile",
 }));
 
 export type CreateAgentContextError =
@@ -2311,8 +2631,8 @@ export const createAgentContext: API.OperationMethod<
   CreateAgentContextError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3744, __c117, 0) as any as S.Schema<CreateAgentContextRequest>,
-  output: __S(3840, __c120, 0) as any as S.Schema<CreateAgentContextResponse>,
+  input: __S(0, __c0, 0) as any as S.Schema<CreateAgentContextRequest>,
+  output: __S(32, __c1, 0) as any as S.Schema<CreateAgentContextResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2348,8 +2668,8 @@ export const createAgentGoal: API.OperationMethod<
   CreateAgentGoalError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateAgentGoalRequest>,
-  output: __S(96, __c3, 0) as any as S.Schema<CreateAgentGoalResponse>,
+  input: __S(448, __c14, 0) as any as S.Schema<CreateAgentGoalRequest>,
+  output: __S(512, __c16, 0) as any as S.Schema<CreateAgentGoalResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2365,6 +2685,78 @@ export const createAgentGoal: API.OperationMethod<
   operationName: "CreateAgentGoal",
   telemetry: TELEMETRY,
   span: "CreateAgentGoal",
+}));
+
+export type CreateAgentOrganizationalProfileError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Creates an Organizational Profile for use with AWS Organizations integration. Organizational Profiles are scoped to an AWS Organization and do not require an execution role or aggregation configuration. The organization is inferred from the caller's identity.
+ */
+export const createAgentOrganizationalProfile: API.OperationMethod<
+  CreateAgentOrganizationalProfileRequest & RegionInput,
+  CreateAgentOrganizationalProfileResponse,
+  CreateAgentOrganizationalProfileError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(864, __c27, 0) as any as S.Schema<CreateAgentOrganizationalProfileRequest>,
+  output: __S(865, __c27, 1) as any as S.Schema<CreateAgentOrganizationalProfileResponse>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "CreateAgentOrganizationalProfile",
+  telemetry: TELEMETRY,
+  span: "CreateAgentOrganizationalProfile",
+}));
+
+export type CreateAgentOrganizationalReportError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Creates an Organizational Report, which is an asynchronously-materialized, point-in-time snapshot of recommendations across all Agent Profiles within the caller's AWS Organization. You can optionally narrow the scope with filters. The operation is idempotent on the caller-supplied clientToken. The AWS Organization the report belongs to is inferred from the caller's authorization context. Reports are retained for 90 days from creation, after which they are automatically deleted. Use DeleteAgentOrganizationalReport to delete a report earlier.
+ */
+export const createAgentOrganizationalReport: API.OperationMethod<
+  CreateAgentOrganizationalReportRequest & RegionInput,
+  CreateAgentOrganizationalReportResponse,
+  CreateAgentOrganizationalReportError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(960, __c30, 0) as any as S.Schema<CreateAgentOrganizationalReportRequest>,
+  output: __S(961, __c30, 1) as any as S.Schema<CreateAgentOrganizationalReportResponse>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "CreateAgentOrganizationalReport",
+  telemetry: TELEMETRY,
+  span: "CreateAgentOrganizationalReport",
 }));
 
 export type CreateAgentProfileError =
@@ -2384,8 +2776,8 @@ export const createAgentProfile: API.OperationMethod<
   CreateAgentProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c6, 0) as any as S.Schema<CreateAgentProfileRequest>,
-  output: __S(258, __c8, 2) as any as S.Schema<CreateAgentProfileResponse>,
+  input: __S(1024, __c32, 0) as any as S.Schema<CreateAgentProfileRequest>,
+  output: __S(1025, __c32, 1) as any as S.Schema<CreateAgentProfileResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2432,8 +2824,8 @@ export const createLensShare: API.OperationMethod<
   CreateLensShareError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<CreateLensShareInput>,
-  output: __S(289, __c9, 1) as any as S.Schema<CreateLensShareOutput>,
+  input: __S(1088, __c34, 0) as any as S.Schema<CreateLensShareInput>,
+  output: __S(1089, __c34, 1) as any as S.Schema<CreateLensShareOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2473,8 +2865,8 @@ export const createLensVersion: API.OperationMethod<
   CreateLensVersionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<CreateLensVersionInput>,
-  output: __S(321, __c10, 1) as any as S.Schema<CreateLensVersionOutput>,
+  input: __S(1120, __c35, 0) as any as S.Schema<CreateLensVersionInput>,
+  output: __S(1121, __c35, 1) as any as S.Schema<CreateLensVersionOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2510,8 +2902,8 @@ export const createMilestone: API.OperationMethod<
   CreateMilestoneError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c11, 0) as any as S.Schema<CreateMilestoneInput>,
-  output: __S(353, __c11, 1) as any as S.Schema<CreateMilestoneOutput>,
+  input: __S(1152, __c36, 0) as any as S.Schema<CreateMilestoneInput>,
+  output: __S(1153, __c36, 1) as any as S.Schema<CreateMilestoneOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2546,8 +2938,8 @@ export const createProfile: API.OperationMethod<
   CreateProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<CreateProfileInput>,
-  output: __S(416, __c13, 0) as any as S.Schema<CreateProfileOutput>,
+  input: __S(1184, __c37, 0) as any as S.Schema<CreateProfileInput>,
+  output: __S(1248, __c39, 0) as any as S.Schema<CreateProfileOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2582,8 +2974,8 @@ export const createProfileShare: API.OperationMethod<
   CreateProfileShareError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<CreateProfileShareInput>,
-  output: __S(481, __c15, 1) as any as S.Schema<CreateProfileShareOutput>,
+  input: __S(1280, __c40, 0) as any as S.Schema<CreateProfileShareInput>,
+  output: __S(1281, __c40, 1) as any as S.Schema<CreateProfileShareOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2623,8 +3015,8 @@ export const createReviewTemplate: API.OperationMethod<
   CreateReviewTemplateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<CreateReviewTemplateInput>,
-  output: __S(513, __c16, 1) as any as S.Schema<CreateReviewTemplateOutput>,
+  input: __S(1312, __c41, 0) as any as S.Schema<CreateReviewTemplateInput>,
+  output: __S(1313, __c41, 1) as any as S.Schema<CreateReviewTemplateOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2670,8 +3062,8 @@ export const createTemplateShare: API.OperationMethod<
   CreateTemplateShareError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c17, 0) as any as S.Schema<CreateTemplateShareInput>,
-  output: __S(545, __c17, 1) as any as S.Schema<CreateTemplateShareOutput>,
+  input: __S(1344, __c42, 0) as any as S.Schema<CreateTemplateShareInput>,
+  output: __S(1345, __c42, 1) as any as S.Schema<CreateTemplateShareOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2725,8 +3117,8 @@ export const createWorkload: API.OperationMethod<
   CreateWorkloadError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c18, 0) as any as S.Schema<CreateWorkloadInput>,
-  output: __S(577, __c18, 1) as any as S.Schema<CreateWorkloadOutput>,
+  input: __S(1376, __c43, 0) as any as S.Schema<CreateWorkloadInput>,
+  output: __S(1377, __c43, 1) as any as S.Schema<CreateWorkloadOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2768,8 +3160,8 @@ export const createWorkloadShare: API.OperationMethod<
   CreateWorkloadShareError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<CreateWorkloadShareInput>,
-  output: __S(673, __c21, 1) as any as S.Schema<CreateWorkloadShareOutput>,
+  input: __S(1472, __c46, 0) as any as S.Schema<CreateWorkloadShareInput>,
+  output: __S(1473, __c46, 1) as any as S.Schema<CreateWorkloadShareOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2803,8 +3195,8 @@ export const deleteAgentContext: API.OperationMethod<
   DeleteAgentContextError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c22, 0) as any as S.Schema<DeleteAgentContextRequest>,
-  output: __S(2976, __c93, 0) as any as S.Schema<DeleteAgentContextResponse>,
+  input: __S(1504, __c47, 0) as any as S.Schema<DeleteAgentContextRequest>,
+  output: __S(3616, __c113, 0) as any as S.Schema<DeleteAgentContextResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2836,8 +3228,8 @@ export const deleteAgentGoal: API.OperationMethod<
   DeleteAgentGoalError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c23, 0) as any as S.Schema<DeleteAgentGoalRequest>,
-  output: __S(2976, __c93, 0) as any as S.Schema<DeleteAgentGoalResponse>,
+  input: __S(1536, __c48, 0) as any as S.Schema<DeleteAgentGoalRequest>,
+  output: __S(3616, __c113, 0) as any as S.Schema<DeleteAgentGoalResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2851,6 +3243,39 @@ export const deleteAgentGoal: API.OperationMethod<
   operationName: "DeleteAgentGoal",
   telemetry: TELEMETRY,
   span: "DeleteAgentGoal",
+}));
+
+export type DeleteAgentOrganizationalReportError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Deletes an Organizational Report and its associated artifacts. The operation is idempotent, so repeated calls for a report that has already been deleted return success.
+ */
+export const deleteAgentOrganizationalReport: API.OperationMethod<
+  DeleteAgentOrganizationalReportRequest & RegionInput,
+  DeleteAgentOrganizationalReportResponse,
+  DeleteAgentOrganizationalReportError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1568, __c49, 0) as any as S.Schema<DeleteAgentOrganizationalReportRequest>,
+  output: __S(3616, __c113, 0) as any as S.Schema<DeleteAgentOrganizationalReportResponse>,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DeleteAgentOrganizationalReport",
+  telemetry: TELEMETRY,
+  span: "DeleteAgentOrganizationalReport",
 }));
 
 export type DeleteAgentProfileError =
@@ -2870,8 +3295,8 @@ export const deleteAgentProfile: API.OperationMethod<
   DeleteAgentProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c24, 0) as any as S.Schema<DeleteAgentProfileRequest>,
-  output: __S(2976, __c93, 0) as any as S.Schema<DeleteAgentProfileResponse>,
+  input: __S(1600, __c50, 0) as any as S.Schema<DeleteAgentProfileRequest>,
+  output: __S(3616, __c113, 0) as any as S.Schema<DeleteAgentProfileResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2886,6 +3311,72 @@ export const deleteAgentProfile: API.OperationMethod<
   operationName: "DeleteAgentProfile",
   telemetry: TELEMETRY,
   span: "DeleteAgentProfile",
+}));
+
+export type DeleteAgentProfilePolicyError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Removes the resource-based policy from an Agent Profile. This revokes all cross-account access previously granted by the policy. Only the profile owner can call this operation.
+ */
+export const deleteAgentProfilePolicy: API.OperationMethod<
+  DeleteAgentProfilePolicyRequest & RegionInput,
+  DeleteAgentProfilePolicyResponse,
+  DeleteAgentProfilePolicyError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1632, __c51, 0) as any as S.Schema<DeleteAgentProfilePolicyRequest>,
+  output: __S(3616, __c113, 0) as any as S.Schema<DeleteAgentProfilePolicyResponse>,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DeleteAgentProfilePolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteAgentProfilePolicy",
+}));
+
+export type DeleteAgentRecommendationPolicyError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Removes the resource-based policy from an individual Agent Recommendation. This revokes all cross-account access previously granted by the policy. The recommendation owner or any principal with profile write access on the parent profile can call this operation.
+ */
+export const deleteAgentRecommendationPolicy: API.OperationMethod<
+  DeleteAgentRecommendationPolicyRequest & RegionInput,
+  DeleteAgentRecommendationPolicyResponse,
+  DeleteAgentRecommendationPolicyError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1664, __c52, 0) as any as S.Schema<DeleteAgentRecommendationPolicyRequest>,
+  output: __S(3616, __c113, 0) as any as S.Schema<DeleteAgentRecommendationPolicyResponse>,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DeleteAgentRecommendationPolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteAgentRecommendationPolicy",
 }));
 
 export type DeleteLensError =
@@ -2911,8 +3402,8 @@ export const deleteLens: API.OperationMethod<
   DeleteLensError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c25, 0) as any as S.Schema<DeleteLensInput>,
-  output: __S(2976, __c93, 0) as any as S.Schema<DeleteLensResponse>,
+  input: __S(1696, __c53, 0) as any as S.Schema<DeleteLensInput>,
+  output: __S(3616, __c113, 0) as any as S.Schema<DeleteLensResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2952,8 +3443,8 @@ export const deleteLensShare: API.OperationMethod<
   DeleteLensShareError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c26, 0) as any as S.Schema<DeleteLensShareInput>,
-  output: __S(2976, __c93, 0) as any as S.Schema<DeleteLensShareResponse>,
+  input: __S(1728, __c54, 0) as any as S.Schema<DeleteLensShareInput>,
+  output: __S(3616, __c113, 0) as any as S.Schema<DeleteLensShareResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2991,8 +3482,8 @@ export const deleteProfile: API.OperationMethod<
   DeleteProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<DeleteProfileInput>,
-  output: __S(2976, __c93, 0) as any as S.Schema<DeleteProfileResponse>,
+  input: __S(1760, __c55, 0) as any as S.Schema<DeleteProfileInput>,
+  output: __S(3616, __c113, 0) as any as S.Schema<DeleteProfileResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3026,8 +3517,8 @@ export const deleteProfileShare: API.OperationMethod<
   DeleteProfileShareError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c28, 0) as any as S.Schema<DeleteProfileShareInput>,
-  output: __S(2976, __c93, 0) as any as S.Schema<DeleteProfileShareResponse>,
+  input: __S(1792, __c56, 0) as any as S.Schema<DeleteProfileShareInput>,
+  output: __S(3616, __c113, 0) as any as S.Schema<DeleteProfileShareResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3065,8 +3556,8 @@ export const deleteReviewTemplate: API.OperationMethod<
   DeleteReviewTemplateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c29, 0) as any as S.Schema<DeleteReviewTemplateInput>,
-  output: __S(2976, __c93, 0) as any as S.Schema<DeleteReviewTemplateResponse>,
+  input: __S(1824, __c57, 0) as any as S.Schema<DeleteReviewTemplateInput>,
+  output: __S(3616, __c113, 0) as any as S.Schema<DeleteReviewTemplateResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3102,8 +3593,8 @@ export const deleteTemplateShare: API.OperationMethod<
   DeleteTemplateShareError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c30, 0) as any as S.Schema<DeleteTemplateShareInput>,
-  output: __S(2976, __c93, 0) as any as S.Schema<DeleteTemplateShareResponse>,
+  input: __S(1856, __c58, 0) as any as S.Schema<DeleteTemplateShareInput>,
+  output: __S(3616, __c113, 0) as any as S.Schema<DeleteTemplateShareResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3137,8 +3628,8 @@ export const deleteWorkload: API.OperationMethod<
   DeleteWorkloadError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c31, 0) as any as S.Schema<DeleteWorkloadInput>,
-  output: __S(2976, __c93, 0) as any as S.Schema<DeleteWorkloadResponse>,
+  input: __S(1888, __c59, 0) as any as S.Schema<DeleteWorkloadInput>,
+  output: __S(3616, __c113, 0) as any as S.Schema<DeleteWorkloadResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3172,8 +3663,8 @@ export const deleteWorkloadShare: API.OperationMethod<
   DeleteWorkloadShareError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c32, 0) as any as S.Schema<DeleteWorkloadShareInput>,
-  output: __S(2976, __c93, 0) as any as S.Schema<DeleteWorkloadShareResponse>,
+  input: __S(1920, __c60, 0) as any as S.Schema<DeleteWorkloadShareInput>,
+  output: __S(3616, __c113, 0) as any as S.Schema<DeleteWorkloadShareResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3211,8 +3702,8 @@ export const disassociateLenses: API.OperationMethod<
   DisassociateLensesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c33, 0) as any as S.Schema<DisassociateLensesInput>,
-  output: __S(2976, __c93, 0) as any as S.Schema<DisassociateLensesResponse>,
+  input: __S(1952, __c61, 0) as any as S.Schema<DisassociateLensesInput>,
+  output: __S(3616, __c113, 0) as any as S.Schema<DisassociateLensesResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3246,8 +3737,8 @@ export const disassociateProfiles: API.OperationMethod<
   DisassociateProfilesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c34, 0) as any as S.Schema<DisassociateProfilesInput>,
-  output: __S(2976, __c93, 0) as any as S.Schema<DisassociateProfilesResponse>,
+  input: __S(1984, __c62, 0) as any as S.Schema<DisassociateProfilesInput>,
+  output: __S(3616, __c113, 0) as any as S.Schema<DisassociateProfilesResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3288,8 +3779,8 @@ export const exportLens: API.OperationMethod<
   ExportLensError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c35, 0) as any as S.Schema<ExportLensInput>,
-  output: __S(1121, __c35, 1) as any as S.Schema<ExportLensOutput>,
+  input: __S(2016, __c63, 0) as any as S.Schema<ExportLensInput>,
+  output: __S(2017, __c63, 1) as any as S.Schema<ExportLensOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -3321,8 +3812,8 @@ export const getAgentContext: API.OperationMethod<
   GetAgentContextError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c36, 0) as any as S.Schema<GetAgentContextRequest>,
-  output: __S(3840, __c120, 0) as any as S.Schema<GetAgentContextResponse>,
+  input: __S(2048, __c64, 0) as any as S.Schema<GetAgentContextRequest>,
+  output: __S(32, __c1, 0) as any as S.Schema<GetAgentContextResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -3354,8 +3845,8 @@ export const getAgentGoal: API.OperationMethod<
   GetAgentGoalError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c37, 0) as any as S.Schema<GetAgentGoalRequest>,
-  output: __S(96, __c3, 0) as any as S.Schema<GetAgentGoalResponse>,
+  input: __S(2080, __c65, 0) as any as S.Schema<GetAgentGoalRequest>,
+  output: __S(512, __c16, 0) as any as S.Schema<GetAgentGoalResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -3369,6 +3860,103 @@ export const getAgentGoal: API.OperationMethod<
   operationName: "GetAgentGoal",
   telemetry: TELEMETRY,
   span: "GetAgentGoal",
+}));
+
+export type GetAgentOrganizationalReportError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Retrieves metadata and current state for a single Organizational Report. The coverageSummary is populated once the report reaches COMPLETED and is absent for reports still in progress or in a failed state.
+ */
+export const getAgentOrganizationalReport: API.OperationMethod<
+  GetAgentOrganizationalReportRequest & RegionInput,
+  GetAgentOrganizationalReportResponse,
+  GetAgentOrganizationalReportError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2112, __c66, 0) as any as S.Schema<GetAgentOrganizationalReportRequest>,
+  output: __S(2122, __c66, 10) as any as S.Schema<GetAgentOrganizationalReportResponse>,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetAgentOrganizationalReport",
+  telemetry: TELEMETRY,
+  span: "GetAgentOrganizationalReport",
+}));
+
+export type GetAgentOrganizationalReportDataError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Retrieves the data artifact for a completed Organizational Report as a short-lived presigned S3 URL. The response contains the URL in downloadUrl and its expiration in expiresAt. To have the service write the artifact directly into a caller-owned bucket instead, use SendAgentOrganizationalReportDataToS3.
+ */
+export const getAgentOrganizationalReportData: API.OperationMethod<
+  GetAgentOrganizationalReportDataRequest & RegionInput,
+  GetAgentOrganizationalReportDataResponse,
+  GetAgentOrganizationalReportDataError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2144, __c67, 0) as any as S.Schema<GetAgentOrganizationalReportDataRequest>,
+  output: __S(2145, __c67, 1) as any as S.Schema<GetAgentOrganizationalReportDataResponse>,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetAgentOrganizationalReportData",
+  telemetry: TELEMETRY,
+  span: "GetAgentOrganizationalReportData",
+}));
+
+export type GetAgentPreferencesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Returns the caller's complete set of Well-Architected Agent preferences with their current states.
+ */
+export const getAgentPreferences: API.OperationMethod<
+  GetAgentPreferencesRequest & RegionInput,
+  GetAgentPreferencesResponse,
+  GetAgentPreferencesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2176, __c68, 0) as any as S.Schema<GetAgentPreferencesRequest>,
+  output: __S(2179, __c68, 3) as any as S.Schema<GetAgentPreferencesResponse>,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetAgentPreferences",
+  telemetry: TELEMETRY,
+  span: "GetAgentPreferences",
 }));
 
 export type GetAgentProfileError =
@@ -3387,8 +3975,8 @@ export const getAgentProfile: API.OperationMethod<
   GetAgentProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c38, 0) as any as S.Schema<GetAgentProfileRequest>,
-  output: __S(258, __c8, 2) as any as S.Schema<GetAgentProfileResponse>,
+  input: __S(2208, __c69, 0) as any as S.Schema<GetAgentProfileRequest>,
+  output: __S(2209, __c69, 1) as any as S.Schema<GetAgentProfileResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -3404,6 +3992,39 @@ export const getAgentProfile: API.OperationMethod<
   span: "GetAgentProfile",
 }));
 
+export type GetAgentProfilePolicyError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Retrieves the resource-based policy attached to an Agent Profile. Only the profile owner can call this operation.
+ */
+export const getAgentProfilePolicy: API.OperationMethod<
+  GetAgentProfilePolicyRequest & RegionInput,
+  GetAgentProfilePolicyResponse,
+  GetAgentProfilePolicyError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2240, __c70, 0) as any as S.Schema<GetAgentProfilePolicyRequest>,
+  output: __S(2241, __c70, 1) as any as S.Schema<GetAgentProfilePolicyResponse>,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetAgentProfilePolicy",
+  telemetry: TELEMETRY,
+  span: "GetAgentProfilePolicy",
+}));
+
 export type GetAgentRecommendationError =
   | AccessDeniedException
   | InternalServerException
@@ -3412,6 +4033,8 @@ export type GetAgentRecommendationError =
   | ValidationException
   | CommonErrors;
 /**
+ * Application-level recommendations are a new recommendation format currently in beta. We are actively seeking customer feedback to improve their quality and relevance. As with any AI-generated content, please thoroughly review each recommendation before taking any action based on it.
+ *
  * Retrieves detailed information about a specific optimization recommendation, including its impact analysis, content, and implementation guidance.
  */
 export const getAgentRecommendation: API.OperationMethod<
@@ -3420,8 +4043,8 @@ export const getAgentRecommendation: API.OperationMethod<
   GetAgentRecommendationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c39, 0) as any as S.Schema<GetAgentRecommendationRequest>,
-  output: __S(1264, __c39, 16) as any as S.Schema<GetAgentRecommendationResponse>,
+  input: __S(2272, __c71, 0) as any as S.Schema<GetAgentRecommendationRequest>,
+  output: __S(2288, __c71, 16) as any as S.Schema<GetAgentRecommendationResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -3445,6 +4068,8 @@ export type GetAgentRecommendationGenerationError =
   | ValidationException
   | CommonErrors;
 /**
+ * Application-level recommendations are a new recommendation format currently in beta. We are actively seeking customer feedback to improve their quality and relevance. As with any AI-generated content, please thoroughly review each recommendation before taking any action based on it.
+ *
  * Retrieves information about a recommendation generation process, including its status, progress, and results. Recommendation generation is asynchronous: poll this operation until status reaches a terminal value of COMPLETED (results are ready) or ERROR (see errorDetails). Intermediate values are QUEUED and IN_PROGRESS.
  */
 export const getAgentRecommendationGeneration: API.OperationMethod<
@@ -3453,8 +4078,8 @@ export const getAgentRecommendationGeneration: API.OperationMethod<
   GetAgentRecommendationGenerationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c41, 0) as any as S.Schema<GetAgentRecommendationGenerationRequest>,
-  output: __S(1315, __c41, 3) as any as S.Schema<GetAgentRecommendationGenerationResponse>,
+  input: __S(2336, __c73, 0) as any as S.Schema<GetAgentRecommendationGenerationRequest>,
+  output: __S(2338, __c73, 2) as any as S.Schema<GetAgentRecommendationGenerationResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -3468,6 +4093,39 @@ export const getAgentRecommendationGeneration: API.OperationMethod<
   operationName: "GetAgentRecommendationGeneration",
   telemetry: TELEMETRY,
   span: "GetAgentRecommendationGeneration",
+}));
+
+export type GetAgentRecommendationPolicyError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Retrieves the resource-based policy attached to an individual Agent Recommendation. The recommendation owner or any principal with profile write access on the parent profile can call this operation.
+ */
+export const getAgentRecommendationPolicy: API.OperationMethod<
+  GetAgentRecommendationPolicyRequest & RegionInput,
+  GetAgentRecommendationPolicyResponse,
+  GetAgentRecommendationPolicyError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2432, __c76, 0) as any as S.Schema<GetAgentRecommendationPolicyRequest>,
+  output: __S(2433, __c76, 1) as any as S.Schema<GetAgentRecommendationPolicyResponse>,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetAgentRecommendationPolicy",
+  telemetry: TELEMETRY,
+  span: "GetAgentRecommendationPolicy",
 }));
 
 export type GetAnswerError =
@@ -3486,8 +4144,8 @@ export const getAnswer: API.OperationMethod<
   GetAnswerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c43, 0) as any as S.Schema<GetAnswerInput>,
-  output: __S(1377, __c43, 1) as any as S.Schema<GetAnswerOutput>,
+  input: __S(2464, __c77, 0) as any as S.Schema<GetAnswerInput>,
+  output: __S(2465, __c77, 1) as any as S.Schema<GetAnswerOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -3522,8 +4180,8 @@ export const getConsolidatedReport: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1536, __c48, 0) as any as S.Schema<GetConsolidatedReportInput>,
-  output: __S(1547, __c48, 11) as any as S.Schema<GetConsolidatedReportOutput>,
+  input: __S(2624, __c82, 0) as any as S.Schema<GetConsolidatedReportInput>,
+  output: __S(2635, __c82, 11) as any as S.Schema<GetConsolidatedReportOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3559,8 +4217,8 @@ export const getGlobalSettings: API.OperationMethod<
   GetGlobalSettingsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c50, 0) as any as S.Schema<GetGlobalSettingsRequest>,
-  output: __S(1602, __c50, 2) as any as S.Schema<GetGlobalSettingsOutput>,
+  input: __S(2688, __c84, 0) as any as S.Schema<GetGlobalSettingsRequest>,
+  output: __S(2690, __c84, 2) as any as S.Schema<GetGlobalSettingsOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -3591,8 +4249,8 @@ export const getLens: API.OperationMethod<
   GetLensError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c51, 0) as any as S.Schema<GetLensInput>,
-  output: __S(1634, __c51, 2) as any as S.Schema<GetLensOutput>,
+  input: __S(2720, __c85, 0) as any as S.Schema<GetLensInput>,
+  output: __S(2722, __c85, 2) as any as S.Schema<GetLensOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -3624,8 +4282,8 @@ export const getLensReview: API.OperationMethod<
   GetLensReviewError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c52, 0) as any as S.Schema<GetLensReviewInput>,
-  output: __S(1665, __c52, 1) as any as S.Schema<GetLensReviewOutput>,
+  input: __S(2752, __c86, 0) as any as S.Schema<GetLensReviewInput>,
+  output: __S(2753, __c86, 1) as any as S.Schema<GetLensReviewOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -3657,8 +4315,8 @@ export const getLensReviewReport: API.OperationMethod<
   GetLensReviewReportError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c55, 0) as any as S.Schema<GetLensReviewReportInput>,
-  output: __S(1762, __c55, 2) as any as S.Schema<GetLensReviewReportOutput>,
+  input: __S(2848, __c89, 0) as any as S.Schema<GetLensReviewReportInput>,
+  output: __S(2850, __c89, 2) as any as S.Schema<GetLensReviewReportOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -3690,8 +4348,8 @@ export const getLensVersionDifference: API.OperationMethod<
   GetLensVersionDifferenceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c56, 0) as any as S.Schema<GetLensVersionDifferenceInput>,
-  output: __S(1798, __c56, 6) as any as S.Schema<GetLensVersionDifferenceOutput>,
+  input: __S(2880, __c90, 0) as any as S.Schema<GetLensVersionDifferenceInput>,
+  output: __S(2886, __c90, 6) as any as S.Schema<GetLensVersionDifferenceOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -3723,8 +4381,8 @@ export const getMilestone: API.OperationMethod<
   GetMilestoneError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c57, 0) as any as S.Schema<GetMilestoneInput>,
-  output: __S(1826, __c57, 2) as any as S.Schema<GetMilestoneOutput>,
+  input: __S(2912, __c91, 0) as any as S.Schema<GetMilestoneInput>,
+  output: __S(2914, __c91, 2) as any as S.Schema<GetMilestoneOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -3756,8 +4414,8 @@ export const getProfile: API.OperationMethod<
   GetProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c59, 0) as any as S.Schema<GetProfileInput>,
-  output: __S(1955, __c61, 3) as any as S.Schema<GetProfileOutput>,
+  input: __S(2976, __c93, 0) as any as S.Schema<GetProfileInput>,
+  output: __S(3011, __c94, 3) as any as S.Schema<GetProfileOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -3789,8 +4447,8 @@ export const getProfileTemplate: API.OperationMethod<
   GetProfileTemplateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1984, __c62, 0) as any as S.Schema<GetProfileTemplateInput>,
-  output: __S(1988, __c62, 4) as any as S.Schema<GetProfileTemplateOutput>,
+  input: __S(3104, __c97, 0) as any as S.Schema<GetProfileTemplateInput>,
+  output: __S(3108, __c97, 4) as any as S.Schema<GetProfileTemplateOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -3822,8 +4480,8 @@ export const getReviewTemplate: API.OperationMethod<
   GetReviewTemplateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c63, 0) as any as S.Schema<GetReviewTemplateInput>,
-  output: __S(2049, __c64, 1) as any as S.Schema<GetReviewTemplateOutput>,
+  input: __S(3136, __c98, 0) as any as S.Schema<GetReviewTemplateInput>,
+  output: __S(3169, __c99, 1) as any as S.Schema<GetReviewTemplateOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -3855,8 +4513,8 @@ export const getReviewTemplateAnswer: API.OperationMethod<
   GetReviewTemplateAnswerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c65, 0) as any as S.Schema<GetReviewTemplateAnswerInput>,
-  output: __S(2113, __c66, 1) as any as S.Schema<GetReviewTemplateAnswerOutput>,
+  input: __S(3200, __c100, 0) as any as S.Schema<GetReviewTemplateAnswerInput>,
+  output: __S(3233, __c101, 1) as any as S.Schema<GetReviewTemplateAnswerOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -3888,8 +4546,8 @@ export const getReviewTemplateLensReview: API.OperationMethod<
   GetReviewTemplateLensReviewError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2144, __c67, 0) as any as S.Schema<GetReviewTemplateLensReviewInput>,
-  output: __S(2179, __c68, 3) as any as S.Schema<GetReviewTemplateLensReviewOutput>,
+  input: __S(3264, __c102, 0) as any as S.Schema<GetReviewTemplateLensReviewInput>,
+  output: __S(3299, __c103, 3) as any as S.Schema<GetReviewTemplateLensReviewOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -3921,8 +4579,8 @@ export const getWorkload: API.OperationMethod<
   GetWorkloadError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c69, 0) as any as S.Schema<GetWorkloadInput>,
-  output: __S(2240, __c70, 0) as any as S.Schema<GetWorkloadOutput>,
+  input: __S(3328, __c104, 0) as any as S.Schema<GetWorkloadInput>,
+  output: __S(3360, __c105, 0) as any as S.Schema<GetWorkloadOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -3968,8 +4626,8 @@ export const importLens: API.OperationMethod<
   ImportLensError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c71, 0) as any as S.Schema<ImportLensInput>,
-  output: __S(2273, __c71, 1) as any as S.Schema<ImportLensOutput>,
+  input: __S(3392, __c106, 0) as any as S.Schema<ImportLensInput>,
+  output: __S(3393, __c106, 1) as any as S.Schema<ImportLensOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -4003,8 +4661,8 @@ export const listAgentContexts: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ContextSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2304, __c72, 0) as any as S.Schema<ListAgentContextsRequest>,
-  output: __S(2306, __c72, 2) as any as S.Schema<ListAgentContextsResponse>,
+  input: __S(3424, __c107, 0) as any as S.Schema<ListAgentContextsRequest>,
+  output: __S(3426, __c107, 2) as any as S.Schema<ListAgentContextsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4041,8 +4699,8 @@ export const listAgentGoals: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   GoalSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2336, __c73, 0) as any as S.Schema<ListAgentGoalsRequest>,
-  output: __S(2338, __c73, 2) as any as S.Schema<ListAgentGoalsResponse>,
+  input: __S(3456, __c108, 0) as any as S.Schema<ListAgentGoalsRequest>,
+  output: __S(3458, __c108, 2) as any as S.Schema<ListAgentGoalsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4063,6 +4721,44 @@ export const listAgentGoals: API.PaginatedOperationMethod<
   span: "ListAgentGoals",
 })) as any;
 
+export type ListAgentOrganizationalReportsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Lists Organizational Reports owned by the caller's account within the caller's AWS Organization, ordered by most recently created first. Supports pagination and an optional state filter.
+ */
+export const listAgentOrganizationalReports: API.PaginatedOperationMethod<
+  ListAgentOrganizationalReportsRequest & RegionInput,
+  ListAgentOrganizationalReportsResponse,
+  ListAgentOrganizationalReportsError,
+  Credentials | HttpClient.HttpClient,
+  OrganizationalReportSummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: __S(3488, __c109, 0) as any as S.Schema<ListAgentOrganizationalReportsRequest>,
+  output: __S(3491, __c109, 3) as any as S.Schema<ListAgentOrganizationalReportsResponse>,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListAgentOrganizationalReports",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+  telemetry: TELEMETRY,
+  span: "ListAgentOrganizationalReports",
+})) as any;
+
 export type ListAgentProfilesError =
   | AccessDeniedException
   | InternalServerException
@@ -4079,8 +4775,8 @@ export const listAgentProfiles: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   AgentProfileSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2368, __c74, 0) as any as S.Schema<ListAgentProfilesRequest>,
-  output: __S(2370, __c74, 2) as any as S.Schema<ListAgentProfilesResponse>,
+  input: __S(3520, __c110, 0) as any as S.Schema<ListAgentProfilesRequest>,
+  output: __S(3523, __c110, 3) as any as S.Schema<ListAgentProfilesResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4109,6 +4805,8 @@ export type ListAgentRecommendationGenerationsError =
   | ValidationException
   | CommonErrors;
 /**
+ * Application-level recommendations are a new recommendation format currently in beta. We are actively seeking customer feedback to improve their quality and relevance. As with any AI-generated content, please thoroughly review each recommendation before taking any action based on it.
+ *
  * Lists recommendation generation processes for a specified profile.
  */
 export const listAgentRecommendationGenerations: API.PaginatedOperationMethod<
@@ -4118,8 +4816,8 @@ export const listAgentRecommendationGenerations: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   AgentRecommendationGenerationSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2400, __c75, 0) as any as S.Schema<ListAgentRecommendationGenerationsRequest>,
-  output: __S(2402, __c75, 2) as any as S.Schema<ListAgentRecommendationGenerationsResponse>,
+  input: __S(3648, __c114, 0) as any as S.Schema<ListAgentRecommendationGenerationsRequest>,
+  output: __S(3651, __c114, 3) as any as S.Schema<ListAgentRecommendationGenerationsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4149,6 +4847,8 @@ export type ListAgentRecommendationItemsError =
   | ValidationException
   | CommonErrors;
 /**
+ * Application-level recommendations are a new recommendation format currently in beta. We are actively seeking customer feedback to improve their quality and relevance. As with any AI-generated content, please thoroughly review each recommendation before taking any action based on it.
+ *
  * Lists recommendation items for a specific recommendation. Recommendation items provide detailed information about individual optimization opportunities.
  */
 export const listAgentRecommendationItems: API.PaginatedOperationMethod<
@@ -4158,8 +4858,8 @@ export const listAgentRecommendationItems: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   AgentRecommendationItemSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2464, __c77, 0) as any as S.Schema<ListAgentRecommendationItemsRequest>,
-  output: __S(2467, __c77, 3) as any as S.Schema<ListAgentRecommendationItemsResponse>,
+  input: __S(3680, __c115, 0) as any as S.Schema<ListAgentRecommendationItemsRequest>,
+  output: __S(3684, __c115, 4) as any as S.Schema<ListAgentRecommendationItemsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4189,6 +4889,8 @@ export type ListAgentRecommendationsError =
   | ValidationException
   | CommonErrors;
 /**
+ * Application-level recommendations are a new recommendation format currently in beta. We are actively seeking customer feedback to improve their quality and relevance. As with any AI-generated content, please thoroughly review each recommendation before taking any action based on it.
+ *
  * Lists active optimization recommendations for a specified profile with optional filtering by state.
  */
 export const listAgentRecommendations: API.PaginatedOperationMethod<
@@ -4198,8 +4900,8 @@ export const listAgentRecommendations: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   AgentRecommendationSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2528, __c79, 0) as any as S.Schema<ListAgentRecommendationsRequest>,
-  output: __S(2531, __c79, 3) as any as S.Schema<ListAgentRecommendationsResponse>,
+  input: __S(3712, __c116, 0) as any as S.Schema<ListAgentRecommendationsRequest>,
+  output: __S(3715, __c116, 3) as any as S.Schema<ListAgentRecommendationsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4238,8 +4940,8 @@ export const listAnswers: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2560, __c80, 0) as any as S.Schema<ListAnswersInput>,
-  output: __S(2563, __c80, 3) as any as S.Schema<ListAnswersOutput>,
+  input: __S(3744, __c117, 0) as any as S.Schema<ListAnswersInput>,
+  output: __S(3747, __c117, 3) as any as S.Schema<ListAnswersOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4277,8 +4979,8 @@ export const listCheckDetails: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2624, __c82, 0) as any as S.Schema<ListCheckDetailsInput>,
-  output: __S(2627, __c82, 3) as any as S.Schema<ListCheckDetailsOutput>,
+  input: __S(3808, __c119, 0) as any as S.Schema<ListCheckDetailsInput>,
+  output: __S(3811, __c119, 3) as any as S.Schema<ListCheckDetailsOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4316,8 +5018,8 @@ export const listCheckSummaries: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2656, __c83, 0) as any as S.Schema<ListCheckSummariesInput>,
-  output: __S(2659, __c83, 3) as any as S.Schema<ListCheckSummariesOutput>,
+  input: __S(3840, __c120, 0) as any as S.Schema<ListCheckSummariesInput>,
+  output: __S(3843, __c120, 3) as any as S.Schema<ListCheckSummariesOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4354,8 +5056,8 @@ export const listLenses: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2688, __c84, 0) as any as S.Schema<ListLensesInput>,
-  output: __S(2691, __c84, 3) as any as S.Schema<ListLensesOutput>,
+  input: __S(3872, __c121, 0) as any as S.Schema<ListLensesInput>,
+  output: __S(3875, __c121, 3) as any as S.Schema<ListLensesOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4392,8 +5094,8 @@ export const listLensReviewImprovements: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2720, __c85, 0) as any as S.Schema<ListLensReviewImprovementsInput>,
-  output: __S(2725, __c85, 5) as any as S.Schema<ListLensReviewImprovementsOutput>,
+  input: __S(3904, __c122, 0) as any as S.Schema<ListLensReviewImprovementsInput>,
+  output: __S(3909, __c122, 5) as any as S.Schema<ListLensReviewImprovementsOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4431,8 +5133,8 @@ export const listLensReviews: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2752, __c86, 0) as any as S.Schema<ListLensReviewsInput>,
-  output: __S(2755, __c86, 3) as any as S.Schema<ListLensReviewsOutput>,
+  input: __S(3936, __c123, 0) as any as S.Schema<ListLensReviewsInput>,
+  output: __S(3939, __c123, 3) as any as S.Schema<ListLensReviewsOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4470,8 +5172,8 @@ export const listLensShares: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2784, __c87, 0) as any as S.Schema<ListLensSharesInput>,
-  output: __S(2785, __c87, 1) as any as S.Schema<ListLensSharesOutput>,
+  input: __S(3968, __c124, 0) as any as S.Schema<ListLensSharesInput>,
+  output: __S(3969, __c124, 1) as any as S.Schema<ListLensSharesOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4509,8 +5211,8 @@ export const listMilestones: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2848, __c89, 0) as any as S.Schema<ListMilestonesInput>,
-  output: __S(2851, __c89, 3) as any as S.Schema<ListMilestonesOutput>,
+  input: __S(4064, __c127, 0) as any as S.Schema<ListMilestonesInput>,
+  output: __S(4067, __c127, 3) as any as S.Schema<ListMilestonesOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4547,8 +5249,8 @@ export const listNotifications: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2912, __c91, 0) as any as S.Schema<ListNotificationsInput>,
-  output: __S(2916, __c91, 4) as any as S.Schema<ListNotificationsOutput>,
+  input: __S(4128, __c129, 0) as any as S.Schema<ListNotificationsInput>,
+  output: __S(4132, __c129, 4) as any as S.Schema<ListNotificationsOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4584,8 +5286,8 @@ export const listProfileNotifications: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3040, __c95, 0) as any as S.Schema<ListProfileNotificationsInput>,
-  output: __S(3043, __c95, 3) as any as S.Schema<ListProfileNotificationsOutput>,
+  input: __S(4160, __c130, 0) as any as S.Schema<ListProfileNotificationsInput>,
+  output: __S(4163, __c130, 3) as any as S.Schema<ListProfileNotificationsOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4621,8 +5323,8 @@ export const listProfiles: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3072, __c96, 0) as any as S.Schema<ListProfilesInput>,
-  output: __S(3075, __c96, 3) as any as S.Schema<ListProfilesOutput>,
+  input: __S(4192, __c131, 0) as any as S.Schema<ListProfilesInput>,
+  output: __S(4195, __c131, 3) as any as S.Schema<ListProfilesOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4659,8 +5361,8 @@ export const listProfileShares: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3104, __c97, 0) as any as S.Schema<ListProfileSharesInput>,
-  output: __S(3105, __c97, 1) as any as S.Schema<ListProfileSharesOutput>,
+  input: __S(4224, __c132, 0) as any as S.Schema<ListProfileSharesInput>,
+  output: __S(4225, __c132, 1) as any as S.Schema<ListProfileSharesOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4698,8 +5400,8 @@ export const listReviewTemplateAnswers: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3136, __c98, 0) as any as S.Schema<ListReviewTemplateAnswersInput>,
-  output: __S(3139, __c98, 3) as any as S.Schema<ListReviewTemplateAnswersOutput>,
+  input: __S(4256, __c133, 0) as any as S.Schema<ListReviewTemplateAnswersInput>,
+  output: __S(4259, __c133, 3) as any as S.Schema<ListReviewTemplateAnswersOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4736,8 +5438,8 @@ export const listReviewTemplates: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3168, __c99, 0) as any as S.Schema<ListReviewTemplatesInput>,
-  output: __S(3171, __c99, 3) as any as S.Schema<ListReviewTemplatesOutput>,
+  input: __S(4288, __c134, 0) as any as S.Schema<ListReviewTemplatesInput>,
+  output: __S(4291, __c134, 3) as any as S.Schema<ListReviewTemplatesOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4775,8 +5477,8 @@ export const listShareInvitations: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3200, __c100, 0) as any as S.Schema<ListShareInvitationsInput>,
-  output: __S(3203, __c100, 3) as any as S.Schema<ListShareInvitationsOutput>,
+  input: __S(4320, __c135, 0) as any as S.Schema<ListShareInvitationsInput>,
+  output: __S(4323, __c135, 3) as any as S.Schema<ListShareInvitationsOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4811,8 +5513,8 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3232, __c101, 0) as any as S.Schema<ListTagsForResourceInput>,
-  output: __S(3233, __c101, 1) as any as S.Schema<ListTagsForResourceOutput>,
+  input: __S(4352, __c136, 0) as any as S.Schema<ListTagsForResourceInput>,
+  output: __S(4353, __c136, 1) as any as S.Schema<ListTagsForResourceOutput>,
   errors: [InternalServerException, ResourceNotFoundException],
   serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
@@ -4839,8 +5541,8 @@ export const listTemplateShares: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3264, __c102, 0) as any as S.Schema<ListTemplateSharesInput>,
-  output: __S(3265, __c102, 1) as any as S.Schema<ListTemplateSharesOutput>,
+  input: __S(4384, __c137, 0) as any as S.Schema<ListTemplateSharesInput>,
+  output: __S(4385, __c137, 1) as any as S.Schema<ListTemplateSharesOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4877,8 +5579,8 @@ export const listWorkloads: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3296, __c103, 0) as any as S.Schema<ListWorkloadsInput>,
-  output: __S(3298, __c103, 2) as any as S.Schema<ListWorkloadsOutput>,
+  input: __S(4480, __c140, 0) as any as S.Schema<ListWorkloadsInput>,
+  output: __S(4482, __c140, 2) as any as S.Schema<ListWorkloadsOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4915,8 +5617,8 @@ export const listWorkloadShares: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3328, __c104, 0) as any as S.Schema<ListWorkloadSharesInput>,
-  output: __S(3331, __c104, 3) as any as S.Schema<ListWorkloadSharesOutput>,
+  input: __S(4512, __c141, 0) as any as S.Schema<ListWorkloadSharesInput>,
+  output: __S(4515, __c141, 3) as any as S.Schema<ListWorkloadSharesOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4937,6 +5639,72 @@ export const listWorkloadShares: API.PaginatedOperationMethod<
   span: "ListWorkloadShares",
 })) as any;
 
+export type PutAgentPreferencesError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Creates or replaces the caller's Well-Architected Agent preferences. Each supplied update sets the desired state of one preference. Preferences not named in the request are left unchanged. Enabling or disabling is performed synchronously, so a failure to reach the requested state is returned as a modeled exception rather than a FAILED status. On success the operation returns an empty response. Call GetAgentPreferences to read the resulting state. The account the preferences belong to is inferred from the caller's authorization context.
+ */
+export const putAgentPreferences: API.OperationMethod<
+  PutAgentPreferencesRequest & RegionInput,
+  PutAgentPreferencesResponse,
+  PutAgentPreferencesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(4546, __c142, 2) as any as S.Schema<PutAgentPreferencesRequest>,
+  output: __S(3616, __c113, 0) as any as S.Schema<PutAgentPreferencesResponse>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "PutAgentPreferences",
+  telemetry: TELEMETRY,
+  span: "PutAgentPreferences",
+}));
+
+export type PutAgentProfilePolicyError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Attaches or replaces a resource-based policy on an Agent Profile. The policy controls cross-account access to the profile and its child resources such as recommendations, goals, and contexts. Only the profile owner can call this operation. The policy must be valid IAM JSON with Allow-only statements and no negation condition operators.
+ */
+export const putAgentProfilePolicy: API.OperationMethod<
+  PutAgentProfilePolicyRequest & RegionInput,
+  PutAgentProfilePolicyResponse,
+  PutAgentProfilePolicyError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(4576, __c143, 0) as any as S.Schema<PutAgentProfilePolicyRequest>,
+  output: __S(3616, __c113, 0) as any as S.Schema<PutAgentProfilePolicyResponse>,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "PutAgentProfilePolicy",
+  telemetry: TELEMETRY,
+  span: "PutAgentProfilePolicy",
+}));
+
 export type PutAgentRecommendationFeedbackError =
   | AccessDeniedException
   | InternalServerException
@@ -4953,8 +5721,8 @@ export const putAgentRecommendationFeedback: API.OperationMethod<
   PutAgentRecommendationFeedbackError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3392, __c106, 0) as any as S.Schema<PutAgentRecommendationFeedbackRequest>,
-  output: __S(2976, __c93, 0) as any as S.Schema<PutAgentRecommendationFeedbackResponse>,
+  input: __S(4608, __c144, 0) as any as S.Schema<PutAgentRecommendationFeedbackRequest>,
+  output: __S(3616, __c113, 0) as any as S.Schema<PutAgentRecommendationFeedbackResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4970,6 +5738,72 @@ export const putAgentRecommendationFeedback: API.OperationMethod<
   span: "PutAgentRecommendationFeedback",
 }));
 
+export type PutAgentRecommendationPolicyError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Attaches or replaces a resource-based policy on an individual Agent Recommendation. The policy controls cross-account access to the recommendation and its child resources such as items and remediations. The recommendation owner or any principal with profile write access on the parent profile can call this operation. The policy must be valid IAM JSON with Allow-only statements and no negation condition operators.
+ */
+export const putAgentRecommendationPolicy: API.OperationMethod<
+  PutAgentRecommendationPolicyRequest & RegionInput,
+  PutAgentRecommendationPolicyResponse,
+  PutAgentRecommendationPolicyError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(4640, __c145, 0) as any as S.Schema<PutAgentRecommendationPolicyRequest>,
+  output: __S(3616, __c113, 0) as any as S.Schema<PutAgentRecommendationPolicyResponse>,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "PutAgentRecommendationPolicy",
+  telemetry: TELEMETRY,
+  span: "PutAgentRecommendationPolicy",
+}));
+
+export type SendAgentOrganizationalReportDataToS3Error =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Writes the data artifact for a completed Organizational Report directly into a caller-owned S3 bucket. The artifact is written in the requested format to the supplied bucketArn and objectKey, and the resulting S3 location is returned in deliveredTo. This operation creates an S3 object and should not be retried indiscriminately. To download the artifact through a short-lived presigned URL instead, use GetAgentOrganizationalReportData.
+ */
+export const sendAgentOrganizationalReportDataToS3: API.OperationMethod<
+  SendAgentOrganizationalReportDataToS3Request & RegionInput,
+  SendAgentOrganizationalReportDataToS3Response,
+  SendAgentOrganizationalReportDataToS3Error,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(4672, __c146, 0) as any as S.Schema<SendAgentOrganizationalReportDataToS3Request>,
+  output: __S(4673, __c146, 1) as any as S.Schema<SendAgentOrganizationalReportDataToS3Response>,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "SendAgentOrganizationalReportDataToS3",
+  telemetry: TELEMETRY,
+  span: "SendAgentOrganizationalReportDataToS3",
+}));
+
 export type StartAgentRecommendationGenerationError =
   | AccessDeniedException
   | ConflictException
@@ -4979,7 +5813,13 @@ export type StartAgentRecommendationGenerationError =
   | ValidationException
   | CommonErrors;
 /**
- * Initiates a new recommendation generation process for the specified optimization profile. This asynchronous operation analyzes your Amazon Web Services resources and generates optimization recommendations based on the configured pillars and scope. Use GetAgentRecommendationGeneration to check status.
+ * Starts a recommendation generation process for the specified agent profile. This asynchronous operation returns immediately. Use `GetAgentRecommendationGeneration` to check the status of the generation.
+ *
+ * Currently, only the `ARCHITECTURE` recommendation type is supported. `RESOURCE` and `APPLICATION` recommendations are generated only by the scheduled generation cycle and cannot be started with this operation.
+ *
+ * For the `ARCHITECTURE` type, the generation analyzes the infrastructure as code (IaC) template that you specify in `additionalContext`, and returns updated templates with best practice fixes applied. You must specify `scope` and `additionalContext`. You can optionally specify `name`.
+ *
+ * Architecture review generations are subject to a daily quota for each profile. For more information, see Quotas and limits in the Amazon Web Services Well-Architected User Guide.
  */
 export const startAgentRecommendationGeneration: API.OperationMethod<
   StartAgentRecommendationGenerationRequest & RegionInput,
@@ -4987,8 +5827,8 @@ export const startAgentRecommendationGeneration: API.OperationMethod<
   StartAgentRecommendationGenerationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3424, __c107, 0) as any as S.Schema<StartAgentRecommendationGenerationRequest>,
-  output: __S(2432, __c76, 0) as any as S.Schema<StartAgentRecommendationGenerationResponse>,
+  input: __S(4704, __c147, 0) as any as S.Schema<StartAgentRecommendationGenerationRequest>,
+  output: __S(4705, __c147, 1) as any as S.Schema<StartAgentRecommendationGenerationResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -5017,8 +5857,8 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3456, __c108, 0) as any as S.Schema<TagResourceInput>,
-  output: __S(2976, __c93, 0) as any as S.Schema<TagResourceOutput>,
+  input: __S(4736, __c148, 0) as any as S.Schema<TagResourceInput>,
+  output: __S(3616, __c113, 0) as any as S.Schema<TagResourceOutput>,
   errors: [InternalServerException, ResourceNotFoundException],
   serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
@@ -5044,8 +5884,8 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3488, __c109, 0) as any as S.Schema<UntagResourceInput>,
-  output: __S(2976, __c93, 0) as any as S.Schema<UntagResourceOutput>,
+  input: __S(4768, __c149, 0) as any as S.Schema<UntagResourceInput>,
+  output: __S(3616, __c113, 0) as any as S.Schema<UntagResourceOutput>,
   errors: [InternalServerException, ResourceNotFoundException],
   serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
@@ -5071,8 +5911,8 @@ export const updateAgentContext: API.OperationMethod<
   UpdateAgentContextError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3520, __c110, 0) as any as S.Schema<UpdateAgentContextRequest>,
-  output: __S(3840, __c120, 0) as any as S.Schema<UpdateAgentContextResponse>,
+  input: __S(96, __c3, 0) as any as S.Schema<UpdateAgentContextRequest>,
+  output: __S(32, __c1, 0) as any as S.Schema<UpdateAgentContextResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -5104,8 +5944,8 @@ export const updateAgentGoal: API.OperationMethod<
   UpdateAgentGoalError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3552, __c111, 0) as any as S.Schema<UpdateAgentGoalRequest>,
-  output: __S(96, __c3, 0) as any as S.Schema<UpdateAgentGoalResponse>,
+  input: __S(128, __c4, 0) as any as S.Schema<UpdateAgentGoalRequest>,
+  output: __S(512, __c16, 0) as any as S.Schema<UpdateAgentGoalResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -5121,7 +5961,7 @@ export const updateAgentGoal: API.OperationMethod<
   span: "UpdateAgentGoal",
 }));
 
-export type UpdateAgentProfileError =
+export type UpdateAgentOrganizationalProfileError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
@@ -5129,7 +5969,49 @@ export type UpdateAgentProfileError =
   | ValidationException
   | CommonErrors;
 /**
- * Updates an existing optimization profile's configuration, including its pillars, execution role, and aggregation settings.
+ * Updates an Organizational Profile. Organizational Profiles are specific to Profiles created using AWS Organizations integration. Include only the fields you want to change; any field you omit from the request keeps its current value.
+ *
+ * To clear an optional text field, supply an empty string for it; the field is then unset, and a subsequent read omits it rather than returning an empty string. Omitting the field from the request leaves the stored value in place. `description` and `businessOverview` can be cleared this way. `displayName` cannot be cleared because a display name is required, though you can change it. `pillars` cannot be cleared because a profile must target at least one pillar.
+ *
+ * `organizationalAggregationConfiguration` behaves differently because it is a structure rather than a text field. Supplying it with both its `organizationalUnits` and `accounts` lists empty removes every monitored organizational unit and account, but the field itself remains set: a subsequent read returns the structure with two empty lists rather than omitting it. Omitting the field from the request keeps the stored boundary.
+ */
+export const updateAgentOrganizationalProfile: API.OperationMethod<
+  UpdateAgentOrganizationalProfileRequest & RegionInput,
+  UpdateAgentOrganizationalProfileResponse,
+  UpdateAgentOrganizationalProfileError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(160, __c5, 0) as any as S.Schema<UpdateAgentOrganizationalProfileRequest>,
+  output: __S(161, __c5, 1) as any as S.Schema<UpdateAgentOrganizationalProfileResponse>,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "UpdateAgentOrganizationalProfile",
+  telemetry: TELEMETRY,
+  span: "UpdateAgentOrganizationalProfile",
+}));
+
+export type UpdateAgentProfileError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Updates an existing optimization profile's configuration, including its pillars, execution role, and aggregation settings. Include only the fields you want to change. Any field you omit from the request keeps its current value, so you do not need to retrieve the profile first and resend the fields you are not changing.
+ *
+ * To clear an optional text field, supply an empty string for it; the field is then unset, and a subsequent read omits it rather than returning an empty string. Omitting the field from the request leaves the stored value in place. `description` and `businessOverview` can be cleared this way. `displayName` cannot be cleared because a display name is required, though you can change it. `pillars` cannot be cleared because a profile must target at least one pillar.
+ *
+ * `aggregationConfiguration` behaves differently because it is a list of per-account configurations rather than a text field. Supplying an empty list removes every account entry, but the field itself remains set: a subsequent read returns an empty list rather than omitting the field. Omitting it from the request keeps the stored entries.
  */
 export const updateAgentProfile: API.OperationMethod<
   UpdateAgentProfileRequest & RegionInput,
@@ -5137,12 +6019,13 @@ export const updateAgentProfile: API.OperationMethod<
   UpdateAgentProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3584, __c112, 0) as any as S.Schema<UpdateAgentProfileRequest>,
-  output: __S(258, __c8, 2) as any as S.Schema<UpdateAgentProfileResponse>,
+  input: __S(192, __c6, 0) as any as S.Schema<UpdateAgentProfileRequest>,
+  output: __S(193, __c6, 1) as any as S.Schema<UpdateAgentProfileResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
+    ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
   ],
@@ -5170,8 +6053,8 @@ export const updateAgentRecommendationStatus: API.OperationMethod<
   UpdateAgentRecommendationStatusError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3616, __c113, 0) as any as S.Schema<UpdateAgentRecommendationStatusRequest>,
-  output: __S(2976, __c93, 0) as any as S.Schema<UpdateAgentRecommendationStatusResponse>,
+  input: __S(224, __c7, 0) as any as S.Schema<UpdateAgentRecommendationStatusRequest>,
+  output: __S(3616, __c113, 0) as any as S.Schema<UpdateAgentRecommendationStatusResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -5204,8 +6087,8 @@ export const updateAnswer: API.OperationMethod<
   UpdateAnswerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3648, __c114, 0) as any as S.Schema<UpdateAnswerInput>,
-  output: __S(3649, __c114, 1) as any as S.Schema<UpdateAnswerOutput>,
+  input: __S(256, __c8, 0) as any as S.Schema<UpdateAnswerInput>,
+  output: __S(257, __c8, 1) as any as S.Schema<UpdateAnswerOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -5238,8 +6121,8 @@ export const updateGlobalSettings: API.OperationMethod<
   UpdateGlobalSettingsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3713, __c116, 1) as any as S.Schema<UpdateGlobalSettingsInput>,
-  output: __S(2976, __c93, 0) as any as S.Schema<UpdateGlobalSettingsResponse>,
+  input: __S(321, __c10, 1) as any as S.Schema<UpdateGlobalSettingsInput>,
+  output: __S(3616, __c113, 0) as any as S.Schema<UpdateGlobalSettingsResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -5272,8 +6155,8 @@ export const updateIntegration: API.OperationMethod<
   UpdateIntegrationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3872, __c121, 0) as any as S.Schema<UpdateIntegrationInput>,
-  output: __S(2976, __c93, 0) as any as S.Schema<UpdateIntegrationResponse>,
+  input: __S(352, __c11, 0) as any as S.Schema<UpdateIntegrationInput>,
+  output: __S(3616, __c113, 0) as any as S.Schema<UpdateIntegrationResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -5307,8 +6190,8 @@ export const updateLensReview: API.OperationMethod<
   UpdateLensReviewError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3904, __c122, 0) as any as S.Schema<UpdateLensReviewInput>,
-  output: __S(3905, __c122, 1) as any as S.Schema<UpdateLensReviewOutput>,
+  input: __S(384, __c12, 0) as any as S.Schema<UpdateLensReviewInput>,
+  output: __S(385, __c12, 1) as any as S.Schema<UpdateLensReviewOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -5342,8 +6225,8 @@ export const updateProfile: API.OperationMethod<
   UpdateProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3936, __c123, 0) as any as S.Schema<UpdateProfileInput>,
-  output: __S(1955, __c61, 3) as any as S.Schema<UpdateProfileOutput>,
+  input: __S(416, __c13, 0) as any as S.Schema<UpdateProfileInput>,
+  output: __S(3011, __c94, 3) as any as S.Schema<UpdateProfileOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -5377,8 +6260,8 @@ export const updateReviewTemplate: API.OperationMethod<
   UpdateReviewTemplateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3968, __c124, 0) as any as S.Schema<UpdateReviewTemplateInput>,
-  output: __S(2049, __c64, 1) as any as S.Schema<UpdateReviewTemplateOutput>,
+  input: __S(576, __c18, 0) as any as S.Schema<UpdateReviewTemplateInput>,
+  output: __S(3169, __c99, 1) as any as S.Schema<UpdateReviewTemplateOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -5412,8 +6295,8 @@ export const updateReviewTemplateAnswer: API.OperationMethod<
   UpdateReviewTemplateAnswerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4000, __c125, 0) as any as S.Schema<UpdateReviewTemplateAnswerInput>,
-  output: __S(2113, __c66, 1) as any as S.Schema<UpdateReviewTemplateAnswerOutput>,
+  input: __S(608, __c19, 0) as any as S.Schema<UpdateReviewTemplateAnswerInput>,
+  output: __S(3233, __c101, 1) as any as S.Schema<UpdateReviewTemplateAnswerOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -5447,8 +6330,8 @@ export const updateReviewTemplateLensReview: API.OperationMethod<
   UpdateReviewTemplateLensReviewError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4032, __c126, 0) as any as S.Schema<UpdateReviewTemplateLensReviewInput>,
-  output: __S(2179, __c68, 3) as any as S.Schema<UpdateReviewTemplateLensReviewOutput>,
+  input: __S(640, __c20, 0) as any as S.Schema<UpdateReviewTemplateLensReviewInput>,
+  output: __S(3299, __c103, 3) as any as S.Schema<UpdateReviewTemplateLensReviewOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -5484,8 +6367,8 @@ export const updateShareInvitation: API.OperationMethod<
   UpdateShareInvitationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4064, __c127, 0) as any as S.Schema<UpdateShareInvitationInput>,
-  output: __S(4066, __c127, 2) as any as S.Schema<UpdateShareInvitationOutput>,
+  input: __S(672, __c21, 0) as any as S.Schema<UpdateShareInvitationInput>,
+  output: __S(674, __c21, 2) as any as S.Schema<UpdateShareInvitationOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -5519,8 +6402,8 @@ export const updateWorkload: API.OperationMethod<
   UpdateWorkloadError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4096, __c128, 0) as any as S.Schema<UpdateWorkloadInput>,
-  output: __S(2240, __c70, 0) as any as S.Schema<UpdateWorkloadOutput>,
+  input: __S(704, __c22, 0) as any as S.Schema<UpdateWorkloadInput>,
+  output: __S(3360, __c105, 0) as any as S.Schema<UpdateWorkloadOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -5554,8 +6437,8 @@ export const updateWorkloadShare: API.OperationMethod<
   UpdateWorkloadShareError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4128, __c129, 0) as any as S.Schema<UpdateWorkloadShareInput>,
-  output: __S(4130, __c129, 2) as any as S.Schema<UpdateWorkloadShareOutput>,
+  input: __S(736, __c23, 0) as any as S.Schema<UpdateWorkloadShareInput>,
+  output: __S(738, __c23, 2) as any as S.Schema<UpdateWorkloadShareOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -5590,8 +6473,8 @@ export const upgradeLensReview: API.OperationMethod<
   UpgradeLensReviewError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4160, __c130, 0) as any as S.Schema<UpgradeLensReviewInput>,
-  output: __S(2976, __c93, 0) as any as S.Schema<UpgradeLensReviewResponse>,
+  input: __S(768, __c24, 0) as any as S.Schema<UpgradeLensReviewInput>,
+  output: __S(3616, __c113, 0) as any as S.Schema<UpgradeLensReviewResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -5627,8 +6510,8 @@ export const upgradeProfileVersion: API.OperationMethod<
   UpgradeProfileVersionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c4, 0) as any as S.Schema<UpgradeProfileVersionInput>,
-  output: __S(2976, __c93, 0) as any as S.Schema<UpgradeProfileVersionResponse>,
+  input: __S(800, __c25, 0) as any as S.Schema<UpgradeProfileVersionInput>,
+  output: __S(3616, __c113, 0) as any as S.Schema<UpgradeProfileVersionResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -5663,8 +6546,8 @@ export const upgradeReviewTemplateLensReview: API.OperationMethod<
   UpgradeReviewTemplateLensReviewError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c5, 0) as any as S.Schema<UpgradeReviewTemplateLensReviewInput>,
-  output: __S(2976, __c93, 0) as any as S.Schema<UpgradeReviewTemplateLensReviewResponse>,
+  input: __S(832, __c26, 0) as any as S.Schema<UpgradeReviewTemplateLensReviewInput>,
+  output: __S(3616, __c113, 0) as any as S.Schema<UpgradeReviewTemplateLensReviewResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -5689,7 +6572,391 @@ function __c0(j: number): any {
         S.Struct({
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           profileArn: S.String.pipe(T.HttpLabel("profileArn")),
-          pillars: __S(32, __c1, 0),
+          title: SensitiveString,
+          contextType: S.String,
+          content: __S(64, __c2, 0),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/api/v1/agent-profiles/{profileArn}/contexts" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+            T.StaticContextParams({ SubServiceType: { value: "AGENT" } }),
+          ),
+        ),
+      ).annotate({ identifier: "CreateAgentContextRequest" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ context: __S(65, __c2, 1) })).annotate({
+        identifier: "CreateAgentContextResponse",
+      });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          accountIds: S.optional(__S(3584, __c112, 0)),
+          regions: S.optional(__S(3584, __c112, 0)),
+          awsServices: S.optional(__S(3584, __c112, 0)),
+          resourceTypes: S.optional(__S(3584, __c112, 0)),
+          resourceTags: S.optional(__S(4449, __c139, 1)),
+          organizationalUnitIds: S.optional(__S(3584, __c112, 0)),
+          applicationOverview: S.optional(SensitiveString),
+          industry: S.optional(SensitiveString),
+          applicationType: S.optional(S.String),
+          criticality: S.optional(S.String),
+          architectureOverview: S.optional(SensitiveString),
+          additionalContext: S.optional(SensitiveString),
+        }),
+      ).annotate({ identifier: "ContextContent" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          profileArn: S.String,
+          title: SensitiveString,
+          contextType: S.String,
+          content: __S(64, __c2, 0),
+          applicationType: S.optional(S.String),
+          criticality: S.optional(S.String),
+          createdBy: S.String,
+          createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          lastModifiedBy: S.optional(S.String),
+          lastModifiedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+        }),
+      ).annotate({ identifier: "ContextSummary" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+          profileArn: S.String.pipe(T.HttpLabel("profileArn")),
+          id: S.String.pipe(T.HttpLabel("id")),
+          title: S.optional(SensitiveString),
+          content: S.optional(__S(64, __c2, 0)),
+        }).pipe(
+          T.all(
+            T.Http({ method: "PUT", uri: "/api/v1/agent-profiles/{profileArn}/contexts/{id}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+            T.StaticContextParams({ SubServiceType: { value: "AGENT" } }),
+          ),
+        ),
+      ).annotate({ identifier: "UpdateAgentContextRequest" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+          profileArn: S.String.pipe(T.HttpLabel("profileArn")),
+          id: S.String.pipe(T.HttpLabel("id")),
+          pillars: S.optional(__S(480, __c15, 0)),
+          title: S.optional(SensitiveString),
+          description: S.optional(SensitiveString),
+        }).pipe(
+          T.all(
+            T.Http({ method: "PUT", uri: "/api/v1/agent-profiles/{profileArn}/goals/{id}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+            T.StaticContextParams({ SubServiceType: { value: "AGENT" } }),
+          ),
+        ),
+      ).annotate({ identifier: "UpdateAgentGoalRequest" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+          profileArn: S.String.pipe(T.HttpLabel("profileArn")),
+          displayName: S.optional(SensitiveString),
+          description: S.optional(SensitiveString),
+          businessOverview: S.optional(SensitiveString),
+          pillars: S.optional(__S(480, __c15, 0)),
+          deletionProtection: S.optional(S.Boolean),
+          organizationalAggregationConfiguration: S.optional(__S(932, __c29, 4)),
+        }).pipe(
+          T.all(
+            T.Http({ method: "PUT", uri: "/api/v1/agent-organizational-profiles/{profileArn}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+            T.StaticContextParams({ SubServiceType: { value: "AGENT" } }),
+          ),
+        ),
+      ).annotate({ identifier: "UpdateAgentOrganizationalProfileRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          displayName: S.optional(SensitiveString),
+          description: S.optional(SensitiveString),
+          businessOverview: S.optional(SensitiveString),
+          pillars: __S(480, __c15, 0),
+          deletionProtection: S.optional(S.Boolean),
+          organizationId: S.String,
+          organizationalAggregationConfiguration: S.optional(__S(932, __c29, 4)),
+          arn: S.String,
+          eligibleForScheduledGeneration: S.optional(S.Boolean),
+          eligibleForArchitectureGeneration: S.optional(S.Boolean),
+          fieldErrors: S.optional(__S(896, __c28, 0)),
+          createdBy: S.String,
+          createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          lastModifiedBy: S.optional(S.String),
+          lastModifiedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+        }),
+      ).annotate({ identifier: "UpdateAgentOrganizationalProfileResponse" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+          profileArn: S.String.pipe(T.HttpLabel("profileArn")),
+          displayName: S.optional(SensitiveString),
+          description: S.optional(SensitiveString),
+          executionRoleArn: S.optional(S.String),
+          aggregationConfiguration: S.optional(__S(1057, __c33, 1)),
+          businessOverview: S.optional(SensitiveString),
+          pillars: S.optional(__S(480, __c15, 0)),
+          deletionProtection: S.optional(S.Boolean),
+        }).pipe(
+          T.all(
+            T.Http({ method: "PUT", uri: "/api/v1/agent-profiles/{profileArn}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+            T.StaticContextParams({ SubServiceType: { value: "AGENT" } }),
+          ),
+        ),
+      ).annotate({ identifier: "UpdateAgentProfileRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          displayName: S.optional(SensitiveString),
+          description: S.optional(SensitiveString),
+          businessOverview: S.optional(SensitiveString),
+          pillars: __S(480, __c15, 0),
+          deletionProtection: S.optional(S.Boolean),
+          executionRoleArn: S.String,
+          aggregationConfiguration: __S(1057, __c33, 1),
+          arn: S.String,
+          eligibleForScheduledGeneration: S.optional(S.Boolean),
+          eligibleForArchitectureGeneration: S.optional(S.Boolean),
+          fieldErrors: S.optional(__S(896, __c28, 0)),
+          createdBy: S.String,
+          createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          lastModifiedBy: S.optional(S.String),
+          lastModifiedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+        }),
+      ).annotate({ identifier: "UpdateAgentProfileResponse" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          recommendationArn: S.String.pipe(T.HttpLabel("recommendationArn")),
+          status: S.String,
+          updateReason: S.optional(SensitiveString),
+        }).pipe(
+          T.all(
+            T.Http({
+              method: "PATCH",
+              uri: "/api/v1/agent-recommendations/{recommendationArn}/status",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+            T.StaticContextParams({ SubServiceType: { value: "AGENT" } }),
+          ),
+        ),
+      ).annotate({ identifier: "UpdateAgentRecommendationStatusRequest" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          WorkloadId: S.String.pipe(T.HttpLabel("WorkloadId")),
+          LensAlias: S.String.pipe(T.HttpLabel("LensAlias")),
+          QuestionId: S.String.pipe(T.HttpLabel("QuestionId")),
+          SelectedChoices: S.optional(__S(3584, __c112, 0)),
+          ChoiceUpdates: S.optional(__S(289, __c9, 1)),
+          Notes: S.optional(S.String),
+          IsApplicable: S.optional(S.Boolean),
+          Reason: S.optional(S.String),
+        }).pipe(
+          T.all(
+            T.Http({
+              method: "PATCH",
+              uri: "/workloads/{WorkloadId}/lensReviews/{LensAlias}/answers/{QuestionId}",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UpdateAnswerInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          WorkloadId: S.optional(S.String),
+          LensAlias: S.optional(S.String),
+          LensArn: S.optional(S.String),
+          Answer: S.optional(__S(2496, __c78, 0)),
+        }),
+      ).annotate({ identifier: "UpdateAnswerOutput" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Status: S.optional(S.String),
+          Reason: S.optional(S.String),
+          Notes: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ChoiceUpdate" });
+    case 1:
+      return S.Record(S.String, /*@__PURE__*/ __S(288, __c9, 0).pipe(S.optional));
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          IssueManagementStatus: S.optional(S.String),
+          IssueManagementType: S.optional(S.String),
+          JiraProjectKey: S.optional(S.String),
+          IntegrationStatus: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AccountJiraConfigurationInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          OrganizationSharingStatus: S.optional(S.String),
+          DiscoveryIntegrationStatus: S.optional(S.String),
+          JiraConfiguration: S.optional(__S(320, __c10, 0)),
+        }).pipe(
+          T.all(T.Http({ method: "PATCH", uri: "/global-settings" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "UpdateGlobalSettingsInput" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          WorkloadId: S.String.pipe(T.HttpLabel("WorkloadId")),
+          ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+          IntegratingService: S.optional(S.String),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/workloads/{WorkloadId}/updateIntegration" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UpdateIntegrationInput" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          WorkloadId: S.String.pipe(T.HttpLabel("WorkloadId")),
+          LensAlias: S.String.pipe(T.HttpLabel("LensAlias")),
+          LensNotes: S.optional(S.String),
+          PillarNotes: S.optional(__S(896, __c28, 0)),
+          JiraConfiguration: S.optional(__S(2788, __c87, 4)),
+        }).pipe(
+          T.all(
+            T.Http({ method: "PATCH", uri: "/workloads/{WorkloadId}/lensReviews/{LensAlias}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UpdateLensReviewInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ WorkloadId: S.optional(S.String), LensReview: S.optional(__S(2789, __c87, 5)) }),
+      ).annotate({ identifier: "UpdateLensReviewOutput" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ProfileArn: S.String.pipe(T.HttpLabel("ProfileArn")),
+          ProfileDescription: S.optional(S.String),
+          ProfileQuestions: S.optional(__S(1217, __c38, 1)),
+        }).pipe(
+          T.all(
+            T.Http({ method: "PATCH", uri: "/profiles/{ProfileArn}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UpdateProfileInput" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+          profileArn: S.String.pipe(T.HttpLabel("profileArn")),
+          pillars: __S(480, __c15, 0),
           title: SensitiveString,
           description: S.optional(SensitiveString),
         }).pipe(
@@ -5706,20 +6973,28 @@ function __c0(j: number): any {
       ).annotate({ identifier: "CreateAgentGoalRequest" });
   }
 }
-function __c1(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c2(j: number): any {
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ goal: __S(544, __c17, 0) })).annotate({
+        identifier: "CreateAgentGoalResponse",
+      });
+  }
+}
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           profileArn: S.String,
-          pillars: __S(32, __c1, 0),
+          pillars: __S(480, __c15, 0),
           title: SensitiveString,
           description: S.optional(SensitiveString),
           createdBy: S.String,
@@ -5730,15 +7005,222 @@ function __c2(j: number): any {
       ).annotate({ identifier: "GoalSummary" });
   }
 }
-function __c3(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ goal: __S(64, __c2, 0) })).annotate({
-        identifier: "CreateAgentGoalResponse",
-      });
+      return S.suspend(() =>
+        S.Struct({
+          TemplateArn: S.String.pipe(T.HttpLabel("TemplateArn")),
+          TemplateName: S.optional(S.String),
+          Description: S.optional(S.String),
+          Notes: S.optional(S.String),
+          LensesToAssociate: S.optional(__S(3584, __c112, 0)),
+          LensesToDisassociate: S.optional(__S(3584, __c112, 0)),
+        }).pipe(
+          T.all(
+            T.Http({ method: "PATCH", uri: "/reviewTemplates/{TemplateArn}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UpdateReviewTemplateInput" });
   }
 }
-function __c4(j: number): any {
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          TemplateArn: S.String.pipe(T.HttpLabel("TemplateArn")),
+          LensAlias: S.String.pipe(T.HttpLabel("LensAlias")),
+          QuestionId: S.String.pipe(T.HttpLabel("QuestionId")),
+          SelectedChoices: S.optional(__S(3584, __c112, 0)),
+          ChoiceUpdates: S.optional(__S(289, __c9, 1)),
+          Notes: S.optional(S.String),
+          IsApplicable: S.optional(S.Boolean),
+          Reason: S.optional(S.String),
+        }).pipe(
+          T.all(
+            T.Http({
+              method: "PATCH",
+              uri: "/reviewTemplates/{TemplateArn}/lensReviews/{LensAlias}/answers/{QuestionId}",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UpdateReviewTemplateAnswerInput" });
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          TemplateArn: S.String.pipe(T.HttpLabel("TemplateArn")),
+          LensAlias: S.String.pipe(T.HttpLabel("LensAlias")),
+          LensNotes: S.optional(S.String),
+          PillarNotes: S.optional(__S(896, __c28, 0)),
+        }).pipe(
+          T.all(
+            T.Http({
+              method: "PATCH",
+              uri: "/reviewTemplates/{TemplateArn}/lensReviews/{LensAlias}",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UpdateReviewTemplateLensReviewInput" });
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ShareInvitationId: S.String.pipe(T.HttpLabel("ShareInvitationId")),
+          ShareInvitationAction: S.optional(S.String),
+        }).pipe(
+          T.all(
+            T.Http({ method: "PATCH", uri: "/shareInvitations/{ShareInvitationId}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UpdateShareInvitationInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ShareInvitationId: S.optional(S.String),
+          ShareResourceType: S.optional(S.String),
+          WorkloadId: S.optional(S.String),
+          LensAlias: S.optional(S.String),
+          LensArn: S.optional(S.String),
+          ProfileArn: S.optional(S.String),
+          TemplateArn: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ShareInvitation" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ ShareInvitation: S.optional(__S(673, __c21, 1)) }),
+      ).annotate({ identifier: "UpdateShareInvitationOutput" });
+  }
+}
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          WorkloadId: S.String.pipe(T.HttpLabel("WorkloadId")),
+          WorkloadName: S.optional(S.String),
+          Description: S.optional(S.String),
+          Environment: S.optional(S.String),
+          AccountIds: S.optional(__S(3584, __c112, 0)),
+          AwsRegions: S.optional(__S(3584, __c112, 0)),
+          NonAwsRegions: S.optional(__S(3584, __c112, 0)),
+          PillarPriorities: S.optional(__S(3584, __c112, 0)),
+          ArchitecturalDesign: S.optional(S.String),
+          ReviewOwner: S.optional(S.String),
+          IsReviewOwnerUpdateAcknowledged: S.optional(S.Boolean),
+          IndustryType: S.optional(S.String),
+          Industry: S.optional(S.String),
+          Notes: S.optional(S.String),
+          ImprovementStatus: S.optional(S.String),
+          DiscoveryConfig: S.optional(__S(1440, __c45, 0)),
+          Applications: S.optional(__S(3584, __c112, 0)),
+          JiraConfiguration: S.optional(__S(1408, __c44, 0)),
+        }).pipe(
+          T.all(
+            T.Http({ method: "PATCH", uri: "/workloads/{WorkloadId}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UpdateWorkloadInput" });
+  }
+}
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ShareId: S.String.pipe(T.HttpLabel("ShareId")),
+          WorkloadId: S.String.pipe(T.HttpLabel("WorkloadId")),
+          PermissionType: S.optional(S.String),
+        }).pipe(
+          T.all(
+            T.Http({ method: "PATCH", uri: "/workloads/{WorkloadId}/shares/{ShareId}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UpdateWorkloadShareInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ShareId: S.optional(S.String),
+          SharedBy: S.optional(S.String),
+          SharedWith: S.optional(S.String),
+          PermissionType: S.optional(S.String),
+          Status: S.optional(S.String),
+          WorkloadName: S.optional(S.String),
+          WorkloadId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "WorkloadShare" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          WorkloadId: S.optional(S.String),
+          WorkloadShare: S.optional(__S(737, __c23, 1)),
+        }),
+      ).annotate({ identifier: "UpdateWorkloadShareOutput" });
+  }
+}
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          WorkloadId: S.String.pipe(T.HttpLabel("WorkloadId")),
+          LensAlias: S.String.pipe(T.HttpLabel("LensAlias")),
+          MilestoneName: S.optional(S.String),
+          ClientRequestToken: S.optional(S.String),
+        }).pipe(
+          T.all(
+            T.Http({
+              method: "PUT",
+              uri: "/workloads/{WorkloadId}/lensReviews/{LensAlias}/upgrade",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UpgradeLensReviewInput" });
+  }
+}
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5760,7 +7242,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "UpgradeProfileVersionInput" });
   }
 }
-function __c5(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5784,7 +7266,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "UpgradeReviewTemplateLensReviewInput" });
   }
 }
-function __c6(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5793,12 +7275,141 @@ function __c6(j: number): any {
           displayName: S.optional(SensitiveString),
           description: S.optional(SensitiveString),
           businessOverview: S.optional(SensitiveString),
-          pillars: __S(32, __c1, 0),
+          pillars: __S(480, __c15, 0),
+          deletionProtection: S.optional(S.Boolean),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+          organizationalAggregationConfiguration: S.optional(__S(932, __c29, 4)),
+          tags: S.optional(__S(4449, __c139, 1)),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/api/v1/agent-organizational-profiles" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+            T.StaticContextParams({ SubServiceType: { value: "AGENT" } }),
+          ),
+        ),
+      ).annotate({ identifier: "CreateAgentOrganizationalProfileRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          displayName: S.optional(SensitiveString),
+          description: S.optional(SensitiveString),
+          businessOverview: S.optional(SensitiveString),
+          pillars: __S(480, __c15, 0),
+          deletionProtection: S.optional(S.Boolean),
+          organizationId: S.String,
+          organizationalAggregationConfiguration: S.optional(__S(932, __c29, 4)),
+          arn: S.String,
+          eligibleForScheduledGeneration: S.optional(S.Boolean),
+          eligibleForArchitectureGeneration: S.optional(S.Boolean),
+          fieldErrors: S.optional(__S(896, __c28, 0)),
+          tags: S.optional(__S(4449, __c139, 1)),
+          createdBy: S.String,
+          createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          lastModifiedBy: S.optional(S.String),
+          lastModifiedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+        }),
+      ).annotate({ identifier: "CreateAgentOrganizationalProfileResponse" });
+  }
+}
+function __c28(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
+  }
+}
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ organizationalUnitId: S.String, regions: __S(3584, __c112, 0) }),
+      ).annotate({ identifier: "OrganizationalUnitEntry" });
+    case 1:
+      return S.Array(__S(928, __c29, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ accountId: S.String, regions: __S(3584, __c112, 0) }),
+      ).annotate({ identifier: "OrganizationalAccountEntry" });
+    case 3:
+      return S.Array(__S(930, __c29, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          organizationalUnits: S.optional(__S(929, __c29, 1)),
+          accounts: S.optional(__S(931, __c29, 3)),
+        }),
+      ).annotate({ identifier: "OrganizationalAggregationConfiguration" });
+  }
+}
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+          label: S.optional(S.String),
+          filters: S.optional(__S(993, __c31, 1)),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/api/v1/agent-organizational-reports" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+            T.StaticContextParams({ SubServiceType: { value: "AGENT" } }),
+          ),
+        ),
+      ).annotate({ identifier: "CreateAgentOrganizationalReportRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ reportId: S.String, state: S.String })).annotate({
+        identifier: "CreateAgentOrganizationalReportResponse",
+      });
+  }
+}
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          from: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          to: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+        }),
+      ).annotate({ identifier: "TimeWindow" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          accountIds: S.optional(__S(3584, __c112, 0)),
+          organizationalUnitIds: S.optional(__S(3584, __c112, 0)),
+          pillars: S.optional(__S(480, __c15, 0)),
+          recommendationTypes: S.optional(__S(480, __c15, 0)),
+          statuses: S.optional(__S(480, __c15, 0)),
+          priorities: S.optional(__S(480, __c15, 0)),
+          createdAtRange: S.optional(__S(992, __c31, 0)),
+          updatedAtRange: S.optional(__S(992, __c31, 0)),
+        }),
+      ).annotate({ identifier: "OrganizationalReportFilters" });
+  }
+}
+function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          displayName: S.optional(SensitiveString),
+          description: S.optional(SensitiveString),
+          businessOverview: S.optional(SensitiveString),
+          pillars: __S(480, __c15, 0),
           deletionProtection: S.optional(S.Boolean),
           executionRoleArn: S.String,
-          aggregationConfiguration: __S(257, __c8, 1),
+          aggregationConfiguration: __S(1057, __c33, 1),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          tags: S.optional(__S(3777, __c118, 1)),
+          tags: S.optional(__S(4449, __c139, 1)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/api/v1/agent-profiles" }),
@@ -5811,38 +7422,22 @@ function __c6(j: number): any {
           ),
         ),
       ).annotate({ identifier: "CreateAgentProfileRequest" });
-  }
-}
-function __c7(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
-  }
-}
-function __c8(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({ accountId: S.String, regions: __S(3008, __c94, 0), accessRoleArn: S.String }),
-      ).annotate({ identifier: "AggregationConfiguration" });
     case 1:
-      return S.Array(__S(256, __c8, 0));
-    case 2:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           displayName: S.optional(SensitiveString),
           description: S.optional(SensitiveString),
           businessOverview: S.optional(SensitiveString),
-          pillars: __S(32, __c1, 0),
+          pillars: __S(480, __c15, 0),
           deletionProtection: S.optional(S.Boolean),
           executionRoleArn: S.String,
-          aggregationConfiguration: __S(257, __c8, 1),
+          aggregationConfiguration: __S(1057, __c33, 1),
           arn: S.String,
           eligibleForScheduledGeneration: S.optional(S.Boolean),
           eligibleForArchitectureGeneration: S.optional(S.Boolean),
-          fieldErrors: S.optional(__S(224, __c7, 0)),
-          tags: S.optional(__S(3777, __c118, 1)),
+          fieldErrors: S.optional(__S(896, __c28, 0)),
+          tags: S.optional(__S(4449, __c139, 1)),
           createdBy: S.String,
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           lastModifiedBy: S.optional(S.String),
@@ -5851,7 +7446,17 @@ function __c8(j: number): any {
       ).annotate({ identifier: "CreateAgentProfileResponse" });
   }
 }
-function __c9(j: number): any {
+function __c33(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ accountId: S.String, regions: __S(3584, __c112, 0), accessRoleArn: S.String }),
+      ).annotate({ identifier: "AggregationConfiguration" });
+    case 1:
+      return S.Array(__S(1056, __c33, 0));
+  }
+}
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5876,7 +7481,7 @@ function __c9(j: number): any {
       });
   }
 }
-function __c10(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5902,7 +7507,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "CreateLensVersionOutput" });
   }
 }
-function __c11(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5927,21 +7532,34 @@ function __c11(j: number): any {
       ).annotate({ identifier: "CreateMilestoneOutput" });
   }
 }
-function __c12(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ProfileName: S.optional(S.String),
           ProfileDescription: S.optional(S.String),
-          ProfileQuestions: S.optional(__S(449, __c14, 1)),
+          ProfileQuestions: S.optional(__S(1217, __c38, 1)),
           ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          Tags: S.optional(__S(224, __c7, 0)),
+          Tags: S.optional(__S(896, __c28, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/profiles" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateProfileInput" });
   }
 }
-function __c13(j: number): any {
+function __c38(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          QuestionId: S.optional(S.String),
+          SelectedChoiceIds: S.optional(__S(3584, __c112, 0)),
+        }),
+      ).annotate({ identifier: "ProfileQuestionUpdate" });
+    case 1:
+      return S.Array(__S(1216, __c38, 0));
+  }
+}
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5949,20 +7567,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "CreateProfileOutput" });
   }
 }
-function __c14(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          QuestionId: S.optional(S.String),
-          SelectedChoiceIds: S.optional(__S(3008, __c94, 0)),
-        }),
-      ).annotate({ identifier: "ProfileQuestionUpdate" });
-    case 1:
-      return S.Array(__S(448, __c14, 0));
-  }
-}
-function __c15(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5987,16 +7592,16 @@ function __c15(j: number): any {
       ).annotate({ identifier: "CreateProfileShareOutput" });
   }
 }
-function __c16(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           TemplateName: S.optional(S.String),
           Description: S.optional(S.String),
-          Lenses: S.optional(__S(3008, __c94, 0)),
+          Lenses: S.optional(__S(3584, __c112, 0)),
           Notes: S.optional(S.String),
-          Tags: S.optional(__S(224, __c7, 0)),
+          Tags: S.optional(__S(896, __c28, 0)),
           ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
           T.all(T.Http({ method: "POST", uri: "/reviewTemplates" }), svc, auth, proto, ver, rules),
@@ -6008,7 +7613,7 @@ function __c16(j: number): any {
       });
   }
 }
-function __c17(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6033,7 +7638,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "CreateTemplateShareOutput" });
   }
 }
-function __c18(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6041,23 +7646,23 @@ function __c18(j: number): any {
           WorkloadName: S.optional(S.String),
           Description: S.optional(S.String),
           Environment: S.optional(S.String),
-          AccountIds: S.optional(__S(3008, __c94, 0)),
-          AwsRegions: S.optional(__S(3008, __c94, 0)),
-          NonAwsRegions: S.optional(__S(3008, __c94, 0)),
-          PillarPriorities: S.optional(__S(3008, __c94, 0)),
+          AccountIds: S.optional(__S(3584, __c112, 0)),
+          AwsRegions: S.optional(__S(3584, __c112, 0)),
+          NonAwsRegions: S.optional(__S(3584, __c112, 0)),
+          PillarPriorities: S.optional(__S(3584, __c112, 0)),
           ArchitecturalDesign: S.optional(S.String),
           ReviewOwner: S.optional(S.String),
           IndustryType: S.optional(S.String),
           Industry: S.optional(S.String),
-          Lenses: S.optional(__S(3008, __c94, 0)),
+          Lenses: S.optional(__S(3584, __c112, 0)),
           Notes: S.optional(S.String),
           ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          Tags: S.optional(__S(224, __c7, 0)),
-          DiscoveryConfig: S.optional(__S(608, __c19, 0)),
-          Applications: S.optional(__S(3008, __c94, 0)),
-          ProfileArns: S.optional(__S(3008, __c94, 0)),
-          ReviewTemplateArns: S.optional(__S(3008, __c94, 0)),
-          JiraConfiguration: S.optional(__S(640, __c20, 0)),
+          Tags: S.optional(__S(896, __c28, 0)),
+          DiscoveryConfig: S.optional(__S(1440, __c45, 0)),
+          Applications: S.optional(__S(3584, __c112, 0)),
+          ProfileArns: S.optional(__S(3584, __c112, 0)),
+          ReviewTemplateArns: S.optional(__S(3584, __c112, 0)),
+          JiraConfiguration: S.optional(__S(1408, __c44, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/workloads" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateWorkloadInput" });
     case 1:
@@ -6066,18 +7671,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "CreateWorkloadOutput" });
   }
 }
-function __c19(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          TrustedAdvisorIntegrationStatus: S.optional(S.String),
-          WorkloadResourceDefinition: S.optional(__S(32, __c1, 0)),
-        }),
-      ).annotate({ identifier: "WorkloadDiscoveryConfig" });
-  }
-}
-function __c20(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6089,7 +7683,18 @@ function __c20(j: number): any {
       ).annotate({ identifier: "WorkloadJiraConfigurationInput" });
   }
 }
-function __c21(j: number): any {
+function __c45(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          TrustedAdvisorIntegrationStatus: S.optional(S.String),
+          WorkloadResourceDefinition: S.optional(__S(480, __c15, 0)),
+        }),
+      ).annotate({ identifier: "WorkloadDiscoveryConfig" });
+  }
+}
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6115,7 +7720,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "CreateWorkloadShareOutput" });
   }
 }
-function __c22(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6136,7 +7741,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "DeleteAgentContextRequest" });
   }
 }
-function __c23(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6157,7 +7762,25 @@ function __c23(j: number): any {
       ).annotate({ identifier: "DeleteAgentGoalRequest" });
   }
 }
-function __c24(j: number): any {
+function __c49(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ reportId: S.String.pipe(T.HttpLabel("reportId")) }).pipe(
+          T.all(
+            T.Http({ method: "DELETE", uri: "/api/v1/agent-organizational-reports/{reportId}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+            T.StaticContextParams({ SubServiceType: { value: "AGENT" } }),
+          ),
+        ),
+      ).annotate({ identifier: "DeleteAgentOrganizationalReportRequest" });
+  }
+}
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6175,7 +7798,46 @@ function __c24(j: number): any {
       ).annotate({ identifier: "DeleteAgentProfileRequest" });
   }
 }
-function __c25(j: number): any {
+function __c51(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ profileArn: S.String.pipe(T.HttpLabel("profileArn")) }).pipe(
+          T.all(
+            T.Http({ method: "DELETE", uri: "/api/v1/agent-profiles/{profileArn}/policy" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+            T.StaticContextParams({ SubServiceType: { value: "AGENT" } }),
+          ),
+        ),
+      ).annotate({ identifier: "DeleteAgentProfilePolicyRequest" });
+  }
+}
+function __c52(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ recommendationArn: S.String.pipe(T.HttpLabel("recommendationArn")) }).pipe(
+          T.all(
+            T.Http({
+              method: "DELETE",
+              uri: "/api/v1/agent-recommendations/{recommendationArn}/policy",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+            T.StaticContextParams({ SubServiceType: { value: "AGENT" } }),
+          ),
+        ),
+      ).annotate({ identifier: "DeleteAgentRecommendationPolicyRequest" });
+  }
+}
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6199,7 +7861,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "DeleteLensInput" });
   }
 }
-function __c26(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6223,7 +7885,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "DeleteLensShareInput" });
   }
 }
-function __c27(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6246,7 +7908,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "DeleteProfileInput" });
   }
 }
-function __c28(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6270,7 +7932,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "DeleteProfileShareInput" });
   }
 }
-function __c29(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6293,7 +7955,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "DeleteReviewTemplateInput" });
   }
 }
-function __c30(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6317,7 +7979,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "DeleteTemplateShareInput" });
   }
 }
-function __c31(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6340,7 +8002,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "DeleteWorkloadInput" });
   }
 }
-function __c32(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6364,13 +8026,13 @@ function __c32(j: number): any {
       ).annotate({ identifier: "DeleteWorkloadShareInput" });
   }
 }
-function __c33(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           WorkloadId: S.String.pipe(T.HttpLabel("WorkloadId")),
-          LensAliases: S.optional(__S(3008, __c94, 0)),
+          LensAliases: S.optional(__S(3584, __c112, 0)),
         }).pipe(
           T.all(
             T.Http({ method: "PATCH", uri: "/workloads/{WorkloadId}/disassociateLenses" }),
@@ -6384,13 +8046,13 @@ function __c33(j: number): any {
       ).annotate({ identifier: "DisassociateLensesInput" });
   }
 }
-function __c34(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           WorkloadId: S.String.pipe(T.HttpLabel("WorkloadId")),
-          ProfileArns: S.optional(__S(3008, __c94, 0)),
+          ProfileArns: S.optional(__S(3584, __c112, 0)),
         }).pipe(
           T.all(
             T.Http({ method: "PATCH", uri: "/workloads/{WorkloadId}/disassociateProfiles" }),
@@ -6404,7 +8066,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "DisassociateProfilesInput" });
   }
 }
-function __c35(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6428,7 +8090,7 @@ function __c35(j: number): any {
       });
   }
 }
-function __c36(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6449,7 +8111,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "GetAgentContextRequest" });
   }
 }
-function __c37(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6470,7 +8132,133 @@ function __c37(j: number): any {
       ).annotate({ identifier: "GetAgentGoalRequest" });
   }
 }
-function __c38(j: number): any {
+function __c66(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ reportId: S.String.pipe(T.HttpLabel("reportId")) }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/api/v1/agent-organizational-reports/{reportId}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+            T.StaticContextParams({ SubServiceType: { value: "AGENT" } }),
+          ),
+        ),
+      ).annotate({ identifier: "GetAgentOrganizationalReportRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ pillar: S.String, count: S.Number })).annotate({
+        identifier: "PillarCount",
+      });
+    case 2:
+      return S.Array(__S(2113, __c66, 1));
+    case 3:
+      return S.suspend(() => S.Struct({ priority: S.String, count: S.Number })).annotate({
+        identifier: "PriorityCount",
+      });
+    case 4:
+      return S.Array(__S(2115, __c66, 3));
+    case 5:
+      return S.suspend(() => S.Struct({ accountId: S.String, reason: S.String })).annotate({
+        identifier: "FailedAccount",
+      });
+    case 6:
+      return S.Array(__S(2117, __c66, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({ organizationalUnitId: S.String, reason: S.String }),
+      ).annotate({ identifier: "FailedOrganizationalUnit" });
+    case 8:
+      return S.Array(__S(2119, __c66, 7));
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          totalAccountsInScope: S.Number,
+          accountsWithProfile: S.Number,
+          accountsWithoutProfile: S.Number,
+          failedAccountCount: S.Number,
+          totalProfiles: S.Number,
+          totalRecommendations: S.Number,
+          recommendationCountByPillar: S.optional(__S(2114, __c66, 2)),
+          recommendationCountByPriority: S.optional(__S(2116, __c66, 4)),
+          failedAccounts: S.optional(__S(2118, __c66, 6)),
+          failedOrganizationalUnits: S.optional(__S(2120, __c66, 8)),
+        }),
+      ).annotate({ identifier: "CoverageSummary" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          reportId: S.String,
+          ownerAccountId: S.String,
+          organizationId: S.String,
+          label: S.optional(S.String),
+          state: S.String,
+          createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          filters: S.optional(__S(993, __c31, 1)),
+          coverageSummary: S.optional(__S(2121, __c66, 9)),
+        }),
+      ).annotate({ identifier: "GetAgentOrganizationalReportResponse" });
+  }
+}
+function __c67(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          reportId: S.String.pipe(T.HttpLabel("reportId")),
+          format: S.String.pipe(T.HttpQuery("format")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/api/v1/agent-organizational-reports/{reportId}/data" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+            T.StaticContextParams({ SubServiceType: { value: "AGENT" } }),
+          ),
+        ),
+      ).annotate({ identifier: "GetAgentOrganizationalReportDataRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          downloadUrl: S.String,
+          expiresAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+        }),
+      ).annotate({ identifier: "GetAgentOrganizationalReportDataResponse" });
+  }
+}
+function __c68(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/api/v1/agent-preferences" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+            T.StaticContextParams({ SubServiceType: { value: "AGENT" } }),
+          ),
+        ),
+      ).annotate({ identifier: "GetAgentPreferencesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ key: S.String, status: S.String, detail: S.optional(S.String) }),
+      ).annotate({ identifier: "PreferenceEntry" });
+    case 2:
+      return S.Array(__S(2177, __c68, 1));
+    case 3:
+      return S.suspend(() => S.Struct({ preferences: __S(2178, __c68, 2) })).annotate({
+        identifier: "GetAgentPreferencesResponse",
+      });
+  }
+}
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6486,9 +8274,55 @@ function __c38(j: number): any {
           ),
         ),
       ).annotate({ identifier: "GetAgentProfileRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          displayName: S.optional(SensitiveString),
+          description: S.optional(SensitiveString),
+          businessOverview: S.optional(SensitiveString),
+          pillars: S.optional(__S(480, __c15, 0)),
+          deletionProtection: S.optional(S.Boolean),
+          profileType: S.optional(S.String),
+          executionRoleArn: S.optional(S.String),
+          aggregationConfiguration: S.optional(__S(1057, __c33, 1)),
+          arn: S.String,
+          eligibleForScheduledGeneration: S.optional(S.Boolean),
+          eligibleForArchitectureGeneration: S.optional(S.Boolean),
+          fieldErrors: S.optional(__S(896, __c28, 0)),
+          tags: S.optional(__S(4449, __c139, 1)),
+          createdBy: S.String,
+          createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          lastModifiedBy: S.optional(S.String),
+          lastModifiedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          organizationalAggregationConfiguration: S.optional(__S(932, __c29, 4)),
+        }),
+      ).annotate({ identifier: "GetAgentProfileResponse" });
   }
 }
-function __c39(j: number): any {
+function __c70(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ profileArn: S.String.pipe(T.HttpLabel("profileArn")) }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/api/v1/agent-profiles/{profileArn}/policy" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+            T.StaticContextParams({ SubServiceType: { value: "AGENT" } }),
+          ),
+        ),
+      ).annotate({ identifier: "GetAgentProfilePolicyRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ profileArn: S.String, policy: S.String })).annotate({
+        identifier: "GetAgentProfilePolicyResponse",
+      });
+  }
+}
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6512,17 +8346,17 @@ function __c39(j: number): any {
         S.Struct({ usagePattern: S.String, signalsDetected: S.optional(S.String) }),
       ).annotate({ identifier: "Insight" });
     case 2:
-      return S.Array(__S(1249, __c39, 1));
+      return S.Array(__S(2273, __c71, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ recommendation: S.String, steps: __S(3008, __c94, 0) }),
+        S.Struct({ recommendation: S.String, steps: __S(3584, __c112, 0) }),
       ).annotate({ identifier: "RemediationSummary" });
     case 4:
       return S.suspend(() =>
         S.Struct({ pillar: S.String, title: S.String, description: S.String, impact: S.String }),
       ).annotate({ identifier: "CrossPillarBenefit" });
     case 5:
-      return S.Array(__S(1252, __c39, 4));
+      return S.Array(__S(2276, __c71, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -6535,32 +8369,32 @@ function __c39(j: number): any {
         }),
       ).annotate({ identifier: "TradeOff" });
     case 7:
-      return S.Array(__S(1254, __c39, 6));
+      return S.Array(__S(2278, __c71, 6));
     case 8:
       return S.suspend(() => S.Struct({ title: S.String })).annotate({
         identifier: "RecommendationGoal",
       });
     case 9:
-      return S.Array(__S(1256, __c39, 8));
+      return S.Array(__S(2280, __c71, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({ title: S.optional(SensitiveString), content: SensitiveString }),
       ).annotate({ identifier: "RemediationStep" });
     case 11:
-      return S.Array(__S(1258, __c39, 10));
+      return S.Array(__S(2282, __c71, 10));
     case 12:
       return S.suspend(() => S.Struct({ url: S.String, title: S.optional(S.String) })).annotate({
         identifier: "ResourceLink",
       });
     case 13:
-      return S.Array(__S(1260, __c39, 12));
+      return S.Array(__S(2284, __c71, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
           recommendationArn: S.String,
           type: S.String,
-          steps: __S(1259, __c39, 11),
-          resourceLinks: S.optional(__S(1261, __c39, 13)),
+          steps: __S(2283, __c71, 11),
+          resourceLinks: S.optional(__S(2285, __c71, 13)),
           createdBy: S.String,
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           lastModifiedBy: S.optional(S.String),
@@ -6568,7 +8402,7 @@ function __c39(j: number): any {
         }),
       ).annotate({ identifier: "AgentRecommendationRemediation" });
     case 15:
-      return S.Array(__S(1262, __c39, 14));
+      return S.Array(__S(2286, __c71, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({
@@ -6585,30 +8419,30 @@ function __c39(j: number): any {
           state: S.String,
           updateReason: S.optional(SensitiveString),
           impact: S.String,
-          roi: __S(1280, __c40, 0),
+          roi: __S(2304, __c72, 0),
           numberOfResources: S.optional(S.Number),
-          awsServices: S.optional(__S(3008, __c94, 0)),
-          businessUnits: S.optional(__S(3008, __c94, 0)),
-          applications: S.optional(__S(3008, __c94, 0)),
-          impactDetails: __S(3008, __c94, 0),
-          insights: __S(1250, __c39, 2),
-          highlights: __S(3008, __c94, 0),
-          remediationSummary: __S(1251, __c39, 3),
-          crossPillarBenefits: S.optional(__S(1253, __c39, 5)),
-          tradeOffs: S.optional(__S(1255, __c39, 7)),
-          sources: S.optional(__S(32, __c1, 0)),
-          goals: S.optional(__S(1257, __c39, 9)),
-          tags: S.optional(__S(3777, __c118, 1)),
+          awsServices: S.optional(__S(3584, __c112, 0)),
+          businessUnits: S.optional(__S(3584, __c112, 0)),
+          applications: S.optional(__S(3584, __c112, 0)),
+          impactDetails: __S(3584, __c112, 0),
+          insights: __S(2274, __c71, 2),
+          highlights: __S(3584, __c112, 0),
+          remediationSummary: __S(2275, __c71, 3),
+          crossPillarBenefits: S.optional(__S(2277, __c71, 5)),
+          tradeOffs: S.optional(__S(2279, __c71, 7)),
+          sources: S.optional(__S(480, __c15, 0)),
+          goals: S.optional(__S(2281, __c71, 9)),
+          tags: S.optional(__S(4449, __c139, 1)),
           createdBy: S.String,
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           lastModifiedBy: S.optional(S.String),
           lastModifiedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-          remediations: S.optional(__S(1263, __c39, 15)),
+          remediations: S.optional(__S(2287, __c71, 15)),
         }),
       ).annotate({ identifier: "GetAgentRecommendationResponse" });
   }
 }
-function __c40(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6616,7 +8450,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "Roi" });
   }
 }
-function __c41(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6647,10 +8481,6 @@ function __c41(j: number): any {
         }),
       ).annotate({ identifier: "Progress" });
     case 2:
-      return S.suspend(() => S.Struct({ code: S.String, message: S.String })).annotate({
-        identifier: "ErrorDetails",
-      });
-    case 3:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
@@ -6664,35 +8494,70 @@ function __c41(j: number): any {
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           lastModifiedBy: S.optional(S.String),
           lastModifiedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-          additionalContext: S.optional(S.Any),
-          scope: S.optional(__S(1346, __c42, 2)),
+          generationType: S.optional(S.String),
+          generationRecommendationTypes: S.optional(__S(480, __c15, 0)),
           startedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-          progress: S.optional(__S(1313, __c41, 1)),
-          errorDetails: S.optional(__S(1314, __c41, 2)),
+          errorDetails: S.optional(__S(2368, __c74, 0)),
+          additionalContext: S.optional(S.Any),
+          scope: S.optional(__S(2402, __c75, 2)),
+          progress: S.optional(__S(2337, __c73, 1)),
         }),
       ).annotate({ identifier: "GetAgentRecommendationGenerationResponse" });
   }
 }
-function __c42(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ pillar: S.String, ids: __S(3008, __c94, 0) })).annotate({
+      return S.suspend(() => S.Struct({ code: S.String, message: S.String })).annotate({
+        identifier: "ErrorDetails",
+      });
+  }
+}
+function __c75(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ pillar: S.String, ids: __S(3584, __c112, 0) })).annotate({
         identifier: "PillarItem",
       });
     case 1:
-      return S.Array(__S(1344, __c42, 0));
+      return S.Array(__S(2400, __c75, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          pillars: __S(32, __c1, 0),
-          goalIds: S.optional(__S(3008, __c94, 0)),
-          items: S.optional(__S(1345, __c42, 1)),
+          pillars: __S(480, __c15, 0),
+          goalIds: S.optional(__S(3584, __c112, 0)),
+          items: S.optional(__S(2401, __c75, 1)),
         }),
       ).annotate({ identifier: "Scope" });
   }
 }
-function __c43(j: number): any {
+function __c76(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ recommendationArn: S.String.pipe(T.HttpLabel("recommendationArn")) }).pipe(
+          T.all(
+            T.Http({
+              method: "GET",
+              uri: "/api/v1/agent-recommendations/{recommendationArn}/policy",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+            T.StaticContextParams({ SubServiceType: { value: "AGENT" } }),
+          ),
+        ),
+      ).annotate({ identifier: "GetAgentRecommendationPolicyRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ recommendationArn: S.String, policy: S.String })).annotate({
+        identifier: "GetAgentRecommendationPolicyResponse",
+      });
+  }
+}
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6722,67 +8587,12 @@ function __c43(j: number): any {
           MilestoneNumber: S.optional(S.Number),
           LensAlias: S.optional(S.String),
           LensArn: S.optional(S.String),
-          Answer: S.optional(__S(1504, __c47, 0)),
+          Answer: S.optional(__S(2496, __c78, 0)),
         }),
       ).annotate({ identifier: "GetAnswerOutput" });
   }
 }
-function __c44(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({ DisplayText: S.optional(S.String), Url: S.optional(S.String) }),
-      ).annotate({ identifier: "ChoiceContent" });
-    case 1:
-      return S.Array(__S(1408, __c44, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({ Type: S.optional(S.String), Content: S.optional(__S(1409, __c44, 1)) }),
-      ).annotate({ identifier: "AdditionalResources" });
-    case 3:
-      return S.Array(__S(1410, __c44, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          ChoiceId: S.optional(S.String),
-          Title: S.optional(S.String),
-          Description: S.optional(S.String),
-          HelpfulResource: S.optional(__S(1408, __c44, 0)),
-          ImprovementPlan: S.optional(__S(1408, __c44, 0)),
-          AdditionalResources: S.optional(__S(1411, __c44, 3)),
-        }),
-      ).annotate({ identifier: "Choice" });
-    case 5:
-      return S.Array(__S(1412, __c44, 4));
-  }
-}
-function __c45(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ChoiceId: S.optional(S.String),
-          Status: S.optional(S.String),
-          Reason: S.optional(S.String),
-          Notes: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ChoiceAnswer" });
-    case 1:
-      return S.Array(__S(1440, __c45, 0));
-  }
-}
-function __c46(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          JiraIssueUrl: S.optional(S.String),
-          LastSyncedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-        }),
-      ).annotate({ identifier: "JiraConfiguration" });
-  }
-}
-function __c47(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6794,19 +8604,74 @@ function __c47(j: number): any {
           ImprovementPlanUrl: S.optional(S.String),
           HelpfulResourceUrl: S.optional(S.String),
           HelpfulResourceDisplayText: S.optional(S.String),
-          Choices: S.optional(__S(1413, __c44, 5)),
-          SelectedChoices: S.optional(__S(3008, __c94, 0)),
-          ChoiceAnswers: S.optional(__S(1441, __c45, 1)),
+          Choices: S.optional(__S(2565, __c80, 5)),
+          SelectedChoices: S.optional(__S(3584, __c112, 0)),
+          ChoiceAnswers: S.optional(__S(2529, __c79, 1)),
           IsApplicable: S.optional(S.Boolean),
           Risk: S.optional(S.String),
           Notes: S.optional(S.String),
           Reason: S.optional(S.String),
-          JiraConfiguration: S.optional(__S(1472, __c46, 0)),
+          JiraConfiguration: S.optional(__S(2592, __c81, 0)),
         }),
       ).annotate({ identifier: "Answer" });
   }
 }
-function __c48(j: number): any {
+function __c79(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ChoiceId: S.optional(S.String),
+          Status: S.optional(S.String),
+          Reason: S.optional(S.String),
+          Notes: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ChoiceAnswer" });
+    case 1:
+      return S.Array(__S(2528, __c79, 0));
+  }
+}
+function __c80(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ DisplayText: S.optional(S.String), Url: S.optional(S.String) }),
+      ).annotate({ identifier: "ChoiceContent" });
+    case 1:
+      return S.Array(__S(2560, __c80, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ Type: S.optional(S.String), Content: S.optional(__S(2561, __c80, 1)) }),
+      ).annotate({ identifier: "AdditionalResources" });
+    case 3:
+      return S.Array(__S(2562, __c80, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          ChoiceId: S.optional(S.String),
+          Title: S.optional(S.String),
+          Description: S.optional(S.String),
+          HelpfulResource: S.optional(__S(2560, __c80, 0)),
+          ImprovementPlan: S.optional(__S(2560, __c80, 0)),
+          AdditionalResources: S.optional(__S(2563, __c80, 3)),
+        }),
+      ).annotate({ identifier: "Choice" });
+    case 5:
+      return S.Array(__S(2564, __c80, 4));
+  }
+}
+function __c81(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          JiraIssueUrl: S.optional(S.String),
+          LastSyncedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "JiraConfiguration" });
+  }
+}
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6831,69 +8696,69 @@ function __c48(j: number): any {
         S.Struct({ ChoiceId: S.optional(S.String), ChoiceTitle: S.optional(S.String) }),
       ).annotate({ identifier: "BestPractice" });
     case 2:
-      return S.Array(__S(1537, __c48, 1));
+      return S.Array(__S(2625, __c82, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           QuestionId: S.optional(S.String),
           Risk: S.optional(S.String),
-          BestPractices: S.optional(__S(1538, __c48, 2)),
+          BestPractices: S.optional(__S(2626, __c82, 2)),
         }),
       ).annotate({ identifier: "QuestionMetric" });
     case 4:
-      return S.Array(__S(1539, __c48, 3));
+      return S.Array(__S(2627, __c82, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           PillarId: S.optional(S.String),
-          RiskCounts: S.optional(__S(1568, __c49, 0)),
-          Questions: S.optional(__S(1540, __c48, 4)),
+          RiskCounts: S.optional(__S(2656, __c83, 0)),
+          Questions: S.optional(__S(2628, __c82, 4)),
         }),
       ).annotate({ identifier: "PillarMetric" });
     case 6:
-      return S.Array(__S(1541, __c48, 5));
+      return S.Array(__S(2629, __c82, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           LensArn: S.optional(S.String),
-          Pillars: S.optional(__S(1542, __c48, 6)),
-          RiskCounts: S.optional(__S(1568, __c49, 0)),
+          Pillars: S.optional(__S(2630, __c82, 6)),
+          RiskCounts: S.optional(__S(2656, __c83, 0)),
         }),
       ).annotate({ identifier: "LensMetric" });
     case 8:
-      return S.Array(__S(1543, __c48, 7));
+      return S.Array(__S(2631, __c82, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
           MetricType: S.optional(S.String),
-          RiskCounts: S.optional(__S(1568, __c49, 0)),
+          RiskCounts: S.optional(__S(2656, __c83, 0)),
           WorkloadId: S.optional(S.String),
           WorkloadName: S.optional(S.String),
           WorkloadArn: S.optional(S.String),
           UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          Lenses: S.optional(__S(1544, __c48, 8)),
+          Lenses: S.optional(__S(2632, __c82, 8)),
           LensesAppliedCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ConsolidatedReportMetric" });
     case 10:
-      return S.Array(__S(1545, __c48, 9));
+      return S.Array(__S(2633, __c82, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
-          Metrics: S.optional(__S(1546, __c48, 10)),
+          Metrics: S.optional(__S(2634, __c82, 10)),
           NextToken: S.optional(S.String),
           Base64String: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetConsolidatedReportOutput" });
   }
 }
-function __c49(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ S.Number.pipe(S.optional));
   }
 }
-function __c50(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6917,12 +8782,12 @@ function __c50(j: number): any {
         S.Struct({
           OrganizationSharingStatus: S.optional(S.String),
           DiscoveryIntegrationStatus: S.optional(S.String),
-          JiraConfiguration: S.optional(__S(1601, __c50, 1)),
+          JiraConfiguration: S.optional(__S(2689, __c84, 1)),
         }),
       ).annotate({ identifier: "GetGlobalSettingsOutput" });
   }
 }
-function __c51(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6949,16 +8814,16 @@ function __c51(j: number): any {
           Description: S.optional(S.String),
           Owner: S.optional(S.String),
           ShareInvitationId: S.optional(S.String),
-          Tags: S.optional(__S(224, __c7, 0)),
+          Tags: S.optional(__S(896, __c28, 0)),
         }),
       ).annotate({ identifier: "Lens" });
     case 2:
-      return S.suspend(() => S.Struct({ Lens: S.optional(__S(1633, __c51, 1)) })).annotate({
+      return S.suspend(() => S.Struct({ Lens: S.optional(__S(2721, __c85, 1)) })).annotate({
         identifier: "GetLensOutput",
       });
   }
 }
-function __c52(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6982,18 +8847,12 @@ function __c52(j: number): any {
         S.Struct({
           WorkloadId: S.optional(S.String),
           MilestoneNumber: S.optional(S.Number),
-          LensReview: S.optional(__S(1733, __c54, 5)),
+          LensReview: S.optional(__S(2789, __c87, 5)),
         }),
       ).annotate({ identifier: "GetLensReviewOutput" });
   }
 }
-function __c53(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(416, __c13, 0));
-  }
-}
-function __c54(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7001,24 +8860,24 @@ function __c54(j: number): any {
           PillarId: S.optional(S.String),
           PillarName: S.optional(S.String),
           Notes: S.optional(S.String),
-          RiskCounts: S.optional(__S(1568, __c49, 0)),
-          PrioritizedRiskCounts: S.optional(__S(1568, __c49, 0)),
+          RiskCounts: S.optional(__S(2656, __c83, 0)),
+          PrioritizedRiskCounts: S.optional(__S(2656, __c83, 0)),
         }),
       ).annotate({ identifier: "PillarReviewSummary" });
     case 1:
-      return S.Array(__S(1728, __c54, 0));
+      return S.Array(__S(2784, __c87, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           PillarId: S.optional(S.String),
-          SelectedQuestionIds: S.optional(__S(3008, __c94, 0)),
+          SelectedQuestionIds: S.optional(__S(3584, __c112, 0)),
         }),
       ).annotate({ identifier: "SelectedPillar" });
     case 3:
-      return S.Array(__S(1730, __c54, 2));
+      return S.Array(__S(2786, __c87, 2));
     case 4:
       return S.suspend(() =>
-        S.Struct({ SelectedPillars: S.optional(__S(1731, __c54, 3)) }),
+        S.Struct({ SelectedPillars: S.optional(__S(2787, __c87, 3)) }),
       ).annotate({ identifier: "JiraSelectedQuestionConfiguration" });
     case 5:
       return S.suspend(() =>
@@ -7028,19 +8887,25 @@ function __c54(j: number): any {
           LensVersion: S.optional(S.String),
           LensName: S.optional(S.String),
           LensStatus: S.optional(S.String),
-          PillarReviewSummaries: S.optional(__S(1729, __c54, 1)),
-          JiraConfiguration: S.optional(__S(1732, __c54, 4)),
+          PillarReviewSummaries: S.optional(__S(2785, __c87, 1)),
+          JiraConfiguration: S.optional(__S(2788, __c87, 4)),
           UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           Notes: S.optional(S.String),
-          RiskCounts: S.optional(__S(1568, __c49, 0)),
+          RiskCounts: S.optional(__S(2656, __c83, 0)),
           NextToken: S.optional(S.String),
-          Profiles: S.optional(__S(1696, __c53, 0)),
-          PrioritizedRiskCounts: S.optional(__S(1568, __c49, 0)),
+          Profiles: S.optional(__S(2816, __c88, 0)),
+          PrioritizedRiskCounts: S.optional(__S(2656, __c83, 0)),
         }),
       ).annotate({ identifier: "LensReview" });
   }
 }
-function __c55(j: number): any {
+function __c88(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(1248, __c39, 0));
+  }
+}
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7075,12 +8940,12 @@ function __c55(j: number): any {
         S.Struct({
           WorkloadId: S.optional(S.String),
           MilestoneNumber: S.optional(S.Number),
-          LensReviewReport: S.optional(__S(1761, __c55, 1)),
+          LensReviewReport: S.optional(__S(2849, __c89, 1)),
         }),
       ).annotate({ identifier: "GetLensReviewReportOutput" });
   }
 }
-function __c56(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7108,21 +8973,21 @@ function __c56(j: number): any {
         }),
       ).annotate({ identifier: "QuestionDifference" });
     case 2:
-      return S.Array(__S(1793, __c56, 1));
+      return S.Array(__S(2881, __c90, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           PillarId: S.optional(S.String),
           PillarName: S.optional(S.String),
           DifferenceStatus: S.optional(S.String),
-          QuestionDifferences: S.optional(__S(1794, __c56, 2)),
+          QuestionDifferences: S.optional(__S(2882, __c90, 2)),
         }),
       ).annotate({ identifier: "PillarDifference" });
     case 4:
-      return S.Array(__S(1795, __c56, 3));
+      return S.Array(__S(2883, __c90, 3));
     case 5:
       return S.suspend(() =>
-        S.Struct({ PillarDifferences: S.optional(__S(1796, __c56, 4)) }),
+        S.Struct({ PillarDifferences: S.optional(__S(2884, __c90, 4)) }),
       ).annotate({ identifier: "VersionDifferences" });
     case 6:
       return S.suspend(() =>
@@ -7132,12 +8997,12 @@ function __c56(j: number): any {
           BaseLensVersion: S.optional(S.String),
           TargetLensVersion: S.optional(S.String),
           LatestLensVersion: S.optional(S.String),
-          VersionDifferences: S.optional(__S(1797, __c56, 5)),
+          VersionDifferences: S.optional(__S(2885, __c90, 5)),
         }),
       ).annotate({ identifier: "GetLensVersionDifferenceOutput" });
   }
 }
-function __c57(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7161,16 +9026,16 @@ function __c57(j: number): any {
           MilestoneNumber: S.optional(S.Number),
           MilestoneName: S.optional(S.String),
           RecordedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          Workload: S.optional(__S(1857, __c58, 1)),
+          Workload: S.optional(__S(2945, __c92, 1)),
         }),
       ).annotate({ identifier: "Milestone" });
     case 2:
       return S.suspend(() =>
-        S.Struct({ WorkloadId: S.optional(S.String), Milestone: S.optional(__S(1825, __c57, 1)) }),
+        S.Struct({ WorkloadId: S.optional(S.String), Milestone: S.optional(__S(2913, __c91, 1)) }),
       ).annotate({ identifier: "GetMilestoneOutput" });
   }
 }
-function __c58(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7190,9 +9055,9 @@ function __c58(j: number): any {
           Description: S.optional(S.String),
           Environment: S.optional(S.String),
           UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          AccountIds: S.optional(__S(3008, __c94, 0)),
-          AwsRegions: S.optional(__S(3008, __c94, 0)),
-          NonAwsRegions: S.optional(__S(3008, __c94, 0)),
+          AccountIds: S.optional(__S(3584, __c112, 0)),
+          AwsRegions: S.optional(__S(3584, __c112, 0)),
+          NonAwsRegions: S.optional(__S(3584, __c112, 0)),
           ArchitecturalDesign: S.optional(S.String),
           ReviewOwner: S.optional(S.String),
           ReviewRestrictionDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -7201,22 +9066,22 @@ function __c58(j: number): any {
           Industry: S.optional(S.String),
           Notes: S.optional(S.String),
           ImprovementStatus: S.optional(S.String),
-          RiskCounts: S.optional(__S(1568, __c49, 0)),
-          PillarPriorities: S.optional(__S(3008, __c94, 0)),
-          Lenses: S.optional(__S(3008, __c94, 0)),
+          RiskCounts: S.optional(__S(2656, __c83, 0)),
+          PillarPriorities: S.optional(__S(3584, __c112, 0)),
+          Lenses: S.optional(__S(3584, __c112, 0)),
           Owner: S.optional(S.String),
           ShareInvitationId: S.optional(S.String),
-          Tags: S.optional(__S(224, __c7, 0)),
-          DiscoveryConfig: S.optional(__S(608, __c19, 0)),
-          Applications: S.optional(__S(3008, __c94, 0)),
-          Profiles: S.optional(__S(1696, __c53, 0)),
-          PrioritizedRiskCounts: S.optional(__S(1568, __c49, 0)),
-          JiraConfiguration: S.optional(__S(1856, __c58, 0)),
+          Tags: S.optional(__S(896, __c28, 0)),
+          DiscoveryConfig: S.optional(__S(1440, __c45, 0)),
+          Applications: S.optional(__S(3584, __c112, 0)),
+          Profiles: S.optional(__S(2816, __c88, 0)),
+          PrioritizedRiskCounts: S.optional(__S(2656, __c83, 0)),
+          JiraConfiguration: S.optional(__S(2944, __c92, 0)),
         }),
       ).annotate({ identifier: "Workload" });
   }
 }
-function __c59(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7236,7 +9101,44 @@ function __c59(j: number): any {
       ).annotate({ identifier: "GetProfileInput" });
   }
 }
-function __c60(j: number): any {
+function __c94(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          QuestionId: S.optional(S.String),
+          QuestionTitle: S.optional(S.String),
+          QuestionDescription: S.optional(S.String),
+          QuestionChoices: S.optional(__S(3041, __c95, 1)),
+          SelectedChoiceIds: S.optional(__S(3584, __c112, 0)),
+          MinSelectedChoices: S.optional(S.Number),
+          MaxSelectedChoices: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "ProfileQuestion" });
+    case 1:
+      return S.Array(__S(3008, __c94, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          ProfileArn: S.optional(S.String),
+          ProfileVersion: S.optional(S.String),
+          ProfileName: S.optional(S.String),
+          ProfileDescription: S.optional(S.String),
+          ProfileQuestions: S.optional(__S(3009, __c94, 1)),
+          Owner: S.optional(S.String),
+          CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          ShareInvitationId: S.optional(S.String),
+          Tags: S.optional(__S(896, __c28, 0)),
+        }),
+      ).annotate({ identifier: "Profile" });
+    case 3:
+      return S.suspend(() => S.Struct({ Profile: S.optional(__S(3010, __c94, 2)) })).annotate({
+        identifier: "GetProfileOutput",
+      });
+  }
+}
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7247,47 +9149,20 @@ function __c60(j: number): any {
         }),
       ).annotate({ identifier: "ProfileChoice" });
     case 1:
-      return S.Array(__S(1920, __c60, 0));
+      return S.Array(__S(3040, __c95, 0));
   }
 }
-function __c61(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          QuestionId: S.optional(S.String),
-          QuestionTitle: S.optional(S.String),
-          QuestionDescription: S.optional(S.String),
-          QuestionChoices: S.optional(__S(1921, __c60, 1)),
-          SelectedChoiceIds: S.optional(__S(3008, __c94, 0)),
-          MinSelectedChoices: S.optional(S.Number),
-          MaxSelectedChoices: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "ProfileQuestion" });
+        S.Struct({ Name: S.optional(S.String), Message: S.optional(S.String) }),
+      ).annotate({ identifier: "ValidationExceptionField" });
     case 1:
-      return S.Array(__S(1952, __c61, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          ProfileArn: S.optional(S.String),
-          ProfileVersion: S.optional(S.String),
-          ProfileName: S.optional(S.String),
-          ProfileDescription: S.optional(S.String),
-          ProfileQuestions: S.optional(__S(1953, __c61, 1)),
-          Owner: S.optional(S.String),
-          CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          ShareInvitationId: S.optional(S.String),
-          Tags: S.optional(__S(224, __c7, 0)),
-        }),
-      ).annotate({ identifier: "Profile" });
-    case 3:
-      return S.suspend(() => S.Struct({ Profile: S.optional(__S(1954, __c61, 2)) })).annotate({
-        identifier: "GetProfileOutput",
-      });
+      return S.Array(__S(3072, __c96, 0));
   }
 }
-function __c62(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7301,29 +9176,29 @@ function __c62(j: number): any {
           QuestionId: S.optional(S.String),
           QuestionTitle: S.optional(S.String),
           QuestionDescription: S.optional(S.String),
-          QuestionChoices: S.optional(__S(1921, __c60, 1)),
+          QuestionChoices: S.optional(__S(3041, __c95, 1)),
           MinSelectedChoices: S.optional(S.Number),
           MaxSelectedChoices: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ProfileTemplateQuestion" });
     case 2:
-      return S.Array(__S(1985, __c62, 1));
+      return S.Array(__S(3105, __c97, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           TemplateName: S.optional(S.String),
-          TemplateQuestions: S.optional(__S(1986, __c62, 2)),
+          TemplateQuestions: S.optional(__S(3106, __c97, 2)),
           CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
         }),
       ).annotate({ identifier: "ProfileTemplate" });
     case 4:
       return S.suspend(() =>
-        S.Struct({ ProfileTemplate: S.optional(__S(1987, __c62, 3)) }),
+        S.Struct({ ProfileTemplate: S.optional(__S(3107, __c97, 3)) }),
       ).annotate({ identifier: "GetProfileTemplateOutput" });
   }
 }
-function __c63(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7340,31 +9215,31 @@ function __c63(j: number): any {
       ).annotate({ identifier: "GetReviewTemplateInput" });
   }
 }
-function __c64(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Description: S.optional(S.String),
-          Lenses: S.optional(__S(3008, __c94, 0)),
+          Lenses: S.optional(__S(3584, __c112, 0)),
           Notes: S.optional(S.String),
-          QuestionCounts: S.optional(__S(1568, __c49, 0)),
+          QuestionCounts: S.optional(__S(2656, __c83, 0)),
           Owner: S.optional(S.String),
           UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           TemplateArn: S.optional(S.String),
           TemplateName: S.optional(S.String),
-          Tags: S.optional(__S(224, __c7, 0)),
+          Tags: S.optional(__S(896, __c28, 0)),
           UpdateStatus: S.optional(S.String),
           ShareInvitationId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ReviewTemplate" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ ReviewTemplate: S.optional(__S(2048, __c64, 0)) }),
+        S.Struct({ ReviewTemplate: S.optional(__S(3168, __c99, 0)) }),
       ).annotate({ identifier: "GetReviewTemplateOutput" });
   }
 }
-function __c65(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7388,7 +9263,7 @@ function __c65(j: number): any {
       ).annotate({ identifier: "GetReviewTemplateAnswerInput" });
   }
 }
-function __c66(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7400,9 +9275,9 @@ function __c66(j: number): any {
           ImprovementPlanUrl: S.optional(S.String),
           HelpfulResourceUrl: S.optional(S.String),
           HelpfulResourceDisplayText: S.optional(S.String),
-          Choices: S.optional(__S(1413, __c44, 5)),
-          SelectedChoices: S.optional(__S(3008, __c94, 0)),
-          ChoiceAnswers: S.optional(__S(1441, __c45, 1)),
+          Choices: S.optional(__S(2565, __c80, 5)),
+          SelectedChoices: S.optional(__S(3584, __c112, 0)),
+          ChoiceAnswers: S.optional(__S(2529, __c79, 1)),
           IsApplicable: S.optional(S.Boolean),
           AnswerStatus: S.optional(S.String),
           Notes: S.optional(S.String),
@@ -7414,12 +9289,12 @@ function __c66(j: number): any {
         S.Struct({
           TemplateArn: S.optional(S.String),
           LensAlias: S.optional(S.String),
-          Answer: S.optional(__S(2112, __c66, 0)),
+          Answer: S.optional(__S(3232, __c101, 0)),
         }),
       ).annotate({ identifier: "GetReviewTemplateAnswerOutput" });
   }
 }
-function __c67(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7442,7 +9317,7 @@ function __c67(j: number): any {
       ).annotate({ identifier: "GetReviewTemplateLensReviewInput" });
   }
 }
-function __c68(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7450,11 +9325,11 @@ function __c68(j: number): any {
           PillarId: S.optional(S.String),
           PillarName: S.optional(S.String),
           Notes: S.optional(S.String),
-          QuestionCounts: S.optional(__S(1568, __c49, 0)),
+          QuestionCounts: S.optional(__S(2656, __c83, 0)),
         }),
       ).annotate({ identifier: "ReviewTemplatePillarReviewSummary" });
     case 1:
-      return S.Array(__S(2176, __c68, 0));
+      return S.Array(__S(3296, __c103, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -7463,10 +9338,10 @@ function __c68(j: number): any {
           LensVersion: S.optional(S.String),
           LensName: S.optional(S.String),
           LensStatus: S.optional(S.String),
-          PillarReviewSummaries: S.optional(__S(2177, __c68, 1)),
+          PillarReviewSummaries: S.optional(__S(3297, __c103, 1)),
           UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           Notes: S.optional(S.String),
-          QuestionCounts: S.optional(__S(1568, __c49, 0)),
+          QuestionCounts: S.optional(__S(2656, __c83, 0)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ReviewTemplateLensReview" });
@@ -7474,12 +9349,12 @@ function __c68(j: number): any {
       return S.suspend(() =>
         S.Struct({
           TemplateArn: S.optional(S.String),
-          LensReview: S.optional(__S(2178, __c68, 2)),
+          LensReview: S.optional(__S(3298, __c103, 2)),
         }),
       ).annotate({ identifier: "GetReviewTemplateLensReviewOutput" });
   }
 }
-function __c69(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7496,15 +9371,15 @@ function __c69(j: number): any {
       ).annotate({ identifier: "GetWorkloadInput" });
   }
 }
-function __c70(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ Workload: S.optional(__S(1857, __c58, 1)) })).annotate({
+      return S.suspend(() => S.Struct({ Workload: S.optional(__S(2945, __c92, 1)) })).annotate({
         identifier: "GetWorkloadOutput",
       });
   }
 }
-function __c71(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7512,7 +9387,7 @@ function __c71(j: number): any {
           LensAlias: S.optional(S.String),
           JSONString: S.optional(S.String),
           ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          Tags: S.optional(__S(224, __c7, 0)),
+          Tags: S.optional(__S(896, __c28, 0)),
         }).pipe(T.all(T.Http({ method: "PUT", uri: "/importLens" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ImportLensInput" });
     case 1:
@@ -7521,7 +9396,7 @@ function __c71(j: number): any {
       ).annotate({ identifier: "ImportLensOutput" });
   }
 }
-function __c72(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7542,14 +9417,14 @@ function __c72(j: number): any {
         ),
       ).annotate({ identifier: "ListAgentContextsRequest" });
     case 1:
-      return S.Array(__S(3809, __c119, 1));
+      return S.Array(__S(65, __c2, 1));
     case 2:
       return S.suspend(() =>
-        S.Struct({ items: __S(2305, __c72, 1), nextToken: S.optional(S.String) }),
+        S.Struct({ items: __S(3425, __c107, 1), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListAgentContextsResponse" });
   }
 }
-function __c73(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7570,14 +9445,53 @@ function __c73(j: number): any {
         ),
       ).annotate({ identifier: "ListAgentGoalsRequest" });
     case 1:
-      return S.Array(__S(64, __c2, 0));
+      return S.Array(__S(544, __c17, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ items: __S(2337, __c73, 1), nextToken: S.optional(S.String) }),
+        S.Struct({ items: __S(3457, __c108, 1), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListAgentGoalsResponse" });
   }
 }
-function __c74(j: number): any {
+function __c109(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+          nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+          state: S.optional(S.String).pipe(T.HttpQuery("state")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/api/v1/agent-organizational-reports" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+            T.StaticContextParams({ SubServiceType: { value: "AGENT" } }),
+          ),
+        ),
+      ).annotate({ identifier: "ListAgentOrganizationalReportsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          reportId: S.String,
+          ownerAccountId: S.String,
+          organizationId: S.String,
+          label: S.optional(S.String),
+          state: S.String,
+          createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+        }),
+      ).annotate({ identifier: "OrganizationalReportSummary" });
+    case 2:
+      return S.Array(__S(3489, __c109, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ items: __S(3490, __c109, 2), nextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListAgentOrganizationalReportsResponse" });
+  }
+}
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7597,14 +9511,69 @@ function __c74(j: number): any {
         ),
       ).annotate({ identifier: "ListAgentProfilesRequest" });
     case 1:
-      return S.Array(__S(258, __c8, 2));
-    case 2:
       return S.suspend(() =>
-        S.Struct({ items: __S(2369, __c74, 1), nextToken: S.optional(S.String) }),
+        S.Struct({
+          name: S.String,
+          displayName: S.optional(SensitiveString),
+          description: S.optional(SensitiveString),
+          businessOverview: S.optional(SensitiveString),
+          pillars: S.optional(__S(480, __c15, 0)),
+          deletionProtection: S.optional(S.Boolean),
+          profileType: S.optional(S.String),
+          executionRoleArn: S.optional(S.String),
+          aggregationConfiguration: S.optional(__S(1057, __c33, 1)),
+          arn: S.String,
+          eligibleForScheduledGeneration: S.optional(S.Boolean),
+          eligibleForArchitectureGeneration: S.optional(S.Boolean),
+          fieldErrors: S.optional(__S(896, __c28, 0)),
+          createdBy: S.String,
+          createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          lastModifiedBy: S.optional(S.String),
+          lastModifiedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          organizationalAggregationConfiguration: S.optional(__S(932, __c29, 4)),
+        }),
+      ).annotate({ identifier: "AgentProfileSummary" });
+    case 2:
+      return S.Array(__S(3521, __c110, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ items: __S(3522, __c110, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListAgentProfilesResponse" });
   }
 }
-function __c75(j: number): any {
+function __c111(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          WorkloadId: S.String.pipe(T.HttpLabel("WorkloadId")),
+          LensAliases: S.optional(__S(3584, __c112, 0)),
+        }).pipe(
+          T.all(
+            T.Http({ method: "PATCH", uri: "/workloads/{WorkloadId}/associateLenses" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "AssociateLensesInput" });
+  }
+}
+function __c112(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c113(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "AssociateLensesResponse" });
+  }
+}
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7626,16 +9595,6 @@ function __c75(j: number): any {
         ),
       ).annotate({ identifier: "ListAgentRecommendationGenerationsRequest" });
     case 1:
-      return S.Array(__S(2432, __c76, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({ items: __S(2401, __c75, 1), nextToken: S.optional(S.String) }),
-      ).annotate({ identifier: "ListAgentRecommendationGenerationsResponse" });
-  }
-}
-function __c76(j: number): any {
-  switch (j) {
-    case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
@@ -7649,11 +9608,22 @@ function __c76(j: number): any {
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           lastModifiedBy: S.optional(S.String),
           lastModifiedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          generationType: S.optional(S.String),
+          generationRecommendationTypes: S.optional(__S(480, __c15, 0)),
+          startedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          errorDetails: S.optional(__S(2368, __c74, 0)),
         }),
       ).annotate({ identifier: "AgentRecommendationGenerationSummary" });
+    case 2:
+      return S.Array(__S(3649, __c114, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ items: __S(3650, __c114, 2), nextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListAgentRecommendationGenerationsResponse" });
   }
 }
-function __c77(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7679,6 +9649,10 @@ function __c77(j: number): any {
       ).annotate({ identifier: "ListAgentRecommendationItemsRequest" });
     case 1:
       return S.suspend(() =>
+        S.Struct({ deepLink: S.optional(S.String), cliCommand: S.optional(S.String) }),
+      ).annotate({ identifier: "AutoRemediation" });
+    case 2:
+      return S.suspend(() =>
         S.Struct({
           id: S.String,
           recommendationArn: S.String,
@@ -7688,27 +9662,18 @@ function __c77(j: number): any {
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           lastModifiedBy: S.optional(S.String),
           lastModifiedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          autoRemediation: S.optional(__S(3681, __c115, 1)),
         }),
       ).annotate({ identifier: "AgentRecommendationItemSummary" });
-    case 2:
-      return S.Array(__S(2465, __c77, 1));
     case 3:
+      return S.Array(__S(3682, __c115, 2));
+    case 4:
       return S.suspend(() =>
-        S.Struct({ items: __S(2466, __c77, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ items: __S(3683, __c115, 3), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListAgentRecommendationItemsResponse" });
   }
 }
-function __c78(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({ Name: S.optional(S.String), Message: S.optional(S.String) }),
-      ).annotate({ identifier: "ValidationExceptionField" });
-    case 1:
-      return S.Array(__S(2496, __c78, 0));
-  }
-}
-function __c79(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7746,11 +9711,11 @@ function __c79(j: number): any {
           state: S.String,
           updateReason: S.optional(SensitiveString),
           impact: S.String,
-          roi: __S(1280, __c40, 0),
+          roi: __S(2304, __c72, 0),
           numberOfResources: S.optional(S.Number),
-          awsServices: S.optional(__S(3008, __c94, 0)),
-          businessUnits: S.optional(__S(3008, __c94, 0)),
-          applications: S.optional(__S(3008, __c94, 0)),
+          awsServices: S.optional(__S(3584, __c112, 0)),
+          businessUnits: S.optional(__S(3584, __c112, 0)),
+          applications: S.optional(__S(3584, __c112, 0)),
           createdBy: S.String,
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           lastModifiedBy: S.optional(S.String),
@@ -7758,14 +9723,14 @@ function __c79(j: number): any {
         }),
       ).annotate({ identifier: "AgentRecommendationSummary" });
     case 2:
-      return S.Array(__S(2529, __c79, 1));
+      return S.Array(__S(3713, __c116, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ items: __S(2530, __c79, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ items: __S(3714, __c116, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListAgentRecommendationsResponse" });
   }
 }
-function __c80(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7797,18 +9762,18 @@ function __c80(j: number): any {
           QuestionId: S.optional(S.String),
           PillarId: S.optional(S.String),
           QuestionTitle: S.optional(S.String),
-          Choices: S.optional(__S(1413, __c44, 5)),
-          SelectedChoices: S.optional(__S(3008, __c94, 0)),
-          ChoiceAnswerSummaries: S.optional(__S(2593, __c81, 1)),
+          Choices: S.optional(__S(2565, __c80, 5)),
+          SelectedChoices: S.optional(__S(3584, __c112, 0)),
+          ChoiceAnswerSummaries: S.optional(__S(3777, __c118, 1)),
           IsApplicable: S.optional(S.Boolean),
           Risk: S.optional(S.String),
           Reason: S.optional(S.String),
           QuestionType: S.optional(S.String),
-          JiraConfiguration: S.optional(__S(1472, __c46, 0)),
+          JiraConfiguration: S.optional(__S(2592, __c81, 0)),
         }),
       ).annotate({ identifier: "AnswerSummary" });
     case 2:
-      return S.Array(__S(2561, __c80, 1));
+      return S.Array(__S(3745, __c117, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -7816,13 +9781,13 @@ function __c80(j: number): any {
           MilestoneNumber: S.optional(S.Number),
           LensAlias: S.optional(S.String),
           LensArn: S.optional(S.String),
-          AnswerSummaries: S.optional(__S(2562, __c80, 2)),
+          AnswerSummaries: S.optional(__S(3746, __c117, 2)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListAnswersOutput" });
   }
 }
-function __c81(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7833,10 +9798,10 @@ function __c81(j: number): any {
         }),
       ).annotate({ identifier: "ChoiceAnswerSummary" });
     case 1:
-      return S.Array(__S(2592, __c81, 0));
+      return S.Array(__S(3776, __c118, 0));
   }
 }
-function __c82(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7878,17 +9843,17 @@ function __c82(j: number): any {
         }),
       ).annotate({ identifier: "CheckDetail" });
     case 2:
-      return S.Array(__S(2625, __c82, 1));
+      return S.Array(__S(3809, __c119, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          CheckDetails: S.optional(__S(2626, __c82, 2)),
+          CheckDetails: S.optional(__S(3810, __c119, 2)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListCheckDetailsOutput" });
   }
 }
-function __c83(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7924,21 +9889,21 @@ function __c83(j: number): any {
           QuestionId: S.optional(S.String),
           ChoiceId: S.optional(S.String),
           Status: S.optional(S.String),
-          AccountSummary: S.optional(__S(1568, __c49, 0)),
+          AccountSummary: S.optional(__S(2656, __c83, 0)),
         }),
       ).annotate({ identifier: "CheckSummary" });
     case 2:
-      return S.Array(__S(2657, __c83, 1));
+      return S.Array(__S(3841, __c120, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          CheckSummaries: S.optional(__S(2658, __c83, 2)),
+          CheckSummaries: S.optional(__S(3842, __c120, 2)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListCheckSummariesOutput" });
   }
 }
-function __c84(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7966,17 +9931,17 @@ function __c84(j: number): any {
         }),
       ).annotate({ identifier: "LensSummary" });
     case 2:
-      return S.Array(__S(2689, __c84, 1));
+      return S.Array(__S(3873, __c121, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          LensSummaries: S.optional(__S(2690, __c84, 2)),
+          LensSummaries: S.optional(__S(3874, __c121, 2)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListLensesOutput" });
   }
 }
-function __c85(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8011,7 +9976,7 @@ function __c85(j: number): any {
         }),
       ).annotate({ identifier: "ChoiceImprovementPlan" });
     case 2:
-      return S.Array(__S(2721, __c85, 1));
+      return S.Array(__S(3905, __c122, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -8020,12 +9985,12 @@ function __c85(j: number): any {
           QuestionTitle: S.optional(S.String),
           Risk: S.optional(S.String),
           ImprovementPlanUrl: S.optional(S.String),
-          ImprovementPlans: S.optional(__S(2722, __c85, 2)),
-          JiraConfiguration: S.optional(__S(1472, __c46, 0)),
+          ImprovementPlans: S.optional(__S(3906, __c122, 2)),
+          JiraConfiguration: S.optional(__S(2592, __c81, 0)),
         }),
       ).annotate({ identifier: "ImprovementSummary" });
     case 4:
-      return S.Array(__S(2723, __c85, 3));
+      return S.Array(__S(3907, __c122, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -8033,13 +9998,13 @@ function __c85(j: number): any {
           MilestoneNumber: S.optional(S.Number),
           LensAlias: S.optional(S.String),
           LensArn: S.optional(S.String),
-          ImprovementSummaries: S.optional(__S(2724, __c85, 4)),
+          ImprovementSummaries: S.optional(__S(3908, __c122, 4)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListLensReviewImprovementsOutput" });
   }
 }
-function __c86(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8068,25 +10033,25 @@ function __c86(j: number): any {
           LensName: S.optional(S.String),
           LensStatus: S.optional(S.String),
           UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          RiskCounts: S.optional(__S(1568, __c49, 0)),
-          Profiles: S.optional(__S(1696, __c53, 0)),
-          PrioritizedRiskCounts: S.optional(__S(1568, __c49, 0)),
+          RiskCounts: S.optional(__S(2656, __c83, 0)),
+          Profiles: S.optional(__S(2816, __c88, 0)),
+          PrioritizedRiskCounts: S.optional(__S(2656, __c83, 0)),
         }),
       ).annotate({ identifier: "LensReviewSummary" });
     case 2:
-      return S.Array(__S(2753, __c86, 1));
+      return S.Array(__S(3937, __c123, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           WorkloadId: S.optional(S.String),
           MilestoneNumber: S.optional(S.Number),
-          LensReviewSummaries: S.optional(__S(2754, __c86, 2)),
+          LensReviewSummaries: S.optional(__S(3938, __c123, 2)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListLensReviewsOutput" });
   }
 }
-function __c87(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8110,13 +10075,13 @@ function __c87(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          LensShareSummaries: S.optional(__S(2817, __c88, 1)),
+          LensShareSummaries: S.optional(__S(4001, __c125, 1)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListLensSharesOutput" });
   }
 }
-function __c88(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8128,10 +10093,30 @@ function __c88(j: number): any {
         }),
       ).annotate({ identifier: "LensShareSummary" });
     case 1:
-      return S.Array(__S(2816, __c88, 0));
+      return S.Array(__S(4000, __c125, 0));
   }
 }
-function __c89(j: number): any {
+function __c126(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          WorkloadId: S.String.pipe(T.HttpLabel("WorkloadId")),
+          ProfileArns: S.optional(__S(3584, __c112, 0)),
+        }).pipe(
+          T.all(
+            T.Http({ method: "PATCH", uri: "/workloads/{WorkloadId}/associateProfiles" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "AssociateProfilesInput" });
+  }
+}
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8156,22 +10141,22 @@ function __c89(j: number): any {
           MilestoneNumber: S.optional(S.Number),
           MilestoneName: S.optional(S.String),
           RecordedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          WorkloadSummary: S.optional(__S(2880, __c90, 0)),
+          WorkloadSummary: S.optional(__S(4096, __c128, 0)),
         }),
       ).annotate({ identifier: "MilestoneSummary" });
     case 2:
-      return S.Array(__S(2849, __c89, 1));
+      return S.Array(__S(4065, __c127, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           WorkloadId: S.optional(S.String),
-          MilestoneSummaries: S.optional(__S(2850, __c89, 2)),
+          MilestoneSummaries: S.optional(__S(4066, __c127, 2)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListMilestonesOutput" });
   }
 }
-function __c90(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8181,16 +10166,16 @@ function __c90(j: number): any {
           WorkloadName: S.optional(S.String),
           Owner: S.optional(S.String),
           UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          Lenses: S.optional(__S(3008, __c94, 0)),
-          RiskCounts: S.optional(__S(1568, __c49, 0)),
+          Lenses: S.optional(__S(3584, __c112, 0)),
+          RiskCounts: S.optional(__S(2656, __c83, 0)),
           ImprovementStatus: S.optional(S.String),
-          Profiles: S.optional(__S(1696, __c53, 0)),
-          PrioritizedRiskCounts: S.optional(__S(1568, __c49, 0)),
+          Profiles: S.optional(__S(2816, __c88, 0)),
+          PrioritizedRiskCounts: S.optional(__S(2656, __c83, 0)),
         }),
       ).annotate({ identifier: "WorkloadSummary" });
   }
 }
-function __c91(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8220,53 +10205,21 @@ function __c91(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Type: S.optional(S.String),
-          LensUpgradeSummary: S.optional(__S(2913, __c91, 1)),
+          LensUpgradeSummary: S.optional(__S(4129, __c129, 1)),
         }),
       ).annotate({ identifier: "NotificationSummary" });
     case 3:
-      return S.Array(__S(2914, __c91, 2));
+      return S.Array(__S(4130, __c129, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          NotificationSummaries: S.optional(__S(2915, __c91, 3)),
+          NotificationSummaries: S.optional(__S(4131, __c129, 3)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListNotificationsOutput" });
   }
 }
-function __c92(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          WorkloadId: S.String.pipe(T.HttpLabel("WorkloadId")),
-          LensAliases: S.optional(__S(3008, __c94, 0)),
-        }).pipe(
-          T.all(
-            T.Http({ method: "PATCH", uri: "/workloads/{WorkloadId}/associateLenses" }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "AssociateLensesInput" });
-  }
-}
-function __c93(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({})).annotate({ identifier: "AssociateLensesResponse" });
-  }
-}
-function __c94(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c95(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8298,17 +10251,17 @@ function __c95(j: number): any {
         }),
       ).annotate({ identifier: "ProfileNotificationSummary" });
     case 2:
-      return S.Array(__S(3041, __c95, 1));
+      return S.Array(__S(4161, __c130, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          NotificationSummaries: S.optional(__S(3042, __c95, 2)),
+          NotificationSummaries: S.optional(__S(4162, __c130, 2)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListProfileNotificationsOutput" });
   }
 }
-function __c96(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8334,17 +10287,17 @@ function __c96(j: number): any {
         }),
       ).annotate({ identifier: "ProfileSummary" });
     case 2:
-      return S.Array(__S(3073, __c96, 1));
+      return S.Array(__S(4193, __c131, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          ProfileSummaries: S.optional(__S(3074, __c96, 2)),
+          ProfileSummaries: S.optional(__S(4194, __c131, 2)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListProfilesOutput" });
   }
 }
-function __c97(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8368,13 +10321,13 @@ function __c97(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          ProfileShareSummaries: S.optional(__S(2817, __c88, 1)),
+          ProfileShareSummaries: S.optional(__S(4001, __c125, 1)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListProfileSharesOutput" });
   }
 }
-function __c98(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8404,9 +10357,9 @@ function __c98(j: number): any {
           QuestionId: S.optional(S.String),
           PillarId: S.optional(S.String),
           QuestionTitle: S.optional(S.String),
-          Choices: S.optional(__S(1413, __c44, 5)),
-          SelectedChoices: S.optional(__S(3008, __c94, 0)),
-          ChoiceAnswerSummaries: S.optional(__S(2593, __c81, 1)),
+          Choices: S.optional(__S(2565, __c80, 5)),
+          SelectedChoices: S.optional(__S(3584, __c112, 0)),
+          ChoiceAnswerSummaries: S.optional(__S(3777, __c118, 1)),
           IsApplicable: S.optional(S.Boolean),
           AnswerStatus: S.optional(S.String),
           Reason: S.optional(S.String),
@@ -8414,19 +10367,19 @@ function __c98(j: number): any {
         }),
       ).annotate({ identifier: "ReviewTemplateAnswerSummary" });
     case 2:
-      return S.Array(__S(3137, __c98, 1));
+      return S.Array(__S(4257, __c133, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           TemplateArn: S.optional(S.String),
           LensAlias: S.optional(S.String),
-          AnswerSummaries: S.optional(__S(3138, __c98, 2)),
+          AnswerSummaries: S.optional(__S(4258, __c133, 2)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListReviewTemplateAnswersOutput" });
   }
 }
-function __c99(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8441,7 +10394,7 @@ function __c99(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Description: S.optional(S.String),
-          Lenses: S.optional(__S(3008, __c94, 0)),
+          Lenses: S.optional(__S(3584, __c112, 0)),
           Owner: S.optional(S.String),
           UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           TemplateArn: S.optional(S.String),
@@ -8450,17 +10403,17 @@ function __c99(j: number): any {
         }),
       ).annotate({ identifier: "ReviewTemplateSummary" });
     case 2:
-      return S.Array(__S(3169, __c99, 1));
+      return S.Array(__S(4289, __c134, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          ReviewTemplates: S.optional(__S(3170, __c99, 2)),
+          ReviewTemplates: S.optional(__S(4290, __c134, 2)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListReviewTemplatesOutput" });
   }
 }
-function __c100(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8495,17 +10448,17 @@ function __c100(j: number): any {
         }),
       ).annotate({ identifier: "ShareInvitationSummary" });
     case 2:
-      return S.Array(__S(3201, __c100, 1));
+      return S.Array(__S(4321, __c135, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          ShareInvitationSummaries: S.optional(__S(3202, __c100, 2)),
+          ShareInvitationSummaries: S.optional(__S(4322, __c135, 2)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListShareInvitationsOutput" });
   }
 }
-function __c101(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8521,12 +10474,12 @@ function __c101(j: number): any {
         ),
       ).annotate({ identifier: "ListTagsForResourceInput" });
     case 1:
-      return S.suspend(() => S.Struct({ Tags: S.optional(__S(224, __c7, 0)) })).annotate({
+      return S.suspend(() => S.Struct({ Tags: S.optional(__S(896, __c28, 0)) })).annotate({
         identifier: "ListTagsForResourceOutput",
       });
   }
 }
-function __c102(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8551,13 +10504,51 @@ function __c102(j: number): any {
       return S.suspend(() =>
         S.Struct({
           TemplateArn: S.optional(S.String),
-          TemplateShareSummaries: S.optional(__S(2817, __c88, 1)),
+          TemplateShareSummaries: S.optional(__S(4001, __c125, 1)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListTemplateSharesOutput" });
   }
 }
-function __c103(j: number): any {
+function __c138(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ tags: S.optional(__S(4449, __c139, 1)) }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/api/v1/agent-basic-profile" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+            T.StaticContextParams({ SubServiceType: { value: "AGENT" } }),
+          ),
+        ),
+      ).annotate({ identifier: "CreateAgentBasicProfileRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          createdBy: S.String,
+          createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          lastModifiedBy: S.optional(S.String),
+          lastModifiedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          arn: S.String,
+        }),
+      ).annotate({ identifier: "CreateAgentBasicProfileResponse" });
+  }
+}
+function __c139(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ key: S.String, value: S.String })).annotate({
+        identifier: "Tag",
+      });
+    case 1:
+      return S.Array(__S(4448, __c139, 0));
+  }
+}
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8577,17 +10568,17 @@ function __c103(j: number): any {
         ),
       ).annotate({ identifier: "ListWorkloadsInput" });
     case 1:
-      return S.Array(__S(2880, __c90, 0));
+      return S.Array(__S(4096, __c128, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          WorkloadSummaries: S.optional(__S(3297, __c103, 1)),
+          WorkloadSummaries: S.optional(__S(4481, __c140, 1)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListWorkloadsOutput" });
   }
 }
-function __c104(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8619,38 +10610,60 @@ function __c104(j: number): any {
         }),
       ).annotate({ identifier: "WorkloadShareSummary" });
     case 2:
-      return S.Array(__S(3329, __c104, 1));
+      return S.Array(__S(4513, __c141, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           WorkloadId: S.optional(S.String),
-          WorkloadShareSummaries: S.optional(__S(3330, __c104, 2)),
+          WorkloadShareSummaries: S.optional(__S(4514, __c141, 2)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListWorkloadSharesOutput" });
   }
 }
-function __c105(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() => S.Struct({ key: S.String, state: S.String })).annotate({
+        identifier: "PreferenceUpdate",
+      });
+    case 1:
+      return S.Array(__S(4544, __c142, 0));
+    case 2:
       return S.suspend(() =>
-        S.Struct({
-          WorkloadId: S.String.pipe(T.HttpLabel("WorkloadId")),
-          ProfileArns: S.optional(__S(3008, __c94, 0)),
-        }).pipe(
+        S.Struct({ preferences: __S(4545, __c142, 1) }).pipe(
           T.all(
-            T.Http({ method: "PATCH", uri: "/workloads/{WorkloadId}/associateProfiles" }),
+            T.Http({ method: "PUT", uri: "/api/v1/agent-preferences" }),
             svc,
             auth,
             proto,
             ver,
             rules,
+            T.StaticContextParams({ SubServiceType: { value: "AGENT" } }),
           ),
         ),
-      ).annotate({ identifier: "AssociateProfilesInput" });
+      ).annotate({ identifier: "PutAgentPreferencesRequest" });
   }
 }
-function __c106(j: number): any {
+function __c143(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ profileArn: S.String.pipe(T.HttpLabel("profileArn")), policy: S.String }).pipe(
+          T.all(
+            T.Http({ method: "PUT", uri: "/api/v1/agent-profiles/{profileArn}/policy" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+            T.StaticContextParams({ SubServiceType: { value: "AGENT" } }),
+          ),
+        ),
+      ).annotate({ identifier: "PutAgentProfilePolicyRequest" });
+  }
+}
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8658,7 +10671,7 @@ function __c106(j: number): any {
           recommendationArn: S.String.pipe(T.HttpLabel("recommendationArn")),
           type: S.String,
           feedbackCategory: S.optional(S.String),
-          comments: S.optional(S.String),
+          comments: S.optional(SensitiveString),
         }).pipe(
           T.all(
             T.Http({
@@ -8676,16 +10689,70 @@ function __c106(j: number): any {
       ).annotate({ identifier: "PutAgentRecommendationFeedbackRequest" });
   }
 }
-function __c107(j: number): any {
+function __c145(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          recommendationArn: S.String.pipe(T.HttpLabel("recommendationArn")),
+          policy: S.String,
+        }).pipe(
+          T.all(
+            T.Http({
+              method: "PUT",
+              uri: "/api/v1/agent-recommendations/{recommendationArn}/policy",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+            T.StaticContextParams({ SubServiceType: { value: "AGENT" } }),
+          ),
+        ),
+      ).annotate({ identifier: "PutAgentRecommendationPolicyRequest" });
+  }
+}
+function __c146(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          reportId: S.String.pipe(T.HttpLabel("reportId")),
+          format: S.String,
+          bucketArn: S.String,
+          objectKey: S.String,
+        }).pipe(
+          T.all(
+            T.Http({
+              method: "POST",
+              uri: "/api/v1/agent-organizational-reports/{reportId}/send-to-s3",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+            T.StaticContextParams({ SubServiceType: { value: "AGENT" } }),
+          ),
+        ),
+      ).annotate({ identifier: "SendAgentOrganizationalReportDataToS3Request" });
+    case 1:
+      return S.suspend(() => S.Struct({ deliveredTo: S.String })).annotate({
+        identifier: "SendAgentOrganizationalReportDataToS3Response",
+      });
+  }
+}
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           profileArn: S.String.pipe(T.HttpLabel("profileArn")),
-          types: __S(32, __c1, 0),
+          types: __S(480, __c15, 0),
           name: S.optional(S.String),
           additionalContext: S.optional(S.Any),
-          scope: __S(1346, __c42, 2),
+          scope: S.optional(__S(2402, __c75, 2)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/api/v1/agent-profiles/{profileArn}/generations" }),
@@ -8698,15 +10765,31 @@ function __c107(j: number): any {
           ),
         ),
       ).annotate({ identifier: "StartAgentRecommendationGenerationRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          profileArn: S.String,
+          name: S.optional(S.String),
+          status: S.String,
+          estimatedCompletionTime: S.optional(
+            T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          ),
+          createdBy: S.String,
+          createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          lastModifiedBy: S.optional(S.String),
+          lastModifiedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+        }),
+      ).annotate({ identifier: "StartAgentRecommendationGenerationResponse" });
   }
 }
-function __c108(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           WorkloadArn: S.String.pipe(T.HttpLabel("WorkloadArn")),
-          Tags: S.optional(__S(224, __c7, 0)),
+          Tags: S.optional(__S(896, __c28, 0)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/tags/{WorkloadArn}" }),
@@ -8720,13 +10803,13 @@ function __c108(j: number): any {
       ).annotate({ identifier: "TagResourceInput" });
   }
 }
-function __c109(j: number): any {
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           WorkloadArn: S.String.pipe(T.HttpLabel("WorkloadArn")),
-          TagKeys: S.optional(__S(3008, __c94, 0)).pipe(T.HttpQuery("tagKeys")),
+          TagKeys: S.optional(__S(3584, __c112, 0)).pipe(T.HttpQuery("tagKeys")),
         }).pipe(
           T.all(
             T.Http({ method: "DELETE", uri: "/tags/{WorkloadArn}" }),
@@ -8738,545 +10821,6 @@ function __c109(j: number): any {
           ),
         ),
       ).annotate({ identifier: "UntagResourceInput" });
-  }
-}
-function __c110(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          profileArn: S.String.pipe(T.HttpLabel("profileArn")),
-          id: S.String.pipe(T.HttpLabel("id")),
-          title: S.optional(SensitiveString),
-          content: S.optional(__S(3808, __c119, 0)),
-        }).pipe(
-          T.all(
-            T.Http({ method: "PUT", uri: "/api/v1/agent-profiles/{profileArn}/contexts/{id}" }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-            T.StaticContextParams({ SubServiceType: { value: "AGENT" } }),
-          ),
-        ),
-      ).annotate({ identifier: "UpdateAgentContextRequest" });
-  }
-}
-function __c111(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          profileArn: S.String.pipe(T.HttpLabel("profileArn")),
-          id: S.String.pipe(T.HttpLabel("id")),
-          pillars: S.optional(__S(32, __c1, 0)),
-          title: S.optional(SensitiveString),
-          description: S.optional(SensitiveString),
-        }).pipe(
-          T.all(
-            T.Http({ method: "PUT", uri: "/api/v1/agent-profiles/{profileArn}/goals/{id}" }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-            T.StaticContextParams({ SubServiceType: { value: "AGENT" } }),
-          ),
-        ),
-      ).annotate({ identifier: "UpdateAgentGoalRequest" });
-  }
-}
-function __c112(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          profileArn: S.String.pipe(T.HttpLabel("profileArn")),
-          displayName: S.optional(SensitiveString),
-          description: S.optional(SensitiveString),
-          executionRoleArn: S.optional(S.String),
-          aggregationConfiguration: S.optional(__S(257, __c8, 1)),
-          businessOverview: S.optional(SensitiveString),
-          pillars: S.optional(__S(32, __c1, 0)),
-          deletionProtection: S.optional(S.Boolean),
-        }).pipe(
-          T.all(
-            T.Http({ method: "PUT", uri: "/api/v1/agent-profiles/{profileArn}" }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-            T.StaticContextParams({ SubServiceType: { value: "AGENT" } }),
-          ),
-        ),
-      ).annotate({ identifier: "UpdateAgentProfileRequest" });
-  }
-}
-function __c113(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          recommendationArn: S.String.pipe(T.HttpLabel("recommendationArn")),
-          status: S.String,
-          updateReason: S.optional(SensitiveString),
-        }).pipe(
-          T.all(
-            T.Http({
-              method: "PATCH",
-              uri: "/api/v1/agent-recommendations/{recommendationArn}/status",
-            }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-            T.StaticContextParams({ SubServiceType: { value: "AGENT" } }),
-          ),
-        ),
-      ).annotate({ identifier: "UpdateAgentRecommendationStatusRequest" });
-  }
-}
-function __c114(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          WorkloadId: S.String.pipe(T.HttpLabel("WorkloadId")),
-          LensAlias: S.String.pipe(T.HttpLabel("LensAlias")),
-          QuestionId: S.String.pipe(T.HttpLabel("QuestionId")),
-          SelectedChoices: S.optional(__S(3008, __c94, 0)),
-          ChoiceUpdates: S.optional(__S(3681, __c115, 1)),
-          Notes: S.optional(S.String),
-          IsApplicable: S.optional(S.Boolean),
-          Reason: S.optional(S.String),
-        }).pipe(
-          T.all(
-            T.Http({
-              method: "PATCH",
-              uri: "/workloads/{WorkloadId}/lensReviews/{LensAlias}/answers/{QuestionId}",
-            }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "UpdateAnswerInput" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          WorkloadId: S.optional(S.String),
-          LensAlias: S.optional(S.String),
-          LensArn: S.optional(S.String),
-          Answer: S.optional(__S(1504, __c47, 0)),
-        }),
-      ).annotate({ identifier: "UpdateAnswerOutput" });
-  }
-}
-function __c115(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          Status: S.optional(S.String),
-          Reason: S.optional(S.String),
-          Notes: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ChoiceUpdate" });
-    case 1:
-      return S.Record(S.String, /*@__PURE__*/ __S(3680, __c115, 0).pipe(S.optional));
-  }
-}
-function __c116(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          IssueManagementStatus: S.optional(S.String),
-          IssueManagementType: S.optional(S.String),
-          JiraProjectKey: S.optional(S.String),
-          IntegrationStatus: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AccountJiraConfigurationInput" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          OrganizationSharingStatus: S.optional(S.String),
-          DiscoveryIntegrationStatus: S.optional(S.String),
-          JiraConfiguration: S.optional(__S(3712, __c116, 0)),
-        }).pipe(
-          T.all(T.Http({ method: "PATCH", uri: "/global-settings" }), svc, auth, proto, ver, rules),
-        ),
-      ).annotate({ identifier: "UpdateGlobalSettingsInput" });
-  }
-}
-function __c117(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          profileArn: S.String.pipe(T.HttpLabel("profileArn")),
-          title: SensitiveString,
-          contextType: S.String,
-          content: __S(3808, __c119, 0),
-        }).pipe(
-          T.all(
-            T.Http({ method: "POST", uri: "/api/v1/agent-profiles/{profileArn}/contexts" }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-            T.StaticContextParams({ SubServiceType: { value: "AGENT" } }),
-          ),
-        ),
-      ).annotate({ identifier: "CreateAgentContextRequest" });
-  }
-}
-function __c118(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({ key: S.String, value: S.String })).annotate({
-        identifier: "ContextResourceTag",
-      });
-    case 1:
-      return S.Array(__S(3776, __c118, 0));
-  }
-}
-function __c119(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          accountIds: S.optional(__S(3008, __c94, 0)),
-          regions: S.optional(__S(3008, __c94, 0)),
-          awsServices: S.optional(__S(3008, __c94, 0)),
-          resourceTypes: S.optional(__S(3008, __c94, 0)),
-          resourceTags: S.optional(__S(3777, __c118, 1)),
-          applicationOverview: S.optional(SensitiveString),
-          industry: S.optional(SensitiveString),
-          applicationType: S.optional(S.String),
-          criticality: S.optional(S.String),
-          architectureOverview: S.optional(SensitiveString),
-          additionalContext: S.optional(SensitiveString),
-        }),
-      ).annotate({ identifier: "ContextContent" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          profileArn: S.String,
-          title: SensitiveString,
-          contextType: S.String,
-          content: __S(3808, __c119, 0),
-          applicationType: S.optional(S.String),
-          criticality: S.optional(S.String),
-          createdBy: S.String,
-          createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-          lastModifiedBy: S.optional(S.String),
-          lastModifiedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-        }),
-      ).annotate({ identifier: "ContextSummary" });
-  }
-}
-function __c120(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({ context: __S(3809, __c119, 1) })).annotate({
-        identifier: "CreateAgentContextResponse",
-      });
-  }
-}
-function __c121(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          WorkloadId: S.String.pipe(T.HttpLabel("WorkloadId")),
-          ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          IntegratingService: S.optional(S.String),
-        }).pipe(
-          T.all(
-            T.Http({ method: "POST", uri: "/workloads/{WorkloadId}/updateIntegration" }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "UpdateIntegrationInput" });
-  }
-}
-function __c122(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          WorkloadId: S.String.pipe(T.HttpLabel("WorkloadId")),
-          LensAlias: S.String.pipe(T.HttpLabel("LensAlias")),
-          LensNotes: S.optional(S.String),
-          PillarNotes: S.optional(__S(224, __c7, 0)),
-          JiraConfiguration: S.optional(__S(1732, __c54, 4)),
-        }).pipe(
-          T.all(
-            T.Http({ method: "PATCH", uri: "/workloads/{WorkloadId}/lensReviews/{LensAlias}" }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "UpdateLensReviewInput" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({ WorkloadId: S.optional(S.String), LensReview: S.optional(__S(1733, __c54, 5)) }),
-      ).annotate({ identifier: "UpdateLensReviewOutput" });
-  }
-}
-function __c123(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ProfileArn: S.String.pipe(T.HttpLabel("ProfileArn")),
-          ProfileDescription: S.optional(S.String),
-          ProfileQuestions: S.optional(__S(449, __c14, 1)),
-        }).pipe(
-          T.all(
-            T.Http({ method: "PATCH", uri: "/profiles/{ProfileArn}" }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "UpdateProfileInput" });
-  }
-}
-function __c124(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          TemplateArn: S.String.pipe(T.HttpLabel("TemplateArn")),
-          TemplateName: S.optional(S.String),
-          Description: S.optional(S.String),
-          Notes: S.optional(S.String),
-          LensesToAssociate: S.optional(__S(3008, __c94, 0)),
-          LensesToDisassociate: S.optional(__S(3008, __c94, 0)),
-        }).pipe(
-          T.all(
-            T.Http({ method: "PATCH", uri: "/reviewTemplates/{TemplateArn}" }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "UpdateReviewTemplateInput" });
-  }
-}
-function __c125(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          TemplateArn: S.String.pipe(T.HttpLabel("TemplateArn")),
-          LensAlias: S.String.pipe(T.HttpLabel("LensAlias")),
-          QuestionId: S.String.pipe(T.HttpLabel("QuestionId")),
-          SelectedChoices: S.optional(__S(3008, __c94, 0)),
-          ChoiceUpdates: S.optional(__S(3681, __c115, 1)),
-          Notes: S.optional(S.String),
-          IsApplicable: S.optional(S.Boolean),
-          Reason: S.optional(S.String),
-        }).pipe(
-          T.all(
-            T.Http({
-              method: "PATCH",
-              uri: "/reviewTemplates/{TemplateArn}/lensReviews/{LensAlias}/answers/{QuestionId}",
-            }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "UpdateReviewTemplateAnswerInput" });
-  }
-}
-function __c126(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          TemplateArn: S.String.pipe(T.HttpLabel("TemplateArn")),
-          LensAlias: S.String.pipe(T.HttpLabel("LensAlias")),
-          LensNotes: S.optional(S.String),
-          PillarNotes: S.optional(__S(224, __c7, 0)),
-        }).pipe(
-          T.all(
-            T.Http({
-              method: "PATCH",
-              uri: "/reviewTemplates/{TemplateArn}/lensReviews/{LensAlias}",
-            }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "UpdateReviewTemplateLensReviewInput" });
-  }
-}
-function __c127(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ShareInvitationId: S.String.pipe(T.HttpLabel("ShareInvitationId")),
-          ShareInvitationAction: S.optional(S.String),
-        }).pipe(
-          T.all(
-            T.Http({ method: "PATCH", uri: "/shareInvitations/{ShareInvitationId}" }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "UpdateShareInvitationInput" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          ShareInvitationId: S.optional(S.String),
-          ShareResourceType: S.optional(S.String),
-          WorkloadId: S.optional(S.String),
-          LensAlias: S.optional(S.String),
-          LensArn: S.optional(S.String),
-          ProfileArn: S.optional(S.String),
-          TemplateArn: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ShareInvitation" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({ ShareInvitation: S.optional(__S(4065, __c127, 1)) }),
-      ).annotate({ identifier: "UpdateShareInvitationOutput" });
-  }
-}
-function __c128(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          WorkloadId: S.String.pipe(T.HttpLabel("WorkloadId")),
-          WorkloadName: S.optional(S.String),
-          Description: S.optional(S.String),
-          Environment: S.optional(S.String),
-          AccountIds: S.optional(__S(3008, __c94, 0)),
-          AwsRegions: S.optional(__S(3008, __c94, 0)),
-          NonAwsRegions: S.optional(__S(3008, __c94, 0)),
-          PillarPriorities: S.optional(__S(3008, __c94, 0)),
-          ArchitecturalDesign: S.optional(S.String),
-          ReviewOwner: S.optional(S.String),
-          IsReviewOwnerUpdateAcknowledged: S.optional(S.Boolean),
-          IndustryType: S.optional(S.String),
-          Industry: S.optional(S.String),
-          Notes: S.optional(S.String),
-          ImprovementStatus: S.optional(S.String),
-          DiscoveryConfig: S.optional(__S(608, __c19, 0)),
-          Applications: S.optional(__S(3008, __c94, 0)),
-          JiraConfiguration: S.optional(__S(640, __c20, 0)),
-        }).pipe(
-          T.all(
-            T.Http({ method: "PATCH", uri: "/workloads/{WorkloadId}" }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "UpdateWorkloadInput" });
-  }
-}
-function __c129(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ShareId: S.String.pipe(T.HttpLabel("ShareId")),
-          WorkloadId: S.String.pipe(T.HttpLabel("WorkloadId")),
-          PermissionType: S.optional(S.String),
-        }).pipe(
-          T.all(
-            T.Http({ method: "PATCH", uri: "/workloads/{WorkloadId}/shares/{ShareId}" }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "UpdateWorkloadShareInput" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          ShareId: S.optional(S.String),
-          SharedBy: S.optional(S.String),
-          SharedWith: S.optional(S.String),
-          PermissionType: S.optional(S.String),
-          Status: S.optional(S.String),
-          WorkloadName: S.optional(S.String),
-          WorkloadId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "WorkloadShare" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          WorkloadId: S.optional(S.String),
-          WorkloadShare: S.optional(__S(4129, __c129, 1)),
-        }),
-      ).annotate({ identifier: "UpdateWorkloadShareOutput" });
-  }
-}
-function __c130(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          WorkloadId: S.String.pipe(T.HttpLabel("WorkloadId")),
-          LensAlias: S.String.pipe(T.HttpLabel("LensAlias")),
-          MilestoneName: S.optional(S.String),
-          ClientRequestToken: S.optional(S.String),
-        }).pipe(
-          T.all(
-            T.Http({
-              method: "PUT",
-              uri: "/workloads/{WorkloadId}/lensReviews/{LensAlias}/upgrade",
-            }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "UpgradeLensReviewInput" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

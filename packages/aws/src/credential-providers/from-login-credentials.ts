@@ -314,10 +314,14 @@ const refresh = (
         // Lenient response validation passes a malformed body through as read.
         const accessToken = output.accessToken as Partial<typeof output.accessToken> | undefined;
         const expiry = new Date(Date.now() + (output.expiresIn || 900) * 1000);
+        // The secret members arrive as Redacted.
+        const secretAccessKey =
+          accessToken?.secretAccessKey && unredact(accessToken.secretAccessKey);
+        const sessionToken = accessToken?.sessionToken && unredact(accessToken.sessionToken);
         if (
           typeof accessToken?.accessKeyId !== "string" ||
-          typeof accessToken.secretAccessKey !== "string" ||
-          typeof accessToken.sessionToken !== "string" ||
+          typeof secretAccessKey !== "string" ||
+          typeof sessionToken !== "string" ||
           Number.isNaN(expiry.getTime())
         ) {
           return Effect.fail(
@@ -329,8 +333,8 @@ const refresh = (
           accessToken: {
             ...token.accessToken,
             accessKeyId: accessToken.accessKeyId,
-            secretAccessKey: accessToken.secretAccessKey,
-            sessionToken: accessToken.sessionToken,
+            secretAccessKey,
+            sessionToken,
             expiresAt: expiry.toISOString(),
           },
           refreshToken: unredact(output.refreshToken),

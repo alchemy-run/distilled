@@ -1043,10 +1043,14 @@ export type AccessTypeList = AccessType[];
 export interface GatewayConnectorFilters {
   accessTypes?: AccessType[] | undefined;
 }
+export interface GatewayConnectorDeregistrationDelay {
+  timeoutSeconds?: number | undefined;
+}
 export interface GatewayConnector {
   portName: string;
   healthCheck?: GatewayConnectorHealthCheck | undefined;
   filters?: GatewayConnectorFilters | undefined;
+  deregistrationDelay?: GatewayConnectorDeregistrationDelay | undefined;
 }
 export type GatewayConnectorList = GatewayConnector[];
 export type MetricName = string;
@@ -7255,8 +7259,8 @@ function __c22(j: number): any {
           serviceConnectConfiguration: S.optional(__S(1965, __c61, 13)),
           volumeConfigurations: S.optional(__S(1968, __c61, 16)),
           vpcLatticeConfigurations: S.optional(__S(1971, __c61, 19)),
-          gatewayConnectors: S.optional(__S(2084, __c65, 4)),
-          monitoring: S.optional(__S(2087, __c65, 7)),
+          gatewayConnectors: S.optional(__S(2085, __c65, 5)),
+          monitoring: S.optional(__S(2088, __c65, 8)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateServiceRequest" });
   }
@@ -7942,8 +7946,8 @@ function __c51(j: number): any {
           serviceConnectConfiguration: S.optional(__S(1965, __c61, 13)),
           volumeConfigurations: S.optional(__S(1968, __c61, 16)),
           vpcLatticeConfigurations: S.optional(__S(1971, __c61, 19)),
-          gatewayConnectors: S.optional(__S(2084, __c65, 4)),
-          monitoring: S.optional(__S(2087, __c65, 7)),
+          gatewayConnectors: S.optional(__S(2085, __c65, 5)),
+          monitoring: S.optional(__S(2088, __c65, 8)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateServiceRequest" });
   }
@@ -8430,24 +8434,29 @@ function __c65(j: number): any {
         identifier: "GatewayConnectorFilters",
       });
     case 3:
+      return S.suspend(() => S.Struct({ timeoutSeconds: S.optional(S.Number) })).annotate({
+        identifier: "GatewayConnectorDeregistrationDelay",
+      });
+    case 4:
       return S.suspend(() =>
         S.Struct({
           portName: S.String,
           healthCheck: S.optional(__S(2081, __c65, 1)),
           filters: S.optional(__S(2082, __c65, 2)),
+          deregistrationDelay: S.optional(__S(2083, __c65, 3)),
         }),
       ).annotate({ identifier: "GatewayConnector" });
-    case 4:
-      return S.Array(__S(2083, __c65, 3));
     case 5:
+      return S.Array(__S(2084, __c65, 4));
+    case 6:
       return S.suspend(() =>
         S.Struct({ metricNames: __S(4448, __c139, 0), resolutionSeconds: S.Number }),
       ).annotate({ identifier: "MetricConfiguration" });
-    case 6:
-      return S.Array(__S(2085, __c65, 5));
     case 7:
+      return S.Array(__S(2086, __c65, 6));
+    case 8:
       return S.suspend(() =>
-        S.Struct({ metricConfigurations: S.optional(__S(2086, __c65, 6)) }),
+        S.Struct({ metricConfigurations: S.optional(__S(2087, __c65, 7)) }),
       ).annotate({ identifier: "MonitoringConfiguration" });
   }
 }
@@ -9921,8 +9930,8 @@ function __c110(j: number): any {
           resolvedConfiguration: S.optional(__S(3523, __c110, 3)),
           ecsManagedResources: S.optional(__S(3543, __c110, 23)),
           overrides: S.optional(__S(3545, __c110, 25)),
-          gatewayConnectors: S.optional(__S(2084, __c65, 4)),
-          monitoring: S.optional(__S(2087, __c65, 7)),
+          gatewayConnectors: S.optional(__S(2085, __c65, 5)),
+          monitoring: S.optional(__S(2088, __c65, 8)),
         }),
       ).annotate({ identifier: "ServiceRevision" });
     case 27:

@@ -154,6 +154,37 @@ export interface SubscriptionDescription {
 export interface ActivateSubscriptionOutput {
   subscription?: SubscriptionDescription | undefined;
 }
+export type BoundedSafeString = string;
+export type S3Uri = string;
+export interface MedicalCodingDatasetConfig {
+  s3InputPath: string;
+  s3OutputPath: string;
+}
+export type DatasetConfig = { medicalCoding: MedicalCodingDatasetConfig };
+export interface CreateDatasetInput {
+  domainId: string;
+  name: string;
+  config: DatasetConfig;
+  clientToken?: string | undefined;
+}
+export type DatasetArn = string;
+export type DatasetId = string;
+export type DatasetType = "MEDICAL_CODING" | (string & {});
+export type DatasetStatus =
+  | "CREATING"
+  | "ACTIVE"
+  | "CREATE_FAILED"
+  | "DELETING"
+  | "DELETE_FAILED"
+  | "DELETED"
+  | (string & {});
+export interface CreateDatasetOutput {
+  arn: string;
+  datasetId: string;
+  type: DatasetType;
+  status: DatasetStatus;
+  createdAt: Date;
+}
 export type DomainName = string;
 export type KmsKeyArn = string;
 export interface CreateWebAppConfiguration {
@@ -214,6 +245,15 @@ export interface DeactivateSubscriptionInput {
 export interface DeactivateSubscriptionOutput {
   subscription?: SubscriptionDescription | undefined;
 }
+export interface DeleteDatasetInput {
+  domainId: string;
+  datasetId: string;
+}
+export interface DeleteDatasetOutput {
+  arn: string;
+  datasetId: string;
+  status: DatasetStatus;
+}
 export interface DeleteDomainInput {
   domainId: string;
 }
@@ -221,6 +261,26 @@ export interface DeleteDomainOutput {
   domainId: string;
   arn: string;
   status: DomainStatus;
+}
+export interface GetDatasetInput {
+  domainId: string;
+  datasetId: string;
+}
+export interface MedicalCodingDatasetArtifacts {
+  evaluationS3Uri?: string | undefined;
+}
+export type DatasetArtifacts = { medicalCoding: MedicalCodingDatasetArtifacts };
+export interface GetDatasetOutput {
+  arn: string;
+  datasetId: string;
+  name: string;
+  type: DatasetType;
+  config: DatasetConfig;
+  status: DatasetStatus;
+  statusDetails?: string | undefined;
+  artifacts?: DatasetArtifacts | undefined;
+  createdAt: Date;
+  updatedAt: Date;
 }
 export interface GetDomainInput {
   domainId: string;
@@ -236,6 +296,53 @@ export interface GetDomainOutput {
   webAppConfiguration?: WebAppConfiguration | undefined;
   createdAt: Date;
   tags?: { [key: string]: string | undefined } | undefined;
+}
+export type JobId = string;
+export interface GetMedicalCodingJobRequest {
+  domainId: string;
+  jobId: string;
+}
+export type MedicalCodingJobArn = string;
+export type JobStatus = "SUBMITTED" | "IN_PROGRESS" | "FAILED" | "SUCCEEDED" | (string & {});
+export type SensitiveNonEmptyString = string | redacted.Redacted<string>;
+export type Sex = "MALE" | "FEMALE" | "NON_BINARY" | "UNKNOWN" | (string & {});
+export type PatientStatus = "NEW" | "ESTABLISHED" | (string & {});
+export type SensitiveIsoDateString = string | redacted.Redacted<string>;
+export interface MedicalCodesPatientContext {
+  sex?: Sex | undefined;
+  status?: PatientStatus | undefined;
+  dateOfBirth?: string | redacted.Redacted<string> | undefined;
+  insurance?: string | redacted.Redacted<string> | undefined;
+}
+export type EncounterType = "TELEHEALTH" | "IN_PERSON" | (string & {});
+export type SensitiveNonNegativeInteger = number;
+export interface MedicalCodesEncounterContext {
+  encounterType?: EncounterType | undefined;
+  encounterReason?: string | redacted.Redacted<string> | undefined;
+  afterHours?: boolean | undefined;
+  encounterDate?: string | redacted.Redacted<string> | undefined;
+  encounterDurationMinutes?: number | undefined;
+}
+export interface MedicalCodingOutputDataConfig {
+  s3OutputPath: string;
+}
+export interface MedicalCodingOutput {
+  uri: string;
+}
+export type NonEmptyString = string;
+export interface GetMedicalCodingJobResponse {
+  jobId: string;
+  jobArn: string;
+  jobStatus: JobStatus;
+  creationTime?: Date | undefined;
+  updatedTime?: Date | undefined;
+  text: string | redacted.Redacted<string>;
+  patientContext?: MedicalCodesPatientContext | undefined;
+  encounterContext?: MedicalCodesEncounterContext | undefined;
+  outputDataConfig: MedicalCodingOutputDataConfig;
+  datasetId?: string | undefined;
+  medicalCodingOutput?: MedicalCodingOutput | undefined;
+  statusDetails?: string | undefined;
 }
 export type ScribeSessionId = string;
 export interface GetMedicalScribeListeningSessionInput {
@@ -253,7 +360,6 @@ export interface MedicalScribeChannelDefinition {
   participantRole: MedicalScribeParticipantRole;
 }
 export type MedicalScribeChannelDefinitions = MedicalScribeChannelDefinition[];
-export type S3Uri = string;
 export type ManagedNoteTemplate =
   | "HISTORY_AND_PHYSICAL"
   | "GIRPP"
@@ -283,15 +389,22 @@ export type NoteTemplateSettingsResponse =
 export interface ClinicalNoteGenerationSettingsResponse {
   noteTemplateSettings?: NoteTemplateSettingsResponse | undefined;
 }
+export type NonNullBoolean = boolean;
+export interface MedicalCodeGenerationSettingsResponse {
+  enabled?: boolean | undefined;
+}
 export interface MedicalScribePostStreamActionSettingsResponse {
   outputS3Uri: string;
   clinicalNoteGenerationSettings: ClinicalNoteGenerationSettingsResponse;
+  medicalCodeGenerationSettings?: MedicalCodeGenerationSettingsResponse | undefined;
 }
 export type Uri = string;
 export type PostStreamArtifactGenerationStatus =
   | "IN_PROGRESS"
   | "FAILED"
   | "COMPLETED"
+  | "PENDING"
+  | "SKIPPED"
   | (string & {});
 export type ErrorMessage = string;
 export interface ArtifactDetails {
@@ -304,10 +417,14 @@ export interface ClinicalNoteGenerationResult {
   transcriptResult?: ArtifactDetails | undefined;
   afterVisitSummaryResult?: ArtifactDetails | undefined;
 }
+export interface MedicalCodeGenerationResult {
+  medicalCodesResult?: ArtifactDetails | undefined;
+  jobId?: string | undefined;
+}
 export interface MedicalScribePostStreamActionsResult {
   clinicalNoteGenerationResult?: ClinicalNoteGenerationResult | undefined;
+  medicalCodeGenerationResult?: MedicalCodeGenerationResult | undefined;
 }
-export type NonNullBoolean = boolean;
 export type MedicalScribeStreamStatus =
   | "IN_PROGRESS"
   | "PAUSED"
@@ -325,6 +442,7 @@ export interface MedicalScribeListeningSessionDetails {
   postStreamActionSettings?: MedicalScribePostStreamActionSettingsResponse | undefined;
   postStreamActionResult?: MedicalScribePostStreamActionsResult | undefined;
   encounterContextProvided?: boolean | undefined;
+  medicalCodingContextProvided?: boolean | undefined;
   streamStatus?: MedicalScribeStreamStatus | undefined;
   streamCreationTime?: Date | undefined;
   streamEndTime?: Date | undefined;
@@ -332,19 +450,14 @@ export interface MedicalScribeListeningSessionDetails {
 export interface GetMedicalScribeListeningSessionOutput {
   medicalScribeListeningSessionDetails?: MedicalScribeListeningSessionDetails | undefined;
 }
-export type JobId = string;
 export interface GetPatientInsightsJobRequest {
   domainId: string;
   jobId: string;
 }
 export type JobArn = string;
-export type JobStatus = "SUBMITTED" | "IN_PROGRESS" | "FAILED" | "SUCCEEDED" | (string & {});
 export interface InsightsOutput {
   uri: string;
 }
-export type NonEmptyString = string;
-export type SensitiveNonEmptyString = string | redacted.Redacted<string>;
-export type SensitiveIsoDateString = string | redacted.Redacted<string>;
 export type Pronouns = "HE_HIM" | "SHE_HER" | "THEY_THEM" | (string & {});
 export interface PatientInsightsPatientContext {
   patientId: string | redacted.Redacted<string>;
@@ -402,6 +515,27 @@ export interface GetSubscriptionInput {
 export interface GetSubscriptionOutput {
   subscription?: SubscriptionDescription | undefined;
 }
+export interface ListDatasetsInput {
+  domainId: string;
+  type?: DatasetType | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+}
+export interface DatasetSummary {
+  arn: string;
+  datasetId: string;
+  name: string;
+  type: DatasetType;
+  status: DatasetStatus;
+  statusDetails?: string | undefined;
+  createdAt: Date;
+  updatedAt: Date;
+}
+export type DatasetSummaryList = DatasetSummary[];
+export interface ListDatasetsOutput {
+  items: DatasetSummary[];
+  nextToken?: string | undefined;
+}
 export interface ListDomainsInput {
   status?: DomainStatus | undefined;
   maxResults?: number | undefined;
@@ -435,6 +569,20 @@ export interface ListTagsForResourceInput {
 export interface ListTagsForResourceOutput {
   tags?: { [key: string]: string | undefined } | undefined;
 }
+export interface StartMedicalCodingJobRequest {
+  domainId: string;
+  text: string | redacted.Redacted<string>;
+  patientContext?: MedicalCodesPatientContext | undefined;
+  encounterContext?: MedicalCodesEncounterContext | undefined;
+  outputDataConfig: MedicalCodingOutputDataConfig;
+  datasetId?: string | undefined;
+  clientToken?: string | undefined;
+}
+export interface StartMedicalCodingJobResponse {
+  jobArn: string;
+  jobId: string;
+  creationTime?: Date | undefined;
+}
 export type AudioChunk = Uint8Array;
 export interface MedicalScribeAudioEvent {
   audioChunk: Uint8Array;
@@ -466,12 +614,26 @@ export type NoteTemplateSettings =
 export interface ClinicalNoteGenerationSettings {
   noteTemplateSettings: NoteTemplateSettings;
 }
+export interface MedicalCodeGenerationSettings {
+  enabled: boolean;
+}
 export interface MedicalScribePostStreamActionSettings {
   outputS3Uri: string;
   clinicalNoteGenerationSettings: ClinicalNoteGenerationSettings;
+  medicalCodeGenerationSettings?: MedicalCodeGenerationSettings | undefined;
+}
+export interface MedicalCodingContext {
+  sex?: Sex | undefined;
+  status?: PatientStatus | undefined;
+  dateOfBirth?: string | redacted.Redacted<string> | undefined;
+  encounterType?: EncounterType | undefined;
+  encounterReason?: string | redacted.Redacted<string> | undefined;
+  afterHours?: boolean | undefined;
+  encounterDate?: string | redacted.Redacted<string> | undefined;
 }
 export interface EncounterContext {
   unstructuredContext?: string | redacted.Redacted<string> | undefined;
+  medicalCodingContext?: MedicalCodingContext | undefined;
 }
 export interface MedicalScribeConfigurationEvent {
   postStreamActionSettings: MedicalScribePostStreamActionSettings;
@@ -525,21 +687,105 @@ export interface MedicalScribeTranscriptSegment {
 export interface MedicalScribeTranscriptEvent {
   transcriptSegment?: MedicalScribeTranscriptSegment | undefined;
 }
+export type PeriodontalToothNumber = number;
+export type PeriodontalGrade = number;
+export type PeriodontalSiteName = "DB" | "B" | "MB" | "DL" | "L" | "ML" | (string & {});
+export type PeriodontalProbingDepthMillimeters = number;
+export type PeriodontalRecessionMillimeters = number;
+export interface PeriodontalSite {
+  site: PeriodontalSiteName;
+  probingDepth?: number | undefined;
+  recession?: number | undefined;
+  bleeding?: boolean | undefined;
+  suppuration?: boolean | undefined;
+}
+export type PeriodontalSiteList = PeriodontalSite[];
+export interface PeriodontalTooth {
+  toothNumber: number;
+  missing: boolean;
+  mobility?: number | undefined;
+  furcation?: number | undefined;
+  sites?: PeriodontalSite[] | undefined;
+}
+export type PeriodontalToothList = PeriodontalTooth[];
+export type PeriodontalReviewReason =
+  | "SITE_NOT_CHARTED"
+  | "VALUE_NOT_CHARTED"
+  | "READING_COUNT_MISMATCH"
+  | "LINE_UNCLEAR"
+  | "TOOTH_UNCLEAR"
+  | "MISSING_TOOTH_CONFLICT"
+  | "MEASUREMENT_NOT_CHARTED"
+  | "SESSION_ISSUE"
+  | (string & {});
+export type PeriodontalSiteNameList = PeriodontalSiteName[];
+export interface PeriodontalReview {
+  reason: PeriodontalReviewReason;
+  toothNumber?: number | undefined;
+  sites?: PeriodontalSiteName[] | undefined;
+}
+export type PeriodontalReviewList = PeriodontalReview[];
+export interface MedicalScribePeriodontalChartEvent {
+  snapshotVersion: number;
+  teeth: PeriodontalTooth[];
+  reviewItems?: PeriodontalReview[] | undefined;
+}
+export type ChecklistId = string;
+export type ChecklistItemKey = string | redacted.Redacted<string>;
+export type ChecklistItemStatus =
+  | "DISCUSSED"
+  | "PARTIALLY_DISCUSSED"
+  | "NOT_DISCUSSED"
+  | (string & {});
+export interface ChecklistItem {
+  itemKey: string | redacted.Redacted<string>;
+  status: ChecklistItemStatus;
+}
+export type ChecklistItemList = ChecklistItem[];
+export interface Checklist {
+  checklistId: string;
+  items: ChecklistItem[];
+}
+export type ChecklistList = Checklist[];
+export interface MedicalScribeChecklistEvent {
+  snapshotVersion: number;
+  checklists: Checklist[];
+}
 export type MedicalScribeOutputStream =
   | {
       transcriptEvent: MedicalScribeTranscriptEvent;
       internalFailureException?: undefined;
       validationException?: undefined;
+      periodontalChartEvent?: undefined;
+      checklistEvent?: undefined;
     }
   | {
       transcriptEvent?: undefined;
       internalFailureException: InternalServerException;
       validationException?: undefined;
+      periodontalChartEvent?: undefined;
+      checklistEvent?: undefined;
     }
   | {
       transcriptEvent?: undefined;
       internalFailureException?: undefined;
       validationException: ValidationException;
+      periodontalChartEvent?: undefined;
+      checklistEvent?: undefined;
+    }
+  | {
+      transcriptEvent?: undefined;
+      internalFailureException?: undefined;
+      validationException?: undefined;
+      periodontalChartEvent: MedicalScribePeriodontalChartEvent;
+      checklistEvent?: undefined;
+    }
+  | {
+      transcriptEvent?: undefined;
+      internalFailureException?: undefined;
+      validationException?: undefined;
+      periodontalChartEvent?: undefined;
+      checklistEvent: MedicalScribeChecklistEvent;
     };
 export interface StartMedicalScribeListeningSessionOutput {
   sessionId?: string | undefined;
@@ -566,6 +812,21 @@ export interface StartPatientInsightsJobResponse {
   jobId: string;
   creationTime?: Date | undefined;
 }
+export type ArtifactSourceId = string;
+export type FeedbackArtifactType = "CLINICAL_DOC" | "MEDICAL_CODES" | (string & {});
+export type FeedbackComments = string | redacted.Redacted<string>;
+export type IdempotencyToken = string;
+export interface SubmitFeedbackRequest {
+  domainId: string;
+  artifactSourceId: string;
+  subscriptionId?: string | undefined;
+  artifactType: FeedbackArtifactType;
+  signedArtifactS3Uri: string;
+  generatedArtifactS3Uri?: string | undefined;
+  comments?: string | redacted.Redacted<string> | undefined;
+  clientToken?: string | undefined;
+}
+export interface SubmitFeedbackResponse {}
 export interface TagResourceInput {
   resourceArn: string;
   tags: { [key: string]: string | undefined };
@@ -592,8 +853,8 @@ export const activateSubscription: API.OperationMethod<
   ActivateSubscriptionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<ActivateSubscriptionInput>,
-  output: __S(544, __c17, 0) as any as S.Schema<ActivateSubscriptionOutput>,
+  input: __S(896, __c28, 0) as any as S.Schema<ActivateSubscriptionInput>,
+  output: __S(960, __c30, 0) as any as S.Schema<ActivateSubscriptionOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -608,6 +869,49 @@ export const activateSubscription: API.OperationMethod<
   span: "ActivateSubscription",
 }));
 
+export type CreateDatasetError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Creates a Dataset in a Domain and starts building it. A new dataset has the status CREATING. When it's ready to use, its status changes to ACTIVE, or to CREATE_FAILED if it fails to build. To check the status, call GetDataset.
+ *
+ * This operation is idempotent: if you retry a request with the same clientToken, it returns the dataset that the first request created.
+ *
+ * For a medical coding dataset, Amazon Connect Health uses the coded examples that are in the s3InputPath when you create the dataset, and writes evaluation scores to the s3OutputPath. Later changes to the s3InputPath don't change the dataset. To use this operation, you must have s3:GetObject and s3:ListBucket permissions for the input location and s3:PutObject permission for the output location, and kms:Decrypt and kms:GenerateDataKey permissions if you encrypt the locations with an AWS KMS key.
+ *
+ * Datasets are in preview release and are subject to change.
+ */
+export const createDataset: API.OperationMethod<
+  CreateDatasetInput & RegionInput,
+  CreateDatasetOutput,
+  CreateDatasetError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(992, __c31, 0) as any as S.Schema<CreateDatasetInput>,
+  output: __S(993, __c31, 1) as any as S.Schema<CreateDatasetOutput>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "CreateDataset",
+  telemetry: TELEMETRY,
+  span: "CreateDataset",
+}));
+
 export type CreateDomainError = ServiceQuotaExceededException | CommonErrors;
 /**
  * Creates a new Domain for managing HealthAgent resources.
@@ -618,8 +922,8 @@ export const createDomain: API.OperationMethod<
   CreateDomainError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(609, __c19, 1) as any as S.Schema<CreateDomainInput>,
-  output: __S(610, __c19, 2) as any as S.Schema<CreateDomainOutput>,
+  input: __S(1057, __c33, 1) as any as S.Schema<CreateDomainInput>,
+  output: __S(1058, __c33, 2) as any as S.Schema<CreateDomainOutput>,
   errors: [ServiceQuotaExceededException],
   serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
@@ -645,8 +949,8 @@ export const createSubscription: API.OperationMethod<
   CreateSubscriptionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c22, 0) as any as S.Schema<CreateSubscriptionInput>,
-  output: __S(576, __c18, 0) as any as S.Schema<CreateSubscriptionOutput>,
+  input: __S(0, __c0, 0) as any as S.Schema<CreateSubscriptionInput>,
+  output: __S(928, __c29, 0) as any as S.Schema<CreateSubscriptionOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -677,8 +981,8 @@ export const deactivateSubscription: API.OperationMethod<
   DeactivateSubscriptionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<DeactivateSubscriptionInput>,
-  output: __S(544, __c17, 0) as any as S.Schema<DeactivateSubscriptionOutput>,
+  input: __S(32, __c1, 0) as any as S.Schema<DeactivateSubscriptionInput>,
+  output: __S(960, __c30, 0) as any as S.Schema<DeactivateSubscriptionOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -693,6 +997,45 @@ export const deactivateSubscription: API.OperationMethod<
   span: "DeactivateSubscription",
 }));
 
+export type DeleteDatasetError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Starts deleting a Dataset and the resources that Amazon Connect Health built for it. You can delete a dataset whose status is ACTIVE, CREATE_FAILED, or DELETE_FAILED. The dataset moves to DELETING, and then to DELETED. If the delete fails, the dataset moves to DELETE_FAILED, and you can call DeleteDataset again.
+ *
+ * Medical coding jobs that already use the dataset finish. Amazon Connect Health rejects new requests that specify the dataset.
+ *
+ * Datasets are in preview release and are subject to change.
+ */
+export const deleteDataset: API.OperationMethod<
+  DeleteDatasetInput & RegionInput,
+  DeleteDatasetOutput,
+  DeleteDatasetError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(64, __c2, 0) as any as S.Schema<DeleteDatasetInput>,
+  output: __S(65, __c2, 1) as any as S.Schema<DeleteDatasetOutput>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DeleteDataset",
+  telemetry: TELEMETRY,
+  span: "DeleteDataset",
+}));
+
 export type DeleteDomainError = ResourceNotFoundException | CommonErrors;
 /**
  * Deletes a Domain and all associated resources.
@@ -703,8 +1046,8 @@ export const deleteDomain: API.OperationMethod<
   DeleteDomainError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c1, 0) as any as S.Schema<DeleteDomainInput>,
-  output: __S(33, __c1, 1) as any as S.Schema<DeleteDomainOutput>,
+  input: __S(96, __c3, 0) as any as S.Schema<DeleteDomainInput>,
+  output: __S(97, __c3, 1) as any as S.Schema<DeleteDomainOutput>,
   errors: [ResourceNotFoundException],
   serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
@@ -712,6 +1055,41 @@ export const deleteDomain: API.OperationMethod<
   operationName: "DeleteDomain",
   telemetry: TELEMETRY,
   span: "DeleteDomain",
+}));
+
+export type GetDatasetError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Retrieves information about a Dataset, including its status and, after it is built, its results. A dataset whose status is DELETED returns ResourceNotFoundException.
+ *
+ * Datasets are in preview release and are subject to change.
+ */
+export const getDataset: API.OperationMethod<
+  GetDatasetInput & RegionInput,
+  GetDatasetOutput,
+  GetDatasetError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(128, __c4, 0) as any as S.Schema<GetDatasetInput>,
+  output: __S(131, __c4, 3) as any as S.Schema<GetDatasetOutput>,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetDataset",
+  telemetry: TELEMETRY,
+  span: "GetDataset",
 }));
 
 export type GetDomainError = ResourceNotFoundException | CommonErrors;
@@ -724,8 +1102,8 @@ export const getDomain: API.OperationMethod<
   GetDomainError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c2, 0) as any as S.Schema<GetDomainInput>,
-  output: __S(65, __c2, 1) as any as S.Schema<GetDomainOutput>,
+  input: __S(160, __c5, 0) as any as S.Schema<GetDomainInput>,
+  output: __S(161, __c5, 1) as any as S.Schema<GetDomainOutput>,
   errors: [ResourceNotFoundException],
   serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
@@ -733,6 +1111,42 @@ export const getDomain: API.OperationMethod<
   operationName: "GetDomain",
   telemetry: TELEMETRY,
   span: "GetDomain",
+}));
+
+export type GetMedicalCodingJobError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Retrieves information about a medical coding job, including its status and, when it succeeds, the location of its results.
+ *
+ * Medical coding jobs are in preview release and are subject to change.
+ */
+export const getMedicalCodingJob: API.OperationMethod<
+  GetMedicalCodingJobRequest & RegionInput,
+  GetMedicalCodingJobResponse,
+  GetMedicalCodingJobError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(192, __c6, 0) as any as S.Schema<GetMedicalCodingJobRequest>,
+  output: __S(193, __c6, 1) as any as S.Schema<GetMedicalCodingJobResponse>,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetMedicalCodingJob",
+  endpointHostPrefix: "runtime.",
+  telemetry: TELEMETRY,
+  span: "GetMedicalCodingJob",
 }));
 
 export type GetMedicalScribeListeningSessionError =
@@ -751,8 +1165,8 @@ export const getMedicalScribeListeningSession: API.OperationMethod<
   GetMedicalScribeListeningSessionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c3, 0) as any as S.Schema<GetMedicalScribeListeningSessionInput>,
-  output: __S(105, __c3, 9) as any as S.Schema<GetMedicalScribeListeningSessionOutput>,
+  input: __S(320, __c10, 0) as any as S.Schema<GetMedicalScribeListeningSessionInput>,
+  output: __S(331, __c10, 11) as any as S.Schema<GetMedicalScribeListeningSessionOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -785,8 +1199,8 @@ export const getPatientInsightsJob: API.OperationMethod<
   GetPatientInsightsJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c5, 0) as any as S.Schema<GetPatientInsightsJobRequest>,
-  output: __S(161, __c5, 1) as any as S.Schema<GetPatientInsightsJobResponse>,
+  input: __S(384, __c12, 0) as any as S.Schema<GetPatientInsightsJobRequest>,
+  output: __S(385, __c12, 1) as any as S.Schema<GetPatientInsightsJobResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -818,8 +1232,8 @@ export const getSubscription: API.OperationMethod<
   GetSubscriptionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c7, 0) as any as S.Schema<GetSubscriptionInput>,
-  output: __S(544, __c17, 0) as any as S.Schema<GetSubscriptionOutput>,
+  input: __S(448, __c14, 0) as any as S.Schema<GetSubscriptionInput>,
+  output: __S(960, __c30, 0) as any as S.Schema<GetSubscriptionOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -834,6 +1248,48 @@ export const getSubscription: API.OperationMethod<
   span: "GetSubscription",
 }));
 
+export type ListDatasetsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Lists the Datasets in a Domain. You can list only the datasets of one type. The operation doesn't return datasets whose status is DELETED, and the order of the results isn't specified. We recommend using pagination to ensure that the operation returns quickly and successfully.
+ *
+ * Datasets are in preview release and are subject to change.
+ */
+export const listDatasets: API.PaginatedOperationMethod<
+  ListDatasetsInput & RegionInput,
+  ListDatasetsOutput,
+  ListDatasetsError,
+  Credentials | HttpClient.HttpClient,
+  DatasetSummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: __S(480, __c15, 0) as any as S.Schema<ListDatasetsInput>,
+  output: __S(483, __c15, 3) as any as S.Schema<ListDatasetsOutput>,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListDatasets",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+  telemetry: TELEMETRY,
+  span: "ListDatasets",
+})) as any;
+
 export type ListDomainsError = CommonErrors;
 /**
  * Lists Domains for a given account.
@@ -845,8 +1301,8 @@ export const listDomains: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   DomainSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(256, __c8, 0) as any as S.Schema<ListDomainsInput>,
-  output: __S(259, __c8, 3) as any as S.Schema<ListDomainsOutput>,
+  input: __S(512, __c16, 0) as any as S.Schema<ListDomainsInput>,
+  output: __S(515, __c16, 3) as any as S.Schema<ListDomainsOutput>,
   errors: [],
   serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
@@ -878,8 +1334,8 @@ export const listSubscriptions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   SubscriptionDescription
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<ListSubscriptionsInput>,
-  output: __S(290, __c9, 2) as any as S.Schema<ListSubscriptionsOutput>,
+  input: __S(544, __c17, 0) as any as S.Schema<ListSubscriptionsInput>,
+  output: __S(546, __c17, 2) as any as S.Schema<ListSubscriptionsOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -910,8 +1366,8 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<ListTagsForResourceInput>,
-  output: __S(321, __c10, 1) as any as S.Schema<ListTagsForResourceOutput>,
+  input: __S(576, __c18, 0) as any as S.Schema<ListTagsForResourceInput>,
+  output: __S(577, __c18, 1) as any as S.Schema<ListTagsForResourceOutput>,
   errors: [],
   serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
@@ -919,6 +1375,46 @@ export const listTagsForResource: API.OperationMethod<
   operationName: "ListTagsForResource",
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
+}));
+
+export type StartMedicalCodingJobError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Starts an asynchronous job that generates medical codes (ICD-10 and CPT) for clinical text. Call GetMedicalCodingJob to check the status of the job. When the job succeeds, Amazon Connect Health writes the results to the output Amazon S3 location.
+ *
+ * To tailor the codes to your organization, specify an ACTIVE medical coding dataset in the Domain. If you don't specify a dataset, the job uses the general medical coding knowledge base.
+ *
+ * Medical coding jobs are in preview release and are subject to change.
+ */
+export const startMedicalCodingJob: API.OperationMethod<
+  StartMedicalCodingJobRequest & RegionInput,
+  StartMedicalCodingJobResponse,
+  StartMedicalCodingJobError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(608, __c19, 0) as any as S.Schema<StartMedicalCodingJobRequest>,
+  output: __S(640, __c20, 0) as any as S.Schema<StartMedicalCodingJobResponse>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "StartMedicalCodingJob",
+  endpointHostPrefix: "runtime.",
+  telemetry: TELEMETRY,
+  span: "StartMedicalCodingJob",
 }));
 
 export type StartMedicalScribeListeningSessionError =
@@ -938,8 +1434,8 @@ export const startMedicalScribeListeningSession: API.OperationMethod<
   StartMedicalScribeListeningSessionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(365, __c11, 13) as any as S.Schema<StartMedicalScribeListeningSessionInput>,
-  output: __S(369, __c11, 17) as any as S.Schema<StartMedicalScribeListeningSessionOutput>,
+  input: __S(687, __c21, 15) as any as S.Schema<StartMedicalScribeListeningSessionInput>,
+  output: __S(704, __c22, 0) as any as S.Schema<StartMedicalScribeListeningSessionOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -974,8 +1470,8 @@ export const startPatientInsightsJob: API.OperationMethod<
   StartPatientInsightsJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<StartPatientInsightsJobRequest>,
-  output: __S(385, __c12, 1) as any as S.Schema<StartPatientInsightsJobResponse>,
+  input: __S(736, __c23, 0) as any as S.Schema<StartPatientInsightsJobRequest>,
+  output: __S(640, __c20, 0) as any as S.Schema<StartPatientInsightsJobResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -993,6 +1489,40 @@ export const startPatientInsightsJob: API.OperationMethod<
   span: "StartPatientInsightsJob",
 }));
 
+export type SubmitFeedbackError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Submits feedback on a clinical document or a set of medical codes that Amazon Connect Health generated.
+ */
+export const submitFeedback: API.OperationMethod<
+  SubmitFeedbackRequest & RegionInput,
+  SubmitFeedbackResponse,
+  SubmitFeedbackError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(768, __c24, 0) as any as S.Schema<SubmitFeedbackRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<SubmitFeedbackResponse>,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "SubmitFeedback",
+  endpointHostPrefix: "runtime.",
+  telemetry: TELEMETRY,
+  span: "SubmitFeedback",
+}));
+
 export type TagResourceError = CommonErrors;
 /**
  * Associates the specified tags with the specified resource
@@ -1003,8 +1533,8 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<TagResourceInput>,
-  output: __S(448, __c14, 0) as any as S.Schema<TagResourceResponse>,
+  input: __S(832, __c26, 0) as any as S.Schema<TagResourceInput>,
+  output: __S(800, __c25, 0) as any as S.Schema<TagResourceResponse>,
   errors: [],
   serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
@@ -1024,8 +1554,8 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(481, __c15, 1) as any as S.Schema<UntagResourceInput>,
-  output: __S(448, __c14, 0) as any as S.Schema<UntagResourceResponse>,
+  input: __S(865, __c27, 1) as any as S.Schema<UntagResourceInput>,
+  output: __S(800, __c25, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [],
   serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
@@ -1037,6 +1567,23 @@ export const untagResource: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ domainId: S.String.pipe(T.HttpLabel("domainId")) }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/domains/{domainId}/subscriptions" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "CreateSubscriptionInput" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1059,7 +1606,31 @@ function __c0(j: number): any {
       ).annotate({ identifier: "DeactivateSubscriptionInput" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domainId: S.String.pipe(T.HttpLabel("domainId")),
+          datasetId: S.String.pipe(T.HttpLabel("datasetId")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "DELETE", uri: "/domains/{domainId}/datasets/{datasetId}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteDatasetInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ arn: S.String, datasetId: S.String, status: S.String }),
+      ).annotate({ identifier: "DeleteDatasetOutput" });
+  }
+}
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1080,7 +1651,48 @@ function __c1(j: number): any {
       ).annotate({ identifier: "DeleteDomainOutput" });
   }
 }
-function __c2(j: number): any {
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domainId: S.String.pipe(T.HttpLabel("domainId")),
+          datasetId: S.String.pipe(T.HttpLabel("datasetId")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/domains/{domainId}/datasets/{datasetId}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetDatasetInput" });
+    case 1:
+      return S.suspend(() => S.Struct({ evaluationS3Uri: S.optional(S.String) })).annotate({
+        identifier: "MedicalCodingDatasetArtifacts",
+      });
+    case 2:
+      return S.Union([/*@__PURE__*/ S.Struct({ medicalCoding: __S(129, __c4, 1) })]);
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          arn: S.String,
+          datasetId: S.String,
+          name: S.String,
+          type: S.String,
+          config: __S(1025, __c32, 1),
+          status: S.String,
+          statusDetails: S.optional(S.String),
+          artifacts: S.optional(__S(130, __c4, 2)),
+          createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+        }),
+      ).annotate({ identifier: "GetDatasetOutput" });
+  }
+}
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1095,17 +1707,93 @@ function __c2(j: number): any {
           arn: S.String,
           name: S.String,
           kmsKeyArn: S.optional(S.String),
-          encryptionContext: S.optional(__S(640, __c20, 0)),
+          encryptionContext: S.optional(__S(1088, __c34, 0)),
           status: S.String,
           webAppUrl: S.optional(S.String),
-          webAppConfiguration: S.optional(__S(641, __c20, 1)),
+          webAppConfiguration: S.optional(__S(1089, __c34, 1)),
           createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-          tags: S.optional(__S(672, __c21, 0)),
+          tags: S.optional(__S(1120, __c35, 0)),
         }),
       ).annotate({ identifier: "GetDomainOutput" });
   }
 }
-function __c3(j: number): any {
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domainId: S.String.pipe(T.HttpLabel("domainId")),
+          jobId: S.String.pipe(T.HttpLabel("jobId")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/domain/{domainId}/medical-coding-job/{jobId}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetMedicalCodingJobRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          jobId: S.String,
+          jobArn: S.String,
+          jobStatus: S.String,
+          creationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          updatedTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          text: SensitiveString,
+          patientContext: S.optional(__S(288, __c9, 0)),
+          encounterContext: S.optional(__S(289, __c9, 1)),
+          outputDataConfig: __S(224, __c7, 0),
+          datasetId: S.optional(S.String),
+          medicalCodingOutput: S.optional(__S(256, __c8, 0)),
+          statusDetails: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GetMedicalCodingJobResponse" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ s3OutputPath: S.String })).annotate({
+        identifier: "MedicalCodingOutputDataConfig",
+      });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ uri: S.String })).annotate({
+        identifier: "MedicalCodingOutput",
+      });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sex: S.optional(S.String),
+          status: S.optional(S.String),
+          dateOfBirth: S.optional(SensitiveString),
+          insurance: S.optional(SensitiveString),
+        }),
+      ).annotate({ identifier: "MedicalCodesPatientContext" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          encounterType: S.optional(S.String),
+          encounterReason: S.optional(SensitiveString),
+          afterHours: S.optional(S.Boolean),
+          encounterDate: S.optional(SensitiveString),
+          encounterDurationMinutes: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "MedicalCodesEncounterContext" });
+  }
+}
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1133,18 +1821,26 @@ function __c3(j: number): any {
       });
     case 2:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ managedTemplate: __S(97, __c3, 1) }),
-        /*@__PURE__*/ S.Struct({ customTemplate: __S(97, __c3, 1) }),
+        /*@__PURE__*/ S.Struct({ managedTemplate: __S(321, __c10, 1) }),
+        /*@__PURE__*/ S.Struct({ customTemplate: __S(321, __c10, 1) }),
       ]);
     case 3:
       return S.suspend(() =>
-        S.Struct({ noteTemplateSettings: S.optional(__S(98, __c3, 2)) }),
+        S.Struct({ noteTemplateSettings: S.optional(__S(322, __c10, 2)) }),
       ).annotate({ identifier: "ClinicalNoteGenerationSettingsResponse" });
     case 4:
-      return S.suspend(() =>
-        S.Struct({ outputS3Uri: S.String, clinicalNoteGenerationSettings: __S(99, __c3, 3) }),
-      ).annotate({ identifier: "MedicalScribePostStreamActionSettingsResponse" });
+      return S.suspend(() => S.Struct({ enabled: S.optional(S.Boolean) })).annotate({
+        identifier: "MedicalCodeGenerationSettingsResponse",
+      });
     case 5:
+      return S.suspend(() =>
+        S.Struct({
+          outputS3Uri: S.String,
+          clinicalNoteGenerationSettings: __S(323, __c10, 3),
+          medicalCodeGenerationSettings: S.optional(__S(324, __c10, 4)),
+        }),
+      ).annotate({ identifier: "MedicalScribePostStreamActionSettingsResponse" });
+    case 6:
       return S.suspend(() =>
         S.Struct({
           outputLocation: S.optional(S.String),
@@ -1152,19 +1848,29 @@ function __c3(j: number): any {
           failureReason: S.optional(S.String),
         }),
       ).annotate({ identifier: "ArtifactDetails" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          noteResult: S.optional(__S(101, __c3, 5)),
-          transcriptResult: S.optional(__S(101, __c3, 5)),
-          afterVisitSummaryResult: S.optional(__S(101, __c3, 5)),
-        }),
-      ).annotate({ identifier: "ClinicalNoteGenerationResult" });
     case 7:
       return S.suspend(() =>
-        S.Struct({ clinicalNoteGenerationResult: S.optional(__S(102, __c3, 6)) }),
-      ).annotate({ identifier: "MedicalScribePostStreamActionsResult" });
+        S.Struct({
+          noteResult: S.optional(__S(326, __c10, 6)),
+          transcriptResult: S.optional(__S(326, __c10, 6)),
+          afterVisitSummaryResult: S.optional(__S(326, __c10, 6)),
+        }),
+      ).annotate({ identifier: "ClinicalNoteGenerationResult" });
     case 8:
+      return S.suspend(() =>
+        S.Struct({
+          medicalCodesResult: S.optional(__S(326, __c10, 6)),
+          jobId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MedicalCodeGenerationResult" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          clinicalNoteGenerationResult: S.optional(__S(327, __c10, 7)),
+          medicalCodeGenerationResult: S.optional(__S(328, __c10, 8)),
+        }),
+      ).annotate({ identifier: "MedicalScribePostStreamActionsResult" });
+    case 10:
       return S.suspend(() =>
         S.Struct({
           sessionId: S.optional(S.String),
@@ -1173,32 +1879,33 @@ function __c3(j: number): any {
           languageCode: S.optional(S.String),
           mediaSampleRateHertz: S.optional(S.Number),
           mediaEncoding: S.optional(S.String),
-          channelDefinitions: S.optional(__S(129, __c4, 1)),
-          postStreamActionSettings: S.optional(__S(100, __c3, 4)),
-          postStreamActionResult: S.optional(__S(103, __c3, 7)),
+          channelDefinitions: S.optional(__S(353, __c11, 1)),
+          postStreamActionSettings: S.optional(__S(325, __c10, 5)),
+          postStreamActionResult: S.optional(__S(329, __c10, 9)),
           encounterContextProvided: S.optional(S.Boolean),
+          medicalCodingContextProvided: S.optional(S.Boolean),
           streamStatus: S.optional(S.String),
           streamCreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           streamEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
         }),
       ).annotate({ identifier: "MedicalScribeListeningSessionDetails" });
-    case 9:
+    case 11:
       return S.suspend(() =>
-        S.Struct({ medicalScribeListeningSessionDetails: S.optional(__S(104, __c3, 8)) }),
+        S.Struct({ medicalScribeListeningSessionDetails: S.optional(__S(330, __c10, 10)) }),
       ).annotate({ identifier: "GetMedicalScribeListeningSessionOutput" });
   }
 }
-function __c4(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ channelId: S.Number, participantRole: S.String })).annotate(
         { identifier: "MedicalScribeChannelDefinition" },
       );
     case 1:
-      return S.Array(__S(128, __c4, 0));
+      return S.Array(__S(352, __c11, 0));
   }
 }
-function __c5(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1224,25 +1931,21 @@ function __c5(j: number): any {
           jobStatus: S.String,
           creationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           updatedTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-          insightsOutput: S.optional(__S(192, __c6, 0)),
+          insightsOutput: S.optional(__S(256, __c8, 0)),
           statusDetails: S.optional(S.String),
-          patientContext: __S(193, __c6, 1),
-          insightsContext: __S(194, __c6, 2),
-          encounterContext: __S(195, __c6, 3),
-          userContext: __S(196, __c6, 4),
-          inputDataConfig: __S(199, __c6, 7),
-          outputDataConfig: __S(200, __c6, 8),
+          patientContext: __S(416, __c13, 0),
+          insightsContext: __S(417, __c13, 1),
+          encounterContext: __S(418, __c13, 2),
+          userContext: __S(419, __c13, 3),
+          inputDataConfig: __S(422, __c13, 6),
+          outputDataConfig: __S(224, __c7, 0),
         }),
       ).annotate({ identifier: "GetPatientInsightsJobResponse" });
   }
 }
-function __c6(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ uri: S.String })).annotate({
-        identifier: "InsightsOutput",
-      });
-    case 1:
       return S.suspend(() =>
         S.Struct({
           patientId: SensitiveString,
@@ -1250,38 +1953,34 @@ function __c6(j: number): any {
           pronouns: S.optional(S.String),
         }),
       ).annotate({ identifier: "PatientInsightsPatientContext" });
-    case 2:
+    case 1:
       return S.suspend(() => S.Struct({ insightsType: S.String })).annotate({
         identifier: "InsightsContext",
       });
-    case 3:
+    case 2:
       return S.suspend(() => S.Struct({ encounterReason: SensitiveString })).annotate({
         identifier: "PatientInsightsEncounterContext",
       });
-    case 4:
+    case 3:
       return S.suspend(() =>
         S.Struct({ role: S.String, userId: SensitiveString, specialty: S.optional(S.String) }),
       ).annotate({ identifier: "UserContext" });
-    case 5:
+    case 4:
       return S.suspend(() =>
         S.Struct({ fhirEndpoint: S.String, oauthToken: S.optional(SensitiveString) }),
       ).annotate({ identifier: "FHIRServer" });
+    case 5:
+      return S.Array(__S(256, __c8, 0));
     case 6:
-      return S.Array(__S(192, __c6, 0));
-    case 7:
       return S.suspend(() =>
         S.Struct({
-          fhirServer: S.optional(__S(197, __c6, 5)),
-          s3Sources: S.optional(__S(198, __c6, 6)),
+          fhirServer: S.optional(__S(420, __c13, 4)),
+          s3Sources: S.optional(__S(421, __c13, 5)),
         }),
       ).annotate({ identifier: "InputDataConfig" });
-    case 8:
-      return S.suspend(() => S.Struct({ s3OutputPath: S.String })).annotate({
-        identifier: "OutputDataConfig",
-      });
   }
 }
-function __c7(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1301,7 +2000,48 @@ function __c7(j: number): any {
       ).annotate({ identifier: "GetSubscriptionInput" });
   }
 }
-function __c8(j: number): any {
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domainId: S.String.pipe(T.HttpLabel("domainId")),
+          type: S.optional(S.String).pipe(T.HttpQuery("type")),
+          nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+          maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/domains/{domainId}/datasets" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListDatasetsInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          arn: S.String,
+          datasetId: S.String,
+          name: S.String,
+          type: S.String,
+          status: S.String,
+          statusDetails: S.optional(S.String),
+          createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+        }),
+      ).annotate({ identifier: "DatasetSummary" });
+    case 2:
+      return S.Array(__S(481, __c15, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ items: __S(482, __c15, 2), nextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListDatasetsOutput" });
+  }
+}
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1322,14 +2062,14 @@ function __c8(j: number): any {
         }),
       ).annotate({ identifier: "DomainSummary" });
     case 2:
-      return S.Array(__S(257, __c8, 1));
+      return S.Array(__S(513, __c16, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ domains: __S(258, __c8, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ domains: __S(514, __c16, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListDomainsOutput" });
   }
 }
-function __c9(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1349,14 +2089,14 @@ function __c9(j: number): any {
         ),
       ).annotate({ identifier: "ListSubscriptionsInput" });
     case 1:
-      return S.Array(__S(576, __c18, 0));
+      return S.Array(__S(928, __c29, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ subscriptions: __S(289, __c9, 1), nextToken: S.optional(S.String) }),
+        S.Struct({ subscriptions: __S(545, __c17, 1), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListSubscriptionsOutput" });
   }
 }
-function __c10(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1372,12 +2112,49 @@ function __c10(j: number): any {
         ),
       ).annotate({ identifier: "ListTagsForResourceInput" });
     case 1:
-      return S.suspend(() => S.Struct({ tags: S.optional(__S(672, __c21, 0)) })).annotate({
+      return S.suspend(() => S.Struct({ tags: S.optional(__S(1120, __c35, 0)) })).annotate({
         identifier: "ListTagsForResourceOutput",
       });
   }
 }
-function __c11(j: number): any {
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domainId: S.String.pipe(T.HttpLabel("domainId")),
+          text: SensitiveString,
+          patientContext: S.optional(__S(288, __c9, 0)),
+          encounterContext: S.optional(__S(289, __c9, 1)),
+          outputDataConfig: __S(224, __c7, 0),
+          datasetId: S.optional(S.String),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/domain/{domainId}/medical-coding-job" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "StartMedicalCodingJobRequest" });
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          jobArn: S.String,
+          jobId: S.String,
+          creationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+        }),
+      ).annotate({ identifier: "StartMedicalCodingJobResponse" });
+  }
+}
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ audioChunk: T.Blob })).annotate({
@@ -1400,46 +2177,69 @@ function __c11(j: number): any {
         S.Struct({ sectionHeader: SensitiveString, sectionInstruction: SensitiveString }),
       ).annotate({ identifier: "TemplateSectionInstruction" });
     case 5:
-      return S.Array(__S(356, __c11, 4));
+      return S.Array(__S(676, __c21, 4));
     case 6:
       return S.suspend(() =>
-        S.Struct({ templateType: S.String, templateInstructions: __S(357, __c11, 5) }),
+        S.Struct({ templateType: S.String, templateInstructions: __S(677, __c21, 5) }),
       ).annotate({ identifier: "CustomTemplate" });
     case 7:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ managedTemplate: __S(355, __c11, 3) }),
-        /*@__PURE__*/ S.Struct({ customTemplate: __S(358, __c11, 6) }),
+        /*@__PURE__*/ S.Struct({ managedTemplate: __S(675, __c21, 3) }),
+        /*@__PURE__*/ S.Struct({ customTemplate: __S(678, __c21, 6) }),
       ]);
     case 8:
-      return S.suspend(() => S.Struct({ noteTemplateSettings: __S(359, __c11, 7) })).annotate({
+      return S.suspend(() => S.Struct({ noteTemplateSettings: __S(679, __c21, 7) })).annotate({
         identifier: "ClinicalNoteGenerationSettings",
       });
     case 9:
-      return S.suspend(() =>
-        S.Struct({ outputS3Uri: S.String, clinicalNoteGenerationSettings: __S(360, __c11, 8) }),
-      ).annotate({ identifier: "MedicalScribePostStreamActionSettings" });
+      return S.suspend(() => S.Struct({ enabled: S.Boolean })).annotate({
+        identifier: "MedicalCodeGenerationSettings",
+      });
     case 10:
       return S.suspend(() =>
-        S.Struct({ unstructuredContext: S.optional(SensitiveString) }),
-      ).annotate({ identifier: "EncounterContext" });
+        S.Struct({
+          outputS3Uri: S.String,
+          clinicalNoteGenerationSettings: __S(680, __c21, 8),
+          medicalCodeGenerationSettings: S.optional(__S(681, __c21, 9)),
+        }),
+      ).annotate({ identifier: "MedicalScribePostStreamActionSettings" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          postStreamActionSettings: __S(361, __c11, 9),
-          channelDefinitions: S.optional(__S(129, __c4, 1)),
-          encounterContext: S.optional(__S(362, __c11, 10)),
+          sex: S.optional(S.String),
+          status: S.optional(S.String),
+          dateOfBirth: S.optional(SensitiveString),
+          encounterType: S.optional(S.String),
+          encounterReason: S.optional(SensitiveString),
+          afterHours: S.optional(S.Boolean),
+          encounterDate: S.optional(SensitiveString),
+        }),
+      ).annotate({ identifier: "MedicalCodingContext" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          unstructuredContext: S.optional(SensitiveString),
+          medicalCodingContext: S.optional(__S(683, __c21, 11)),
+        }),
+      ).annotate({ identifier: "EncounterContext" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          postStreamActionSettings: __S(682, __c21, 10),
+          channelDefinitions: S.optional(__S(353, __c11, 1)),
+          encounterContext: S.optional(__S(684, __c21, 12)),
         }),
       ).annotate({ identifier: "MedicalScribeConfigurationEvent" });
-    case 12:
+    case 14:
       return T.InputEventStream(
         /*@__PURE__*/ S.Union([
-          /*@__PURE__*/ S.Struct({ audioEvent: __S(352, __c11, 0) }),
-          /*@__PURE__*/ S.Struct({ binaryAudioEvent: __S(353, __c11, 1) }),
-          /*@__PURE__*/ S.Struct({ sessionControlEvent: __S(354, __c11, 2) }),
-          /*@__PURE__*/ S.Struct({ configurationEvent: __S(363, __c11, 11) }),
+          /*@__PURE__*/ S.Struct({ audioEvent: __S(672, __c21, 0) }),
+          /*@__PURE__*/ S.Struct({ binaryAudioEvent: __S(673, __c21, 1) }),
+          /*@__PURE__*/ S.Struct({ sessionControlEvent: __S(674, __c21, 2) }),
+          /*@__PURE__*/ S.Struct({ configurationEvent: __S(685, __c21, 13) }),
         ]),
       );
-    case 13:
+    case 15:
       return S.suspend(() =>
         S.Struct({
           sessionId: S.String.pipe(T.HttpHeader("x-amzn-medscribe-session-id")),
@@ -1448,7 +2248,7 @@ function __c11(j: number): any {
           languageCode: S.String.pipe(T.HttpHeader("x-amzn-medscribe-language-code")),
           mediaSampleRateHertz: S.Number.pipe(T.HttpHeader("x-amzn-medscribe-sample-rate")),
           mediaEncoding: S.String.pipe(T.HttpHeader("x-amzn-medscribe-media-encoding")),
-          inputStream: S.optional(__S(364, __c11, 12)).pipe(T.HttpPayload()),
+          inputStream: S.optional(__S(686, __c21, 14)).pipe(T.HttpPayload()),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/medical-scribe-stream/" }),
@@ -1460,7 +2260,7 @@ function __c11(j: number): any {
           ),
         ),
       ).annotate({ identifier: "StartMedicalScribeListeningSessionInput" });
-    case 14:
+    case 16:
       return S.suspend(() =>
         S.Struct({
           segmentId: S.optional(S.String),
@@ -1471,14 +2271,74 @@ function __c11(j: number): any {
           content: S.optional(S.String),
         }),
       ).annotate({ identifier: "MedicalScribeTranscriptSegment" });
-    case 15:
+    case 17:
       return S.suspend(() =>
-        S.Struct({ transcriptSegment: S.optional(__S(366, __c11, 14)) }),
+        S.Struct({ transcriptSegment: S.optional(__S(688, __c21, 16)) }),
       ).annotate({ identifier: "MedicalScribeTranscriptEvent" });
-    case 16:
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          site: S.String,
+          probingDepth: S.optional(S.Number),
+          recession: S.optional(S.Number),
+          bleeding: S.optional(S.Boolean),
+          suppuration: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "PeriodontalSite" });
+    case 19:
+      return S.Array(__S(690, __c21, 18));
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          toothNumber: S.Number,
+          missing: S.Boolean,
+          mobility: S.optional(S.Number),
+          furcation: S.optional(S.Number),
+          sites: S.optional(__S(691, __c21, 19)),
+        }),
+      ).annotate({ identifier: "PeriodontalTooth" });
+    case 21:
+      return S.Array(__S(692, __c21, 20));
+    case 22:
+      return S.Array(S.String);
+    case 23:
+      return S.suspend(() =>
+        S.Struct({
+          reason: S.String,
+          toothNumber: S.optional(S.Number),
+          sites: S.optional(__S(694, __c21, 22)),
+        }),
+      ).annotate({ identifier: "PeriodontalReview" });
+    case 24:
+      return S.Array(__S(695, __c21, 23));
+    case 25:
+      return S.suspend(() =>
+        S.Struct({
+          snapshotVersion: S.Number,
+          teeth: __S(693, __c21, 21),
+          reviewItems: S.optional(__S(696, __c21, 24)),
+        }),
+      ).annotate({ identifier: "MedicalScribePeriodontalChartEvent" });
+    case 26:
+      return S.suspend(() => S.Struct({ itemKey: SensitiveString, status: S.String })).annotate({
+        identifier: "ChecklistItem",
+      });
+    case 27:
+      return S.Array(__S(698, __c21, 26));
+    case 28:
+      return S.suspend(() =>
+        S.Struct({ checklistId: S.String, items: __S(699, __c21, 27) }),
+      ).annotate({ identifier: "Checklist" });
+    case 29:
+      return S.Array(__S(700, __c21, 28));
+    case 30:
+      return S.suspend(() =>
+        S.Struct({ snapshotVersion: S.Number, checklists: __S(701, __c21, 29) }),
+      ).annotate({ identifier: "MedicalScribeChecklistEvent" });
+    case 31:
       return T.EventStream(
         /*@__PURE__*/ S.Union([
-          /*@__PURE__*/ S.Struct({ transcriptEvent: __S(367, __c11, 15) }),
+          /*@__PURE__*/ S.Struct({ transcriptEvent: __S(689, __c21, 17) }),
           /*@__PURE__*/ S.Struct({
             internalFailureException: /*@__PURE__*/ S.suspend(
               () => InternalServerException,
@@ -1489,9 +2349,15 @@ function __c11(j: number): any {
               identifier: "ValidationException",
             }),
           }),
+          /*@__PURE__*/ S.Struct({ periodontalChartEvent: __S(697, __c21, 25) }),
+          /*@__PURE__*/ S.Struct({ checklistEvent: __S(702, __c21, 30) }),
         ]),
       );
-    case 17:
+  }
+}
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           sessionId: S.optional(S.String).pipe(T.HttpHeader("x-amzn-medscribe-session-id")),
@@ -1505,23 +2371,23 @@ function __c11(j: number): any {
             T.HttpHeader("x-amzn-medscribe-sample-rate"),
           ),
           mediaEncoding: S.optional(S.String).pipe(T.HttpHeader("x-amzn-medscribe-media-encoding")),
-          responseStream: S.optional(__S(368, __c11, 16)).pipe(T.HttpPayload()),
+          responseStream: S.optional(__S(703, __c21, 31)).pipe(T.HttpPayload()),
         }),
       ).annotate({ identifier: "StartMedicalScribeListeningSessionOutput" });
   }
 }
-function __c12(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           domainId: S.String.pipe(T.HttpLabel("domainId")),
-          patientContext: __S(193, __c6, 1),
-          insightsContext: __S(194, __c6, 2),
-          encounterContext: __S(195, __c6, 3),
-          userContext: __S(196, __c6, 4),
-          inputDataConfig: __S(199, __c6, 7),
-          outputDataConfig: __S(200, __c6, 8),
+          patientContext: __S(416, __c13, 0),
+          insightsContext: __S(417, __c13, 1),
+          encounterContext: __S(418, __c13, 2),
+          userContext: __S(419, __c13, 3),
+          inputDataConfig: __S(422, __c13, 6),
+          outputDataConfig: __S(224, __c7, 0),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
           T.all(
@@ -1534,23 +2400,47 @@ function __c12(j: number): any {
           ),
         ),
       ).annotate({ identifier: "StartPatientInsightsJobRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          jobArn: S.String,
-          jobId: S.String,
-          creationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-        }),
-      ).annotate({ identifier: "StartPatientInsightsJobResponse" });
   }
 }
-function __c13(j: number): any {
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domainId: S.String.pipe(T.HttpLabel("domainId")),
+          artifactSourceId: S.String,
+          subscriptionId: S.optional(S.String),
+          artifactType: S.String,
+          signedArtifactS3Uri: S.String,
+          generatedArtifactS3Uri: S.optional(S.String),
+          comments: S.optional(SensitiveString),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/domain/{domainId}/feedback" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "SubmitFeedbackRequest" });
+  }
+}
+function __c25(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "SubmitFeedbackResponse" });
+  }
+}
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-          tags: __S(672, __c21, 0),
+          tags: __S(1120, __c35, 0),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
@@ -1564,13 +2454,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "TagResourceInput" });
   }
 }
-function __c14(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({})).annotate({ identifier: "TagResourceResponse" });
-  }
-}
-function __c15(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -1578,7 +2462,7 @@ function __c15(j: number): any {
       return S.suspend(() =>
         S.Struct({
           resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-          tagKeys: __S(480, __c15, 0).pipe(T.HttpQuery("tagKeys")),
+          tagKeys: __S(864, __c27, 0).pipe(T.HttpQuery("tagKeys")),
         }).pipe(
           T.all(
             T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
@@ -1592,7 +2476,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "UntagResourceInput" });
   }
 }
-function __c16(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1615,15 +2499,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "ActivateSubscriptionInput" });
   }
 }
-function __c17(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({ subscription: S.optional(__S(576, __c18, 0)) })).annotate({
-        identifier: "ActivateSubscriptionOutput",
-      });
-  }
-}
-function __c18(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1640,7 +2516,57 @@ function __c18(j: number): any {
       ).annotate({ identifier: "SubscriptionDescription" });
   }
 }
-function __c19(j: number): any {
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ subscription: S.optional(__S(928, __c29, 0)) })).annotate({
+        identifier: "ActivateSubscriptionOutput",
+      });
+  }
+}
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domainId: S.String.pipe(T.HttpLabel("domainId")),
+          name: S.String,
+          config: __S(1025, __c32, 1),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/domains/{domainId}/datasets" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "CreateDatasetInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          arn: S.String,
+          datasetId: S.String,
+          type: S.String,
+          status: S.String,
+          createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+        }),
+      ).annotate({ identifier: "CreateDatasetOutput" });
+  }
+}
+function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ s3InputPath: S.String, s3OutputPath: S.String })).annotate({
+        identifier: "MedicalCodingDatasetConfig",
+      });
+    case 1:
+      return S.Union([/*@__PURE__*/ S.Struct({ medicalCoding: __S(1024, __c32, 0) })]);
+  }
+}
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1651,8 +2577,8 @@ function __c19(j: number): any {
         S.Struct({
           name: S.String,
           kmsKeyArn: S.optional(S.String),
-          webAppSetupConfiguration: S.optional(__S(608, __c19, 0)),
-          tags: S.optional(__S(672, __c21, 0)),
+          webAppSetupConfiguration: S.optional(__S(1056, __c33, 0)),
+          tags: S.optional(__S(1120, __c35, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/domain" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateDomainInput" });
     case 2:
@@ -1662,16 +2588,16 @@ function __c19(j: number): any {
           arn: S.String,
           name: S.String,
           kmsKeyArn: S.optional(S.String),
-          encryptionContext: S.optional(__S(640, __c20, 0)),
+          encryptionContext: S.optional(__S(1088, __c34, 0)),
           status: S.String,
           webAppUrl: S.optional(S.String),
-          webAppConfiguration: S.optional(__S(641, __c20, 1)),
+          webAppConfiguration: S.optional(__S(1089, __c34, 1)),
           createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
         }),
       ).annotate({ identifier: "CreateDomainOutput" });
   }
 }
-function __c20(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1683,27 +2609,10 @@ function __c20(j: number): any {
       ).annotate({ identifier: "WebAppConfiguration" });
   }
 }
-function __c21(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
-  }
-}
-function __c22(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({ domainId: S.String.pipe(T.HttpLabel("domainId")) }).pipe(
-          T.all(
-            T.Http({ method: "POST", uri: "/domains/{domainId}/subscriptions" }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "CreateSubscriptionInput" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

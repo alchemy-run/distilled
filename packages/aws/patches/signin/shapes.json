@@ -1,0 +1,15 @@
+{
+  "description": "signin: Members that hold secrets (sensitive). The model marks the `AccessToken` structure sensitive as a whole, which the generator does not carry to its members, so `createOAuth2Token` returned the temporary `secretAccessKey` and `sessionToken` as plain strings. This marks the two members, as STS marks `SecretAccessKey`.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.signin#AccessToken/members/secretAccessKey/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.signin#AccessToken/members/sessionToken/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}
