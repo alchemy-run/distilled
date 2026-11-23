@@ -1,0 +1,1336 @@
+{
+  "description": "Add the `page` and `pagelen` query members to every list operation whose 200 response is Bitbucket's collection envelope (`{ values, next, page?, pagelen?, size? }`) and whose spec parameters leave them out. The API documents both for every collection (https://developer.atlassian.com/cloud/bitbucket/rest/intro/#pagination): `pagelen` sets the page size (10 by default, at most 100), and the `next` URL carries the next page as its `page` query value, a number (`?page=3`) or, on iterator collections such as commits, an opaque cursor. The spec declares them on only a few operations (getPullrequestsForCommit, getPipelinesForRepository). `page` is a string so an opaque cursor fits.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#ListHookEventsForResourceRequest/members/page",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "page",
+          "smithy.api#documentation": "The page to return: the `page` query value of the previous response's `next` URL. A page number on list collections, an opaque cursor on iterator collections such as commits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#ListHookEventsForResourceRequest/members/pagelen",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#httpQuery": "pagelen",
+          "smithy.api#documentation": "The number of objects per page. Bitbucket defaults to 10 and allows at most 100; some collections use other limits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoriesWorkspaceRequest/members/page",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "page",
+          "smithy.api#documentation": "The page to return: the `page` query value of the previous response's `next` URL. A page number on list collections, an opaque cursor on iterator collections such as commits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoriesWorkspaceRequest/members/pagelen",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#httpQuery": "pagelen",
+          "smithy.api#documentation": "The number of objects per page. Bitbucket defaults to 10 and allows at most 100; some collections use other limits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoriesWorkspaceRepoSlugBranchRestrictionsRequest/members/page",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "page",
+          "smithy.api#documentation": "The page to return: the `page` query value of the previous response's `next` URL. A page number on list collections, an opaque cursor on iterator collections such as commits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoriesWorkspaceRepoSlugBranchRestrictionsRequest/members/pagelen",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#httpQuery": "pagelen",
+          "smithy.api#documentation": "The number of objects per page. Bitbucket defaults to 10 and allows at most 100; some collections use other limits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoriesWorkspaceRepoSlugCommitCommitCommentsRequest/members/page",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "page",
+          "smithy.api#documentation": "The page to return: the `page` query value of the previous response's `next` URL. A page number on list collections, an opaque cursor on iterator collections such as commits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoriesWorkspaceRepoSlugCommitCommitCommentsRequest/members/pagelen",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#httpQuery": "pagelen",
+          "smithy.api#documentation": "The number of objects per page. Bitbucket defaults to 10 and allows at most 100; some collections use other limits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetReportsForCommitRequest/members/page",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "page",
+          "smithy.api#documentation": "The page to return: the `page` query value of the previous response's `next` URL. A page number on list collections, an opaque cursor on iterator collections such as commits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetReportsForCommitRequest/members/pagelen",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#httpQuery": "pagelen",
+          "smithy.api#documentation": "The number of objects per page. Bitbucket defaults to 10 and allows at most 100; some collections use other limits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetAnnotationsForReportRequest/members/page",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "page",
+          "smithy.api#documentation": "The page to return: the `page` query value of the previous response's `next` URL. A page number on list collections, an opaque cursor on iterator collections such as commits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetAnnotationsForReportRequest/members/pagelen",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#httpQuery": "pagelen",
+          "smithy.api#documentation": "The number of objects per page. Bitbucket defaults to 10 and allows at most 100; some collections use other limits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoriesWorkspaceRepoSlugCommitCommitStatusesRequest/members/page",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "page",
+          "smithy.api#documentation": "The page to return: the `page` query value of the previous response's `next` URL. A page number on list collections, an opaque cursor on iterator collections such as commits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoriesWorkspaceRepoSlugCommitCommitStatusesRequest/members/pagelen",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#httpQuery": "pagelen",
+          "smithy.api#documentation": "The number of objects per page. Bitbucket defaults to 10 and allows at most 100; some collections use other limits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoriesWorkspaceRepoSlugCommitsRequest/members/page",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "page",
+          "smithy.api#documentation": "The page to return: the `page` query value of the previous response's `next` URL. A page number on list collections, an opaque cursor on iterator collections such as commits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoriesWorkspaceRepoSlugCommitsRequest/members/pagelen",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#httpQuery": "pagelen",
+          "smithy.api#documentation": "The number of objects per page. Bitbucket defaults to 10 and allows at most 100; some collections use other limits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#PostRepositoriesWorkspaceRepoSlugCommitsRequest/members/page",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "page",
+          "smithy.api#documentation": "The page to return: the `page` query value of the previous response's `next` URL. A page number on list collections, an opaque cursor on iterator collections such as commits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#PostRepositoriesWorkspaceRepoSlugCommitsRequest/members/pagelen",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#httpQuery": "pagelen",
+          "smithy.api#documentation": "The number of objects per page. Bitbucket defaults to 10 and allows at most 100; some collections use other limits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoriesWorkspaceRepoSlugCommitsRevisionRequest/members/page",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "page",
+          "smithy.api#documentation": "The page to return: the `page` query value of the previous response's `next` URL. A page number on list collections, an opaque cursor on iterator collections such as commits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoriesWorkspaceRepoSlugCommitsRevisionRequest/members/pagelen",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#httpQuery": "pagelen",
+          "smithy.api#documentation": "The number of objects per page. Bitbucket defaults to 10 and allows at most 100; some collections use other limits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#PostRepositoriesWorkspaceRepoSlugCommitsRevisionRequest/members/page",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "page",
+          "smithy.api#documentation": "The page to return: the `page` query value of the previous response's `next` URL. A page number on list collections, an opaque cursor on iterator collections such as commits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#PostRepositoriesWorkspaceRepoSlugCommitsRevisionRequest/members/pagelen",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#httpQuery": "pagelen",
+          "smithy.api#documentation": "The number of objects per page. Bitbucket defaults to 10 and allows at most 100; some collections use other limits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoriesWorkspaceRepoSlugDefaultReviewersRequest/members/page",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "page",
+          "smithy.api#documentation": "The page to return: the `page` query value of the previous response's `next` URL. A page number on list collections, an opaque cursor on iterator collections such as commits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoriesWorkspaceRepoSlugDefaultReviewersRequest/members/pagelen",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#httpQuery": "pagelen",
+          "smithy.api#documentation": "The number of objects per page. Bitbucket defaults to 10 and allows at most 100; some collections use other limits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoriesWorkspaceRepoSlugDeployKeysRequest/members/page",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "page",
+          "smithy.api#documentation": "The page to return: the `page` query value of the previous response's `next` URL. A page number on list collections, an opaque cursor on iterator collections such as commits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoriesWorkspaceRepoSlugDeployKeysRequest/members/pagelen",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#httpQuery": "pagelen",
+          "smithy.api#documentation": "The number of objects per page. Bitbucket defaults to 10 and allows at most 100; some collections use other limits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetDeploymentsForRepositoryRequest/members/page",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "page",
+          "smithy.api#documentation": "The page to return: the `page` query value of the previous response's `next` URL. A page number on list collections, an opaque cursor on iterator collections such as commits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetDeploymentsForRepositoryRequest/members/pagelen",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#httpQuery": "pagelen",
+          "smithy.api#documentation": "The number of objects per page. Bitbucket defaults to 10 and allows at most 100; some collections use other limits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetDeploymentVariablesRequest/members/page",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "page",
+          "smithy.api#documentation": "The page to return: the `page` query value of the previous response's `next` URL. A page number on list collections, an opaque cursor on iterator collections such as commits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetDeploymentVariablesRequest/members/pagelen",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#httpQuery": "pagelen",
+          "smithy.api#documentation": "The number of objects per page. Bitbucket defaults to 10 and allows at most 100; some collections use other limits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoriesWorkspaceRepoSlugDiffstatSpecRequest/members/page",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "page",
+          "smithy.api#documentation": "The page to return: the `page` query value of the previous response's `next` URL. A page number on list collections, an opaque cursor on iterator collections such as commits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoriesWorkspaceRepoSlugDiffstatSpecRequest/members/pagelen",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#httpQuery": "pagelen",
+          "smithy.api#documentation": "The number of objects per page. Bitbucket defaults to 10 and allows at most 100; some collections use other limits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoriesWorkspaceRepoSlugEffectiveDefaultReviewersRequest/members/page",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "page",
+          "smithy.api#documentation": "The page to return: the `page` query value of the previous response's `next` URL. A page number on list collections, an opaque cursor on iterator collections such as commits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoriesWorkspaceRepoSlugEffectiveDefaultReviewersRequest/members/pagelen",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#httpQuery": "pagelen",
+          "smithy.api#documentation": "The number of objects per page. Bitbucket defaults to 10 and allows at most 100; some collections use other limits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetEnvironmentsForRepositoryRequest/members/page",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "page",
+          "smithy.api#documentation": "The page to return: the `page` query value of the previous response's `next` URL. A page number on list collections, an opaque cursor on iterator collections such as commits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetEnvironmentsForRepositoryRequest/members/pagelen",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#httpQuery": "pagelen",
+          "smithy.api#documentation": "The number of objects per page. Bitbucket defaults to 10 and allows at most 100; some collections use other limits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoriesWorkspaceRepoSlugFileConflictsSpecRequest/members/page",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "page",
+          "smithy.api#documentation": "The page to return: the `page` query value of the previous response's `next` URL. A page number on list collections, an opaque cursor on iterator collections such as commits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoriesWorkspaceRepoSlugFileConflictsSpecRequest/members/pagelen",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#httpQuery": "pagelen",
+          "smithy.api#documentation": "The number of objects per page. Bitbucket defaults to 10 and allows at most 100; some collections use other limits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoriesWorkspaceRepoSlugFilehistoryCommitPathRequest/members/page",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "page",
+          "smithy.api#documentation": "The page to return: the `page` query value of the previous response's `next` URL. A page number on list collections, an opaque cursor on iterator collections such as commits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoriesWorkspaceRepoSlugFilehistoryCommitPathRequest/members/pagelen",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#httpQuery": "pagelen",
+          "smithy.api#documentation": "The number of objects per page. Bitbucket defaults to 10 and allows at most 100; some collections use other limits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoriesWorkspaceRepoSlugForksRequest/members/page",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "page",
+          "smithy.api#documentation": "The page to return: the `page` query value of the previous response's `next` URL. A page number on list collections, an opaque cursor on iterator collections such as commits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoriesWorkspaceRepoSlugForksRequest/members/pagelen",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#httpQuery": "pagelen",
+          "smithy.api#documentation": "The number of objects per page. Bitbucket defaults to 10 and allows at most 100; some collections use other limits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#ListRepositoryHooksRequest/members/page",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "page",
+          "smithy.api#documentation": "The page to return: the `page` query value of the previous response's `next` URL. A page number on list collections, an opaque cursor on iterator collections such as commits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#ListRepositoryHooksRequest/members/pagelen",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#httpQuery": "pagelen",
+          "smithy.api#documentation": "The number of objects per page. Bitbucket defaults to 10 and allows at most 100; some collections use other limits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoriesWorkspaceRepoSlugPermissionsConfigGroupsRequest/members/page",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "page",
+          "smithy.api#documentation": "The page to return: the `page` query value of the previous response's `next` URL. A page number on list collections, an opaque cursor on iterator collections such as commits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoriesWorkspaceRepoSlugPermissionsConfigGroupsRequest/members/pagelen",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#httpQuery": "pagelen",
+          "smithy.api#documentation": "The number of objects per page. Bitbucket defaults to 10 and allows at most 100; some collections use other limits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoriesWorkspaceRepoSlugPermissionsConfigUsersRequest/members/page",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "page",
+          "smithy.api#documentation": "The page to return: the `page` query value of the previous response's `next` URL. A page number on list collections, an opaque cursor on iterator collections such as commits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoriesWorkspaceRepoSlugPermissionsConfigUsersRequest/members/pagelen",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#httpQuery": "pagelen",
+          "smithy.api#documentation": "The number of objects per page. Bitbucket defaults to 10 and allows at most 100; some collections use other limits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoryPipelineCachesRequest/members/page",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "page",
+          "smithy.api#documentation": "The page to return: the `page` query value of the previous response's `next` URL. A page number on list collections, an opaque cursor on iterator collections such as commits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoryPipelineCachesRequest/members/pagelen",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#httpQuery": "pagelen",
+          "smithy.api#documentation": "The number of objects per page. Bitbucket defaults to 10 and allows at most 100; some collections use other limits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoryRunnersRequest/members/page",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "page",
+          "smithy.api#documentation": "The page to return: the `page` query value of the previous response's `next` URL. A page number on list collections, an opaque cursor on iterator collections such as commits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoryRunnersRequest/members/pagelen",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#httpQuery": "pagelen",
+          "smithy.api#documentation": "The number of objects per page. Bitbucket defaults to 10 and allows at most 100; some collections use other limits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetPipelineStepsForRepositoryRequest/members/page",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "page",
+          "smithy.api#documentation": "The page to return: the `page` query value of the previous response's `next` URL. A page number on list collections, an opaque cursor on iterator collections such as commits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetPipelineStepsForRepositoryRequest/members/pagelen",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#httpQuery": "pagelen",
+          "smithy.api#documentation": "The number of objects per page. Bitbucket defaults to 10 and allows at most 100; some collections use other limits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoryPipelineSchedulesRequest/members/page",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "page",
+          "smithy.api#documentation": "The page to return: the `page` query value of the previous response's `next` URL. A page number on list collections, an opaque cursor on iterator collections such as commits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoryPipelineSchedulesRequest/members/pagelen",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#httpQuery": "pagelen",
+          "smithy.api#documentation": "The number of objects per page. Bitbucket defaults to 10 and allows at most 100; some collections use other limits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoryPipelineScheduleExecutionsRequest/members/page",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "page",
+          "smithy.api#documentation": "The page to return: the `page` query value of the previous response's `next` URL. A page number on list collections, an opaque cursor on iterator collections such as commits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoryPipelineScheduleExecutionsRequest/members/pagelen",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#httpQuery": "pagelen",
+          "smithy.api#documentation": "The number of objects per page. Bitbucket defaults to 10 and allows at most 100; some collections use other limits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoryPipelineKnownHostsRequest/members/page",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "page",
+          "smithy.api#documentation": "The page to return: the `page` query value of the previous response's `next` URL. A page number on list collections, an opaque cursor on iterator collections such as commits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoryPipelineKnownHostsRequest/members/pagelen",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#httpQuery": "pagelen",
+          "smithy.api#documentation": "The number of objects per page. Bitbucket defaults to 10 and allows at most 100; some collections use other limits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoryPipelineVariablesRequest/members/page",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "page",
+          "smithy.api#documentation": "The page to return: the `page` query value of the previous response's `next` URL. A page number on list collections, an opaque cursor on iterator collections such as commits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoryPipelineVariablesRequest/members/pagelen",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#httpQuery": "pagelen",
+          "smithy.api#documentation": "The number of objects per page. Bitbucket defaults to 10 and allows at most 100; some collections use other limits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoriesWorkspaceRepoSlugPullrequestsRequest/members/page",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "page",
+          "smithy.api#documentation": "The page to return: the `page` query value of the previous response's `next` URL. A page number on list collections, an opaque cursor on iterator collections such as commits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoriesWorkspaceRepoSlugPullrequestsRequest/members/pagelen",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#httpQuery": "pagelen",
+          "smithy.api#documentation": "The number of objects per page. Bitbucket defaults to 10 and allows at most 100; some collections use other limits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoriesWorkspaceRepoSlugPullrequestsPullRequestIdCommentsRequest/members/page",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "page",
+          "smithy.api#documentation": "The page to return: the `page` query value of the previous response's `next` URL. A page number on list collections, an opaque cursor on iterator collections such as commits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoriesWorkspaceRepoSlugPullrequestsPullRequestIdCommentsRequest/members/pagelen",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#httpQuery": "pagelen",
+          "smithy.api#documentation": "The number of objects per page. Bitbucket defaults to 10 and allows at most 100; some collections use other limits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoriesWorkspaceRepoSlugPullrequestsPullRequestIdStatusesRequest/members/page",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "page",
+          "smithy.api#documentation": "The page to return: the `page` query value of the previous response's `next` URL. A page number on list collections, an opaque cursor on iterator collections such as commits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoriesWorkspaceRepoSlugPullrequestsPullRequestIdStatusesRequest/members/pagelen",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#httpQuery": "pagelen",
+          "smithy.api#documentation": "The number of objects per page. Bitbucket defaults to 10 and allows at most 100; some collections use other limits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoriesWorkspaceRepoSlugPullrequestsPullRequestIdTasksRequest/members/page",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "page",
+          "smithy.api#documentation": "The page to return: the `page` query value of the previous response's `next` URL. A page number on list collections, an opaque cursor on iterator collections such as commits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoriesWorkspaceRepoSlugRefsRequest/members/page",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "page",
+          "smithy.api#documentation": "The page to return: the `page` query value of the previous response's `next` URL. A page number on list collections, an opaque cursor on iterator collections such as commits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoriesWorkspaceRepoSlugRefsRequest/members/pagelen",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#httpQuery": "pagelen",
+          "smithy.api#documentation": "The number of objects per page. Bitbucket defaults to 10 and allows at most 100; some collections use other limits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoriesWorkspaceRepoSlugRefsBranchesRequest/members/page",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "page",
+          "smithy.api#documentation": "The page to return: the `page` query value of the previous response's `next` URL. A page number on list collections, an opaque cursor on iterator collections such as commits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoriesWorkspaceRepoSlugRefsBranchesRequest/members/pagelen",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#httpQuery": "pagelen",
+          "smithy.api#documentation": "The number of objects per page. Bitbucket defaults to 10 and allows at most 100; some collections use other limits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoriesWorkspaceRepoSlugRefsTagsRequest/members/page",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "page",
+          "smithy.api#documentation": "The page to return: the `page` query value of the previous response's `next` URL. A page number on list collections, an opaque cursor on iterator collections such as commits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoriesWorkspaceRepoSlugRefsTagsRequest/members/pagelen",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#httpQuery": "pagelen",
+          "smithy.api#documentation": "The number of objects per page. Bitbucket defaults to 10 and allows at most 100; some collections use other limits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoriesWorkspaceRepoSlugSrcRequest/members/page",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "page",
+          "smithy.api#documentation": "The page to return: the `page` query value of the previous response's `next` URL. A page number on list collections, an opaque cursor on iterator collections such as commits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoriesWorkspaceRepoSlugSrcRequest/members/pagelen",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#httpQuery": "pagelen",
+          "smithy.api#documentation": "The number of objects per page. Bitbucket defaults to 10 and allows at most 100; some collections use other limits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoriesWorkspaceRepoSlugSrcCommitPathRequest/members/page",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "page",
+          "smithy.api#documentation": "The page to return: the `page` query value of the previous response's `next` URL. A page number on list collections, an opaque cursor on iterator collections such as commits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoriesWorkspaceRepoSlugSrcCommitPathRequest/members/pagelen",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#httpQuery": "pagelen",
+          "smithy.api#documentation": "The number of objects per page. Bitbucket defaults to 10 and allows at most 100; some collections use other limits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoriesWorkspaceRepoSlugWatchersRequest/members/page",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "page",
+          "smithy.api#documentation": "The page to return: the `page` query value of the previous response's `next` URL. A page number on list collections, an opaque cursor on iterator collections such as commits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoriesWorkspaceRepoSlugWatchersRequest/members/pagelen",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#httpQuery": "pagelen",
+          "smithy.api#documentation": "The number of objects per page. Bitbucket defaults to 10 and allows at most 100; some collections use other limits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetSnippetsWorkspaceRequest/members/page",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "page",
+          "smithy.api#documentation": "The page to return: the `page` query value of the previous response's `next` URL. A page number on list collections, an opaque cursor on iterator collections such as commits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetSnippetsWorkspaceRequest/members/pagelen",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#httpQuery": "pagelen",
+          "smithy.api#documentation": "The number of objects per page. Bitbucket defaults to 10 and allows at most 100; some collections use other limits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetSnippetsWorkspaceEncodedIdCommentsRequest/members/page",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "page",
+          "smithy.api#documentation": "The page to return: the `page` query value of the previous response's `next` URL. A page number on list collections, an opaque cursor on iterator collections such as commits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetSnippetsWorkspaceEncodedIdCommentsRequest/members/pagelen",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#httpQuery": "pagelen",
+          "smithy.api#documentation": "The number of objects per page. Bitbucket defaults to 10 and allows at most 100; some collections use other limits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetSnippetsWorkspaceEncodedIdCommitsRequest/members/page",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "page",
+          "smithy.api#documentation": "The page to return: the `page` query value of the previous response's `next` URL. A page number on list collections, an opaque cursor on iterator collections such as commits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetSnippetsWorkspaceEncodedIdCommitsRequest/members/pagelen",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#httpQuery": "pagelen",
+          "smithy.api#documentation": "The number of objects per page. Bitbucket defaults to 10 and allows at most 100; some collections use other limits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetUserWorkspacesRequest/members/page",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "page",
+          "smithy.api#documentation": "The page to return: the `page` query value of the previous response's `next` URL. A page number on list collections, an opaque cursor on iterator collections such as commits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetUserWorkspacesRequest/members/pagelen",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#httpQuery": "pagelen",
+          "smithy.api#documentation": "The number of objects per page. Bitbucket defaults to 10 and allows at most 100; some collections use other limits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetUserWorkspacesWorkspacePermissionsRepositoriesRequest/members/page",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "page",
+          "smithy.api#documentation": "The page to return: the `page` query value of the previous response's `next` URL. A page number on list collections, an opaque cursor on iterator collections such as commits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetUserWorkspacesWorkspacePermissionsRepositoriesRequest/members/pagelen",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#httpQuery": "pagelen",
+          "smithy.api#documentation": "The number of objects per page. Bitbucket defaults to 10 and allows at most 100; some collections use other limits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetUsersSelectedUserGpgKeysRequest/members/page",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "page",
+          "smithy.api#documentation": "The page to return: the `page` query value of the previous response's `next` URL. A page number on list collections, an opaque cursor on iterator collections such as commits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetUsersSelectedUserGpgKeysRequest/members/pagelen",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#httpQuery": "pagelen",
+          "smithy.api#documentation": "The number of objects per page. Bitbucket defaults to 10 and allows at most 100; some collections use other limits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetUsersSelectedUserSshKeysRequest/members/page",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "page",
+          "smithy.api#documentation": "The page to return: the `page` query value of the previous response's `next` URL. A page number on list collections, an opaque cursor on iterator collections such as commits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetUsersSelectedUserSshKeysRequest/members/pagelen",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#httpQuery": "pagelen",
+          "smithy.api#documentation": "The number of objects per page. Bitbucket defaults to 10 and allows at most 100; some collections use other limits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#ListWorkspaceHooksRequest/members/page",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "page",
+          "smithy.api#documentation": "The page to return: the `page` query value of the previous response's `next` URL. A page number on list collections, an opaque cursor on iterator collections such as commits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#ListWorkspaceHooksRequest/members/pagelen",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#httpQuery": "pagelen",
+          "smithy.api#documentation": "The number of objects per page. Bitbucket defaults to 10 and allows at most 100; some collections use other limits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetWorkspacesWorkspaceMembersRequest/members/page",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "page",
+          "smithy.api#documentation": "The page to return: the `page` query value of the previous response's `next` URL. A page number on list collections, an opaque cursor on iterator collections such as commits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetWorkspacesWorkspaceMembersRequest/members/pagelen",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#httpQuery": "pagelen",
+          "smithy.api#documentation": "The number of objects per page. Bitbucket defaults to 10 and allows at most 100; some collections use other limits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetWorkspacesWorkspacePermissionsRequest/members/page",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "page",
+          "smithy.api#documentation": "The page to return: the `page` query value of the previous response's `next` URL. A page number on list collections, an opaque cursor on iterator collections such as commits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetWorkspacesWorkspacePermissionsRequest/members/pagelen",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#httpQuery": "pagelen",
+          "smithy.api#documentation": "The number of objects per page. Bitbucket defaults to 10 and allows at most 100; some collections use other limits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetWorkspacesWorkspacePermissionsRepositoriesRequest/members/page",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "page",
+          "smithy.api#documentation": "The page to return: the `page` query value of the previous response's `next` URL. A page number on list collections, an opaque cursor on iterator collections such as commits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetWorkspacesWorkspacePermissionsRepositoriesRequest/members/pagelen",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#httpQuery": "pagelen",
+          "smithy.api#documentation": "The number of objects per page. Bitbucket defaults to 10 and allows at most 100; some collections use other limits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetWorkspacesWorkspacePermissionsRepositoriesRepoSlugRequest/members/page",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "page",
+          "smithy.api#documentation": "The page to return: the `page` query value of the previous response's `next` URL. A page number on list collections, an opaque cursor on iterator collections such as commits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetWorkspacesWorkspacePermissionsRepositoriesRepoSlugRequest/members/pagelen",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#httpQuery": "pagelen",
+          "smithy.api#documentation": "The number of objects per page. Bitbucket defaults to 10 and allows at most 100; some collections use other limits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetWorkspaceRunnersRequest/members/page",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "page",
+          "smithy.api#documentation": "The page to return: the `page` query value of the previous response's `next` URL. A page number on list collections, an opaque cursor on iterator collections such as commits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetWorkspaceRunnersRequest/members/pagelen",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#httpQuery": "pagelen",
+          "smithy.api#documentation": "The number of objects per page. Bitbucket defaults to 10 and allows at most 100; some collections use other limits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetPipelineVariablesForWorkspaceRequest/members/page",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "page",
+          "smithy.api#documentation": "The page to return: the `page` query value of the previous response's `next` URL. A page number on list collections, an opaque cursor on iterator collections such as commits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetPipelineVariablesForWorkspaceRequest/members/pagelen",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#httpQuery": "pagelen",
+          "smithy.api#documentation": "The number of objects per page. Bitbucket defaults to 10 and allows at most 100; some collections use other limits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetWorkspacesWorkspaceProjectsRequest/members/page",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "page",
+          "smithy.api#documentation": "The page to return: the `page` query value of the previous response's `next` URL. A page number on list collections, an opaque cursor on iterator collections such as commits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetWorkspacesWorkspaceProjectsRequest/members/pagelen",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#httpQuery": "pagelen",
+          "smithy.api#documentation": "The number of objects per page. Bitbucket defaults to 10 and allows at most 100; some collections use other limits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetWorkspacesWorkspaceProjectsProjectKeyDefaultReviewersRequest/members/page",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "page",
+          "smithy.api#documentation": "The page to return: the `page` query value of the previous response's `next` URL. A page number on list collections, an opaque cursor on iterator collections such as commits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetWorkspacesWorkspaceProjectsProjectKeyDefaultReviewersRequest/members/pagelen",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#httpQuery": "pagelen",
+          "smithy.api#documentation": "The number of objects per page. Bitbucket defaults to 10 and allows at most 100; some collections use other limits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetWorkspacesWorkspaceProjectsProjectKeyDeployKeysRequest/members/page",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "page",
+          "smithy.api#documentation": "The page to return: the `page` query value of the previous response's `next` URL. A page number on list collections, an opaque cursor on iterator collections such as commits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetWorkspacesWorkspaceProjectsProjectKeyDeployKeysRequest/members/pagelen",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#httpQuery": "pagelen",
+          "smithy.api#documentation": "The number of objects per page. Bitbucket defaults to 10 and allows at most 100; some collections use other limits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetWorkspacesWorkspaceProjectsProjectKeyPermissionsConfigGroupsRequest/members/page",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "page",
+          "smithy.api#documentation": "The page to return: the `page` query value of the previous response's `next` URL. A page number on list collections, an opaque cursor on iterator collections such as commits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetWorkspacesWorkspaceProjectsProjectKeyPermissionsConfigGroupsRequest/members/pagelen",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#httpQuery": "pagelen",
+          "smithy.api#documentation": "The number of objects per page. Bitbucket defaults to 10 and allows at most 100; some collections use other limits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetWorkspacesWorkspaceProjectsProjectKeyPermissionsConfigUsersRequest/members/page",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "page",
+          "smithy.api#documentation": "The page to return: the `page` query value of the previous response's `next` URL. A page number on list collections, an opaque cursor on iterator collections such as commits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetWorkspacesWorkspaceProjectsProjectKeyPermissionsConfigUsersRequest/members/pagelen",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#httpQuery": "pagelen",
+          "smithy.api#documentation": "The number of objects per page. Bitbucket defaults to 10 and allows at most 100; some collections use other limits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetWorkspacesWorkspacePullrequestsSelectedUserRequest/members/page",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "page",
+          "smithy.api#documentation": "The page to return: the `page` query value of the previous response's `next` URL. A page number on list collections, an opaque cursor on iterator collections such as commits."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetWorkspacesWorkspacePullrequestsSelectedUserRequest/members/pagelen",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#httpQuery": "pagelen",
+          "smithy.api#documentation": "The number of objects per page. Bitbucket defaults to 10 and allows at most 100; some collections use other limits."
+        }
+      }
+    }
+  ]
+}
