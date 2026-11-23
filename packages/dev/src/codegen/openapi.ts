@@ -23,7 +23,7 @@
  *     across operations; anonymous nested objects synthesize names from the
  *     parent + member path
  *   • responses: 200 → 201 → 204 precedence (`successStatuses` overrides),
- *     JSON or opt-in binary `application/octet-stream`; object
+ *     JSON or opt-in binary (`format: binary`, any media type); object
  *     results become `<Op>Response` structures (a sole `$ref` reuses the named
  *     shape); bare array/scalar results wrap in a structure whose single
  *     member carries `com.distilled.openapi#rawResponse` (the SdkSpec maps it
@@ -353,7 +353,7 @@ export interface OpenApiConvertOptions {
   readonly headerParams?: boolean;
   /**
    * Convert `format: binary` strings to blobs and include binary
-   * `application/octet-stream` responses. Opt in only when the provider's
+   * responses of any media type. Opt in only when the provider's
    * generator and protocol support binary inputs and outputs. Default false.
    */
   readonly binaryTypes?: boolean;
@@ -1680,11 +1680,14 @@ const successSchema = (
       return { schema: resp.schema };
     }
     const json = resp.content?.["application/json"]?.schema;
-    const binary = resp.content?.["application/octet-stream"]?.schema;
-    return {
-      schema:
-        json ?? (ctx.binaryTypes && deref(ctx, binary)?.format === "binary" ? binary : undefined),
-    };
+    if (json !== undefined || !ctx.binaryTypes) return { schema: json };
+    // A binary body of any media type (`application/octet-stream`,
+    // `image/jpeg`, `application/pdf`, ...): the caller gets the bytes and
+    // the response's `Content-Type`.
+    const binary = Object.values<any>(resp.content ?? {})
+      .map((media) => media?.schema)
+      .find((schema) => deref(ctx, schema)?.format === "binary");
+    return { schema: binary };
   }
   return { schema: undefined };
 };

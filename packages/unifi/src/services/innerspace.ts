@@ -25,9 +25,21 @@ const TELEMETRY = {
   ],
   prefix: "Unifi",
   service: "UniFiInnerSpace",
+  labels: "unifi",
   propagate: "w3c",
 } as const;
 
+export interface GetAssetRequest {
+  planId: string;
+  filename: string;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
+}
+export interface GetAssetResponse {
+  body: Uint8Array;
+  /** Media type of the body, from the response's `Content-Type` header (e.g. `image/jpeg`). */
+  contentType?: string | undefined;
+}
 export type GetProjectRequestMode = "3D" | "2D";
 export interface GetProjectRequest {
   mode?: GetProjectRequestMode | (string & {}) | undefined;
@@ -395,6 +407,24 @@ export type ListSwitchesResponseSwitchesList = Array<ListSwitchesResponseSwitche
 export interface ListSwitchesResponse {
   switches: ListSwitchesResponseSwitchesList;
 }
+export type GetAssetError = UniFiOpError;
+/** Download plan asset file Serves a floor plan asset file for the given plan ID and filename. Requires the same session authentication as other integration endpoints. */
+export const getAsset: API.OperationMethod<
+  GetAssetRequest,
+  GetAssetResponse,
+  GetAssetError,
+  UniFiConsoleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(0, __c0, 0) as any as S.Schema<GetAssetRequest>,
+  output: __S(1, __c0, 1) as any as S.Schema<GetAssetResponse>,
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
+  protocol: UniFiInnerSpaceProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAsset",
+}));
+
 export type GetProjectError = UniFiOpError;
 /** Get project data for integration Returns the project state for external integrations including shapes, plans, products, wall types, and attenuation object types. Use the mode query parameter for 2D or 3D representations. */
 export const getProject: API.OperationMethod<
@@ -403,8 +433,8 @@ export const getProject: API.OperationMethod<
   GetProjectError,
   UniFiConsoleOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<GetProjectRequest>,
-  output: __S(11, __c0, 11) as any as S.Schema<GetProjectResponse>,
+  input: __S(16, __c1, 0) as any as S.Schema<GetProjectRequest>,
+  output: __S(27, __c1, 11) as any as S.Schema<GetProjectResponse>,
   errors: [],
   serviceErrors: UniFiServiceErrors,
   protocol: UniFiInnerSpaceProtocol,
@@ -421,8 +451,8 @@ export const listAccessPoints: API.OperationMethod<
   ListAccessPointsError,
   UniFiConsoleOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c1, 0) as any as S.Schema<ListAccessPointsRequest>,
-  output: __S(19, __c1, 3) as any as S.Schema<ListAccessPointsResponse>,
+  input: __S(32, __c2, 0) as any as S.Schema<ListAccessPointsRequest>,
+  output: __S(35, __c2, 3) as any as S.Schema<ListAccessPointsResponse>,
   errors: [],
   serviceErrors: UniFiServiceErrors,
   protocol: UniFiInnerSpaceProtocol,
@@ -439,8 +469,8 @@ export const listFloorPlans: API.OperationMethod<
   ListFloorPlansError,
   UniFiConsoleOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c2, 0) as any as S.Schema<ListFloorPlansRequest>,
-  output: __S(35, __c2, 3) as any as S.Schema<ListFloorPlansResponse>,
+  input: __S(48, __c3, 0) as any as S.Schema<ListFloorPlansRequest>,
+  output: __S(51, __c3, 3) as any as S.Schema<ListFloorPlansResponse>,
   errors: [],
   serviceErrors: UniFiServiceErrors,
   protocol: UniFiInnerSpaceProtocol,
@@ -457,8 +487,8 @@ export const listInventory: API.OperationMethod<
   ListInventoryError,
   UniFiConsoleOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c3, 0) as any as S.Schema<ListInventoryRequest>,
-  output: __S(51, __c3, 3) as any as S.Schema<ListInventoryResponse>,
+  input: __S(64, __c4, 0) as any as S.Schema<ListInventoryRequest>,
+  output: __S(67, __c4, 3) as any as S.Schema<ListInventoryResponse>,
   errors: [],
   serviceErrors: UniFiServiceErrors,
   protocol: UniFiInnerSpaceProtocol,
@@ -475,8 +505,8 @@ export const listSwitches: API.OperationMethod<
   ListSwitchesError,
   UniFiConsoleOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c4, 0) as any as S.Schema<ListSwitchesRequest>,
-  output: __S(67, __c4, 3) as any as S.Schema<ListSwitchesResponse>,
+  input: __S(80, __c5, 0) as any as S.Schema<ListSwitchesRequest>,
+  output: __S(83, __c5, 3) as any as S.Schema<ListSwitchesResponse>,
   errors: [],
   serviceErrors: UniFiServiceErrors,
   protocol: UniFiInnerSpaceProtocol,
@@ -487,6 +517,25 @@ export const listSwitches: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          planId: S.String.pipe(T.Label()),
+          filename: S.String.pipe(T.Label()),
+          console: S.optional(S.Unknown),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/assets/{planId}/{filename}", code: 200 })),
+      ).annotate({ identifier: "GetAssetRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          body: S.instanceOf(Uint8Array).pipe(T.RawResponse(), T.BinaryResponse()),
+          contentType: S.optional(S.String.pipe(T.Header("Content-Type"))),
+        }),
+      ).annotate({ identifier: "GetAssetResponse" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -514,14 +563,14 @@ function __c0(j: number): any {
           projectId: S.String,
           siteId: S.optional(S.NullOr(S.String)),
           ordering: S.Number,
-          location: S.NullOr(__S(2, __c0, 2)),
+          location: S.NullOr(__S(18, __c1, 2)),
           attenuation: S.NullOr(S.Number),
           createdAt: S.String,
           updatedAt: S.String,
         }),
       ).annotate({ identifier: "GetProjectResponseDataPlansItem" });
     case 4:
-      return S.Array(__S(3, __c0, 3));
+      return S.Array(__S(19, __c1, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -530,7 +579,7 @@ function __c0(j: number): any {
         }),
       ).annotate({ identifier: "GetProjectResponseDataProductsItem" });
     case 6:
-      return S.Array(__S(5, __c0, 5));
+      return S.Array(__S(21, __c1, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -540,7 +589,7 @@ function __c0(j: number): any {
         }),
       ).annotate({ identifier: "GetProjectResponseDataWallTypesItem" });
     case 8:
-      return S.Array(__S(7, __c0, 7));
+      return S.Array(__S(23, __c1, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
@@ -553,23 +602,23 @@ function __c0(j: number): any {
     case 10:
       return S.suspend(() =>
         S.Struct({
-          shapes: __S(1, __c0, 1),
-          plans: __S(4, __c0, 4),
-          products: __S(6, __c0, 6),
-          wallTypes: __S(8, __c0, 8),
-          attenuationObjectTypes: __S(8, __c0, 8),
-          project: __S(9, __c0, 9),
+          shapes: __S(17, __c1, 1),
+          plans: __S(20, __c1, 4),
+          products: __S(22, __c1, 6),
+          wallTypes: __S(24, __c1, 8),
+          attenuationObjectTypes: __S(24, __c1, 8),
+          project: __S(25, __c1, 9),
         }),
       ).annotate({ identifier: "GetProjectResponseData" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          data: __S(10, __c0, 10),
+          data: __S(26, __c1, 10),
         }),
       ).annotate({ identifier: "GetProjectResponse" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -596,16 +645,16 @@ function __c1(j: number): any {
         }),
       ).annotate({ identifier: "ListAccessPointsResponseAccessPointsItem" });
     case 2:
-      return S.Array(__S(17, __c1, 1));
+      return S.Array(__S(33, __c2, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          access_points: __S(18, __c1, 2),
+          access_points: __S(34, __c2, 2),
         }),
       ).annotate({ identifier: "ListAccessPointsResponse" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -630,16 +679,16 @@ function __c2(j: number): any {
         }),
       ).annotate({ identifier: "ListFloorPlansResponseFloorPlansItem" });
     case 2:
-      return S.Array(__S(33, __c2, 1));
+      return S.Array(__S(49, __c3, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          floor_plans: __S(34, __c2, 2),
+          floor_plans: __S(50, __c3, 2),
         }),
       ).annotate({ identifier: "ListFloorPlansResponse" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -659,16 +708,16 @@ function __c3(j: number): any {
         }),
       ).annotate({ identifier: "ListInventoryResponseDevicesItem" });
     case 2:
-      return S.Array(__S(49, __c3, 1));
+      return S.Array(__S(65, __c4, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          devices: __S(50, __c3, 2),
+          devices: __S(66, __c4, 2),
         }),
       ).annotate({ identifier: "ListInventoryResponse" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -693,11 +742,11 @@ function __c4(j: number): any {
         }),
       ).annotate({ identifier: "ListSwitchesResponseSwitchesItem" });
     case 2:
-      return S.Array(__S(65, __c4, 1));
+      return S.Array(__S(81, __c5, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          switches: __S(66, __c4, 2),
+          switches: __S(82, __c5, 2),
         }),
       ).annotate({ identifier: "ListSwitchesResponse" });
   }
