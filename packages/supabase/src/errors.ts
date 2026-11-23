@@ -24,7 +24,7 @@ export {
 } from "@distilled.cloud/core/errors";
 import * as Category from "@distilled.cloud/core/category";
 import type { DefaultErrors as CoreDefaultErrors } from "@distilled.cloud/core/errors";
-import { UnknownErrorFields } from "@distilled.cloud/core/errors";
+import { API_ERRORS, UnknownErrorFields } from "@distilled.cloud/core/errors";
 import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
 // Unknown Supabase error - returned when an error code is not recognized
@@ -66,3 +66,14 @@ export type ClientErrors = FreeProjectLimitReached | SupabaseParseError | Unknow
  * at runtime.
  */
 export type DefaultErrors = CoreDefaultErrors | ClientErrors;
+
+/**
+ * The errors declared on the Supabase service: any operation can return
+ * them, and every generated operation lists them as its `serviceErrors`.
+ * Each of core's status classes (the protocol builds the one for a failed
+ * response's status when the operation's own classes do not match), and
+ * {@link FreeProjectLimitReached}, which the protocol reads from the
+ * message of any failed response.
+ */
+export const SupabaseServiceErrors = [...API_ERRORS, FreeProjectLimitReached] as const;
+export type SupabaseServiceError = InstanceType<(typeof SupabaseServiceErrors)[number]>;

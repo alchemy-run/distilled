@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownTailscaleError } from "../errors.ts";
+import { TailscaleServiceErrors } from "../errors.ts";
 import { paginateCursor } from "../pagination.ts";
 import { TailscaleProtocol, type TailscaleOpError, type TailscaleOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
@@ -285,7 +285,7 @@ export interface BatchUpdateCustomDevicePostureAttributesRequest {
   /** An optional comment indicating why attributes are being set, which will be added to the audit log. */
   comment?: string | undefined;
 }
-export type BatchUpdateCustomDevicePostureAttributesResponse = unknown;
+export type BatchUpdateCustomDevicePostureAttributesResponse = unknown | null;
 export interface CreateDeviceInvitesRequestBodyItem {
   /** Whether the invite can be accepted more than once. When set to `true`, it results in an invite that can be accepted up to 1,000 times. */
   multiUse?: boolean | undefined;
@@ -2333,7 +2333,8 @@ export const acceptDeviceInvite: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c5, 0) as any as S.Schema<AcceptDeviceInviteRequest>,
   output: __S(43, __c5, 3) as any as S.Schema<AcceptDeviceInviteResponse>,
-  errors: [BadRequest, UnknownTailscaleError],
+  errors: [BadRequest],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2350,7 +2351,8 @@ export const approveUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c6, 0) as any as S.Schema<ApproveUserRequest>,
   output: __S(56, __c7, 0) as any as S.Schema<ApproveUserResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownTailscaleError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2367,7 +2369,8 @@ export const authorizeDevice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c8, 0) as any as S.Schema<AuthorizeDeviceRequest>,
   output: __S(56, __c7, 0) as any as S.Schema<AuthorizeDeviceResponse>,
-  errors: [BadRequest, NotFound, UnknownTailscaleError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2388,7 +2391,8 @@ export const batchUpdateCustomDevicePostureAttributes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(75, __c9, 3) as any as S.Schema<BatchUpdateCustomDevicePostureAttributesRequest>,
   output: __S(76, __c9, 4) as any as S.Schema<BatchUpdateCustomDevicePostureAttributesResponse>,
-  errors: [BadRequest, NotFound, TailnetNotFound, UnknownTailscaleError],
+  errors: [BadRequest, NotFound, TailnetNotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2405,7 +2409,8 @@ export const createDeviceInvites: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(82, __c10, 2) as any as S.Schema<CreateDeviceInvitesRequest>,
   output: __S(97, __c12, 1) as any as S.Schema<CreateDeviceInvitesResponse>,
-  errors: [NotFound, UnknownTailscaleError],
+  errors: [NotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2422,7 +2427,8 @@ export const createKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(104, __c13, 0) as any as S.Schema<CreateKeyRequest>,
   output: __S(132, __c16, 4) as any as S.Schema<Key>,
-  errors: [NotFound, TailnetNotFound, UnknownTailscaleError],
+  errors: [NotFound, TailnetNotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2444,7 +2450,8 @@ export const createOAuthApp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(136, __c17, 0) as any as S.Schema<CreateOAuthAppRequest>,
   output: __S(144, __c18, 0) as any as S.Schema<OAuthApp>,
-  errors: [BadRequest, Forbidden, NotFound, TailnetNotFound, UnknownTailscaleError],
+  errors: [BadRequest, Forbidden, NotFound, TailnetNotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2466,7 +2473,8 @@ export const createOrganizationTailnet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(152, __c19, 0) as any as S.Schema<CreateOrganizationTailnetRequest>,
   output: __S(154, __c19, 2) as any as S.Schema<CreateOrganizationTailnetResponse>,
-  errors: [BadRequest, Forbidden, NotFound, TailnetDisplayNameAlreadyExists, UnknownTailscaleError],
+  errors: [BadRequest, Forbidden, NotFound, TailnetDisplayNameAlreadyExists],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2487,7 +2495,8 @@ export const createPostureIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c20, 0) as any as S.Schema<CreatePostureIntegrationRequest>,
   output: __S(169, __c21, 1) as any as S.Schema<PostureIntegrationOutput>,
-  errors: [Forbidden, Conflict, TailnetNotFound, UnknownTailscaleError],
+  errors: [Forbidden, Conflict, TailnetNotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2508,7 +2517,8 @@ export const createUserInvites: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(178, __c22, 2) as any as S.Schema<CreateUserInvitesRequest>,
   output: __S(193, __c24, 1) as any as S.Schema<CreateUserInvitesResponse>,
-  errors: [NotFound, FeatureNotAvailable, TailnetNotFound, UnknownTailscaleError],
+  errors: [NotFound, FeatureNotAvailable, TailnetNotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2530,7 +2540,8 @@ export const createWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(200, __c25, 0) as any as S.Schema<CreateWebhookRequest>,
   output: __S(216, __c27, 0) as any as S.Schema<Webhook>,
-  errors: [BadRequest, Forbidden, NotFound, TailnetNotFound, UnknownTailscaleError],
+  errors: [BadRequest, Forbidden, NotFound, TailnetNotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2550,7 +2561,8 @@ export const deleteCustomDevicePostureAttributes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c28, 0) as any as S.Schema<DeleteCustomDevicePostureAttributesRequest>,
   output: __S(56, __c7, 0) as any as S.Schema<DeleteCustomDevicePostureAttributesResponse>,
-  errors: [NotFound, FeatureNotAvailable, UnknownTailscaleError],
+  errors: [NotFound, FeatureNotAvailable],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2567,7 +2579,8 @@ export const deleteDevice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(232, __c29, 0) as any as S.Schema<DeleteDeviceRequest>,
   output: __S(56, __c7, 0) as any as S.Schema<DeleteDeviceResponse>,
-  errors: [BadRequest, UnknownTailscaleError],
+  errors: [BadRequest],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2584,7 +2597,8 @@ export const deleteDeviceInvite: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(240, __c30, 0) as any as S.Schema<DeleteDeviceInviteRequest>,
   output: __S(56, __c7, 0) as any as S.Schema<DeleteDeviceInviteResponse>,
-  errors: [NotFound, DeviceInviteNotFound, UnknownTailscaleError],
+  errors: [NotFound, DeviceInviteNotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2601,7 +2615,8 @@ export const deleteKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(248, __c31, 0) as any as S.Schema<DeleteKeyRequest>,
   output: __S(56, __c7, 0) as any as S.Schema<DeleteKeyResponse>,
-  errors: [Forbidden, NotFound, TailnetNotFound, UnknownTailscaleError],
+  errors: [Forbidden, NotFound, TailnetNotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2623,7 +2638,8 @@ export const deleteOAuthApp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c32, 0) as any as S.Schema<DeleteOAuthAppRequest>,
   output: __S(56, __c7, 0) as any as S.Schema<DeleteOAuthAppResponse>,
-  errors: [BadRequest, Forbidden, NotFound, TailnetNotFound, UnknownTailscaleError],
+  errors: [BadRequest, Forbidden, NotFound, TailnetNotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2640,7 +2656,8 @@ export const deletePostureIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(264, __c33, 0) as any as S.Schema<DeletePostureIntegrationRequest>,
   output: __S(56, __c7, 0) as any as S.Schema<DeletePostureIntegrationResponse>,
-  errors: [Forbidden, NotFound, UnknownTailscaleError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2662,7 +2679,8 @@ export const deleteService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(272, __c34, 0) as any as S.Schema<DeleteServiceRequest>,
   output: __S(56, __c7, 0) as any as S.Schema<DeleteServiceResponse>,
-  errors: [BadRequest, Forbidden, NotFound, TailnetNotFound, UnknownTailscaleError],
+  errors: [BadRequest, Forbidden, NotFound, TailnetNotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2679,7 +2697,8 @@ export const deleteTailnet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(280, __c35, 0) as any as S.Schema<DeleteTailnetRequest>,
   output: __S(56, __c7, 0) as any as S.Schema<DeleteTailnetResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownTailscaleError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2696,7 +2715,8 @@ export const deleteUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c36, 0) as any as S.Schema<DeleteUserRequest>,
   output: __S(56, __c7, 0) as any as S.Schema<DeleteUserResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownTailscaleError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2713,7 +2733,8 @@ export const deleteUserInvite: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(296, __c37, 0) as any as S.Schema<DeleteUserInviteRequest>,
   output: __S(56, __c7, 0) as any as S.Schema<DeleteUserInviteResponse>,
-  errors: [NotFound, UserOwnedKeyRequired, UnknownTailscaleError],
+  errors: [NotFound, UserOwnedKeyRequired],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2730,7 +2751,8 @@ export const deleteWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(304, __c38, 0) as any as S.Schema<DeleteWebhookRequest>,
   output: __S(56, __c7, 0) as any as S.Schema<DeleteWebhookResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownTailscaleError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2752,7 +2774,8 @@ export const disableLogStreaming: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(312, __c39, 0) as any as S.Schema<DisableLogStreamingRequest>,
   output: __S(56, __c7, 0) as any as S.Schema<DisableLogStreamingResponse>,
-  errors: [Forbidden, NotFound, FeatureNotAvailable, TailnetNotFound, UnknownTailscaleError],
+  errors: [Forbidden, NotFound, FeatureNotAvailable, TailnetNotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2769,7 +2792,8 @@ export const expireDeviceKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c40, 0) as any as S.Schema<ExpireDeviceKeyRequest>,
   output: __S(56, __c7, 0) as any as S.Schema<ExpireDeviceKeyResponse>,
-  errors: [NotFound, UnknownTailscaleError],
+  errors: [NotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2786,7 +2810,8 @@ export const getAwsExternalId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(328, __c41, 0) as any as S.Schema<GetAwsExternalIdRequest>,
   output: __S(329, __c41, 1) as any as S.Schema<AwsExternalId>,
-  errors: [Forbidden, NotFound, TailnetNotFound, UnknownTailscaleError],
+  errors: [Forbidden, NotFound, TailnetNotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2803,7 +2828,8 @@ export const getContacts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(336, __c42, 0) as any as S.Schema<GetContactsRequest>,
   output: __S(338, __c42, 2) as any as S.Schema<GetContactsResponse>,
-  errors: [Forbidden, NotFound, TailnetNotFound, UnknownTailscaleError],
+  errors: [Forbidden, NotFound, TailnetNotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2820,7 +2846,8 @@ export const getDevice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(344, __c43, 0) as any as S.Schema<GetDeviceRequest>,
   output: __S(359, __c44, 7) as any as S.Schema<Device>,
-  errors: [BadRequest, NotFound, UnknownTailscaleError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2837,7 +2864,8 @@ export const getDeviceInvite: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(360, __c45, 0) as any as S.Schema<GetDeviceInviteRequest>,
   output: __S(89, __c11, 1) as any as S.Schema<DeviceInvite>,
-  errors: [NotFound, DeviceInviteNotFound, UnknownTailscaleError],
+  errors: [NotFound, DeviceInviteNotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2854,7 +2882,8 @@ export const getDevicePostureAttributes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(368, __c46, 0) as any as S.Schema<GetDevicePostureAttributesRequest>,
   output: __S(377, __c47, 1) as any as S.Schema<DevicePostureAttributes>,
-  errors: [NotFound, UnknownTailscaleError],
+  errors: [NotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2871,7 +2900,8 @@ export const getDnsConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c48, 0) as any as S.Schema<GetDnsConfigurationRequest>,
   output: __S(396, __c49, 4) as any as S.Schema<DnsConfiguration>,
-  errors: [NotFound, TailnetNotFound, UnknownTailscaleError],
+  errors: [NotFound, TailnetNotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2888,7 +2918,8 @@ export const getDnsPreferences: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(400, __c50, 0) as any as S.Schema<GetDnsPreferencesRequest>,
   output: __S(408, __c51, 0) as any as S.Schema<DnsPreferences>,
-  errors: [NotFound, TailnetNotFound, UnknownTailscaleError],
+  errors: [NotFound, TailnetNotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2901,7 +2932,8 @@ export const getKey: API.OperationMethod<GetKeyRequest, Key, GetKeyError, Tailsc
   /*@__PURE__*/ API.make(() => ({
     input: __S(416, __c52, 0) as any as S.Schema<GetKeyRequest>,
     output: __S(132, __c16, 4) as any as S.Schema<Key>,
-    errors: [NotFound, TailnetNotFound, UnknownTailscaleError],
+    errors: [NotFound, TailnetNotFound],
+    serviceErrors: TailscaleServiceErrors,
     protocol: TailscaleProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2922,7 +2954,8 @@ export const getLogStreamingConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(424, __c53, 0) as any as S.Schema<GetLogStreamingConfigurationRequest>,
   output: __S(425, __c53, 1) as any as S.Schema<LogstreamEndpointConfigurationOutput>,
-  errors: [NotFound, FeatureNotAvailable, TailnetNotFound, UnknownTailscaleError],
+  errors: [NotFound, FeatureNotAvailable, TailnetNotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2943,7 +2976,8 @@ export const getLogStreamingStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(432, __c54, 0) as any as S.Schema<GetLogStreamingStatusRequest>,
   output: __S(433, __c54, 1) as any as S.Schema<LogstreamEndpointPublishingStatus>,
-  errors: [NotFound, FeatureNotAvailable, TailnetNotFound, UnknownTailscaleError],
+  errors: [NotFound, FeatureNotAvailable, TailnetNotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2965,7 +2999,8 @@ export const getOAuthApp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(440, __c55, 0) as any as S.Schema<GetOAuthAppRequest>,
   output: __S(144, __c18, 0) as any as S.Schema<OAuthApp>,
-  errors: [BadRequest, Forbidden, NotFound, TailnetNotFound, UnknownTailscaleError],
+  errors: [BadRequest, Forbidden, NotFound, TailnetNotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2987,7 +3022,8 @@ export const getPolicyFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c56, 0) as any as S.Schema<GetPolicyFileRequest>,
   output: __S(456, __c57, 0) as any as S.Schema<GetPolicyFileResponse>,
-  errors: [BadRequest, Forbidden, NotFound, TailnetNotFound, UnknownTailscaleError],
+  errors: [BadRequest, Forbidden, NotFound, TailnetNotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3004,7 +3040,8 @@ export const getPostureIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(464, __c58, 0) as any as S.Schema<GetPostureIntegrationRequest>,
   output: __S(169, __c21, 1) as any as S.Schema<PostureIntegrationOutput>,
-  errors: [NotFound, UnknownTailscaleError],
+  errors: [NotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3021,7 +3058,8 @@ export const getPostureIntegrations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(472, __c59, 0) as any as S.Schema<GetPostureIntegrationsRequest>,
   output: __S(474, __c59, 2) as any as S.Schema<GetPostureIntegrationsResponse>,
-  errors: [Forbidden, TailnetNotFound, UnknownTailscaleError],
+  errors: [Forbidden, TailnetNotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3043,7 +3081,8 @@ export const getService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c60, 0) as any as S.Schema<GetServiceRequest>,
   output: __S(488, __c61, 0) as any as S.Schema<VIPServiceInfo>,
-  errors: [BadRequest, Forbidden, NotFound, TailnetNotFound, UnknownTailscaleError],
+  errors: [BadRequest, Forbidden, NotFound, TailnetNotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3065,7 +3104,8 @@ export const getServiceDeviceApproval: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(496, __c62, 0) as any as S.Schema<GetServiceDeviceApprovalRequest>,
   output: __S(504, __c63, 0) as any as S.Schema<VIPServiceApproval>,
-  errors: [BadRequest, Forbidden, NotFound, TailnetNotFound, UnknownTailscaleError],
+  errors: [BadRequest, Forbidden, NotFound, TailnetNotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3082,7 +3122,8 @@ export const getSplitDns: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c64, 0) as any as S.Schema<GetSplitDnsRequest>,
   output: __S(521, __c65, 1) as any as S.Schema<GetSplitDnsResponse>,
-  errors: [NotFound, TailnetNotFound, UnknownTailscaleError],
+  errors: [NotFound, TailnetNotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3099,7 +3140,8 @@ export const getTailnetSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(528, __c66, 0) as any as S.Schema<GetTailnetSettingsRequest>,
   output: __S(536, __c67, 0) as any as S.Schema<TailnetSettings>,
-  errors: [BadRequest, NotFound, TailnetNotFound, UnknownTailscaleError],
+  errors: [BadRequest, NotFound, TailnetNotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3112,7 +3154,8 @@ export const getUser: API.OperationMethod<GetUserRequest, User, GetUserError, Ta
   /*@__PURE__*/ API.make(() => ({
     input: __S(544, __c68, 0) as any as S.Schema<GetUserRequest>,
     output: __S(552, __c69, 0) as any as S.Schema<User>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownTailscaleError],
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: TailscaleServiceErrors,
     protocol: TailscaleProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -3129,7 +3172,8 @@ export const getUserInvite: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(560, __c70, 0) as any as S.Schema<GetUserInviteRequest>,
   output: __S(184, __c23, 0) as any as S.Schema<UserInvite>,
-  errors: [NotFound, UnknownTailscaleError],
+  errors: [NotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3146,7 +3190,8 @@ export const getWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(568, __c71, 0) as any as S.Schema<GetWebhookRequest>,
   output: __S(216, __c27, 0) as any as S.Schema<Webhook>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownTailscaleError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3168,7 +3213,8 @@ export const listConfigurationAuditLogs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c72, 0) as any as S.Schema<ListConfigurationAuditLogsRequest>,
   output: __S(581, __c72, 5) as any as S.Schema<ListConfigurationAuditLogsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, TailnetNotFound, UnknownTailscaleError],
+  errors: [BadRequest, Forbidden, NotFound, TailnetNotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3185,7 +3231,8 @@ export const listDeviceInvites: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(584, __c73, 0) as any as S.Schema<ListDeviceInvitesRequest>,
   output: __S(97, __c12, 1) as any as S.Schema<ListDeviceInvitesResponse>,
-  errors: [NotFound, UnknownTailscaleError],
+  errors: [NotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3202,7 +3249,8 @@ export const listDeviceRoutes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(592, __c74, 0) as any as S.Schema<ListDeviceRoutesRequest>,
   output: __S(600, __c75, 0) as any as S.Schema<DeviceRoutes>,
-  errors: [NotFound, UnknownTailscaleError],
+  errors: [NotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3219,7 +3267,8 @@ export const listDnsNameservers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c76, 0) as any as S.Schema<ListDnsNameserversRequest>,
   output: __S(609, __c76, 1) as any as S.Schema<ListDnsNameserversResponse>,
-  errors: [NotFound, TailnetNotFound, UnknownTailscaleError],
+  errors: [NotFound, TailnetNotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3236,7 +3285,8 @@ export const listDnsSearchPaths: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(616, __c77, 0) as any as S.Schema<ListDnsSearchPathsRequest>,
   output: __S(624, __c78, 0) as any as S.Schema<DnsSearchPaths>,
-  errors: [NotFound, TailnetNotFound, UnknownTailscaleError],
+  errors: [NotFound, TailnetNotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3258,7 +3308,8 @@ export const listNetworkFlowLogs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(632, __c79, 0) as any as S.Schema<ListNetworkFlowLogsRequest>,
   output: __S(637, __c79, 5) as any as S.Schema<ListNetworkFlowLogsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, TailnetNotFound, UnknownTailscaleError],
+  errors: [BadRequest, Forbidden, NotFound, TailnetNotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3280,7 +3331,8 @@ export const listOAuthApps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c80, 0) as any as S.Schema<ListOAuthAppsRequest>,
   output: __S(642, __c80, 2) as any as S.Schema<ListOAuthAppsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, TailnetNotFound, UnknownTailscaleError],
+  errors: [BadRequest, Forbidden, NotFound, TailnetNotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3299,7 +3351,8 @@ export const listOrganizationTailnets: API.PaginatedOperationMethod<
   () => ({
     input: __S(648, __c81, 0) as any as S.Schema<ListOrganizationTailnetsRequest>,
     output: __S(651, __c81, 3) as any as S.Schema<ListOrganizationTailnetsResponse>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownTailscaleError],
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: TailscaleServiceErrors,
     protocol: TailscaleProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -3330,7 +3383,8 @@ export const listServiceHosts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(656, __c82, 0) as any as S.Schema<ListServiceHostsRequest>,
   output: __S(659, __c82, 3) as any as S.Schema<ListServiceHostsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, TailnetNotFound, UnknownTailscaleError],
+  errors: [BadRequest, Forbidden, NotFound, TailnetNotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3352,7 +3406,8 @@ export const listServices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(664, __c83, 0) as any as S.Schema<ListServicesRequest>,
   output: __S(666, __c83, 2) as any as S.Schema<ListServicesResponse>,
-  errors: [BadRequest, Forbidden, NotFound, TailnetNotFound, UnknownTailscaleError],
+  errors: [BadRequest, Forbidden, NotFound, TailnetNotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3369,7 +3424,8 @@ export const listTailnetDevices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c84, 0) as any as S.Schema<ListTailnetDevicesRequest>,
   output: __S(674, __c84, 2) as any as S.Schema<ListTailnetDevicesResponse>,
-  errors: [NotFound, TailnetNotFound, UnknownTailscaleError],
+  errors: [NotFound, TailnetNotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3386,7 +3442,8 @@ export const listTailnetKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(680, __c85, 0) as any as S.Schema<ListTailnetKeysRequest>,
   output: __S(682, __c85, 2) as any as S.Schema<ListTailnetKeysResponse>,
-  errors: [NotFound, TailnetNotFound, UnknownTailscaleError],
+  errors: [NotFound, TailnetNotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3403,7 +3460,8 @@ export const listUserInvites: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(688, __c86, 0) as any as S.Schema<ListUserInvitesRequest>,
   output: __S(193, __c24, 1) as any as S.Schema<ListUserInvitesResponse>,
-  errors: [NotFound, TailnetNotFound, UnknownTailscaleError],
+  errors: [NotFound, TailnetNotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3420,7 +3478,8 @@ export const listUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(696, __c87, 0) as any as S.Schema<ListUsersRequest>,
   output: __S(698, __c87, 2) as any as S.Schema<ListUsersResponse>,
-  errors: [BadRequest, Forbidden, NotFound, TailnetNotFound, UnknownTailscaleError],
+  errors: [BadRequest, Forbidden, NotFound, TailnetNotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3442,7 +3501,8 @@ export const listWebhooks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c88, 0) as any as S.Schema<ListWebhooksRequest>,
   output: __S(706, __c88, 2) as any as S.Schema<ListWebhooksResponse>,
-  errors: [BadRequest, Forbidden, NotFound, TailnetNotFound, UnknownTailscaleError],
+  errors: [BadRequest, Forbidden, NotFound, TailnetNotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3464,7 +3524,8 @@ export const previewRuleMatches: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(712, __c89, 0) as any as S.Schema<PreviewRuleMatchesRequest>,
   output: __S(715, __c89, 3) as any as S.Schema<PreviewRuleMatchesResponse>,
-  errors: [BadRequest, Forbidden, NotFound, TailnetNotFound, UnknownTailscaleError],
+  errors: [BadRequest, Forbidden, NotFound, TailnetNotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3486,7 +3547,8 @@ export const resendContactVerificationEmail: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(720, __c90, 0) as any as S.Schema<ResendContactVerificationEmailRequest>,
   output: __S(56, __c7, 0) as any as S.Schema<ResendContactVerificationEmailResponse>,
-  errors: [BadRequest, Forbidden, NotFound, TailnetNotFound, UnknownTailscaleError],
+  errors: [BadRequest, Forbidden, NotFound, TailnetNotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3503,7 +3565,8 @@ export const resendDeviceInvite: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(728, __c91, 0) as any as S.Schema<ResendDeviceInviteRequest>,
   output: __S(56, __c7, 0) as any as S.Schema<ResendDeviceInviteResponse>,
-  errors: [NotFound, UnknownTailscaleError],
+  errors: [NotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3520,7 +3583,8 @@ export const resendUserInvite: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c92, 0) as any as S.Schema<ResendUserInviteRequest>,
   output: __S(56, __c7, 0) as any as S.Schema<ResendUserInviteResponse>,
-  errors: [NotFound, UnknownTailscaleError],
+  errors: [NotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3537,7 +3601,8 @@ export const restoreUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(744, __c93, 0) as any as S.Schema<RestoreUserRequest>,
   output: __S(56, __c7, 0) as any as S.Schema<RestoreUserResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownTailscaleError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3554,7 +3619,8 @@ export const rotateWebhookSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(752, __c94, 0) as any as S.Schema<RotateWebhookSecretRequest>,
   output: __S(216, __c27, 0) as any as S.Schema<Webhook>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownTailscaleError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3574,7 +3640,8 @@ export const setCustomDevicePostureAttributes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(760, __c95, 0) as any as S.Schema<SetCustomDevicePostureAttributesRequest>,
   output: __S(377, __c47, 1) as any as S.Schema<DevicePostureAttributes>,
-  errors: [NotFound, FeatureNotAvailable, UnknownTailscaleError],
+  errors: [NotFound, FeatureNotAvailable],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3591,7 +3658,8 @@ export const setDeviceIp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c96, 0) as any as S.Schema<SetDeviceIpRequest>,
   output: __S(56, __c7, 0) as any as S.Schema<SetDeviceIpResponse>,
-  errors: [BadRequest, NotFound, UnknownTailscaleError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3608,7 +3676,8 @@ export const setDeviceName: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(776, __c97, 0) as any as S.Schema<SetDeviceNameRequest>,
   output: __S(56, __c7, 0) as any as S.Schema<SetDeviceNameResponse>,
-  errors: [NotFound, UnknownTailscaleError],
+  errors: [NotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3625,7 +3694,8 @@ export const setDeviceRoutes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(784, __c98, 0) as any as S.Schema<SetDeviceRoutesRequest>,
   output: __S(600, __c75, 0) as any as S.Schema<DeviceRoutes>,
-  errors: [NotFound, UnknownTailscaleError],
+  errors: [NotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3642,7 +3712,8 @@ export const setDeviceTags: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(792, __c99, 0) as any as S.Schema<SetDeviceTagsRequest>,
   output: __S(56, __c7, 0) as any as S.Schema<SetDeviceTagsResponse>,
-  errors: [BadRequest, UnknownTailscaleError],
+  errors: [BadRequest],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3659,7 +3730,8 @@ export const setDnsConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c100, 0) as any as S.Schema<SetDnsConfigurationRequest>,
   output: __S(396, __c49, 4) as any as S.Schema<DnsConfiguration>,
-  errors: [NotFound, TailnetNotFound, UnknownTailscaleError],
+  errors: [NotFound, TailnetNotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3676,7 +3748,8 @@ export const setDnsNameservers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(808, __c101, 0) as any as S.Schema<SetDnsNameserversRequest>,
   output: __S(809, __c101, 1) as any as S.Schema<SetDnsNameserversResponse>,
-  errors: [NotFound, TailnetNotFound, UnknownTailscaleError],
+  errors: [NotFound, TailnetNotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3693,7 +3766,8 @@ export const setDnsPreferences: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(816, __c102, 0) as any as S.Schema<SetDnsPreferencesRequest>,
   output: __S(408, __c51, 0) as any as S.Schema<DnsPreferences>,
-  errors: [NotFound, TailnetNotFound, UnknownTailscaleError],
+  errors: [NotFound, TailnetNotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3710,7 +3784,8 @@ export const setDnsSearchPaths: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(824, __c103, 0) as any as S.Schema<SetDnsSearchPathsRequest>,
   output: __S(624, __c78, 0) as any as S.Schema<DnsSearchPaths>,
-  errors: [NotFound, TailnetNotFound, UnknownTailscaleError],
+  errors: [NotFound, TailnetNotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3723,7 +3798,8 @@ export const setKey: API.OperationMethod<SetKeyRequest, Key, SetKeyError, Tailsc
   /*@__PURE__*/ API.make(() => ({
     input: __S(832, __c104, 0) as any as S.Schema<SetKeyRequest>,
     output: __S(132, __c16, 4) as any as S.Schema<Key>,
-    errors: [NotFound, TailnetNotFound, UnknownTailscaleError],
+    errors: [NotFound, TailnetNotFound],
+    serviceErrors: TailscaleServiceErrors,
     protocol: TailscaleProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -3746,14 +3822,8 @@ export const setLogStreamingConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(840, __c105, 0) as any as S.Schema<SetLogStreamingConfigurationRequest>,
   output: __S(56, __c7, 0) as any as S.Schema<SetLogStreamingConfigurationResponse>,
-  errors: [
-    BadRequest,
-    Forbidden,
-    NotFound,
-    FeatureNotAvailable,
-    TailnetNotFound,
-    UnknownTailscaleError,
-  ],
+  errors: [BadRequest, Forbidden, NotFound, FeatureNotAvailable, TailnetNotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3776,14 +3846,8 @@ export const setPolicyFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(848, __c106, 0) as any as S.Schema<SetPolicyFileRequest>,
   output: __S(456, __c57, 0) as any as S.Schema<SetPolicyFileResponse>,
-  errors: [
-    BadRequest,
-    Forbidden,
-    NotFound,
-    PreconditionFailed,
-    TailnetNotFound,
-    UnknownTailscaleError,
-  ],
+  errors: [BadRequest, Forbidden, NotFound, PreconditionFailed, TailnetNotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3800,7 +3864,8 @@ export const setSplitDns: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(856, __c107, 0) as any as S.Schema<SetSplitDnsRequest>,
   output: __S(521, __c65, 1) as any as S.Schema<SetSplitDnsResponse>,
-  errors: [NotFound, TailnetNotFound, UnknownTailscaleError],
+  errors: [NotFound, TailnetNotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3817,7 +3882,8 @@ export const suspendUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(872, __c109, 0) as any as S.Schema<SuspendUserRequest>,
   output: __S(56, __c7, 0) as any as S.Schema<SuspendUserResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownTailscaleError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3834,7 +3900,8 @@ export const testWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(880, __c110, 0) as any as S.Schema<TestWebhookRequest>,
   output: __S(56, __c7, 0) as any as S.Schema<TestWebhookResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownTailscaleError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3851,7 +3918,8 @@ export const updateContact: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(888, __c111, 0) as any as S.Schema<UpdateContactRequest>,
   output: __S(56, __c7, 0) as any as S.Schema<UpdateContactResponse>,
-  errors: [Forbidden, NotFound, TailnetNotFound, UnknownTailscaleError],
+  errors: [Forbidden, NotFound, TailnetNotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3868,7 +3936,8 @@ export const updateDeviceKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(896, __c112, 0) as any as S.Schema<UpdateDeviceKeyRequest>,
   output: __S(56, __c7, 0) as any as S.Schema<UpdateDeviceKeyResponse>,
-  errors: [NotFound, UnknownTailscaleError],
+  errors: [NotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3890,7 +3959,8 @@ export const updateOAuthApp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(904, __c113, 0) as any as S.Schema<UpdateOAuthAppRequest>,
   output: __S(144, __c18, 0) as any as S.Schema<OAuthApp>,
-  errors: [BadRequest, Forbidden, NotFound, TailnetNotFound, UnknownTailscaleError],
+  errors: [BadRequest, Forbidden, NotFound, TailnetNotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3907,7 +3977,8 @@ export const updatePostureIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(912, __c114, 0) as any as S.Schema<UpdatePostureIntegrationRequest>,
   output: __S(169, __c21, 1) as any as S.Schema<PostureIntegrationOutput>,
-  errors: [Forbidden, NotFound, UnknownTailscaleError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3929,7 +4000,8 @@ export const updateService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(920, __c115, 0) as any as S.Schema<UpdateServiceRequest>,
   output: __S(488, __c61, 0) as any as S.Schema<VIPServiceInfo>,
-  errors: [BadRequest, Forbidden, NotFound, TailnetNotFound, UnknownTailscaleError],
+  errors: [BadRequest, Forbidden, NotFound, TailnetNotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3951,7 +4023,8 @@ export const updateServiceDeviceApproval: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c116, 0) as any as S.Schema<UpdateServiceDeviceApprovalRequest>,
   output: __S(504, __c63, 0) as any as S.Schema<VIPServiceApproval>,
-  errors: [BadRequest, Forbidden, NotFound, TailnetNotFound, UnknownTailscaleError],
+  errors: [BadRequest, Forbidden, NotFound, TailnetNotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3968,7 +4041,8 @@ export const updateSplitDns: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(936, __c117, 0) as any as S.Schema<UpdateSplitDnsRequest>,
   output: __S(521, __c65, 1) as any as S.Schema<UpdateSplitDnsResponse>,
-  errors: [NotFound, TailnetNotFound, UnknownTailscaleError],
+  errors: [NotFound, TailnetNotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3990,7 +4064,8 @@ export const updateTailnetSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(944, __c118, 0) as any as S.Schema<UpdateTailnetSettingsRequest>,
   output: __S(536, __c67, 0) as any as S.Schema<TailnetSettings>,
-  errors: [BadRequest, NotFound, FeatureNotAvailable, TailnetNotFound, UnknownTailscaleError],
+  errors: [BadRequest, NotFound, FeatureNotAvailable, TailnetNotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4007,7 +4082,8 @@ export const updateUserRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c1, 0) as any as S.Schema<UpdateUserRoleRequest>,
   output: __S(56, __c7, 0) as any as S.Schema<UpdateUserRoleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownTailscaleError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4024,7 +4100,8 @@ export const updateWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c2, 0) as any as S.Schema<UpdateWebhookRequest>,
   output: __S(216, __c27, 0) as any as S.Schema<Webhook>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownTailscaleError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4046,7 +4123,8 @@ export const validateAndTestPolicyFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25, __c3, 1) as any as S.Schema<ValidateAndTestPolicyFileRequest>,
   output: __S(26, __c3, 2) as any as S.Schema<ValidateAndTestPolicyFileResponse>,
-  errors: [BadRequest, Forbidden, NotFound, TailnetNotFound, UnknownTailscaleError],
+  errors: [BadRequest, Forbidden, NotFound, TailnetNotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4068,7 +4146,8 @@ export const validateAwsExternalId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c4, 0) as any as S.Schema<ValidateAwsExternalIdRequest>,
   output: __S(56, __c7, 0) as any as S.Schema<ValidateAwsExternalIdResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, TailnetNotFound, UnknownTailscaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, TailnetNotFound],
+  serviceErrors: TailscaleServiceErrors,
   protocol: TailscaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4243,7 +4322,7 @@ function __c9(j: number): any {
         ),
       ).annotate({ identifier: "BatchUpdateCustomDevicePostureAttributesRequest" });
     case 4:
-      return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => S.NullOr(S.Unknown).pipe(T.RawResponseRoot())).annotate({
         identifier: "BatchUpdateCustomDevicePostureAttributesResponse",
       });
   }

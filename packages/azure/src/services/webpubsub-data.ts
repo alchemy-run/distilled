@@ -5,7 +5,7 @@ import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
 import { AzureDataPlaneProtocol } from "../data-plane-protocol.ts";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -442,7 +442,8 @@ export const AddConnectionsToGroups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c20, 0) as any as S.Schema<AddConnectionsToGroupsRequest>,
   output: __S(84, __c21, 0) as any as S.Schema<AddConnectionsToGroupsResponse>,
-  errors: [WebPubSubAccessDenied, UnknownAzureError],
+  errors: [WebPubSubAccessDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -459,7 +460,8 @@ export const AddConnectionToGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(92, __c23, 0) as any as S.Schema<AddConnectionToGroupRequest>,
   output: __S(84, __c21, 0) as any as S.Schema<AddConnectionToGroupResponse>,
-  errors: [WebPubSubAccessDenied, UnknownAzureError],
+  errors: [WebPubSubAccessDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -476,7 +478,8 @@ export const AddUserToGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c24, 0) as any as S.Schema<AddUserToGroupRequest>,
   output: __S(84, __c21, 0) as any as S.Schema<AddUserToGroupResponse>,
-  errors: [WebPubSubAccessDenied, UnknownAzureError],
+  errors: [WebPubSubAccessDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -496,7 +499,8 @@ export const CheckPermission: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(100, __c25, 0) as any as S.Schema<CheckPermissionRequest>,
   output: __S(84, __c21, 0) as any as S.Schema<CheckPermissionResponse>,
-  errors: [WebPubSubAccessDenied, WebPubSubPermissionNotGranted, UnknownAzureError],
+  errors: [WebPubSubAccessDenied, WebPubSubPermissionNotGranted],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -513,7 +517,8 @@ export const CloseAllConnections: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(104, __c26, 0) as any as S.Schema<CloseAllConnectionsRequest>,
   output: __S(84, __c21, 0) as any as S.Schema<CloseAllConnectionsResponse>,
-  errors: [WebPubSubAccessDenied, UnknownAzureError],
+  errors: [WebPubSubAccessDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -530,7 +535,8 @@ export const CloseConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CloseConnectionRequest>,
   output: __S(84, __c21, 0) as any as S.Schema<CloseConnectionResponse>,
-  errors: [WebPubSubAccessDenied, UnknownAzureError],
+  errors: [WebPubSubAccessDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -547,7 +553,8 @@ export const CloseGroupConnections: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4, __c1, 0) as any as S.Schema<CloseGroupConnectionsRequest>,
   output: __S(84, __c21, 0) as any as S.Schema<CloseGroupConnectionsResponse>,
-  errors: [WebPubSubAccessDenied, UnknownAzureError],
+  errors: [WebPubSubAccessDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -564,7 +571,8 @@ export const CloseUserConnections: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c2, 0) as any as S.Schema<CloseUserConnectionsRequest>,
   output: __S(84, __c21, 0) as any as S.Schema<CloseUserConnectionsResponse>,
-  errors: [WebPubSubAccessDenied, UnknownAzureError],
+  errors: [WebPubSubAccessDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -584,7 +592,8 @@ export const ConnectionExists: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12, __c3, 0) as any as S.Schema<ConnectionExistsRequest>,
   output: __S(84, __c21, 0) as any as S.Schema<ConnectionExistsResponse>,
-  errors: [WebPubSubAccessDenied, WebPubSubConnectionNotFound, UnknownAzureError],
+  errors: [WebPubSubAccessDenied, WebPubSubConnectionNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -601,7 +610,8 @@ export const GenerateClientToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c4, 0) as any as S.Schema<GenerateClientTokenRequest>,
   output: __S(17, __c4, 1) as any as S.Schema<ClientTokenResponse>,
-  errors: [WebPubSubAccessDenied, UnknownAzureError],
+  errors: [WebPubSubAccessDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -618,7 +628,8 @@ export const GetServiceStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20, __c5, 0) as any as S.Schema<GetServiceStatusRequest>,
   output: __S(84, __c21, 0) as any as S.Schema<GetServiceStatusResponse>,
-  errors: [WebPubSubAccessDenied, UnknownAzureError],
+  errors: [WebPubSubAccessDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -635,7 +646,8 @@ export const GrantPermission: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c6, 0) as any as S.Schema<GrantPermissionRequest>,
   output: __S(84, __c21, 0) as any as S.Schema<GrantPermissionResponse>,
-  errors: [WebPubSubAccessDenied, UnknownAzureError],
+  errors: [WebPubSubAccessDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -652,7 +664,8 @@ export const GroupExists: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28, __c7, 0) as any as S.Schema<GroupExistsRequest>,
   output: __S(84, __c21, 0) as any as S.Schema<GroupExistsResponse>,
-  errors: [WebPubSubAccessDenied, WebPubSubGroupNotFound, UnknownAzureError],
+  errors: [WebPubSubAccessDenied, WebPubSubGroupNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -670,7 +683,8 @@ export const ListConnectionsInGroup: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(32, __c8, 0) as any as S.Schema<ListConnectionsInGroupRequest>,
   output: __S(35, __c8, 3) as any as S.Schema<GroupMemberPagedValues>,
-  errors: [WebPubSubAccessDenied, UnknownAzureError],
+  errors: [WebPubSubAccessDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -693,7 +707,8 @@ export const RemoveConnectionFromAllGroups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(36, __c9, 0) as any as S.Schema<RemoveConnectionFromAllGroupsRequest>,
   output: __S(84, __c21, 0) as any as S.Schema<RemoveConnectionFromAllGroupsResponse>,
-  errors: [WebPubSubAccessDenied, UnknownAzureError],
+  errors: [WebPubSubAccessDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -710,7 +725,8 @@ export const RemoveConnectionFromGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c10, 0) as any as S.Schema<RemoveConnectionFromGroupRequest>,
   output: __S(84, __c21, 0) as any as S.Schema<RemoveConnectionFromGroupResponse>,
-  errors: [WebPubSubAccessDenied, UnknownAzureError],
+  errors: [WebPubSubAccessDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -727,7 +743,8 @@ export const RemoveConnectionsFromGroups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(44, __c11, 0) as any as S.Schema<RemoveConnectionsFromGroupsRequest>,
   output: __S(84, __c21, 0) as any as S.Schema<RemoveConnectionsFromGroupsResponse>,
-  errors: [WebPubSubAccessDenied, UnknownAzureError],
+  errors: [WebPubSubAccessDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -744,7 +761,8 @@ export const RemoveUserFromAllGroups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c12, 0) as any as S.Schema<RemoveUserFromAllGroupsRequest>,
   output: __S(84, __c21, 0) as any as S.Schema<RemoveUserFromAllGroupsResponse>,
-  errors: [WebPubSubAccessDenied, UnknownAzureError],
+  errors: [WebPubSubAccessDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -761,7 +779,8 @@ export const RemoveUserFromGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(52, __c13, 0) as any as S.Schema<RemoveUserFromGroupRequest>,
   output: __S(84, __c21, 0) as any as S.Schema<RemoveUserFromGroupResponse>,
-  errors: [WebPubSubAccessDenied, UnknownAzureError],
+  errors: [WebPubSubAccessDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -778,7 +797,8 @@ export const RevokePermission: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56, __c14, 0) as any as S.Schema<RevokePermissionRequest>,
   output: __S(84, __c21, 0) as any as S.Schema<RevokePermissionResponse>,
-  errors: [WebPubSubAccessDenied, UnknownAzureError],
+  errors: [WebPubSubAccessDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -795,7 +815,8 @@ export const SendToAll: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(60, __c15, 0) as any as S.Schema<SendToAllRequest>,
   output: __S(84, __c21, 0) as any as S.Schema<SendToAllResponse>,
-  errors: [WebPubSubAccessDenied, UnknownAzureError],
+  errors: [WebPubSubAccessDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -812,7 +833,8 @@ export const SendToConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c16, 0) as any as S.Schema<SendToConnectionRequest>,
   output: __S(84, __c21, 0) as any as S.Schema<SendToConnectionResponse>,
-  errors: [WebPubSubAccessDenied, UnknownAzureError],
+  errors: [WebPubSubAccessDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -829,7 +851,8 @@ export const SendToGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(68, __c17, 0) as any as S.Schema<SendToGroupRequest>,
   output: __S(84, __c21, 0) as any as S.Schema<SendToGroupResponse>,
-  errors: [WebPubSubAccessDenied, UnknownAzureError],
+  errors: [WebPubSubAccessDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -846,7 +869,8 @@ export const SendToUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(72, __c18, 0) as any as S.Schema<SendToUserRequest>,
   output: __S(84, __c21, 0) as any as S.Schema<SendToUserResponse>,
-  errors: [WebPubSubAccessDenied, UnknownAzureError],
+  errors: [WebPubSubAccessDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -863,7 +887,8 @@ export const UserExists: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(76, __c19, 0) as any as S.Schema<UserExistsRequest>,
   output: __S(84, __c21, 0) as any as S.Schema<UserExistsResponse>,
-  errors: [WebPubSubAccessDenied, WebPubSubUserNotFound, UnknownAzureError],
+  errors: [WebPubSubAccessDenied, WebPubSubUserNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

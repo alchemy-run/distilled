@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownVantaError } from "../errors.ts";
+import { VantaServiceErrors } from "../errors.ts";
 import { VantaProtocol, type VantaOpError, type VantaOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -7703,7 +7703,8 @@ export const acknowledgeSlaMissVulnerabilityRemediations: API.OperationMethod<
     2,
   ) as any as S.Schema<AcknowledgeSlaMissVulnerabilityRemediationsRequest>,
   output: __S(2369, __c148, 1) as any as S.Schema<BulkResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7720,7 +7721,8 @@ export const addAccountMappings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4368, __c273, 0) as any as S.Schema<AddAccountMappingsRequest>,
   output: __S(4400, __c275, 0) as any as S.Schema<AddAccountMappingsResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7737,7 +7739,8 @@ export const addControlFromLibrary: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4736, __c296, 0) as any as S.Schema<AddControlFromLibraryRequest>,
   output: __S(4784, __c299, 0) as any as S.Schema<Control>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7754,7 +7757,8 @@ export const addControlToTrustCenter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5152, __c322, 0) as any as S.Schema<AddControlToTrustCenterRequest>,
   output: __S(5200, __c325, 0) as any as S.Schema<TrustCenterControl>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7771,7 +7775,8 @@ export const addCustomAssetMappings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5456, __c341, 0) as any as S.Schema<AddCustomAssetMappingsRequest>,
   output: __S(4400, __c275, 0) as any as S.Schema<AddCustomAssetMappingsResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7788,7 +7793,8 @@ export const addDiscoveredVendorToManaged: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5632, __c352, 0) as any as S.Schema<AddDiscoveredVendorToManagedRequest>,
   output: __S(5655, __c353, 7) as any as S.Schema<Vendor>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7805,7 +7811,8 @@ export const addDocumentToControl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5824, __c364, 0) as any as S.Schema<AddDocumentToControlRequest>,
   output: __S(5825, __c364, 1) as any as S.Schema<AddDocumentToControlResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7822,7 +7829,8 @@ export const addIntegrationMappings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6064, __c379, 0) as any as S.Schema<AddIntegrationMappingsRequest>,
   output: __S(4400, __c275, 0) as any as S.Schema<AddIntegrationMappingsResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7839,7 +7847,8 @@ export const addIssueMappings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c1, 0) as any as S.Schema<AddIssueMappingsRequest>,
   output: __S(4400, __c275, 0) as any as S.Schema<AddIssueMappingsResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7856,7 +7865,8 @@ export const addPeopleToGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(272, __c17, 0) as any as S.Schema<AddPeopleToGroupRequest>,
   output: __S(2369, __c148, 1) as any as S.Schema<BulkResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7873,7 +7883,8 @@ export const addPersonToGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c34, 0) as any as S.Schema<AddPersonToGroupRequest>,
   output: __S(590, __c36, 14) as any as S.Schema<Person>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7890,7 +7901,8 @@ export const addTagCategoryProductContext: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c50, 0) as any as S.Schema<AddTagCategoryProductContextRequest>,
   output: __S(4400, __c275, 0) as any as S.Schema<AddTagCategoryProductContextResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7907,7 +7919,8 @@ export const addTestToControl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1008, __c63, 0) as any as S.Schema<AddTestToControlRequest>,
   output: __S(1009, __c63, 1) as any as S.Schema<AddTestToControlResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7924,7 +7937,8 @@ export const addTrustCenterControlCategory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1312, __c82, 0) as any as S.Schema<AddTrustCenterControlCategoryRequest>,
   output: __S(5168, __c323, 0) as any as S.Schema<TrustCenterControlCategory>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7941,7 +7955,8 @@ export const addTrustCenterFaqCategory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1520, __c95, 0) as any as S.Schema<AddTrustCenterFaqCategoryRequest>,
   output: __S(1536, __c96, 0) as any as S.Schema<TrustCenterFaqCategory>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7958,7 +7973,8 @@ export const addTrustCenterResourceCategory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1728, __c108, 0) as any as S.Schema<AddTrustCenterResourceCategoryRequest>,
   output: __S(1536, __c96, 0) as any as S.Schema<TrustCenterResourceCategory>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7975,7 +7991,8 @@ export const addTrustCenterViewer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1920, __c120, 0) as any as S.Schema<AddTrustCenterViewerRequest>,
   output: __S(1957, __c122, 5) as any as S.Schema<TrustCenterViewer>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7992,7 +8009,8 @@ export const addVendorFindingMappings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2128, __c133, 0) as any as S.Schema<AddVendorFindingMappingsRequest>,
   output: __S(4400, __c275, 0) as any as S.Schema<AddVendorFindingMappingsResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8009,7 +8027,8 @@ export const approveQuestionnaire: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2384, __c149, 0) as any as S.Schema<ApproveQuestionnaireRequest>,
   output: __S(2437, __c152, 5) as any as S.Schema<CustomerTrustQuestionnaire>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8026,7 +8045,8 @@ export const approveTrustCenterAccessRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2624, __c164, 0) as any as S.Schema<ApproveTrustCenterAccessRequestRequest>,
   output: __S(4400, __c275, 0) as any as S.Schema<ApproveTrustCenterAccessRequestResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8043,7 +8063,8 @@ export const bulkAddTagsToControls: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2832, __c177, 0) as any as S.Schema<BulkAddTagsToControlsRequest>,
   output: __S(2848, __c178, 0) as any as S.Schema<ArrayResponseTrustCenterControl>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8060,7 +8081,8 @@ export const bulkRemoveTagsFromControls: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3056, __c191, 0) as any as S.Schema<BulkRemoveTagsFromControlsRequest>,
   output: __S(2848, __c178, 0) as any as S.Schema<ArrayResponseTrustCenterControl>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8077,7 +8099,8 @@ export const cancelRiskScenarioApprovalRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3232, __c202, 0) as any as S.Schema<CancelRiskScenarioApprovalRequestRequest>,
   output: __S(3252, __c203, 4) as any as S.Schema<RiskScenario>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8094,7 +8117,8 @@ export const clearLeaveForPerson: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3440, __c215, 0) as any as S.Schema<ClearLeaveForPersonRequest>,
   output: __S(590, __c36, 14) as any as S.Schema<Person>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8111,7 +8135,8 @@ export const completeQuestionnaire: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3616, __c226, 0) as any as S.Schema<CompleteQuestionnaireRequest>,
   output: __S(2437, __c152, 5) as any as S.Schema<CustomerTrustQuestionnaire>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8128,7 +8153,8 @@ export const createAnswerLibraryEntry: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3792, __c237, 0) as any as S.Schema<CreateAnswerLibraryEntryRequest>,
   output: __S(3824, __c239, 0) as any as S.Schema<KnowledgeBaseAnswerLibraryEntryOutput>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8145,7 +8171,8 @@ export const createComplianceFramework: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4000, __c250, 0) as any as S.Schema<CreateComplianceFrameworkRequest>,
   output: __S(4016, __c251, 0) as any as S.Schema<TrustCenterComplianceFramework>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8162,7 +8189,8 @@ export const createCustomControl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4194, __c262, 2) as any as S.Schema<CreateCustomControlRequest>,
   output: __S(4784, __c299, 0) as any as S.Schema<Control>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8179,7 +8207,8 @@ export const createCustomerTrustAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4418, __c276, 2) as any as S.Schema<CreateCustomerTrustAccountRequest>,
   output: __S(4468, __c279, 4) as any as S.Schema<CustomerTrustAccountVantaApi>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8196,7 +8225,8 @@ export const createCustomRequirement: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4512, __c282, 0) as any as S.Schema<CreateCustomRequirementRequest>,
   output: __S(4528, __c283, 0) as any as S.Schema<CustomRequirement>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8213,7 +8243,8 @@ export const createDeletionRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4544, __c284, 0) as any as S.Schema<CreateDeletionRequestRequest>,
   output: __S(4560, __c285, 0) as any as S.Schema<CreateDeletionRequestResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8230,7 +8261,8 @@ export const createDocument: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4576, __c286, 0) as any as S.Schema<CreateDocumentRequest>,
   output: __S(5840, __c365, 0) as any as S.Schema<Document>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8247,7 +8279,8 @@ export const createDocumentResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4592, __c287, 0) as any as S.Schema<CreateDocumentResourceRequest>,
   output: __S(4608, __c288, 0) as any as S.Schema<KnowledgeBaseDocumentResourceOutput>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8264,7 +8297,8 @@ export const createFileQuestionnaire: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4624, __c289, 0) as any as S.Schema<CreateFileQuestionnaireRequest>,
   output: __S(2437, __c152, 5) as any as S.Schema<CustomerTrustQuestionnaire>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8281,7 +8315,8 @@ export const createFrameworkControlsExport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4640, __c290, 0) as any as S.Schema<CreateFrameworkControlsExportRequest>,
   output: __S(4400, __c275, 0) as any as S.Schema<CreateFrameworkControlsExportResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8298,7 +8333,8 @@ export const createGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4656, __c291, 0) as any as S.Schema<CreateGroupRequest>,
   output: __S(4673, __c292, 1) as any as S.Schema<Group>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8315,7 +8351,8 @@ export const createLinkForDocument: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4688, __c293, 0) as any as S.Schema<CreateLinkForDocumentRequest>,
   output: __S(4704, __c294, 0) as any as S.Schema<UploadedLink>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8332,7 +8369,8 @@ export const createQuestionnaireExport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4720, __c295, 0) as any as S.Schema<CreateQuestionnaireExportRequest>,
   output: __S(4400, __c275, 0) as any as S.Schema<CreateQuestionnaireExportResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8349,7 +8387,8 @@ export const createRiskScenario: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4816, __c301, 0) as any as S.Schema<CreateRiskScenarioRequest>,
   output: __S(3252, __c203, 4) as any as S.Schema<RiskScenario>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8366,7 +8405,8 @@ export const createRiskScenarioControl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4832, __c302, 0) as any as S.Schema<CreateRiskScenarioControlRequest>,
   output: __S(4848, __c303, 0) as any as S.Schema<RiskScenarioControl>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8383,7 +8423,8 @@ export const createTaskRequirementSet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4864, __c304, 0) as any as S.Schema<CreateTaskRequirementSetRequest>,
   output: __S(4883, __c305, 3) as any as S.Schema<TaskRequirementSet>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8400,7 +8441,8 @@ export const createTrustCenterFaq: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4912, __c307, 0) as any as S.Schema<CreateTrustCenterFaqRequest>,
   output: __S(4928, __c308, 0) as any as S.Schema<TrustCenterFaq>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8417,7 +8459,8 @@ export const createTrustCenterResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4944, __c309, 0) as any as S.Schema<CreateTrustCenterResourceRequest>,
   output: __S(4960, __c310, 0) as any as S.Schema<TrustCenterResource>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8434,7 +8477,8 @@ export const createTrustCenterSubprocessor: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4976, __c311, 0) as any as S.Schema<CreateTrustCenterSubprocessorRequest>,
   output: __S(4992, __c312, 0) as any as S.Schema<CreateTrustCenterSubprocessorResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8451,7 +8495,8 @@ export const createTrustCenterSubscriber: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5008, __c313, 0) as any as S.Schema<CreateTrustCenterSubscriberRequest>,
   output: __S(5040, __c315, 0) as any as S.Schema<TrustCenterSubscriber>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8468,7 +8513,8 @@ export const createTrustCenterSubscriberGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5056, __c316, 0) as any as S.Schema<CreateTrustCenterSubscriberGroupRequest>,
   output: __S(5072, __c317, 0) as any as S.Schema<TrustCenterSubscriberGroup>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8485,7 +8531,8 @@ export const createTrustCenterUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5088, __c318, 0) as any as S.Schema<CreateTrustCenterUpdateRequest>,
   output: __S(5104, __c319, 0) as any as S.Schema<TrustCenterUpdateAPIResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8502,7 +8549,8 @@ export const createVendor: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5121, __c320, 1) as any as S.Schema<CreateVendorRequest>,
   output: __S(5655, __c353, 7) as any as S.Schema<Vendor>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8519,7 +8567,8 @@ export const createVendorCategory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5216, __c326, 0) as any as S.Schema<CreateVendorCategoryRequest>,
   output: __S(5232, __c327, 0) as any as S.Schema<VendorCategory2>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8536,7 +8585,8 @@ export const createVendorFinding: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5248, __c328, 0) as any as S.Schema<CreateVendorFindingRequest>,
   output: __S(5265, __c329, 1) as any as S.Schema<VendorFinding>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8553,7 +8603,8 @@ export const createWebpageResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5296, __c331, 0) as any as S.Schema<CreateWebpageResourceRequest>,
   output: __S(5312, __c332, 0) as any as S.Schema<KnowledgeBaseWebpageResourceOutput>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8570,7 +8621,8 @@ export const createWebsiteQuestionnaire: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5328, __c333, 0) as any as S.Schema<CreateWebsiteQuestionnaireRequest>,
   output: __S(2437, __c152, 5) as any as S.Schema<CustomerTrustQuestionnaire>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8587,7 +8639,8 @@ export const deactivateTestEntity: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5360, __c335, 0) as any as S.Schema<DeactivateTestEntityRequest>,
   output: __S(4400, __c275, 0) as any as S.Schema<DeactivateTestEntityResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8604,7 +8657,8 @@ export const deactivateVulnerabilities: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5378, __c336, 2) as any as S.Schema<DeactivateVulnerabilitiesRequest>,
   output: __S(2369, __c148, 1) as any as S.Schema<BulkResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8621,7 +8675,8 @@ export const deleteAnswerLibraryEntryRoute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5392, __c337, 0) as any as S.Schema<DeleteAnswerLibraryEntryRouteRequest>,
   output: __S(4400, __c275, 0) as any as S.Schema<DeleteAnswerLibraryEntryRouteResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8638,7 +8693,8 @@ export const deleteById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5408, __c338, 0) as any as S.Schema<DeleteByIdRequest>,
   output: __S(4400, __c275, 0) as any as S.Schema<DeleteByIdResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8655,7 +8711,8 @@ export const deleteComplianceFramework: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5424, __c339, 0) as any as S.Schema<DeleteComplianceFrameworkRequest>,
   output: __S(4400, __c275, 0) as any as S.Schema<DeleteComplianceFrameworkResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8672,7 +8729,8 @@ export const deleteContract: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5440, __c340, 0) as any as S.Schema<DeleteContractRequest>,
   output: __S(4400, __c275, 0) as any as S.Schema<DeleteContractResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8689,7 +8747,8 @@ export const deleteControl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5472, __c342, 0) as any as S.Schema<DeleteControlRequest>,
   output: __S(4400, __c275, 0) as any as S.Schema<DeleteControlResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8706,7 +8765,8 @@ export const deleteCustomerTrustAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5488, __c343, 0) as any as S.Schema<DeleteCustomerTrustAccountRequest>,
   output: __S(4400, __c275, 0) as any as S.Schema<DeleteCustomerTrustAccountResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8723,7 +8783,8 @@ export const deleteCustomFramework: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5504, __c344, 0) as any as S.Schema<DeleteCustomFrameworkRequest>,
   output: __S(4400, __c275, 0) as any as S.Schema<DeleteCustomFrameworkResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8740,7 +8801,8 @@ export const deleteDocument: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5520, __c345, 0) as any as S.Schema<DeleteDocumentRequest>,
   output: __S(4400, __c275, 0) as any as S.Schema<DeleteDocumentResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8757,7 +8819,8 @@ export const deleteDocumentForcontrol: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5536, __c346, 0) as any as S.Schema<DeleteDocumentForcontrolRequest>,
   output: __S(4400, __c275, 0) as any as S.Schema<DeleteDocumentForcontrolResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8774,7 +8837,8 @@ export const deleteFileForDocument: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5552, __c347, 0) as any as S.Schema<DeleteFileForDocumentRequest>,
   output: __S(4400, __c275, 0) as any as S.Schema<DeleteFileForDocumentResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8791,7 +8855,8 @@ export const deleteFindingById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5568, __c348, 0) as any as S.Schema<DeleteFindingByIdRequest>,
   output: __S(4400, __c275, 0) as any as S.Schema<DeleteFindingByIdResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8808,7 +8873,8 @@ export const deleteGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5584, __c349, 0) as any as S.Schema<DeleteGroupRequest>,
   output: __S(4400, __c275, 0) as any as S.Schema<DeleteGroupResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8825,7 +8891,8 @@ export const deleteKnowledgeBaseResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5600, __c350, 0) as any as S.Schema<DeleteKnowledgeBaseResourceRequest>,
   output: __S(4400, __c275, 0) as any as S.Schema<DeleteKnowledgeBaseResourceResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8842,7 +8909,8 @@ export const deleteLinkForDocument: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5616, __c351, 0) as any as S.Schema<DeleteLinkForDocumentRequest>,
   output: __S(4400, __c275, 0) as any as S.Schema<DeleteLinkForDocumentResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8859,7 +8927,8 @@ export const deleteQuestionnaire: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5664, __c354, 0) as any as S.Schema<DeleteQuestionnaireRequest>,
   output: __S(4400, __c275, 0) as any as S.Schema<DeleteQuestionnaireResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8876,7 +8945,8 @@ export const deleteRiskScenarioControl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5680, __c355, 0) as any as S.Schema<DeleteRiskScenarioControlRequest>,
   output: __S(4400, __c275, 0) as any as S.Schema<DeleteRiskScenarioControlResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8893,7 +8963,8 @@ export const deleteSecurityReviewDocumentById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5696, __c356, 0) as any as S.Schema<DeleteSecurityReviewDocumentByIdRequest>,
   output: __S(4400, __c275, 0) as any as S.Schema<DeleteSecurityReviewDocumentByIdResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8910,7 +8981,8 @@ export const deleteTestForControl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5712, __c357, 0) as any as S.Schema<DeleteTestForControlRequest>,
   output: __S(4400, __c275, 0) as any as S.Schema<DeleteTestForControlResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8927,7 +8999,8 @@ export const deleteTrustCenterControl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5728, __c358, 0) as any as S.Schema<DeleteTrustCenterControlRequest>,
   output: __S(4400, __c275, 0) as any as S.Schema<DeleteTrustCenterControlResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8944,7 +9017,8 @@ export const deleteTrustCenterControlCategory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5744, __c359, 0) as any as S.Schema<DeleteTrustCenterControlCategoryRequest>,
   output: __S(4400, __c275, 0) as any as S.Schema<DeleteTrustCenterControlCategoryResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8961,7 +9035,8 @@ export const deleteTrustCenterFaq: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5760, __c360, 0) as any as S.Schema<DeleteTrustCenterFaqRequest>,
   output: __S(4400, __c275, 0) as any as S.Schema<DeleteTrustCenterFaqResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8978,7 +9053,8 @@ export const deleteTrustCenterFaqCategory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5776, __c361, 0) as any as S.Schema<DeleteTrustCenterFaqCategoryRequest>,
   output: __S(4400, __c275, 0) as any as S.Schema<DeleteTrustCenterFaqCategoryResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8995,7 +9071,8 @@ export const deleteTrustCenterResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5792, __c362, 0) as any as S.Schema<DeleteTrustCenterResourceRequest>,
   output: __S(4400, __c275, 0) as any as S.Schema<DeleteTrustCenterResourceResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9012,7 +9089,8 @@ export const deleteTrustCenterResourceCategory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5808, __c363, 0) as any as S.Schema<DeleteTrustCenterResourceCategoryRequest>,
   output: __S(4400, __c275, 0) as any as S.Schema<DeleteTrustCenterResourceCategoryResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9029,7 +9107,8 @@ export const deleteTrustCenterSubprocessor: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5856, __c366, 0) as any as S.Schema<DeleteTrustCenterSubprocessorRequest>,
   output: __S(4400, __c275, 0) as any as S.Schema<DeleteTrustCenterSubprocessorResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9046,7 +9125,8 @@ export const deleteTrustCenterSubscriber: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5872, __c367, 0) as any as S.Schema<DeleteTrustCenterSubscriberRequest>,
   output: __S(4400, __c275, 0) as any as S.Schema<DeleteTrustCenterSubscriberResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9063,7 +9143,8 @@ export const deleteTrustCenterSubscriberGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5888, __c368, 0) as any as S.Schema<DeleteTrustCenterSubscriberGroupRequest>,
   output: __S(4400, __c275, 0) as any as S.Schema<DeleteTrustCenterSubscriberGroupResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9080,7 +9161,8 @@ export const deleteTrustCenterUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5904, __c369, 0) as any as S.Schema<DeleteTrustCenterUpdateRequest>,
   output: __S(4400, __c275, 0) as any as S.Schema<DeleteTrustCenterUpdateResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9097,7 +9179,8 @@ export const deleteVendorCategory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5920, __c370, 0) as any as S.Schema<DeleteVendorCategoryRequest>,
   output: __S(4400, __c275, 0) as any as S.Schema<DeleteVendorCategoryResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9114,7 +9197,8 @@ export const denyTrustCenterAccessRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5936, __c371, 0) as any as S.Schema<DenyTrustCenterAccessRequestRequest>,
   output: __S(4400, __c275, 0) as any as S.Schema<DenyTrustCenterAccessRequestResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9131,7 +9215,8 @@ export const evaluateDocument: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5952, __c372, 0) as any as S.Schema<EvaluateDocumentRequest>,
   output: __S(4400, __c275, 0) as any as S.Schema<EvaluateDocumentResponse>,
-  errors: [UnprocessableEntity, UnknownVantaError],
+  errors: [UnprocessableEntity],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9148,7 +9233,8 @@ export const getAnswerLibraryEntry: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5968, __c373, 0) as any as S.Schema<GetAnswerLibraryEntryRequest>,
   output: __S(3824, __c239, 0) as any as S.Schema<KnowledgeBaseAnswerLibraryEntryOutput>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9165,7 +9251,8 @@ export const getAssessmentById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5984, __c374, 0) as any as S.Schema<GetAssessmentByIdRequest>,
   output: __S(5985, __c374, 1) as any as S.Schema<VendorAssessment>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9186,7 +9273,8 @@ export const getAssessmentsByVendorId: API.OperationMethod<
     __c377,
     6,
   ) as any as S.Schema<PaginatedResponseVendorAssessmentWithQuestionnaire>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9203,7 +9291,8 @@ export const getBusinessUnit: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6080, __c380, 0) as any as S.Schema<GetBusinessUnitRequest>,
   output: __S(6096, __c381, 0) as any as S.Schema<BusinessUnit>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9220,7 +9309,8 @@ export const getChatbotConversationMessages: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6112, __c382, 0) as any as S.Schema<GetChatbotConversationMessagesRequest>,
   output: __S(6115, __c382, 3) as any as S.Schema<ArrayResponseTrustCenterChatbotMessage>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9237,7 +9327,8 @@ export const getConnectedIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6128, __c383, 0) as any as S.Schema<GetConnectedIntegrationRequest>,
   output: __S(6146, __c384, 2) as any as S.Schema<Integration>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9254,7 +9345,8 @@ export const getContract: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6160, __c385, 0) as any as S.Schema<GetContractRequest>,
   output: __S(6176, __c386, 0) as any as S.Schema<Contract>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9271,7 +9363,8 @@ export const getControl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6192, __c387, 0) as any as S.Schema<GetControlRequest>,
   output: __S(6208, __c388, 0) as any as S.Schema<ControlDetail>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9288,7 +9381,8 @@ export const getCustomerTrustAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6224, __c389, 0) as any as S.Schema<GetCustomerTrustAccountRequest>,
   output: __S(4468, __c279, 4) as any as S.Schema<CustomerTrustAccountVantaApi>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9305,7 +9399,8 @@ export const getDocument: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6240, __c390, 0) as any as S.Schema<GetDocumentRequest>,
   output: __S(6242, __c390, 2) as any as S.Schema<DocumentDetail>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9322,7 +9417,8 @@ export const getDocumentDraftEvaluation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6256, __c391, 0) as any as S.Schema<GetDocumentDraftEvaluationRequest>,
   output: __S(6257, __c391, 1) as any as S.Schema<DocumentEvaluation>,
-  errors: [NotFound, UnprocessableEntity, UnknownVantaError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9339,7 +9435,8 @@ export const getFramework: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6272, __c392, 0) as any as S.Schema<GetFrameworkRequest>,
   output: __S(6283, __c392, 11) as any as S.Schema<FrameworkDetail>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9356,7 +9453,8 @@ export const getFrameworkControlsExport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6304, __c394, 0) as any as S.Schema<GetFrameworkControlsExportRequest>,
   output: __S(6305, __c394, 1) as any as S.Schema<GetFrameworkControlsExportResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9369,7 +9467,8 @@ export const getGroup: API.OperationMethod<GetGroupRequest, Group, GetGroupError
   /*@__PURE__*/ API.make(() => ({
     input: __S(32, __c2, 0) as any as S.Schema<GetGroupRequest>,
     output: __S(4673, __c292, 1) as any as S.Schema<Group>,
-    errors: [UnknownVantaError],
+    errors: [],
+    serviceErrors: VantaServiceErrors,
     protocol: VantaProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -9386,7 +9485,8 @@ export const getGroupMembers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c3, 0) as any as S.Schema<GetGroupMembersRequest>,
   output: __S(49, __c3, 1) as any as S.Schema<GetGroupMembersResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9403,7 +9503,8 @@ export const getGroupTaskRequirementSet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c5, 0) as any as S.Schema<GetGroupTaskRequirementSetRequest>,
   output: __S(4883, __c305, 3) as any as S.Schema<GetGroupTaskRequirementSetResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9420,7 +9521,8 @@ export const getIssue: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c6, 0) as any as S.Schema<GetIssueRequest>,
   output: __S(97, __c6, 1) as any as S.Schema<GetIssueResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9437,7 +9539,8 @@ export const getKnowledgeBaseResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c7, 0) as any as S.Schema<GetKnowledgeBaseResourceRequest>,
   output: __S(128, __c8, 0) as any as S.Schema<GetKnowledgeBaseResourceResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9454,7 +9557,8 @@ export const getMonitoredComputer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c9, 0) as any as S.Schema<GetMonitoredComputerRequest>,
   output: __S(162, __c10, 2) as any as S.Schema<MonitoredComputer>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9471,7 +9575,8 @@ export const getOrganization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c11, 0) as any as S.Schema<GetOrganizationRequest>,
   output: __S(177, __c11, 1) as any as S.Schema<OrganizationIdentity>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9488,7 +9593,8 @@ export const getPerson: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c12, 0) as any as S.Schema<GetPersonRequest>,
   output: __S(590, __c36, 14) as any as S.Schema<Person>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9505,7 +9611,8 @@ export const getPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c13, 0) as any as S.Schema<GetPolicyRequest>,
   output: __S(228, __c14, 4) as any as S.Schema<Policy>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9522,7 +9629,8 @@ export const getProgramScope: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(240, __c15, 0) as any as S.Schema<GetProgramScopeRequest>,
   output: __S(256, __c16, 0) as any as S.Schema<ProgramScope>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9539,7 +9647,8 @@ export const getQuestionnaire: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(304, __c19, 0) as any as S.Schema<GetQuestionnaireRequest>,
   output: __S(2437, __c152, 5) as any as S.Schema<CustomerTrustQuestionnaire>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9556,7 +9665,8 @@ export const getQuestionnaireExport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c20, 0) as any as S.Schema<GetQuestionnaireExportRequest>,
   output: __S(321, __c20, 1) as any as S.Schema<CustomerTrustExportStatusResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9573,7 +9683,8 @@ export const getQuestionnaireResponse: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(336, __c21, 0) as any as S.Schema<GetQuestionnaireResponseRequest>,
   output: __S(361, __c22, 9) as any as S.Schema<QuestionnaireResponseWithoutViewerPermissions>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9590,7 +9701,8 @@ export const getResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(368, __c23, 0) as any as S.Schema<GetResourceRequest>,
   output: __S(369, __c23, 1) as any as S.Schema<GetResourceResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9607,7 +9719,8 @@ export const getResourceKindDetails: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c24, 0) as any as S.Schema<GetResourceKindDetailsRequest>,
   output: __S(385, __c24, 1) as any as S.Schema<ResourceKindDetails>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9624,7 +9737,8 @@ export const getRiskScenario: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(400, __c25, 0) as any as S.Schema<GetRiskScenarioRequest>,
   output: __S(3252, __c203, 4) as any as S.Schema<RiskScenario>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9641,7 +9755,8 @@ export const getSecurityReviewDocuments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c26, 0) as any as S.Schema<GetSecurityReviewDocumentsRequest>,
   output: __S(434, __c27, 2) as any as S.Schema<PaginatedResponseVendorDocument>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9658,7 +9773,8 @@ export const getSecurityReviewsById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(464, __c29, 0) as any as S.Schema<GetSecurityReviewsByIdRequest>,
   output: __S(481, __c30, 1) as any as S.Schema<SecurityReview>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9675,7 +9791,8 @@ export const getSecurityReviewsByVendorId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(496, __c31, 0) as any as S.Schema<GetSecurityReviewsByVendorIdRequest>,
   output: __S(499, __c31, 3) as any as S.Schema<PaginatedResponseSecurityReview>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9692,7 +9809,8 @@ export const getSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c32, 0) as any as S.Schema<GetSettingsRequest>,
   output: __S(528, __c33, 0) as any as S.Schema<GetSettingsResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9709,7 +9827,8 @@ export const getTagsForCategory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(592, __c37, 0) as any as S.Schema<GetTagsForCategoryRequest>,
   output: __S(595, __c37, 3) as any as S.Schema<TagCategoryWithTags>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9726,7 +9845,8 @@ export const getTaskRequirementSet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c38, 0) as any as S.Schema<GetTaskRequirementSetRequest>,
   output: __S(4883, __c305, 3) as any as S.Schema<TaskRequirementSet>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9739,7 +9859,8 @@ export const getTest: API.OperationMethod<GetTestRequest, Test, GetTestError, Va
   /*@__PURE__*/ API.make(() => ({
     input: __S(624, __c39, 0) as any as S.Schema<GetTestRequest>,
     output: __S(1027, __c64, 3) as any as S.Schema<Test>,
-    errors: [UnknownVantaError],
+    errors: [],
+    serviceErrors: VantaServiceErrors,
     protocol: VantaProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -9756,7 +9877,8 @@ export const getTestEntities: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c40, 0) as any as S.Schema<GetTestEntitiesRequest>,
   output: __S(644, __c40, 4) as any as S.Schema<PaginatedResponseTestResourceEntity>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9773,7 +9895,8 @@ export const getTrustCenter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(656, __c41, 0) as any as S.Schema<GetTrustCenterRequest>,
   output: __S(674, __c42, 2) as any as S.Schema<TrustCenter>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9790,7 +9913,8 @@ export const getTrustCenterAccessRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(688, __c43, 0) as any as S.Schema<GetTrustCenterAccessRequestRequest>,
   output: __S(704, __c44, 0) as any as S.Schema<TrustCenterAccessRequest>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9807,7 +9931,8 @@ export const getTrustCenterControl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(720, __c45, 0) as any as S.Schema<GetTrustCenterControlRequest>,
   output: __S(5200, __c325, 0) as any as S.Schema<TrustCenterControl>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9824,7 +9949,8 @@ export const getTrustCenterControlCategories: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c46, 0) as any as S.Schema<GetTrustCenterControlCategoriesRequest>,
   output: __S(752, __c47, 0) as any as S.Schema<ArrayResponseTrustCenterControlCategory>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9841,7 +9967,8 @@ export const getTrustCenterControlCategory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c48, 0) as any as S.Schema<GetTrustCenterControlCategoryRequest>,
   output: __S(5168, __c323, 0) as any as S.Schema<TrustCenterControlCategory>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9858,7 +9985,8 @@ export const getTrustCenterFaq: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(784, __c49, 0) as any as S.Schema<GetTrustCenterFaqRequest>,
   output: __S(4928, __c308, 0) as any as S.Schema<TrustCenterFaq>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9875,7 +10003,8 @@ export const getTrustCenterResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(816, __c51, 0) as any as S.Schema<GetTrustCenterResourceRequest>,
   output: __S(4960, __c310, 0) as any as S.Schema<TrustCenterResource>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9892,7 +10021,8 @@ export const getTrustCenterResourceMedia: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c52, 0) as any as S.Schema<GetTrustCenterResourceMediaRequest>,
   output: __S(848, __c53, 0) as any as S.Schema<NodeJSReadableStream>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9909,7 +10039,8 @@ export const getTrustCenterSubprocessor: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c54, 0) as any as S.Schema<GetTrustCenterSubprocessorRequest>,
   output: __S(4992, __c312, 0) as any as S.Schema<TrustCenterSubprocessor>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9926,7 +10057,8 @@ export const getTrustCenterSubscriber: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(880, __c55, 0) as any as S.Schema<GetTrustCenterSubscriberRequest>,
   output: __S(5040, __c315, 0) as any as S.Schema<TrustCenterSubscriber>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9943,7 +10075,8 @@ export const getTrustCenterSubscriberGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(896, __c56, 0) as any as S.Schema<GetTrustCenterSubscriberGroupRequest>,
   output: __S(5072, __c317, 0) as any as S.Schema<TrustCenterSubscriberGroup>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9960,7 +10093,8 @@ export const getTrustCenterUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(912, __c57, 0) as any as S.Schema<GetTrustCenterUpdateRequest>,
   output: __S(5104, __c319, 0) as any as S.Schema<TrustCenterUpdateAPIResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9977,7 +10111,8 @@ export const getTrustCenterViewer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c58, 0) as any as S.Schema<GetTrustCenterViewerRequest>,
   output: __S(1957, __c122, 5) as any as S.Schema<TrustCenterViewer>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9994,7 +10129,8 @@ export const getUploadedfileMedia: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(944, __c59, 0) as any as S.Schema<GetUploadedfileMediaRequest>,
   output: __S(848, __c53, 0) as any as S.Schema<NodeJSReadableStream>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10007,7 +10143,8 @@ export const getUser: API.OperationMethod<GetUserRequest, User, GetUserError, Va
   /*@__PURE__*/ API.make(() => ({
     input: __S(960, __c60, 0) as any as S.Schema<GetUserRequest>,
     output: __S(976, __c61, 0) as any as S.Schema<User>,
-    errors: [UnknownVantaError],
+    errors: [],
+    serviceErrors: VantaServiceErrors,
     protocol: VantaProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -10024,7 +10161,8 @@ export const getVendor: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c62, 0) as any as S.Schema<GetVendorRequest>,
   output: __S(5655, __c353, 7) as any as S.Schema<Vendor>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10041,7 +10179,8 @@ export const getVendorAlert: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1040, __c65, 0) as any as S.Schema<GetVendorAlertRequest>,
   output: __S(1056, __c66, 0) as any as S.Schema<VendorAlert>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10058,7 +10197,8 @@ export const getVendorAlertSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1072, __c67, 0) as any as S.Schema<GetVendorAlertSettingsRequest>,
   output: __S(1090, __c68, 2) as any as S.Schema<VendorAlertSettingsResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10075,7 +10215,8 @@ export const getVendorAssessmentType: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1104, __c69, 0) as any as S.Schema<GetVendorAssessmentTypeRequest>,
   output: __S(1120, __c70, 0) as any as S.Schema<VendorAssessmentType>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10092,7 +10233,8 @@ export const getVendorCategory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1136, __c71, 0) as any as S.Schema<GetVendorCategoryRequest>,
   output: __S(5232, __c327, 0) as any as S.Schema<VendorCategory2>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10109,7 +10251,8 @@ export const getVendorExternalFinding: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c72, 0) as any as S.Schema<GetVendorExternalFindingRequest>,
   output: __S(1169, __c73, 1) as any as S.Schema<VendorExternalFinding>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10126,7 +10269,8 @@ export const getVendorSecurityIncidentAlert: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c74, 0) as any as S.Schema<GetVendorSecurityIncidentAlertRequest>,
   output: __S(1206, __c75, 6) as any as S.Schema<VendorSecurityIncidentAlert>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10143,7 +10287,8 @@ export const getVulnerability: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c76, 0) as any as S.Schema<GetVulnerabilityRequest>,
   output: __S(1233, __c77, 1) as any as S.Schema<Vulnerability>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10160,7 +10305,8 @@ export const getVulnerableAsset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c78, 0) as any as S.Schema<GetVulnerableAssetRequest>,
   output: __S(1266, __c79, 2) as any as S.Schema<VulnerableAsset>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10177,7 +10323,8 @@ export const importIdpGroups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1280, __c80, 0) as any as S.Schema<ImportIdpGroupsRequest>,
   output: __S(1282, __c80, 2) as any as S.Schema<ImportIdpGroupsResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10194,7 +10341,8 @@ export const list: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1296, __c81, 0) as any as S.Schema<ListRequest>,
   output: __S(1299, __c81, 3) as any as S.Schema<PaginatedResponseIssue>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10211,7 +10359,8 @@ export const listAccountMappings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1328, __c83, 0) as any as S.Schema<ListAccountMappingsRequest>,
   output: __S(1330, __c83, 2) as any as S.Schema<PaginatedResponseRiskScenarioAccountMapping>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10232,7 +10381,8 @@ export const listAnswerLibraryEntries: API.OperationMethod<
     __c84,
     3,
   ) as any as S.Schema<PaginatedResponseKnowledgeBaseAnswerLibraryEntryOutput>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10249,7 +10399,8 @@ export const listAssignableUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1360, __c85, 0) as any as S.Schema<ListAssignableUsersRequest>,
   output: __S(1362, __c85, 2) as any as S.Schema<QuestionnaireAssignableUsersResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10266,7 +10417,8 @@ export const listBusinessUnits: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1392, __c87, 0) as any as S.Schema<ListBusinessUnitsRequest>,
   output: __S(1394, __c87, 2) as any as S.Schema<PaginatedResponseBusinessUnit>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10283,7 +10435,8 @@ export const listChatbotConversations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c88, 0) as any as S.Schema<ListChatbotConversationsRequest>,
   output: __S(1412, __c88, 4) as any as S.Schema<PaginatedResponseTrustCenterChatbotConversation>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10300,7 +10453,8 @@ export const listComplianceFrameworks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1424, __c89, 0) as any as S.Schema<ListComplianceFrameworksRequest>,
   output: __S(1426, __c89, 2) as any as S.Schema<TrustCenterComplianceFrameworkListResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10317,7 +10471,8 @@ export const listConnectedIntegrations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c90, 0) as any as S.Schema<ListConnectedIntegrationsRequest>,
   output: __S(1443, __c90, 3) as any as S.Schema<PaginatedResponseIntegration>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10334,7 +10489,8 @@ export const listContracts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1456, __c91, 0) as any as S.Schema<ListContractsRequest>,
   output: __S(1459, __c91, 3) as any as S.Schema<PaginatedResponseContract>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10351,7 +10507,8 @@ export const listControls: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1472, __c92, 0) as any as S.Schema<ListControlsRequest>,
   output: __S(1490, __c93, 2) as any as S.Schema<PaginatedResponseControl>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10368,7 +10525,8 @@ export const listControlsForDocument: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1504, __c94, 0) as any as S.Schema<ListControlsForDocumentRequest>,
   output: __S(1490, __c93, 2) as any as S.Schema<PaginatedResponseControl>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10385,7 +10543,8 @@ export const listControlsForFramework: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1552, __c97, 0) as any as S.Schema<ListControlsForFrameworkRequest>,
   output: __S(1490, __c93, 2) as any as S.Schema<PaginatedResponseControl>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10402,7 +10561,8 @@ export const listCustomAssetMappings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1568, __c98, 0) as any as S.Schema<ListCustomAssetMappingsRequest>,
   output: __S(1572, __c98, 4) as any as S.Schema<PaginatedResponseRiskScenarioCustomAssetMapping>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10419,7 +10579,8 @@ export const listCustomAssets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1584, __c99, 0) as any as S.Schema<ListCustomAssetsRequest>,
   output: __S(1588, __c99, 4) as any as S.Schema<PaginatedResponseCustomAsset>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10436,7 +10597,8 @@ export const listCustomerTrustAccounts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1600, __c100, 0) as any as S.Schema<ListCustomerTrustAccountsRequest>,
   output: __S(1603, __c100, 3) as any as S.Schema<PaginatedResponseCustomerTrustAccountVantaApi>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10453,7 +10615,8 @@ export const listCustomRequirements: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1616, __c101, 0) as any as S.Schema<ListCustomRequirementsRequest>,
   output: __S(1619, __c101, 3) as any as S.Schema<PaginatedResponseCustomRequirement>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10470,7 +10633,8 @@ export const listDeactivatedControls: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1632, __c102, 0) as any as S.Schema<ListDeactivatedControlsRequest>,
   output: __S(1638, __c102, 6) as any as S.Schema<PaginatedResponseDeactivatedControl>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10487,7 +10651,8 @@ export const listDiscoveredVendorAccounts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1648, __c103, 0) as any as S.Schema<ListDiscoveredVendorAccountsRequest>,
   output: __S(1651, __c103, 3) as any as S.Schema<PaginatedResponseDiscoveredVendorAccount>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10504,7 +10669,8 @@ export const listDiscoveredVendors: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1664, __c104, 0) as any as S.Schema<ListDiscoveredVendorsRequest>,
   output: __S(1670, __c104, 6) as any as S.Schema<PaginatedResponseDiscoveredVendor>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10521,7 +10687,8 @@ export const listDocuments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1680, __c105, 0) as any as S.Schema<ListDocumentsRequest>,
   output: __S(1698, __c106, 2) as any as S.Schema<PaginatedResponseDocument>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10538,7 +10705,8 @@ export const listDocumentsForControl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1712, __c107, 0) as any as S.Schema<ListDocumentsForControlRequest>,
   output: __S(1698, __c106, 2) as any as S.Schema<PaginatedResponseDocument>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10559,7 +10727,8 @@ export const listEnterpriseRiskMappings: API.OperationMethod<
     __c109,
     4,
   ) as any as S.Schema<PaginatedResponseRiskScenarioEnterpriseRiskMapping>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10576,7 +10745,8 @@ export const listEventLogs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1760, __c110, 0) as any as S.Schema<ListEventLogsRequest>,
   output: __S(1766, __c110, 6) as any as S.Schema<PaginatedResponseEventLog>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10593,7 +10763,8 @@ export const listFilesForDocument: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1776, __c111, 0) as any as S.Schema<ListFilesForDocumentRequest>,
   output: __S(1779, __c111, 3) as any as S.Schema<PaginatedResponseUploadedFileT>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10610,7 +10781,8 @@ export const listFrameworks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1808, __c113, 0) as any as S.Schema<ListFrameworksRequest>,
   output: __S(1812, __c113, 4) as any as S.Schema<PaginatedResponseFramework>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10627,7 +10799,8 @@ export const listImportableIdpGroups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1824, __c114, 0) as any as S.Schema<ListImportableIdpGroupsRequest>,
   output: __S(1828, __c114, 4) as any as S.Schema<PaginatedImportableIdpGroupResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10644,7 +10817,8 @@ export const listIntegrationMappings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1840, __c115, 0) as any as S.Schema<ListIntegrationMappingsRequest>,
   output: __S(1844, __c115, 4) as any as S.Schema<PaginatedResponseRiskScenarioIntegrationMapping>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10661,7 +10835,8 @@ export const listIssueMappings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1856, __c116, 0) as any as S.Schema<ListIssueMappingsRequest>,
   output: __S(1860, __c116, 4) as any as S.Schema<PaginatedResponseRiskScenarioIssueMapping>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10682,7 +10857,8 @@ export const listKnowledgeBaseResources: API.OperationMethod<
     __c117,
     3,
   ) as any as S.Schema<PaginatedResponseTrustKnowledgeBaseResourceOutput>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10699,7 +10875,8 @@ export const listLinksForDocument: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1888, __c118, 0) as any as S.Schema<ListLinksForDocumentRequest>,
   output: __S(1891, __c118, 3) as any as S.Schema<PaginatedResponseUploadedLink>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10716,7 +10893,8 @@ export const listMonitoredComputers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1904, __c119, 0) as any as S.Schema<ListMonitoredComputersRequest>,
   output: __S(1907, __c119, 3) as any as S.Schema<PaginatedResponseMonitoredComputer>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10733,7 +10911,8 @@ export const listPeople: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1968, __c123, 0) as any as S.Schema<ListPeopleRequest>,
   output: __S(1970, __c123, 2) as any as S.Schema<PaginatedResponsePerson>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10750,7 +10929,8 @@ export const listPersonGroups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1984, __c124, 0) as any as S.Schema<ListPersonGroupsRequest>,
   output: __S(1987, __c124, 3) as any as S.Schema<PaginatedResponseGroup>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10767,7 +10947,8 @@ export const listPolicies: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2000, __c125, 0) as any as S.Schema<ListPoliciesRequest>,
   output: __S(2003, __c125, 3) as any as S.Schema<PaginatedResponsePolicy>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10784,7 +10965,8 @@ export const listProgramScopes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2016, __c126, 0) as any as S.Schema<ListProgramScopesRequest>,
   output: __S(2019, __c126, 3) as any as S.Schema<PaginatedResponseProgramScope>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10805,7 +10987,8 @@ export const listQuestionnaireResponses: API.OperationMethod<
     __c127,
     3,
   ) as any as S.Schema<PaginatedResponseQuestionnaireResponseWithoutViewerPermissions>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10822,7 +11005,8 @@ export const listQuestionnaires: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2048, __c128, 0) as any as S.Schema<ListQuestionnairesRequest>,
   output: __S(2051, __c128, 3) as any as S.Schema<PaginatedResponseCustomerTrustQuestionnaire>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10839,7 +11023,8 @@ export const listResourceKindSummaries: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2064, __c129, 0) as any as S.Schema<ListResourceKindSummariesRequest>,
   output: __S(2067, __c129, 3) as any as S.Schema<ListResourceKindSummariesResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10856,7 +11041,8 @@ export const listResources: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2080, __c130, 0) as any as S.Schema<ListResourcesRequest>,
   output: __S(2083, __c130, 3) as any as S.Schema<PaginatedResponseAnyResource>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10873,7 +11059,8 @@ export const listRiskScenario: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2098, __c131, 2) as any as S.Schema<ListRiskScenarioRequest>,
   output: __S(2101, __c131, 5) as any as S.Schema<PaginatedResponseRiskScenario>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10890,7 +11077,8 @@ export const listRiskScenarioControls: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2112, __c132, 0) as any as S.Schema<ListRiskScenarioControlsRequest>,
   output: __S(2115, __c132, 3) as any as S.Schema<PaginatedResponseRiskScenarioControl>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10907,7 +11095,8 @@ export const listTagCategories: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2144, __c134, 0) as any as S.Schema<ListTagCategoriesRequest>,
   output: __S(2145, __c134, 1) as any as S.Schema<ArrayResponseUserDefinedTagCategory>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10924,7 +11113,8 @@ export const listTaskRequirementSets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2160, __c135, 0) as any as S.Schema<ListTaskRequirementSetsRequest>,
   output: __S(2163, __c135, 3) as any as S.Schema<PaginatedResponseTaskRequirementSet>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10941,7 +11131,8 @@ export const listTests: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2176, __c136, 0) as any as S.Schema<ListTestsRequest>,
   output: __S(2194, __c137, 2) as any as S.Schema<PaginatedResponseTest>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10958,7 +11149,8 @@ export const listTestsForControl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2208, __c138, 0) as any as S.Schema<ListTestsForControlRequest>,
   output: __S(2194, __c137, 2) as any as S.Schema<PaginatedResponseTest>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10975,7 +11167,8 @@ export const listTrustCenterAccessRequests: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2224, __c139, 0) as any as S.Schema<ListTrustCenterAccessRequestsRequest>,
   output: __S(2227, __c139, 3) as any as S.Schema<PaginatedResponseTrustCenterAccessRequest>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10992,7 +11185,8 @@ export const listTrustCenterActivityEvents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2240, __c140, 0) as any as S.Schema<ListTrustCenterActivityEventsRequest>,
   output: __S(2244, __c140, 4) as any as S.Schema<PaginatedResponseTrustCenterActivityEvent>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11009,7 +11203,8 @@ export const listTrustCenterControls: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2256, __c141, 0) as any as S.Schema<ListTrustCenterControlsRequest>,
   output: __S(2258, __c141, 2) as any as S.Schema<PaginatedResponseTrustCenterControl>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11026,7 +11221,8 @@ export const listTrustCenterDataCollected: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2272, __c142, 0) as any as S.Schema<ListTrustCenterDataCollectedRequest>,
   output: __S(2290, __c143, 2) as any as S.Schema<ArrayResponseTrustCenterDataCollected>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11043,7 +11239,8 @@ export const listTrustCenterFaqCategories: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2304, __c144, 0) as any as S.Schema<ListTrustCenterFaqCategoriesRequest>,
   output: __S(2320, __c145, 0) as any as S.Schema<ArrayResponseTrustCenterFaqCategory>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11060,7 +11257,8 @@ export const listTrustCenterFaqs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2336, __c146, 0) as any as S.Schema<ListTrustCenterFaqsRequest>,
   output: __S(2338, __c146, 2) as any as S.Schema<ArrayResponseTrustCenterFaq>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11081,7 +11279,8 @@ export const listTrustCenterHistoricalAccessRequests: API.OperationMethod<
     __c153,
     4,
   ) as any as S.Schema<PaginatedResponseTrustCenterAccessRequestHistorical>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11098,7 +11297,8 @@ export const listTrustCenterResourceCategories: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2464, __c154, 0) as any as S.Schema<ListTrustCenterResourceCategoriesRequest>,
   output: __S(2320, __c145, 0) as any as S.Schema<ArrayResponseTrustCenterResourceCategory>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11115,7 +11315,8 @@ export const listTrustCenterResources: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2480, __c155, 0) as any as S.Schema<ListTrustCenterResourcesRequest>,
   output: __S(2482, __c155, 2) as any as S.Schema<ArrayResponseTrustCenterResource>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11132,7 +11333,8 @@ export const listTrustCenterSubprocessors: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2496, __c156, 0) as any as S.Schema<ListTrustCenterSubprocessorsRequest>,
   output: __S(2498, __c156, 2) as any as S.Schema<ArrayResponseTrustCenterSubprocessor>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11149,7 +11351,8 @@ export const listTrustCenterSubscriberGroups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2512, __c157, 0) as any as S.Schema<ListTrustCenterSubscriberGroupsRequest>,
   output: __S(2515, __c157, 3) as any as S.Schema<PaginatedResponseTrustCenterSubscriberGroup>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11166,7 +11369,8 @@ export const listTrustCenterSubscribers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2528, __c158, 0) as any as S.Schema<ListTrustCenterSubscribersRequest>,
   output: __S(2531, __c158, 3) as any as S.Schema<PaginatedResponseTrustCenterSubscriber>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11183,7 +11387,8 @@ export const listTrustCenterUpdates: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2544, __c159, 0) as any as S.Schema<ListTrustCenterUpdatesRequest>,
   output: __S(2547, __c159, 3) as any as S.Schema<PaginatedResponseTrustCenterUpdateAPIResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11200,7 +11405,8 @@ export const listTrustCenterVideos: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2560, __c160, 0) as any as S.Schema<ListTrustCenterVideosRequest>,
   output: __S(2578, __c161, 2) as any as S.Schema<ArrayResponseTrustCenterVideo>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11217,7 +11423,8 @@ export const listTrustCenterViewers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2592, __c162, 0) as any as S.Schema<ListTrustCenterViewersRequest>,
   output: __S(2595, __c162, 3) as any as S.Schema<PaginatedResponseTrustCenterViewer>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11234,7 +11441,8 @@ export const listUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2608, __c163, 0) as any as S.Schema<ListUsersRequest>,
   output: __S(2611, __c163, 3) as any as S.Schema<PaginatedResponseUser>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11251,7 +11459,8 @@ export const listVendorAlerts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2640, __c165, 0) as any as S.Schema<ListVendorAlertsRequest>,
   output: __S(2642, __c165, 2) as any as S.Schema<PaginatedResponseVendorAlert>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11268,7 +11477,8 @@ export const listVendorAssessmentTypes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2672, __c167, 0) as any as S.Schema<ListVendorAssessmentTypesRequest>,
   output: __S(2675, __c167, 3) as any as S.Schema<PaginatedResponseVendorAssessmentType>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11285,7 +11495,8 @@ export const listVendorCategories: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2688, __c168, 0) as any as S.Schema<ListVendorCategoriesRequest>,
   output: __S(2691, __c168, 3) as any as S.Schema<PaginatedResponseVendorCategory>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11302,7 +11513,8 @@ export const listVendorDocuments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2704, __c169, 0) as any as S.Schema<ListVendorDocumentsRequest>,
   output: __S(434, __c27, 2) as any as S.Schema<PaginatedResponseVendorDocument>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11319,7 +11531,8 @@ export const listVendorExternalFindings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2720, __c170, 0) as any as S.Schema<ListVendorExternalFindingsRequest>,
   output: __S(2723, __c170, 3) as any as S.Schema<PaginatedResponseVendorExternalFinding>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11340,7 +11553,8 @@ export const listVendorFindingMappings: API.OperationMethod<
     __c171,
     4,
   ) as any as S.Schema<PaginatedResponseRiskScenarioVendorFindingMapping>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11357,7 +11571,8 @@ export const listVendorFindings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2752, __c172, 0) as any as S.Schema<ListVendorFindingsRequest>,
   output: __S(2755, __c172, 3) as any as S.Schema<PaginatedResponseVendorFinding>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11374,7 +11589,8 @@ export const listVendorRiskAttributes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2768, __c173, 0) as any as S.Schema<ListVendorRiskAttributesRequest>,
   output: __S(2772, __c173, 4) as any as S.Schema<PaginatedResponseVendorRiskAttribute>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11391,7 +11607,8 @@ export const listVendors: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2784, __c174, 0) as any as S.Schema<ListVendorsRequest>,
   output: __S(2787, __c174, 3) as any as S.Schema<PaginatedResponseVendor>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11408,7 +11625,8 @@ export const listVendorSecurityIncidentAlerts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2800, __c175, 0) as any as S.Schema<ListVendorSecurityIncidentAlertsRequest>,
   output: __S(2802, __c175, 2) as any as S.Schema<PaginatedResponseVendorSecurityIncidentAlert>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11425,7 +11643,8 @@ export const listVulnerabilities: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2880, __c180, 0) as any as S.Schema<ListVulnerabilitiesRequest>,
   output: __S(2883, __c180, 3) as any as S.Schema<PaginatedResponseVulnerability>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11442,7 +11661,8 @@ export const listVulnerabilityRemediations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2896, __c181, 0) as any as S.Schema<ListVulnerabilityRemediationsRequest>,
   output: __S(2900, __c181, 4) as any as S.Schema<PaginatedResponseVulnerabilityRemediation>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11459,7 +11679,8 @@ export const listVulnerableAssets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2912, __c182, 0) as any as S.Schema<ListVulnerableAssetsRequest>,
   output: __S(2915, __c182, 3) as any as S.Schema<PaginatedResponseVulnerableAsset>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11476,7 +11697,8 @@ export const markAsNotPeople: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2930, __c183, 2) as any as S.Schema<MarkAsNotPeopleRequest>,
   output: __S(2369, __c148, 1) as any as S.Schema<BulkResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11493,7 +11715,8 @@ export const markAsPeople: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2944, __c184, 0) as any as S.Schema<MarkAsPeopleRequest>,
   output: __S(2369, __c148, 1) as any as S.Schema<BulkResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11510,7 +11733,8 @@ export const offboardPeople: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2962, __c185, 2) as any as S.Schema<OffboardPeopleRequest>,
   output: __S(2369, __c148, 1) as any as S.Schema<BulkResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11527,7 +11751,8 @@ export const reactivateFramework: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2976, __c186, 0) as any as S.Schema<ReactivateFrameworkRequest>,
   output: __S(2992, __c187, 0) as any as S.Schema<FrameworkSnooze>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11544,7 +11769,8 @@ export const reactivateTestEntity: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3008, __c188, 0) as any as S.Schema<ReactivateTestEntityRequest>,
   output: __S(4400, __c275, 0) as any as S.Schema<ReactivateTestEntityResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11561,7 +11787,8 @@ export const reactivateVulnerabilities: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3024, __c189, 0) as any as S.Schema<ReactivateVulnerabilitiesRequest>,
   output: __S(2369, __c148, 1) as any as S.Schema<BulkResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11578,7 +11805,8 @@ export const removeAccountMappings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3040, __c190, 0) as any as S.Schema<RemoveAccountMappingsRequest>,
   output: __S(4400, __c275, 0) as any as S.Schema<RemoveAccountMappingsResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11595,7 +11823,8 @@ export const removeCustomAssetMappings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3072, __c192, 0) as any as S.Schema<RemoveCustomAssetMappingsRequest>,
   output: __S(4400, __c275, 0) as any as S.Schema<RemoveCustomAssetMappingsResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11612,7 +11841,8 @@ export const removeEngagement: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3088, __c193, 0) as any as S.Schema<RemoveEngagementRequest>,
   output: __S(4400, __c275, 0) as any as S.Schema<RemoveEngagementResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11629,7 +11859,8 @@ export const removeIntegrationMappings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3104, __c194, 0) as any as S.Schema<RemoveIntegrationMappingsRequest>,
   output: __S(4400, __c275, 0) as any as S.Schema<RemoveIntegrationMappingsResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11646,7 +11877,8 @@ export const removeIssueMappings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3120, __c195, 0) as any as S.Schema<RemoveIssueMappingsRequest>,
   output: __S(4400, __c275, 0) as any as S.Schema<RemoveIssueMappingsResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11663,7 +11895,8 @@ export const removePeopleFromGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3136, __c196, 0) as any as S.Schema<RemovePeopleFromGroupRequest>,
   output: __S(2369, __c148, 1) as any as S.Schema<BulkResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11680,7 +11913,8 @@ export const removePersonFromGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3152, __c197, 0) as any as S.Schema<RemovePersonFromGroupRequest>,
   output: __S(590, __c36, 14) as any as S.Schema<Person>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11697,7 +11931,8 @@ export const removeTagCategoryProductContext: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3168, __c198, 0) as any as S.Schema<RemoveTagCategoryProductContextRequest>,
   output: __S(4400, __c275, 0) as any as S.Schema<RemoveTagCategoryProductContextResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11714,7 +11949,8 @@ export const removeTrustCenterViewer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3184, __c199, 0) as any as S.Schema<RemoveTrustCenterViewerRequest>,
   output: __S(4400, __c275, 0) as any as S.Schema<RemoveTrustCenterViewerResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11731,7 +11967,8 @@ export const removeVendorFindingMappings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3200, __c200, 0) as any as S.Schema<RemoveVendorFindingMappingsRequest>,
   output: __S(4400, __c275, 0) as any as S.Schema<RemoveVendorFindingMappingsResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11748,7 +11985,8 @@ export const replaceDocumentResourceFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3216, __c201, 0) as any as S.Schema<ReplaceDocumentResourceFileRequest>,
   output: __S(4608, __c288, 0) as any as S.Schema<KnowledgeBaseDocumentResourceOutput>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11765,7 +12003,8 @@ export const sendNotificationsToAllSubscribers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3280, __c205, 0) as any as S.Schema<SendNotificationsToAllSubscribersRequest>,
   output: __S(4400, __c275, 0) as any as S.Schema<SendNotificationsToAllSubscribersResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11782,7 +12021,8 @@ export const sendTrustCenterUpdateNotifications: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3299, __c206, 3) as any as S.Schema<SendTrustCenterUpdateNotificationsRequest>,
   output: __S(3300, __c206, 4) as any as S.Schema<NotifySpecificSubscribersResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11799,7 +12039,8 @@ export const sendTrustCenterViewerInviteReminder: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3312, __c207, 0) as any as S.Schema<SendTrustCenterViewerInviteReminderRequest>,
   output: __S(4560, __c285, 0) as any as S.Schema<InviteReminderResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11816,7 +12057,8 @@ export const setEngagement: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3328, __c208, 0) as any as S.Schema<SetEngagementRequest>,
   output: __S(3329, __c208, 1) as any as S.Schema<VendorEngagement>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11833,7 +12075,8 @@ export const setFrameworkVariant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3344, __c209, 0) as any as S.Schema<SetFrameworkVariantRequest>,
   output: __S(3345, __c209, 1) as any as S.Schema<FrameworkVariantSelection>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11850,7 +12093,8 @@ export const setLeaveForPerson: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3360, __c210, 0) as any as S.Schema<SetLeaveForPersonRequest>,
   output: __S(590, __c36, 14) as any as S.Schema<Person>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11867,7 +12111,8 @@ export const setOwnerForControl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3376, __c211, 0) as any as S.Schema<SetOwnerForControlRequest>,
   output: __S(4784, __c299, 0) as any as S.Schema<Control>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11884,7 +12129,8 @@ export const setOwnerForDocument: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3392, __c212, 0) as any as S.Schema<SetOwnerForDocumentRequest>,
   output: __S(5840, __c365, 0) as any as S.Schema<Document>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11901,7 +12147,8 @@ export const setStatusForVendor: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3408, __c213, 0) as any as S.Schema<SetStatusForVendorRequest>,
   output: __S(5655, __c353, 7) as any as S.Schema<Vendor>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11918,7 +12165,8 @@ export const snoozeFramework: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3424, __c214, 0) as any as S.Schema<SnoozeFrameworkRequest>,
   output: __S(2992, __c187, 0) as any as S.Schema<FrameworkSnooze>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11935,7 +12183,8 @@ export const submitDocumentCollection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3456, __c216, 0) as any as S.Schema<SubmitDocumentCollectionRequest>,
   output: __S(4400, __c275, 0) as any as S.Schema<SubmitDocumentCollectionResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11952,7 +12201,8 @@ export const submitRiskForApproval: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3472, __c217, 0) as any as S.Schema<SubmitRiskForApprovalRequest>,
   output: __S(3252, __c203, 4) as any as S.Schema<RiskScenario>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11969,7 +12219,8 @@ export const updateAnswerLibraryEntryRoute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3488, __c218, 0) as any as S.Schema<UpdateAnswerLibraryEntryRouteRequest>,
   output: __S(3824, __c239, 0) as any as S.Schema<KnowledgeBaseAnswerLibraryEntryOutput>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11986,7 +12237,8 @@ export const updateComplianceFramework: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3504, __c219, 0) as any as S.Schema<UpdateComplianceFrameworkRequest>,
   output: __S(4016, __c251, 0) as any as S.Schema<TrustCenterComplianceFramework>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12003,7 +12255,8 @@ export const updateControlMetadata: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3520, __c220, 0) as any as S.Schema<UpdateControlMetadataRequest>,
   output: __S(6208, __c388, 0) as any as S.Schema<ControlDetail>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12020,7 +12273,8 @@ export const updateCustomerTrustAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3536, __c221, 0) as any as S.Schema<UpdateCustomerTrustAccountRequest>,
   output: __S(4468, __c279, 4) as any as S.Schema<CustomerTrustAccountVantaApi>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12037,7 +12291,8 @@ export const updateCustomRequirement: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3552, __c222, 0) as any as S.Schema<UpdateCustomRequirementRequest>,
   output: __S(4528, __c283, 0) as any as S.Schema<CustomRequirement>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12054,7 +12309,8 @@ export const updateDocumentResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3568, __c223, 0) as any as S.Schema<UpdateDocumentResourceRequest>,
   output: __S(4608, __c288, 0) as any as S.Schema<KnowledgeBaseDocumentResourceOutput>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12071,7 +12327,8 @@ export const updateGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3584, __c224, 0) as any as S.Schema<UpdateGroupRequest>,
   output: __S(4673, __c292, 1) as any as S.Schema<Group>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12088,7 +12345,8 @@ export const updatePerson: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3602, __c225, 2) as any as S.Schema<UpdatePersonRequest>,
   output: __S(590, __c36, 14) as any as S.Schema<Person>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12105,7 +12363,8 @@ export const updateQuestionnaire: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3632, __c227, 0) as any as S.Schema<UpdateQuestionnaireRequest>,
   output: __S(2437, __c152, 5) as any as S.Schema<CustomerTrustQuestionnaire>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12122,7 +12381,8 @@ export const updateQuestionnaireResponseContent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3649, __c228, 1) as any as S.Schema<UpdateQuestionnaireResponseContentRequest>,
   output: __S(361, __c22, 9) as any as S.Schema<QuestionnaireResponseWithoutViewerPermissions>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12139,7 +12399,8 @@ export const updateQuestionnaireResponseOwner: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3664, __c229, 0) as any as S.Schema<UpdateQuestionnaireResponseOwnerRequest>,
   output: __S(361, __c22, 9) as any as S.Schema<QuestionnaireResponseWithoutViewerPermissions>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12156,7 +12417,8 @@ export const updateResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3680, __c230, 0) as any as S.Schema<UpdateResourceRequest2>,
   output: __S(4400, __c275, 0) as any as S.Schema<UpdateResourceResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12173,7 +12435,8 @@ export const updateResources: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3698, __c231, 2) as any as S.Schema<UpdateResourcesRequest>,
   output: __S(2369, __c148, 1) as any as S.Schema<BulkResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12190,7 +12453,8 @@ export const updateRiskScenario: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3712, __c232, 0) as any as S.Schema<UpdateRiskScenarioRequest>,
   output: __S(3252, __c203, 4) as any as S.Schema<RiskScenario>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12207,7 +12471,8 @@ export const updateRiskScenarioControl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3728, __c233, 0) as any as S.Schema<UpdateRiskScenarioControlRequest>,
   output: __S(4848, __c303, 0) as any as S.Schema<RiskScenarioControl>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12224,7 +12489,8 @@ export const updateSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3744, __c234, 0) as any as S.Schema<UpdateSettingsRequest>,
   output: __S(528, __c33, 0) as any as S.Schema<UpdateSettingsResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12241,7 +12507,8 @@ export const updateTaskRequirementSetDetails: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3760, __c235, 0) as any as S.Schema<UpdateTaskRequirementSetDetailsRequest>,
   output: __S(4883, __c305, 3) as any as S.Schema<TaskRequirementSet>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12258,7 +12525,8 @@ export const updateTaskRequirementSetRequirements: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3776, __c236, 0) as any as S.Schema<UpdateTaskRequirementSetRequirementsRequest>,
   output: __S(4883, __c305, 3) as any as S.Schema<TaskRequirementSet>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12275,7 +12543,8 @@ export const updateTrustCenter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3842, __c240, 2) as any as S.Schema<UpdateTrustCenterRequest>,
   output: __S(674, __c42, 2) as any as S.Schema<TrustCenter>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12292,7 +12561,8 @@ export const updateTrustCenterControlCategory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3856, __c241, 0) as any as S.Schema<UpdateTrustCenterControlCategoryRequest>,
   output: __S(5168, __c323, 0) as any as S.Schema<TrustCenterControlCategory>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12309,7 +12579,8 @@ export const updateTrustCenterControlsInCategory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3872, __c242, 0) as any as S.Schema<UpdateTrustCenterControlsInCategoryRequest>,
   output: __S(5168, __c323, 0) as any as S.Schema<TrustCenterControlCategory>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12326,7 +12597,8 @@ export const updateTrustCenterFaq: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3888, __c243, 0) as any as S.Schema<UpdateTrustCenterFaqRequest>,
   output: __S(4928, __c308, 0) as any as S.Schema<TrustCenterFaq>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12343,7 +12615,8 @@ export const updateTrustCenterFaqCategory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3904, __c244, 0) as any as S.Schema<UpdateTrustCenterFaqCategoryRequest>,
   output: __S(1536, __c96, 0) as any as S.Schema<TrustCenterFaqCategory>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12360,7 +12633,8 @@ export const updateTrustCenterResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3920, __c245, 0) as any as S.Schema<UpdateTrustCenterResourceRequest>,
   output: __S(4960, __c310, 0) as any as S.Schema<TrustCenterResource>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12377,7 +12651,8 @@ export const updateTrustCenterResourceCategory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3936, __c246, 0) as any as S.Schema<UpdateTrustCenterResourceCategoryRequest>,
   output: __S(1536, __c96, 0) as any as S.Schema<TrustCenterResourceCategory>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12394,7 +12669,8 @@ export const updateTrustCenterSubprocessor: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3952, __c247, 0) as any as S.Schema<UpdateTrustCenterSubprocessorRequest>,
   output: __S(4992, __c312, 0) as any as S.Schema<TrustCenterSubprocessor>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12411,7 +12687,8 @@ export const updateTrustCenterSubscriberGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3968, __c248, 0) as any as S.Schema<UpdateTrustCenterSubscriberGroupRequest>,
   output: __S(5072, __c317, 0) as any as S.Schema<TrustCenterSubscriberGroup>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12428,7 +12705,8 @@ export const updateTrustCenterUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3984, __c249, 0) as any as S.Schema<UpdateTrustCenterUpdateRequest>,
   output: __S(5104, __c319, 0) as any as S.Schema<TrustCenterUpdateAPIResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12445,7 +12723,8 @@ export const updateTrustCenterViewer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4032, __c252, 0) as any as S.Schema<UpdateTrustCenterViewerRequest>,
   output: __S(1957, __c122, 5) as any as S.Schema<TrustCenterViewer>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12462,7 +12741,8 @@ export const updateVendor: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4049, __c253, 1) as any as S.Schema<UpdateVendorRequest>,
   output: __S(5655, __c353, 7) as any as S.Schema<Vendor>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12479,7 +12759,8 @@ export const updateVendorAlerts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4064, __c254, 0) as any as S.Schema<UpdateVendorAlertsRequest>,
   output: __S(4065, __c254, 1) as any as S.Schema<UpdateVendorAlertsResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12496,7 +12777,8 @@ export const updateVendorAlertSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4082, __c255, 2) as any as S.Schema<UpdateVendorAlertSettingsRequest>,
   output: __S(1090, __c68, 2) as any as S.Schema<VendorAlertSettingsResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12513,7 +12795,8 @@ export const updateVendorCategory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4096, __c256, 0) as any as S.Schema<UpdateVendorCategoryRequest>,
   output: __S(5232, __c327, 0) as any as S.Schema<VendorCategory2>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12530,7 +12813,8 @@ export const updateVendorFinding: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4112, __c257, 0) as any as S.Schema<UpdateVendorFindingRequest>,
   output: __S(5265, __c329, 1) as any as S.Schema<VendorFinding>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12547,7 +12831,8 @@ export const updateVendorSecurityIncidentAlerts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4128, __c258, 0) as any as S.Schema<UpdateVendorSecurityIncidentAlertsRequest>,
   output: __S(4129, __c258, 1) as any as S.Schema<UpdateVendorSecurityIncidentAlertsResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12564,7 +12849,8 @@ export const updateWebpageResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4144, __c259, 0) as any as S.Schema<UpdateWebpageResourceRequest>,
   output: __S(5312, __c332, 0) as any as S.Schema<KnowledgeBaseWebpageResourceOutput>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12581,7 +12867,8 @@ export const uploadComplianceFrameworkBadge: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4160, __c260, 0) as any as S.Schema<UploadComplianceFrameworkBadgeRequest>,
   output: __S(4560, __c285, 0) as any as S.Schema<BadgeUploadResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12598,7 +12885,8 @@ export const uploadContract: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4176, __c261, 0) as any as S.Schema<UploadContractRequest>,
   output: __S(6176, __c386, 0) as any as S.Schema<Contract>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12615,7 +12903,8 @@ export const uploadDocumentForSecurityReview: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4208, __c263, 0) as any as S.Schema<UploadDocumentForSecurityReviewRequest>,
   output: __S(448, __c28, 0) as any as S.Schema<VendorDocument>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12632,7 +12921,8 @@ export const uploadDocumentToVendor: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4224, __c264, 0) as any as S.Schema<UploadDocumentToVendorRequest>,
   output: __S(448, __c28, 0) as any as S.Schema<VendorDocument>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12649,7 +12939,8 @@ export const uploadFileForDocument: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4240, __c265, 0) as any as S.Schema<UploadFileForDocumentRequest>,
   output: __S(1792, __c112, 0) as any as S.Schema<UploadedFileT>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12666,7 +12957,8 @@ export const uploadTrustCenterFavicon: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4256, __c266, 0) as any as S.Schema<UploadTrustCenterFaviconRequest>,
   output: __S(4560, __c285, 0) as any as S.Schema<UploadFaviconResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12683,7 +12975,8 @@ export const upsertGroupsForTrustCenterSubscriber: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4272, __c267, 0) as any as S.Schema<UpsertGroupsForTrustCenterSubscriberRequest>,
   output: __S(5040, __c315, 0) as any as S.Schema<TrustCenterSubscriber>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12700,7 +12993,8 @@ export const upsertTrustCenterControlCategoriesOrder: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4288, __c268, 0) as any as S.Schema<UpsertTrustCenterControlCategoriesOrderRequest>,
   output: __S(752, __c47, 0) as any as S.Schema<ArrayResponseTrustCenterControlCategory>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12717,7 +13011,8 @@ export const upsertTrustCenterControlsInCategoryOrder: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4304, __c269, 0) as any as S.Schema<UpsertTrustCenterControlsInCategoryOrderRequest>,
   output: __S(5168, __c323, 0) as any as S.Schema<TrustCenterControlCategory>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12734,7 +13029,8 @@ export const upsertTrustCenterDataCollected: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4320, __c270, 0) as any as S.Schema<UpsertTrustCenterDataCollectedRequest>,
   output: __S(2290, __c143, 2) as any as S.Schema<ArrayResponseTrustCenterDataCollected>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12751,7 +13047,8 @@ export const upsertTrustCenterResourceCategoriesOrder: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4336, __c271, 0) as any as S.Schema<UpsertTrustCenterResourceCategoriesOrderRequest>,
   output: __S(2320, __c145, 0) as any as S.Schema<ArrayResponseTrustCenterResourceCategory>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12768,7 +13065,8 @@ export const upsertTrustCenterVideos: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4354, __c272, 2) as any as S.Schema<UpsertTrustCenterVideosRequest>,
   output: __S(2578, __c161, 2) as any as S.Schema<ArrayResponseTrustCenterVideo>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12785,7 +13083,8 @@ export const verifyAnswerLibraryEntryRoute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4480, __c280, 0) as any as S.Schema<VerifyAnswerLibraryEntryRouteRequest>,
   output: __S(3824, __c239, 0) as any as S.Schema<KnowledgeBaseAnswerLibraryEntryOutput>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12802,7 +13101,8 @@ export const verifyKnowledgeBaseResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4496, __c281, 0) as any as S.Schema<VerifyKnowledgeBaseResourceRequest>,
   output: __S(128, __c8, 0) as any as S.Schema<VerifyKnowledgeBaseResourceResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

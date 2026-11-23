@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import { AzureDataPlaneProtocol } from "../data-plane-protocol.ts";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -302,7 +302,8 @@ export const CreateTextDependentEnrollment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateTextDependentEnrollmentRequest>,
   output: __S(1, __c0, 1) as any as S.Schema<TdEnrollmentInfo>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -319,7 +320,8 @@ export const CreateTextDependentProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4, __c1, 0) as any as S.Schema<CreateTextDependentProfileRequest>,
   output: __S(5, __c1, 1) as any as S.Schema<CreateTextDependentProfileResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -336,7 +338,8 @@ export const CreateTextIndependentEnrollment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(36, __c9, 0) as any as S.Schema<CreateTextIndependentEnrollmentRequest>,
   output: __S(37, __c9, 1) as any as S.Schema<TiEnrollmentInfo>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -353,7 +356,8 @@ export const CreateTextIndependentProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c10, 0) as any as S.Schema<CreateTextIndependentProfileRequest>,
   output: __S(41, __c10, 1) as any as S.Schema<CreateTextIndependentProfileResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -370,7 +374,8 @@ export const DeleteTextDependentProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(44, __c11, 0) as any as S.Schema<DeleteTextDependentProfileRequest>,
   output: __S(48, __c12, 0) as any as S.Schema<DeleteTextDependentProfileResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -387,7 +392,8 @@ export const DeleteTextIndependentProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(52, __c13, 0) as any as S.Schema<DeleteTextIndependentProfileRequest>,
   output: __S(48, __c12, 0) as any as S.Schema<DeleteTextIndependentProfileResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -404,7 +410,8 @@ export const GetTextDependentProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56, __c14, 0) as any as S.Schema<GetTextDependentProfileRequest>,
   output: __S(60, __c15, 0) as any as S.Schema<TdProfileInfo>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -421,7 +428,8 @@ export const GetTextIndependentProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c16, 0) as any as S.Schema<GetTextIndependentProfileRequest>,
   output: __S(68, __c17, 0) as any as S.Schema<TiProfileInfo>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -438,7 +446,8 @@ export const ListTextDependentPhrases: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(72, __c18, 0) as any as S.Schema<ListTextDependentPhrasesRequest>,
   output: __S(75, __c18, 3) as any as S.Schema<PassPhraseInfo>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -456,7 +465,8 @@ export const ListTextDependentProfiles: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(76, __c19, 0) as any as S.Schema<ListTextDependentProfilesRequest>,
   output: __S(78, __c19, 2) as any as S.Schema<TdProfileInfoList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -479,7 +489,8 @@ export const ListTextIndependentActivationPhrases: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c2, 0) as any as S.Schema<ListTextIndependentActivationPhrasesRequest>,
   output: __S(11, __c2, 3) as any as S.Schema<ActivationPhraseInfo>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -497,7 +508,8 @@ export const ListTextIndependentProfiles: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(12, __c3, 0) as any as S.Schema<ListTextIndependentProfilesRequest>,
   output: __S(14, __c3, 2) as any as S.Schema<TiProfileInfoList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -520,7 +532,8 @@ export const ResetTextDependentProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c4, 0) as any as S.Schema<ResetTextDependentProfileRequest>,
   output: __S(17, __c4, 1) as any as S.Schema<ResetTextDependentProfileResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -537,7 +550,8 @@ export const ResetTextIndependentProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20, __c5, 0) as any as S.Schema<ResetTextIndependentProfileRequest>,
   output: __S(21, __c5, 1) as any as S.Schema<ResetTextIndependentProfileResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -554,7 +568,8 @@ export const VerifyTextDependentProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c6, 0) as any as S.Schema<VerifyTextDependentProfileRequest>,
   output: __S(28, __c7, 0) as any as S.Schema<RecognitionInfo>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -571,7 +586,8 @@ export const VerifyTextIndependentProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c8, 0) as any as S.Schema<VerifyTextIndependentProfileRequest>,
   output: __S(28, __c7, 0) as any as S.Schema<RecognitionInfo>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

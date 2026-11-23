@@ -33,7 +33,6 @@ const program = Effect.gen(function* () {
 const Live = Layer.mergeAll(
   FetchHttpClient.layer,
   Browserbase.CredentialsFromEnv,
-  Browserbase.BrowserbaseProtocol,
 );
 
 program.pipe(Effect.provide(Live), Effect.runPromise);

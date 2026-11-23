@@ -1,8 +1,7 @@
-import type * as API from "@distilled.cloud/core/api";
-import { type API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
+import { ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
+import type { ErrorOf } from "@distilled.cloud/core/protocol";
 import { encodeLabel } from "@distilled.cloud/core/protocol-http";
-import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
-import type { SdkError } from "@distilled.cloud/core/sdk-error";
+import { restProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
 /**
  * WhatsAppProtocol -- hand-written.
  *
@@ -19,26 +18,21 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
  */
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import { Credentials, type Config } from "./credentials.ts";
-import { UnknownWhatsAppError, WhatsAppParseError } from "./errors.ts";
+import { UnknownWhatsAppError, WhatsAppParseError, type WhatsAppServiceError } from "./errors.ts";
 
 /**
- * Error channel shared by every generated WhatsApp operation. Generated
- * service files annotate operations with `API.OperationMethod<I, O,
- * WhatsAppOpError, WhatsAppOpContext>` explicitly so the compiler never
- * infers these back out of the schema generics.
+ * What every generated WhatsApp operation fails with besides its own errors:
+ * the errors declared on the service, and the errors declared on the protocol.
+ * Nobody lists the protocol's: its type carries what its code fails with (a
+ * response that does not match its schema, a failed response nothing declares,
+ * core's REST errors, and what resolving the credentials fails with).
+ * Generated service files annotate operations with `API.OperationMethod<I, O,
+ * WhatsAppOpError, WhatsAppOpContext>` explicitly so the compiler never infers
+ * these back out of the schema generics.
  */
-export type WhatsAppOpError =
-  | InstanceType<(typeof API_ERRORS)[number]>
-  | UnknownWhatsAppError
-  | WhatsAppParseError
-  | ConfigError
-  | HttpClientError.HttpClientError
-  | InvalidInput
-  | SdkError;
+export type WhatsAppOpError = WhatsAppServiceError | ErrorOf<typeof WhatsAppProtocol>;
 
 /** Context (requirements) shared by every generated WhatsApp operation. */
 export type WhatsAppOpContext = Credentials | HttpClient.HttpClient;
@@ -56,23 +50,25 @@ const graphError = (body: unknown): { code?: number; message?: string } | undefi
 };
 
 /**
- * `<apiBaseUrl>/<apiVersion>`. Throws {@link ConfigError} for a version that
- * can't be a URL path segment (`""`, `.`, `..`, a lone UTF-16 surrogate);
- * the protocol fails the call with it.
+ * `<apiBaseUrl>/<apiVersion>`. Refuses a version that can't be a URL path
+ * segment (`""`, `.`, `..`, a lone UTF-16 surrogate) with
+ * {@link ConfigError}; the protocol fails the call with it.
  */
-const baseUrlFor = (creds: Config): string => {
+const baseUrlFor = (creds: Config): string | Effect.Effect<never, ConfigError> => {
   const version = encodeLabel("apiVersion", creds.apiVersion);
   if (version instanceof InvalidInput) {
-    throw new ConfigError({
-      message: `The configured WhatsApp API version ${JSON.stringify(creds.apiVersion)} cannot be a URL path segment`,
-    });
+    return Effect.fail(
+      new ConfigError({
+        message: `The configured WhatsApp API version ${JSON.stringify(creds.apiVersion)} cannot be a URL path segment`,
+      }),
+    );
   }
   return `${creds.apiBaseUrl}/${version}`;
 };
 
-export const WhatsAppProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
+export const WhatsAppProtocol = /*@__PURE__*/ restProtocol({
   // Resolved on the calling fiber per request.
-  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
+  credentials: /*@__PURE__*/ Effect.flatten(Credentials),
   baseUrl: baseUrlFor,
   headers: (creds) => ({
     Authorization: `Bearer ${Redacted.value(creds.accessToken)}`,

@@ -1,12 +1,10 @@
-import type * as API from "@distilled.cloud/core/api";
-import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
-import type { SdkError } from "@distilled.cloud/core/sdk-error";
+import type { ErrorOf } from "@distilled.cloud/core/protocol";
+import { restProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
 /**
  * UniFi protocols -- hand-written.
  *
  * Every UniFi API speaks API-key-authenticated JSON REST (no response
- * envelope), so each protocol is one `makeRestProtocol` call from
+ * envelope), so each protocol is one `restProtocol` call from
  * `core/protocol-rest`:
  *
  *   request:  the key -> `X-API-KEY: <apiKey>`, and for the console-hosted apps
@@ -27,34 +25,34 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
  */
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import {
   ApiKey,
   Console,
   DEFAULT_CLOUD_BASE_URL,
   consoleBaseUrl,
-  type CloudConfig,
   type ConsoleApp,
-  type ConsoleConfig,
 } from "./credentials.ts";
-import { UnknownUniFiError, UniFiParseError } from "./errors.ts";
+import { UnknownUniFiError, UniFiParseError, type UniFiServiceError } from "./errors.ts";
 
 /**
- * Error channel shared by every generated UniFi operation. Generated service
- * files annotate operations with `API.OperationMethod<I, O, UniFiOpError,
- * <context>>` explicitly so the compiler never infers these back out of the
- * schema generics.
+ * What every generated UniFi operation fails with besides its own errors: the
+ * errors declared on the service, and the errors declared on the protocols.
+ * Nobody lists the protocols': their types carry what their code fails with
+ * (a response that does not match its schema, a failed response nothing
+ * declares, core's REST errors, and what resolving the key and the console
+ * fails with). Generated service files annotate operations with
+ * `API.OperationMethod<I, O, UniFiOpError, <context>>` explicitly so the
+ * compiler never infers these back out of the schema generics.
  */
 export type UniFiOpError =
-  | InstanceType<(typeof API_ERRORS)[number]>
-  | UnknownUniFiError
-  | ConfigError
-  | HttpClientError.HttpClientError
-  | UniFiParseError
-  | InvalidInput
-  | SdkError;
+  | UniFiServiceError
+  | ErrorOf<
+      | typeof UniFiNetworkProtocol
+      | typeof UniFiProtectProtocol
+      | typeof UniFiInnerSpaceProtocol
+      | typeof UniFiCloudProtocol
+    >;
 
 /** Context of every Network, Protect and InnerSpace operation. */
 export type UniFiConsoleOpContext = ApiKey | Console | HttpClient.HttpClient;
@@ -62,8 +60,8 @@ export type UniFiConsoleOpContext = ApiKey | Console | HttpClient.HttpClient;
 /** Context of every Site Manager, Mobility and Carrier Fabric operation. */
 export type UniFiCloudOpContext = ApiKey | HttpClient.HttpClient;
 
-const consoleProtocol = (app: ConsoleApp): Layer.Layer<API.Protocol> =>
-  makeRestProtocol<ConsoleConfig>({
+const consoleProtocol = (app: ConsoleApp) =>
+  restProtocol({
     // Each service holds an effect -- resolving them here (per request, on the
     // calling fiber) picks up context-provided layers.
     credentials: Effect.gen(function* () {
@@ -71,29 +69,33 @@ const consoleProtocol = (app: ConsoleApp): Layer.Layer<API.Protocol> =>
       const location = yield* yield* Console;
       return { apiKey, location };
     }),
-    baseUrl: (creds) => consoleBaseUrl(creds.location, app),
+    baseUrl: (creds) => {
+      const baseUrl = consoleBaseUrl(creds.location, app);
+      // A console ID that can't be a path segment refuses the call.
+      return typeof baseUrl === "string" ? baseUrl : Effect.fail(baseUrl);
+    },
     headers: (creds) => ({ "X-API-KEY": Redacted.value(creds.apiKey), Accept: "application/json" }),
     unknownError: (info) => new UnknownUniFiError(unknownErrorProps(info)),
     parseError: ({ body, cause }) => new UniFiParseError({ body, cause }),
   });
 
-export const UniFiNetworkProtocol: Layer.Layer<API.Protocol> =
-  /*@__PURE__*/ consoleProtocol("network");
+export const UniFiNetworkProtocol = /*@__PURE__*/ consoleProtocol("network");
 
-export const UniFiProtectProtocol: Layer.Layer<API.Protocol> =
-  /*@__PURE__*/ consoleProtocol("protect");
+export const UniFiProtectProtocol = /*@__PURE__*/ consoleProtocol("protect");
 
-export const UniFiInnerSpaceProtocol: Layer.Layer<API.Protocol> =
-  /*@__PURE__*/ consoleProtocol("innerspace");
+export const UniFiInnerSpaceProtocol = /*@__PURE__*/ consoleProtocol("innerspace");
 
-export const UniFiCloudProtocol: Layer.Layer<API.Protocol> =
-  /*@__PURE__*/ makeRestProtocol<CloudConfig>({
-    credentials: /*@__PURE__*/ Effect.map(
-      Effect.flatMap(ApiKey, (resolve) => resolve),
-      (apiKey) => ({ apiKey }),
-    ),
-    baseUrl: () => DEFAULT_CLOUD_BASE_URL,
-    headers: (creds) => ({ "X-API-KEY": Redacted.value(creds.apiKey), Accept: "application/json" }),
-    unknownError: (info) => new UnknownUniFiError(unknownErrorProps(info)),
-    parseError: ({ body, cause }) => new UniFiParseError({ body, cause }),
-  });
+// A const of its own: written inside the options, its callback would leave
+// the credentials typed `unknown`.
+const cloudCredentials = /*@__PURE__*/ Effect.map(
+  /*@__PURE__*/ Effect.flatten(ApiKey),
+  (apiKey) => ({ apiKey }),
+);
+
+export const UniFiCloudProtocol = /*@__PURE__*/ restProtocol({
+  credentials: cloudCredentials,
+  baseUrl: () => DEFAULT_CLOUD_BASE_URL,
+  headers: (creds) => ({ "X-API-KEY": Redacted.value(creds.apiKey), Accept: "application/json" }),
+  unknownError: (info) => new UnknownUniFiError(unknownErrorProps(info)),
+  parseError: ({ body, cause }) => new UniFiParseError({ body, cause }),
+});

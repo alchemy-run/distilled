@@ -1,11 +1,18 @@
-import * as API from "@distilled.cloud/core/api";
 import {
-  HTTP_STATUS_MAP,
   InternalServerError,
   TooManyRequests,
   type ConfigError,
   type InvalidInput,
 } from "@distilled.cloud/core/errors";
+import type {
+  DeclaredError,
+  DeclaredErrorClass,
+  DecodeArgs,
+  EncodeArgs,
+  ErrorOf,
+  Protocol,
+  ProtocolOf,
+} from "@distilled.cloud/core/protocol";
 import {
   buildRequest,
   getAnn,
@@ -14,6 +21,7 @@ import {
 } from "@distilled.cloud/core/protocol-http";
 import {
   binaryResponseSymbol,
+  declaredStatusClass,
   unwrapRedactedDeep,
   validateSuccess,
 } from "@distilled.cloud/core/protocol-rest";
@@ -46,15 +54,14 @@ import { httpSymbol } from "@distilled.cloud/core/trait";
  * `text/plain`) is returned as text.
  *
  * Failures are `{ type, message, ... }`; see `errors.ts` for the `type`
- * dispatch.
+ * dispatch. Its classes and core's status classes are the service's errors
+ * (`ScalewayServiceErrors`): the protocol builds one only from the classes
+ * the operation lists.
  */
 import * as Duration from "effect/Duration";
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
-import type * as HttpClientResponse from "effect/http/HttpClientResponse";
-import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import type * as AST from "effect/SchemaAST";
 import { Credentials, DEFAULT_API_URL, type Config } from "./credentials.ts";
@@ -73,21 +80,17 @@ import {
   TransientStateError,
   UnknownScalewayError,
 } from "./errors.ts";
-import type { DefaultErrors } from "./errors.ts";
+import type { ScalewayErrors, ScalewayServiceError } from "./errors.ts";
 import type { ScalewayHttpTrait } from "./traits.ts";
 
 /**
- * Error channel shared by every generated Scaleway operation. Generated
- * service files annotate operations with `API.OperationMethod<I, O,
- * ScalewayOpError, ScalewayOpContext>` explicitly so the compiler never
- * infers these back out of the schema generics.
+ * What every generated Scaleway operation fails with besides its own
+ * errors: the service's errors, the protocol's, and what resolving the
+ * credentials fails with. Generated service files annotate operations with
+ * `API.OperationMethod<I, O, ScalewayOpError, ScalewayOpContext>` explicitly
+ * so the compiler never infers these back out of the schema generics.
  */
-export type ScalewayOpError =
-  | DefaultErrors
-  | ConfigError
-  | HttpClientError.HttpClientError
-  | InvalidInput
-  | SdkError;
+export type ScalewayOpError = ScalewayServiceError | ErrorOf<typeof ScalewayProtocol>;
 
 /** Context (requirements) shared by every generated Scaleway operation. */
 export type ScalewayOpContext = Credentials | HttpClient.HttpClient;
@@ -105,24 +108,29 @@ const records = (value: unknown): Json[] => (Array.isArray(value) ? value.filter
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
+/** An error Scaleway's `type` envelope names: one of its classes, or core's `TooManyRequests`. */
+type EnvelopeError = ScalewayErrors | TooManyRequests;
+
 /**
  * Scaleway's typed error for a failure body, or undefined when its `type`
  * is not one the official SDKs recognise (the caller then falls back to the
  * HTTP status). Mirrors scaleway-sdk-js `parseScalewayError`, including the
- * two legacy envelopes Instance v1 still answers with.
+ * two legacy envelopes Instance v1 still answers with. `build` makes the
+ * error from its class and fields, and can answer `undefined` too.
  */
-export const scalewayError = (
+const envelopeError = <A>(
+  build: <Props>(cls: new (props: Props) => EnvelopeError, props: Props) => A,
   body: unknown,
   message: string,
   headers: Record<string, string | undefined>,
   status: number,
-): unknown => {
+): A | undefined => {
   if (!isObject(body) || typeof body.type !== "string") return undefined;
   const resource = str(body.resource);
   const resource_id = str(body.resource_id);
   switch (body.type) {
     case "invalid_arguments":
-      return new InvalidArgumentsError({
+      return build(InvalidArgumentsError, {
         message,
         details: records(body.details).flatMap((d) =>
           typeof d.argument_name === "string" && typeof d.reason === "string"
@@ -138,14 +146,14 @@ export const scalewayError = (
         body,
       });
     case "denied_authentication":
-      return new DeniedAuthenticationError({
+      return build(DeniedAuthenticationError, {
         message,
         method: str(body.method),
         reason: str(body.reason),
         body,
       });
     case "permissions_denied":
-      return new PermissionsDeniedError({
+      return build(PermissionsDeniedError, {
         message,
         details: records(body.details).flatMap((d) =>
           typeof d.resource === "string" && typeof d.action === "string"
@@ -155,7 +163,7 @@ export const scalewayError = (
         body,
       });
     case "quotas_exceeded":
-      return new QuotasExceededError({
+      return build(QuotasExceededError, {
         message,
         details: records(body.details).flatMap((d) =>
           typeof d.resource === "string" &&
@@ -167,9 +175,9 @@ export const scalewayError = (
         body,
       });
     case "not_found":
-      return new ResourceNotFoundError({ message, resource, resource_id, body });
+      return build(ResourceNotFoundError, { message, resource, resource_id, body });
     case "expired":
-      return new ResourceExpiredError({
+      return build(ResourceExpiredError, {
         message,
         resource,
         resource_id,
@@ -177,9 +185,9 @@ export const scalewayError = (
         body,
       });
     case "locked":
-      return new ResourceLockedError({ message, resource, resource_id, body });
+      return build(ResourceLockedError, { message, resource, resource_id, body });
     case "transient_state":
-      return new TransientStateError({
+      return build(TransientStateError, {
         message,
         resource,
         resource_id,
@@ -187,7 +195,7 @@ export const scalewayError = (
         body,
       });
     case "already_exists":
-      return new AlreadyExistsError({
+      return build(AlreadyExistsError, {
         message,
         resource,
         resource_id,
@@ -195,19 +203,19 @@ export const scalewayError = (
         body,
       });
     case "precondition_failed":
-      return new PreconditionFailedError({
+      return build(PreconditionFailedError, {
         message,
         precondition: str(body.precondition),
         help_message: str(body.help_message),
         body,
       });
     case "out_of_stock":
-      return new OutOfStockError({ message, resource, body });
+      return build(OutOfStockError, { message, resource, body });
     case "too_many_requests": {
       // `reset_seconds` is the server's own wait hint when no Retry-After
       // header came with it.
       const reset = typeof body.reset_seconds === "number" ? body.reset_seconds : undefined;
-      return new TooManyRequests({
+      return build(TooManyRequests, {
         message,
         retryAfter:
           parseRetryAfterForStatus(429, headers) ??
@@ -218,19 +226,19 @@ export const scalewayError = (
       // Legacy Instance v1: `"<uuid>" not found` / `Security group '<uuid>' not found`.
       const parts = (str(body.message) ?? "").split(/["']/);
       if (parts.length === 3 && UUID.test(parts[1]!)) {
-        return new ResourceNotFoundError({
+        return build(ResourceNotFoundError, {
           message,
           resource: parts[0]!.trim().toLowerCase().split(" ").join("_") || undefined,
           resource_id: parts[1],
           body,
         });
       }
-      return status === 404 ? new ResourceNotFoundError({ message, body }) : undefined;
+      return status === 404 ? build(ResourceNotFoundError, { message, body }) : undefined;
     }
     case "invalid_request_error": {
       // Legacy Instance v1: quota failures and per-field validation messages.
       if ((str(body.message) ?? "").toLowerCase().includes("quota exceeded for this resource")) {
-        return new QuotasExceededError({
+        return build(QuotasExceededError, {
           message,
           details: [{ resource: resource ?? "", quota: 0, current: 0 }],
           body,
@@ -242,11 +250,40 @@ export const scalewayError = (
           .filter((m): m is string => typeof m === "string")
           .map((help_message) => ({ argument_name, reason: "constraint", help_message })),
       );
-      return details.length > 0 ? new InvalidArgumentsError({ message, details, body }) : undefined;
+      return details.length > 0
+        ? build(InvalidArgumentsError, { message, details, body })
+        : undefined;
     }
     default:
       return undefined;
   }
+};
+
+/**
+ * Scaleway's typed error for a failure body, or undefined when its `type`
+ * is not one the official SDKs recognise. See {@link envelopeError}.
+ */
+export const scalewayError = (
+  body: unknown,
+  message: string,
+  headers: Record<string, string | undefined>,
+  status: number,
+): EnvelopeError | undefined =>
+  envelopeError((cls, props) => new cls(props), body, message, headers, status);
+
+/**
+ * An instance of `cls`, a class of the service's errors, built from the
+ * operation's own list: `undefined` when the operation does not list the
+ * class (every generated operation lists `ScalewayServiceErrors`).
+ */
+const declaredError = <Props>(
+  errors: ReadonlyArray<DeclaredErrorClass>,
+  cls: new (props: Props) => unknown,
+  props: Props,
+): DeclaredError | undefined => {
+  const known: unknown = cls;
+  const Declared = errors.find((declared) => declared === known);
+  return Declared === undefined ? undefined : new Declared(props);
 };
 
 /**
@@ -266,8 +303,6 @@ const failureMessage = (body: unknown, status: number, text: string): string => 
     .filter((s): s is string => s !== undefined);
   return help.length > 0 ? `${base} (${help.join("; ")})` : base;
 };
-
-const fail = (e: unknown): Effect.Effect<never> => Effect.fail(e) as Effect.Effect<never>;
 
 const httpTraitOf = (inputAst: AST.AST): ScalewayHttpTrait | SdkError => {
   const http = getAnn(inputAst, httpSymbol) as ScalewayHttpTrait | undefined;
@@ -357,8 +392,8 @@ export const failureFor = (
   status: number,
   text: string,
   headers: Record<string, string | undefined>,
-  errorClasses: ReadonlyArray<unknown> = [],
-): unknown => {
+  errorClasses: ReadonlyArray<DeclaredErrorClass> = [],
+): DeclaredError | InternalServerError | UnknownScalewayError => {
   let json: unknown;
   let nonJson = false;
   if (text.trim().length > 0) {
@@ -379,16 +414,19 @@ export const failureFor = (
   if (typed !== undefined) return typed;
 
   // 2. Scaleway's `type` envelope.
-  const scw = nonJson ? undefined : scalewayError(json, message, headers, status);
+  const scw = nonJson
+    ? undefined
+    : envelopeError(
+        (cls, props) => declaredError(errorClasses, cls, props),
+        json,
+        message,
+        headers,
+        status,
+      );
   if (scw !== undefined) return scw;
 
-  // 3. The HTTP status.
-  const StatusErrorClass = (
-    HTTP_STATUS_MAP as Record<
-      number,
-      (new (args: { message: string; retryAfter?: unknown }) => unknown) | undefined
-    >
-  )[status];
+  // 3. The HTTP status: core's class for it, which the service declares.
+  const StatusErrorClass = declaredStatusClass(status, errorClasses);
   if (StatusErrorClass) {
     return new StatusErrorClass({ message, retryAfter: parseRetryAfterForStatus(status, headers) });
   }
@@ -407,67 +445,55 @@ export const failureFor = (
   });
 };
 
-export const ScalewayProtocol: Layer.Layer<API.Protocol> = Layer.succeed(
-  API.Protocol,
-  API.Protocol.of({
-    encode: ({ input, inputAst }: { readonly input: unknown; readonly inputAst: AST.AST }) =>
-      encodeRequest(input, inputAst) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
-    decode: ({
-      response,
-      outputAst,
-      errors: errorClasses,
-    }: {
-      readonly response: HttpClientResponse.HttpClientResponse;
-      readonly outputAst: AST.AST;
-      readonly errors: ReadonlyArray<unknown>;
-    }) =>
-      Effect.gen(function* () {
-        const status = response.status;
-        const headers = response.headers as Record<string, string | undefined>;
+const scalewayProtocolMethods = {
+  encode: ({ input, inputAst }: EncodeArgs) => encodeRequest(input, inputAst),
+  decode: ({ response, outputAst, errors: errorClasses }: DecodeArgs) =>
+    Effect.gen(function* () {
+      const status = response.status;
+      const headers = response.headers as Record<string, string | undefined>;
 
-        // `...Raw` downloads: the body is the file.
-        if (
-          status >= 200 &&
-          status < 300 &&
-          getAnn(outputAst, binaryResponseSymbol) !== undefined
-        ) {
-          return new Uint8Array(yield* response.arrayBuffer.pipe(Effect.catch(fail)));
-        }
+      // `...Raw` downloads: the body is the file.
+      if (status >= 200 && status < 300 && getAnn(outputAst, binaryResponseSymbol) !== undefined) {
+        return new Uint8Array(yield* response.arrayBuffer);
+      }
 
-        const text = (yield* response.text.pipe(Effect.catch(fail))) ?? "";
-        if (status >= 400) return yield* fail(failureFor(status, text, headers, errorClasses));
+      const text = (yield* response.text) ?? "";
+      if (status >= 400) {
+        return yield* Effect.fail(failureFor(status, text, headers, errorClasses));
+      }
 
-        // A success body is JSON only when it says so (user data is
-        // `text/plain`).
-        let json: unknown;
-        let nonJson = false;
-        if (text.trim().length > 0) {
-          if (isJsonContentType(headers["content-type"])) {
-            try {
-              json = JSON.parse(text);
-            } catch {
-              nonJson = true;
-            }
-          } else {
+      // A success body is JSON only when it says so (user data is
+      // `text/plain`).
+      let json: unknown;
+      let nonJson = false;
+      if (text.trim().length > 0) {
+        if (isJsonContentType(headers["content-type"])) {
+          try {
+            json = JSON.parse(text);
+          } catch {
             nonJson = true;
           }
+        } else {
+          nonJson = true;
         }
+      }
 
-        let body: unknown = nonJson ? text : stripNulls(json ?? {});
-        const totalCount = headers["x-total-count"];
-        if (isObject(body) && !("total_count" in body) && totalCount !== undefined) {
-          const n = Math.trunc(Number(totalCount));
-          if (!Number.isNaN(n)) body = { ...body, total_count: n };
-        }
+      let body: unknown = nonJson ? text : stripNulls(json ?? {});
+      const totalCount = headers["x-total-count"];
+      if (isObject(body) && !("total_count" in body) && totalCount !== undefined) {
+        const n = Math.trunc(Number(totalCount));
+        if (!Number.isNaN(n)) body = { ...body, total_count: n };
+      }
 
-        // Strict mode checks the mapped body against the output schema, and
-        // parse errors withhold a body that can hold a secret (core
-        // `validateSuccess`).
-        return yield* validateSuccess(
-          outputAst,
-          { value: mapKeys(outputAst, body, "decode"), body: nonJson ? text : json, nonJson },
-          (info) => new ScalewayParseError(info),
-        ).pipe(Effect.catch(fail));
-      }),
-  }),
-);
+      // Strict mode checks the mapped body against the output schema, and
+      // parse errors withhold a body that can hold a secret (core
+      // `validateSuccess`).
+      return yield* validateSuccess(
+        outputAst,
+        { value: mapKeys(outputAst, body, "decode"), body: nonJson ? text : json, nonJson },
+        (info) => new ScalewayParseError(info),
+      );
+    }),
+} satisfies Protocol<unknown, unknown>;
+
+export const ScalewayProtocol: ProtocolOf<typeof scalewayProtocolMethods> = scalewayProtocolMethods;

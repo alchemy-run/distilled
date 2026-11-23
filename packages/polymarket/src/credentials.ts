@@ -6,6 +6,10 @@
  * Bridge and most CLOB, Relayer and Perps reads are public, so an empty
  * configuration is a working one.
  *
+ * What it resolves is already checked ({@link CheckedConfig}): a layer here
+ * decodes the CLOB secret when it is built, so a bad value is a
+ * `ConfigError` at setup and no call can fail for it.
+ *
  * - `clob`: L2 API credentials (`apiKey`, `secret`, `passphrase`) plus the
  *   signer `address`. When set, every CLOB and Combos RFQ request carries
  *   the five `POLY_*` L2 headers, signed with HMAC-SHA256 (see
@@ -25,7 +29,8 @@ import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
-import type * as Redacted from "effect/Redacted";
+import * as Redacted from "effect/Redacted";
+import { decodeSecret } from "./signing.ts";
 
 /** Production hosts, from each document's `servers`. */
 export const DEFAULT_BASE_URLS: BaseUrls = {
@@ -79,10 +84,53 @@ export interface Config {
   readonly baseUrls: BaseUrls;
 }
 
+/** {@link ClobCredentials}, checked: the secret is decoded. */
+export interface CheckedClobCredentials {
+  readonly address: string;
+  readonly apiKey: Redacted.Redacted<string>;
+  /** The HMAC key: the API secret, base64-decoded. */
+  readonly key: Redacted.Redacted<Uint8Array>;
+  readonly passphrase: Redacted.Redacted<string>;
+}
+
+/** {@link Config}, checked: the CLOB secret is base64. */
+export interface CheckedConfig {
+  readonly clob?: CheckedClobCredentials | undefined;
+  readonly relayer?: RelayerCredentials | undefined;
+  readonly perps?: PerpsCredentials | undefined;
+  readonly baseUrls: BaseUrls;
+}
+
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<CheckedConfig>>()(
     "PolymarketCredentials",
   ) {}
+
+const withoutClob = (config: Config): CheckedConfig => ({
+  relayer: config.relayer,
+  perps: config.perps,
+  baseUrls: config.baseUrls,
+});
+
+/**
+ * Check `config`: fails with `ConfigError` for a CLOB secret that is not
+ * base64. For a `Credentials` layer of your own, for example one that
+ * rotates keys.
+ */
+export const check = (config: Config): Effect.Effect<CheckedConfig, ConfigError> => {
+  const clob = config.clob;
+  return clob === undefined
+    ? Effect.succeed(withoutClob(config))
+    : Effect.map(decodeSecret(Redacted.value(clob.secret)), (key) => ({
+        ...withoutClob(config),
+        clob: {
+          address: clob.address,
+          apiKey: clob.apiKey,
+          key: Redacted.make(key),
+          passphrase: clob.passphrase,
+        },
+      }));
+};
 
 const optionalString = (name: string) =>
   EffectConfig.String(name).pipe(EffectConfig.option, EffectConfig.map(Option.getOrUndefined));
@@ -131,70 +179,89 @@ const group = <A extends object>(
   );
 };
 
-export const CredentialsFromEnv = /*@__PURE__*/ Layer.succeed(
-  Credentials,
-  /*@__PURE__*/ envConfig.pipe(
-    /*@__PURE__*/ Effect.mapError(
-      () => new ConfigError({ message: "Could not read the Polymarket environment variables" }),
-    ),
-    /*@__PURE__*/ Effect.flatMap((env) =>
-      Effect.all({
-        clob: group<ClobCredentials>(
-          "CLOB",
-          {
-            address: env.clobAddress,
-            apiKey: env.clobApiKey,
-            secret: env.clobSecret,
-            passphrase: env.clobPassphrase,
-          },
-          {
-            address: "POLY_ADDRESS",
-            apiKey: "CLOB_API_KEY",
-            secret: "CLOB_SECRET",
-            passphrase: "CLOB_PASS_PHRASE",
-          },
-        ),
-        relayer: group<RelayerCredentials>(
-          "relayer",
-          { address: env.relayerAddress, apiKey: env.relayerApiKey },
-          { address: "RELAYER_API_KEY_ADDRESS", apiKey: "RELAYER_API_KEY" },
-        ),
-        perps: group<PerpsCredentials>(
-          "Perps",
-          { proxy: env.perpsProxy, secret: env.perpsSecret },
-          { proxy: "POLYMARKET_PROXY", secret: "POLYMARKET_SECRET" },
-        ),
-      }).pipe(
-        Effect.map(({ clob, relayer, perps }): Config => ({
-          clob,
-          relayer,
-          perps,
-          baseUrls:
-            env.clobBaseUrl === undefined
-              ? DEFAULT_BASE_URLS
-              : { ...DEFAULT_BASE_URLS, clob: env.clobBaseUrl },
-        })),
+const fromEnvironment: Effect.Effect<Config, ConfigError> = /*@__PURE__*/ envConfig.pipe(
+  /*@__PURE__*/ Effect.mapError(
+    () => new ConfigError({ message: "Could not read the Polymarket environment variables" }),
+  ),
+  /*@__PURE__*/ Effect.flatMap((env) =>
+    Effect.all({
+      clob: group<ClobCredentials>(
+        "CLOB",
+        {
+          address: env.clobAddress,
+          apiKey: env.clobApiKey,
+          secret: env.clobSecret,
+          passphrase: env.clobPassphrase,
+        },
+        {
+          address: "POLY_ADDRESS",
+          apiKey: "CLOB_API_KEY",
+          secret: "CLOB_SECRET",
+          passphrase: "CLOB_PASS_PHRASE",
+        },
       ),
+      relayer: group<RelayerCredentials>(
+        "relayer",
+        { address: env.relayerAddress, apiKey: env.relayerApiKey },
+        { address: "RELAYER_API_KEY_ADDRESS", apiKey: "RELAYER_API_KEY" },
+      ),
+      perps: group<PerpsCredentials>(
+        "Perps",
+        { proxy: env.perpsProxy, secret: env.perpsSecret },
+        { proxy: "POLYMARKET_PROXY", secret: "POLYMARKET_SECRET" },
+      ),
+    }).pipe(
+      Effect.map(({ clob, relayer, perps }): Config => ({
+        clob,
+        relayer,
+        perps,
+        baseUrls:
+          env.clobBaseUrl === undefined
+            ? DEFAULT_BASE_URLS
+            : { ...DEFAULT_BASE_URLS, clob: env.clobBaseUrl },
+      })),
     ),
   ),
 );
 
-/** Credentials from values, e.g. L2 keys held in a secret store. */
+/**
+ * Credentials from the environment. It is read, and the values checked,
+ * once: when the layer is built. It fails with `ConfigError` for a group
+ * that is partly set or a CLOB secret that is not base64.
+ */
+export const CredentialsFromEnv: Layer.Layer<Credentials, ConfigError> = /*@__PURE__*/ Layer.effect(
+  Credentials,
+  /*@__PURE__*/ Effect.map(/*@__PURE__*/ Effect.flatMap(fromEnvironment, check), (checked) =>
+    Effect.succeed(checked),
+  ),
+);
+
+/**
+ * Credentials from values, e.g. L2 keys held in a secret store. Building the
+ * layer checks them ({@link check}), so it fails with `ConfigError` for a
+ * CLOB secret that is not base64.
+ */
 export const credentials = (config: {
   readonly clob?: ClobCredentials;
   readonly relayer?: RelayerCredentials;
   readonly perps?: PerpsCredentials;
   readonly baseUrls?: Partial<BaseUrls>;
-}): Layer.Layer<Credentials> =>
-  Layer.succeed(
+}): Layer.Layer<Credentials, ConfigError> =>
+  Layer.effect(
     Credentials,
-    Effect.succeed({
-      clob: config.clob,
-      relayer: config.relayer,
-      perps: config.perps,
-      baseUrls: { ...DEFAULT_BASE_URLS, ...config.baseUrls },
-    }),
+    Effect.map(
+      check({
+        clob: config.clob,
+        relayer: config.relayer,
+        perps: config.perps,
+        baseUrls: { ...DEFAULT_BASE_URLS, ...config.baseUrls },
+      }),
+      (checked) => Effect.succeed(checked),
+    ),
   );
 
 /** Public endpoints only: no credentials, production hosts. */
-export const PublicCredentials: Layer.Layer<Credentials> = /*@__PURE__*/ credentials({});
+export const PublicCredentials: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.succeed(
+  Credentials,
+  /*@__PURE__*/ Effect.succeed({ baseUrls: DEFAULT_BASE_URLS }),
+);

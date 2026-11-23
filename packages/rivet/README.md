@@ -28,7 +28,6 @@ const program = Effect.gen(function* () {
 const Live = Layer.mergeAll(
   FetchHttpClient.layer,
   Rivet.CredentialsFromEnv,
-  Rivet.RivetProtocol,
 );
 
 program.pipe(Effect.provide(Live), Effect.runPromise);

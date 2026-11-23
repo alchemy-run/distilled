@@ -1,16 +1,14 @@
-import type * as API from "@distilled.cloud/core/api";
-import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
+import type { ErrorOf } from "@distilled.cloud/core/protocol";
 import {
-  makeRestProtocol,
+  restProtocol,
   type RestErrorEnvelope,
   unknownErrorProps,
 } from "@distilled.cloud/core/protocol-rest";
-import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * OktaProtocol -- hand-written.
  *
  * Okta speaks JSON REST (no response envelope), so the whole protocol is one
- * `makeRestProtocol` call from `core/protocol-rest`:
+ * `restProtocol` call from `core/protocol-rest`:
  *
  *   request:  credentials -> `Authorization: SSWS <apiToken>` (API token) or
  *             `Authorization: Bearer <apiToken>` (OAuth) + org base URL
@@ -24,25 +22,17 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
  */
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
-import { Credentials, formatHeaders, type Config } from "./credentials.ts";
-import { UnknownOktaError, OktaParseError } from "./errors.ts";
+import { Credentials, formatHeaders } from "./credentials.ts";
+import { UnknownOktaError, OktaParseError, type OktaServiceError } from "./errors.ts";
 
 /**
- * Error channel shared by every generated Okta operation. Generated service
- * files annotate operations with `API.OperationMethod<I, O, OktaOpError,
- * OktaOpContext>` explicitly so the compiler never infers these back out of
- * the schema generics.
+ * What every generated Okta operation fails with besides its own errors: the
+ * service's errors, the protocol's, and what resolving the credentials fails
+ * with. Generated service files annotate operations with
+ * `API.OperationMethod<I, O, OktaOpError, OktaOpContext>` explicitly so the
+ * compiler never infers these back out of the schema generics.
  */
-export type OktaOpError =
-  | InstanceType<(typeof API_ERRORS)[number]>
-  | UnknownOktaError
-  | ConfigError
-  | HttpClientError.HttpClientError
-  | OktaParseError
-  | InvalidInput
-  | SdkError;
+export type OktaOpError = OktaServiceError | ErrorOf<typeof OktaProtocol>;
 
 /** Context (requirements) shared by every generated Okta operation. */
 export type OktaOpContext = Credentials | HttpClient.HttpClient;
@@ -67,10 +57,10 @@ const errorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
   return { code, message };
 };
 
-export const OktaProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
+export const OktaProtocol = /*@__PURE__*/ restProtocol({
   // The Credentials service holds an effect -- resolving it here (per
   // request, on the calling fiber) picks up context-provided credentials.
-  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
+  credentials: /*@__PURE__*/ Effect.flatten(Credentials),
   baseUrl: (creds) => creds.apiBaseUrl,
   headers: (creds) => formatHeaders(creds),
   errorEnvelope,

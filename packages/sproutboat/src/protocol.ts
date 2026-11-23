@@ -1,11 +1,9 @@
-import type * as API from "@distilled.cloud/core/api";
-import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
+import type { ErrorOf } from "@distilled.cloud/core/protocol";
 import {
-  makeRestProtocol,
+  restProtocol,
   type RestErrorEnvelope,
   unknownErrorProps,
 } from "@distilled.cloud/core/protocol-rest";
-import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * SproutboatProtocol -- the shared REST protocol instantiated for the
  * Sproutboat Cloud API.
@@ -16,31 +14,29 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
  *
  *   response: 2xx JSON is the payload; non-2xx `{ error, reason?, path?,
  *             need?, retry_after_s? }` bodies map to the operation's typed
- *             error classes (matched on `reason`), then the shared
+ *             error classes (matched on `reason`), then the service's
  *             HTTP-status classes, then {@link UnknownSproutboatError}.
  */
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config } from "./credentials.ts";
-import { SproutboatParseError, UnknownSproutboatError } from "./errors.ts";
+import { Credentials } from "./credentials.ts";
+import {
+  SproutboatParseError,
+  UnknownSproutboatError,
+  type SproutboatServiceError,
+} from "./errors.ts";
 
 /**
- * Error channel shared by every generated Sproutboat operation. Generated
- * service files annotate operations with `API.OperationMethod<I, O,
- * SproutboatOpError, SproutboatOpContext>` explicitly so the compiler never
- * infers these back out of the schema generics.
+ * What every generated Sproutboat operation fails with besides its own
+ * errors: the errors declared on the service, and the errors declared on
+ * the protocol. Nobody lists the protocol's: its type carries what its code
+ * fails with. Generated service files annotate operations with
+ * `API.OperationMethod<I, O, SproutboatOpError, SproutboatOpContext>`
+ * explicitly so the compiler never infers these back out of the schema
+ * generics.
  */
-export type SproutboatOpError =
-  | InstanceType<(typeof API_ERRORS)[number]>
-  | UnknownSproutboatError
-  | ConfigError
-  | HttpClientError.HttpClientError
-  | SproutboatParseError
-  | InvalidInput
-  | SdkError;
+export type SproutboatOpError = SproutboatServiceError | ErrorOf<typeof SproutboatProtocol>;
 
 /** Context (requirements) shared by every generated Sproutboat operation. */
 export type SproutboatOpContext = Credentials | HttpClient.HttpClient;
@@ -62,17 +58,15 @@ const errorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
   return message === undefined && code === undefined ? undefined : { code, message };
 };
 
-export const SproutboatProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>(
-  {
-    // Resolved on the calling fiber per request, so a rotated key is picked
-    // up without rebuilding the layer.
-    credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
-    baseUrl: (creds) => creds.baseUrl,
-    headers: (creds) => ({
-      Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
-    }),
-    errorEnvelope,
-    unknownError: (info) => new UnknownSproutboatError(unknownErrorProps(info)),
-    parseError: ({ body, cause }) => new SproutboatParseError({ body, cause }),
-  },
-);
+export const SproutboatProtocol = /*@__PURE__*/ restProtocol({
+  // Resolved on the calling fiber per request, so a rotated key is picked
+  // up without rebuilding the layer.
+  credentials: /*@__PURE__*/ Effect.flatten(Credentials),
+  baseUrl: (creds) => creds.baseUrl,
+  headers: (creds) => ({
+    Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
+  }),
+  errorEnvelope,
+  unknownError: (info) => new UnknownSproutboatError(unknownErrorProps(info)),
+  parseError: ({ body, cause }) => new SproutboatParseError({ body, cause }),
+});

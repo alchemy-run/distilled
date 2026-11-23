@@ -11,7 +11,10 @@ number.
 
 1. **Fix a spec with a patch.** Typed errors, nullability, sensitive marks,
    missing fields and pagination go in `packages/<pkg>/patches/`, then
-   `pnpm generate <pkg>`. Example: a Clerk error code is a body matcher,
+   `pnpm generate <pkg>`. A typed error that any operation of the SDK can
+   return goes in the `<Sdk>ServiceErrors` list in
+   `packages/<pkg>/src/errors.ts`, as a class with a matcher and the evidence
+   of rule 7. Example: a Clerk error code is a body matcher,
    `{ "status": 404, "body": { "/errors/0/code": "resource_not_found" } }`.
 2. **Do not edit generated files.** `packages/*/src/services/` comes only from
    `pnpm generate`. Example: a `NotFound` added by hand to

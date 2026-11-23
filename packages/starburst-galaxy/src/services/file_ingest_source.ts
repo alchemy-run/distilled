@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownStarburstGalaxyError } from "../errors.ts";
+import { StarburstGalaxyServiceErrors } from "../errors.ts";
 import { paginateToken } from "../pagination.ts";
 import {
   StarburstGalaxyProtocol,
@@ -229,7 +229,8 @@ export const createFileIngestSource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3, __c0, 3) as any as S.Schema<CreateFileIngestSourceRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<FileIngestSource>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStarburstGalaxyError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -250,7 +251,8 @@ export const deleteFileIngestSource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c2, 0) as any as S.Schema<DeleteFileIngestSourceRequest>,
   output: __S(12, __c3, 0) as any as S.Schema<DeleteFileIngestSourceResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStarburstGalaxyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -267,7 +269,8 @@ export const getFileIngestSource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c4, 0) as any as S.Schema<GetFileIngestSourceRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<FileIngestSource>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStarburstGalaxyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -286,7 +289,8 @@ export const listFileIngestSources: API.PaginatedOperationMethod<
   () => ({
     input: __S(20, __c5, 0) as any as S.Schema<ListFileIngestSourcesRequest>,
     output: __S(22, __c5, 2) as any as S.Schema<PaginatedFileIngestSource>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownStarburstGalaxyError],
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: StarburstGalaxyServiceErrors,
     protocol: StarburstGalaxyProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -317,7 +321,8 @@ export const updateFileIngestSource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27, __c6, 3) as any as S.Schema<UpdateFileIngestSourceRequest>,
   output: __S(12, __c3, 0) as any as S.Schema<UpdateFileIngestSourceResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStarburstGalaxyError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

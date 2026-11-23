@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { CloudflareError, CloudflareRateLimited } from "../errors.ts";
+import { CloudflareServiceErrors } from "../errors.ts";
 import { cloudflarePaginate, ResultInfo } from "../pagination.ts";
 import {
   CloudflareProtocol,
@@ -1421,13 +1421,8 @@ export const createToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(804, __c25, 4) as any as S.Schema<CreateTokenRequest>,
   output: __S(809, __c25, 9) as any as S.Schema<CreateTokenResponse>,
-  errors: [
-    InvalidRoute,
-    InvalidTokenName,
-    PermissionGroupNotFound,
-    CloudflareRateLimited,
-    CloudflareError,
-  ],
+  errors: [InvalidRoute, InvalidTokenName, PermissionGroupNotFound],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1444,7 +1439,8 @@ export const deleteOrganization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c29, 0) as any as S.Schema<DeleteOrganizationRequest>,
   output: __S(929, __c29, 1) as any as S.Schema<DeleteOrganizationResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1461,7 +1457,8 @@ export const deleteSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c30, 0) as any as S.Schema<DeleteSubscriptionRequest>,
   output: __S(961, __c30, 1) as any as S.Schema<DeleteSubscriptionResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1478,7 +1475,8 @@ export const deleteToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<DeleteTokenRequest>,
   output: __S(1, __c0, 1) as any as S.Schema<DeleteTokenResponse>,
-  errors: [InvalidRoute, MethodNotAllowed, TokenNotFound, CloudflareRateLimited, CloudflareError],
+  errors: [InvalidRoute, MethodNotAllowed, TokenNotFound],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1495,7 +1493,8 @@ export const getBillingProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c1, 0) as any as S.Schema<GetBillingProfileRequest>,
   output: __S(33, __c1, 1) as any as S.Schema<GetBillingProfileResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1512,7 +1511,8 @@ export const getInvite: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c2, 0) as any as S.Schema<GetInviteRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<GetInviteResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1529,7 +1529,8 @@ export const getOrganization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c4, 0) as any as S.Schema<GetOrganizationRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<GetOrganizationResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1546,7 +1547,8 @@ export const getSpectrumAnalyticsZonesReport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c6, 0) as any as S.Schema<GetSpectrumAnalyticsZonesReportRequest>,
   output: __S(197, __c6, 5) as any as S.Schema<GetSpectrumAnalyticsZonesReportResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1565,7 +1567,8 @@ export const getSubscription: API.PaginatedOperationMethod<
   () => ({
     input: __S(224, __c7, 0) as any as S.Schema<GetSubscriptionRequest>,
     output: __S(228, __c7, 4) as any as S.Schema<GetSubscriptionResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -1585,7 +1588,8 @@ export const getToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c8, 0) as any as S.Schema<GetTokenRequest>,
   output: __S(261, __c8, 5) as any as S.Schema<GetTokenResponse>,
-  errors: [InvalidRoute, TokenNotFound, CloudflareRateLimited, CloudflareError],
+  errors: [InvalidRoute, TokenNotFound],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1602,7 +1606,8 @@ export const getUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c9, 0) as any as S.Schema<GetUserRequest>,
   output: __S(352, __c11, 0) as any as S.Schema<GetUserResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1621,7 +1626,8 @@ export const listAuditLogs: API.PaginatedOperationMethod<
   () => ({
     input: __S(387, __c12, 3) as any as S.Schema<ListAuditLogsRequest>,
     output: __S(394, __c12, 10) as any as S.Schema<ListAuditLogsResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -1649,7 +1655,8 @@ export const listBillingHistories: API.PaginatedOperationMethod<
   () => ({
     input: __S(416, __c13, 0) as any as S.Schema<ListBillingHistoriesRequest>,
     output: __S(420, __c13, 4) as any as S.Schema<ListBillingHistoriesResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -1677,7 +1684,8 @@ export const listInvites: API.PaginatedOperationMethod<
   () => ({
     input: __S(448, __c14, 0) as any as S.Schema<ListInvitesRequest>,
     output: __S(451, __c14, 3) as any as S.Schema<ListInvitesResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -1699,7 +1707,8 @@ export const listOrganizations: API.PaginatedOperationMethod<
   () => ({
     input: __S(480, __c15, 0) as any as S.Schema<ListOrganizationsRequest>,
     output: __S(481, __c15, 1) as any as S.Schema<ListOrganizationsResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -1727,7 +1736,8 @@ export const listTenants: API.PaginatedOperationMethod<
   () => ({
     input: __S(513, __c16, 1) as any as S.Schema<ListTenantsRequest>,
     output: __S(536, __c16, 24) as any as S.Schema<ListTenantsResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -1749,7 +1759,8 @@ export const listTokenPermissionGroups: API.PaginatedOperationMethod<
   () => ({
     input: __S(544, __c17, 0) as any as S.Schema<ListTokenPermissionGroupsRequest>,
     output: __S(548, __c17, 4) as any as S.Schema<ListTokenPermissionGroupsResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -1771,7 +1782,8 @@ export const listTokens: API.PaginatedOperationMethod<
   () => ({
     input: __S(576, __c18, 0) as any as S.Schema<ListTokensRequest>,
     output: __S(583, __c18, 7) as any as S.Schema<ListTokensResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -1797,7 +1809,8 @@ export const patchInvite: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c19, 0) as any as S.Schema<PatchInviteRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<PatchInviteResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1814,7 +1827,8 @@ export const patchUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c20, 0) as any as S.Schema<PatchUserRequest>,
   output: __S(352, __c11, 0) as any as S.Schema<PatchUserResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1831,7 +1845,8 @@ export const putSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(673, __c21, 1) as any as S.Schema<PutSubscriptionRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<PutSubscriptionResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1848,7 +1863,8 @@ export const putTokenValue: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c22, 0) as any as S.Schema<PutTokenValueRequest>,
   output: __S(705, __c22, 1) as any as S.Schema<PutTokenValueResponse>,
-  errors: [InvalidRoute, TokenNotFound, CloudflareRateLimited, CloudflareError],
+  errors: [InvalidRoute, TokenNotFound],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1870,14 +1886,8 @@ export const updateToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(740, __c23, 4) as any as S.Schema<UpdateTokenRequest>,
   output: __S(745, __c23, 9) as any as S.Schema<UpdateTokenResponse>,
-  errors: [
-    InvalidRoute,
-    MethodNotAllowed,
-    TokenNotFound,
-    PermissionGroupNotFound,
-    CloudflareRateLimited,
-    CloudflareError,
-  ],
+  errors: [InvalidRoute, MethodNotAllowed, TokenNotFound, PermissionGroupNotFound],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1894,7 +1904,8 @@ export const verifyToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c24, 0) as any as S.Schema<VerifyTokenRequest>,
   output: __S(769, __c24, 1) as any as S.Schema<VerifyTokenResponse>,
-  errors: [Forbidden, InvalidApiToken, CloudflareRateLimited, CloudflareError],
+  errors: [Forbidden, InvalidApiToken],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

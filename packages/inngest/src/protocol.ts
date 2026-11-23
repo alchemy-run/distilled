@@ -1,11 +1,9 @@
-import type * as API from "@distilled.cloud/core/api";
-import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
+import type { ErrorOf } from "@distilled.cloud/core/protocol";
 import {
-  makeRestProtocol,
+  restProtocol,
   type RestErrorEnvelope,
   unknownErrorProps,
 } from "@distilled.cloud/core/protocol-rest";
-import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * InngestProtocol -- hand-written.
  *
@@ -28,27 +26,19 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config } from "./credentials.ts";
+import { Credentials, type Config, type CredentialsError } from "./credentials.ts";
 import { Environment } from "./environment.ts";
-import { UnknownInngestError, InngestParseError } from "./errors.ts";
+import { UnknownInngestError, InngestParseError, type InngestServiceError } from "./errors.ts";
 
 /**
- * Error channel shared by every generated Inngest operation. Generated service
- * files annotate operations with `API.OperationMethod<I, O, InngestOpError,
- * InngestOpContext>` explicitly so the compiler never infers these back out of
- * the schema generics.
+ * What every generated Inngest operation fails with besides its own errors:
+ * the service's errors, the protocol's, and what resolving the credentials
+ * fails with. Generated service files annotate operations with
+ * `API.OperationMethod<I, O, InngestOpError, InngestOpContext>` explicitly so
+ * the compiler never infers these back out of the schema generics.
  */
-export type InngestOpError =
-  | InstanceType<(typeof API_ERRORS)[number]>
-  | UnknownInngestError
-  | ConfigError
-  | HttpClientError.HttpClientError
-  | InngestParseError
-  | InvalidInput
-  | SdkError;
+export type InngestOpError = InngestServiceError | ErrorOf<typeof InngestProtocol>;
 
 /** Context (requirements) shared by every generated Inngest operation. */
 export type InngestOpContext = Credentials | HttpClient.HttpClient;
@@ -89,18 +79,20 @@ interface Resolved extends Config {
   readonly environment?: string;
 }
 
-export const InngestProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Resolved>({
+const resolveCredentials = /*@__PURE__*/ Effect.flatten(Credentials);
+
+export const InngestProtocol = /*@__PURE__*/ restProtocol({
   // The Credentials service holds an effect -- resolving it here (per
   // request, on the calling fiber) picks up context-provided credentials
   // and the `Environment` layer.
-  credentials: /*@__PURE__*/ Effect.withFiber((fiber) => {
-    const context = fiber.context as Context.Context<any>;
-    const resolve = Context.get(context, Credentials);
-    const environment = Context.getOrUndefined(context, Environment);
-    return environment === undefined
-      ? resolve
-      : Effect.map(resolve, (creds): Resolved => ({ ...creds, environment }));
-  }),
+  credentials: /*@__PURE__*/ Effect.withFiber(
+    (fiber): Effect.Effect<Resolved, CredentialsError, Credentials> => {
+      const environment = Context.getOrUndefined(fiber.context, Environment);
+      return environment === undefined
+        ? resolveCredentials
+        : Effect.map(resolveCredentials, (creds): Resolved => ({ ...creds, environment }));
+    },
+  ),
   // v1 routes carry their own `/v1/` prefix and live at the base URL's
   // origin. URL.parse never throws: a malformed base URL fails like v2 calls.
   baseUrl: (creds, target) =>

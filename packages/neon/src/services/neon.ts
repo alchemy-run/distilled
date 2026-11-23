@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownNeonError } from "../errors.ts";
+import { NeonServiceErrors } from "../errors.ts";
 import { paginateCursor } from "../pagination.ts";
 import { NeonProtocol, type NeonOpError, type NeonOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
@@ -4467,7 +4467,8 @@ export const acceptProjectTransferRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2672, __c167, 0) as any as S.Codec<AcceptProjectTransferRequestRequest>,
   output: __S(2688, __c168, 0) as any as S.Codec<AcceptProjectTransferRequestResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4484,7 +4485,8 @@ export const addBranchNeonAuthOauthProvider: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2880, __c180, 0) as any as S.Codec<AddBranchNeonAuthOauthProviderRequest>,
   output: __S(2896, __c181, 0) as any as S.Codec<NeonAuthOauthProvider>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4501,7 +4503,8 @@ export const addBranchNeonAuthTrustedDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3136, __c196, 0) as any as S.Codec<AddBranchNeonAuthTrustedDomainRequest>,
   output: __S(2688, __c168, 0) as any as S.Schema<AddBranchNeonAuthTrustedDomainResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4518,7 +4521,8 @@ export const addProjectJWKS: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3504, __c219, 0) as any as S.Codec<AddProjectJWKSRequest>,
   output: __S(3505, __c219, 1) as any as S.Codec<AddProjectJWKSResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4535,7 +4539,8 @@ export const assignOrganizationVPCEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3824, __c239, 0) as any as S.Codec<AssignOrganizationVPCEndpointRequest>,
   output: __S(2688, __c168, 0) as any as S.Schema<AssignOrganizationVPCEndpointResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4552,7 +4557,8 @@ export const assignProjectVPCEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c2, 0) as any as S.Codec<AssignProjectVPCEndpointRequest>,
   output: __S(2688, __c168, 0) as any as S.Schema<AssignProjectVPCEndpointResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4569,7 +4575,8 @@ export const countProjectBranches: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c16, 0) as any as S.Codec<CountProjectBranchesRequest>,
   output: __S(272, __c17, 0) as any as S.Codec<CountProjectBranchesResponse>,
-  errors: [NotFound, UnknownNeonError],
+  errors: [NotFound],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4586,7 +4593,8 @@ export const countProjects: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c32, 0) as any as S.Codec<CountProjectsRequest>,
   output: __S(272, __c17, 0) as any as S.Schema<ProjectsCountResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4603,7 +4611,8 @@ export const createApiKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c44, 0) as any as S.Codec<CreateApiKeyRequest>,
   output: __S(705, __c44, 1) as any as S.Codec<ApiKeyCreateResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4620,7 +4629,8 @@ export const createBranchNeonAuthNewUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(896, __c56, 0) as any as S.Codec<CreateBranchNeonAuthNewUserRequest>,
   output: __S(912, __c57, 0) as any as S.Codec<NeonAuthCreateNewUserResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4637,7 +4647,8 @@ export const createCredential: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c68, 0) as any as S.Codec<CreateCredentialRequest>,
   output: __S(1089, __c68, 1) as any as S.Codec<CreateCredentialResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4654,7 +4665,8 @@ export const createNeonAuth: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1280, __c80, 0) as any as S.Codec<CreateNeonAuthRequest>,
   output: __S(1296, __c81, 0) as any as S.Codec<NeonAuthCreateIntegrationResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4671,7 +4683,8 @@ export const createNeonAuthOAuthClient: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1472, __c92, 0) as any as S.Codec<CreateNeonAuthOAuthClientRequest>,
   output: __S(1473, __c92, 1) as any as S.Codec<CreateNeonAuthOAuthClientResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4688,7 +4701,8 @@ export const createNeonAuthProviderSDKKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1648, __c103, 0) as any as S.Codec<CreateNeonAuthProviderSDKKeysRequest>,
   output: __S(1296, __c81, 0) as any as S.Codec<NeonAuthCreateIntegrationResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4705,7 +4719,8 @@ export const createOrganizationInvitations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1714, __c107, 2) as any as S.Codec<CreateOrganizationInvitationsRequest>,
   output: __S(1730, __c108, 2) as any as S.Codec<OrganizationInvitationsResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4722,7 +4737,8 @@ export const createOrgApiKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1744, __c109, 0) as any as S.Codec<CreateOrgApiKeyRequest>,
   output: __S(1745, __c109, 1) as any as S.Codec<CreateOrgApiKeyResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4739,7 +4755,8 @@ export const createProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1762, __c110, 2) as any as S.Codec<CreateProjectRequest>,
   output: __S(1763, __c110, 3) as any as S.Codec<CreateProjectResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4756,7 +4773,8 @@ export const createProjectBranch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1968, __c123, 0) as any as S.Codec<CreateProjectBranchRequest>,
   output: __S(1987, __c124, 3) as any as S.Codec<CreateProjectBranchResponse>,
-  errors: [Conflict, UnknownNeonError],
+  errors: [Conflict],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4773,7 +4791,8 @@ export const createProjectBranchAnonymized: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2001, __c125, 1) as any as S.Codec<CreateProjectBranchAnonymizedRequest>,
   output: __S(1987, __c124, 3) as any as S.Schema<CreateProjectBranchAnonymizedResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4790,7 +4809,8 @@ export const createProjectBranchBucket: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2032, __c127, 0) as any as S.Codec<CreateProjectBranchBucketRequest>,
   output: __S(2033, __c127, 1) as any as S.Codec<BucketResponse>,
-  errors: [Forbidden, UnknownNeonError],
+  errors: [Forbidden],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4807,7 +4827,8 @@ export const createProjectBranchDataAPI: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2064, __c129, 0) as any as S.Codec<CreateProjectBranchDataAPIRequest>,
   output: __S(2080, __c130, 0) as any as S.Codec<DataAPICreateResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4829,7 +4850,8 @@ export const createProjectBranchDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2113, __c132, 1) as any as S.Codec<CreateProjectBranchDatabaseRequest>,
   output: __S(2128, __c133, 0) as any as S.Codec<CreateProjectBranchDatabaseResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownNeonError],
+  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4846,7 +4868,8 @@ export const createProjectBranchFunctionDeployment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2144, __c134, 0) as any as S.Codec<CreateProjectBranchFunctionDeploymentRequest>,
   output: __S(2145, __c134, 1) as any as S.Codec<NeonFunctionDeploymentResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4863,7 +4886,8 @@ export const createProjectBranchRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2177, __c136, 1) as any as S.Codec<CreateProjectBranchRoleRequest>,
   output: __S(2192, __c137, 0) as any as S.Codec<CreateProjectBranchRoleResponse>,
-  errors: [NotFound, Conflict, UnknownNeonError],
+  errors: [NotFound, Conflict],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4880,7 +4904,8 @@ export const createProjectBranchTrigger: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2211, __c138, 3) as any as S.Codec<CreateProjectBranchTriggerRequest>,
   output: __S(2240, __c140, 0) as any as S.Codec<TriggerResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4897,7 +4922,8 @@ export const createProjectEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2257, __c141, 1) as any as S.Codec<CreateProjectEndpointRequest>,
   output: __S(2272, __c142, 0) as any as S.Codec<CreateProjectEndpointResponse>,
-  errors: [NotFound, Conflict, UnknownNeonError],
+  errors: [NotFound, Conflict],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4914,7 +4940,8 @@ export const createProjectTransferRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2288, __c143, 0) as any as S.Codec<CreateProjectTransferRequestRequest>,
   output: __S(2289, __c143, 1) as any as S.Codec<ProjectTransferRequestResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4931,7 +4958,8 @@ export const createSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2304, __c144, 0) as any as S.Codec<CreateSnapshotRequest>,
   output: __S(2305, __c144, 1) as any as S.Codec<CreateSnapshotResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4948,7 +4976,8 @@ export const deleteBranchNeonAuthOauthProvider: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2336, __c146, 0) as any as S.Codec<DeleteBranchNeonAuthOauthProviderRequest>,
   output: __S(2688, __c168, 0) as any as S.Schema<DeleteBranchNeonAuthOauthProviderResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4965,7 +4994,8 @@ export const deleteBranchNeonAuthTrustedDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2354, __c147, 2) as any as S.Codec<DeleteBranchNeonAuthTrustedDomainRequest>,
   output: __S(2688, __c168, 0) as any as S.Schema<DeleteBranchNeonAuthTrustedDomainResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4982,7 +5012,8 @@ export const deleteBranchNeonAuthUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2368, __c148, 0) as any as S.Codec<DeleteBranchNeonAuthUserRequest>,
   output: __S(2688, __c168, 0) as any as S.Schema<DeleteBranchNeonAuthUserResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4999,7 +5030,8 @@ export const deleteNeonAuthOAuthClient: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2384, __c149, 0) as any as S.Codec<DeleteNeonAuthOAuthClientRequest>,
   output: __S(2688, __c168, 0) as any as S.Schema<DeleteNeonAuthOAuthClientResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5016,7 +5048,8 @@ export const deleteOrganizationSpendingLimit: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2400, __c150, 0) as any as S.Codec<DeleteOrganizationSpendingLimitRequest>,
   output: __S(2416, __c151, 0) as any as S.Codec<DeleteOrganizationSpendingLimitResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5033,7 +5066,8 @@ export const deleteOrganizationVPCEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2432, __c152, 0) as any as S.Codec<DeleteOrganizationVPCEndpointRequest>,
   output: __S(2688, __c168, 0) as any as S.Schema<DeleteOrganizationVPCEndpointResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5050,7 +5084,8 @@ export const deleteProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2448, __c153, 0) as any as S.Codec<DeleteProjectRequest>,
   output: __S(2464, __c154, 0) as any as S.Codec<ProjectResponse>,
-  errors: [NotFound, UnknownNeonError],
+  errors: [NotFound],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5067,7 +5102,8 @@ export const deleteProjectBranch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2496, __c156, 0) as any as S.Codec<DeleteProjectBranchRequest>,
   output: __S(2512, __c157, 0) as any as S.Codec<DeleteProjectBranchResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownNeonError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5084,7 +5120,8 @@ export const deleteProjectBranchBucket: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2528, __c158, 0) as any as S.Codec<DeleteProjectBranchBucketRequest>,
   output: __S(2688, __c168, 0) as any as S.Schema<DeleteProjectBranchBucketResponse>,
-  errors: [NotFound, UnknownNeonError],
+  errors: [NotFound],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5101,7 +5138,8 @@ export const deleteProjectBranchBucketObject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2544, __c159, 0) as any as S.Codec<DeleteProjectBranchBucketObjectRequest>,
   output: __S(2688, __c168, 0) as any as S.Schema<DeleteProjectBranchBucketObjectResponse>,
-  errors: [NotFound, UnknownNeonError],
+  errors: [NotFound],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5118,7 +5156,8 @@ export const deleteProjectBranchBucketObjectsByPrefix: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2560, __c160, 0) as any as S.Codec<DeleteProjectBranchBucketObjectsByPrefixRequest>,
   output: __S(2561, __c160, 1) as any as S.Codec<BucketObjectsDeletePrefixResponse>,
-  errors: [NotFound, UnknownNeonError],
+  errors: [NotFound],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5135,7 +5174,8 @@ export const deleteProjectBranchCustomDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2576, __c161, 0) as any as S.Codec<DeleteProjectBranchCustomDomainRequest>,
   output: __S(2688, __c168, 0) as any as S.Schema<DeleteProjectBranchCustomDomainResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5152,7 +5192,8 @@ export const deleteProjectBranchDataAPI: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2592, __c162, 0) as any as S.Codec<DeleteProjectBranchDataAPIRequest>,
   output: __S(2416, __c151, 0) as any as S.Schema<DeleteProjectBranchDataAPIResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5169,7 +5210,8 @@ export const deleteProjectBranchDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2608, __c163, 0) as any as S.Codec<DeleteProjectBranchDatabaseRequest>,
   output: __S(2128, __c133, 0) as any as S.Schema<DeleteProjectBranchDatabaseResponse>,
-  errors: [NotFound, UnknownNeonError],
+  errors: [NotFound],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5186,7 +5228,8 @@ export const deleteProjectBranchFunction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2624, __c164, 0) as any as S.Codec<DeleteProjectBranchFunctionRequest>,
   output: __S(2688, __c168, 0) as any as S.Schema<DeleteProjectBranchFunctionResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5203,7 +5246,8 @@ export const deleteProjectBranchRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2640, __c165, 0) as any as S.Codec<DeleteProjectBranchRoleRequest>,
   output: __S(2192, __c137, 0) as any as S.Schema<DeleteProjectBranchRoleResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownNeonError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5220,7 +5264,8 @@ export const deleteProjectBranchTrigger: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2656, __c166, 0) as any as S.Codec<DeleteProjectBranchTriggerRequest>,
   output: __S(2688, __c168, 0) as any as S.Schema<DeleteProjectBranchTriggerResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5237,7 +5282,8 @@ export const deleteProjectEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2704, __c169, 0) as any as S.Codec<DeleteProjectEndpointRequest>,
   output: __S(2272, __c142, 0) as any as S.Schema<DeleteProjectEndpointResponse>,
-  errors: [NotFound, UnknownNeonError],
+  errors: [NotFound],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5254,7 +5300,8 @@ export const deleteProjectJWKS: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2720, __c170, 0) as any as S.Codec<DeleteProjectJWKSRequest>,
   output: __S(3568, __c223, 0) as any as S.Codec<JWKS>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5271,7 +5318,8 @@ export const deleteProjectVPCEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2736, __c171, 0) as any as S.Codec<DeleteProjectVPCEndpointRequest>,
   output: __S(2688, __c168, 0) as any as S.Schema<DeleteProjectVPCEndpointResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5288,7 +5336,8 @@ export const deleteSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2752, __c172, 0) as any as S.Codec<DeleteSnapshotRequest>,
   output: __S(2688, __c168, 0) as any as S.Schema<DeleteSnapshotResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5305,7 +5354,8 @@ export const disableNeonAuth: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2768, __c173, 0) as any as S.Codec<DisableNeonAuthRequest>,
   output: __S(2688, __c168, 0) as any as S.Schema<DisableNeonAuthResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5322,7 +5372,8 @@ export const disableProjectBranchRealtime: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2784, __c174, 0) as any as S.Codec<DisableProjectBranchRealtimeRequest>,
   output: __S(2688, __c168, 0) as any as S.Schema<DisableProjectBranchRealtimeResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5339,7 +5390,8 @@ export const enableProjectBranchRealtime: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2800, __c175, 0) as any as S.Codec<EnableProjectBranchRealtimeRequest>,
   output: __S(2688, __c168, 0) as any as S.Schema<EnableProjectBranchRealtimeResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5356,7 +5408,8 @@ export const finalizeRestoreBranch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2816, __c176, 0) as any as S.Codec<FinalizeRestoreBranchRequest>,
   output: __S(2817, __c176, 1) as any as S.Codec<OperationsResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5373,7 +5426,8 @@ export const getActiveRegions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2832, __c177, 0) as any as S.Codec<GetActiveRegionsRequest>,
   output: __S(2835, __c177, 3) as any as S.Codec<ActiveRegionsResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5390,7 +5444,8 @@ export const getAnonymizedBranchStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2848, __c178, 0) as any as S.Codec<GetAnonymizedBranchStatusRequest>,
   output: __S(2865, __c179, 1) as any as S.Codec<AnonymizedBranchStatusResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5407,7 +5462,8 @@ export const getAuthDetails: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2912, __c182, 0) as any as S.Codec<GetAuthDetailsRequest>,
   output: __S(2913, __c182, 1) as any as S.Codec<AuthDetailsResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5424,7 +5480,8 @@ export const getAvailablePreloadLibraries: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2928, __c183, 0) as any as S.Codec<GetAvailablePreloadLibrariesRequest>,
   output: __S(2931, __c183, 3) as any as S.Codec<AvailablePreloadLibraries>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5441,7 +5498,8 @@ export const getConnectionURI: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2944, __c184, 0) as any as S.Codec<GetConnectionURIRequest>,
   output: __S(2945, __c184, 1) as any as S.Codec<ConnectionURIResponse>,
-  errors: [NotFound, UnknownNeonError],
+  errors: [NotFound],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5460,7 +5518,8 @@ export const getConsumptionHistoryPerBranchV2: API.PaginatedOperationMethod<
   () => ({
     input: __S(2960, __c185, 0) as any as S.Codec<GetConsumptionHistoryPerBranchV2Request>,
     output: __S(2963, __c185, 3) as any as S.Codec<GetConsumptionHistoryPerBranchV2Response>,
-    errors: [Forbidden, NotFound, UnknownNeonError],
+    errors: [Forbidden, NotFound],
+    serviceErrors: NeonServiceErrors,
     protocol: NeonProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -5487,7 +5546,8 @@ export const getConsumptionHistoryPerProject: API.PaginatedOperationMethod<
   () => ({
     input: __S(3008, __c188, 0) as any as S.Codec<GetConsumptionHistoryPerProjectRequest>,
     output: __S(3015, __c188, 7) as any as S.Codec<GetConsumptionHistoryPerProjectResponse>,
-    errors: [Forbidden, NotFound, UnknownNeonError],
+    errors: [Forbidden, NotFound],
+    serviceErrors: NeonServiceErrors,
     protocol: NeonProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -5514,7 +5574,8 @@ export const getConsumptionHistoryPerProjectV2: API.PaginatedOperationMethod<
   () => ({
     input: __S(3024, __c189, 0) as any as S.Codec<GetConsumptionHistoryPerProjectV2Request>,
     output: __S(3027, __c189, 3) as any as S.Codec<GetConsumptionHistoryPerProjectV2Response>,
-    errors: [Forbidden, NotFound, UnknownNeonError],
+    errors: [Forbidden, NotFound],
+    serviceErrors: NeonServiceErrors,
     protocol: NeonProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -5539,7 +5600,8 @@ export const getCurrentUserInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3040, __c190, 0) as any as S.Codec<GetCurrentUserInfoRequest>,
   output: __S(3048, __c190, 8) as any as S.Codec<CurrentUserInfoResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5556,7 +5618,8 @@ export const getCurrentUserOrganizations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3056, __c191, 0) as any as S.Codec<GetCurrentUserOrganizationsRequest>,
   output: __S(3058, __c191, 2) as any as S.Codec<OrganizationsResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5573,7 +5636,8 @@ export const getMaskingRules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3088, __c193, 0) as any as S.Codec<GetMaskingRulesRequest>,
   output: __S(3104, __c194, 0) as any as S.Codec<MaskingRulesResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5590,7 +5654,8 @@ export const getNeonAuth: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3120, __c195, 0) as any as S.Codec<GetNeonAuthRequest>,
   output: __S(3121, __c195, 1) as any as S.Codec<NeonAuthIntegration>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5607,7 +5672,8 @@ export const getNeonAuthAllowLocalhost: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3152, __c197, 0) as any as S.Codec<GetNeonAuthAllowLocalhostRequest>,
   output: __S(3168, __c198, 0) as any as S.Codec<NeonAuthAllowLocalhostResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5624,7 +5690,8 @@ export const getNeonAuthEmailAndPasswordConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3184, __c199, 0) as any as S.Codec<GetNeonAuthEmailAndPasswordConfigRequest>,
   output: __S(3200, __c200, 0) as any as S.Codec<NeonAuthEmailAndPasswordConfig>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5641,7 +5708,8 @@ export const getNeonAuthEmailProvider: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3216, __c201, 0) as any as S.Codec<GetNeonAuthEmailProviderRequest>,
   output: __S(3232, __c202, 0) as any as S.Codec<GetNeonAuthEmailProviderResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5658,7 +5726,8 @@ export const getNeonAuthOAuthClient: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3264, __c204, 0) as any as S.Codec<GetNeonAuthOAuthClientRequest>,
   output: __S(3280, __c205, 0) as any as S.Codec<NeonAuthOAuthClient>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5675,7 +5744,8 @@ export const getNeonAuthOAuthProviderPlugin: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3296, __c206, 0) as any as S.Codec<GetNeonAuthOAuthProviderPluginRequest>,
   output: __S(3315, __c207, 3) as any as S.Codec<NeonAuthOAuthProviderConfig>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5692,7 +5762,8 @@ export const getNeonAuthPhoneNumberPlugin: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3328, __c208, 0) as any as S.Codec<GetNeonAuthPhoneNumberPluginRequest>,
   output: __S(3344, __c209, 0) as any as S.Codec<NeonAuthPhoneNumberConfig>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5709,7 +5780,8 @@ export const getNeonAuthPluginConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3360, __c210, 0) as any as S.Codec<GetNeonAuthPluginConfigsRequest>,
   output: __S(3361, __c210, 1) as any as S.Codec<NeonAuthPluginConfigs>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5726,7 +5798,8 @@ export const getNeonAuthWebhookConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3440, __c215, 0) as any as S.Codec<GetNeonAuthWebhookConfigRequest>,
   output: __S(3456, __c216, 0) as any as S.Codec<NeonAuthWebhookConfig>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5743,7 +5816,8 @@ export const getOrganization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3472, __c217, 0) as any as S.Codec<GetOrganizationRequest>,
   output: __S(3072, __c192, 0) as any as S.Codec<Organization>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5760,7 +5834,8 @@ export const getOrganizationInvitations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3488, __c218, 0) as any as S.Codec<GetOrganizationInvitationsRequest>,
   output: __S(1730, __c108, 2) as any as S.Codec<OrganizationInvitationsResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5777,7 +5852,8 @@ export const getOrganizationMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3584, __c224, 0) as any as S.Codec<GetOrganizationMemberRequest>,
   output: __S(3600, __c225, 0) as any as S.Codec<Member>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5796,7 +5872,8 @@ export const getOrganizationMembers: API.PaginatedOperationMethod<
   () => ({
     input: __S(3616, __c226, 0) as any as S.Codec<GetOrganizationMembersRequest>,
     output: __S(3620, __c226, 4) as any as S.Codec<GetOrganizationMembersResponse>,
-    errors: [UnknownNeonError],
+    errors: [],
+    serviceErrors: NeonServiceErrors,
     protocol: NeonProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -5821,7 +5898,8 @@ export const getOrganizationSpendingLimit: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3648, __c228, 0) as any as S.Codec<GetOrganizationSpendingLimitRequest>,
   output: __S(3664, __c229, 0) as any as S.Codec<SpendingLimitResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5838,7 +5916,8 @@ export const getOrganizationVPCEndpointDetails: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3680, __c230, 0) as any as S.Codec<GetOrganizationVPCEndpointDetailsRequest>,
   output: __S(3681, __c230, 1) as any as S.Codec<VPCEndpointDetails>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5855,7 +5934,8 @@ export const getProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3696, __c231, 0) as any as S.Codec<GetProjectRequest>,
   output: __S(2464, __c154, 0) as any as S.Codec<ProjectResponse>,
-  errors: [BadRequest, NotFound, UnknownNeonError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5872,7 +5952,8 @@ export const getProjectAdvisorSecurityIssues: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3712, __c232, 0) as any as S.Codec<GetProjectAdvisorSecurityIssuesRequest>,
   output: __S(3715, __c232, 3) as any as S.Codec<GetProjectAdvisorSecurityIssuesResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5889,7 +5970,8 @@ export const getProjectBranch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3744, __c234, 0) as any as S.Codec<GetProjectBranchRequest>,
   output: __S(3745, __c234, 1) as any as S.Codec<GetProjectBranchResponse>,
-  errors: [NotFound, UnknownNeonError],
+  errors: [NotFound],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5906,7 +5988,8 @@ export const getProjectBranchAiGateway: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3776, __c236, 0) as any as S.Codec<GetProjectBranchAiGatewayRequest>,
   output: __S(3777, __c236, 1) as any as S.Codec<BranchAiGateway>,
-  errors: [NotFound, UnknownNeonError],
+  errors: [NotFound],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5923,7 +6006,8 @@ export const getProjectBranchBucketObject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3792, __c237, 0) as any as S.Codec<GetProjectBranchBucketObjectRequest>,
   output: __S(3793, __c237, 1) as any as S.Codec<GetProjectBranchBucketObjectResponse>,
-  errors: [Forbidden, NotFound, UnknownNeonError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5940,7 +6024,8 @@ export const getProjectBranchDataAPI: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3808, __c238, 0) as any as S.Codec<GetProjectBranchDataAPIRequest>,
   output: __S(3809, __c238, 1) as any as S.Codec<DataAPIReponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5957,7 +6042,8 @@ export const getProjectBranchDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3840, __c240, 0) as any as S.Codec<GetProjectBranchDatabaseRequest>,
   output: __S(3841, __c240, 1) as any as S.Codec<DatabaseResponse>,
-  errors: [NotFound, UnknownNeonError],
+  errors: [NotFound],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5974,7 +6060,8 @@ export const getProjectBranchFunction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3856, __c241, 0) as any as S.Codec<GetProjectBranchFunctionRequest>,
   output: __S(3888, __c243, 0) as any as S.Codec<NeonFunctionResponse>,
-  errors: [NotFound, UnknownNeonError],
+  errors: [NotFound],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5991,7 +6078,8 @@ export const getProjectBranchRealtime: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3904, __c244, 0) as any as S.Codec<GetProjectBranchRealtimeRequest>,
   output: __S(3905, __c244, 1) as any as S.Codec<Realtime>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6008,7 +6096,8 @@ export const getProjectBranchRealtimeSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3920, __c245, 0) as any as S.Codec<GetProjectBranchRealtimeSecretRequest>,
   output: __S(3921, __c245, 1) as any as S.Codec<RealtimeSecret>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6025,7 +6114,8 @@ export const getProjectBranchRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3936, __c246, 0) as any as S.Codec<GetProjectBranchRoleRequest>,
   output: __S(3937, __c246, 1) as any as S.Codec<RoleResponse>,
-  errors: [NotFound, UnknownNeonError],
+  errors: [NotFound],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6042,7 +6132,8 @@ export const getProjectBranchRolePassword: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3952, __c247, 0) as any as S.Codec<GetProjectBranchRolePasswordRequest>,
   output: __S(3953, __c247, 1) as any as S.Codec<RolePasswordResponse>,
-  errors: [NotFound, UnknownNeonError],
+  errors: [NotFound],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6059,7 +6150,8 @@ export const getProjectBranchSchema: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3968, __c248, 0) as any as S.Codec<GetProjectBranchSchemaRequest>,
   output: __S(3977, __c248, 9) as any as S.Codec<BranchSchemaResponse>,
-  errors: [NotFound, UnknownNeonError],
+  errors: [NotFound],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6076,7 +6168,8 @@ export const getProjectBranchSchemaComparison: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3984, __c249, 0) as any as S.Codec<GetProjectBranchSchemaComparisonRequest>,
   output: __S(3985, __c249, 1) as any as S.Codec<BranchSchemaCompareResponse>,
-  errors: [NotFound, UnknownNeonError],
+  errors: [NotFound],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6093,7 +6186,8 @@ export const getProjectBranchStorage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4000, __c250, 0) as any as S.Codec<GetProjectBranchStorageRequest>,
   output: __S(4001, __c250, 1) as any as S.Codec<BranchStorage>,
-  errors: [NotFound, UnknownNeonError],
+  errors: [NotFound],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6110,7 +6204,8 @@ export const getProjectBranchTrigger: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4016, __c251, 0) as any as S.Codec<GetProjectBranchTriggerRequest>,
   output: __S(2240, __c140, 0) as any as S.Codec<TriggerResponse>,
-  errors: [NotFound, UnknownNeonError],
+  errors: [NotFound],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6127,7 +6222,8 @@ export const getProjectEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c3, 0) as any as S.Codec<GetProjectEndpointRequest>,
   output: __S(49, __c3, 1) as any as S.Codec<EndpointResponse>,
-  errors: [NotFound, UnknownNeonError],
+  errors: [NotFound],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6144,7 +6240,8 @@ export const getProjectJWKS: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c4, 0) as any as S.Codec<GetProjectJWKSRequest>,
   output: __S(66, __c4, 2) as any as S.Codec<ProjectJWKSResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6161,7 +6258,8 @@ export const getProjectOperation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c5, 0) as any as S.Codec<GetProjectOperationRequest>,
   output: __S(81, __c5, 1) as any as S.Codec<OperationResponse>,
-  errors: [NotFound, UnknownNeonError],
+  errors: [NotFound],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6178,7 +6276,8 @@ export const getSnapshotSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c6, 0) as any as S.Codec<GetSnapshotScheduleRequest>,
   output: __S(97, __c6, 1) as any as S.Codec<BackupSchedule>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6195,7 +6294,8 @@ export const grantPermissionToProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c8, 0) as any as S.Codec<GrantPermissionToProjectRequest>,
   output: __S(144, __c9, 0) as any as S.Codec<ProjectPermission>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6212,7 +6312,8 @@ export const listApiKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c10, 0) as any as S.Codec<ListApiKeysRequest>,
   output: __S(163, __c10, 3) as any as S.Codec<ListApiKeysResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6229,7 +6330,8 @@ export const listBranchNeonAuthOauthProviders: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c12, 0) as any as S.Codec<ListBranchNeonAuthOauthProvidersRequest>,
   output: __S(193, __c12, 1) as any as S.Codec<ListNeonAuthOauthProvidersResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6246,7 +6348,8 @@ export const listBranchNeonAuthTrustedDomains: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c13, 0) as any as S.Codec<ListBranchNeonAuthTrustedDomainsRequest>,
   output: __S(211, __c13, 3) as any as S.Codec<NeonAuthRedirectURIWhitelistResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6263,7 +6366,8 @@ export const listCredentials: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c14, 0) as any as S.Codec<ListCredentialsRequest>,
   output: __S(227, __c14, 3) as any as S.Codec<ListCredentialsResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6280,7 +6384,8 @@ export const listNeonAuthOAuthClients: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(240, __c15, 0) as any as S.Codec<ListNeonAuthOAuthClientsRequest>,
   output: __S(242, __c15, 2) as any as S.Codec<ListNeonAuthOAuthClientsResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6297,7 +6402,8 @@ export const listOrganizationVPCEndpoints: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c18, 0) as any as S.Codec<ListOrganizationVPCEndpointsRequest>,
   output: __S(306, __c19, 2) as any as S.Codec<VPCEndpointsResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6314,7 +6420,8 @@ export const listOrganizationVPCEndpointsAllRegions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c20, 0) as any as S.Codec<ListOrganizationVPCEndpointsAllRegionsRequest>,
   output: __S(323, __c20, 3) as any as S.Codec<VPCEndpointsWithRegionResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6331,7 +6438,8 @@ export const listOrgApiKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(336, __c21, 0) as any as S.Codec<ListOrgApiKeysRequest>,
   output: __S(339, __c21, 3) as any as S.Codec<ListOrgApiKeysResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6348,7 +6456,8 @@ export const listProjectBranchBucketObjects: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c22, 0) as any as S.Codec<ListProjectBranchBucketObjectsRequest>,
   output: __S(355, __c22, 3) as any as S.Codec<BucketObjectsListResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6365,7 +6474,8 @@ export const listProjectBranchBuckets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(368, __c23, 0) as any as S.Codec<ListProjectBranchBucketsRequest>,
   output: __S(370, __c23, 2) as any as S.Codec<BucketsListResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6384,7 +6494,8 @@ export const listProjectBranchCustomDomains: API.PaginatedOperationMethod<
   () => ({
     input: __S(384, __c24, 0) as any as S.Codec<ListProjectBranchCustomDomainsRequest>,
     output: __S(386, __c24, 2) as any as S.Codec<ListProjectBranchCustomDomainsResponse>,
-    errors: [UnknownNeonError],
+    errors: [],
+    serviceErrors: NeonServiceErrors,
     protocol: NeonProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -6409,7 +6520,8 @@ export const listProjectBranchDatabases: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c26, 0) as any as S.Codec<ListProjectBranchDatabasesRequest>,
   output: __S(417, __c26, 1) as any as S.Codec<DatabasesResponse>,
-  errors: [NotFound, UnknownNeonError],
+  errors: [NotFound],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6426,7 +6538,8 @@ export const listProjectBranchEndpoints: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(432, __c27, 0) as any as S.Codec<ListProjectBranchEndpointsRequest>,
   output: __S(448, __c28, 0) as any as S.Codec<EndpointsResponse>,
-  errors: [NotFound, UnknownNeonError],
+  errors: [NotFound],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6445,7 +6558,8 @@ export const listProjectBranches: API.PaginatedOperationMethod<
   () => ({
     input: __S(464, __c29, 0) as any as S.Codec<ListProjectBranchesRequest>,
     output: __S(466, __c29, 2) as any as S.Codec<ListProjectBranchesResponse>,
-    errors: [NotFound, UnknownNeonError],
+    errors: [NotFound],
+    serviceErrors: NeonServiceErrors,
     protocol: NeonProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -6472,7 +6586,8 @@ export const listProjectBranchFunctions: API.PaginatedOperationMethod<
   () => ({
     input: __S(496, __c31, 0) as any as S.Codec<ListProjectBranchFunctionsRequest>,
     output: __S(498, __c31, 2) as any as S.Codec<ListProjectBranchFunctionsResponse>,
-    errors: [UnknownNeonError],
+    errors: [],
+    serviceErrors: NeonServiceErrors,
     protocol: NeonProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -6497,7 +6612,8 @@ export const listProjectBranchLogFields: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(528, __c33, 0) as any as S.Codec<ListProjectBranchLogFieldsRequest>,
   output: __S(529, __c33, 1) as any as S.Codec<ProjectBranchLogFieldsResponse>,
-  errors: [NotFound, UnknownNeonError],
+  errors: [NotFound],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6514,7 +6630,8 @@ export const listProjectBranchLogFieldValues: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c34, 0) as any as S.Codec<ListProjectBranchLogFieldValuesRequest>,
   output: __S(545, __c34, 1) as any as S.Codec<ProjectBranchLogFieldValuesResponse>,
-  errors: [BadRequest, NotFound, UnknownNeonError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6531,7 +6648,8 @@ export const listProjectBranchRoles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(560, __c35, 0) as any as S.Codec<ListProjectBranchRolesRequest>,
   output: __S(561, __c35, 1) as any as S.Codec<RolesResponse>,
-  errors: [NotFound, UnknownNeonError],
+  errors: [NotFound],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6548,7 +6666,8 @@ export const listProjectBranchTriggers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c36, 0) as any as S.Codec<ListProjectBranchTriggersRequest>,
   output: __S(578, __c36, 2) as any as S.Codec<TriggersListResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6565,7 +6684,8 @@ export const listProjectEndpoints: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(592, __c37, 0) as any as S.Codec<ListProjectEndpointsRequest>,
   output: __S(448, __c28, 0) as any as S.Codec<EndpointsResponse>,
-  errors: [NotFound, UnknownNeonError],
+  errors: [NotFound],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6584,7 +6704,8 @@ export const listProjectMembers: API.PaginatedOperationMethod<
   () => ({
     input: __S(608, __c38, 0) as any as S.Codec<ListProjectMembersRequest>,
     output: __S(611, __c38, 3) as any as S.Codec<ProjectMembers>,
-    errors: [UnknownNeonError],
+    errors: [],
+    serviceErrors: NeonServiceErrors,
     protocol: NeonProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -6611,7 +6732,8 @@ export const listProjectOperations: API.PaginatedOperationMethod<
   () => ({
     input: __S(624, __c39, 0) as any as S.Codec<ListProjectOperationsRequest>,
     output: __S(625, __c39, 1) as any as S.Codec<ListProjectOperationsResponse>,
-    errors: [NotFound, UnknownNeonError],
+    errors: [NotFound],
+    serviceErrors: NeonServiceErrors,
     protocol: NeonProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -6636,7 +6758,8 @@ export const listProjectPermissions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c40, 0) as any as S.Codec<ListProjectPermissionsRequest>,
   output: __S(642, __c40, 2) as any as S.Codec<ProjectPermissions>,
-  errors: [NotFound, UnknownNeonError],
+  errors: [NotFound],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6655,7 +6778,8 @@ export const listProjects: API.PaginatedOperationMethod<
   () => ({
     input: __S(656, __c41, 0) as any as S.Codec<ListProjectsRequest>,
     output: __S(658, __c41, 2) as any as S.Codec<ListProjectsResponse>,
-    errors: [UnknownNeonError],
+    errors: [],
+    serviceErrors: NeonServiceErrors,
     protocol: NeonProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -6680,7 +6804,8 @@ export const listProjectVPCEndpoints: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(688, __c43, 0) as any as S.Codec<ListProjectVPCEndpointsRequest>,
   output: __S(306, __c19, 2) as any as S.Codec<VPCEndpointsResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6699,7 +6824,8 @@ export const listSharedProjects: API.PaginatedOperationMethod<
   () => ({
     input: __S(720, __c45, 0) as any as S.Codec<ListSharedProjectsRequest>,
     output: __S(721, __c45, 1) as any as S.Codec<ListSharedProjectsResponse>,
-    errors: [UnknownNeonError],
+    errors: [],
+    serviceErrors: NeonServiceErrors,
     protocol: NeonProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -6724,7 +6850,8 @@ export const listSnapshots: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c46, 0) as any as S.Codec<ListSnapshotsRequest>,
   output: __S(738, __c46, 2) as any as S.Codec<ListSnapshotsResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6741,7 +6868,8 @@ export const presignProjectBranchBucketObject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(752, __c47, 0) as any as S.Codec<PresignProjectBranchBucketObjectRequest>,
   output: __S(753, __c47, 1) as any as S.Codec<PresignResponse>,
-  errors: [Forbidden, NotFound, UnknownNeonError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6758,7 +6886,8 @@ export const queryProjectBranchLogs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c48, 0) as any as S.Codec<QueryProjectBranchLogsRequest>,
   output: __S(771, __c48, 3) as any as S.Codec<ProjectBranchLogsQueryResponse>,
-  errors: [BadRequest, NotFound, UnknownNeonError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6775,7 +6904,8 @@ export const recoverProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(784, __c49, 0) as any as S.Codec<RecoverProjectRequest>,
   output: __S(785, __c49, 1) as any as S.Codec<RecoverProjectResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6792,7 +6922,8 @@ export const registerProjectBranchCustomDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c50, 0) as any as S.Codec<RegisterProjectBranchCustomDomainRequest>,
   output: __S(400, __c25, 0) as any as S.Codec<CustomDomain>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6809,7 +6940,8 @@ export const removeOrganizationMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(816, __c51, 0) as any as S.Codec<RemoveOrganizationMemberRequest>,
   output: __S(2416, __c151, 0) as any as S.Schema<RemoveOrganizationMemberResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6826,7 +6958,8 @@ export const removeProjectMemberRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c52, 0) as any as S.Codec<RemoveProjectMemberRoleRequest>,
   output: __S(848, __c53, 0) as any as S.Codec<ProjectMemberRoleResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6843,7 +6976,8 @@ export const resetProjectBranchRolePassword: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c54, 0) as any as S.Codec<ResetProjectBranchRolePasswordRequest>,
   output: __S(2192, __c137, 0) as any as S.Schema<ResetProjectBranchRolePasswordResponse>,
-  errors: [NotFound, UnknownNeonError],
+  errors: [NotFound],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6860,7 +6994,8 @@ export const restartProjectEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(880, __c55, 0) as any as S.Codec<RestartProjectEndpointRequest>,
   output: __S(2272, __c142, 0) as any as S.Schema<RestartProjectEndpointResponse>,
-  errors: [NotFound, UnknownNeonError],
+  errors: [NotFound],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6877,7 +7012,8 @@ export const restoreProjectBranch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c58, 0) as any as S.Codec<RestoreProjectBranchRequest>,
   output: __S(2512, __c157, 0) as any as S.Schema<RestoreProjectBranchResponse>,
-  errors: [NotFound, UnknownNeonError],
+  errors: [NotFound],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6894,7 +7030,8 @@ export const restoreSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(944, __c59, 0) as any as S.Codec<RestoreSnapshotRequest>,
   output: __S(945, __c59, 1) as any as S.Codec<RestoreSnapshotResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6911,7 +7048,8 @@ export const revealCredential: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c60, 0) as any as S.Codec<RevealCredentialRequest>,
   output: __S(961, __c60, 1) as any as S.Codec<CredentialSecret>,
-  errors: [NotFound, Conflict, UnknownNeonError],
+  errors: [NotFound, Conflict],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6928,7 +7066,8 @@ export const revokeApiKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(976, __c61, 0) as any as S.Codec<RevokeApiKeyRequest>,
   output: __S(977, __c61, 1) as any as S.Codec<ApiKeyRevokeResponse>,
-  errors: [NotFound, UnknownNeonError],
+  errors: [NotFound],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6945,7 +7084,8 @@ export const revokeCredential: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c62, 0) as any as S.Codec<RevokeCredentialRequest>,
   output: __S(2688, __c168, 0) as any as S.Schema<RevokeCredentialResponse>,
-  errors: [NotFound, UnknownNeonError],
+  errors: [NotFound],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6962,7 +7102,8 @@ export const revokeOrgApiKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1008, __c63, 0) as any as S.Codec<RevokeOrgApiKeyRequest>,
   output: __S(1009, __c63, 1) as any as S.Codec<RevokeOrgApiKeyResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6979,7 +7120,8 @@ export const revokePermissionFromProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c64, 0) as any as S.Codec<RevokePermissionFromProjectRequest>,
   output: __S(144, __c9, 0) as any as S.Codec<ProjectPermission>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6996,7 +7138,8 @@ export const rotateCredential: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1040, __c65, 0) as any as S.Codec<RotateCredentialRequest>,
   output: __S(1041, __c65, 1) as any as S.Codec<RotateCredentialResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7013,7 +7156,8 @@ export const rotateNeonAuthOAuthClientSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c66, 0) as any as S.Codec<RotateNeonAuthOAuthClientSecretRequest>,
   output: __S(1057, __c66, 1) as any as S.Codec<NeonAuthOAuthClientSecret>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7030,7 +7174,8 @@ export const rotateProjectBranchRealtimeSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1072, __c67, 0) as any as S.Codec<RotateProjectBranchRealtimeSecretRequest>,
   output: __S(2688, __c168, 0) as any as S.Schema<RotateProjectBranchRealtimeSecretResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7047,7 +7192,8 @@ export const sendNeonAuthEmailProviderTest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c70, 0) as any as S.Codec<SendNeonAuthEmailProviderTestRequest>,
   output: __S(1121, __c70, 1) as any as S.Codec<SendNeonAuthTestEmailResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7064,7 +7210,8 @@ export const setDefaultProjectBranch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1136, __c71, 0) as any as S.Codec<SetDefaultProjectBranchRequest>,
   output: __S(2512, __c157, 0) as any as S.Schema<SetDefaultProjectBranchResponse>,
-  errors: [NotFound, UnknownNeonError],
+  errors: [NotFound],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7081,7 +7228,8 @@ export const setOrganizationSpendingLimit: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c72, 0) as any as S.Codec<SetOrganizationSpendingLimitRequest>,
   output: __S(3664, __c229, 0) as any as S.Codec<SpendingLimitResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7098,7 +7246,8 @@ export const setProjectMemberRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1168, __c73, 0) as any as S.Codec<SetProjectMemberRoleRequest>,
   output: __S(848, __c53, 0) as any as S.Codec<ProjectMemberRoleResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7115,7 +7264,8 @@ export const setSnapshotSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c74, 0) as any as S.Codec<SetSnapshotScheduleRequest>,
   output: __S(2416, __c151, 0) as any as S.Schema<SetSnapshotScheduleResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7132,7 +7282,8 @@ export const startAnonymization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1200, __c75, 0) as any as S.Codec<StartAnonymizationRequest>,
   output: __S(2865, __c179, 1) as any as S.Codec<AnonymizedBranchStatusResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7149,7 +7300,8 @@ export const startProjectEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c76, 0) as any as S.Codec<StartProjectEndpointRequest>,
   output: __S(2272, __c142, 0) as any as S.Schema<StartProjectEndpointResponse>,
-  errors: [NotFound, UnknownNeonError],
+  errors: [NotFound],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7166,7 +7318,8 @@ export const suspendProjectEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1232, __c77, 0) as any as S.Codec<SuspendProjectEndpointRequest>,
   output: __S(2272, __c142, 0) as any as S.Schema<SuspendProjectEndpointResponse>,
-  errors: [NotFound, UnknownNeonError],
+  errors: [NotFound],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7183,7 +7336,8 @@ export const transferNeonAuthProviderProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c78, 0) as any as S.Codec<TransferNeonAuthProviderProjectRequest>,
   output: __S(2080, __c130, 0) as any as S.Schema<NeonAuthTransferAuthProviderProjectResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7200,7 +7354,8 @@ export const transferProjectsFromOrgToOrg: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1264, __c79, 0) as any as S.Codec<TransferProjectsFromOrgToOrgRequest>,
   output: __S(2416, __c151, 0) as any as S.Schema<TransferProjectsFromOrgToOrgResponse>,
-  errors: [UnprocessableEntity, UnknownNeonError],
+  errors: [UnprocessableEntity],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7217,7 +7372,8 @@ export const updateBranchNeonAuthOauthProvider: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1312, __c82, 0) as any as S.Codec<UpdateBranchNeonAuthOauthProviderRequest>,
   output: __S(2896, __c181, 0) as any as S.Codec<NeonAuthOauthProvider>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7234,7 +7390,8 @@ export const updateMaskingRules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1328, __c83, 0) as any as S.Codec<UpdateMaskingRulesRequest>,
   output: __S(3104, __c194, 0) as any as S.Codec<MaskingRulesResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7251,7 +7408,8 @@ export const updateNeonAuthAllowLocalhost: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1344, __c84, 0) as any as S.Codec<UpdateNeonAuthAllowLocalhostRequest>,
   output: __S(3168, __c198, 0) as any as S.Codec<NeonAuthAllowLocalhostResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7268,7 +7426,8 @@ export const updateNeonAuthConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1360, __c85, 0) as any as S.Codec<UpdateNeonAuthConfigRequest>,
   output: __S(1361, __c85, 1) as any as S.Codec<NeonAuthConfigResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7285,7 +7444,8 @@ export const updateNeonAuthEmailAndPasswordConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1376, __c86, 0) as any as S.Codec<UpdateNeonAuthEmailAndPasswordConfigRequest>,
   output: __S(3200, __c200, 0) as any as S.Codec<NeonAuthEmailAndPasswordConfig>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7302,7 +7462,8 @@ export const updateNeonAuthEmailProvider: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1394, __c87, 2) as any as S.Codec<UpdateNeonAuthEmailProviderRequest>,
   output: __S(3232, __c202, 0) as any as S.Schema<UpdateNeonAuthEmailProviderResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7319,7 +7480,8 @@ export const updateNeonAuthLogsExport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c88, 0) as any as S.Codec<UpdateNeonAuthLogsExportRequest>,
   output: __S(3392, __c212, 0) as any as S.Codec<NeonAuthLogsExportConfig>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7336,7 +7498,8 @@ export const updateNeonAuthMagicLinkPlugin: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1424, __c89, 0) as any as S.Codec<UpdateNeonAuthMagicLinkPluginRequest>,
   output: __S(3408, __c213, 0) as any as S.Codec<NeonAuthMagicLinkConfig>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7353,7 +7516,8 @@ export const updateNeonAuthOAuthClient: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c90, 0) as any as S.Codec<UpdateNeonAuthOAuthClientRequest>,
   output: __S(3280, __c205, 0) as any as S.Codec<NeonAuthOAuthClient>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7370,7 +7534,8 @@ export const updateNeonAuthOAuthProviderPlugin: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1457, __c91, 1) as any as S.Codec<UpdateNeonAuthOAuthProviderPluginRequest>,
   output: __S(3315, __c207, 3) as any as S.Codec<NeonAuthOAuthProviderConfig>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7387,7 +7552,8 @@ export const updateNeonAuthOrganizationPlugin: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1488, __c93, 0) as any as S.Codec<UpdateNeonAuthOrganizationPluginRequest>,
   output: __S(3424, __c214, 0) as any as S.Codec<NeonAuthOrganizationConfig>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7404,7 +7570,8 @@ export const updateNeonAuthPhoneNumberPlugin: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1504, __c94, 0) as any as S.Codec<UpdateNeonAuthPhoneNumberPluginRequest>,
   output: __S(3344, __c209, 0) as any as S.Codec<NeonAuthPhoneNumberConfig>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7421,7 +7588,8 @@ export const updateNeonAuthUserRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1520, __c95, 0) as any as S.Codec<UpdateNeonAuthUserRoleRequest>,
   output: __S(912, __c57, 0) as any as S.Schema<UpdateNeonAuthUserRoleResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7438,7 +7606,8 @@ export const updateNeonAuthWebhookConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1536, __c96, 0) as any as S.Codec<UpdateNeonAuthWebhookConfigRequest>,
   output: __S(3456, __c216, 0) as any as S.Codec<NeonAuthWebhookConfig>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7455,7 +7624,8 @@ export const updateOrganizationMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1552, __c97, 0) as any as S.Codec<UpdateOrganizationMemberRequest>,
   output: __S(3600, __c225, 0) as any as S.Codec<Member>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7472,7 +7642,8 @@ export const updateProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1569, __c98, 1) as any as S.Codec<UpdateProjectRequest>,
   output: __S(1570, __c98, 2) as any as S.Codec<UpdateProjectResponse>,
-  errors: [BadRequest, NotFound, UnknownNeonError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7489,7 +7660,8 @@ export const updateProjectBranch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1585, __c99, 1) as any as S.Codec<UpdateProjectBranchRequest>,
   output: __S(2512, __c157, 0) as any as S.Schema<UpdateProjectBranchResponse>,
-  errors: [BadRequest, NotFound, UnknownNeonError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7506,7 +7678,8 @@ export const updateProjectBranchDataAPI: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1600, __c100, 0) as any as S.Codec<UpdateProjectBranchDataAPIRequest>,
   output: __S(2416, __c151, 0) as any as S.Schema<UpdateProjectBranchDataAPIResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7523,7 +7696,8 @@ export const updateProjectBranchDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1617, __c101, 1) as any as S.Codec<UpdateProjectBranchDatabaseRequest>,
   output: __S(2128, __c133, 0) as any as S.Schema<UpdateProjectBranchDatabaseResponse>,
-  errors: [NotFound, UnknownNeonError],
+  errors: [NotFound],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7540,7 +7714,8 @@ export const updateProjectBranchFunction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1632, __c102, 0) as any as S.Codec<UpdateProjectBranchFunctionRequest>,
   output: __S(3888, __c243, 0) as any as S.Codec<NeonFunctionResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7557,7 +7732,8 @@ export const updateProjectBranchTrigger: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1667, __c104, 3) as any as S.Codec<UpdateProjectBranchTriggerRequest>,
   output: __S(2240, __c140, 0) as any as S.Codec<TriggerResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7574,7 +7750,8 @@ export const updateProjectEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1681, __c105, 1) as any as S.Codec<UpdateProjectEndpointRequest>,
   output: __S(2272, __c142, 0) as any as S.Schema<UpdateProjectEndpointResponse>,
-  errors: [NotFound, UnknownNeonError],
+  errors: [NotFound],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7591,7 +7768,8 @@ export const updateSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1697, __c106, 1) as any as S.Codec<UpdateSnapshotRequest>,
   output: __S(1698, __c106, 2) as any as S.Codec<UpdateSnapshotResponse>,
-  errors: [UnknownNeonError],
+  errors: [],
+  serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

@@ -88,7 +88,7 @@ const spec: SdkSpec = {
   operationDecl: {
     contextType: "PrismaOpContext",
     commonErrorType: "PrismaOpError",
-    commonErrorClasses: ["UnknownPrismaError"],
+    serviceErrors: "PrismaServiceErrors",
     protocol: "PrismaProtocol",
     retry: "Retry.Retry",
   },

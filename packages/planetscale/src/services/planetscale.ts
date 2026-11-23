@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownPlanetScaleError } from "../errors.ts";
+import { PlanetScaleServiceErrors } from "../errors.ts";
 import { paginatePageNumber } from "../pagination.ts";
 import {
   PlanetScaleProtocol,
@@ -12876,7 +12876,8 @@ export const addOrganizationTeamMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8960, __c280, 0) as any as S.Schema<AddOrganizationTeamMemberRequest>,
   output: __S(9056, __c283, 0) as any as S.Schema<OrganizationTeamMembership>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12897,7 +12898,8 @@ export const addServiceTokenAccess: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9984, __c312, 0) as any as S.Schema<AddServiceTokenAccessRequest>,
   output: __S(10019, __c313, 3) as any as S.Schema<ServiceTokenAccessesResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12918,7 +12920,8 @@ export const assignShardConfigurationProfileShards: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10400, __c325, 0) as any as S.Schema<AssignShardConfigurationProfileShardsRequest>,
   output: __S(10403, __c325, 3) as any as S.Schema<AssignShardConfigurationProfileShardsResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12943,7 +12946,8 @@ export const bulkCreateShardConfigurationProfileShards: API.OperationMethod<
     __c337,
     1,
   ) as any as S.Schema<BulkCreateShardConfigurationProfileShardsResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12964,7 +12968,8 @@ export const cancelAdminChangeRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11136, __c348, 0) as any as S.Schema<CancelAdminChangeRequestRequest>,
   output: __S(11168, __c349, 0) as any as S.Schema<CancelAdminChangeRequestResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12985,7 +12990,8 @@ export const cancelBouncerResizeRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11680, __c365, 0) as any as S.Schema<CancelBouncerResizeRequestRequest>,
   output: __S(11168, __c349, 0) as any as S.Schema<CancelBouncerResizeRequestResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13006,7 +13012,8 @@ export const cancelBranchChangeRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CancelBranchChangeRequestRequest>,
   output: __S(11168, __c349, 0) as any as S.Schema<CancelBranchChangeRequestResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13027,7 +13034,8 @@ export const cancelBranchConfigChangeRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c17, 0) as any as S.Schema<CancelBranchConfigChangeRequestRequest>,
   output: __S(11168, __c349, 0) as any as S.Schema<CancelBranchConfigChangeRequestResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13048,7 +13056,8 @@ export const cancelChangeRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c32, 0) as any as S.Schema<CancelChangeRequestRequest>,
   output: __S(11168, __c349, 0) as any as S.Schema<CancelChangeRequestResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13069,7 +13078,8 @@ export const cancelDeployRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c45, 0) as any as S.Schema<CancelDeployRequestRequest>,
   output: __S(1568, __c49, 0) as any as S.Schema<DatabaseDeployRequest>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13090,7 +13100,8 @@ export const cancelKeyspaceConfigChangeRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2048, __c64, 0) as any as S.Schema<CancelKeyspaceConfigChangeRequestRequest>,
   output: __S(11168, __c349, 0) as any as S.Schema<CancelKeyspaceConfigChangeRequestResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13111,7 +13122,8 @@ export const cancelKeyspaceResizeRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2496, __c78, 0) as any as S.Schema<CancelKeyspaceResizeRequestRequest>,
   output: __S(11168, __c349, 0) as any as S.Schema<CancelKeyspaceResizeRequestResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13132,7 +13144,8 @@ export const cancelMoveTablesWorkflow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2880, __c90, 0) as any as S.Schema<CancelMoveTablesWorkflowRequest>,
   output: __S(11168, __c349, 0) as any as S.Schema<CancelMoveTablesWorkflowResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13153,7 +13166,8 @@ export const cancelNekiChangeRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3232, __c101, 0) as any as S.Schema<CancelNekiChangeRequestRequest>,
   output: __S(11168, __c349, 0) as any as S.Schema<CancelNekiChangeRequestResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13174,7 +13188,8 @@ export const cancelOrganizationInvitation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3680, __c115, 0) as any as S.Schema<CancelOrganizationInvitationRequest>,
   output: __S(11168, __c349, 0) as any as S.Schema<CancelOrganizationInvitationResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13195,7 +13210,8 @@ export const cancelRouterChangeRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4064, __c127, 0) as any as S.Schema<CancelRouterChangeRequestRequest>,
   output: __S(11168, __c349, 0) as any as S.Schema<CancelRouterChangeRequestResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13224,7 +13240,8 @@ export const cancelShardConfigurationProfileChangeRequest: API.OperationMethod<
     __c349,
     0,
   ) as any as S.Schema<CancelShardConfigurationProfileChangeRequestResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13241,7 +13258,8 @@ export const completeRevert: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4832, __c151, 0) as any as S.Schema<CompleteRevertRequest>,
   output: __S(1568, __c49, 0) as any as S.Schema<DatabaseDeployRequest>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13262,7 +13280,8 @@ export const configureOrganizationSso: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5216, __c163, 0) as any as S.Schema<ConfigureOrganizationSsoRequest>,
   output: __S(5248, __c164, 0) as any as S.Schema<ConfigureOrganizationSsoResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13279,7 +13298,8 @@ export const createBackup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5600, __c175, 0) as any as S.Schema<CreateBackupRequest>,
   output: __S(5666, __c177, 2) as any as S.Schema<Backup>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13300,7 +13320,8 @@ export const createBackupPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6080, __c190, 0) as any as S.Schema<CreateBackupPolicyRequest>,
   output: __S(5632, __c176, 0) as any as S.Schema<BackupPolicy>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13317,7 +13338,8 @@ export const createBouncer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6432, __c201, 0) as any as S.Schema<CreateBouncerRequest>,
   output: __S(6528, __c204, 0) as any as S.Schema<PostgresBouncer>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13334,7 +13356,8 @@ export const createBranch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6912, __c216, 0) as any as S.Schema<CreateBranchRequest>,
   output: __S(6976, __c218, 0) as any as S.Schema<DatabaseBranch>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13355,7 +13378,8 @@ export const createBranchConfigChangeRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7328, __c229, 0) as any as S.Schema<CreateBranchConfigChangeRequestRequest>,
   output: __S(7360, __c230, 0) as any as S.Schema<BranchConfigChangeRequest>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13376,7 +13400,8 @@ export const createBranchLogSignature: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7712, __c241, 0) as any as S.Schema<CreateBranchLogSignatureRequest>,
   output: __S(7713, __c241, 1) as any as S.Schema<CreateBranchLogSignatureResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13393,7 +13418,8 @@ export const createDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8064, __c252, 0) as any as S.Schema<CreateDatabaseRequest>,
   output: __S(8096, __c253, 0) as any as S.Schema<Database>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13414,7 +13440,8 @@ export const createDatabasePostgresCidr: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8384, __c262, 0) as any as S.Schema<CreateDatabasePostgresCidrRequest>,
   output: __S(8416, __c263, 0) as any as S.Schema<PostgresClusterCidr>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13435,7 +13462,8 @@ export const createDedicatedReadReplica: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8448, __c264, 0) as any as S.Schema<CreateDedicatedReadReplicaRequest>,
   output: __S(8480, __c265, 0) as any as S.Schema<PostgresReadOnlyReplica>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13456,7 +13484,8 @@ export const createDeployRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8544, __c267, 0) as any as S.Schema<CreateDeployRequestRequest>,
   output: __S(1568, __c49, 0) as any as S.Schema<DatabaseDeployRequest>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13473,7 +13502,8 @@ export const createKeyspace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8576, __c268, 0) as any as S.Schema<CreateKeyspaceRequest>,
   output: __S(8612, __c269, 4) as any as S.Schema<DatabaseBranchKeyspace>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13494,7 +13524,8 @@ export const createKeyspaceConfigChangeRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8640, __c270, 0) as any as S.Schema<CreateKeyspaceConfigChangeRequestRequest>,
   output: __S(7360, __c230, 0) as any as S.Schema<KeyspaceConfigChangeRequest>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13515,7 +13546,8 @@ export const createMoveTablesWorkflow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8672, __c271, 0) as any as S.Schema<CreateMoveTablesWorkflowRequest>,
   output: __S(11168, __c349, 0) as any as S.Schema<CreateMoveTablesWorkflowResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13532,7 +13564,8 @@ export const createOauthToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8704, __c272, 0) as any as S.Schema<CreateOauthTokenRequest>,
   output: __S(8736, __c273, 0) as any as S.Schema<ServiceToken>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13553,7 +13586,8 @@ export const createOrganizationInvitation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8800, __c275, 0) as any as S.Schema<CreateOrganizationInvitationRequest>,
   output: __S(8832, __c276, 0) as any as S.Schema<OrganizationInvitation>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13574,7 +13608,8 @@ export const createOrganizationSsoDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8864, __c277, 0) as any as S.Schema<CreateOrganizationSsoDomainRequest>,
   output: __S(5248, __c164, 0) as any as S.Schema<CreateOrganizationSsoDomainResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13596,7 +13631,8 @@ export const createOrganizationTeam: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8896, __c278, 0) as any as S.Schema<CreateOrganizationTeamRequest>,
   output: __S(8931, __c279, 3) as any as S.Schema<OrganizationTeam>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13613,7 +13649,8 @@ export const createPassword: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9280, __c290, 0) as any as S.Schema<CreatePasswordRequest>,
   output: __S(9312, __c291, 0) as any as S.Schema<DatabaseBranchPasswordWithSecret>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13634,7 +13671,8 @@ export const createQueryPatternsReport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9344, __c292, 0) as any as S.Schema<CreateQueryPatternsReportRequest>,
   output: __S(9376, __c293, 0) as any as S.Schema<QueryPatternsDownload>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13651,7 +13689,8 @@ export const createRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9408, __c294, 0) as any as S.Schema<CreateRoleRequest>,
   output: __S(9441, __c295, 1) as any as S.Schema<PostgresRole>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13668,7 +13707,8 @@ export const createRouter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9504, __c297, 0) as any as S.Schema<CreateRouterRequest>,
   output: __S(9568, __c299, 0) as any as S.Schema<NekiRouter>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13689,7 +13729,8 @@ export const createServiceToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9600, __c300, 0) as any as S.Schema<CreateServiceTokenRequest>,
   output: __S(8736, __c273, 0) as any as S.Schema<ServiceToken>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13706,7 +13747,8 @@ export const createShard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9632, __c301, 0) as any as S.Schema<CreateShardRequest>,
   output: __S(11168, __c349, 0) as any as S.Schema<CreateShardResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13727,7 +13769,8 @@ export const createShardConfigurationProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9664, __c302, 0) as any as S.Schema<CreateShardConfigurationProfileRequest>,
   output: __S(9728, __c304, 0) as any as S.Schema<NekiShardConfigurationProfile>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13748,7 +13791,8 @@ export const createShardConfigurationProfileShard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9760, __c305, 0) as any as S.Schema<CreateShardConfigurationProfileShardRequest>,
   output: __S(9792, __c306, 0) as any as S.Schema<NekiShard>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13770,7 +13814,8 @@ export const createSwitchover: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9824, __c307, 0) as any as S.Schema<CreateSwitchoverRequest>,
   output: __S(9856, __c308, 0) as any as S.Schema<PostgresSwitchover>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13791,7 +13836,8 @@ export const createTrafficBudget: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9888, __c309, 0) as any as S.Schema<CreateTrafficBudgetRequest>,
   output: __S(9921, __c310, 1) as any as S.Schema<TrafficBudget>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13812,7 +13858,8 @@ export const createTrafficRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10048, __c314, 0) as any as S.Schema<CreateTrafficRuleRequest>,
   output: __S(9954, __c311, 2) as any as S.Schema<TrafficRule>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13829,7 +13876,8 @@ export const createWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10080, __c315, 0) as any as S.Schema<CreateWebhookRequest>,
   output: __S(10112, __c316, 0) as any as S.Schema<DatabaseWebhook>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13846,7 +13894,8 @@ export const deleteBackup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10144, __c317, 0) as any as S.Schema<DeleteBackupRequest>,
   output: __S(11168, __c349, 0) as any as S.Schema<DeleteBackupResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13867,7 +13916,8 @@ export const deleteBackupPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10176, __c318, 0) as any as S.Schema<DeleteBackupPolicyRequest>,
   output: __S(11168, __c349, 0) as any as S.Schema<DeleteBackupPolicyResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13884,7 +13934,8 @@ export const deleteBouncer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10208, __c319, 0) as any as S.Schema<DeleteBouncerRequest>,
   output: __S(11168, __c349, 0) as any as S.Schema<DeleteBouncerResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13901,7 +13952,8 @@ export const deleteBranch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10240, __c320, 0) as any as S.Schema<DeleteBranchRequest>,
   output: __S(11168, __c349, 0) as any as S.Schema<DeleteBranchResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13918,7 +13970,8 @@ export const deleteDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10272, __c321, 0) as any as S.Schema<DeleteDatabaseRequest>,
   output: __S(11168, __c349, 0) as any as S.Schema<DeleteDatabaseResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13939,7 +13992,8 @@ export const deleteDatabasePostgresCidr: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10304, __c322, 0) as any as S.Schema<DeleteDatabasePostgresCidrRequest>,
   output: __S(11168, __c349, 0) as any as S.Schema<DeleteDatabasePostgresCidrResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13960,7 +14014,8 @@ export const deleteDedicatedReadReplica: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10336, __c323, 0) as any as S.Schema<DeleteDedicatedReadReplicaRequest>,
   output: __S(11168, __c349, 0) as any as S.Schema<DeleteDedicatedReadReplicaResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13977,7 +14032,8 @@ export const deleteKeyspace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10368, __c324, 0) as any as S.Schema<DeleteKeyspaceRequest>,
   output: __S(11168, __c349, 0) as any as S.Schema<DeleteKeyspaceResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13994,7 +14050,8 @@ export const deleteOauthToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10464, __c327, 0) as any as S.Schema<DeleteOauthTokenRequest>,
   output: __S(11168, __c349, 0) as any as S.Schema<DeleteOauthTokenResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14015,7 +14072,8 @@ export const deleteOrganizationBillingPaymentMethod: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10496, __c328, 0) as any as S.Schema<DeleteOrganizationBillingPaymentMethodRequest>,
   output: __S(11168, __c349, 0) as any as S.Schema<DeleteOrganizationBillingPaymentMethodResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14036,7 +14094,8 @@ export const deleteOrganizationSsoDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10528, __c329, 0) as any as S.Schema<DeleteOrganizationSsoDomainRequest>,
   output: __S(11168, __c349, 0) as any as S.Schema<DeleteOrganizationSsoDomainResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14058,7 +14117,8 @@ export const deleteOrganizationTeam: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10560, __c330, 0) as any as S.Schema<DeleteOrganizationTeamRequest>,
   output: __S(11168, __c349, 0) as any as S.Schema<DeleteOrganizationTeamResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14075,7 +14135,8 @@ export const deletePassword: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10592, __c331, 0) as any as S.Schema<DeletePasswordRequest>,
   output: __S(11168, __c349, 0) as any as S.Schema<DeletePasswordResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14096,7 +14157,8 @@ export const deleteQueryPatternsReport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10624, __c332, 0) as any as S.Schema<DeleteQueryPatternsReportRequest>,
   output: __S(11168, __c349, 0) as any as S.Schema<DeleteQueryPatternsReportResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14113,7 +14175,8 @@ export const deleteRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10656, __c333, 0) as any as S.Schema<DeleteRoleRequest>,
   output: __S(11168, __c349, 0) as any as S.Schema<DeleteRoleResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14130,7 +14193,8 @@ export const deleteRouter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10688, __c334, 0) as any as S.Schema<DeleteRouterRequest>,
   output: __S(11168, __c349, 0) as any as S.Schema<DeleteRouterResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14151,7 +14215,8 @@ export const deleteServiceToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10720, __c335, 0) as any as S.Schema<DeleteServiceTokenRequest>,
   output: __S(11168, __c349, 0) as any as S.Schema<DeleteServiceTokenResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14168,7 +14233,8 @@ export const deleteShard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10752, __c336, 0) as any as S.Schema<DeleteShardRequest>,
   output: __S(11168, __c349, 0) as any as S.Schema<DeleteShardResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14189,7 +14255,8 @@ export const deleteShardConfigurationProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10816, __c338, 0) as any as S.Schema<DeleteShardConfigurationProfileRequest>,
   output: __S(11168, __c349, 0) as any as S.Schema<DeleteShardConfigurationProfileResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14210,7 +14277,8 @@ export const deleteShardConfigurationProfileShard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10848, __c339, 0) as any as S.Schema<DeleteShardConfigurationProfileShardRequest>,
   output: __S(11168, __c349, 0) as any as S.Schema<DeleteShardConfigurationProfileShardResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14231,7 +14299,8 @@ export const deleteShardConfigurationProfileShards: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10880, __c340, 0) as any as S.Schema<DeleteShardConfigurationProfileShardsRequest>,
   output: __S(11168, __c349, 0) as any as S.Schema<DeleteShardConfigurationProfileShardsResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14252,7 +14321,8 @@ export const deleteTrafficBudget: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10912, __c341, 0) as any as S.Schema<DeleteTrafficBudgetRequest>,
   output: __S(11168, __c349, 0) as any as S.Schema<DeleteTrafficBudgetResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14273,7 +14343,8 @@ export const deleteTrafficRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10944, __c342, 0) as any as S.Schema<DeleteTrafficRuleRequest>,
   output: __S(11168, __c349, 0) as any as S.Schema<DeleteTrafficRuleResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14290,7 +14361,8 @@ export const deleteWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10976, __c343, 0) as any as S.Schema<DeleteWebhookRequest>,
   output: __S(11168, __c349, 0) as any as S.Schema<DeleteWebhookResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14307,7 +14379,8 @@ export const demoteBranch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11008, __c344, 0) as any as S.Schema<DemoteBranchRequest>,
   output: __S(6976, __c218, 0) as any as S.Schema<DatabaseBranch>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14328,7 +14401,8 @@ export const deployCheckRequestStorage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11040, __c345, 0) as any as S.Schema<DeployCheckRequestStorageRequest>,
   output: __S(11044, __c345, 4) as any as S.Schema<DeployCheckRequestStorageResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14349,7 +14423,8 @@ export const deployCloseRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11072, __c346, 0) as any as S.Schema<DeployCloseRequestRequest>,
   output: __S(1568, __c49, 0) as any as S.Schema<DatabaseDeployRequest>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14370,7 +14445,8 @@ export const deployCompleteErrored: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11104, __c347, 0) as any as S.Schema<DeployCompleteErroredRequest>,
   output: __S(1568, __c49, 0) as any as S.Schema<DatabaseDeployRequest>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14391,7 +14467,8 @@ export const deployCompleteGatedRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11200, __c350, 0) as any as S.Schema<DeployCompleteGatedRequestRequest>,
   output: __S(1568, __c49, 0) as any as S.Schema<DatabaseDeployRequest>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14412,7 +14489,8 @@ export const deployForceCutoverRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11232, __c351, 0) as any as S.Schema<DeployForceCutoverRequestRequest>,
   output: __S(1568, __c49, 0) as any as S.Schema<DatabaseDeployRequest>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14433,7 +14511,8 @@ export const deployQueueRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11264, __c352, 0) as any as S.Schema<DeployQueueRequestRequest>,
   output: __S(1568, __c49, 0) as any as S.Schema<DatabaseDeployRequest>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14454,7 +14533,8 @@ export const deployReviewRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11296, __c353, 0) as any as S.Schema<DeployReviewRequestRequest>,
   output: __S(11328, __c354, 0) as any as S.Schema<DeployRequestReview>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14475,7 +14555,8 @@ export const disableOrganizationSso: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11360, __c355, 0) as any as S.Schema<DisableOrganizationSsoRequest>,
   output: __S(11392, __c356, 0) as any as S.Schema<OrganizationSsoSerializer>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14496,7 +14577,8 @@ export const disableOrganizationSsoDirectory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11488, __c359, 0) as any as S.Schema<DisableOrganizationSsoDirectoryRequest>,
   output: __S(11392, __c356, 0) as any as S.Schema<OrganizationSsoSerializer>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14517,7 +14599,8 @@ export const disableSafeMigrations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11520, __c360, 0) as any as S.Schema<DisableSafeMigrationsRequest>,
   output: __S(6976, __c218, 0) as any as S.Schema<DatabaseBranch>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14538,7 +14621,8 @@ export const dismissSchemaRecommendation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11552, __c361, 0) as any as S.Schema<DismissSchemaRecommendationRequest>,
   output: __S(11585, __c362, 1) as any as S.Schema<SchemaRecommendation>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14559,7 +14643,8 @@ export const duplicateShardConfigurationProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11616, __c363, 0) as any as S.Schema<DuplicateShardConfigurationProfileRequest>,
   output: __S(9728, __c304, 0) as any as S.Schema<NekiShardConfigurationProfile>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14580,7 +14665,8 @@ export const enableOrganizationSso: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11648, __c364, 0) as any as S.Schema<EnableOrganizationSsoRequest>,
   output: __S(11392, __c356, 0) as any as S.Schema<OrganizationSsoSerializer>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14601,7 +14687,8 @@ export const enableOrganizationSsoDirectory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11712, __c366, 0) as any as S.Schema<EnableOrganizationSsoDirectoryRequest>,
   output: __S(5248, __c164, 0) as any as S.Schema<EnableOrganizationSsoDirectoryResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14622,7 +14709,8 @@ export const enableSafeMigrations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11744, __c367, 0) as any as S.Schema<EnableSafeMigrationsRequest>,
   output: __S(6976, __c218, 0) as any as S.Schema<DatabaseBranch>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14639,7 +14727,8 @@ export const getAdmin: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11776, __c368, 0) as any as S.Schema<GetAdminRequest>,
   output: __S(11808, __c369, 0) as any as S.Schema<NekiAdmin>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14660,7 +14749,8 @@ export const getAdminChangeRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11840, __c370, 0) as any as S.Schema<GetAdminChangeRequestRequest>,
   output: __S(11168, __c349, 0) as any as S.Schema<GetAdminChangeRequestResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14677,7 +14767,8 @@ export const getBackup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11872, __c371, 0) as any as S.Schema<GetBackupRequest>,
   output: __S(5666, __c177, 2) as any as S.Schema<Backup>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14694,7 +14785,8 @@ export const getBackupPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11904, __c372, 0) as any as S.Schema<GetBackupPolicyRequest>,
   output: __S(5632, __c176, 0) as any as S.Schema<BackupPolicy>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14711,7 +14803,8 @@ export const getBouncer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11936, __c373, 0) as any as S.Schema<GetBouncerRequest>,
   output: __S(6528, __c204, 0) as any as S.Schema<PostgresBouncer>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14728,7 +14821,8 @@ export const getBranch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11968, __c374, 0) as any as S.Schema<GetBranchRequest>,
   output: __S(6976, __c218, 0) as any as S.Schema<DatabaseBranch>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14745,7 +14839,8 @@ export const getBranchAnomaly: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12000, __c375, 0) as any as S.Schema<GetBranchAnomalyRequest>,
   output: __S(12034, __c376, 2) as any as S.Schema<Anomaly>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14766,7 +14861,8 @@ export const getBranchChangeRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12064, __c377, 0) as any as S.Schema<GetBranchChangeRequestRequest>,
   output: __S(12096, __c378, 0) as any as S.Schema<PostgresClusterResizeRequest>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14787,7 +14883,8 @@ export const getBranchConfigChangeRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c1, 0) as any as S.Schema<GetBranchConfigChangeRequestRequest>,
   output: __S(7360, __c230, 0) as any as S.Schema<BranchConfigChangeRequest>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14808,7 +14905,8 @@ export const getBranchKeyspaceTableMetrics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c2, 0) as any as S.Schema<GetBranchKeyspaceTableMetricsRequest>,
   output: __S(11168, __c349, 0) as any as S.Schema<GetBranchKeyspaceTableMetricsResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14829,7 +14927,8 @@ export const getBranchMaintenanceWindow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c3, 0) as any as S.Schema<GetBranchMaintenanceWindowRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<BranchMaintenanceSchedule>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14851,7 +14950,8 @@ export const getBranchMetrics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c5, 0) as any as S.Schema<GetBranchMetricsRequest>,
   output: __S(196, __c6, 4) as any as S.Schema<MetricSeries>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14868,7 +14968,8 @@ export const getBranchQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c7, 0) as any as S.Schema<GetBranchQueryRequest>,
   output: __S(256, __c8, 0) as any as S.Schema<Query>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14891,7 +14992,8 @@ export const getBranchQueryError: API.PaginatedOperationMethod<
   () => ({
     input: __S(288, __c9, 0) as any as S.Schema<GetBranchQueryErrorRequest>,
     output: __S(321, __c10, 1) as any as S.Schema<PaginatedQuery>,
-    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity],
+    serviceErrors: PlanetScaleServiceErrors,
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -14921,7 +15023,8 @@ export const getBranchQueryMetrics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c11, 0) as any as S.Schema<GetBranchQueryMetricsRequest>,
   output: __S(196, __c6, 4) as any as S.Schema<MetricSeries>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14943,7 +15046,8 @@ export const getBranchQueryTag: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c12, 0) as any as S.Schema<GetBranchQueryTagRequest>,
   output: __S(418, __c13, 2) as any as S.Schema<QueryTag>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14964,7 +15068,8 @@ export const getBranchResizeRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c14, 0) as any as S.Schema<GetBranchResizeRequestRequest>,
   output: __S(480, __c15, 0) as any as S.Schema<MysqlClusterResizeRequest>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14981,7 +15086,8 @@ export const getBranchSchema: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c16, 0) as any as S.Schema<GetBranchSchemaRequest>,
   output: __S(515, __c16, 3) as any as S.Schema<GetBranchSchemaResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15002,7 +15108,8 @@ export const getBranchTableMetrics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c18, 0) as any as S.Schema<GetBranchTableMetricsRequest>,
   output: __S(11168, __c349, 0) as any as S.Schema<GetBranchTableMetricsResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15024,7 +15131,8 @@ export const getBranchTagMetrics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c19, 0) as any as S.Schema<GetBranchTagMetricsRequest>,
   output: __S(196, __c6, 4) as any as S.Schema<MetricSeries>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15041,7 +15149,8 @@ export const getChangeRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c20, 0) as any as S.Schema<GetChangeRequestRequest>,
   output: __S(672, __c21, 0) as any as S.Schema<ChangeRequest>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15058,7 +15167,8 @@ export const getCurrentUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c22, 0) as any as S.Schema<GetCurrentUserRequest>,
   output: __S(736, __c23, 0) as any as S.Schema<User>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15075,7 +15185,8 @@ export const getDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c24, 0) as any as S.Schema<GetDatabaseRequest>,
   output: __S(8096, __c253, 0) as any as S.Schema<Database>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15096,7 +15207,8 @@ export const getDatabasePostgresCidr: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c25, 0) as any as S.Schema<GetDatabasePostgresCidrRequest>,
   output: __S(8416, __c263, 0) as any as S.Schema<PostgresClusterCidr>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15117,7 +15229,8 @@ export const getDatabaseThrottler: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c26, 0) as any as S.Schema<GetDatabaseThrottlerRequest>,
   output: __S(866, __c27, 2) as any as S.Schema<ThrottlerConfigurations>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15134,7 +15247,8 @@ export const getDataTopology: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(896, __c28, 0) as any as S.Schema<GetDataTopologyRequest>,
   output: __S(928, __c29, 0) as any as S.Schema<NekiDataTopology>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15155,7 +15269,8 @@ export const getDedicatedReadReplica: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c30, 0) as any as S.Schema<GetDedicatedReadReplicaRequest>,
   output: __S(8480, __c265, 0) as any as S.Schema<PostgresReadOnlyReplica>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15172,7 +15287,8 @@ export const getDefaultRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c31, 0) as any as S.Schema<GetDefaultRoleRequest>,
   output: __S(9441, __c295, 1) as any as S.Schema<PostgresRole>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15193,7 +15309,8 @@ export const getDefaultShardConfigurationProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c33, 0) as any as S.Schema<GetDefaultShardConfigurationProfileRequest>,
   output: __S(11168, __c349, 0) as any as S.Schema<GetDefaultShardConfigurationProfileResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15210,7 +15327,8 @@ export const getDeployment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c34, 0) as any as S.Schema<GetDeploymentRequest>,
   output: __S(1540, __c48, 4) as any as S.Schema<Deployment>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15229,7 +15347,8 @@ export const getDeployQueue: API.PaginatedOperationMethod<
   () => ({
     input: __S(1120, __c35, 0) as any as S.Schema<GetDeployQueueRequest>,
     output: __S(1122, __c35, 2) as any as S.Schema<PaginatedDeployment>,
-    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity],
+    serviceErrors: PlanetScaleServiceErrors,
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -15254,7 +15373,8 @@ export const getDeployRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c36, 0) as any as S.Schema<GetDeployRequestRequest>,
   output: __S(1568, __c49, 0) as any as S.Schema<DatabaseDeployRequest>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15275,7 +15395,8 @@ export const getDeployRequestThrottler: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c37, 0) as any as S.Schema<GetDeployRequestThrottlerRequest>,
   output: __S(866, __c27, 2) as any as S.Schema<ThrottlerConfigurations>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15297,7 +15418,8 @@ export const getInstantBranchMetrics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c38, 0) as any as S.Schema<GetInstantBranchMetricsRequest>,
   output: __S(1252, __c39, 4) as any as S.Schema<GetInstantBranchMetricsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15319,7 +15441,8 @@ export const getInstantTabletMetrics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1280, __c40, 0) as any as S.Schema<GetInstantTabletMetricsRequest>,
   output: __S(1252, __c39, 4) as any as S.Schema<GetInstantTabletMetricsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15336,7 +15459,8 @@ export const getInvoice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1312, __c41, 0) as any as S.Schema<GetInvoiceRequest>,
   output: __S(1344, __c42, 0) as any as S.Schema<Invoice>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15359,7 +15483,8 @@ export const getInvoiceLineItems: API.PaginatedOperationMethod<
   () => ({
     input: __S(1376, __c43, 0) as any as S.Schema<GetInvoiceLineItemsRequest>,
     output: __S(1379, __c43, 3) as any as S.Schema<PaginatedLineItem>,
-    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity],
+    serviceErrors: PlanetScaleServiceErrors,
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -15384,7 +15509,8 @@ export const getKeyspace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c44, 0) as any as S.Schema<GetKeyspaceRequest>,
   output: __S(8612, __c269, 4) as any as S.Schema<DatabaseBranchKeyspace>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15405,7 +15531,8 @@ export const getKeyspaceConfigChangeRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1600, __c50, 0) as any as S.Schema<GetKeyspaceConfigChangeRequestRequest>,
   output: __S(7360, __c230, 0) as any as S.Schema<KeyspaceConfigChangeRequest>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15426,7 +15553,8 @@ export const getKeyspaceResizeRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1632, __c51, 0) as any as S.Schema<GetKeyspaceResizeRequestRequest>,
   output: __S(1664, __c52, 0) as any as S.Schema<KeyspaceResizeRequest>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15447,7 +15575,8 @@ export const getKeyspaceRolloutStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1696, __c53, 0) as any as S.Schema<GetKeyspaceRolloutStatusRequest>,
   output: __S(1699, __c53, 3) as any as S.Schema<GetKeyspaceRolloutStatusResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15468,7 +15597,8 @@ export const getKeyspaceVschema: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1728, __c54, 0) as any as S.Schema<GetKeyspaceVschemaRequest>,
   output: __S(1760, __c55, 0) as any as S.Schema<GetKeyspaceVschemaResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15489,7 +15619,8 @@ export const getMaintenanceEvent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1792, __c56, 0) as any as S.Schema<GetMaintenanceEventRequest>,
   output: __S(1824, __c57, 0) as any as S.Schema<PostgresBranchMaintenanceEvent>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15510,7 +15641,8 @@ export const getMaintenanceSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1856, __c58, 0) as any as S.Schema<GetMaintenanceScheduleRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<BranchMaintenanceSchedule>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15531,7 +15663,8 @@ export const getMoveTablesWorkflow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1888, __c59, 0) as any as S.Schema<GetMoveTablesWorkflowRequest>,
   output: __S(1890, __c59, 2) as any as S.Schema<GetMoveTablesWorkflowResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15552,7 +15685,8 @@ export const getMoveTablesWorkflowStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1920, __c60, 0) as any as S.Schema<GetMoveTablesWorkflowStatusRequest>,
   output: __S(1924, __c60, 4) as any as S.Schema<GetMoveTablesWorkflowStatusResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15573,7 +15707,8 @@ export const getNekiChangeRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1952, __c61, 0) as any as S.Schema<GetNekiChangeRequestRequest>,
   output: __S(11168, __c349, 0) as any as S.Schema<GetNekiChangeRequestResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15594,7 +15729,8 @@ export const getOauthApplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1984, __c62, 0) as any as S.Schema<GetOauthApplicationRequest>,
   output: __S(2016, __c63, 0) as any as S.Schema<OauthApplication>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15611,7 +15747,8 @@ export const getOauthToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2080, __c65, 0) as any as S.Schema<GetOauthTokenRequest>,
   output: __S(8736, __c273, 0) as any as S.Schema<ServiceToken>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15628,7 +15765,8 @@ export const getOrganization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2112, __c66, 0) as any as S.Schema<GetOrganizationRequest>,
   output: __S(2144, __c67, 0) as any as S.Schema<Organization>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15649,7 +15787,8 @@ export const getOrganizationBillingPaymentMethod: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2176, __c68, 0) as any as S.Schema<GetOrganizationBillingPaymentMethodRequest>,
   output: __S(2177, __c68, 1) as any as S.Schema<BillingPaymentMethod>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15670,7 +15809,8 @@ export const getOrganizationMembership: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2208, __c69, 0) as any as S.Schema<GetOrganizationMembershipRequest>,
   output: __S(2240, __c70, 0) as any as S.Schema<OrganizationMembership>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15691,7 +15831,8 @@ export const getOrganizationSso: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2272, __c71, 0) as any as S.Schema<GetOrganizationSsoRequest>,
   output: __S(11392, __c356, 0) as any as S.Schema<OrganizationSsoSerializer>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15712,7 +15853,8 @@ export const getOrganizationSsoDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2304, __c72, 0) as any as S.Schema<GetOrganizationSsoDomainRequest>,
   output: __S(11424, __c357, 0) as any as S.Schema<OrganizationDomain>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15734,7 +15876,8 @@ export const getOrganizationTeam: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2336, __c73, 0) as any as S.Schema<GetOrganizationTeamRequest>,
   output: __S(8931, __c279, 3) as any as S.Schema<OrganizationTeam>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15756,7 +15899,8 @@ export const getOrganizationTeamMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2368, __c74, 0) as any as S.Schema<GetOrganizationTeamMemberRequest>,
   output: __S(9056, __c283, 0) as any as S.Schema<OrganizationTeamMembership>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15773,7 +15917,8 @@ export const getPassword: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2400, __c75, 0) as any as S.Schema<GetPasswordRequest>,
   output: __S(9024, __c282, 0) as any as S.Schema<DatabaseBranchPassword>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15794,7 +15939,8 @@ export const getPaymentMethodSetup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2432, __c76, 0) as any as S.Schema<GetPaymentMethodSetupRequest>,
   output: __S(2464, __c77, 0) as any as S.Schema<BillingPaymentMethodSetup>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15815,7 +15961,8 @@ export const getQueryPatternsReport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2528, __c79, 0) as any as S.Schema<GetQueryPatternsReportRequest>,
   output: __S(11168, __c349, 0) as any as S.Schema<GetQueryPatternsReportResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15836,7 +15983,8 @@ export const getQueryPatternsReportStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2560, __c80, 0) as any as S.Schema<GetQueryPatternsReportStatusRequest>,
   output: __S(9376, __c293, 0) as any as S.Schema<QueryPatternsDownload>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15859,7 +16007,8 @@ export const getQueryStatistics: API.PaginatedOperationMethod<
   () => ({
     input: __S(2592, __c81, 0) as any as S.Schema<GetQueryStatisticsRequest>,
     output: __S(321, __c10, 1) as any as S.Schema<PaginatedQuery>,
-    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity],
+    serviceErrors: PlanetScaleServiceErrors,
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -15889,7 +16038,8 @@ export const getQuerySummary: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2624, __c82, 0) as any as S.Schema<GetQuerySummaryRequest>,
   output: __S(2656, __c83, 0) as any as S.Schema<QuerySummary>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15906,7 +16056,8 @@ export const getRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2688, __c84, 0) as any as S.Schema<GetRoleRequest>,
   output: __S(9441, __c295, 1) as any as S.Schema<PostgresRole>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15923,7 +16074,8 @@ export const getRouter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2720, __c85, 0) as any as S.Schema<GetRouterRequest>,
   output: __S(9568, __c299, 0) as any as S.Schema<NekiRouter>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15944,7 +16096,8 @@ export const getRouterChangeRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2752, __c86, 0) as any as S.Schema<GetRouterChangeRequestRequest>,
   output: __S(11168, __c349, 0) as any as S.Schema<GetRouterChangeRequestResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15965,7 +16118,8 @@ export const getSchemaRecommendation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2784, __c87, 0) as any as S.Schema<GetSchemaRecommendationRequest>,
   output: __S(11585, __c362, 1) as any as S.Schema<SchemaRecommendation>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15982,7 +16136,8 @@ export const getServiceToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2816, __c88, 0) as any as S.Schema<GetServiceTokenRequest>,
   output: __S(8736, __c273, 0) as any as S.Schema<ServiceToken>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15999,7 +16154,8 @@ export const getShard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2848, __c89, 0) as any as S.Schema<GetShardRequest>,
   output: __S(9792, __c306, 0) as any as S.Schema<NekiShard>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16020,7 +16176,8 @@ export const getShardConfigurationProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2912, __c91, 0) as any as S.Schema<GetShardConfigurationProfileRequest>,
   output: __S(9728, __c304, 0) as any as S.Schema<NekiShardConfigurationProfile>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16045,7 +16202,8 @@ export const getShardConfigurationProfileChangeRequest: API.OperationMethod<
     __c349,
     0,
   ) as any as S.Schema<GetShardConfigurationProfileChangeRequestResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16066,7 +16224,8 @@ export const getShardConfigurationProfileShard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2976, __c93, 0) as any as S.Schema<GetShardConfigurationProfileShardRequest>,
   output: __S(9792, __c306, 0) as any as S.Schema<NekiShard>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16083,7 +16242,8 @@ export const getSwitchover: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3008, __c94, 0) as any as S.Schema<GetSwitchoverRequest>,
   output: __S(9856, __c308, 0) as any as S.Schema<PostgresSwitchover>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16105,7 +16265,8 @@ export const getTabletMetrics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3040, __c95, 0) as any as S.Schema<GetTabletMetricsRequest>,
   output: __S(196, __c6, 4) as any as S.Schema<MetricSeries>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16122,7 +16283,8 @@ export const getTrafficBudget: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3072, __c96, 0) as any as S.Schema<GetTrafficBudgetRequest>,
   output: __S(9921, __c310, 1) as any as S.Schema<TrafficBudget>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16143,7 +16305,8 @@ export const getVtctldOperation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3104, __c97, 0) as any as S.Schema<GetVtctldOperationRequest>,
   output: __S(3105, __c97, 1) as any as S.Schema<GetVtctldOperationResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16160,7 +16323,8 @@ export const getWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3136, __c98, 0) as any as S.Schema<GetWebhookRequest>,
   output: __S(10112, __c316, 0) as any as S.Schema<DatabaseWebhook>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16179,7 +16343,8 @@ export const lintBranchSchema: API.PaginatedOperationMethod<
   () => ({
     input: __S(3168, __c99, 0) as any as S.Schema<LintBranchSchemaRequest>,
     output: __S(3171, __c99, 3) as any as S.Schema<PaginatedSchemaLintError>,
-    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity],
+    serviceErrors: PlanetScaleServiceErrors,
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -16208,7 +16373,8 @@ export const listAdminChangeRequests: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3200, __c100, 0) as any as S.Schema<ListAdminChangeRequestsRequest>,
   output: __S(11168, __c349, 0) as any as S.Schema<ListAdminChangeRequestsResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16229,7 +16395,8 @@ export const listAdminParameters: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3264, __c102, 0) as any as S.Schema<ListAdminParametersRequest>,
   output: __S(3296, __c103, 0) as any as S.Schema<ListAdminParametersResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16250,7 +16417,8 @@ export const listAdminSizeSkus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3328, __c104, 0) as any as S.Schema<ListAdminSizeSkusRequest>,
   output: __S(3330, __c104, 2) as any as S.Schema<ListAdminSizeSkusResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16267,7 +16435,8 @@ export const listAuditLogs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3360, __c105, 0) as any as S.Schema<ListAuditLogsRequest>,
   output: __S(3363, __c105, 3) as any as S.Schema<PaginatedAuditLogEvent>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16290,7 +16459,8 @@ export const listBackupPolicies: API.PaginatedOperationMethod<
   () => ({
     input: __S(3392, __c106, 0) as any as S.Schema<ListBackupPoliciesRequest>,
     output: __S(3394, __c106, 2) as any as S.Schema<PaginatedBackupPolicy>,
-    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity],
+    serviceErrors: PlanetScaleServiceErrors,
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -16317,7 +16487,8 @@ export const listBackups: API.PaginatedOperationMethod<
   () => ({
     input: __S(3424, __c107, 0) as any as S.Schema<ListBackupsRequest>,
     output: __S(3426, __c107, 2) as any as S.Schema<PaginatedBackup>,
-    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity],
+    serviceErrors: PlanetScaleServiceErrors,
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -16348,7 +16519,8 @@ export const listBouncerResizeRequests: API.PaginatedOperationMethod<
   () => ({
     input: __S(3456, __c108, 0) as any as S.Schema<ListBouncerResizeRequestsRequest>,
     output: __S(3489, __c109, 1) as any as S.Schema<PaginatedPostgresBouncerResizeRequest>,
-    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity],
+    serviceErrors: PlanetScaleServiceErrors,
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -16375,7 +16547,8 @@ export const listBouncers: API.PaginatedOperationMethod<
   () => ({
     input: __S(3552, __c111, 0) as any as S.Schema<ListBouncersRequest>,
     output: __S(3554, __c111, 2) as any as S.Schema<PaginatedPostgresBouncer>,
-    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity],
+    serviceErrors: PlanetScaleServiceErrors,
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -16406,7 +16579,8 @@ export const listBranchAnomalies: API.PaginatedOperationMethod<
   () => ({
     input: __S(3584, __c112, 0) as any as S.Schema<ListBranchAnomaliesRequest>,
     output: __S(3586, __c112, 2) as any as S.Schema<PaginatedAnomaly>,
-    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity],
+    serviceErrors: PlanetScaleServiceErrors,
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -16437,7 +16611,8 @@ export const listBranchBouncerResizeRequests: API.PaginatedOperationMethod<
   () => ({
     input: __S(3616, __c113, 0) as any as S.Schema<ListBranchBouncerResizeRequestsRequest>,
     output: __S(3489, __c109, 1) as any as S.Schema<PaginatedPostgresBouncerResizeRequest>,
-    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity],
+    serviceErrors: PlanetScaleServiceErrors,
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -16468,7 +16643,8 @@ export const listBranchChangeRequests: API.PaginatedOperationMethod<
   () => ({
     input: __S(3648, __c114, 0) as any as S.Schema<ListBranchChangeRequestsRequest>,
     output: __S(3650, __c114, 2) as any as S.Schema<PaginatedPostgresClusterResizeRequest>,
-    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity],
+    serviceErrors: PlanetScaleServiceErrors,
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -16499,7 +16675,8 @@ export const listBranchConfigChangeRequests: API.PaginatedOperationMethod<
   () => ({
     input: __S(3712, __c116, 0) as any as S.Schema<ListBranchConfigChangeRequestsRequest>,
     output: __S(3745, __c117, 1) as any as S.Schema<PaginatedConfigChangeRequest>,
-    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity],
+    serviceErrors: PlanetScaleServiceErrors,
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -16526,7 +16703,8 @@ export const listBranches: API.PaginatedOperationMethod<
   () => ({
     input: __S(3776, __c118, 0) as any as S.Schema<ListBranchesRequest>,
     output: __S(3778, __c118, 2) as any as S.Schema<PaginatedDatabaseBranch>,
-    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity],
+    serviceErrors: PlanetScaleServiceErrors,
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -16558,7 +16736,8 @@ export const listBranchQueries: API.PaginatedOperationMethod<
   () => ({
     input: __S(3808, __c119, 0) as any as S.Schema<ListBranchQueriesRequest>,
     output: __S(3810, __c119, 2) as any as S.Schema<PaginatedQuerySummary>,
-    errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+    errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+    serviceErrors: PlanetScaleServiceErrors,
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -16589,7 +16768,8 @@ export const listBranchQueryErrors: API.PaginatedOperationMethod<
   () => ({
     input: __S(3840, __c120, 0) as any as S.Schema<ListBranchQueryErrorsRequest>,
     output: __S(3843, __c120, 3) as any as S.Schema<PaginatedErrorSummary>,
-    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity],
+    serviceErrors: PlanetScaleServiceErrors,
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -16621,7 +16801,8 @@ export const listBranchQueryTags: API.PaginatedOperationMethod<
   () => ({
     input: __S(3872, __c121, 0) as any as S.Schema<ListBranchQueryTagsRequest>,
     output: __S(3874, __c121, 2) as any as S.Schema<PaginatedQueryTag>,
-    errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+    errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+    serviceErrors: PlanetScaleServiceErrors,
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -16653,7 +16834,8 @@ export const listBranchQueryTagSummaries: API.PaginatedOperationMethod<
   () => ({
     input: __S(3904, __c122, 0) as any as S.Schema<ListBranchQueryTagSummariesRequest>,
     output: __S(3907, __c122, 3) as any as S.Schema<PaginatedDimensionsQuerySummary>,
-    errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+    errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+    serviceErrors: PlanetScaleServiceErrors,
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -16684,7 +16866,8 @@ export const listBranchResizeRequests: API.PaginatedOperationMethod<
   () => ({
     input: __S(3936, __c123, 0) as any as S.Schema<ListBranchResizeRequestsRequest>,
     output: __S(3938, __c123, 2) as any as S.Schema<PaginatedMysqlClusterResizeRequest>,
-    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity],
+    serviceErrors: PlanetScaleServiceErrors,
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -16713,7 +16896,8 @@ export const listBranchVitessParameters: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3968, __c124, 0) as any as S.Schema<ListBranchVitessParametersRequest>,
   output: __S(3974, __c124, 6) as any as S.Schema<ListBranchVitessParametersResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16736,7 +16920,8 @@ export const listChangeRequests: API.PaginatedOperationMethod<
   () => ({
     input: __S(4000, __c125, 0) as any as S.Schema<ListChangeRequestsRequest>,
     output: __S(4002, __c125, 2) as any as S.Schema<PaginatedChangeRequest>,
-    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity],
+    serviceErrors: PlanetScaleServiceErrors,
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -16765,7 +16950,8 @@ export const listClusterSizeSkus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4032, __c126, 0) as any as S.Schema<ListClusterSizeSkusRequest>,
   output: __S(4035, __c126, 3) as any as S.Schema<ListClusterSizeSkusResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16788,7 +16974,8 @@ export const listDatabasePostgresCidrs: API.PaginatedOperationMethod<
   () => ({
     input: __S(4096, __c128, 0) as any as S.Schema<ListDatabasePostgresCidrsRequest>,
     output: __S(4098, __c128, 2) as any as S.Schema<PaginatedPostgresClusterCidr>,
-    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity],
+    serviceErrors: PlanetScaleServiceErrors,
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -16819,7 +17006,8 @@ export const listDatabaseRegions: API.PaginatedOperationMethod<
   () => ({
     input: __S(4128, __c129, 0) as any as S.Schema<ListDatabaseRegionsRequest>,
     output: __S(4161, __c130, 1) as any as S.Schema<PaginatedPlanetscaleRegion>,
-    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity],
+    serviceErrors: PlanetScaleServiceErrors,
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -16846,7 +17034,8 @@ export const listDatabases: API.PaginatedOperationMethod<
   () => ({
     input: __S(4192, __c131, 0) as any as S.Schema<ListDatabasesRequest>,
     output: __S(4194, __c131, 2) as any as S.Schema<PaginatedDatabase>,
-    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity],
+    serviceErrors: PlanetScaleServiceErrors,
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -16877,7 +17066,8 @@ export const listDedicatedReadReplicaChangeRequests: API.PaginatedOperationMetho
   () => ({
     input: __S(4224, __c132, 0) as any as S.Schema<ListDedicatedReadReplicaChangeRequestsRequest>,
     output: __S(4227, __c132, 3) as any as S.Schema<PaginatedPostgresReadOnlyReplicaChangeRequest>,
-    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity],
+    serviceErrors: PlanetScaleServiceErrors,
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -16906,7 +17096,8 @@ export const listDedicatedReadReplicas: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4256, __c133, 0) as any as S.Schema<ListDedicatedReadReplicasRequest>,
   output: __S(4258, __c133, 2) as any as S.Schema<ListDedicatedReadReplicasResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16929,7 +17120,8 @@ export const listDeployOperations: API.PaginatedOperationMethod<
   () => ({
     input: __S(4288, __c134, 0) as any as S.Schema<ListDeployOperationsRequest>,
     output: __S(4289, __c134, 1) as any as S.Schema<PaginatedDeployOperation>,
-    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity],
+    serviceErrors: PlanetScaleServiceErrors,
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -16960,7 +17152,8 @@ export const listDeployRequestReviews: API.PaginatedOperationMethod<
   () => ({
     input: __S(4320, __c135, 0) as any as S.Schema<ListDeployRequestReviewsRequest>,
     output: __S(4322, __c135, 2) as any as S.Schema<PaginatedDeployRequestReview>,
-    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity],
+    serviceErrors: PlanetScaleServiceErrors,
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -16991,7 +17184,8 @@ export const listDeployRequests: API.PaginatedOperationMethod<
   () => ({
     input: __S(4352, __c136, 0) as any as S.Schema<ListDeployRequestsRequest>,
     output: __S(4354, __c136, 2) as any as S.Schema<PaginatedDatabaseDeployRequest>,
-    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity],
+    serviceErrors: PlanetScaleServiceErrors,
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -17016,7 +17210,8 @@ export const listExtensions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4384, __c137, 0) as any as S.Schema<ListExtensionsRequest>,
   output: __S(4418, __c138, 2) as any as S.Schema<ListExtensionsResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17037,7 +17232,8 @@ export const listGeneratedQueryPatternsReports: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4448, __c139, 0) as any as S.Schema<ListGeneratedQueryPatternsReportsRequest>,
   output: __S(4450, __c139, 2) as any as S.Schema<PaginatedQueryPatternsDownload>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17056,7 +17252,8 @@ export const listInvoices: API.PaginatedOperationMethod<
   () => ({
     input: __S(4512, __c141, 0) as any as S.Schema<ListInvoicesRequest>,
     output: __S(4514, __c141, 2) as any as S.Schema<PaginatedInvoice>,
-    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity],
+    serviceErrors: PlanetScaleServiceErrors,
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -17087,7 +17284,8 @@ export const listKeyspaceConfigChangeRequests: API.PaginatedOperationMethod<
   () => ({
     input: __S(4544, __c142, 0) as any as S.Schema<ListKeyspaceConfigChangeRequestsRequest>,
     output: __S(3745, __c117, 1) as any as S.Schema<PaginatedKeyspaceConfigChangeRequest>,
-    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity],
+    serviceErrors: PlanetScaleServiceErrors,
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -17118,7 +17316,8 @@ export const listKeyspaceResizeRequests: API.PaginatedOperationMethod<
   () => ({
     input: __S(4576, __c143, 0) as any as S.Schema<ListKeyspaceResizeRequestsRequest>,
     output: __S(4578, __c143, 2) as any as S.Schema<PaginatedKeyspaceResizeRequest>,
-    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity],
+    serviceErrors: PlanetScaleServiceErrors,
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -17145,7 +17344,8 @@ export const listKeyspaces: API.PaginatedOperationMethod<
   () => ({
     input: __S(4608, __c144, 0) as any as S.Schema<ListKeyspacesRequest>,
     output: __S(4610, __c144, 2) as any as S.Schema<PaginatedDatabaseBranchKeyspace>,
-    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity],
+    serviceErrors: PlanetScaleServiceErrors,
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -17176,7 +17376,8 @@ export const listMaintenanceEvents: API.PaginatedOperationMethod<
   () => ({
     input: __S(4640, __c145, 0) as any as S.Schema<ListMaintenanceEventsRequest>,
     output: __S(4642, __c145, 2) as any as S.Schema<PaginatedPostgresBranchMaintenanceEvent>,
-    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity],
+    serviceErrors: PlanetScaleServiceErrors,
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -17207,7 +17408,8 @@ export const listMaintenanceSchedules: API.PaginatedOperationMethod<
   () => ({
     input: __S(4672, __c146, 0) as any as S.Schema<ListMaintenanceSchedulesRequest>,
     output: __S(4674, __c146, 2) as any as S.Schema<PaginatedBranchMaintenanceSchedule>,
-    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity],
+    serviceErrors: PlanetScaleServiceErrors,
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -17238,7 +17440,8 @@ export const listMaintenanceWindows: API.PaginatedOperationMethod<
   () => ({
     input: __S(4704, __c147, 0) as any as S.Schema<ListMaintenanceWindowsRequest>,
     output: __S(4707, __c147, 3) as any as S.Schema<PaginatedBranchMaintenanceWindow>,
-    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity],
+    serviceErrors: PlanetScaleServiceErrors,
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -17267,7 +17470,8 @@ export const listMoveTablesWorkflows: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4736, __c148, 0) as any as S.Schema<ListMoveTablesWorkflowsRequest>,
   output: __S(4738, __c148, 2) as any as S.Schema<ListMoveTablesWorkflowsResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17288,7 +17492,8 @@ export const listNekiChangeRequests: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4768, __c149, 0) as any as S.Schema<ListNekiChangeRequestsRequest>,
   output: __S(11168, __c349, 0) as any as S.Schema<ListNekiChangeRequestsResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17311,7 +17516,8 @@ export const listOauthApplications: API.PaginatedOperationMethod<
   () => ({
     input: __S(4800, __c150, 0) as any as S.Schema<ListOauthApplicationsRequest>,
     output: __S(4802, __c150, 2) as any as S.Schema<PaginatedOauthApplication>,
-    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity],
+    serviceErrors: PlanetScaleServiceErrors,
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -17338,7 +17544,8 @@ export const listOauthTokens: API.PaginatedOperationMethod<
   () => ({
     input: __S(4864, __c152, 0) as any as S.Schema<ListOauthTokensRequest>,
     output: __S(4898, __c153, 2) as any as S.Schema<PaginatedServiceToken>,
-    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity],
+    serviceErrors: PlanetScaleServiceErrors,
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -17369,7 +17576,8 @@ export const listOrganizationInvitations: API.PaginatedOperationMethod<
   () => ({
     input: __S(4928, __c154, 0) as any as S.Schema<ListOrganizationInvitationsRequest>,
     output: __S(4930, __c154, 2) as any as S.Schema<PaginatedOrganizationInvitation>,
-    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity],
+    serviceErrors: PlanetScaleServiceErrors,
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -17400,7 +17608,8 @@ export const listOrganizationMembers: API.PaginatedOperationMethod<
   () => ({
     input: __S(4960, __c155, 0) as any as S.Schema<ListOrganizationMembersRequest>,
     output: __S(4962, __c155, 2) as any as S.Schema<PaginatedOrganizationMembership>,
-    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity],
+    serviceErrors: PlanetScaleServiceErrors,
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -17431,7 +17640,8 @@ export const listOrganizations: API.PaginatedOperationMethod<
   () => ({
     input: __S(4992, __c156, 0) as any as S.Schema<ListOrganizationsRequest>,
     output: __S(4994, __c156, 2) as any as S.Schema<PaginatedOrganization>,
-    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity],
+    serviceErrors: PlanetScaleServiceErrors,
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -17460,7 +17670,8 @@ export const listOrganizationSsoDomains: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5024, __c157, 0) as any as S.Schema<ListOrganizationSsoDomainsRequest>,
   output: __S(5025, __c157, 1) as any as S.Schema<ListOrganizationSsoDomainsResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17484,7 +17695,8 @@ export const listOrganizationTeamMembers: API.PaginatedOperationMethod<
   () => ({
     input: __S(5056, __c158, 0) as any as S.Schema<ListOrganizationTeamMembersRequest>,
     output: __S(5058, __c158, 2) as any as S.Schema<PaginatedOrganizationTeamMembership>,
-    errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+    errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+    serviceErrors: PlanetScaleServiceErrors,
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -17516,7 +17728,8 @@ export const listOrganizationTeams: API.PaginatedOperationMethod<
   () => ({
     input: __S(5088, __c159, 0) as any as S.Schema<ListOrganizationTeamsRequest>,
     output: __S(5090, __c159, 2) as any as S.Schema<PaginatedOrganizationTeam>,
-    errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+    errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+    serviceErrors: PlanetScaleServiceErrors,
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -17541,7 +17754,8 @@ export const listParameters: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5120, __c160, 0) as any as S.Schema<ListParametersRequest>,
   output: __S(3296, __c103, 0) as any as S.Schema<ListParametersResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17560,7 +17774,8 @@ export const listPasswords: API.PaginatedOperationMethod<
   () => ({
     input: __S(5152, __c161, 0) as any as S.Schema<ListPasswordsRequest>,
     output: __S(5153, __c161, 1) as any as S.Schema<PaginatedDatabaseBranchPassword>,
-    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity],
+    serviceErrors: PlanetScaleServiceErrors,
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -17589,7 +17804,8 @@ export const listPostgresVersions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5184, __c162, 0) as any as S.Schema<ListPostgresVersionsRequest>,
   output: __S(5187, __c162, 3) as any as S.Schema<ListPostgresVersionsResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17612,7 +17828,8 @@ export const listPublicRegions: API.PaginatedOperationMethod<
   () => ({
     input: __S(5280, __c165, 0) as any as S.Schema<ListPublicRegionsRequest>,
     output: __S(5283, __c165, 3) as any as S.Schema<PaginatedPublicPlanetscaleRegionSerializer>,
-    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity],
+    serviceErrors: PlanetScaleServiceErrors,
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -17643,7 +17860,8 @@ export const listReadOnlyRegions: API.PaginatedOperationMethod<
   () => ({
     input: __S(5312, __c166, 0) as any as S.Schema<ListReadOnlyRegionsRequest>,
     output: __S(5315, __c166, 3) as any as S.Schema<PaginatedDatabaseBranchReadOnlyRegion>,
-    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity],
+    serviceErrors: PlanetScaleServiceErrors,
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -17674,7 +17892,8 @@ export const listRegionsForOrganization: API.PaginatedOperationMethod<
   () => ({
     input: __S(5344, __c167, 0) as any as S.Schema<ListRegionsForOrganizationRequest>,
     output: __S(4161, __c130, 1) as any as S.Schema<PaginatedPlanetscaleRegion>,
-    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity],
+    serviceErrors: PlanetScaleServiceErrors,
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -17701,7 +17920,8 @@ export const listRoles: API.PaginatedOperationMethod<
   () => ({
     input: __S(5376, __c168, 0) as any as S.Schema<ListRolesRequest>,
     output: __S(5378, __c168, 2) as any as S.Schema<PaginatedPostgresRole>,
-    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity],
+    serviceErrors: PlanetScaleServiceErrors,
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -17730,7 +17950,8 @@ export const listRouterChangeRequests: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5408, __c169, 0) as any as S.Schema<ListRouterChangeRequestsRequest>,
   output: __S(11168, __c349, 0) as any as S.Schema<ListRouterChangeRequestsResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17751,7 +17972,8 @@ export const listRouterParameters: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5440, __c170, 0) as any as S.Schema<ListRouterParametersRequest>,
   output: __S(3296, __c103, 0) as any as S.Schema<ListRouterParametersResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17768,7 +17990,8 @@ export const listRouters: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5472, __c171, 0) as any as S.Schema<ListRoutersRequest>,
   output: __S(5474, __c171, 2) as any as S.Schema<ListRoutersResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17789,7 +18012,8 @@ export const listRouterSizeSkus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5504, __c172, 0) as any as S.Schema<ListRouterSizeSkusRequest>,
   output: __S(5506, __c172, 2) as any as S.Schema<ListRouterSizeSkusResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17812,7 +18036,8 @@ export const listSchemaRecommendations: API.PaginatedOperationMethod<
   () => ({
     input: __S(5536, __c173, 0) as any as S.Schema<ListSchemaRecommendationsRequest>,
     output: __S(5538, __c173, 2) as any as S.Schema<PaginatedSchemaRecommendation>,
-    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity],
+    serviceErrors: PlanetScaleServiceErrors,
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -17841,7 +18066,8 @@ export const listServiceTokenAccesses: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5568, __c174, 0) as any as S.Schema<ListServiceTokenAccessesRequest>,
   output: __S(10019, __c313, 3) as any as S.Schema<ServiceTokenAccessesResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17864,7 +18090,8 @@ export const listServiceTokens: API.PaginatedOperationMethod<
   () => ({
     input: __S(5696, __c178, 0) as any as S.Schema<ListServiceTokensRequest>,
     output: __S(4898, __c153, 2) as any as S.Schema<PaginatedServiceToken>,
-    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity],
+    serviceErrors: PlanetScaleServiceErrors,
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -17901,7 +18128,8 @@ export const listShardConfigurationProfileChangeRequests: API.OperationMethod<
     __c349,
     0,
   ) as any as S.Schema<ListShardConfigurationProfileChangeRequestsResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17922,7 +18150,8 @@ export const listShardConfigurationProfileExtensions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5760, __c180, 0) as any as S.Schema<ListShardConfigurationProfileExtensionsRequest>,
   output: __S(4418, __c138, 2) as any as S.Schema<ListShardConfigurationProfileExtensionsResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17943,7 +18172,8 @@ export const listShardConfigurationProfileParameters: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5792, __c181, 0) as any as S.Schema<ListShardConfigurationProfileParametersRequest>,
   output: __S(3296, __c103, 0) as any as S.Schema<ListShardConfigurationProfileParametersResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17964,7 +18194,8 @@ export const listShardConfigurationProfiles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5824, __c182, 0) as any as S.Schema<ListShardConfigurationProfilesRequest>,
   output: __S(5826, __c182, 2) as any as S.Schema<ListShardConfigurationProfilesResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17987,7 +18218,8 @@ export const listShardConfigurationProfileShards: API.PaginatedOperationMethod<
   () => ({
     input: __S(5856, __c183, 0) as any as S.Schema<ListShardConfigurationProfileShardsRequest>,
     output: __S(5889, __c184, 1) as any as S.Schema<PaginatedNekiShard>,
-    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity],
+    serviceErrors: PlanetScaleServiceErrors,
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -18014,7 +18246,8 @@ export const listShards: API.PaginatedOperationMethod<
   () => ({
     input: __S(5920, __c185, 0) as any as S.Schema<ListShardsRequest>,
     output: __S(5889, __c184, 1) as any as S.Schema<PaginatedNekiShard>,
-    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity],
+    serviceErrors: PlanetScaleServiceErrors,
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -18041,7 +18274,8 @@ export const listSwitchovers: API.PaginatedOperationMethod<
   () => ({
     input: __S(5952, __c186, 0) as any as S.Schema<ListSwitchoversRequest>,
     output: __S(5954, __c186, 2) as any as S.Schema<PaginatedPostgresSwitchover>,
-    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity],
+    serviceErrors: PlanetScaleServiceErrors,
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -18072,7 +18306,8 @@ export const listTrafficBudgets: API.PaginatedOperationMethod<
   () => ({
     input: __S(5984, __c187, 0) as any as S.Schema<ListTrafficBudgetsRequest>,
     output: __S(6017, __c188, 1) as any as S.Schema<PaginatedTrafficBudget>,
-    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity],
+    serviceErrors: PlanetScaleServiceErrors,
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -18103,7 +18338,8 @@ export const listTrafficBudgetsForQuery: API.PaginatedOperationMethod<
   () => ({
     input: __S(6048, __c189, 0) as any as S.Schema<ListTrafficBudgetsForQueryRequest>,
     output: __S(6017, __c188, 1) as any as S.Schema<PaginatedTrafficBudget>,
-    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity],
+    serviceErrors: PlanetScaleServiceErrors,
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -18130,7 +18366,8 @@ export const listWebhooks: API.PaginatedOperationMethod<
   () => ({
     input: __S(6112, __c191, 0) as any as S.Schema<ListWebhooksRequest>,
     output: __S(6114, __c191, 2) as any as S.Schema<PaginatedDatabaseWebhook>,
-    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity],
+    serviceErrors: PlanetScaleServiceErrors,
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -18159,7 +18396,8 @@ export const moveCompleteTablesWorkflow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6144, __c192, 0) as any as S.Schema<MoveCompleteTablesWorkflowRequest>,
   output: __S(11168, __c349, 0) as any as S.Schema<MoveCompleteTablesWorkflowResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18180,7 +18418,8 @@ export const moveReverseTrafficTablesWorkflow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6176, __c193, 0) as any as S.Schema<MoveReverseTrafficTablesWorkflowRequest>,
   output: __S(11168, __c349, 0) as any as S.Schema<MoveReverseTrafficTablesWorkflowResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18201,7 +18440,8 @@ export const moveSwitchTrafficTablesWorkflow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6208, __c194, 0) as any as S.Schema<MoveSwitchTrafficTablesWorkflowRequest>,
   output: __S(11168, __c349, 0) as any as S.Schema<MoveSwitchTrafficTablesWorkflowResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18218,7 +18458,8 @@ export const promoteBranch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6240, __c195, 0) as any as S.Schema<PromoteBranchRequest>,
   output: __S(6976, __c218, 0) as any as S.Schema<DatabaseBranch>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18239,7 +18480,8 @@ export const reassignRoleObjects: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6272, __c196, 0) as any as S.Schema<ReassignRoleObjectsRequest>,
   output: __S(11168, __c349, 0) as any as S.Schema<ReassignRoleObjectsResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18260,7 +18502,8 @@ export const removeOrganizationMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6304, __c197, 0) as any as S.Schema<RemoveOrganizationMemberRequest>,
   output: __S(11168, __c349, 0) as any as S.Schema<RemoveOrganizationMemberResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18282,7 +18525,8 @@ export const removeOrganizationTeamMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6336, __c198, 0) as any as S.Schema<RemoveOrganizationTeamMemberRequest>,
   output: __S(11168, __c349, 0) as any as S.Schema<RemoveOrganizationTeamMemberResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18303,7 +18547,8 @@ export const removeServiceTokenAccess: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6368, __c199, 0) as any as S.Schema<RemoveServiceTokenAccessRequest>,
   output: __S(11168, __c349, 0) as any as S.Schema<RemoveServiceTokenAccessResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18320,7 +18565,8 @@ export const renewPassword: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6400, __c200, 0) as any as S.Schema<RenewPasswordRequest>,
   output: __S(9312, __c291, 0) as any as S.Schema<DatabaseBranchPasswordWithSecret>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18337,7 +18583,8 @@ export const renewRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6560, __c205, 0) as any as S.Schema<RenewRoleRequest>,
   output: __S(9441, __c295, 1) as any as S.Schema<PostgresRole>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18358,7 +18605,8 @@ export const rescheduleMaintenanceEvent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6592, __c206, 0) as any as S.Schema<RescheduleMaintenanceEventRequest>,
   output: __S(1824, __c57, 0) as any as S.Schema<PostgresBranchMaintenanceEvent>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18375,7 +18623,8 @@ export const resetDefaultRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6624, __c207, 0) as any as S.Schema<ResetDefaultRoleRequest>,
   output: __S(9441, __c295, 1) as any as S.Schema<PostgresRole>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18392,7 +18641,8 @@ export const resetRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6656, __c208, 0) as any as S.Schema<ResetRoleRequest>,
   output: __S(9441, __c295, 1) as any as S.Schema<PostgresRole>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18413,7 +18663,8 @@ export const runBranchMaintenance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6688, __c209, 0) as any as S.Schema<RunBranchMaintenanceRequest>,
   output: __S(11168, __c349, 0) as any as S.Schema<RunBranchMaintenanceResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18434,7 +18685,8 @@ export const runShardConfigurationProfileMaintenance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6720, __c210, 0) as any as S.Schema<RunShardConfigurationProfileMaintenanceRequest>,
   output: __S(11168, __c349, 0) as any as S.Schema<RunShardConfigurationProfileMaintenanceResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18459,7 +18711,8 @@ export const runShardConfigurationProfilesMaintenance: API.OperationMethod<
     __c349,
     0,
   ) as any as S.Schema<RunShardConfigurationProfilesMaintenanceResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18480,7 +18733,8 @@ export const setDefaultShardConfigurationProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6784, __c212, 0) as any as S.Schema<SetDefaultShardConfigurationProfileRequest>,
   output: __S(9728, __c304, 0) as any as S.Schema<NekiShardConfigurationProfile>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18497,7 +18751,8 @@ export const skipRevertPeriod: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6816, __c213, 0) as any as S.Schema<SkipRevertPeriodRequest>,
   output: __S(1568, __c49, 0) as any as S.Schema<DatabaseDeployRequest>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18518,7 +18773,8 @@ export const startMoveTablesWorkflow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6848, __c214, 0) as any as S.Schema<StartMoveTablesWorkflowRequest>,
   output: __S(6881, __c215, 1) as any as S.Schema<StartMoveTablesWorkflowResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18539,7 +18795,8 @@ export const stopMoveTablesWorkflow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7008, __c219, 0) as any as S.Schema<StopMoveTablesWorkflowRequest>,
   output: __S(6881, __c215, 1) as any as S.Schema<StopMoveTablesWorkflowResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18560,7 +18817,8 @@ export const submitBranchConfigChangeRequests: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7040, __c220, 0) as any as S.Schema<SubmitBranchConfigChangeRequestsRequest>,
   output: __S(7041, __c220, 1) as any as S.Schema<SubmitBranchConfigChangeRequestsResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18577,7 +18835,8 @@ export const testWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7072, __c221, 0) as any as S.Schema<TestWebhookRequest>,
   output: __S(11168, __c349, 0) as any as S.Schema<TestWebhookResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18594,7 +18853,8 @@ export const updateAdmin: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7104, __c222, 0) as any as S.Schema<UpdateAdminRequest>,
   output: __S(11808, __c369, 0) as any as S.Schema<NekiAdmin>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18615,7 +18875,8 @@ export const updateAggressiveCutover: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7136, __c223, 0) as any as S.Schema<UpdateAggressiveCutoverRequest>,
   output: __S(1568, __c49, 0) as any as S.Schema<DatabaseDeployRequest>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18632,7 +18893,8 @@ export const updateAutoApply: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7168, __c224, 0) as any as S.Schema<UpdateAutoApplyRequest>,
   output: __S(1568, __c49, 0) as any as S.Schema<DatabaseDeployRequest>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18653,7 +18915,8 @@ export const updateAutoDeleteBranch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7200, __c225, 0) as any as S.Schema<UpdateAutoDeleteBranchRequest>,
   output: __S(1568, __c49, 0) as any as S.Schema<DatabaseDeployRequest>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18670,7 +18933,8 @@ export const updateBackup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7232, __c226, 0) as any as S.Schema<UpdateBackupRequest>,
   output: __S(5666, __c177, 2) as any as S.Schema<Backup>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18691,7 +18955,8 @@ export const updateBackupPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7264, __c227, 0) as any as S.Schema<UpdateBackupPolicyRequest>,
   output: __S(5632, __c176, 0) as any as S.Schema<BackupPolicy>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18712,7 +18977,8 @@ export const updateBouncerResizeRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7296, __c228, 0) as any as S.Schema<UpdateBouncerResizeRequestRequest>,
   output: __S(3520, __c110, 0) as any as S.Schema<PostgresBouncerResizeRequest>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18729,7 +18995,8 @@ export const updateBranch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7392, __c231, 0) as any as S.Schema<UpdateBranchRequest>,
   output: __S(6976, __c218, 0) as any as S.Schema<DatabaseBranch>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18750,7 +19017,8 @@ export const updateBranchChangeRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7425, __c232, 1) as any as S.Schema<UpdateBranchChangeRequestRequest>,
   output: __S(12096, __c378, 0) as any as S.Schema<PostgresClusterResizeRequest>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18771,7 +19039,8 @@ export const updateBranchClusterConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7456, __c233, 0) as any as S.Schema<UpdateBranchClusterConfigRequest>,
   output: __S(11168, __c349, 0) as any as S.Schema<UpdateBranchClusterConfigResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18792,7 +19061,8 @@ export const updateBranchMaintenanceWindow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7488, __c234, 0) as any as S.Schema<UpdateBranchMaintenanceWindowRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<BranchMaintenanceSchedule>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18813,7 +19083,8 @@ export const updateBranchResizeRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7520, __c235, 0) as any as S.Schema<UpdateBranchResizeRequestRequest>,
   output: __S(480, __c15, 0) as any as S.Schema<MysqlClusterResizeRequest>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18834,7 +19105,8 @@ export const updateDatabasePostgresCidr: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7552, __c236, 0) as any as S.Schema<UpdateDatabasePostgresCidrRequest>,
   output: __S(8416, __c263, 0) as any as S.Schema<PostgresClusterCidr>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18855,7 +19127,8 @@ export const updateDatabaseSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7584, __c237, 0) as any as S.Schema<UpdateDatabaseSettingsRequest>,
   output: __S(8096, __c253, 0) as any as S.Schema<Database>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18876,7 +19149,8 @@ export const updateDatabaseThrottler: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7616, __c238, 0) as any as S.Schema<UpdateDatabaseThrottlerRequest>,
   output: __S(866, __c27, 2) as any as S.Schema<ThrottlerConfigurations>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18897,7 +19171,8 @@ export const updateDataTopology: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7648, __c239, 0) as any as S.Schema<UpdateDataTopologyRequest>,
   output: __S(928, __c29, 0) as any as S.Schema<NekiDataTopology>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18918,7 +19193,8 @@ export const updateDedicatedReadReplica: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7680, __c240, 0) as any as S.Schema<UpdateDedicatedReadReplicaRequest>,
   output: __S(8480, __c265, 0) as any as S.Schema<PostgresReadOnlyReplica>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18939,7 +19215,8 @@ export const updateDeployRequestThrottler: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7744, __c242, 0) as any as S.Schema<UpdateDeployRequestThrottlerRequest>,
   output: __S(866, __c27, 2) as any as S.Schema<ThrottlerConfigurations>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18956,7 +19233,8 @@ export const updateKeyspace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7780, __c243, 4) as any as S.Schema<UpdateKeyspaceRequest>,
   output: __S(8612, __c269, 4) as any as S.Schema<DatabaseBranchKeyspace>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18977,7 +19255,8 @@ export const updateKeyspaceResizeRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7808, __c244, 0) as any as S.Schema<UpdateKeyspaceResizeRequestRequest>,
   output: __S(1664, __c52, 0) as any as S.Schema<KeyspaceResizeRequest>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18998,7 +19277,8 @@ export const updateKeyspaceVschema: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7840, __c245, 0) as any as S.Schema<UpdateKeyspaceVschemaRequest>,
   output: __S(1760, __c55, 0) as any as S.Schema<UpdateKeyspaceVschemaResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19019,7 +19299,8 @@ export const updateMaintenanceSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7872, __c246, 0) as any as S.Schema<UpdateMaintenanceScheduleRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<BranchMaintenanceSchedule>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19040,7 +19321,8 @@ export const updateOrganization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7904, __c247, 0) as any as S.Schema<UpdateOrganizationRequest>,
   output: __S(2144, __c67, 0) as any as S.Schema<Organization>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19061,7 +19343,8 @@ export const updateOrganizationMembership: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7936, __c248, 0) as any as S.Schema<UpdateOrganizationMembershipRequest>,
   output: __S(2240, __c70, 0) as any as S.Schema<OrganizationMembership>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19083,7 +19366,8 @@ export const updateOrganizationTeam: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7968, __c249, 0) as any as S.Schema<UpdateOrganizationTeamRequest>,
   output: __S(8931, __c279, 3) as any as S.Schema<OrganizationTeam>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19100,7 +19384,8 @@ export const updatePassword: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8000, __c250, 0) as any as S.Schema<UpdatePasswordRequest>,
   output: __S(9024, __c282, 0) as any as S.Schema<DatabaseBranchPassword>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19121,7 +19406,8 @@ export const updatePaymentMethod: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8032, __c251, 0) as any as S.Schema<UpdatePaymentMethodRequest>,
   output: __S(2464, __c77, 0) as any as S.Schema<BillingPaymentMethodSetup>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19138,7 +19424,8 @@ export const updateRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8128, __c254, 0) as any as S.Schema<UpdateRoleRequest>,
   output: __S(9441, __c295, 1) as any as S.Schema<PostgresRole>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19155,7 +19442,8 @@ export const updateRouter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8160, __c255, 0) as any as S.Schema<UpdateRouterRequest>,
   output: __S(9568, __c299, 0) as any as S.Schema<NekiRouter>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19176,7 +19464,8 @@ export const updateSafeMigrations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8192, __c256, 0) as any as S.Schema<UpdateSafeMigrationsRequest>,
   output: __S(6976, __c218, 0) as any as S.Schema<DatabaseBranch>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19193,7 +19482,8 @@ export const updateShard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8224, __c257, 0) as any as S.Schema<UpdateShardRequest>,
   output: __S(11168, __c349, 0) as any as S.Schema<UpdateShardResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19214,7 +19504,8 @@ export const updateShardConfigurationProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8256, __c258, 0) as any as S.Schema<UpdateShardConfigurationProfileRequest>,
   output: __S(9728, __c304, 0) as any as S.Schema<NekiShardConfigurationProfile>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19235,7 +19526,8 @@ export const updateShardConfigurationProfileShard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8288, __c259, 0) as any as S.Schema<UpdateShardConfigurationProfileShardRequest>,
   output: __S(9792, __c306, 0) as any as S.Schema<NekiShard>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19256,7 +19548,8 @@ export const updateTrafficBudget: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8320, __c260, 0) as any as S.Schema<UpdateTrafficBudgetRequest>,
   output: __S(9921, __c310, 1) as any as S.Schema<TrafficBudget>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19273,7 +19566,8 @@ export const updateWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8352, __c261, 0) as any as S.Schema<UpdateWebhookRequest>,
   output: __S(10112, __c316, 0) as any as S.Schema<DatabaseWebhook>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PlanetScaleServiceErrors,
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

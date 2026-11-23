@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownE2BError } from "../errors.ts";
+import { E2BServiceErrors } from "../errors.ts";
 import { paginateToken } from "../pagination.ts";
 import { E2BProtocol, type E2BOpError, type E2BOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
@@ -83,7 +83,8 @@ export const createSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateSecretRequest>,
   output: __S(5, __c1, 1) as any as S.Schema<Secret>,
-  errors: [UnknownE2BError],
+  errors: [],
+  serviceErrors: E2BServiceErrors,
   protocol: E2BProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -100,7 +101,8 @@ export const deleteSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c2, 0) as any as S.Schema<DeleteSecretRequest>,
   output: __S(9, __c2, 1) as any as S.Schema<DeleteSecretResponse>,
-  errors: [UnknownE2BError],
+  errors: [],
+  serviceErrors: E2BServiceErrors,
   protocol: E2BProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -117,7 +119,8 @@ export const getSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12, __c3, 0) as any as S.Schema<GetSecretRequest>,
   output: __S(5, __c1, 1) as any as S.Schema<Secret>,
-  errors: [UnknownE2BError],
+  errors: [],
+  serviceErrors: E2BServiceErrors,
   protocol: E2BProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -136,7 +139,8 @@ export const listSecrets: API.PaginatedOperationMethod<
   () => ({
     input: __S(16, __c4, 0) as any as S.Schema<ListSecretsRequest>,
     output: __S(18, __c4, 2) as any as S.Schema<ListSecretsResponse>,
-    errors: [UnknownE2BError],
+    errors: [],
+    serviceErrors: E2BServiceErrors,
     protocol: E2BProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -161,7 +165,8 @@ export const updateSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20, __c5, 0) as any as S.Schema<UpdateSecretRequest>,
   output: __S(5, __c1, 1) as any as S.Schema<Secret>,
-  errors: [UnknownE2BError],
+  errors: [],
+  serviceErrors: E2BServiceErrors,
   protocol: E2BProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

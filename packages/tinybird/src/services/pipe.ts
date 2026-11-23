@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownTinybirdError } from "../errors.ts";
+import { TinybirdServiceErrors } from "../errors.ts";
 import { TinybirdProtocol, type TinybirdOpError, type TinybirdOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -195,7 +195,8 @@ export const createPipe: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<PostV0PipesRequest>,
   output: __S(3, __c1, 1) as any as S.Schema<CreatePipeResponse>,
-  errors: [UnknownTinybirdError],
+  errors: [],
+  serviceErrors: TinybirdServiceErrors,
   protocol: TinybirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -212,7 +213,8 @@ export const createPipeNode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4, __c2, 0) as any as S.Schema<CreatePipeNodeRequest>,
   output: __S(3, __c1, 1) as any as S.Schema<CreatePipeNodeResponse>,
-  errors: [UnknownTinybirdError],
+  errors: [],
+  serviceErrors: TinybirdServiceErrors,
   protocol: TinybirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -229,7 +231,8 @@ export const deletePipe: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c8, 0) as any as S.Schema<DeletePipeRequest>,
   output: __S(3, __c1, 1) as any as S.Schema<DeletePipeResponse>,
-  errors: [UnknownTinybirdError],
+  errors: [],
+  serviceErrors: TinybirdServiceErrors,
   protocol: TinybirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -246,7 +249,8 @@ export const deletePipeByFileName: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18, __c9, 0) as any as S.Schema<DeletePipeByFileNameRequest>,
   output: __S(3, __c1, 1) as any as S.Schema<DeletePipeByFileNameResponse>,
-  errors: [UnknownTinybirdError],
+  errors: [],
+  serviceErrors: TinybirdServiceErrors,
   protocol: TinybirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -263,7 +267,8 @@ export const deletePipeNode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20, __c10, 0) as any as S.Schema<DeletePipeNodeRequest>,
   output: __S(3, __c1, 1) as any as S.Schema<DeletePipeNodeResponse>,
-  errors: [UnknownTinybirdError],
+  errors: [],
+  serviceErrors: TinybirdServiceErrors,
   protocol: TinybirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -280,7 +285,8 @@ export const explainPipe: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22, __c11, 0) as any as S.Schema<ExplainPipeRequest>,
   output: __S(3, __c1, 1) as any as S.Schema<ExplainPipeResponse>,
-  errors: [UnknownTinybirdError],
+  errors: [],
+  serviceErrors: TinybirdServiceErrors,
   protocol: TinybirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -297,7 +303,8 @@ export const explainPipeNode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c12, 0) as any as S.Schema<ExplainPipeNodeRequest>,
   output: __S(3, __c1, 1) as any as S.Schema<ExplainPipeNodeResponse>,
-  errors: [UnknownTinybirdError],
+  errors: [],
+  serviceErrors: TinybirdServiceErrors,
   protocol: TinybirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -314,7 +321,8 @@ export const getPipe: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26, __c13, 0) as any as S.Schema<GetPipeRequest>,
   output: __S(3, __c1, 1) as any as S.Schema<GetPipeResponse>,
-  errors: [UnknownTinybirdError],
+  errors: [],
+  serviceErrors: TinybirdServiceErrors,
   protocol: TinybirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -331,7 +339,8 @@ export const getPipeByFileName: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28, __c14, 0) as any as S.Schema<GetPipeByFileNameRequest>,
   output: __S(29, __c14, 1) as any as S.Schema<GetPipeByFileNameResponse>,
-  errors: [UnknownTinybirdError],
+  errors: [],
+  serviceErrors: TinybirdServiceErrors,
   protocol: TinybirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -348,7 +357,8 @@ export const listPipes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30, __c15, 0) as any as S.Schema<ListPipesRequest>,
   output: __S(3, __c1, 1) as any as S.Schema<ListPipesResponse>,
-  errors: [UnknownTinybirdError],
+  errors: [],
+  serviceErrors: TinybirdServiceErrors,
   protocol: TinybirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -365,7 +375,8 @@ export const queryPipe: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6, __c3, 0) as any as S.Schema<QueryPipeRequest>,
   output: __S(7, __c3, 1) as any as S.Schema<QueryPipeResponse>,
-  errors: [UnknownTinybirdError],
+  errors: [],
+  serviceErrors: TinybirdServiceErrors,
   protocol: TinybirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -382,7 +393,8 @@ export const queryPipeWithBody: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c4, 0) as any as S.Schema<QueryPipeWithBodyRequest>,
   output: __S(9, __c4, 1) as any as S.Schema<QueryPipeWithBodyResponse>,
-  errors: [UnknownTinybirdError],
+  errors: [],
+  serviceErrors: TinybirdServiceErrors,
   protocol: TinybirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -399,7 +411,8 @@ export const updatePipe: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10, __c5, 0) as any as S.Schema<UpdatePipeRequest>,
   output: __S(3, __c1, 1) as any as S.Schema<UpdatePipeResponse>,
-  errors: [UnknownTinybirdError],
+  errors: [],
+  serviceErrors: TinybirdServiceErrors,
   protocol: TinybirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -416,7 +429,8 @@ export const updatePipeByFileName: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12, __c6, 0) as any as S.Schema<UpdatePipeByFileNameRequest>,
   output: __S(3, __c1, 1) as any as S.Schema<UpdatePipeByFileNameResponse>,
-  errors: [UnknownTinybirdError],
+  errors: [],
+  serviceErrors: TinybirdServiceErrors,
   protocol: TinybirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -433,7 +447,8 @@ export const updatePipeNode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14, __c7, 0) as any as S.Schema<UpdatePipeNodeRequest>,
   output: __S(3, __c1, 1) as any as S.Schema<UpdatePipeNodeResponse>,
-  errors: [UnknownTinybirdError],
+  errors: [],
+  serviceErrors: TinybirdServiceErrors,
   protocol: TinybirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

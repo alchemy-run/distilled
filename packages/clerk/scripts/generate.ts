@@ -58,7 +58,7 @@ const clerkSpec: SdkSpec = {
   operationDecl: {
     contextType: "ClerkOpContext",
     commonErrorType: "ClerkOpError",
-    commonErrorClasses: ["UnknownClerkError"],
+    serviceErrors: "ClerkServiceErrors",
     protocol: "ClerkProtocol",
     retry: "Retry.Retry",
   },

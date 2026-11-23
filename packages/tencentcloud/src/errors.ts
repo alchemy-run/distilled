@@ -39,6 +39,7 @@ export {
 import * as Category from "@distilled.cloud/core/category";
 import type { CryptoError } from "@distilled.cloud/core/crypto";
 import {
+  API_ERRORS,
   ServiceUnavailable,
   type BadRequest as CoreBadRequest,
   type Conflict as CoreConflict,
@@ -255,7 +256,7 @@ type EnvelopeErrorClass = new (fields: {
   readonly code: string;
   readonly message: string;
   readonly requestId?: string;
-}) => unknown;
+}) => CommonErrors;
 
 /** The documented common codes, keyed by the code's first segment. */
 export const COMMON_ERRORS: Readonly<Record<string, EnvelopeErrorClass>> = {
@@ -289,6 +290,32 @@ export const COMMON_ERRORS: Readonly<Record<string, EnvelopeErrorClass>> = {
 };
 
 /**
+ * {@link envelopeError}, with the class's instance made by `build` from the
+ * class and its fields. When `build` answers `undefined` (the protocol
+ * builds a class only if the operation lists it), the error is an
+ * {@link UnknownTencentCloudError}.
+ */
+export const envelopeErrorWith = <A>(
+  build: <Props>(
+    cls: new (props: Props) => CommonErrors | ServiceUnavailable,
+    props: Props,
+  ) => A | undefined,
+  error: { readonly code: string; readonly message: string; readonly requestId?: string },
+  status: number,
+  body: unknown,
+): A | UnknownTencentCloudError => {
+  const root = error.code.split(".", 1)[0]!;
+  const ErrorClass = Object.hasOwn(COMMON_ERRORS, root) ? COMMON_ERRORS[root] : undefined;
+  const built =
+    root === "ServiceUnavailable"
+      ? build(ServiceUnavailable, { message: error.message })
+      : ErrorClass !== undefined
+        ? build(ErrorClass, error)
+        : undefined;
+  return built ?? new UnknownTencentCloudError({ ...error, status, body });
+};
+
+/**
  * The error for an envelope's `Code`: its common class, core's
  * `ServiceUnavailable`, or {@link UnknownTencentCloudError}.
  */
@@ -296,14 +323,8 @@ export const envelopeError = (
   error: { readonly code: string; readonly message: string; readonly requestId?: string },
   status: number,
   body: unknown,
-): unknown => {
-  const root = error.code.split(".", 1)[0]!;
-  if (root === "ServiceUnavailable") return new ServiceUnavailable({ message: error.message });
-  const ErrorClass = Object.hasOwn(COMMON_ERRORS, root) ? COMMON_ERRORS[root] : undefined;
-  return ErrorClass !== undefined
-    ? new ErrorClass(error)
-    : new UnknownTencentCloudError({ ...error, status, body });
-};
+): CommonErrors | ServiceUnavailable | UnknownTencentCloudError =>
+  envelopeErrorWith((cls, props) => new cls(props), error, status, body);
 
 /** Errors built from a response envelope's common code. */
 export type CommonErrors =
@@ -352,3 +373,43 @@ export type DefaultErrors =
   | UnknownTencentCloudError
   | TencentCloudParseError
   | CryptoError;
+
+/**
+ * The errors declared on the Tencent Cloud services: any operation can
+ * return them, and every generated operation lists them as its
+ * `serviceErrors`. The class of each documented common code
+ * ({@link COMMON_ERRORS}), and each of core's status classes:
+ * `ServiceUnavailable` for the common code of that name, and the class for
+ * the status of a failure without an envelope.
+ */
+export const TencentCloudServiceErrors = [
+  ...API_ERRORS,
+  ActionOffline,
+  AuthFailure,
+  DryRunOperation,
+  FailedOperation,
+  InternalError,
+  InvalidAction,
+  InvalidParameter,
+  InvalidParameterValue,
+  InvalidRequest,
+  IpInBlacklist,
+  IpNotInWhitelist,
+  LimitExceeded,
+  MissingParameter,
+  NoSuchProduct,
+  NoSuchVersion,
+  RequestLimitExceeded,
+  RequestSizeLimitExceeded,
+  ResourceInUse,
+  ResourceInsufficient,
+  ResourceNotFound,
+  ResourceUnavailable,
+  ResponseSizeLimitExceeded,
+  UnauthorizedOperation,
+  UnknownParameter,
+  UnsupportedOperation,
+  UnsupportedProtocol,
+  UnsupportedRegion,
+] as const;
+export type TencentCloudServiceError = InstanceType<(typeof TencentCloudServiceErrors)[number]>;

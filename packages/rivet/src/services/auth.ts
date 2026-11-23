@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownRivetError } from "../errors.ts";
+import { RivetServiceErrors } from "../errors.ts";
 import { RivetProtocol, type RivetOpError, type RivetOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -177,13 +177,8 @@ export const createAuthToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4, __c1, 0) as any as S.Schema<CreateAuthTokenRequest>,
   output: __S(5, __c1, 1) as any as S.Schema<AuthTokenCreateResponse>,
-  errors: [
-    NamespaceNotFound,
-    StorageOverloaded,
-    StorageCommandCapacity,
-    CommandDeadlineElapsed,
-    UnknownRivetError,
-  ],
+  errors: [NamespaceNotFound, StorageOverloaded, StorageCommandCapacity, CommandDeadlineElapsed],
+  serviceErrors: RivetServiceErrors,
   protocol: RivetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -204,7 +199,8 @@ export const inspectAuthToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12, __c3, 0) as any as S.Schema<InspectAuthTokenRequest>,
   output: __S(13, __c3, 1) as any as S.Schema<AuthTokenInspectResponse>,
-  errors: [StorageOverloaded, StorageCommandCapacity, CommandDeadlineElapsed, UnknownRivetError],
+  errors: [StorageOverloaded, StorageCommandCapacity, CommandDeadlineElapsed],
+  serviceErrors: RivetServiceErrors,
   protocol: RivetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

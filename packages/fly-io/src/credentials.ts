@@ -3,7 +3,7 @@ import * as EffectConfig from "@distilled.cloud/core/config";
  * Fly.io credentials -- hand-written.
  *
  * The `Credentials` service holds an *effect* that resolves the current
- * credentials on every request. The protocol layer resolves it per request
+ * credentials on every request. The protocol resolves it per request
  * and formats the `Authorization` header.
  *
  * Alchemy and `flyctl` read `FLY_API_TOKEN`. `FLY_IO_API_KEY` is kept as a

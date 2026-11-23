@@ -93,7 +93,7 @@ const stripeSpec: SdkSpec = {
   operationDecl: {
     contextType: "StripeOpContext",
     commonErrorType: "StripeOpError",
-    commonErrorClasses: ["UnknownStripeError"],
+    serviceErrors: "StripeServiceErrors",
     protocol: "StripeProtocol",
     retry: "Retry.Retry",
   },

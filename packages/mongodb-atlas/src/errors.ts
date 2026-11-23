@@ -29,14 +29,22 @@ export {
 export type { DefaultErrors } from "@distilled.cloud/core/errors";
 
 import * as Category from "@distilled.cloud/core/category";
-import { UnknownErrorFields } from "@distilled.cloud/core/errors";
+import { API_ERRORS, UnknownErrorFields } from "@distilled.cloud/core/errors";
 import * as Schema from "@distilled.cloud/core/schema-lite-typed";
+import { applyErrorMatchers } from "@distilled.cloud/core/trait";
 
-/** Payment Required -- billing/quota limit (402). */
+/**
+ * Payment Required -- billing/quota limit (402). Core has no class for the
+ * status, so the package adds one, matched by its status like an
+ * operation's own errors.
+ */
 export class PaymentRequired
-  extends /*@__PURE__*/ Schema.TaggedError<PaymentRequired>()("PaymentRequired", {
-    message: Schema.String,
-  }).pipe(Category.withBadRequestError) {}
+  extends /*@__PURE__*/ applyErrorMatchers(
+    /*@__PURE__*/ Schema.TaggedError<PaymentRequired>()("PaymentRequired", {
+      message: Schema.String,
+    }).pipe(Category.withBadRequestError),
+    [{ status: 402 }],
+  ) {}
 
 /**
  * Unknown MongoDB Atlas error -- returned when nothing else matches the
@@ -57,3 +65,13 @@ export class MongodbAtlasParseError
     body: Schema.Unknown,
     cause: Schema.Unknown,
   }).pipe(Category.withParseError) {}
+
+/**
+ * The errors declared on the Atlas service: any operation can return them,
+ * and every generated operation lists them as its `serviceErrors`. Each of
+ * core's status classes (the protocol builds the one for a failed
+ * response's status when the operation's own classes do not match), and
+ * {@link PaymentRequired} for 402.
+ */
+export const MongodbAtlasServiceErrors = [...API_ERRORS, PaymentRequired] as const;
+export type MongodbAtlasServiceError = InstanceType<(typeof MongodbAtlasServiceErrors)[number]>;

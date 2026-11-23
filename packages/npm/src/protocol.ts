@@ -1,7 +1,5 @@
-import type * as API from "@distilled.cloud/core/api";
-import type { ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
-import type { SdkError } from "@distilled.cloud/core/sdk-error";
+import type { ErrorOf } from "@distilled.cloud/core/protocol";
+import { restProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
 /**
  * NpmProtocol -- the shared bearer-REST protocol instantiated for the npm
  * registry API.
@@ -19,32 +17,26 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
  */
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config } from "./credentials.ts";
-import { NpmParseError, UnknownNpmError, type DefaultErrors } from "./errors.ts";
+import { Credentials } from "./credentials.ts";
+import { NpmParseError, UnknownNpmError, type NpmServiceError } from "./errors.ts";
 
 /**
- * Error channel shared by every generated npm registry operation. Generated
- * service files annotate operations with `API.OperationMethod<I, O,
- * NpmOpError, NpmOpContext>` explicitly so the compiler never infers these
- * back out of the schema generics.
+ * What every generated npm registry operation fails with besides its own
+ * errors: the service's errors, the protocol's, and what resolving the
+ * credentials fails with. Generated service files annotate operations with
+ * `API.OperationMethod<I, O, NpmOpError, NpmOpContext>` explicitly so the
+ * compiler never infers these back out of the schema generics.
  */
-export type NpmOpError =
-  | DefaultErrors
-  | ConfigError
-  | HttpClientError.HttpClientError
-  | InvalidInput
-  | SdkError;
+export type NpmOpError = NpmServiceError | ErrorOf<typeof NpmProtocol>;
 
 /** Context (requirements) shared by every generated npm registry operation. */
 export type NpmOpContext = Credentials | HttpClient.HttpClient;
 
-export const NpmProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
+export const NpmProtocol = /*@__PURE__*/ restProtocol({
   // Resolved on the calling fiber per request, so a rotated token is picked
-  // up without rebuilding the layer.
-  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
+  // up.
+  credentials: /*@__PURE__*/ Effect.flatten(Credentials),
   baseUrl: (creds) => creds.registryUrl,
   headers: (creds): Record<string, string> =>
     creds.token === undefined ? {} : { Authorization: `Bearer ${Redacted.value(creds.token)}` },

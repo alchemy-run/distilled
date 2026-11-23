@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import { AzureDataPlaneProtocol } from "../data-plane-protocol.ts";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -1393,7 +1393,8 @@ export const ContentAnalyzersAnalyze: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2, __c0, 2) as any as S.Schema<ContentAnalyzersAnalyzeRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<ContentAnalyzersAnalyzeResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1410,7 +1411,8 @@ export const ContentAnalyzersAnalyzeBinary: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c3, 0) as any as S.Schema<ContentAnalyzersAnalyzeBinaryRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<ContentAnalyzersAnalyzeBinaryResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1427,7 +1429,8 @@ export const ContentAnalyzersCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(324, __c10, 4) as any as S.Schema<ContentAnalyzersCreateOrReplaceRequest>,
   output: __S(352, __c11, 0) as any as S.Schema<ContentAnalyzersCreateOrReplaceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1444,7 +1447,8 @@ export const ContentAnalyzersGrantCopyAuthorization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c14, 0) as any as S.Schema<ContentAnalyzersGrantCopyAuthorizationRequest>,
   output: __S(449, __c14, 1) as any as S.Schema<CopyAuthorization>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1461,7 +1465,8 @@ export const CopyContentAnalyzer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c15, 0) as any as S.Schema<CopyContentAnalyzerRequest>,
   output: __S(352, __c11, 0) as any as S.Schema<CopyContentAnalyzerResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1478,7 +1483,8 @@ export const DeleteContentAnalyzer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c16, 0) as any as S.Schema<DeleteContentAnalyzerRequest>,
   output: __S(544, __c17, 0) as any as S.Schema<DeleteContentAnalyzerResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1495,7 +1501,8 @@ export const DeleteContentAnalyzerResult: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c18, 0) as any as S.Schema<DeleteContentAnalyzerResultRequest>,
   output: __S(544, __c17, 0) as any as S.Schema<DeleteContentAnalyzerResultResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1512,7 +1519,8 @@ export const GetContentAnalyzer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c19, 0) as any as S.Schema<GetContentAnalyzerRequest>,
   output: __S(423, __c13, 7) as any as S.Schema<ContentAnalyzer>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1529,7 +1537,8 @@ export const GetContentAnalyzerDefaults: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c20, 0) as any as S.Schema<GetContentAnalyzerDefaultsRequest>,
   output: __S(672, __c21, 0) as any as S.Schema<ContentUnderstandingDefaults>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1546,7 +1555,8 @@ export const GetContentAnalyzerOperationStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c22, 0) as any as S.Schema<GetContentAnalyzerOperationStatusRequest>,
   output: __S(705, __c22, 1) as any as S.Schema<ContentAnalyzerOperationStatus>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1563,7 +1573,8 @@ export const GetContentAnalyzerResult: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c4, 0) as any as S.Schema<GetContentAnalyzerResultRequest>,
   output: __S(187, __c5, 27) as any as S.Schema<ContentAnalyzerAnalyzeOperationStatus>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1580,7 +1591,8 @@ export const GetContentAnalyzerResultFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c6, 0) as any as S.Schema<GetContentAnalyzerResultFileRequest>,
   output: __S(193, __c6, 1) as any as S.Schema<GetContentAnalyzerResultFileResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1598,7 +1610,8 @@ export const ListContentAnalyzers: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(224, __c7, 0) as any as S.Schema<ListContentAnalyzersRequest>,
   output: __S(226, __c7, 2) as any as S.Schema<PagedContentAnalyzer>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1621,7 +1634,8 @@ export const UpdateContentAnalyzer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c8, 0) as any as S.Schema<UpdateContentAnalyzerRequest>,
   output: __S(423, __c13, 7) as any as S.Schema<ContentAnalyzer>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1638,7 +1652,8 @@ export const UpdateContentAnalyzerDefaults: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c9, 0) as any as S.Schema<UpdateContentAnalyzerDefaultsRequest>,
   output: __S(672, __c21, 0) as any as S.Schema<ContentUnderstandingDefaults>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import { AzureDataPlaneProtocol } from "../data-plane-protocol.ts";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -1902,7 +1902,8 @@ export const CloneLoadTestAdministrationTest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(624, __c39, 0) as any as S.Schema<CloneLoadTestAdministrationTestRequest>,
   output: __S(640, __c40, 0) as any as S.Schema<CloneLoadTestAdministrationTestResponse>,
-  errors: [LoadTestNotFound, LoadTestFileNotFound, LoadTestRunNotFound, UnknownAzureError],
+  errors: [LoadTestNotFound, LoadTestFileNotFound, LoadTestRunNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1923,7 +1924,8 @@ export const DeleteLoadTestAdministrationTest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c54, 0) as any as S.Schema<DeleteLoadTestAdministrationTestRequest>,
   output: __S(880, __c55, 0) as any as S.Schema<DeleteLoadTestAdministrationTestResponse>,
-  errors: [LoadTestNotFound, LoadTestFileNotFound, LoadTestRunNotFound, UnknownAzureError],
+  errors: [LoadTestNotFound, LoadTestFileNotFound, LoadTestRunNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1944,7 +1946,8 @@ export const DeleteLoadTestAdministrationTestFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(944, __c59, 0) as any as S.Schema<DeleteLoadTestAdministrationTestFileRequest>,
   output: __S(880, __c55, 0) as any as S.Schema<DeleteLoadTestAdministrationTestFileResponse>,
-  errors: [LoadTestNotFound, LoadTestFileNotFound, LoadTestRunNotFound, UnknownAzureError],
+  errors: [LoadTestNotFound, LoadTestFileNotFound, LoadTestRunNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1965,7 +1968,8 @@ export const DeleteLoadTestRunTestRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c60, 0) as any as S.Schema<DeleteLoadTestRunTestRunRequest>,
   output: __S(880, __c55, 0) as any as S.Schema<DeleteLoadTestRunTestRunResponse>,
-  errors: [LoadTestNotFound, LoadTestFileNotFound, LoadTestRunNotFound, UnknownAzureError],
+  errors: [LoadTestNotFound, LoadTestFileNotFound, LoadTestRunNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1994,7 +1998,8 @@ export const DeleteNotificationRuleAdministrationNotificationRule: API.Operation
     __c55,
     0,
   ) as any as S.Schema<DeleteNotificationRuleAdministrationNotificationRuleResponse>,
-  errors: [LoadTestNotFound, LoadTestFileNotFound, LoadTestRunNotFound, UnknownAzureError],
+  errors: [LoadTestNotFound, LoadTestFileNotFound, LoadTestRunNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2023,7 +2028,8 @@ export const GenerateLoadTestAdministrationTestPlanRecommendations: API.Operatio
     __c40,
     0,
   ) as any as S.Schema<GenerateLoadTestAdministrationTestPlanRecommendationsResponse>,
-  errors: [LoadTestNotFound, LoadTestFileNotFound, LoadTestRunNotFound, UnknownAzureError],
+  errors: [LoadTestNotFound, LoadTestFileNotFound, LoadTestRunNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2044,7 +2050,8 @@ export const GenerateLoadTestRunInsights: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1008, __c63, 0) as any as S.Schema<GenerateLoadTestRunInsightsRequest>,
   output: __S(640, __c40, 0) as any as S.Schema<GenerateLoadTestRunInsightsResponse>,
-  errors: [LoadTestNotFound, LoadTestFileNotFound, LoadTestRunNotFound, UnknownAzureError],
+  errors: [LoadTestNotFound, LoadTestFileNotFound, LoadTestRunNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2065,7 +2072,8 @@ export const GetLoadTestAdministrationAppComponents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<GetLoadTestAdministrationAppComponentsRequest>,
   output: __S(32, __c2, 0) as any as S.Schema<TestAppComponents>,
-  errors: [LoadTestNotFound, LoadTestFileNotFound, LoadTestRunNotFound, UnknownAzureError],
+  errors: [LoadTestNotFound, LoadTestFileNotFound, LoadTestRunNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2086,7 +2094,8 @@ export const GetLoadTestAdministrationServerMetricsConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c3, 0) as any as S.Schema<GetLoadTestAdministrationServerMetricsConfigRequest>,
   output: __S(80, __c5, 0) as any as S.Schema<TestServerMetricsConfiguration>,
-  errors: [LoadTestNotFound, LoadTestFileNotFound, LoadTestRunNotFound, UnknownAzureError],
+  errors: [LoadTestNotFound, LoadTestFileNotFound, LoadTestRunNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2107,7 +2116,8 @@ export const GetLoadTestAdministrationTest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c6, 0) as any as S.Schema<GetLoadTestAdministrationTestRequest>,
   output: __S(193, __c12, 1) as any as S.Schema<Test>,
-  errors: [LoadTestNotFound, LoadTestFileNotFound, LoadTestRunNotFound, UnknownAzureError],
+  errors: [LoadTestNotFound, LoadTestFileNotFound, LoadTestRunNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2128,7 +2138,8 @@ export const GetLoadTestAdministrationTestFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c13, 0) as any as S.Schema<GetLoadTestAdministrationTestFileRequest>,
   output: __S(112, __c7, 0) as any as S.Schema<TestFileInfo>,
-  errors: [LoadTestNotFound, LoadTestFileNotFound, LoadTestRunNotFound, UnknownAzureError],
+  errors: [LoadTestNotFound, LoadTestFileNotFound, LoadTestRunNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2149,7 +2160,8 @@ export const GetLoadTestRunAppComponents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c14, 0) as any as S.Schema<GetLoadTestRunAppComponentsRequest>,
   output: __S(240, __c15, 0) as any as S.Schema<TestRunAppComponents>,
-  errors: [LoadTestNotFound, LoadTestFileNotFound, LoadTestRunNotFound, UnknownAzureError],
+  errors: [LoadTestNotFound, LoadTestFileNotFound, LoadTestRunNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2170,7 +2182,8 @@ export const GetLoadTestRunLatestInsights: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c16, 0) as any as S.Schema<GetLoadTestRunLatestInsightsRequest>,
   output: __S(275, __c17, 3) as any as S.Schema<TestRunInsights>,
-  errors: [LoadTestNotFound, LoadTestFileNotFound, LoadTestRunNotFound, UnknownAzureError],
+  errors: [LoadTestNotFound, LoadTestFileNotFound, LoadTestRunNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2191,7 +2204,8 @@ export const GetLoadTestRunServerMetricsConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c18, 0) as any as S.Schema<GetLoadTestRunServerMetricsConfigRequest>,
   output: __S(304, __c19, 0) as any as S.Schema<TestRunServerMetricsConfiguration>,
-  errors: [LoadTestNotFound, LoadTestFileNotFound, LoadTestRunNotFound, UnknownAzureError],
+  errors: [LoadTestNotFound, LoadTestFileNotFound, LoadTestRunNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2212,7 +2226,8 @@ export const GetLoadTestRunTestRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c20, 0) as any as S.Schema<GetLoadTestRunTestRunRequest>,
   output: __S(344, __c21, 8) as any as S.Schema<TestRun>,
-  errors: [LoadTestNotFound, LoadTestFileNotFound, LoadTestRunNotFound, UnknownAzureError],
+  errors: [LoadTestNotFound, LoadTestFileNotFound, LoadTestRunNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2233,7 +2248,8 @@ export const GetLoadTestRunTestRunFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c22, 0) as any as S.Schema<GetLoadTestRunTestRunFileRequest>,
   output: __S(112, __c7, 0) as any as S.Schema<TestRunFileInfo>,
-  errors: [LoadTestNotFound, LoadTestFileNotFound, LoadTestRunNotFound, UnknownAzureError],
+  errors: [LoadTestNotFound, LoadTestFileNotFound, LoadTestRunNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2262,7 +2278,8 @@ export const GetNotificationRuleAdministrationNotificationRule: API.OperationMet
     __c26,
     0,
   ) as any as S.Schema<GetNotificationRuleAdministrationNotificationRuleResponse>,
-  errors: [LoadTestNotFound, LoadTestFileNotFound, LoadTestRunNotFound, UnknownAzureError],
+  errors: [LoadTestNotFound, LoadTestFileNotFound, LoadTestRunNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2283,7 +2300,8 @@ export const GetOperationStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(432, __c27, 0) as any as S.Schema<GetOperationStatusRequest>,
   output: __S(436, __c27, 4) as any as S.Schema<OperationStatus>,
-  errors: [LoadTestNotFound, LoadTestFileNotFound, LoadTestRunNotFound, UnknownAzureError],
+  errors: [LoadTestNotFound, LoadTestFileNotFound, LoadTestRunNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2305,7 +2323,8 @@ export const ListLoadTestAdministrationTestFiles: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(448, __c28, 0) as any as S.Schema<ListLoadTestAdministrationTestFilesRequest>,
   output: __S(449, __c28, 1) as any as S.Schema<PagedTestFileInfo>,
-  errors: [LoadTestNotFound, LoadTestFileNotFound, LoadTestRunNotFound, UnknownAzureError],
+  errors: [LoadTestNotFound, LoadTestFileNotFound, LoadTestRunNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2333,7 +2352,8 @@ export const ListLoadTestAdministrationTests: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(464, __c29, 0) as any as S.Schema<ListLoadTestAdministrationTestsRequest>,
   output: __S(466, __c29, 2) as any as S.Schema<PagedTest>,
-  errors: [LoadTestNotFound, LoadTestFileNotFound, LoadTestRunNotFound, UnknownAzureError],
+  errors: [LoadTestNotFound, LoadTestFileNotFound, LoadTestRunNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2360,7 +2380,8 @@ export const ListLoadTestRunMetricDefinitions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c30, 0) as any as S.Schema<ListLoadTestRunMetricDefinitionsRequest>,
   output: __S(485, __c30, 5) as any as S.Schema<MetricDefinitionCollection>,
-  errors: [LoadTestNotFound, LoadTestFileNotFound, LoadTestRunNotFound, UnknownAzureError],
+  errors: [LoadTestNotFound, LoadTestFileNotFound, LoadTestRunNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2382,7 +2403,8 @@ export const ListLoadTestRunMetricDimensionValues: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(512, __c32, 0) as any as S.Schema<ListLoadTestRunMetricDimensionValuesRequest>,
   output: __S(513, __c32, 1) as any as S.Schema<DimensionValueList>,
-  errors: [LoadTestNotFound, LoadTestFileNotFound, LoadTestRunNotFound, UnknownAzureError],
+  errors: [LoadTestNotFound, LoadTestFileNotFound, LoadTestRunNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2409,7 +2431,8 @@ export const ListLoadTestRunMetricNamespaces: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(528, __c33, 0) as any as S.Schema<ListLoadTestRunMetricNamespacesRequest>,
   output: __S(529, __c33, 1) as any as S.Schema<MetricNamespaceCollection>,
-  errors: [LoadTestNotFound, LoadTestFileNotFound, LoadTestRunNotFound, UnknownAzureError],
+  errors: [LoadTestNotFound, LoadTestFileNotFound, LoadTestRunNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2431,7 +2454,8 @@ export const ListLoadTestRunMetrics: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(546, __c34, 2) as any as S.Schema<ListLoadTestRunMetricsRequest>,
   output: __S(553, __c34, 9) as any as S.Schema<Metrics>,
-  errors: [LoadTestNotFound, LoadTestFileNotFound, LoadTestRunNotFound, UnknownAzureError],
+  errors: [LoadTestNotFound, LoadTestFileNotFound, LoadTestRunNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2459,7 +2483,8 @@ export const ListLoadTestRunTestRuns: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(560, __c35, 0) as any as S.Schema<ListLoadTestRunTestRunsRequest>,
   output: __S(562, __c35, 2) as any as S.Schema<PagedTestRun>,
-  errors: [LoadTestNotFound, LoadTestFileNotFound, LoadTestRunNotFound, UnknownAzureError],
+  errors: [LoadTestNotFound, LoadTestFileNotFound, LoadTestRunNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2491,7 +2516,8 @@ export const ListNotificationRuleAdministrationNotificationRules: API.PaginatedO
     0,
   ) as any as S.Schema<ListNotificationRuleAdministrationNotificationRulesRequest>,
   output: __S(578, __c36, 2) as any as S.Schema<PagedNotificationRule>,
-  errors: [LoadTestNotFound, LoadTestFileNotFound, LoadTestRunNotFound, UnknownAzureError],
+  errors: [LoadTestNotFound, LoadTestFileNotFound, LoadTestRunNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2519,7 +2545,8 @@ export const ListTriggerAdministrationTriggers: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(592, __c37, 0) as any as S.Schema<ListTriggerAdministrationTriggersRequest>,
   output: __S(594, __c37, 2) as any as S.Schema<PagedTrigger>,
-  errors: [LoadTestNotFound, LoadTestFileNotFound, LoadTestRunNotFound, UnknownAzureError],
+  errors: [LoadTestNotFound, LoadTestFileNotFound, LoadTestRunNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2550,7 +2577,8 @@ export const LoadTestAdministrationCreateOrUpdateAppComponents: API.OperationMet
     0,
   ) as any as S.Schema<LoadTestAdministrationCreateOrUpdateAppComponentsRequest>,
   output: __S(32, __c2, 0) as any as S.Schema<TestAppComponents>,
-  errors: [LoadTestNotFound, LoadTestFileNotFound, LoadTestRunNotFound, UnknownAzureError],
+  errors: [LoadTestNotFound, LoadTestFileNotFound, LoadTestRunNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2575,7 +2603,8 @@ export const LoadTestAdministrationCreateOrUpdateServerMetricsConfig: API.Operat
     2,
   ) as any as S.Schema<LoadTestAdministrationCreateOrUpdateServerMetricsConfigRequest>,
   output: __S(80, __c5, 0) as any as S.Schema<TestServerMetricsConfiguration>,
-  errors: [LoadTestNotFound, LoadTestFileNotFound, LoadTestRunNotFound, UnknownAzureError],
+  errors: [LoadTestNotFound, LoadTestFileNotFound, LoadTestRunNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2596,7 +2625,8 @@ export const LoadTestAdministrationCreateOrUpdateTest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c44, 0) as any as S.Schema<LoadTestAdministrationCreateOrUpdateTestRequest>,
   output: __S(193, __c12, 1) as any as S.Schema<Test>,
-  errors: [LoadTestNotFound, LoadTestFileNotFound, LoadTestRunNotFound, UnknownAzureError],
+  errors: [LoadTestNotFound, LoadTestFileNotFound, LoadTestRunNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2617,7 +2647,8 @@ export const LoadTestRunCreateOrUpdateAppComponents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c46, 0) as any as S.Schema<LoadTestRunCreateOrUpdateAppComponentsRequest>,
   output: __S(240, __c15, 0) as any as S.Schema<TestRunAppComponents>,
-  errors: [LoadTestNotFound, LoadTestFileNotFound, LoadTestRunNotFound, UnknownAzureError],
+  errors: [LoadTestNotFound, LoadTestFileNotFound, LoadTestRunNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2638,7 +2669,8 @@ export const LoadTestRunCreateOrUpdateServerMetricsConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(754, __c47, 2) as any as S.Schema<LoadTestRunCreateOrUpdateServerMetricsConfigRequest>,
   output: __S(304, __c19, 0) as any as S.Schema<TestRunServerMetricsConfiguration>,
-  errors: [LoadTestNotFound, LoadTestFileNotFound, LoadTestRunNotFound, UnknownAzureError],
+  errors: [LoadTestNotFound, LoadTestFileNotFound, LoadTestRunNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2659,7 +2691,8 @@ export const LoadTestRunCreateOrUpdateTestRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c48, 0) as any as S.Schema<LoadTestRunCreateOrUpdateTestRunRequest>,
   output: __S(344, __c21, 8) as any as S.Schema<TestRun>,
-  errors: [LoadTestNotFound, LoadTestFileNotFound, LoadTestRunNotFound, UnknownAzureError],
+  errors: [LoadTestNotFound, LoadTestFileNotFound, LoadTestRunNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2688,7 +2721,8 @@ export const NotificationRuleAdministrationCreateOrUpdateNotificationRule: API.O
     __c26,
     0,
   ) as any as S.Schema<NotificationRuleAdministrationCreateOrUpdateNotificationRuleResponse>,
-  errors: [LoadTestNotFound, LoadTestFileNotFound, LoadTestRunNotFound, UnknownAzureError],
+  errors: [LoadTestNotFound, LoadTestFileNotFound, LoadTestRunNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2709,7 +2743,8 @@ export const StopLoadTestRunTestRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c50, 0) as any as S.Schema<StopLoadTestRunTestRunRequest>,
   output: __S(344, __c21, 8) as any as S.Schema<TestRun>,
-  errors: [LoadTestNotFound, LoadTestFileNotFound, LoadTestRunNotFound, UnknownAzureError],
+  errors: [LoadTestNotFound, LoadTestFileNotFound, LoadTestRunNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2730,7 +2765,8 @@ export const TriggerAdministrationCreateOrUpdateTrigger: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(821, __c51, 5) as any as S.Schema<TriggerAdministrationCreateOrUpdateTriggerRequest>,
   output: __S(832, __c52, 0) as any as S.Schema<TriggerAdministrationCreateOrUpdateTriggerResponse>,
-  errors: [LoadTestNotFound, LoadTestFileNotFound, LoadTestRunNotFound, UnknownAzureError],
+  errors: [LoadTestNotFound, LoadTestFileNotFound, LoadTestRunNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2751,7 +2787,8 @@ export const TriggerAdministrationDeleteTrigger: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(848, __c53, 0) as any as S.Schema<TriggerAdministrationDeleteTriggerRequest>,
   output: __S(880, __c55, 0) as any as S.Schema<TriggerAdministrationDeleteTriggerResponse>,
-  errors: [LoadTestNotFound, LoadTestFileNotFound, LoadTestRunNotFound, UnknownAzureError],
+  errors: [LoadTestNotFound, LoadTestFileNotFound, LoadTestRunNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2772,7 +2809,8 @@ export const TriggerAdministrationGetTrigger: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(896, __c56, 0) as any as S.Schema<TriggerAdministrationGetTriggerRequest>,
   output: __S(832, __c52, 0) as any as S.Schema<TriggerAdministrationGetTriggerResponse>,
-  errors: [LoadTestNotFound, LoadTestFileNotFound, LoadTestRunNotFound, UnknownAzureError],
+  errors: [LoadTestNotFound, LoadTestFileNotFound, LoadTestRunNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2793,7 +2831,8 @@ export const UpdateLoadTestRunLatestInsights: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(912, __c57, 0) as any as S.Schema<UpdateLoadTestRunLatestInsightsRequest>,
   output: __S(275, __c17, 3) as any as S.Schema<TestRunInsights>,
-  errors: [LoadTestNotFound, LoadTestFileNotFound, LoadTestRunNotFound, UnknownAzureError],
+  errors: [LoadTestNotFound, LoadTestFileNotFound, LoadTestRunNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2814,7 +2853,8 @@ export const UploadLoadTestAdministrationTestFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c58, 0) as any as S.Schema<UploadLoadTestAdministrationTestFileRequest>,
   output: __S(112, __c7, 0) as any as S.Schema<TestFileInfo>,
-  errors: [LoadTestNotFound, LoadTestFileNotFound, LoadTestRunNotFound, UnknownAzureError],
+  errors: [LoadTestNotFound, LoadTestFileNotFound, LoadTestRunNotFound],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

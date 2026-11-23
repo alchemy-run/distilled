@@ -65,7 +65,7 @@ const intercomSpec: SdkSpec = {
   operationDecl: {
     contextType: "IntercomOpContext",
     commonErrorType: "IntercomOpError",
-    commonErrorClasses: ["UnknownIntercomError"],
+    serviceErrors: "IntercomServiceErrors",
     protocol: "IntercomProtocol",
     retry: "Retry.Retry",
   },

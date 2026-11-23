@@ -1,16 +1,25 @@
-import * as API from "@distilled.cloud/core/api";
-import { ConfigError, HTTP_STATUS_MAP, InternalServerError } from "@distilled.cloud/core/errors";
-import type { DefaultErrors, InvalidInput } from "@distilled.cloud/core/errors";
+import { InternalServerError } from "@distilled.cloud/core/errors";
+import type {
+  DecodeArgs,
+  EncodeArgs,
+  ErrorOf,
+  Protocol,
+  ProtocolOf,
+} from "@distilled.cloud/core/protocol";
 import {
   encodeLabel,
   getAnn,
   getProps,
   hasPropAnn,
   matchTypedError,
-  responseErrorFields,
   nameOf,
+  responseErrorFields,
 } from "@distilled.cloud/core/protocol-http";
-import { unwrapRedactedDeep, validateSuccess } from "@distilled.cloud/core/protocol-rest";
+import {
+  declaredStatusClass,
+  unwrapRedactedDeep,
+  validateSuccess,
+} from "@distilled.cloud/core/protocol-rest";
 import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
 import { SdkError } from "@distilled.cloud/core/sdk-error";
 import {
@@ -42,51 +51,32 @@ import {
  *             envelope `{ error: { code, message, status, details } }` --
  *             dispatch is per-op matcher classes (`matchTypedError`, which
  *             reads their declared `status` and `details` under `error`)
- *             then HTTP status via core's `HTTP_STATUS_MAP`; every error
- *             carries the body and headers. Unmatched statuses ->
- *             `UnknownGCPError`.
+ *             then core's class for the HTTP status, which the service
+ *             declares (`GcpServiceErrors`); every error carries the body
+ *             and headers. Unmatched statuses -> `UnknownGCPError`.
  */
-import type { SourceError } from "effect/ConfigProvider";
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
-import type * as HttpClientResponse from "effect/http/HttpClientResponse";
-import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
-import type * as AST from "effect/SchemaAST";
 import { Credentials, type Config } from "./credentials-service.ts";
 import * as Endpoint from "./endpoint.ts";
-import { type GCPCredentialsError, GCPParseError, UnknownGCPError } from "./errors.ts";
+import { type GcpServiceError, GCPParseError, UnknownGCPError } from "./errors.ts";
 import * as Region from "./region.ts";
 import type { GcpHttpTrait } from "./traits.ts";
 
 /**
- * Error channel shared by every generated GCP operation. Generated service
- * files annotate operations with `API.OperationMethod<I, O, <Op>Error,
- * GcpOpContext>` explicitly so the compiler never infers these back out of
- * the schema generics.
+ * What every generated GCP operation fails with besides its own errors: the
+ * service's errors, the protocol's, and what resolving the credentials
+ * fails with. Generated service files annotate operations with
+ * `API.OperationMethod<I, O, <Op>Error, GcpOpContext>` explicitly so the
+ * compiler never infers these back out of the schema generics.
  */
-export type GcpOpError =
-  | DefaultErrors
-  | InvalidInput
-  | UnknownGCPError
-  | GCPParseError
-  | GCPCredentialsError
-  | ConfigError
-  | SourceError
-  | HttpClientError.HttpClientError
-  | SdkError;
+export type GcpOpError = GcpServiceError | ErrorOf<typeof GcpProtocol>;
 
 /** Context (requirements) shared by every generated GCP operation. */
 export type GcpOpContext = Credentials | HttpClient.HttpClient;
-
-// Bridge: Protocol.decode is typed as Effect<unknown> (no error channel), but
-// GCP failures are real typed errors that an operation re-surfaces via its
-// `errors: [...]` list. Fail with the instance and erase the error type here;
-// `API.make`'s signature reintroduces it for callers.
-const fail = (e: unknown): Effect.Effect<never> => Effect.fail(e) as Effect.Effect<never>;
 
 /** Serialize one query member: arrays as repeated `k=v`, scalars stringified. */
 const appendQuery = (query: URLSearchParams, name: string, value: unknown): void => {
@@ -139,12 +129,10 @@ const extractGCPErrorEnvelope = (
   };
 };
 
-// The protocol layer is memoized per process by `API.make`, so the build
+// The protocol is one module-level value shared by every operation, so it
 // must not capture credentials -- `encode` resolves Credentials from the
-// calling fiber's context on every request. The requirement is erased at
-// this boundary (Protocol effects are typed with no requirements) and
-// reintroduced for callers by the generated `GcpOpContext` annotations.
-const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAst: AST.AST }) =>
+// calling fiber's context on every request.
+const encode = ({ input, inputAst }: EncodeArgs) =>
   Effect.gen(function* () {
     // The Credentials service holds an effect -- resolving it here (per
     // request) picks up externally-rotated tokens.
@@ -153,7 +141,9 @@ const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAs
 
     const http = getAnn(inputAst, httpSymbol) as GcpHttpTrait | undefined;
     if (!http) {
-      return yield* fail(new SdkError({ message: "operation input is missing the Http() trait" }));
+      return yield* Effect.fail(
+        new SdkError({ message: "operation input is missing the Http() trait" }),
+      );
     }
     // Sensitive members accept `string | Redacted<string>`; the wire wants the string.
     const inputObj = unwrapRedactedDeep(input ?? {}) as Record<string, unknown>;
@@ -180,7 +170,7 @@ const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAs
         // kept (google/api/http.proto). Plain `{name}` is fully encoded.
         const greedy = uri.includes(`{+${token}}`);
         const label = encodeLabel(String(prop.name), value, greedy);
-        if (typeof label !== "string") return yield* fail(label);
+        if (typeof label !== "string") return yield* Effect.fail(label);
         uri = uri.replace(greedy ? `{+${token}}` : `{${token}}`, () => label);
       } else if (hasPropAnn(prop, querySymbol)) {
         appendQuery(query, nameOf(prop, querySymbol), value);
@@ -199,13 +189,9 @@ const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAs
     const qs = query.toString();
     // Optional overrides, read from the calling fiber like Credentials but
     // never listed in an operation's requirements.
-    const endpointOverride = yield* Effect.serviceOption(Endpoint.Endpoint);
-    const override = Option.isSome(endpointOverride) ? yield* endpointOverride.value : undefined;
-    if (override !== undefined && !URL.canParse(override)) {
-      return yield* new ConfigError({
-        message: `GCP endpoint override must be an absolute URL (e.g. http://localhost:8085), got ${JSON.stringify(override)}`,
-      });
-    }
+    const override = Option.getOrUndefined(
+      Option.flatten(yield* Effect.serviceOption(Endpoint.Endpoint)),
+    );
     const mode = Option.getOrElse(
       yield* Effect.serviceOption(Region.RegionalEndpoints),
       () => "required" as const,
@@ -226,19 +212,12 @@ const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAs
     return request;
   });
 
-const decode = ({
-  response,
-  outputAst,
-  errors,
-}: {
-  readonly response: HttpClientResponse.HttpClientResponse;
-  readonly outputAst: AST.AST;
-  readonly errors: ReadonlyArray<unknown>;
-}) =>
+const decode = ({ response, outputAst, errors }: DecodeArgs) =>
   Effect.gen(function* () {
     // Read as text and parse tolerantly -- some error responses (proxies,
-    // HTML error pages) carry non-JSON bodies.
-    const text = (yield* response.text.pipe(Effect.catch(fail))) ?? "";
+    // HTML error pages) carry non-JSON bodies. A body read that fails (reset
+    // or abort mid-body) fails the call with its `HttpClientError`.
+    const text = (yield* response.text) ?? "";
     let json: unknown;
     let nonJson = false;
     if (text.trim().length > 0) {
@@ -263,26 +242,27 @@ const decode = ({
       // declared `status` and `details` there.
       const failure = { body: nonJson ? text : json, headers, fieldsAt: "/error" };
       const typed = matchTypedError(errors, status, [{ code: envelope.code, message }], failure);
-      if (typed !== undefined) return yield* fail(typed);
+      if (typed !== undefined) return yield* Effect.fail(typed);
 
-      // 2. Status-map dispatch: the constructed instance shares its `_tag`
-      //    with the per-service typed error classes and carries the body
-      //    (the envelope's `status` and `details` are under `body.error`).
-      const ErrorClass = HTTP_STATUS_MAP[status as keyof typeof HTTP_STATUS_MAP];
+      // 2. Status dispatch: core's class for the status, which the service
+      //    declares. The constructed instance shares its `_tag` with the
+      //    per-service typed error classes and carries the body (the
+      //    envelope's `status` and `details` are under `body.error`).
+      const ErrorClass = declaredStatusClass(status, errors);
       if (ErrorClass) {
-        return yield* fail(
+        return yield* Effect.fail(
           new ErrorClass({
             message,
             ...responseErrorFields(undefined, failure),
             retryAfter: parseRetryAfterForStatus(status, headers),
-          } as any),
+          }),
         );
       }
 
-      // 3. Unmapped 5xx -> retryable server error, as in core's REST
+      // 3. Any other 5xx -> retryable server error, as in core's REST
       //    protocol.
       if (status >= 500) {
-        return yield* fail(
+        return yield* Effect.fail(
           new InternalServerError({
             message,
             ...responseErrorFields(undefined, failure),
@@ -291,7 +271,7 @@ const decode = ({
         );
       }
 
-      return yield* fail(
+      return yield* Effect.fail(
         new UnknownGCPError({
           status,
           code: envelope.status,
@@ -316,14 +296,12 @@ const decode = ({
         nonJson,
       },
       (info) => new GCPParseError(info),
-    ).pipe(Effect.catch(fail));
+    );
   });
 
-export const GcpProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer.succeed(
-  API.Protocol,
-  /*@__PURE__*/ API.Protocol.of({
-    // Erase encode's Credentials requirement (see comment above).
-    encode: (args) => encode(args) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
-    decode,
-  }),
-);
+const gcpProtocolMethods = {
+  encode,
+  decode,
+} satisfies Protocol<unknown, unknown>;
+
+export const GcpProtocol: ProtocolOf<typeof gcpProtocolMethods> = gcpProtocolMethods;

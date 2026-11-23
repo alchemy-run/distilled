@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { CloudflareError, CloudflareRateLimited } from "../errors.ts";
+import { CloudflareServiceErrors } from "../errors.ts";
 import { cloudflarePaginate, ResultInfo } from "../pagination.ts";
 import {
   CloudflareProtocol,
@@ -3210,7 +3210,8 @@ export const createAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1, __c0, 1) as any as S.Schema<CreateAccountRequest>,
   output: __S(32, __c2, 0) as any as S.Schema<CreateAccountResponse>,
-  errors: [AccountCreationForbidden, MissingName, CloudflareRateLimited, CloudflareError],
+  errors: [AccountCreationForbidden, MissingName],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3227,7 +3228,8 @@ export const createAccountOrganization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c3, 0) as any as S.Schema<CreateAccountOrganizationRequest>,
   output: __S(49, __c3, 1) as any as S.Schema<CreateAccountOrganizationResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3244,7 +3246,8 @@ export const createClientSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c4, 0) as any as S.Schema<CreateClientSecretRequest>,
   output: __S(80, __c5, 0) as any as S.Schema<CreateClientSecretResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3265,13 +3268,8 @@ export const createMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(98, __c6, 2) as any as S.Schema<CreateMemberRequest>,
   output: __S(192, __c12, 0) as any as S.Schema<CreateMemberResponse>,
-  errors: [
-    InvalidRoute,
-    ValidationError,
-    AccountMemberAlreadyExists,
-    CloudflareRateLimited,
-    CloudflareError,
-  ],
+  errors: [InvalidRoute, ValidationError, AccountMemberAlreadyExists],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3288,7 +3286,8 @@ export const createPayBadDebt: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c14, 0) as any as S.Schema<CreatePayBadDebtRequest>,
   output: __S(80, __c5, 0) as any as S.Schema<CreatePayBadDebtResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3305,7 +3304,8 @@ export const createPayInvoice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(240, __c15, 0) as any as S.Schema<CreatePayInvoiceRequest>,
   output: __S(80, __c5, 0) as any as S.Schema<CreatePayInvoiceResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3322,7 +3322,8 @@ export const createPaymentMethod: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c16, 0) as any as S.Schema<CreatePaymentMethodRequest>,
   output: __S(272, __c17, 0) as any as S.Schema<CreatePaymentMethodResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3339,7 +3340,8 @@ export const createSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c18, 0) as any as S.Schema<CreateSubscriptionRequest>,
   output: __S(336, __c21, 0) as any as S.Schema<CreateSubscriptionResponse>,
-  errors: [JsonDecodeFailure, InvalidRoute, CloudflareRateLimited, CloudflareError],
+  errors: [JsonDecodeFailure, InvalidRoute],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3360,13 +3362,8 @@ export const createToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(356, __c22, 4) as any as S.Schema<CreateTokenRequest>,
   output: __S(361, __c22, 9) as any as S.Schema<CreateTokenResponse>,
-  errors: [
-    InvalidRoute,
-    InvalidTokenName,
-    PermissionGroupNotFound,
-    CloudflareRateLimited,
-    CloudflareError,
-  ],
+  errors: [InvalidRoute, InvalidTokenName, PermissionGroupNotFound],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3383,7 +3380,8 @@ export const deleteAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(400, __c25, 0) as any as S.Schema<DeleteAccountRequest>,
   output: __S(416, __c26, 0) as any as S.Schema<DeleteAccountResponse>,
-  errors: [InvalidRoute, MethodNotAllowed, CloudflareRateLimited, CloudflareError],
+  errors: [InvalidRoute, MethodNotAllowed],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3400,7 +3398,8 @@ export const deleteMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(432, __c27, 0) as any as S.Schema<DeleteMemberRequest>,
   output: __S(416, __c26, 0) as any as S.Schema<DeleteMemberResponse>,
-  errors: [MemberNotFound, InvalidRoute, CloudflareRateLimited, CloudflareError],
+  errors: [MemberNotFound, InvalidRoute],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3417,7 +3416,8 @@ export const deletePaymentMethod: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c28, 0) as any as S.Schema<DeletePaymentMethodRequest>,
   output: __S(464, __c29, 0) as any as S.Schema<DeletePaymentMethodResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3434,7 +3434,8 @@ export const deleteSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c30, 0) as any as S.Schema<DeleteSubscriptionRequest>,
   output: __S(481, __c30, 1) as any as S.Schema<DeleteSubscriptionResponse>,
-  errors: [InvalidRoute, EndpointNotFound, CloudflareRateLimited, CloudflareError],
+  errors: [InvalidRoute, EndpointNotFound],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3456,14 +3457,8 @@ export const deleteToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(496, __c31, 0) as any as S.Schema<DeleteTokenRequest>,
   output: __S(416, __c26, 0) as any as S.Schema<DeleteTokenResponse>,
-  errors: [
-    InvalidRoute,
-    MethodNotAllowed,
-    TokenNotFound,
-    TokenManagedByCloudflare,
-    CloudflareRateLimited,
-    CloudflareError,
-  ],
+  errors: [InvalidRoute, MethodNotAllowed, TokenNotFound, TokenManagedByCloudflare],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3480,7 +3475,8 @@ export const editInvoice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c32, 0) as any as S.Schema<EditInvoiceRequest>,
   output: __S(464, __c29, 0) as any as S.Schema<EditInvoiceResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3497,7 +3493,8 @@ export const getAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(528, __c33, 0) as any as S.Schema<GetAccountRequest>,
   output: __S(32, __c2, 0) as any as S.Schema<GetAccountResponse>,
-  errors: [InvalidRoute, CloudflareRateLimited, CloudflareError],
+  errors: [InvalidRoute],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3514,7 +3511,8 @@ export const getAccountProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c34, 0) as any as S.Schema<GetAccountProfileRequest>,
   output: __S(545, __c34, 1) as any as S.Schema<GetAccountProfileResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3531,7 +3529,8 @@ export const getMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(560, __c35, 0) as any as S.Schema<GetMemberRequest>,
   output: __S(192, __c12, 0) as any as S.Schema<GetMemberResponse>,
-  errors: [MemberNotFound, InvalidRoute, CloudflareRateLimited, CloudflareError],
+  errors: [MemberNotFound, InvalidRoute],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3548,7 +3547,8 @@ export const getPaymentMethod: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c36, 0) as any as S.Schema<GetPaymentMethodRequest>,
   output: __S(272, __c17, 0) as any as S.Schema<GetPaymentMethodResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3565,7 +3565,8 @@ export const getRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(592, __c37, 0) as any as S.Schema<GetRoleRequest>,
   output: __S(593, __c37, 1) as any as S.Schema<GetRoleResponse>,
-  errors: [InvalidRoute, CloudflareRateLimited, CloudflareError],
+  errors: [InvalidRoute],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3582,7 +3583,8 @@ export const getSpeedSettingsTransformation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c38, 0) as any as S.Schema<GetSpeedSettingsTransformationRequest>,
   output: __S(611, __c38, 3) as any as S.Schema<GetSpeedSettingsTransformationResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3601,7 +3603,8 @@ export const getSubscription: API.PaginatedOperationMethod<
   () => ({
     input: __S(624, __c39, 0) as any as S.Schema<GetSubscriptionRequest>,
     output: __S(625, __c39, 1) as any as S.Schema<GetSubscriptionResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -3621,7 +3624,8 @@ export const getToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(656, __c41, 0) as any as S.Schema<GetTokenRequest>,
   output: __S(661, __c41, 5) as any as S.Schema<GetTokenResponse>,
-  errors: [InvalidRoute, TokenNotFound, CloudflareRateLimited, CloudflareError],
+  errors: [InvalidRoute, TokenNotFound],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3638,7 +3642,8 @@ export const getTokenPermissionGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c42, 0) as any as S.Schema<GetTokenPermissionGroupRequest>,
   output: __S(706, __c44, 2) as any as S.Schema<GetTokenPermissionGroupResponse>,
-  errors: [InvalidRoute, CloudflareRateLimited, CloudflareError],
+  errors: [InvalidRoute],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3657,7 +3662,8 @@ export const listAccounts: API.PaginatedOperationMethod<
   () => ({
     input: __S(720, __c45, 0) as any as S.Schema<ListAccountsRequest>,
     output: __S(723, __c45, 3) as any as S.Schema<ListAccountsResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -3683,7 +3689,8 @@ export const listEntitlements: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c46, 0) as any as S.Schema<ListEntitlementsRequest>,
   output: __S(742, __c46, 6) as any as S.Schema<ListEntitlementsResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3702,7 +3709,8 @@ export const listLogAudits: API.PaginatedOperationMethod<
   () => ({
     input: __S(756, __c47, 4) as any as S.Schema<ListLogAuditsRequest>,
     output: __S(757, __c47, 5) as any as S.Schema<ListLogAuditsResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -3729,7 +3737,8 @@ export const listMembers: API.PaginatedOperationMethod<
   () => ({
     input: __S(784, __c49, 0) as any as S.Schema<ListMembersRequest>,
     output: __S(787, __c49, 3) as any as S.Schema<ListMembersResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -3755,7 +3764,8 @@ export const listPaymentMethods: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c50, 0) as any as S.Schema<ListPaymentMethodsRequest>,
   output: __S(803, __c50, 3) as any as S.Schema<ListPaymentMethodsResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3774,7 +3784,8 @@ export const listRoles: API.PaginatedOperationMethod<
   () => ({
     input: __S(816, __c51, 0) as any as S.Schema<ListRolesRequest>,
     output: __S(817, __c51, 1) as any as S.Schema<ListRolesResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -3802,7 +3813,8 @@ export const listTokens: API.PaginatedOperationMethod<
   () => ({
     input: __S(832, __c52, 0) as any as S.Schema<ListTokensRequest>,
     output: __S(839, __c52, 7) as any as S.Schema<ListTokensResponse>,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [],
+    serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -3828,7 +3840,8 @@ export const listTokensPermissionGroups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(848, __c53, 0) as any as S.Schema<ListTokensPermissionGroupsRequest>,
   output: __S(706, __c44, 2) as any as S.Schema<ListTokensPermissionGroupsResponse>,
-  errors: [InvalidRoute, CloudflareRateLimited, CloudflareError],
+  errors: [InvalidRoute],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3845,7 +3858,8 @@ export const logsAuditHistory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c54, 0) as any as S.Schema<LogsAuditHistoryRequest>,
   output: __S(865, __c54, 1) as any as S.Schema<LogsAuditHistoryResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3862,7 +3876,8 @@ export const logsAuditProductCategories: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(880, __c55, 0) as any as S.Schema<LogsAuditProductCategoriesRequest>,
   output: __S(885, __c55, 5) as any as S.Schema<LogsAuditProductCategoriesResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3879,7 +3894,8 @@ export const paymentMethodsSetAsDefault: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(896, __c56, 0) as any as S.Schema<PaymentMethodsSetAsDefaultRequest>,
   output: __S(464, __c29, 0) as any as S.Schema<PaymentMethodsSetAsDefaultResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3896,7 +3912,8 @@ export const putTokenValue: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(912, __c57, 0) as any as S.Schema<PutTokenValueRequest>,
   output: __S(913, __c57, 1) as any as S.Schema<PutTokenValueResponse>,
-  errors: [InvalidRoute, TokenNotFound, CloudflareRateLimited, CloudflareError],
+  errors: [InvalidRoute, TokenNotFound],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3913,7 +3930,8 @@ export const receiptsPdf: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c58, 0) as any as S.Schema<ReceiptsPdfRequest>,
   output: __S(944, __c59, 0) as any as S.Schema<ReceiptsPdfResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3930,7 +3948,8 @@ export const subscriptionsActionsAppend: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c60, 0) as any as S.Schema<SubscriptionsActionsAppendRequest>,
   output: __S(336, __c21, 0) as any as S.Schema<SubscriptionsActionsAppendResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3947,7 +3966,8 @@ export const subscriptionsBulkCreate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(978, __c61, 2) as any as S.Schema<SubscriptionsBulkCreateRequest>,
   output: __S(979, __c61, 3) as any as S.Schema<SubscriptionsBulkCreateResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3964,7 +3984,8 @@ export const subscriptionsCancelDowngrade: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c62, 0) as any as S.Schema<SubscriptionsCancelDowngradeRequest>,
   output: __S(464, __c29, 0) as any as S.Schema<SubscriptionsCancelDowngradeResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3981,7 +4002,8 @@ export const subscriptionsCancelReasonCreate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1008, __c63, 0) as any as S.Schema<SubscriptionsCancelReasonCreateRequest>,
   output: __S(1024, __c64, 0) as any as S.Schema<SubscriptionsCancelReasonCreateResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3998,7 +4020,8 @@ export const subscriptionsCancelReasonGet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1040, __c65, 0) as any as S.Schema<SubscriptionsCancelReasonGetRequest>,
   output: __S(1024, __c64, 0) as any as S.Schema<SubscriptionsCancelReasonGetResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4015,7 +4038,8 @@ export const subscriptionsGetByIdentifier: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c66, 0) as any as S.Schema<SubscriptionsGetByIdentifierRequest>,
   output: __S(336, __c21, 0) as any as S.Schema<SubscriptionsGetByIdentifierResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4044,9 +4068,8 @@ export const updateAccount: API.OperationMethod<
     UpdateAccountTypeNotSupported,
     InvalidRoute,
     MethodNotAllowed,
-    CloudflareRateLimited,
-    CloudflareError,
   ],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4063,7 +4086,8 @@ export const updateAccountProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c68, 0) as any as S.Schema<UpdateAccountProfileRequest>,
   output: __S(944, __c59, 0) as any as S.Schema<UpdateAccountProfileResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4085,14 +4109,8 @@ export const updateMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1111, __c69, 7) as any as S.Schema<UpdateMemberRequest>,
   output: __S(192, __c12, 0) as any as S.Schema<UpdateMemberResponse>,
-  errors: [
-    MemberNotFound,
-    InvalidRoute,
-    BadRequest,
-    MethodNotAllowed,
-    CloudflareRateLimited,
-    CloudflareError,
-  ],
+  errors: [MemberNotFound, InvalidRoute, BadRequest, MethodNotAllowed],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4109,7 +4127,8 @@ export const updatePaymentMethod: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c70, 0) as any as S.Schema<UpdatePaymentMethodRequest>,
   output: __S(272, __c17, 0) as any as S.Schema<UpdatePaymentMethodResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4130,13 +4149,8 @@ export const updateSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1136, __c71, 0) as any as S.Schema<UpdateSubscriptionRequest>,
   output: __S(336, __c21, 0) as any as S.Schema<UpdateSubscriptionResponse>,
-  errors: [
-    JsonDecodeFailure,
-    InvalidRoute,
-    EndpointNotFound,
-    CloudflareRateLimited,
-    CloudflareError,
-  ],
+  errors: [JsonDecodeFailure, InvalidRoute, EndpointNotFound],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4158,14 +4172,8 @@ export const updateToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1156, __c72, 4) as any as S.Schema<UpdateTokenRequest>,
   output: __S(1161, __c72, 9) as any as S.Schema<UpdateTokenResponse>,
-  errors: [
-    InvalidRoute,
-    MethodNotAllowed,
-    TokenNotFound,
-    PermissionGroupNotFound,
-    CloudflareRateLimited,
-    CloudflareError,
-  ],
+  errors: [InvalidRoute, MethodNotAllowed, TokenNotFound, PermissionGroupNotFound],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4182,7 +4190,8 @@ export const verifyToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1168, __c73, 0) as any as S.Schema<VerifyTokenRequest>,
   output: __S(1169, __c73, 1) as any as S.Schema<VerifyTokenResponse>,
-  errors: [MissingAuthenticationToken, InvalidRoute, CloudflareRateLimited, CloudflareError],
+  errors: [MissingAuthenticationToken, InvalidRoute],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

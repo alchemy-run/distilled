@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownAnthropicError } from "../errors.ts";
+import { AnthropicServiceErrors } from "../errors.ts";
 import { paginateCursor, paginateRelay } from "../pagination.ts";
 import { AnthropicProtocol, type AnthropicOpError, type AnthropicOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
@@ -5777,7 +5777,8 @@ export const addFederationRuleWorkspace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<AddFederationRuleWorkspaceRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<BetaFederationRuleWorkspace>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5794,7 +5795,8 @@ export const addRbacGroupMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c3, 0) as any as S.Schema<AddRbacGroupMemberRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<BetaRbacGroupMember>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5811,7 +5813,8 @@ export const addTelemetryDestinationWorkspace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2208, __c69, 0) as any as S.Schema<AddTelemetryDestinationWorkspaceRequest>,
   output: __S(2240, __c70, 0) as any as S.Schema<BetaTelemetryDestinationWorkspace>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5828,7 +5831,8 @@ export const addWorkspaceToServiceAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2848, __c89, 0) as any as S.Schema<AddWorkspaceToServiceAccountRequest>,
   output: __S(2880, __c90, 0) as any as S.Schema<BetaServiceAccountWorkspaceMember>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5845,7 +5849,8 @@ export const approveSpendLimitIncreaseRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3328, __c104, 0) as any as S.Schema<ApproveSpendLimitIncreaseRequestRequest>,
   output: __S(3329, __c104, 1) as any as S.Schema<BetaApproveSpendLimitIncreaseRequestResponse>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5862,7 +5867,8 @@ export const archiveFederationIssuer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3840, __c120, 0) as any as S.Schema<ArchiveFederationIssuerRequest>,
   output: __S(3873, __c121, 1) as any as S.Schema<BetaFederationIssuer>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5879,7 +5885,8 @@ export const archiveFederationRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4288, __c134, 0) as any as S.Schema<ArchiveFederationRuleRequest>,
   output: __S(4354, __c136, 2) as any as S.Schema<BetaFederationRule>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5896,7 +5903,8 @@ export const archiveServiceAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4832, __c151, 0) as any as S.Schema<ArchiveServiceAccountRequest>,
   output: __S(4864, __c152, 0) as any as S.Schema<BetaServiceAccount>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5913,7 +5921,8 @@ export const archiveWorkspace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5312, __c166, 0) as any as S.Schema<ArchiveWorkspaceRequest>,
   output: __S(5345, __c167, 1) as any as S.Schema<BetaWorkspace>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5930,7 +5939,8 @@ export const createBundleTarget: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5696, __c178, 0) as any as S.Schema<CreateBundleTargetRequest>,
   output: __S(5728, __c179, 0) as any as S.Schema<CreateBundleTargetResponse>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5947,7 +5957,8 @@ export const createExternalKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c5, 0) as any as S.Schema<CreateExternalKeyRequest>,
   output: __S(192, __c6, 0) as any as S.Schema<BetaExternalKey>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5964,7 +5975,8 @@ export const createFederationIssuer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c18, 0) as any as S.Schema<CreateFederationIssuerRequest>,
   output: __S(3873, __c121, 1) as any as S.Schema<BetaFederationIssuer>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5981,7 +5993,8 @@ export const createFederationRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c29, 0) as any as S.Schema<CreateFederationRuleRequest>,
   output: __S(4354, __c136, 2) as any as S.Schema<BetaFederationRule>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5998,7 +6011,8 @@ export const createInvite: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1280, __c40, 0) as any as S.Schema<CreateInviteRequest>,
   output: __S(1312, __c41, 0) as any as S.Schema<BetaInviteSchema>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6015,7 +6029,8 @@ export const createOrganizationWebhookEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1696, __c53, 0) as any as S.Schema<CreateOrganizationWebhookEndpointRequest>,
   output: __S(1697, __c53, 1) as any as S.Schema<BetaNewOrganizationWebhookEndpoint>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6032,7 +6047,8 @@ export const createPlugin: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1888, __c59, 0) as any as S.Schema<CreatePluginRequest>,
   output: __S(1984, __c62, 0) as any as S.Schema<BetaPlugin>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6049,7 +6065,8 @@ export const createPluginVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2016, __c63, 0) as any as S.Schema<CreatePluginVersionRequest>,
   output: __S(2048, __c64, 0) as any as S.Schema<BetaPluginVersion>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6066,7 +6083,8 @@ export const createRbacGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2080, __c65, 0) as any as S.Schema<CreateRbacGroupRequest>,
   output: __S(2112, __c66, 0) as any as S.Schema<BetaRbacGroup>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6083,7 +6101,8 @@ export const createServiceAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2144, __c67, 0) as any as S.Schema<CreateServiceAccountRequest>,
   output: __S(4864, __c152, 0) as any as S.Schema<BetaServiceAccount>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6100,7 +6119,8 @@ export const createServiceAccountWorkspaceMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2176, __c68, 0) as any as S.Schema<CreateServiceAccountWorkspaceMemberRequest>,
   output: __S(2880, __c90, 0) as any as S.Schema<BetaServiceAccountWorkspaceMember>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6117,7 +6137,8 @@ export const createSlackChannel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2272, __c71, 0) as any as S.Schema<CreateSlackChannelRequest>,
   output: __S(2337, __c73, 1) as any as S.Schema<BetaClaudeTagSlackChannel>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6134,7 +6155,8 @@ export const createTelemetryDestination: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2400, __c75, 0) as any as S.Schema<CreateTelemetryDestinationRequest>,
   output: __S(2466, __c77, 2) as any as S.Schema<BetaTelemetryDestination>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6151,7 +6173,8 @@ export const createWorkspace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2497, __c78, 1) as any as S.Schema<CreateWorkspaceRequest>,
   output: __S(5345, __c167, 1) as any as S.Schema<BetaWorkspace>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6168,7 +6191,8 @@ export const createWorkspaceMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2528, __c79, 0) as any as S.Schema<CreateWorkspaceMemberRequest>,
   output: __S(2560, __c80, 0) as any as S.Schema<BetaWorkspaceMemberSchema>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6185,7 +6209,8 @@ export const deleteBundleTarget: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2592, __c81, 0) as any as S.Schema<DeleteBundleTargetRequest>,
   output: __S(2624, __c82, 0) as any as S.Schema<BetaClaudeTagDeletedBundleTarget>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6202,7 +6227,8 @@ export const deleteExternalKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2656, __c83, 0) as any as S.Schema<DeleteExternalKeyRequest>,
   output: __S(2688, __c84, 0) as any as S.Schema<BetaDeleteExternalKeyResponse>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6219,7 +6245,8 @@ export const deleteInvite: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2720, __c85, 0) as any as S.Schema<DeleteInviteRequest>,
   output: __S(2688, __c84, 0) as any as S.Schema<BetaDeleteInviteResponse>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6236,7 +6263,8 @@ export const deleteOrganizationWebhookEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2752, __c86, 0) as any as S.Schema<DeleteOrganizationWebhookEndpointRequest>,
   output: __S(2688, __c84, 0) as any as S.Schema<BetaDeletedOrganizationWebhookEndpoint>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6253,7 +6281,8 @@ export const deletePlugin: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2784, __c87, 0) as any as S.Schema<DeletePluginRequest>,
   output: __S(2688, __c84, 0) as any as S.Schema<BetaPluginDeleted>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6270,7 +6299,8 @@ export const deleteRbacGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2816, __c88, 0) as any as S.Schema<DeleteRbacGroupRequest>,
   output: __S(2688, __c84, 0) as any as S.Schema<BetaDeleteRbacGroupResponse>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6287,7 +6317,8 @@ export const deleteServiceAccountWorkspaceMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2912, __c91, 0) as any as S.Schema<DeleteServiceAccountWorkspaceMemberRequest>,
   output: __S(2944, __c92, 0) as any as S.Schema<BetaServiceAccountWorkspaceMemberDeleteResponse>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6304,7 +6335,8 @@ export const deleteSlackChannel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2976, __c93, 0) as any as S.Schema<DeleteSlackChannelRequest>,
   output: __S(2624, __c82, 0) as any as S.Schema<BetaClaudeTagDeletedSlackChannel>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6321,7 +6353,8 @@ export const deleteSpendLimit: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3008, __c94, 0) as any as S.Schema<DeleteSpendLimitRequest>,
   output: __S(2688, __c84, 0) as any as S.Schema<BetaDeleteSpendLimitResponse>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6338,7 +6371,8 @@ export const deleteTelemetryDestination: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3040, __c95, 0) as any as S.Schema<DeleteTelemetryDestinationRequest>,
   output: __S(2624, __c82, 0) as any as S.Schema<BetaDeletedTelemetryDestination>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6355,7 +6389,8 @@ export const deleteWorkspaceMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3072, __c96, 0) as any as S.Schema<DeleteWorkspaceMemberRequest>,
   output: __S(3073, __c96, 1) as any as S.Schema<BetaDeleteWorkspaceMemberResponse>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6372,7 +6407,8 @@ export const denySpendLimitIncreaseRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3104, __c97, 0) as any as S.Schema<DenySpendLimitIncreaseRequestRequest>,
   output: __S(3136, __c98, 0) as any as S.Schema<BetaSpendLimitIncreaseRequestSchema>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6391,7 +6427,8 @@ export const getAnalyticsArtifacts: API.PaginatedOperationMethod<
   () => ({
     input: __S(3168, __c99, 0) as any as S.Schema<GetAnalyticsArtifactsRequest>,
     output: __S(3171, __c99, 3) as any as S.Schema<BetaAnalyticsArtifactsResponse>,
-    errors: [UnknownAnthropicError],
+    errors: [],
+    serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -6419,7 +6456,8 @@ export const getAnalyticsChatProjects: API.PaginatedOperationMethod<
   () => ({
     input: __S(3200, __c100, 0) as any as S.Schema<GetAnalyticsChatProjectsRequest>,
     output: __S(3203, __c100, 3) as any as S.Schema<BetaAnalyticsProjectsResponse>,
-    errors: [UnknownAnthropicError],
+    errors: [],
+    serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -6447,7 +6485,8 @@ export const getAnalyticsConnectors: API.PaginatedOperationMethod<
   () => ({
     input: __S(3264, __c102, 0) as any as S.Schema<GetAnalyticsConnectorsRequest>,
     output: __S(3271, __c102, 7) as any as S.Schema<BetaAnalyticsConnectorsResponse>,
-    errors: [UnknownAnthropicError],
+    errors: [],
+    serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -6475,7 +6514,8 @@ export const getAnalyticsCost: API.PaginatedOperationMethod<
   () => ({
     input: __S(3296, __c103, 0) as any as S.Schema<GetAnalyticsCostRequest>,
     output: __S(3301, __c103, 5) as any as S.Schema<BetaAnalyticsFlatCostResponse>,
-    errors: [UnknownAnthropicError],
+    errors: [],
+    serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -6503,7 +6543,8 @@ export const getAnalyticsCostReport: API.PaginatedOperationMethod<
   () => ({
     input: __S(3424, __c107, 0) as any as S.Schema<GetAnalyticsCostReportRequest>,
     output: __S(3429, __c107, 5) as any as S.Schema<BetaAnalyticsCostBucketedResponse>,
-    errors: [UnknownAnthropicError],
+    errors: [],
+    serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -6531,7 +6572,8 @@ export const getAnalyticsPlugins: API.PaginatedOperationMethod<
   () => ({
     input: __S(3456, __c108, 0) as any as S.Schema<GetAnalyticsPluginsRequest>,
     output: __S(3460, __c108, 4) as any as S.Schema<BetaAnalyticsPluginsResponse>,
-    errors: [UnknownAnthropicError],
+    errors: [],
+    serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -6559,7 +6601,8 @@ export const getAnalyticsSkills: API.PaginatedOperationMethod<
   () => ({
     input: __S(3488, __c109, 0) as any as S.Schema<GetAnalyticsSkillsRequest>,
     output: __S(3495, __c109, 7) as any as S.Schema<BetaAnalyticsSkillsResponse>,
-    errors: [UnknownAnthropicError],
+    errors: [],
+    serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -6587,7 +6630,8 @@ export const getAnalyticsSummaries: API.PaginatedOperationMethod<
   () => ({
     input: __S(3520, __c110, 0) as any as S.Schema<GetAnalyticsSummariesRequest>,
     output: __S(3523, __c110, 3) as any as S.Schema<BetaAnalyticsActivitySummaryResponse>,
-    errors: [UnknownAnthropicError],
+    errors: [],
+    serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -6615,7 +6659,8 @@ export const getAnalyticsUsage: API.PaginatedOperationMethod<
   () => ({
     input: __S(3552, __c111, 0) as any as S.Schema<GetAnalyticsUsageRequest>,
     output: __S(3557, __c111, 5) as any as S.Schema<BetaAnalyticsFlatUsageResponse>,
-    errors: [UnknownAnthropicError],
+    errors: [],
+    serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -6643,7 +6688,8 @@ export const getAnalyticsUsageReport: API.PaginatedOperationMethod<
   () => ({
     input: __S(3616, __c113, 0) as any as S.Schema<GetAnalyticsUsageReportRequest>,
     output: __S(3621, __c113, 5) as any as S.Schema<BetaAnalyticsUsageBucketedResponse>,
-    errors: [UnknownAnthropicError],
+    errors: [],
+    serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -6671,7 +6717,8 @@ export const getAnalyticsUserCostReport: API.PaginatedOperationMethod<
   () => ({
     input: __S(3648, __c114, 0) as any as S.Schema<GetAnalyticsUserCostReportRequest>,
     output: __S(3651, __c114, 3) as any as S.Schema<BetaAnalyticsCostUsersResponse>,
-    errors: [UnknownAnthropicError],
+    errors: [],
+    serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -6699,7 +6746,8 @@ export const getAnalyticsUsers: API.PaginatedOperationMethod<
   () => ({
     input: __S(3712, __c116, 0) as any as S.Schema<GetAnalyticsUsersRequest>,
     output: __S(3728, __c116, 16) as any as S.Schema<BetaAnalyticsUsersResponse>,
-    errors: [UnknownAnthropicError],
+    errors: [],
+    serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -6727,7 +6775,8 @@ export const getAnalyticsUserUsageReport: API.PaginatedOperationMethod<
   () => ({
     input: __S(3744, __c117, 0) as any as S.Schema<GetAnalyticsUserUsageReportRequest>,
     output: __S(3747, __c117, 3) as any as S.Schema<BetaAnalyticsUsageUsersResponse>,
-    errors: [UnknownAnthropicError],
+    errors: [],
+    serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -6753,7 +6802,8 @@ export const getApiKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3776, __c118, 0) as any as S.Schema<GetApiKeyRequest>,
   output: __S(3809, __c119, 1) as any as S.Schema<BetaApiKey>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6770,7 +6820,8 @@ export const getBundle: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3904, __c122, 0) as any as S.Schema<GetBundleRequest>,
   output: __S(3936, __c123, 0) as any as S.Schema<BetaClaudeTagBundle>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6787,7 +6838,8 @@ export const getBundleTarget: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3968, __c124, 0) as any as S.Schema<GetBundleTargetRequest>,
   output: __S(5728, __c179, 0) as any as S.Schema<GetBundleTargetResponse>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6806,7 +6858,8 @@ export const getClaudeCodeUsageReport: API.PaginatedOperationMethod<
   () => ({
     input: __S(4000, __c125, 0) as any as S.Schema<GetClaudeCodeUsageReportRequest>,
     output: __S(4011, __c125, 11) as any as S.Schema<BetaGetClaudeCodeUsageReportResponse>,
-    errors: [UnknownAnthropicError],
+    errors: [],
+    serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -6832,7 +6885,8 @@ export const getComplianceSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4032, __c126, 0) as any as S.Schema<GetComplianceSettingsRequest>,
   output: __S(4064, __c127, 0) as any as S.Schema<BetaComplianceSettings>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6851,7 +6905,8 @@ export const getCostReport: API.PaginatedOperationMethod<
   () => ({
     input: __S(4096, __c128, 0) as any as S.Schema<GetCostReportRequest>,
     output: __S(4101, __c128, 5) as any as S.Schema<BetaGetCostReportResponse>,
-    errors: [UnknownAnthropicError],
+    errors: [],
+    serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -6877,7 +6932,8 @@ export const getCurrentOrganization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4128, __c129, 0) as any as S.Schema<GetCurrentOrganizationRequest>,
   output: __S(4129, __c129, 1) as any as S.Schema<BetaOrganizationSchema>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6894,7 +6950,8 @@ export const getExternalKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4160, __c130, 0) as any as S.Schema<GetExternalKeyRequest>,
   output: __S(192, __c6, 0) as any as S.Schema<BetaExternalKey>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6911,7 +6968,8 @@ export const getFederationIssuer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4192, __c131, 0) as any as S.Schema<GetFederationIssuerRequest>,
   output: __S(3873, __c121, 1) as any as S.Schema<BetaFederationIssuer>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6928,7 +6986,8 @@ export const getFederationRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4224, __c132, 0) as any as S.Schema<GetFederationRuleRequest>,
   output: __S(4354, __c136, 2) as any as S.Schema<BetaFederationRule>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6945,7 +7004,8 @@ export const getInvite: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4256, __c133, 0) as any as S.Schema<GetInviteRequest>,
   output: __S(1312, __c41, 0) as any as S.Schema<BetaInviteSchema>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6964,7 +7024,8 @@ export const getMessagesUsageReport: API.PaginatedOperationMethod<
   () => ({
     input: __S(4416, __c138, 0) as any as S.Schema<GetMessagesUsageReportRequest>,
     output: __S(4421, __c138, 5) as any as S.Schema<BetaGetMessagesUsageReportResponse>,
-    errors: [UnknownAnthropicError],
+    errors: [],
+    serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -6992,7 +7053,8 @@ export const getOrganizationRateLimits: API.PaginatedOperationMethod<
   () => ({
     input: __S(4448, __c139, 0) as any as S.Schema<GetOrganizationRateLimitsRequest>,
     output: __S(4453, __c139, 5) as any as S.Schema<BetaRateLimitListResponse>,
-    errors: [UnknownAnthropicError],
+    errors: [],
+    serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -7018,7 +7080,8 @@ export const getOrganizationWebhookEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4480, __c140, 0) as any as S.Schema<GetOrganizationWebhookEndpointRequest>,
   output: __S(4512, __c141, 0) as any as S.Schema<BetaOrganizationWebhookEndpoint>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7035,7 +7098,8 @@ export const getPlugin: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4544, __c142, 0) as any as S.Schema<GetPluginRequest>,
   output: __S(1984, __c62, 0) as any as S.Schema<BetaPlugin>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7052,7 +7116,8 @@ export const getPluginMarketplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4576, __c143, 0) as any as S.Schema<GetPluginMarketplaceRequest>,
   output: __S(4608, __c144, 0) as any as S.Schema<BetaPluginMarketplace>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7069,7 +7134,8 @@ export const getPluginVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4640, __c145, 0) as any as S.Schema<GetPluginVersionRequest>,
   output: __S(2048, __c64, 0) as any as S.Schema<BetaPluginVersion>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7086,7 +7152,8 @@ export const getPluginVersionContent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4672, __c146, 0) as any as S.Schema<GetPluginVersionContentRequest>,
   output: __S(4673, __c146, 1) as any as S.Schema<GetPluginVersionContentResponse>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7103,7 +7170,8 @@ export const getRbacGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4704, __c147, 0) as any as S.Schema<GetRbacGroupRequest>,
   output: __S(2112, __c66, 0) as any as S.Schema<BetaRbacGroup>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7120,7 +7188,8 @@ export const getRbacRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4736, __c148, 0) as any as S.Schema<GetRbacRoleRequest>,
   output: __S(4768, __c149, 0) as any as S.Schema<BetaRbacRole>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7137,7 +7206,8 @@ export const getServiceAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4800, __c150, 0) as any as S.Schema<GetServiceAccountRequest>,
   output: __S(4864, __c152, 0) as any as S.Schema<BetaServiceAccount>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7154,7 +7224,8 @@ export const getServiceAccountWorkspaceMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4896, __c153, 0) as any as S.Schema<GetServiceAccountWorkspaceMemberRequest>,
   output: __S(2880, __c90, 0) as any as S.Schema<BetaServiceAccountWorkspaceMember>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7171,7 +7242,8 @@ export const getSlackChannel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4928, __c154, 0) as any as S.Schema<GetSlackChannelRequest>,
   output: __S(2337, __c73, 1) as any as S.Schema<BetaClaudeTagSlackChannel>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7188,7 +7260,8 @@ export const getSlackWorkspace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4960, __c155, 0) as any as S.Schema<GetSlackWorkspaceRequest>,
   output: __S(4993, __c156, 1) as any as S.Schema<BetaClaudeTagSlackWorkspace>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7205,7 +7278,8 @@ export const getSpendLimit: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5024, __c157, 0) as any as S.Schema<GetSpendLimitRequest>,
   output: __S(3392, __c106, 0) as any as S.Schema<BetaSpendLimit>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7222,7 +7296,8 @@ export const getSpendLimitIncreaseRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5056, __c158, 0) as any as S.Schema<GetSpendLimitIncreaseRequestRequest>,
   output: __S(3136, __c98, 0) as any as S.Schema<BetaSpendLimitIncreaseRequestSchema>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7239,7 +7314,8 @@ export const getTelemetryDestination: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5088, __c159, 0) as any as S.Schema<GetTelemetryDestinationRequest>,
   output: __S(2466, __c77, 2) as any as S.Schema<BetaTelemetryDestination>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7256,7 +7332,8 @@ export const getUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5120, __c160, 0) as any as S.Schema<GetUserRequest>,
   output: __S(5152, __c161, 0) as any as S.Schema<BetaUser>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7273,7 +7350,8 @@ export const getWorkspace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5184, __c162, 0) as any as S.Schema<GetWorkspaceRequest>,
   output: __S(5345, __c167, 1) as any as S.Schema<BetaWorkspace>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7290,7 +7368,8 @@ export const getWorkspaceMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5216, __c163, 0) as any as S.Schema<GetWorkspaceMemberRequest>,
   output: __S(2560, __c80, 0) as any as S.Schema<BetaWorkspaceMemberSchema>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7309,7 +7388,8 @@ export const getWorkspaceRateLimits: API.PaginatedOperationMethod<
   () => ({
     input: __S(5248, __c164, 0) as any as S.Schema<GetWorkspaceRateLimitsRequest>,
     output: __S(5250, __c164, 2) as any as S.Schema<BetaWorkspaceRateLimitListResponse>,
-    errors: [UnknownAnthropicError],
+    errors: [],
+    serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -7337,7 +7417,8 @@ export const listApiKeys: API.PaginatedOperationMethod<
   () => ({
     input: __S(5376, __c168, 0) as any as S.Schema<ListApiKeysRequest>,
     output: __S(5378, __c168, 2) as any as S.Schema<BetaListResponseApiKey>,
-    errors: [UnknownAnthropicError],
+    errors: [],
+    serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -7366,7 +7447,8 @@ export const listBundles: API.PaginatedOperationMethod<
   () => ({
     input: __S(5408, __c169, 0) as any as S.Schema<ListBundlesRequest>,
     output: __S(5410, __c169, 2) as any as S.Schema<BetaClaudeTagListBundlesResponse>,
-    errors: [UnknownAnthropicError],
+    errors: [],
+    serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -7394,7 +7476,8 @@ export const listBundleTargets: API.PaginatedOperationMethod<
   () => ({
     input: __S(5440, __c170, 0) as any as S.Schema<ListBundleTargetsRequest>,
     output: __S(5442, __c170, 2) as any as S.Schema<BetaClaudeTagListBundleTargetsResponse>,
-    errors: [UnknownAnthropicError],
+    errors: [],
+    serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -7422,7 +7505,8 @@ export const listEffectiveSpendLimits: API.PaginatedOperationMethod<
   () => ({
     input: __S(5472, __c171, 0) as any as S.Schema<ListEffectiveSpendLimitsRequest>,
     output: __S(5474, __c171, 2) as any as S.Schema<BetaListEffectiveSpendLimitsResponse>,
-    errors: [UnknownAnthropicError],
+    errors: [],
+    serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -7450,7 +7534,8 @@ export const listExternalKeys: API.PaginatedOperationMethod<
   () => ({
     input: __S(5504, __c172, 0) as any as S.Schema<ListExternalKeysRequest>,
     output: __S(5506, __c172, 2) as any as S.Schema<BetaExternalKeyListResponse>,
-    errors: [UnknownAnthropicError],
+    errors: [],
+    serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -7478,7 +7563,8 @@ export const listFederationIssuers: API.PaginatedOperationMethod<
   () => ({
     input: __S(5536, __c173, 0) as any as S.Schema<ListFederationIssuersRequest>,
     output: __S(5538, __c173, 2) as any as S.Schema<BetaFederationIssuerListResponse>,
-    errors: [UnknownAnthropicError],
+    errors: [],
+    serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -7506,7 +7592,8 @@ export const listFederationRules: API.PaginatedOperationMethod<
   () => ({
     input: __S(5568, __c174, 0) as any as S.Schema<ListFederationRulesRequest>,
     output: __S(5570, __c174, 2) as any as S.Schema<BetaFederationRuleListResponse>,
-    errors: [UnknownAnthropicError],
+    errors: [],
+    serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -7534,7 +7621,8 @@ export const listFederationRuleWorkspaces: API.PaginatedOperationMethod<
   () => ({
     input: __S(5600, __c175, 0) as any as S.Schema<ListFederationRuleWorkspacesRequest>,
     output: __S(5602, __c175, 2) as any as S.Schema<BetaFederationRuleWorkspaceListResponse>,
-    errors: [UnknownAnthropicError],
+    errors: [],
+    serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -7562,7 +7650,8 @@ export const listInvites: API.PaginatedOperationMethod<
   () => ({
     input: __S(5632, __c176, 0) as any as S.Schema<ListInvitesRequest>,
     output: __S(5634, __c176, 2) as any as S.Schema<BetaListResponseInviteSchema>,
-    errors: [UnknownAnthropicError],
+    errors: [],
+    serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -7591,7 +7680,8 @@ export const listOrganizationWebhookEndpoints: API.PaginatedOperationMethod<
   () => ({
     input: __S(5664, __c177, 0) as any as S.Schema<ListOrganizationWebhookEndpointsRequest>,
     output: __S(5666, __c177, 2) as any as S.Schema<BetaOrganizationWebhookEndpointList>,
-    errors: [UnknownAnthropicError],
+    errors: [],
+    serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -7620,7 +7710,8 @@ export const listPluginInstallationSettings: API.PaginatedOperationMethod<
   () => ({
     input: __S(5760, __c180, 0) as any as S.Schema<ListPluginInstallationSettingsRequest>,
     output: __S(5762, __c180, 2) as any as S.Schema<BetaPluginInstallationSettingList>,
-    errors: [UnknownAnthropicError],
+    errors: [],
+    serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -7648,7 +7739,8 @@ export const listPluginMarketplaces: API.PaginatedOperationMethod<
   () => ({
     input: __S(5824, __c182, 0) as any as S.Schema<ListPluginMarketplacesRequest>,
     output: __S(5826, __c182, 2) as any as S.Schema<BetaPluginMarketplaceList>,
-    errors: [UnknownAnthropicError],
+    errors: [],
+    serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -7676,7 +7768,8 @@ export const listPlugins: API.PaginatedOperationMethod<
   () => ({
     input: __S(5856, __c183, 0) as any as S.Schema<ListPluginsRequest>,
     output: __S(5858, __c183, 2) as any as S.Schema<BetaPluginList>,
-    errors: [UnknownAnthropicError],
+    errors: [],
+    serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -7704,7 +7797,8 @@ export const listPluginShares: API.PaginatedOperationMethod<
   () => ({
     input: __S(5888, __c184, 0) as any as S.Schema<ListPluginSharesRequest>,
     output: __S(5891, __c184, 3) as any as S.Schema<BetaPluginShareList>,
-    errors: [UnknownAnthropicError],
+    errors: [],
+    serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -7732,7 +7826,8 @@ export const listPluginVersions: API.PaginatedOperationMethod<
   () => ({
     input: __S(5920, __c185, 0) as any as S.Schema<ListPluginVersionsRequest>,
     output: __S(5922, __c185, 2) as any as S.Schema<BetaPluginVersionList>,
-    errors: [UnknownAnthropicError],
+    errors: [],
+    serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -7760,7 +7855,8 @@ export const listRbacGroupMembers: API.PaginatedOperationMethod<
   () => ({
     input: __S(5952, __c186, 0) as any as S.Schema<ListRbacGroupMembersRequest>,
     output: __S(5954, __c186, 2) as any as S.Schema<BetaRbacGroupMemberList>,
-    errors: [UnknownAnthropicError],
+    errors: [],
+    serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -7788,7 +7884,8 @@ export const listRbacGroups: API.PaginatedOperationMethod<
   () => ({
     input: __S(5984, __c187, 0) as any as S.Schema<ListRbacGroupsRequest>,
     output: __S(5986, __c187, 2) as any as S.Schema<BetaRbacGroupList>,
-    errors: [UnknownAnthropicError],
+    errors: [],
+    serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -7816,7 +7913,8 @@ export const listRbacRolePermissions: API.PaginatedOperationMethod<
   () => ({
     input: __S(6016, __c188, 0) as any as S.Schema<ListRbacRolePermissionsRequest>,
     output: __S(6019, __c188, 3) as any as S.Schema<BetaRbacRolePermissionList>,
-    errors: [UnknownAnthropicError],
+    errors: [],
+    serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -7844,7 +7942,8 @@ export const listRbacRoles: API.PaginatedOperationMethod<
   () => ({
     input: __S(6048, __c189, 0) as any as S.Schema<ListRbacRolesRequest>,
     output: __S(6050, __c189, 2) as any as S.Schema<BetaRbacRoleList>,
-    errors: [UnknownAnthropicError],
+    errors: [],
+    serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -7872,7 +7971,8 @@ export const listServiceAccounts: API.PaginatedOperationMethod<
   () => ({
     input: __S(6080, __c190, 0) as any as S.Schema<ListServiceAccountsRequest>,
     output: __S(6082, __c190, 2) as any as S.Schema<BetaServiceAccountListResponse>,
-    errors: [UnknownAnthropicError],
+    errors: [],
+    serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -7900,7 +8000,8 @@ export const listServiceAccountWorkspaceMembers: API.PaginatedOperationMethod<
   () => ({
     input: __S(224, __c7, 0) as any as S.Schema<ListServiceAccountWorkspaceMembersRequest>,
     output: __S(257, __c8, 1) as any as S.Schema<BetaServiceAccountWorkspaceMemberListResponse>,
-    errors: [UnknownAnthropicError],
+    errors: [],
+    serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -7928,7 +8029,8 @@ export const listSlackChannels: API.PaginatedOperationMethod<
   () => ({
     input: __S(288, __c9, 0) as any as S.Schema<ListSlackChannelsRequest>,
     output: __S(290, __c9, 2) as any as S.Schema<BetaClaudeTagListSlackChannelsResponse>,
-    errors: [UnknownAnthropicError],
+    errors: [],
+    serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -7956,7 +8058,8 @@ export const listSlackWorkspaces: API.PaginatedOperationMethod<
   () => ({
     input: __S(320, __c10, 0) as any as S.Schema<ListSlackWorkspacesRequest>,
     output: __S(322, __c10, 2) as any as S.Schema<BetaClaudeTagListSlackWorkspacesResponse>,
-    errors: [UnknownAnthropicError],
+    errors: [],
+    serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -7984,7 +8087,8 @@ export const listSpendLimitIncreaseRequests: API.PaginatedOperationMethod<
   () => ({
     input: __S(352, __c11, 0) as any as S.Schema<ListSpendLimitIncreaseRequestsRequest>,
     output: __S(354, __c11, 2) as any as S.Schema<BetaSpendLimitIncreaseRequestListResponse>,
-    errors: [UnknownAnthropicError],
+    errors: [],
+    serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -8012,7 +8116,8 @@ export const listSpendLimits: API.PaginatedOperationMethod<
   () => ({
     input: __S(384, __c12, 0) as any as S.Schema<ListSpendLimitsRequest>,
     output: __S(386, __c12, 2) as any as S.Schema<BetaListSpendLimitsResponse>,
-    errors: [UnknownAnthropicError],
+    errors: [],
+    serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -8040,7 +8145,8 @@ export const listTelemetryDestinations: API.PaginatedOperationMethod<
   () => ({
     input: __S(416, __c13, 0) as any as S.Schema<ListTelemetryDestinationsRequest>,
     output: __S(418, __c13, 2) as any as S.Schema<BetaListTelemetryDestinationsResponse>,
-    errors: [UnknownAnthropicError],
+    errors: [],
+    serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -8068,7 +8174,8 @@ export const listTelemetryDestinationWorkspaces: API.PaginatedOperationMethod<
   () => ({
     input: __S(448, __c14, 0) as any as S.Schema<ListTelemetryDestinationWorkspacesRequest>,
     output: __S(450, __c14, 2) as any as S.Schema<BetaListTelemetryDestinationWorkspacesResponse>,
-    errors: [UnknownAnthropicError],
+    errors: [],
+    serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -8096,7 +8203,8 @@ export const listUsers: API.PaginatedOperationMethod<
   () => ({
     input: __S(480, __c15, 0) as any as S.Schema<ListUsersRequest>,
     output: __S(482, __c15, 2) as any as S.Schema<BetaListResponseUser>,
-    errors: [UnknownAnthropicError],
+    errors: [],
+    serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -8125,7 +8233,8 @@ export const listWorkspaceMembers: API.PaginatedOperationMethod<
   () => ({
     input: __S(512, __c16, 0) as any as S.Schema<ListWorkspaceMembersRequest>,
     output: __S(514, __c16, 2) as any as S.Schema<BetaListResponseWorkspaceMemberSchema>,
-    errors: [UnknownAnthropicError],
+    errors: [],
+    serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -8154,7 +8263,8 @@ export const listWorkspaces: API.PaginatedOperationMethod<
   () => ({
     input: __S(544, __c17, 0) as any as S.Schema<ListWorkspacesRequest>,
     output: __S(546, __c17, 2) as any as S.Schema<BetaListResponseWorkspace>,
-    errors: [UnknownAnthropicError],
+    errors: [],
+    serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -8183,7 +8293,8 @@ export const listWorkspacesForServiceAccount: API.PaginatedOperationMethod<
   () => ({
     input: __S(608, __c19, 0) as any as S.Schema<ListWorkspacesForServiceAccountRequest>,
     output: __S(257, __c8, 1) as any as S.Schema<BetaServiceAccountWorkspaceMemberListResponse>,
-    errors: [UnknownAnthropicError],
+    errors: [],
+    serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -8213,7 +8324,8 @@ export const regenerateOrganizationWebhookEndpointSigningSecret: API.OperationMe
     0,
   ) as any as S.Schema<RegenerateOrganizationWebhookEndpointSigningSecretRequest>,
   output: __S(641, __c20, 1) as any as S.Schema<BetaOrganizationWebhookEndpointSigningSecret>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8230,7 +8342,8 @@ export const removeFederationRuleWorkspace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c21, 0) as any as S.Schema<RemoveFederationRuleWorkspaceRequest>,
   output: __S(673, __c21, 1) as any as S.Schema<BetaRemoveFederationRuleWorkspaceResponse>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8247,7 +8360,8 @@ export const removePluginInstallationSetting: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c22, 0) as any as S.Schema<RemovePluginInstallationSettingRequest>,
   output: __S(705, __c22, 1) as any as S.Schema<BetaPluginInstallationSettingDeleted>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8264,7 +8378,8 @@ export const removeRbacGroupMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c23, 0) as any as S.Schema<RemoveRbacGroupMemberRequest>,
   output: __S(737, __c23, 1) as any as S.Schema<BetaDeleteRbacGroupMemberResponse>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8281,7 +8396,8 @@ export const removeTelemetryDestinationWorkspace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c24, 0) as any as S.Schema<RemoveTelemetryDestinationWorkspaceRequest>,
   output: __S(769, __c24, 1) as any as S.Schema<BetaDeletedTelemetryDestinationWorkspace>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8298,7 +8414,8 @@ export const removeUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c25, 0) as any as S.Schema<RemoveUserRequest>,
   output: __S(2688, __c84, 0) as any as S.Schema<BetaDeleteUserResponse>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8315,7 +8432,8 @@ export const removeWorkspaceFromServiceAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c26, 0) as any as S.Schema<RemoveWorkspaceFromServiceAccountRequest>,
   output: __S(2944, __c92, 0) as any as S.Schema<BetaServiceAccountWorkspaceMemberDeleteResponse>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8332,7 +8450,8 @@ export const setPluginInstallationSetting: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c27, 0) as any as S.Schema<SetPluginInstallationSettingRequest>,
   output: __S(5792, __c181, 0) as any as S.Schema<BetaPluginInstallationSetting>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8349,7 +8468,8 @@ export const setSpendLimit: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(896, __c28, 0) as any as S.Schema<SetSpendLimitRequest>,
   output: __S(3392, __c106, 0) as any as S.Schema<BetaSpendLimit>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8366,7 +8486,8 @@ export const signOutUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c30, 0) as any as S.Schema<SignOutUserRequest>,
   output: __S(5152, __c161, 0) as any as S.Schema<BetaUser>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8383,7 +8504,8 @@ export const testTelemetryDestination: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c31, 0) as any as S.Schema<TestTelemetryDestinationRequest>,
   output: __S(993, __c31, 1) as any as S.Schema<BetaTelemetryDestinationTest>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8400,7 +8522,8 @@ export const updateApiKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c32, 0) as any as S.Schema<UpdateApiKeyRequest>,
   output: __S(3809, __c119, 1) as any as S.Schema<BetaApiKey>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8417,7 +8540,8 @@ export const updateComplianceSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c33, 0) as any as S.Schema<UpdateComplianceSettingsRequest>,
   output: __S(4064, __c127, 0) as any as S.Schema<BetaComplianceSettings>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8434,7 +8558,8 @@ export const updateExternalKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c34, 0) as any as S.Schema<UpdateExternalKeyRequest>,
   output: __S(192, __c6, 0) as any as S.Schema<BetaExternalKey>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8451,7 +8576,8 @@ export const updateFederationIssuer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c35, 0) as any as S.Schema<UpdateFederationIssuerRequest>,
   output: __S(3873, __c121, 1) as any as S.Schema<BetaFederationIssuer>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8468,7 +8594,8 @@ export const updateFederationRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c36, 0) as any as S.Schema<UpdateFederationRuleRequest>,
   output: __S(4354, __c136, 2) as any as S.Schema<BetaFederationRule>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8485,7 +8612,8 @@ export const updateOrganizationWebhookEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c37, 0) as any as S.Schema<UpdateOrganizationWebhookEndpointRequest>,
   output: __S(4512, __c141, 0) as any as S.Schema<BetaOrganizationWebhookEndpoint>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8502,7 +8630,8 @@ export const updatePlugin: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c38, 0) as any as S.Schema<UpdatePluginRequest>,
   output: __S(1984, __c62, 0) as any as S.Schema<BetaPlugin>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8519,7 +8648,8 @@ export const updatePluginMarketplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c39, 0) as any as S.Schema<UpdatePluginMarketplaceRequest>,
   output: __S(4608, __c144, 0) as any as S.Schema<BetaPluginMarketplace>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8536,7 +8666,8 @@ export const updateRbacGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1344, __c42, 0) as any as S.Schema<UpdateRbacGroupRequest>,
   output: __S(2112, __c66, 0) as any as S.Schema<BetaRbacGroup>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8553,7 +8684,8 @@ export const updateServiceAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1376, __c43, 0) as any as S.Schema<UpdateServiceAccountRequest>,
   output: __S(4864, __c152, 0) as any as S.Schema<BetaServiceAccount>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8570,7 +8702,8 @@ export const updateServiceAccountWorkspaceMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c44, 0) as any as S.Schema<UpdateServiceAccountWorkspaceMemberRequest>,
   output: __S(2880, __c90, 0) as any as S.Schema<BetaServiceAccountWorkspaceMember>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8587,7 +8720,8 @@ export const updateSlackChannel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c45, 0) as any as S.Schema<UpdateSlackChannelRequest>,
   output: __S(2337, __c73, 1) as any as S.Schema<BetaClaudeTagSlackChannel>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8604,7 +8738,8 @@ export const updateSlackWorkspace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1472, __c46, 0) as any as S.Schema<UpdateSlackWorkspaceRequest>,
   output: __S(4993, __c156, 1) as any as S.Schema<BetaClaudeTagSlackWorkspace>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8621,7 +8756,8 @@ export const updateTelemetryDestination: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1504, __c47, 0) as any as S.Schema<UpdateTelemetryDestinationRequest>,
   output: __S(2466, __c77, 2) as any as S.Schema<BetaTelemetryDestination>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8638,7 +8774,8 @@ export const updateUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1568, __c49, 0) as any as S.Schema<UpdateUserRequest>,
   output: __S(5152, __c161, 0) as any as S.Schema<BetaUser>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8655,7 +8792,8 @@ export const updateWorkspace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1601, __c50, 1) as any as S.Schema<UpdateWorkspaceRequest>,
   output: __S(5345, __c167, 1) as any as S.Schema<BetaWorkspace>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8672,7 +8810,8 @@ export const updateWorkspaceMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1632, __c51, 0) as any as S.Schema<UpdateWorkspaceMemberRequest>,
   output: __S(2560, __c80, 0) as any as S.Schema<BetaWorkspaceMemberSchema>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8689,7 +8828,8 @@ export const updateWorkspaceRateLimits: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1666, __c52, 2) as any as S.Schema<UpdateWorkspaceRateLimitsRequest>,
   output: __S(5282, __c165, 2) as any as S.Schema<BetaWorkspaceRateLimit>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8706,7 +8846,8 @@ export const validateExternalKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1760, __c55, 0) as any as S.Schema<ValidateExternalKeyRequest>,
   output: __S(1761, __c55, 1) as any as S.Schema<BetaValidateExternalKeyResponse>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8723,7 +8864,8 @@ export const validatePluginMarketplaceArchive: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1792, __c56, 0) as any as S.Schema<ValidatePluginMarketplaceArchiveRequest>,
   output: __S(1830, __c57, 6) as any as S.Schema<BetaPluginMarketplaceValidationReport>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8740,7 +8882,8 @@ export const validatePluginMarketplaceRepository: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1856, __c58, 0) as any as S.Schema<ValidatePluginMarketplaceRepositoryRequest>,
   output: __S(1830, __c57, 6) as any as S.Schema<BetaPluginMarketplaceValidationReport>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

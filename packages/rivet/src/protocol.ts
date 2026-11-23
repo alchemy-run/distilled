@@ -1,12 +1,10 @@
-import type * as API from "@distilled.cloud/core/api";
-import type { ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
+import type { ErrorOf } from "@distilled.cloud/core/protocol";
 import { responseErrorFields } from "@distilled.cloud/core/protocol-http";
 import {
-  makeRestProtocol,
+  restProtocol,
   unknownErrorProps,
   type RestErrorInfo,
 } from "@distilled.cloud/core/protocol-rest";
-import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * RivetProtocol -- the shared bearer-REST protocol instantiated for the
  * Rivet engine API.
@@ -25,29 +23,23 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
  */
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config } from "./credentials.ts";
+import { Credentials } from "./credentials.ts";
 import {
   EngineNotReady,
   RivetParseError,
   UnknownRivetError,
-  type DefaultErrors,
+  type RivetServiceError,
 } from "./errors.ts";
 
 /**
- * Error channel shared by every generated Rivet operation. Generated service
- * files annotate operations with `API.OperationMethod<I, O, RivetOpError,
- * RivetOpContext>` explicitly so the compiler never infers these back out of
- * the schema generics.
+ * What every generated Rivet operation fails with besides its own errors: the
+ * service's errors, the protocol's, and what resolving the credentials fails
+ * with. Generated service files annotate operations with
+ * `API.OperationMethod<I, O, RivetOpError, RivetOpContext>` explicitly so the
+ * compiler never infers these back out of the schema generics.
  */
-export type RivetOpError =
-  | DefaultErrors
-  | ConfigError
-  | HttpClientError.HttpClientError
-  | InvalidInput
-  | SdkError;
+export type RivetOpError = RivetServiceError | ErrorOf<typeof RivetProtocol>;
 
 /** Context (requirements) shared by every generated Rivet operation. */
 export type RivetOpContext = Credentials | HttpClient.HttpClient;
@@ -79,10 +71,10 @@ const engineNotReady = (info: RestErrorInfo): EngineNotReady | undefined =>
       })
     : undefined;
 
-export const RivetProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
+export const RivetProtocol = /*@__PURE__*/ restProtocol({
   // Resolved on the calling fiber per request, so a rotated token is picked
-  // up without rebuilding the layer.
-  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
+  // up.
+  credentials: /*@__PURE__*/ Effect.flatten(Credentials),
   baseUrl: (creds) => creds.endpoint,
   headers: (creds) => ({
     Authorization: `Bearer ${Redacted.value(creds.token)}`,

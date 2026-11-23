@@ -4,6 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
+import { WhopServiceErrors } from "../errors.ts";
 import { paginateRelay } from "../pagination.ts";
 import { WhopProtocol, type WhopOpError, type WhopOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
@@ -1427,6 +1428,7 @@ export const capturePayment: API.OperationMethod<
   input: __S(96, __c6, 0) as any as S.Schema<CapturePaymentRequest>,
   output: __S(115, __c7, 3) as any as S.Schema<PaymentStatus>,
   errors: [Forbidden, NotFound, Conflict],
+  serviceErrors: WhopServiceErrors,
   protocol: WhopProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1444,6 +1446,7 @@ export const createPayment: API.OperationMethod<
   input: __S(134, __c8, 6) as any as S.Schema<CreatePaymentRequest>,
   output: __S(175, __c10, 15) as any as S.Schema<Payment>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: WhopServiceErrors,
   protocol: WhopProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1461,6 +1464,7 @@ export const getPayment: API.OperationMethod<
   input: __S(176, __c11, 0) as any as S.Schema<GetPaymentRequest>,
   output: __S(175, __c10, 15) as any as S.Schema<Payment>,
   errors: [Forbidden, NotFound],
+  serviceErrors: WhopServiceErrors,
   protocol: WhopProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1478,6 +1482,7 @@ export const getStatusPayment: API.OperationMethod<
   input: __S(192, __c12, 0) as any as S.Schema<GetStatusPaymentRequest>,
   output: __S(115, __c7, 3) as any as S.Schema<PaymentStatus>,
   errors: [Forbidden, NotFound],
+  serviceErrors: WhopServiceErrors,
   protocol: WhopProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1495,6 +1500,7 @@ export const listPaymentFees: API.OperationMethod<
   input: __S(208, __c13, 0) as any as S.Schema<ListPaymentFeesRequest>,
   output: __S(211, __c13, 3) as any as S.Schema<ListPaymentFeesResponse>,
   errors: [NotFound],
+  serviceErrors: WhopServiceErrors,
   protocol: WhopProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1514,6 +1520,7 @@ export const listPayments: API.PaginatedOperationMethod<
     input: __S(240, __c15, 0) as any as S.Schema<ListPaymentsRequest>,
     output: __S(242, __c15, 2) as any as S.Schema<ListPaymentsResponse>,
     errors: [BadRequest],
+    serviceErrors: WhopServiceErrors,
     protocol: WhopProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -1541,6 +1548,7 @@ export const refundPayment: API.OperationMethod<
   input: __S(16, __c1, 0) as any as S.Schema<RefundPaymentRequest>,
   output: __S(175, __c10, 15) as any as S.Schema<Payment>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: WhopServiceErrors,
   protocol: WhopProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1558,6 +1566,7 @@ export const resumePayment: API.OperationMethod<
   input: __S(32, __c2, 0) as any as S.Schema<ResumePaymentRequest>,
   output: __S(115, __c7, 3) as any as S.Schema<PaymentStatus>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: WhopServiceErrors,
   protocol: WhopProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1575,6 +1584,7 @@ export const retryPayment: API.OperationMethod<
   input: __S(48, __c3, 0) as any as S.Schema<RetryPaymentRequest>,
   output: __S(175, __c10, 15) as any as S.Schema<Payment>,
   errors: [NotFound, Conflict],
+  serviceErrors: WhopServiceErrors,
   protocol: WhopProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1592,6 +1602,7 @@ export const updateReturnUrlPayment: API.OperationMethod<
   input: __S(64, __c4, 0) as any as S.Schema<UpdateReturnUrlPaymentRequest>,
   output: __S(115, __c7, 3) as any as S.Schema<PaymentStatus>,
   errors: [BadRequest],
+  serviceErrors: WhopServiceErrors,
   protocol: WhopProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1609,6 +1620,7 @@ export const voidPayment: API.OperationMethod<
   input: __S(80, __c5, 0) as any as S.Schema<VoidPaymentRequest>,
   output: __S(175, __c10, 15) as any as S.Schema<Payment>,
   errors: [NotFound, Conflict],
+  serviceErrors: WhopServiceErrors,
   protocol: WhopProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

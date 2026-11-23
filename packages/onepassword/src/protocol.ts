@@ -1,15 +1,13 @@
-import type * as API from "@distilled.cloud/core/api";
-import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
+import type { ErrorOf } from "@distilled.cloud/core/protocol";
 import {
-  makeRestProtocol,
+  restProtocol,
   type RestErrorInfo,
   type RestParseErrorInfo,
   unknownErrorProps,
 } from "@distilled.cloud/core/protocol-rest";
-import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * 1Password protocols -- hand-written. Every 1Password API is plain JSON
- * REST, so each protocol is one `makeRestProtocol` call from
+ * REST, so each protocol is one `restProtocol` call from
  * `core/protocol-rest`. They differ in credentials, host and error body:
  *
  *   ConnectProtocol      Connect      ConnectCredentials      Bearer   `{ status?, message }`
@@ -31,8 +29,6 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
  */
 import * as Base64 from "effect/encoding/Base64";
 import type * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import {
   ConnectCredentials,
@@ -40,28 +36,30 @@ import {
   OAuthCredentials,
   PartnershipCredentials,
   UsersCredentials,
-  type ConnectConfig,
-  type EventsConfig,
-  type OAuthConfig,
-  type PartnershipConfig,
-  type UsersConfig,
 } from "./credentials.ts";
-import { UnknownOnepasswordError, OnepasswordParseError } from "./errors.ts";
+import {
+  UnknownOnepasswordError,
+  OnepasswordParseError,
+  type OnepasswordServiceError,
+} from "./errors.ts";
 
 /**
- * Error channel shared by every generated 1Password operation. Generated
- * service files annotate operations with `API.OperationMethod<I, O,
- * OnepasswordOpError, OnepasswordOpContext>` explicitly so the compiler
- * never infers these back out of the schema generics.
+ * What every generated 1Password operation fails with besides its own errors:
+ * the service's errors, the protocol's, and what resolving the credentials
+ * fails with. Generated service files annotate operations with
+ * `API.OperationMethod<I, O, OnepasswordOpError, OnepasswordOpContext>`
+ * explicitly so the compiler never infers these back out of the schema
+ * generics.
  */
 export type OnepasswordOpError =
-  | InstanceType<(typeof API_ERRORS)[number]>
-  | UnknownOnepasswordError
-  | ConfigError
-  | HttpClientError.HttpClientError
-  | OnepasswordParseError
-  | InvalidInput
-  | SdkError;
+  | OnepasswordServiceError
+  | ErrorOf<
+      | typeof ConnectProtocol
+      | typeof EventsProtocol
+      | typeof UsersProtocol
+      | typeof OAuthProtocol
+      | typeof PartnershipProtocol
+    >;
 
 /** Context (requirements) of every generated Connect operation. */
 export type ConnectOpContext = ConnectCredentials | HttpClient.HttpClient;
@@ -85,97 +83,90 @@ const record = (body: unknown): Record<string, unknown> | undefined =>
 const trimBase = (url: string) => url.replace(/\/+$/, "");
 
 /** Connect server API (default `http://localhost:8080/v1`). */
-export const ConnectProtocol: Layer.Layer<API.Protocol> =
-  /*@__PURE__*/ makeRestProtocol<ConnectConfig>({
-    credentials: ConnectCredentials,
-    baseUrl: (creds) => trimBase(creds.apiBaseUrl),
-    headers: (creds) => ({
-      Authorization: `Bearer ${Redacted.value(creds.token)}`,
-    }),
-    // `{ status?: number, message: string }` -- the factory's default
-    // lenient envelope covers `message`.
-    unknownError,
-    parseError,
-  });
+export const ConnectProtocol = /*@__PURE__*/ restProtocol({
+  credentials: ConnectCredentials,
+  baseUrl: (creds) => trimBase(creds.apiBaseUrl),
+  headers: (creds) => ({
+    Authorization: `Bearer ${Redacted.value(creds.token)}`,
+  }),
+  // `{ status?: number, message: string }` -- the factory's default
+  // lenient envelope covers `message`.
+  unknownError,
+  parseError,
+});
 
 /** Events API at `https://events.1password.com` (or the account's regional host). */
-export const EventsProtocol: Layer.Layer<API.Protocol> =
-  /*@__PURE__*/ makeRestProtocol<EventsConfig>({
-    credentials: EventsCredentials,
-    baseUrl: (creds) => trimBase(creds.apiBaseUrl),
-    headers: (creds) => ({
-      Authorization: `Bearer ${Redacted.value(creds.token)}`,
-    }),
-    // `{ "Error": { "Message": "..." } }`
-    errorEnvelope: (body) => {
-      const error = record(record(body)?.Error);
-      return { message: typeof error?.Message === "string" ? error.Message : undefined };
-    },
-    unknownError,
-    parseError,
-  });
+export const EventsProtocol = /*@__PURE__*/ restProtocol({
+  credentials: EventsCredentials,
+  baseUrl: (creds) => trimBase(creds.apiBaseUrl),
+  headers: (creds) => ({
+    Authorization: `Bearer ${Redacted.value(creds.token)}`,
+  }),
+  // `{ "Error": { "Message": "..." } }`
+  errorEnvelope: (body) => {
+    const error = record(record(body)?.Error);
+    return { message: typeof error?.Message === "string" ? error.Message : undefined };
+  },
+  unknownError,
+  parseError,
+});
 
 /** Users API at `https://api.1password.com` (or the account's regional host). */
-export const UsersProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<UsersConfig>(
-  {
-    credentials: UsersCredentials,
-    baseUrl: (creds) => trimBase(creds.apiBaseUrl),
-    headers: (creds) => ({
-      Authorization: `Bearer ${Redacted.value(creds.accessToken)}`,
-    }),
-    // `{ code, message }` -- the factory's default envelope.
-    unknownError,
-    parseError,
-  },
-);
+export const UsersProtocol = /*@__PURE__*/ restProtocol({
+  credentials: UsersCredentials,
+  baseUrl: (creds) => trimBase(creds.apiBaseUrl),
+  headers: (creds) => ({
+    Authorization: `Bearer ${Redacted.value(creds.accessToken)}`,
+  }),
+  // `{ code, message }` -- the factory's default envelope.
+  unknownError,
+  parseError,
+});
 
 /** OAuth API (token, introspect, revoke) with the application's client credentials. */
-export const OAuthProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<OAuthConfig>(
-  {
-    credentials: OAuthCredentials,
-    baseUrl: (creds) => trimBase(creds.apiBaseUrl),
-    headers: (creds) => ({
-      Authorization: `Basic ${Base64.encode(`${creds.clientId}:${Redacted.value(creds.clientSecret)}`)}`,
-    }),
-    // RFC 6749 §5.2: `{ error, error_description }`
-    errorEnvelope: (body) => {
-      const b = record(body);
-      return {
-        code: typeof b?.error === "string" ? b.error : undefined,
-        message:
-          typeof b?.error_description === "string"
-            ? b.error_description
-            : typeof b?.error === "string"
-              ? b.error
-              : undefined,
-      };
-    },
-    unknownError,
-    parseError,
+export const OAuthProtocol = /*@__PURE__*/ restProtocol({
+  credentials: OAuthCredentials,
+  baseUrl: (creds) => trimBase(creds.apiBaseUrl),
+  headers: (creds) => ({
+    Authorization: `Basic ${Base64.encode(`${creds.clientId}:${Redacted.value(creds.clientSecret)}`)}`,
+  }),
+  // RFC 6749 §5.2: `{ error, error_description }`
+  errorEnvelope: (body) => {
+    const b = record(body);
+    return {
+      code: typeof b?.error === "string" ? b.error : undefined,
+      message:
+        typeof b?.error_description === "string"
+          ? b.error_description
+          : typeof b?.error === "string"
+            ? b.error
+            : undefined,
+    };
   },
-);
+  unknownError,
+  parseError,
+});
 
 /** Partnership API at `https://billing.1password.com`. */
-export const PartnershipProtocol: Layer.Layer<API.Protocol> =
-  /*@__PURE__*/ makeRestProtocol<PartnershipConfig>({
-    credentials: PartnershipCredentials,
-    baseUrl: (creds) => trimBase(creds.apiBaseUrl),
-    headers: (creds) => ({
-      Authorization: `Bearer ${Redacted.value(creds.token)}`,
-    }),
-    // `{ code: 410, error: "gone", description: "..." }`
-    errorEnvelope: (body) => {
-      const b = record(body);
-      return {
-        code: typeof b?.error === "string" ? b.error : undefined,
-        message:
-          typeof b?.description === "string"
-            ? b.description
-            : typeof b?.error === "string"
-              ? b.error
-              : undefined,
-      };
-    },
-    unknownError,
-    parseError,
-  });
+export const PartnershipProtocol = /*@__PURE__*/ restProtocol({
+  credentials: PartnershipCredentials,
+  baseUrl: (creds) => trimBase(creds.apiBaseUrl),
+  headers: (creds) => ({
+    Authorization: `Bearer ${Redacted.value(creds.token)}`,
+  }),
+  // `{ code: 410, error: "gone", description: "..." }`
+  errorEnvelope: (body) => {
+    const b = record(body);
+    return {
+      code: typeof b?.error === "string" ? b.error : undefined,
+      message:
+        typeof b?.description === "string"
+          ? b.description
+          : typeof b?.error === "string"
+            ? b.error
+            : undefined,
+    };
+  },
+  unknownError,
+  parseError,
+});

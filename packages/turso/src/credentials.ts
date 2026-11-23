@@ -4,7 +4,7 @@ import * as EffectConfig from "@distilled.cloud/core/config";
  *
  * API-compatible port of the distilled repo's turso credentials module: the
  * `Credentials` service holds an *effect* that resolves the current
- * credentials, so the protocol layer picks up rotations per request. Turso
+ * credentials, so the protocol picks up rotations per request. Turso
  * auth is a plain bearer token (`Authorization: Bearer <apiKey>`).
  */
 import { ConfigError } from "@distilled.cloud/core/errors";

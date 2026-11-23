@@ -4,7 +4,7 @@ import { ConfigError } from "@distilled.cloud/core/errors";
  * Clerk credentials -- hand-written.
  *
  * The `Credentials` service holds an *effect* that resolves the current
- * credentials on every request (the protocol layer resolves it per request
+ * credentials on every request (the protocol resolves it per request
  * on the calling fiber). Clerk authenticates Backend API calls with a
  * secret key as `Authorization: Bearer <secret>` and versions the API with
  * the `Clerk-API-Version` header.

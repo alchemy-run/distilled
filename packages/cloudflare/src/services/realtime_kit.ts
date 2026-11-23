@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { CloudflareError, CloudflareRateLimited } from "../errors.ts";
+import { CloudflareServiceErrors } from "../errors.ts";
 import {
   CloudflareProtocol,
   type CloudflareOpError,
@@ -8234,7 +8234,8 @@ export const activeSessionMuteAllParticipants: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2080, __c65, 0) as any as S.Schema<ActiveSessionMuteAllParticipantsRequest>,
   output: __S(2082, __c65, 2) as any as S.Schema<ActiveSessionMuteAllParticipantsResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8251,7 +8252,8 @@ export const activeSessionMuteParticipants: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2432, __c76, 0) as any as S.Schema<ActiveSessionMuteParticipantsRequest>,
   output: __S(2467, __c77, 3) as any as S.Schema<ActiveSessionMuteParticipantsResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8268,7 +8270,8 @@ export const addParticipantMeeting: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2849, __c89, 1) as any as S.Schema<AddParticipantMeetingRequest>,
   output: __S(2881, __c90, 1) as any as S.Schema<AddParticipantMeetingResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8285,7 +8288,8 @@ export const createIndependentLivestreamLivestream: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2912, __c91, 0) as any as S.Schema<CreateIndependentLivestreamLivestreamRequest>,
   output: __S(2914, __c91, 2) as any as S.Schema<CreateIndependentLivestreamLivestreamResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8302,7 +8306,8 @@ export const createMeeting: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2946, __c92, 2) as any as S.Schema<CreateMeetingRequest>,
   output: __S(2950, __c92, 6) as any as S.Schema<CreateMeetingResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8319,7 +8324,8 @@ export const createPollActiveSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreatePollActiveSessionRequest>,
   output: __S(7, __c0, 7) as any as S.Schema<CreatePollActiveSessionResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8336,7 +8342,8 @@ export const createPreset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(33, __c1, 1) as any as S.Schema<CreatePresetRequest>,
   output: __S(129, __c4, 1) as any as S.Schema<CreatePresetResponse>,
-  errors: [RealtimeKitPresetExists, Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [RealtimeKitPresetExists, Forbidden],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8353,7 +8360,8 @@ export const createWebhookWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c8, 0) as any as S.Schema<CreateWebhookWebhookRequest>,
   output: __S(352, __c11, 0) as any as S.Schema<CreateWebhookWebhookResponse>,
-  errors: [RealtimeKitWebhookExists, Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [RealtimeKitWebhookExists, Forbidden],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8370,7 +8378,8 @@ export const deleteMeetingParticipantMeeting: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c12, 0) as any as S.Schema<DeleteMeetingParticipantMeetingRequest>,
   output: __S(386, __c12, 2) as any as S.Schema<DeleteMeetingParticipantMeetingResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8387,7 +8396,8 @@ export const deletePreset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c13, 0) as any as S.Schema<DeletePresetRequest>,
   output: __S(129, __c4, 1) as any as S.Schema<DeletePresetResponse>,
-  errors: [RealtimeKitPresetNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [RealtimeKitPresetNotFound, Forbidden],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8404,7 +8414,8 @@ export const deleteWebhookWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c14, 0) as any as S.Schema<DeleteWebhookWebhookRequest>,
   output: __S(352, __c11, 0) as any as S.Schema<DeleteWebhookWebhookResponse>,
-  errors: [RealtimeKitWebhookNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [RealtimeKitWebhookNotFound, Forbidden],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8421,7 +8432,8 @@ export const editParticipantMeeting: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c15, 0) as any as S.Schema<EditParticipantMeetingRequest>,
   output: __S(2881, __c90, 1) as any as S.Schema<EditParticipantMeetingResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8438,7 +8450,8 @@ export const editWebhookWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c16, 0) as any as S.Schema<EditWebhookWebhookRequest>,
   output: __S(352, __c11, 0) as any as S.Schema<EditWebhookWebhookResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8455,7 +8468,8 @@ export const generateSummaryOfTranscriptsSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c17, 0) as any as S.Schema<GenerateSummaryOfTranscriptsSessionRequest>,
   output: __S(546, __c17, 2) as any as S.Schema<GenerateSummaryOfTranscriptsSessionResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8480,7 +8494,8 @@ export const getActiveLivestreamsForLivestreamIdLivestream: API.OperationMethod<
     __c18,
     2,
   ) as any as S.Schema<GetActiveLivestreamsForLivestreamIdLivestreamResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8497,7 +8512,8 @@ export const getActiveRecordingsRecording: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c21, 0) as any as S.Schema<GetActiveRecordingsRecordingRequest>,
   output: __S(673, __c21, 1) as any as S.Schema<GetActiveRecordingsRecordingResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8514,7 +8530,8 @@ export const getActiveSessionActiveSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c23, 0) as any as S.Schema<GetActiveSessionActiveSessionRequest>,
   output: __S(768, __c24, 0) as any as S.Schema<GetActiveSessionActiveSessionResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8531,7 +8548,8 @@ export const getAllLivestreamsLivestream: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c26, 0) as any as S.Schema<GetAllLivestreamsLivestreamRequest>,
   output: __S(834, __c26, 2) as any as S.Schema<GetAllLivestreamsLivestreamResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8548,7 +8566,8 @@ export const getApp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(896, __c28, 0) as any as S.Schema<GetAppRequest>,
   output: __S(898, __c28, 2) as any as S.Schema<GetAppResponse>,
-  errors: [Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [Forbidden],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8565,7 +8584,8 @@ export const getAppById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c31, 0) as any as S.Schema<GetAppByIdRequest>,
   output: __S(993, __c31, 1) as any as S.Schema<GetAppByIdResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8582,7 +8602,8 @@ export const getLivestreamAnalyticsCompleteLivestream: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c32, 0) as any as S.Schema<GetLivestreamAnalyticsCompleteLivestreamRequest>,
   output: __S(1026, __c32, 2) as any as S.Schema<GetLivestreamAnalyticsCompleteLivestreamResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8599,7 +8620,8 @@ export const getLivestreamAnalyticsDaywiseLivestream: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c33, 0) as any as S.Schema<GetLivestreamAnalyticsDaywiseLivestreamRequest>,
   output: __S(1059, __c33, 3) as any as S.Schema<GetLivestreamAnalyticsDaywiseLivestreamResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8616,7 +8638,8 @@ export const getLivestreamSessionDetailsForMeeting: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c34, 0) as any as S.Schema<GetLivestreamSessionDetailsForMeetingRequest>,
   output: __S(1090, __c34, 2) as any as S.Schema<GetLivestreamSessionDetailsForMeetingResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8641,7 +8664,8 @@ export const getLivestreamSessionDetailsForSessionIdLivestream: API.OperationMet
     __c37,
     1,
   ) as any as S.Schema<GetLivestreamSessionDetailsForSessionIdLivestreamResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8666,7 +8690,8 @@ export const getLivestreamSessionForLivestreamIdLivestream: API.OperationMethod<
     __c38,
     1,
   ) as any as S.Schema<GetLivestreamSessionForLivestreamIdLivestreamResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8683,7 +8708,8 @@ export const getLivestreamSessionsForSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c39, 0) as any as S.Schema<GetLivestreamSessionsForSessionRequest>,
   output: __S(1250, __c39, 2) as any as S.Schema<GetLivestreamSessionsForSessionResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8700,7 +8726,8 @@ export const getMeeting: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1280, __c40, 0) as any as S.Schema<GetMeetingRequest>,
   output: __S(1285, __c40, 5) as any as S.Schema<GetMeetingResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8717,7 +8744,8 @@ export const getMeetingActiveLivestreamsLivestream: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1312, __c41, 0) as any as S.Schema<GetMeetingActiveLivestreamsLivestreamRequest>,
   output: __S(1313, __c41, 1) as any as S.Schema<GetMeetingActiveLivestreamsLivestreamResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8734,7 +8762,8 @@ export const getMeetingByIdMeeting: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1344, __c42, 0) as any as S.Schema<GetMeetingByIdMeetingRequest>,
   output: __S(1348, __c42, 4) as any as S.Schema<GetMeetingByIdMeetingResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8751,7 +8780,8 @@ export const getMeetingParticipantMeeting: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1376, __c43, 0) as any as S.Schema<GetMeetingParticipantMeetingRequest>,
   output: __S(1377, __c43, 1) as any as S.Schema<GetMeetingParticipantMeetingResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8768,7 +8798,8 @@ export const getMeetingParticipantsMeeting: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c45, 0) as any as S.Schema<GetMeetingParticipantsMeetingRequest>,
   output: __S(1442, __c45, 2) as any as S.Schema<GetMeetingParticipantsMeetingResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8785,7 +8816,8 @@ export const getOneRecordingRecording: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1472, __c46, 0) as any as S.Schema<GetOneRecordingRecordingRequest>,
   output: __S(1475, __c46, 3) as any as S.Schema<GetOneRecordingRecordingResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8802,7 +8834,8 @@ export const getOrgAnalyticsAnalytic: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1536, __c48, 0) as any as S.Schema<GetOrgAnalyticsAnalyticRequest>,
   output: __S(1575, __c49, 7) as any as S.Schema<GetOrgAnalyticsAnalyticResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8819,7 +8852,8 @@ export const getParticipantDataFromPeerIdSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1600, __c50, 0) as any as S.Schema<GetParticipantDataFromPeerIdSessionRequest>,
   output: __S(1644, __c51, 12) as any as S.Schema<GetParticipantDataFromPeerIdSessionResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8836,7 +8870,8 @@ export const getPreset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1696, __c53, 0) as any as S.Schema<GetPresetRequest>,
   output: __S(1699, __c53, 3) as any as S.Schema<GetPresetResponse>,
-  errors: [Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [Forbidden],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8853,7 +8888,8 @@ export const getPresetByIdPreset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1728, __c54, 0) as any as S.Schema<GetPresetByIdPresetRequest>,
   output: __S(1731, __c54, 3) as any as S.Schema<GetPresetByIdPresetResponse>,
-  errors: [RealtimeKitPresetNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [RealtimeKitPresetNotFound, Forbidden],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8870,7 +8906,8 @@ export const getRecordingsRecording: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1760, __c55, 0) as any as S.Schema<GetRecordingsRecordingRequest>,
   output: __S(1767, __c55, 7) as any as S.Schema<GetRecordingsRecordingResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8887,7 +8924,8 @@ export const getSessionChatSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1792, __c56, 0) as any as S.Schema<GetSessionChatSessionRequest>,
   output: __S(1794, __c56, 2) as any as S.Schema<GetSessionChatSessionResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8904,7 +8942,8 @@ export const getSessionDetailsSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1824, __c57, 0) as any as S.Schema<GetSessionDetailsSessionRequest>,
   output: __S(768, __c24, 0) as any as S.Schema<GetSessionDetailsSessionResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8921,7 +8960,8 @@ export const getSessionParticipantDetailsSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1856, __c58, 0) as any as S.Schema<GetSessionParticipantDetailsSessionRequest>,
   output: __S(1858, __c58, 2) as any as S.Schema<GetSessionParticipantDetailsSessionResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8938,7 +8978,8 @@ export const getSessionParticipantsSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1920, __c60, 0) as any as S.Schema<GetSessionParticipantsSessionRequest>,
   output: __S(1923, __c60, 3) as any as S.Schema<GetSessionParticipantsSessionResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8955,7 +8996,8 @@ export const getSessionsSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1952, __c61, 0) as any as S.Schema<GetSessionsSessionRequest>,
   output: __S(1955, __c61, 3) as any as S.Schema<GetSessionsSessionResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8972,7 +9014,8 @@ export const getSessionSummarySession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1984, __c62, 0) as any as S.Schema<GetSessionSummarySessionRequest>,
   output: __S(1986, __c62, 2) as any as S.Schema<GetSessionSummarySessionResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8989,7 +9032,8 @@ export const getSessionTranscriptsSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2016, __c63, 0) as any as S.Schema<GetSessionTranscriptsSessionRequest>,
   output: __S(2018, __c63, 2) as any as S.Schema<GetSessionTranscriptsSessionResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9006,7 +9050,8 @@ export const getWebhookByIdWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2048, __c64, 0) as any as S.Schema<GetWebhookByIdWebhookRequest>,
   output: __S(352, __c11, 0) as any as S.Schema<GetWebhookByIdWebhookResponse>,
-  errors: [RealtimeKitWebhookNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [RealtimeKitWebhookNotFound, Forbidden],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9023,7 +9068,8 @@ export const getWebhooksWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2112, __c66, 0) as any as S.Schema<GetWebhooksWebhookRequest>,
   output: __S(2114, __c66, 2) as any as S.Schema<GetWebhooksWebhookResponse>,
-  errors: [RealtimeKitWebhookNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [RealtimeKitWebhookNotFound, Forbidden],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9040,7 +9086,8 @@ export const kickAllParticipantsActiveSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2144, __c67, 0) as any as S.Schema<KickAllParticipantsActiveSessionRequest>,
   output: __S(2146, __c67, 2) as any as S.Schema<KickAllParticipantsActiveSessionResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9057,7 +9104,8 @@ export const kickParticipantsActiveSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2176, __c68, 0) as any as S.Schema<KickParticipantsActiveSessionRequest>,
   output: __S(2467, __c77, 3) as any as S.Schema<KickParticipantsActiveSessionResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9074,7 +9122,8 @@ export const livestreamsGetOrgAnalytics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2208, __c69, 0) as any as S.Schema<LivestreamsGetOrgAnalyticsRequest>,
   output: __S(1575, __c49, 7) as any as S.Schema<LivestreamsGetOrgAnalyticsResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9091,7 +9140,8 @@ export const meetingsReplaceParticipant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2240, __c70, 0) as any as S.Schema<MeetingsReplaceParticipantRequest>,
   output: __S(2881, __c90, 1) as any as S.Schema<MeetingsReplaceParticipantResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9108,7 +9158,8 @@ export const meetingsRevokeParticipantToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2272, __c71, 0) as any as S.Schema<MeetingsRevokeParticipantTokenRequest>,
   output: __S(2274, __c71, 2) as any as S.Schema<MeetingsRevokeParticipantTokenResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9125,7 +9176,8 @@ export const patchPreset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2323, __c72, 19) as any as S.Schema<PatchPresetRequest>,
   output: __S(129, __c4, 1) as any as S.Schema<PatchPresetResponse>,
-  errors: [RealtimeKitPresetNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [RealtimeKitPresetNotFound, Forbidden],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9142,7 +9194,8 @@ export const pauseResumeStopRecordingRecording: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2336, __c73, 0) as any as S.Schema<PauseResumeStopRecordingRecordingRequest>,
   output: __S(2339, __c73, 3) as any as S.Schema<PauseResumeStopRecordingRecordingResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9159,7 +9212,8 @@ export const postApp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2368, __c74, 0) as any as S.Schema<PostAppRequest>,
   output: __S(2370, __c74, 2) as any as S.Schema<PostAppResponse>,
-  errors: [Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [Forbidden],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9176,7 +9230,8 @@ export const refreshParticipantTokenMeeting: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2400, __c75, 0) as any as S.Schema<RefreshParticipantTokenMeetingRequest>,
   output: __S(2402, __c75, 2) as any as S.Schema<RefreshParticipantTokenMeetingResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9193,7 +9248,8 @@ export const replaceMeetingByIdMeeting: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2530, __c79, 2) as any as S.Schema<ReplaceMeetingByIdMeetingRequest>,
   output: __S(2534, __c79, 6) as any as S.Schema<ReplaceMeetingByIdMeetingResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9210,7 +9266,8 @@ export const replacePresetById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2564, __c80, 4) as any as S.Schema<ReplacePresetByIdRequest>,
   output: __S(2570, __c80, 10) as any as S.Schema<ReplacePresetByIdResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9227,7 +9284,8 @@ export const replaceWebhookWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2592, __c81, 0) as any as S.Schema<ReplaceWebhookWebhookRequest>,
   output: __S(352, __c11, 0) as any as S.Schema<ReplaceWebhookWebhookResponse>,
-  errors: [RealtimeKitWebhookNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [RealtimeKitWebhookNotFound, Forbidden],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9244,7 +9302,8 @@ export const startLivestreamingAMeetingLivestream: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2624, __c82, 0) as any as S.Schema<StartLivestreamingAMeetingLivestreamRequest>,
   output: __S(2626, __c82, 2) as any as S.Schema<StartLivestreamingAMeetingLivestreamResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9261,7 +9320,8 @@ export const startRecordingsRecording: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2658, __c83, 2) as any as S.Schema<StartRecordingsRecordingRequest>,
   output: __S(2661, __c83, 5) as any as S.Schema<StartRecordingsRecordingResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9278,7 +9338,8 @@ export const startTrackRecordingRecording: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2690, __c84, 2) as any as S.Schema<StartTrackRecordingRecordingRequest>,
   output: __S(2692, __c84, 4) as any as S.Schema<StartTrackRecordingRecordingResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9295,7 +9356,8 @@ export const stopLivestreamingAMeetingLivestream: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2720, __c85, 0) as any as S.Schema<StopLivestreamingAMeetingLivestreamRequest>,
   output: __S(2722, __c85, 2) as any as S.Schema<StopLivestreamingAMeetingLivestreamResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9312,7 +9374,8 @@ export const updateAppById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2752, __c86, 0) as any as S.Schema<UpdateAppByIdRequest>,
   output: __S(2754, __c86, 2) as any as S.Schema<UpdateAppByIdResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9329,7 +9392,8 @@ export const updateMeetingByIdMeeting: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2786, __c87, 2) as any as S.Schema<UpdateMeetingByIdMeetingRequest>,
   output: __S(2790, __c87, 6) as any as S.Schema<UpdateMeetingByIdMeetingResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9346,7 +9410,8 @@ export const webhooksGetAllWebhooks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2816, __c88, 0) as any as S.Schema<WebhooksGetAllWebhooksRequest>,
   output: __S(2817, __c88, 1) as any as S.Schema<WebhooksGetAllWebhooksResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

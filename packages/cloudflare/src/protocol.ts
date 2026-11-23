@@ -1,15 +1,23 @@
 import * as API from "@distilled.cloud/core/api";
 import { retryableKey } from "@distilled.cloud/core/category";
 import {
-  ConfigError,
   Forbidden,
   GatewayTimeout,
-  HTTP_STATUS_MAP,
   InternalServerError,
   TooManyRequests,
   Unauthorized,
   InvalidInput,
 } from "@distilled.cloud/core/errors";
+import type {
+  DeclaredError,
+  DeclaredErrorClass,
+  DecodeArgs,
+  EncodeArgs,
+  ErrorOf,
+  Operation,
+  Protocol,
+  ProtocolOf,
+} from "@distilled.cloud/core/protocol";
 import {
   buildRequest,
   encodeLabel,
@@ -24,6 +32,7 @@ import {
   withResponseHeaders,
   type ResponseHeaderMember,
 } from "@distilled.cloud/core/protocol-http";
+import { declaredStatusClass } from "@distilled.cloud/core/protocol-rest";
 import {
   checkSuccess,
   hasSensitiveMember,
@@ -61,7 +70,9 @@ import {
  *   response: { success, errors, messages, result, result_info }
  *             * success:false / non-2xx -> typed error, matched like the
  *               distilled cloudflare client (per-op matchers, global error
- *               codes, throttling, HTTP status, unknown fallback)
+ *               codes, throttling, HTTP status, unknown fallback). A class
+ *               of the service's errors (`CloudflareServiceErrors`) is
+ *               built from the classes the operation lists, never by name
  *             * result (the payload) -> mapped onto the output schema:
  *                 EnvelopePayload()  -> receives the whole `result`
  *                 Header(name?)      -> read from a response header
@@ -74,20 +85,17 @@ import * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
 import type * as HttpClientRequest from "effect/http/HttpClientRequest";
 import type * as HttpClientResponse from "effect/http/HttpClientResponse";
-import * as Layer from "effect/Layer";
 import type * as AST from "effect/SchemaAST";
 import {
   Credentials,
   formatHeaders,
-  type OAuthRefreshError,
+  type CredentialsError,
   type ResolvedCredentials,
 } from "./credentials.ts";
 import {
-  type CloudflareError,
   CloudflareHttpError,
   CloudflareParseError,
-  type CloudflareRateLimited,
-  type DefaultErrors,
+  type CloudflareServiceError,
   InvalidRoute,
   UnknownCloudflareError,
 } from "./errors.ts";
@@ -131,33 +139,34 @@ const envelopeErrorMessage = (
 };
 
 /**
- * Error channel shared by every generated Cloudflare operation. Generated
- * service files annotate operations with `API.OperationMethod<I, O,
- * CloudflareOpError, CloudflareOpContext>` explicitly so the compiler never
- * infers these back out of the schema generics.
+ * What every generated Cloudflare operation fails with besides its own
+ * errors: the service's errors, the protocol's, and what resolving the
+ * credentials fails with. Generated service files annotate operations with
+ * `API.OperationMethod<I, O, CloudflareOpError, CloudflareOpContext>`
+ * explicitly so the compiler never infers these back out of the schema
+ * generics.
  */
 export type CloudflareOpError =
-  | DefaultErrors
-  | ConfigError
-  | OAuthRefreshError
-  // Injected into every generated operation's `errors: [...]` list by the
-  // codegen (`operationDecl.commonErrorClasses`), so they belong in the
-  // declared union too -- otherwise each operation's type claims it can't
-  // fail the two ways every operation can.
-  | CloudflareError
-  | CloudflareRateLimited
-  | HttpClientError.HttpClientError
-  | InvalidInput
-  | SdkError;
+  | CloudflareServiceError
+  | ErrorOf<typeof CloudflareProtocol | typeof CloudflarePaginatedProtocol>;
 
 /** Context (requirements) shared by every generated Cloudflare operation. */
 export type CloudflareOpContext = Credentials | HttpClient.HttpClient;
 
-// Bridge: Protocol.decode is typed as Effect<unknown> (no error channel), but
-// Cloudflare failures are real typed errors that an operation re-surfaces via
-// its `errors: [...]` list. Fail with the instance and erase the error type
-// here; `API.make`'s signature reintroduces it for callers.
-const fail = (e: unknown): Effect.Effect<never> => Effect.fail(e) as Effect.Effect<never>;
+/**
+ * An instance of `cls`, a class of the service's errors, built from the
+ * operation's own list: `undefined` when the operation does not list the
+ * class (every generated operation lists `CloudflareServiceErrors`).
+ */
+const declaredError = <Props>(
+  errors: ReadonlyArray<DeclaredErrorClass>,
+  cls: new (props: Props) => unknown,
+  props: Props,
+): DeclaredError | undefined => {
+  const known: unknown = cls;
+  const Declared = errors.find((declared) => declared === known);
+  return Declared === undefined ? undefined : new Declared(props);
+};
 
 /**
  * Mark an error instance retryable regardless of its class categories --
@@ -174,30 +183,32 @@ const GLOBAL_RATE_LIMIT_MESSAGE = /\b(rate ?limit(ed|ing)?|throttl(ed|ing) your 
 /**
  * Cloudflare error codes that map to global/default errors regardless of
  * operation -- infrastructure-level errors that can occur on any endpoint.
- * Transcribed from the distilled cloudflare client.
+ * Transcribed from the distilled cloudflare client. An entry answers
+ * `undefined` when the operation does not list the class it maps to.
  */
 const GLOBAL_ERROR_CODE_MAP: Record<
   number,
   (
+    errors: ReadonlyArray<DeclaredErrorClass>,
     message: string,
     headers: Record<string, string | undefined>,
     status: number,
     body: unknown,
-  ) => unknown
+  ) => DeclaredError | InternalServerError | UnknownCloudflareError | undefined
 > = {
   // "Please wait and consider throttling your request speed" -- returned
   // inside envelopes with arbitrary HTTP status (often 200).
-  971: (message, headers) =>
-    new TooManyRequests({
+  971: (errors, message, headers) =>
+    declaredError(errors, TooManyRequests, {
       message,
       retryAfter: parseServerRetryHint(headers),
     }),
   // Authentication-related codes -- Cloudflare frequently returns these
   // inside a 400/403 envelope rather than 401.
-  6003: (message) => new Unauthorized({ message }),
-  9103: (message) => new Unauthorized({ message }),
-  9106: (message) => new Unauthorized({ message }),
-  9109: (message) => new Unauthorized({ message }),
+  6003: (errors, message) => declaredError(errors, Unauthorized, { message }),
+  9103: (errors, message) => declaredError(errors, Unauthorized, { message }),
+  9106: (errors, message) => declaredError(errors, Unauthorized, { message }),
+  9109: (errors, message) => declaredError(errors, Unauthorized, { message }),
   // "Authentication error" is tagged retryable: under high request
   // concurrency Cloudflare intermittently rejects valid, long-lived tokens
   // with this message (the same call against the same zone succeeds in
@@ -206,29 +217,31 @@ const GLOBAL_ERROR_CODE_MAP: Record<
   // produces the same message persistently, but the default retry policy is
   // bounded, so it still fails within seconds of backoff instead of looping;
   // the win is that valid tokens stop flaking under load.
-  10000: (message) => {
-    const error = new Unauthorized({ message });
-    return /authentication error/i.test(message) ? tagRetryable(error) : error;
+  10000: (errors, message) => {
+    const error = declaredError(errors, Unauthorized, { message });
+    return error !== undefined && /authentication error/i.test(message)
+      ? tagRetryable(error)
+      : error;
   },
   // Dual-use: "Method not allowed for token" is a real permission denial
   // (NOT retryable); "internal error" is a CF hiccup mistagged as 403, and
   // "Unable to authenticate request" is a transient auth/edge blip against
   // otherwise-valid credentials (real credential problems surface as code
   // 10000 instead) -- those two variants are tagged retryable.
-  10001: (message) => {
-    const error = new Forbidden({ message });
-    return /internal error|unable to authenticate request/i.test(message)
+  10001: (errors, message) => {
+    const error = declaredError(errors, Forbidden, { message });
+    return error !== undefined && /internal error|unable to authenticate request/i.test(message)
       ? tagRetryable(error)
       : error;
   },
   // "Invalid request: invalid route" -- a path component (typically
   // accountId/zoneId) doesn't resolve to a real resource.
-  7003: (message) => new InvalidRoute({ code: 7003, message }),
+  7003: (errors, message) => declaredError(errors, InvalidRoute, { code: 7003, message }),
   // Dual-use code 1000: several unrelated conditions, each unambiguous from
   // the message.
-  1000: (message, _headers, status, body) => {
+  1000: (errors, message, _headers, status, body) => {
     if (/\btimeout\b/i.test(message)) {
-      return new GatewayTimeout({ message });
+      return declaredError(errors, GatewayTimeout, { message });
     }
     if (/internal (server )?error/i.test(message)) {
       return new InternalServerError({ message });
@@ -238,22 +251,24 @@ const GLOBAL_ERROR_CODE_MAP: Record<
 };
 
 /**
- * Typed error for an HTTP status: the mapped class when one exists (with
- * retry categories for 5xx), InternalServerError for unmapped 5xx (e.g.
- * Cloudflare-specific 520-530), CloudflareHttpError otherwise.
+ * Typed error for an HTTP status: core's class for it when the operation or
+ * its service declares one (with retry categories for 5xx),
+ * InternalServerError for any other 5xx (e.g. Cloudflare-specific 520-530),
+ * CloudflareHttpError otherwise.
  */
 const httpStatusError = (
+  errors: ReadonlyArray<DeclaredErrorClass>,
   status: number,
   body?: string,
   headers?: Record<string, string | undefined>,
-): unknown => {
-  const ErrorClass = HTTP_STATUS_MAP[status as keyof typeof HTTP_STATUS_MAP];
+): DeclaredError | InternalServerError | CloudflareHttpError => {
+  const ErrorClass = declaredStatusClass(status, errors);
   const message = body ?? String(status);
   if (ErrorClass) {
     return new ErrorClass({
       message,
       retryAfter: parseRetryAfterForStatus(status, headers),
-    } as any);
+    });
   }
   if (status >= 500) {
     return new InternalServerError({
@@ -316,13 +331,9 @@ const hostFor = (input: unknown, inputAst: AST.AST): string | undefined | Invali
   return host;
 };
 
-// The protocol layer is memoized per process by `API.make` (see
-// `OperationConfig.protocol`), so the build must not capture credentials --
-// `encode` resolves Credentials from the calling fiber's context on
-// every request instead. Like the error channel above, the requirement is
-// erased at this boundary (Protocol effects are typed with no requirements)
-// and reintroduced for callers by the generated `CloudflareOpContext`
-// annotations.
+// The protocol is one module-level value shared by every operation, so it
+// must not capture credentials -- `encode` resolves Credentials from the
+// calling fiber's context on every request instead.
 const requestFor = (
   context: Context.Context<any>,
   creds: ResolvedCredentials,
@@ -356,21 +367,17 @@ const takesJurisdiction = (inputAst: AST.AST): boolean =>
 
 /**
  * The calling fiber's credentials, then `f` on them. The Credentials service
- * holds an effect -- resolving it per request picks up token refreshes. Its
- * ConfigError/OAuthRefreshError channel is erased at this boundary like the
- * rest of the protocol's requirements; CloudflareOpError reintroduces it for
- * callers.
+ * holds an effect -- resolving it per request picks up token refreshes. What
+ * it fails with ({@link CredentialsError}) reaches every operation through
+ * the protocol.
  */
-const withCredentials = <B>(
+const withCredentials = <B, E>(
   context: Context.Context<any>,
-  f: (creds: ResolvedCredentials) => Effect.Effect<B, any, any>,
-): Effect.Effect<B, any, any> =>
-  API.withValue(
-    Context.get(context, Credentials) as Effect.Effect<ResolvedCredentials, any, any>,
-    f,
-  );
+  f: (creds: ResolvedCredentials) => Effect.Effect<B, E>,
+): Effect.Effect<B, CredentialsError | E, Credentials> =>
+  API.withValue(Context.get(context, Credentials), f);
 
-const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAst: AST.AST }) =>
+const encode = ({ input, inputAst }: EncodeArgs) =>
   Effect.withFiber((fiber) =>
     withCredentials(fiber.context as Context.Context<any>, (creds) =>
       requestFor(fiber.context as Context.Context<any>, creds, input, inputAst),
@@ -452,8 +459,17 @@ const outputPlanFor = (outputAst: AST.AST): OutputPlan => {
   return plan;
 };
 
+/** What reading a response fails with: a declared error, or one of the protocol's. */
+type DecodeError =
+  | DeclaredError
+  | InternalServerError
+  | UnknownCloudflareError
+  | CloudflareHttpError
+  | CloudflareParseError
+  | HttpClientError.HttpClientError;
+
 /**
- * Build the protocol service. `resultInfo: true` (the paginated protocol)
+ * Build the protocol. `resultInfo: true` (the paginated protocol)
  * additionally maps the envelope's top-level `result_info` onto the output
  * member marked with `T.ResultInfo()`, camelCased.
  */
@@ -462,8 +478,8 @@ const makeProtocol = (options: { readonly resultInfo: boolean }) => {
     context: Context.Context<any>,
     response: HttpClientResponse.HttpClientResponse,
     outputAst: AST.AST,
-    errorClasses: ReadonlyArray<unknown>,
-  ): Effect.Effect<unknown> => {
+    errorClasses: ReadonlyArray<DeclaredErrorClass>,
+  ): Effect.Effect<unknown, DecodeError> => {
     // Raw binary response: when an output member carries
     // `BinaryResponseBody()`, a successful response is decoded from the
     // response headers plus the body as a lazy byte stream -- the body is
@@ -494,8 +510,10 @@ const makeProtocol = (options: { readonly resultInfo: boolean }) => {
     // Read as text and parse tolerantly -- Cloudflare answers some errors
     // (HTML 5xx pages, bare plain-text 4xx) with non-JSON bodies.
     return Effect.matchEffect(response.text, {
-      onFailure: fail,
-      onSuccess: (read): Effect.Effect<unknown> => {
+      // A body read that fails (reset or abort mid-body) fails the call with
+      // its `HttpClientError`.
+      onFailure: (error) => Effect.fail(error),
+      onSuccess: (read): Effect.Effect<unknown, DecodeError> => {
         const text = read ?? "";
         let json: Record<string, unknown> = {};
         let nonJson = false;
@@ -555,54 +573,51 @@ const makeProtocol = (options: { readonly resultInfo: boolean }) => {
             { body: nonJson ? text : json, headers },
           );
           if (typed !== undefined) {
-            return Effect.fail(tagBlip(typed)) as Effect.Effect<never>;
+            return Effect.fail(tagBlip(typed));
           }
 
           // 2. Global/infrastructure error codes (any endpoint, any status).
           if (errorCode !== undefined && errorCode in GLOBAL_ERROR_CODE_MAP) {
-            return fail(
-              tagBlip(
-                GLOBAL_ERROR_CODE_MAP[errorCode]!(
-                  errorMessage,
-                  headers,
-                  status,
-                  nonJson ? text : json,
-                ),
-              ),
+            const global = GLOBAL_ERROR_CODE_MAP[errorCode]!(
+              errorClasses,
+              errorMessage,
+              headers,
+              status,
+              nonJson ? text : json,
             );
+            if (global !== undefined) return Effect.fail(tagBlip(global));
           }
 
           // 3. Throttling -- 429 or the global rate-limit message (Cloudflare
           // returns it inside envelopes with arbitrary HTTP status, often 200).
           if (status === 429 || GLOBAL_RATE_LIMIT_MESSAGE.test(errorMessage)) {
-            return fail(
-              new TooManyRequests({
-                message: errorMessage,
-                retryAfter: parseServerRetryHint(headers),
-              }),
-            );
+            const throttled = declaredError(errorClasses, TooManyRequests, {
+              message: errorMessage,
+              retryAfter: parseServerRetryHint(headers),
+            });
+            if (throttled !== undefined) return Effect.fail(throttled);
           }
 
           // 4. HTTP-status classes (4xx) / retryable 5xx.
           if (status >= 400 && status < 500) {
-            const StatusErrorClass = HTTP_STATUS_MAP[status as keyof typeof HTTP_STATUS_MAP];
+            const StatusErrorClass = declaredStatusClass(status, errorClasses);
             if (StatusErrorClass) {
-              return fail(
+              return Effect.fail(
                 tagBlip(
                   new StatusErrorClass({
                     message: errorMessage,
                     retryAfter: parseRetryAfterForStatus(status, headers),
-                  } as any),
+                  }),
                 ),
               );
             }
           }
           if (status >= 500) {
-            return fail(httpStatusError(status, errorMessage, headers));
+            return Effect.fail(httpStatusError(errorClasses, status, errorMessage, headers));
           }
 
           // 5. Unknown envelope error.
-          return fail(
+          return Effect.fail(
             new UnknownCloudflareError({
               status,
               code: errorCode,
@@ -617,11 +632,11 @@ const makeProtocol = (options: { readonly resultInfo: boolean }) => {
         // Sensitive members come back Redacted, and a parse error for an
         // output that holds them withholds the body (core `checkSuccess`).
         const body: unknown = nonJson ? text : json;
-        const validate = (value: unknown): Effect.Effect<unknown> => {
+        const validate = (value: unknown): Effect.Effect<unknown, CloudflareParseError> => {
           const checked = checkSuccess(context, outputAst, { value, body, nonJson });
           return checked.ok
             ? Effect.succeed(checked.value)
-            : fail(new CloudflareParseError(checked.error));
+            : Effect.fail(new CloudflareParseError(checked.error));
         };
 
         if (nonJson) json = {};
@@ -705,7 +720,7 @@ const makeProtocol = (options: { readonly resultInfo: boolean }) => {
               "no value (the schema does not model this key)",
               v,
             );
-            return fail(
+            return Effect.fail(
               new CloudflareParseError(
                 hasSensitiveMember(outputAst)
                   ? { body: "[REDACTED]", cause: withholdActual(cause) }
@@ -719,7 +734,7 @@ const makeProtocol = (options: { readonly resultInfo: boolean }) => {
     });
   };
 
-  const call = (op: API.PreparedOperation, input: unknown): Effect.Effect<unknown> =>
+  const call = (op: Operation, input: unknown) =>
     Effect.withFiber((fiber) => {
       const context = fiber.context as Context.Context<any>;
       return withCredentials(context, (creds) => {
@@ -734,23 +749,22 @@ const makeProtocol = (options: { readonly resultInfo: boolean }) => {
           ),
         );
       });
-    }) as Effect.Effect<unknown>;
+    });
 
-  return API.Protocol.of({
-    // Erase encode's Credentials requirement (see comment above).
-    encode: (args) => encode(args) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
-    decode: ({ response, outputAst, errors }) =>
+  const methods = {
+    encode,
+    decode: ({ response, outputAst, errors }: DecodeArgs) =>
       Effect.withFiber((fiber) =>
         decodeResponse(fiber.context as Context.Context<any>, response, outputAst, errors),
       ),
     call,
-  });
+  } satisfies Protocol<unknown, unknown>;
+  // Typed from the methods above: what they fail with, what they read.
+  const protocol: ProtocolOf<typeof methods> = methods;
+  return protocol;
 };
 
-export const CloudflareProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer.succeed(
-  API.Protocol,
-  /*@__PURE__*/ makeProtocol({ resultInfo: false }),
-);
+export const CloudflareProtocol = /*@__PURE__*/ makeProtocol({ resultInfo: false });
 
 /**
  * Protocol for paginated operations: identical to {@link CloudflareProtocol}
@@ -758,7 +772,4 @@ export const CloudflareProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer
  * the member marked `T.ResultInfo()`, camelCased) so `.pages()` / `.items()`
  * can advance and callers can read totals.
  */
-export const CloudflarePaginatedProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer.succeed(
-  API.Protocol,
-  /*@__PURE__*/ makeProtocol({ resultInfo: true }),
-);
+export const CloudflarePaginatedProtocol = /*@__PURE__*/ makeProtocol({ resultInfo: true });

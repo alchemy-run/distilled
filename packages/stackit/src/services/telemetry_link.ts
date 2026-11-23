@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownStackitError } from "../errors.ts";
+import { StackitServiceErrors } from "../errors.ts";
 import { StackitProtocol, type StackitOpError, type StackitOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -421,7 +421,8 @@ export const createFolderBackflushJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(34, __c17, 0) as any as S.Schema<CreateFolderBackflushJobRequest>,
   output: __S(36, __c18, 0) as any as S.Schema<BackflushJobResponse>,
-  errors: [BadRequest, Conflict, UnknownStackitError],
+  errors: [BadRequest, Conflict],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -438,7 +439,8 @@ export const createOrganizationBackflushJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(38, __c19, 0) as any as S.Schema<CreateOrganizationBackflushJobRequest>,
   output: __S(36, __c18, 0) as any as S.Schema<BackflushJobResponse>,
-  errors: [BadRequest, Conflict, UnknownStackitError],
+  errors: [BadRequest, Conflict],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -459,7 +461,8 @@ export const createOrUpdateFolderTelemetryLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c20, 0) as any as S.Schema<CreateOrUpdateFolderTelemetryLinkRequest>,
   output: __S(43, __c21, 1) as any as S.Schema<TelemetryLinkResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -480,7 +483,8 @@ export const createOrUpdateOrganizationTelemetryLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(44, __c22, 0) as any as S.Schema<CreateOrUpdateOrganizationTelemetryLinkRequest>,
   output: __S(43, __c21, 1) as any as S.Schema<TelemetryLinkResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -501,7 +505,8 @@ export const createOrUpdateProjectTelemetryLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(46, __c23, 0) as any as S.Schema<CreateOrUpdateProjectTelemetryLinkRequest>,
   output: __S(43, __c21, 1) as any as S.Schema<TelemetryLinkResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -518,7 +523,8 @@ export const createProjectBackflushJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c24, 0) as any as S.Schema<CreateProjectBackflushJobRequest>,
   output: __S(36, __c18, 0) as any as S.Schema<BackflushJobResponse>,
-  errors: [BadRequest, Conflict, UnknownStackitError],
+  errors: [BadRequest, Conflict],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -535,7 +541,8 @@ export const deleteFolderTelemetryLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(50, __c25, 0) as any as S.Schema<DeleteFolderTelemetryLinkRequest>,
   output: __S(52, __c26, 0) as any as S.Schema<DeleteFolderTelemetryLinkResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -556,7 +563,8 @@ export const deleteOrganizationTelemetryLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2, __c1, 0) as any as S.Schema<DeleteOrganizationTelemetryLinkRequest>,
   output: __S(52, __c26, 0) as any as S.Schema<DeleteOrganizationTelemetryLinkResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -573,7 +581,8 @@ export const deleteProjectTelemetryLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4, __c2, 0) as any as S.Schema<DeleteProjectTelemetryLinkRequest>,
   output: __S(52, __c26, 0) as any as S.Schema<DeleteProjectTelemetryLinkResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -590,7 +599,8 @@ export const getFolderBackflushJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6, __c3, 0) as any as S.Schema<GetFolderBackflushJobRequest>,
   output: __S(36, __c18, 0) as any as S.Schema<BackflushJobResponse>,
-  errors: [BadRequest, NotFound, UnknownStackitError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -607,7 +617,8 @@ export const getFolderTelemetryLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c4, 0) as any as S.Schema<GetFolderTelemetryLinkRequest>,
   output: __S(43, __c21, 1) as any as S.Schema<TelemetryLinkResponse>,
-  errors: [BadRequest, NotFound, UnknownStackitError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -624,7 +635,8 @@ export const getOrganizationBackflushJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10, __c5, 0) as any as S.Schema<GetOrganizationBackflushJobRequest>,
   output: __S(36, __c18, 0) as any as S.Schema<BackflushJobResponse>,
-  errors: [BadRequest, NotFound, UnknownStackitError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -641,7 +653,8 @@ export const getOrganizationTelemetryLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12, __c6, 0) as any as S.Schema<GetOrganizationTelemetryLinkRequest>,
   output: __S(43, __c21, 1) as any as S.Schema<TelemetryLinkResponse>,
-  errors: [BadRequest, NotFound, UnknownStackitError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -658,7 +671,8 @@ export const getProjectBackflushJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14, __c7, 0) as any as S.Schema<GetProjectBackflushJobRequest>,
   output: __S(36, __c18, 0) as any as S.Schema<BackflushJobResponse>,
-  errors: [BadRequest, NotFound, UnknownStackitError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -675,7 +689,8 @@ export const getProjectTelemetryLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c8, 0) as any as S.Schema<GetProjectTelemetryLinkRequest>,
   output: __S(43, __c21, 1) as any as S.Schema<TelemetryLinkResponse>,
-  errors: [BadRequest, NotFound, UnknownStackitError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -692,7 +707,8 @@ export const listFolderBackflushJobs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18, __c9, 0) as any as S.Schema<ListFolderBackflushJobsRequest>,
   output: __S(21, __c10, 1) as any as S.Schema<ListBackflushJobsResponse>,
-  errors: [BadRequest, UnknownStackitError],
+  errors: [BadRequest],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -709,7 +725,8 @@ export const listOrganizationBackflushJobs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22, __c11, 0) as any as S.Schema<ListOrganizationBackflushJobsRequest>,
   output: __S(21, __c10, 1) as any as S.Schema<ListBackflushJobsResponse>,
-  errors: [BadRequest, UnknownStackitError],
+  errors: [BadRequest],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -726,7 +743,8 @@ export const listProjectBackflushJobs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c12, 0) as any as S.Schema<ListProjectBackflushJobsRequest>,
   output: __S(21, __c10, 1) as any as S.Schema<ListBackflushJobsResponse>,
-  errors: [BadRequest, UnknownStackitError],
+  errors: [BadRequest],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -747,7 +765,8 @@ export const partialUpdateFolderTelemetryLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26, __c13, 0) as any as S.Schema<PartialUpdateFolderTelemetryLinkRequest>,
   output: __S(43, __c21, 1) as any as S.Schema<TelemetryLinkResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -768,7 +787,8 @@ export const partialUpdateOrganizationTelemetryLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30, __c15, 0) as any as S.Schema<PartialUpdateOrganizationTelemetryLinkRequest>,
   output: __S(43, __c21, 1) as any as S.Schema<TelemetryLinkResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -789,7 +809,8 @@ export const partialUpdateProjectTelemetryLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c16, 0) as any as S.Schema<PartialUpdateProjectTelemetryLinkRequest>,
   output: __S(43, __c21, 1) as any as S.Schema<TelemetryLinkResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

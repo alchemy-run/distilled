@@ -1,7 +1,6 @@
-import type * as API from "@distilled.cloud/core/api";
-import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
+import type { ErrorOf } from "@distilled.cloud/core/protocol";
 import {
-  makeRestProtocol,
+  restProtocol,
   type RestErrorEnvelope,
   unknownErrorProps,
 } from "@distilled.cloud/core/protocol-rest";
@@ -10,7 +9,7 @@ import { SdkError } from "@distilled.cloud/core/sdk-error";
  * DigitalOceanProtocol -- hand-written.
  *
  * DigitalOcean speaks plain bearer-authenticated JSON REST (no success
- * envelope), so the whole protocol is one `makeRestProtocol` call from
+ * envelope), so the whole protocol is one `restProtocol` call from
  * `core/protocol-rest`:
  *
  *   request:  credentials -> `Authorization: Bearer <apiKey>` + base URL
@@ -27,8 +26,6 @@ import { SdkError } from "@distilled.cloud/core/sdk-error";
  */
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import {
   Credentials,
@@ -36,24 +33,24 @@ import {
   DEFAULT_INFERENCE_BASE_URL,
   FunctionsCredentials,
   type Config,
-  type FunctionsConfig,
 } from "./credentials.ts";
-import { UnknownDigitalOceanError, DigitalOceanParseError } from "./errors.ts";
+import {
+  UnknownDigitalOceanError,
+  DigitalOceanParseError,
+  type DigitalOceanServiceError,
+} from "./errors.ts";
 
 /**
- * Error channel shared by every generated DigitalOcean operation. Generated
- * service files annotate operations with `API.OperationMethod<I, O,
- * DigitalOceanOpError, DigitalOceanOpContext>` explicitly so the compiler
- * never infers these back out of the schema generics.
+ * What every generated DigitalOcean operation fails with besides its own
+ * errors: the service's errors, the protocol's, and what resolving the
+ * credentials fails with. Generated service files annotate operations with
+ * `API.OperationMethod<I, O, DigitalOceanOpError, DigitalOceanOpContext>`
+ * explicitly so the compiler never infers these back out of the schema
+ * generics.
  */
 export type DigitalOceanOpError =
-  | InstanceType<(typeof API_ERRORS)[number]>
-  | UnknownDigitalOceanError
-  | ConfigError
-  | HttpClientError.HttpClientError
-  | DigitalOceanParseError
-  | InvalidInput
-  | SdkError;
+  | DigitalOceanServiceError
+  | ErrorOf<typeof DigitalOceanProtocol | typeof FunctionsProtocol>;
 
 /** Context (requirements) shared by every generated DigitalOcean operation. */
 export type DigitalOceanOpContext = Credentials | HttpClient.HttpClient;
@@ -79,7 +76,10 @@ const errorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
  * spec's operation `servers` in scripts/convert.ts); every other operation
  * runs on `apiBaseUrl`. The URL always comes from the credentials.
  */
-const baseUrlFor = (creds: Config, server: string | undefined): string => {
+const baseUrlFor = (
+  creds: Config,
+  server: string | undefined,
+): string | Effect.Effect<never, SdkError> => {
   switch (server) {
     case undefined:
       return creds.apiBaseUrl;
@@ -88,29 +88,30 @@ const baseUrlFor = (creds: Config, server: string | undefined): string => {
     case "actions":
       return creds.actionsBaseUrl ?? DEFAULT_ACTIONS_BASE_URL;
     default:
-      // Caught by makeRestProtocol and returned as the call's failure.
-      throw new SdkError({
-        message: `DigitalOcean operation runs on server "${server}", which has no base URL in the credentials`,
-      });
+      // Refuses the route: the call fails with this error.
+      return Effect.fail(
+        new SdkError({
+          message: `DigitalOcean operation runs on server "${server}", which has no base URL in the credentials`,
+        }),
+      );
   }
 };
 
-export const DigitalOceanProtocol: Layer.Layer<API.Protocol> =
-  /*@__PURE__*/ makeRestProtocol<Config>({
-    // The Credentials service holds an effect -- resolving it here (per
-    // request, on the calling fiber) picks up context-provided credentials.
-    credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
-    baseUrl: (creds, target) => baseUrlFor(creds, target.server),
-    // DigitalOcean expects JSON on every request; DELETE /v2/projects/{id}
-    // answers 415 without the header even though it carries no body.
-    headers: (creds) => ({
-      Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
-      "Content-Type": "application/json",
-    }),
-    errorEnvelope,
-    unknownError: (info) => new UnknownDigitalOceanError(unknownErrorProps(info)),
-    parseError: ({ body, cause }) => new DigitalOceanParseError({ body, cause }),
-  });
+export const DigitalOceanProtocol = /*@__PURE__*/ restProtocol({
+  // The Credentials service holds an effect -- resolving it here (per
+  // request, on the calling fiber) picks up context-provided credentials.
+  credentials: /*@__PURE__*/ Effect.flatten(Credentials),
+  baseUrl: (creds, target) => baseUrlFor(creds, target.server),
+  // DigitalOcean expects JSON on every request; DELETE /v2/projects/{id}
+  // answers 415 without the header even though it carries no body.
+  headers: (creds) => ({
+    Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
+    "Content-Type": "application/json",
+  }),
+  errorEnvelope,
+  unknownError: (info) => new UnknownDigitalOceanError(unknownErrorProps(info)),
+  parseError: ({ body, cause }) => new DigitalOceanParseError({ body, cause }),
+});
 
 /** Context (requirements) of the generated Functions (OpenWhisk) operations. */
 export type FunctionsOpContext = FunctionsCredentials | HttpClient.HttpClient;
@@ -127,15 +128,14 @@ const functionsErrorEnvelope = (body: unknown): RestErrorEnvelope | undefined =>
  * signed with HTTP basic auth: a namespace access key (`<id>:<secret>`) or
  * the namespace's own `<uuid>:<key>`.
  */
-export const FunctionsProtocol: Layer.Layer<API.Protocol> =
-  /*@__PURE__*/ makeRestProtocol<FunctionsConfig>({
-    credentials: /*@__PURE__*/ Effect.flatMap(FunctionsCredentials, (resolve) => resolve),
-    baseUrl: (creds) => creds.apiHost,
-    headers: (creds) => ({
-      Authorization: `Basic ${btoa(`${creds.user}:${Redacted.value(creds.secret)}`)}`,
-      "Content-Type": "application/json",
-    }),
-    errorEnvelope: functionsErrorEnvelope,
-    unknownError: (info) => new UnknownDigitalOceanError(unknownErrorProps(info)),
-    parseError: ({ body, cause }) => new DigitalOceanParseError({ body, cause }),
-  });
+export const FunctionsProtocol = /*@__PURE__*/ restProtocol({
+  credentials: /*@__PURE__*/ Effect.flatten(FunctionsCredentials),
+  baseUrl: (creds) => creds.apiHost,
+  headers: (creds) => ({
+    Authorization: `Basic ${btoa(`${creds.user}:${Redacted.value(creds.secret)}`)}`,
+    "Content-Type": "application/json",
+  }),
+  errorEnvelope: functionsErrorEnvelope,
+  unknownError: (info) => new UnknownDigitalOceanError(unknownErrorProps(info)),
+  parseError: ({ body, cause }) => new DigitalOceanParseError({ body, cause }),
+});

@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownCoinflowError } from "../errors.ts";
+import { CoinflowServiceErrors } from "../errors.ts";
 import { CoinflowProtocol, type CoinflowOpError, type CoinflowOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -30,6 +30,7 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       message: S.String,
       body: S.Unknown,
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
   ) {}
@@ -82,6 +83,9 @@ export interface RefreshEmbedSessionRequest {
   /** The embed session token minted by the parent merchant for an embedded onboarding iframe */
   embedSession: string | Redacted.Redacted<string>;
 }
+export interface CreateEmbedSessionRequestBadRequestError {
+  msg: string;
+}
 export type CreateEmbedSessionError = BadRequest | CoinflowOpError;
 /** Create Embed Session Mint an embed session token for one of your sub-merchants, to hand to an embedded onboarding iframe. Requires an ADMIN API key and the `x-coinflow-submerchant-id` header naming a child or grandchild merchant. Each token is valid for 15 minutes. The iframe renews it itself through `POST /embed/session/refresh`; renewals stop 8 hours after this mint, at which point a new token must be minted here. `parentOrigin` is the origin of the page that frames the iframe. It must be covered by one of the whitelisted URLs, and the iframe posts its onboarding events only to this origin. Omit it to mint a link-only session: the sub-merchant opens the page directly instead of in an iframe, and the page refuses to load when framed. `returnUrl` is where a sub-merchant who opened the page as a link goes back to after submitting. It must be covered by one of the whitelisted URLs. */
 export const createEmbedSession: API.OperationMethod<
@@ -92,7 +96,8 @@ export const createEmbedSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateEmbedSessionRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<EmbedSessionToken>,
-  errors: [BadRequest, UnknownCoinflowError],
+  errors: [BadRequest],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -109,7 +114,8 @@ export const getEmbedSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c2, 0) as any as S.Schema<GetEmbedSessionRequest>,
   output: __S(11, __c2, 3) as any as S.Schema<EmbedSessionInfo>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -126,7 +132,8 @@ export const refreshEmbedSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12, __c3, 0) as any as S.Schema<RefreshEmbedSessionRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<EmbedSessionToken>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

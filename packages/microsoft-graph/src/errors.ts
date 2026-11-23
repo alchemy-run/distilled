@@ -36,7 +36,7 @@ export {
 export type { DefaultErrors } from "@distilled.cloud/core/errors";
 
 import * as Category from "@distilled.cloud/core/category";
-import { UnknownErrorFields } from "@distilled.cloud/core/errors";
+import { API_ERRORS, UnknownErrorFields } from "@distilled.cloud/core/errors";
 import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
 /** Fields every Graph-code error carries (from the OData error envelope). */
@@ -250,7 +250,7 @@ export class DirectoryObjectNotFound
 // ---------------------------------------------------------------------------
 
 /** Graph `error.code` / `error.details[].code` -> typed error class. */
-export const GRAPH_ERROR_CODE_MAP: Record<string, new (props: any) => unknown> = {
+export const GRAPH_ERROR_CODE_MAP: Record<string, new (props: any) => MicrosoftGraphApiError> = {
   // Not found
   Request_ResourceNotFound: ResourceNotFound,
   ResourceNotFound: ResourceNotFound,
@@ -279,7 +279,7 @@ export const GRAPH_ERROR_CODE_MAP: Record<string, new (props: any) => unknown> =
 export const GRAPH_ERROR_MESSAGE_MATCHERS: ReadonlyArray<{
   readonly code?: string;
   readonly includes: string;
-  readonly error: new (props: any) => unknown;
+  readonly error: new (props: any) => MicrosoftGraphApiError;
 }> = [
   {
     code: "Request_BadRequest",
@@ -356,3 +356,20 @@ export type MicrosoftGraphApiError =
   | DirectoryConcurrencyViolation
   | DirectoryObjectNotFound
   | FederatedIdentityCredentialSubjectInUse;
+
+/**
+ * The errors declared on the Microsoft Graph service: any operation can
+ * return them, and every generated operation lists them as its
+ * `serviceErrors`. Each of core's status classes (the protocol builds the
+ * one for a failed response's status), and every class an error code or
+ * message maps to ({@link GRAPH_ERROR_CODE_MAP},
+ * {@link GRAPH_ERROR_MESSAGE_MATCHERS}).
+ */
+export const MicrosoftGraphServiceErrors = /*@__PURE__*/ Array.from(
+  /*@__PURE__*/ new Set([
+    ...API_ERRORS,
+    .../*@__PURE__*/ Object.values(GRAPH_ERROR_CODE_MAP),
+    .../*@__PURE__*/ GRAPH_ERROR_MESSAGE_MATCHERS.map((matcher) => matcher.error),
+  ]),
+);
+export type MicrosoftGraphServiceError = InstanceType<(typeof MicrosoftGraphServiceErrors)[number]>;

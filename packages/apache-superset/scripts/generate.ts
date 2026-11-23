@@ -64,7 +64,7 @@ const apacheSupersetSpec: SdkSpec = {
   operationDecl: {
     contextType: "ApacheSupersetOpContext",
     commonErrorType: "ApacheSupersetOpError",
-    commonErrorClasses: ["UnknownApacheSupersetError"],
+    serviceErrors: "ApacheSupersetServiceErrors",
     protocol: "ApacheSupersetProtocol",
     retry: "Retry.Retry",
   },

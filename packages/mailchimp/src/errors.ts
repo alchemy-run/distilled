@@ -27,7 +27,7 @@ export {
 export type { DefaultErrors } from "@distilled.cloud/core/errors";
 
 import * as Category from "@distilled.cloud/core/category";
-import { UnknownErrorFields } from "@distilled.cloud/core/errors";
+import { API_ERRORS, UnknownErrorFields } from "@distilled.cloud/core/errors";
 import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
 const ProblemFields = {
@@ -78,3 +78,12 @@ export class MailchimpTransactionalError
       body: Schema.Unknown,
     },
   ) {}
+
+/**
+ * The errors declared on the Mailchimp service, for the Marketing and the
+ * Transactional API alike: any operation can return them, and every
+ * generated operation lists them as its `serviceErrors`. Today that is each
+ * of core's status classes (401, 403, 404, 429, the 5xx ...).
+ */
+export const MailchimpServiceErrors = API_ERRORS;
+export type MailchimpServiceError = InstanceType<(typeof MailchimpServiceErrors)[number]>;

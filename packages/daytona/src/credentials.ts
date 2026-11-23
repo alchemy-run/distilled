@@ -3,8 +3,8 @@
  *
  * The `Credentials` service resolves `{ apiKey, apiBaseUrl, analyticsBaseUrl,
  * toolboxBaseUrl, sandboxId?, organizationId? }` per request; the protocol
- * layer formats the `Authorization: Bearer <apiKey>` header from it. The
- * key is a Daytona API key from https://app.daytona.io/dashboard/keys.
+ * formats the `Authorization: Bearer <apiKey>` header from it. The key is a
+ * Daytona API key from https://app.daytona.io/dashboard/keys.
  *
  * Daytona speaks from THREE endpoints:
  *

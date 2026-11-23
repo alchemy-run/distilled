@@ -79,7 +79,7 @@ const spec: SdkSpec = {
   operationDecl: {
     contextType: "ProxmoxOpContext",
     commonErrorType: "ProxmoxOpError",
-    commonErrorClasses: ["UnknownProxmoxError"],
+    serviceErrors: "ProxmoxServiceErrors",
     protocol: "ProxmoxProtocol",
     // No retry policy: replaying a write could start its task twice.
   },

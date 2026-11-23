@@ -9,7 +9,7 @@ import { invalidHostLabelConfig } from "@distilled.cloud/core/protocol-http";
  * `server.api.mailchimp.com` host is a placeholder, not an origin.
  *
  * Following the core convention the `Credentials` service holds an *effect*
- * resolving the current config, which the protocol layer runs per request on
+ * resolving the current config, which the protocol runs per request on
  * the calling fiber.
  */
 import * as EffectConfig from "effect/Config";
@@ -121,6 +121,14 @@ export class TransactionalCredentials
     TransactionalCredentials,
     Effect.Effect<TransactionalConfig, ConfigError>
   >()("MailchimpTransactionalCredentials") {}
+
+/**
+ * What resolving the Transactional credentials can fail with: declared on
+ * {@link TransactionalCredentials}.
+ */
+export type TransactionalCredentialsError = Effect.Error<
+  (typeof TransactionalCredentials)["Service"]
+>;
 
 const resolveTransactional = (config: {
   readonly apiKey: string | Redacted.Redacted<string>;

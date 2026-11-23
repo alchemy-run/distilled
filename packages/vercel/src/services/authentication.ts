@@ -4,6 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
+import { VercelServiceErrors } from "../errors.ts";
 import { VercelProtocol, type VercelOpError, type VercelOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -412,6 +413,7 @@ export const createApiKeys: API.OperationMethod<
   input: __S(11, __c1, 3) as any as S.Schema<CreateApiKeysRequest>,
   output: __S(15, __c1, 7) as any as S.Schema<CreateApiKeysResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -429,6 +431,7 @@ export const createAuthToken: API.OperationMethod<
   input: __S(16, __c2, 0) as any as S.Schema<CreateAuthTokenRequest>,
   output: __S(17, __c2, 1) as any as S.Schema<CreateAuthTokenResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -446,6 +449,7 @@ export const deleteAuthToken: API.OperationMethod<
   input: __S(32, __c4, 0) as any as S.Schema<DeleteAuthTokenRequest>,
   output: __S(33, __c4, 1) as any as S.Schema<DeleteAuthTokenResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -463,6 +467,7 @@ export const exchangeSsoToken: API.OperationMethod<
   input: __S(40, __c5, 0) as any as S.Schema<ExchangeSsoTokenRequest>,
   output: __S(41, __c5, 1) as any as S.Schema<ExchangeSsoTokenResponse>,
   errors: [BadRequest, Forbidden],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -480,6 +485,7 @@ export const getAuthToken: API.OperationMethod<
   input: __S(48, __c6, 0) as any as S.Schema<GetAuthTokenRequest>,
   output: __S(49, __c6, 1) as any as S.Schema<GetAuthTokenResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -497,6 +503,7 @@ export const listAuthTokens: API.OperationMethod<
   input: __S(56, __c7, 0) as any as S.Schema<ListAuthTokensRequest>,
   output: __S(57, __c7, 1) as any as S.Schema<ListAuthTokensResponse>,
   errors: [BadRequest, Forbidden],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

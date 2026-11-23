@@ -1,11 +1,9 @@
-import type * as API from "@distilled.cloud/core/api";
-import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
+import type { ErrorOf } from "@distilled.cloud/core/protocol";
 import {
-  makeRestProtocol,
+  restProtocol,
   type RestErrorEnvelope,
   unknownErrorProps,
 } from "@distilled.cloud/core/protocol-rest";
-import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * MollieProtocol -- the shared REST protocol instantiated for the Mollie API.
  *
@@ -20,26 +18,21 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
  */
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config } from "./credentials.ts";
-import { MollieParseError, UnknownMollieError } from "./errors.ts";
+import { Credentials } from "./credentials.ts";
+import { MollieParseError, UnknownMollieError, type MollieServiceError } from "./errors.ts";
 
 /**
- * Error channel shared by every generated Mollie operation. Generated
- * service files annotate operations with `API.OperationMethod<I, O,
+ * What every generated Mollie operation fails with besides its own errors: the
+ * errors declared on the service, and the errors declared on the protocol.
+ * Nobody lists the protocol's: its type carries what its code fails with (a
+ * response that does not match its schema, a failed response nothing declares,
+ * core's REST errors, and what resolving the credentials fails with).
+ * Generated service files annotate operations with `API.OperationMethod<I, O,
  * MollieOpError, MollieOpContext>` explicitly so the compiler never infers
  * these back out of the schema generics.
  */
-export type MollieOpError =
-  | InstanceType<(typeof API_ERRORS)[number]>
-  | UnknownMollieError
-  | ConfigError
-  | HttpClientError.HttpClientError
-  | MollieParseError
-  | InvalidInput
-  | SdkError;
+export type MollieOpError = MollieServiceError | ErrorOf<typeof MollieProtocol>;
 
 /** Context (requirements) shared by every generated Mollie operation. */
 export type MollieOpContext = Credentials | HttpClient.HttpClient;
@@ -57,10 +50,10 @@ const errorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
   return message === undefined ? undefined : { message };
 };
 
-export const MollieProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
+export const MollieProtocol = /*@__PURE__*/ restProtocol({
   // Resolved on the calling fiber per request, so a rotated key is picked
   // up without rebuilding the layer.
-  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
+  credentials: /*@__PURE__*/ Effect.flatten(Credentials),
   baseUrl: (creds) => creds.baseUrl,
   headers: (creds) => ({
     Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,

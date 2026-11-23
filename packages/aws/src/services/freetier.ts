@@ -6,6 +6,7 @@ import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -317,6 +318,7 @@ export const getAccountActivity: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountActivity",
@@ -349,6 +351,7 @@ export const getAccountPlanState: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountPlanState",
@@ -374,6 +377,7 @@ export const getFreeTierUsage: API.PaginatedOperationMethod<
   input: __S(36, __c4, 4) as any as S.Schema<GetFreeTierUsageRequest>,
   output: __S(39, __c4, 7) as any as S.Schema<GetFreeTierUsageResponse>,
   errors: [InternalServerException, ThrottlingException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFreeTierUsage",
@@ -405,6 +409,7 @@ export const listAccountActivities: API.PaginatedOperationMethod<
   input: __S(48, __c6, 0) as any as S.Schema<ListAccountActivitiesRequest>,
   output: __S(51, __c6, 3) as any as S.Schema<ListAccountActivitiesResponse>,
   errors: [InternalServerException, ThrottlingException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAccountActivities",
@@ -443,6 +448,7 @@ export const upgradeAccountPlan: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpgradeAccountPlan",

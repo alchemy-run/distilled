@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { MailchimpApiError, UnknownMailchimpError } from "../errors.ts";
+import { MailchimpServiceErrors } from "../errors.ts";
 import { paginateOffset } from "../pagination.ts";
 import { MailchimpProtocol, type MailchimpOpError, type MailchimpOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
@@ -28284,7 +28284,8 @@ export const addCartLineItem: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<AddCartLineItemRequest>,
   output: __S(32, __c2, 0) as any as S.Schema<AddCartLineItemResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28301,7 +28302,8 @@ export const addFeedback: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c3, 0) as any as S.Schema<AddFeedbackRequest>,
   output: __S(64, __c4, 0) as any as S.Schema<AddFeedbackResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28318,7 +28320,8 @@ export const addListMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2480, __c155, 0) as any as S.Schema<AddListMemberRequest>,
   output: __S(2501, __c156, 5) as any as S.Schema<AddListMemberResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28335,7 +28338,8 @@ export const addListMergeField: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4657, __c291, 1) as any as S.Schema<AddListMergeFieldRequest>,
   output: __S(4673, __c292, 1) as any as S.Schema<AddListMergeFieldResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28352,7 +28356,8 @@ export const addOrderLineItem: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5024, __c314, 0) as any as S.Schema<AddOrderLineItemRequest>,
   output: __S(5072, __c317, 0) as any as S.Schema<AddOrderLineItemResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28369,7 +28374,8 @@ export const addProductImage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5360, __c335, 0) as any as S.Schema<AddProductImageRequest>,
   output: __S(5376, __c336, 0) as any as S.Schema<AddProductImageResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28386,7 +28392,8 @@ export const addProductVariant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5552, __c347, 0) as any as S.Schema<AddProductVariantRequest>,
   output: __S(5568, __c348, 0) as any as S.Schema<AddProductVariantResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28403,7 +28410,8 @@ export const addProductVariants: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5744, __c359, 0) as any as S.Schema<AddProductVariantsRequest>,
   output: __S(5568, __c348, 0) as any as S.Schema<AddProductVariantsResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28420,7 +28428,8 @@ export const addPromoCode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5936, __c371, 0) as any as S.Schema<AddPromoCodeRequest>,
   output: __S(5952, __c372, 0) as any as S.Schema<AddPromoCodeResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28437,7 +28446,8 @@ export const addPromoRules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6192, __c387, 0) as any as S.Schema<AddPromoRulesRequest>,
   output: __S(6208, __c388, 0) as any as S.Schema<AddPromoRulesResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28454,7 +28464,8 @@ export const addStore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c5, 0) as any as S.Schema<AddStoreRequest>,
   output: __S(100, __c6, 4) as any as S.Schema<AddStoreResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28471,7 +28482,8 @@ export const addStoreCart: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(338, __c21, 2) as any as S.Schema<AddStoreCartRequest>,
   output: __S(400, __c25, 0) as any as S.Schema<AddStoreCartResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28488,7 +28500,8 @@ export const addStoreCustomer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c42, 0) as any as S.Schema<AddStoreCustomerRequest>,
   output: __S(369, __c23, 1) as any as S.Schema<AddStoreCustomerResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28505,7 +28518,8 @@ export const addStoreOrder: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(882, __c55, 2) as any as S.Schema<AddStoreOrderRequest>,
   output: __S(900, __c56, 4) as any as S.Schema<AddStoreOrderResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28522,7 +28536,8 @@ export const addStoreProduct: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1136, __c71, 0) as any as S.Schema<AddStoreProductRequest>,
   output: __S(1184, __c74, 0) as any as S.Schema<AddStoreProductResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28539,7 +28554,8 @@ export const addWorkflowEmailSubscriber: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c88, 0) as any as S.Schema<AddWorkflowEmailSubscriberRequest>,
   output: __S(1424, __c89, 0) as any as S.Schema<AddWorkflowEmailSubscriberResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28556,7 +28572,8 @@ export const archiveAutomation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1616, __c101, 0) as any as S.Schema<ArchiveAutomationRequest>,
   output: __S(1632, __c102, 0) as any as S.Schema<ArchiveAutomationResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28573,7 +28590,8 @@ export const archiveContact: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1824, __c114, 0) as any as S.Schema<ArchiveContactRequest>,
   output: __S(1632, __c102, 0) as any as S.Schema<ArchiveContactResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28590,7 +28608,8 @@ export const batchListMembers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2018, __c126, 2) as any as S.Schema<BatchListMembersRequest>,
   output: __S(2021, __c126, 5) as any as S.Schema<BatchListMembersResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28607,7 +28626,8 @@ export const batchSegmentMembers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2240, __c140, 0) as any as S.Schema<BatchSegmentMembersRequest>,
   output: __S(2243, __c140, 3) as any as S.Schema<BatchSegmentMembersResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28624,7 +28644,8 @@ export const cancelCampaignSend: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2608, __c163, 0) as any as S.Schema<CancelCampaignSendRequest>,
   output: __S(1632, __c102, 0) as any as S.Schema<CancelCampaignSendResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28641,7 +28662,8 @@ export const cancelSmsCampaignSend: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2816, __c176, 0) as any as S.Schema<CancelSmsCampaignSendRequest>,
   output: __S(1632, __c102, 0) as any as S.Schema<CancelSmsCampaignSendResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28658,7 +28680,8 @@ export const createAccountExport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3024, __c189, 0) as any as S.Schema<CreateAccountExportRequest>,
   output: __S(3056, __c191, 0) as any as S.Schema<CreateAccountExportResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28675,7 +28698,8 @@ export const createAudienceContact: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3234, __c202, 2) as any as S.Schema<CreateAudienceContactRequest>,
   output: __S(3284, __c205, 4) as any as S.Schema<CreateAudienceContactResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28692,7 +28716,8 @@ export const createAutomation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3459, __c216, 3) as any as S.Schema<CreateAutomationRequest>,
   output: __S(3475, __c217, 3) as any as S.Schema<CreateAutomationResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28709,7 +28734,8 @@ export const createBatchWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3680, __c230, 0) as any as S.Schema<CreateBatchWebhookRequest>,
   output: __S(3696, __c231, 0) as any as S.Schema<CreateBatchWebhookResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28726,7 +28752,8 @@ export const createCampaign: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3875, __c242, 3) as any as S.Schema<CreateCampaignRequest>,
   output: __S(3896, __c243, 8) as any as S.Schema<CreateCampaignResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28743,7 +28770,8 @@ export const createCampaignFolder: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4160, __c260, 0) as any as S.Schema<CreateCampaignFolderRequest>,
   output: __S(4176, __c261, 0) as any as S.Schema<CreateCampaignFolderResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28760,7 +28788,8 @@ export const createConnectedSite: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4368, __c273, 0) as any as S.Schema<CreateConnectedSiteRequest>,
   output: __S(4384, __c274, 0) as any as S.Schema<CreateConnectedSiteResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28777,7 +28806,8 @@ export const createEmail: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4560, __c285, 0) as any as S.Schema<CreateEmailRequest>,
   output: __S(4579, __c286, 3) as any as S.Schema<CreateEmailResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28794,7 +28824,8 @@ export const createFolder: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4688, __c293, 0) as any as S.Schema<CreateFolderRequest>,
   output: __S(4704, __c294, 0) as any as S.Schema<CreateFolderResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28811,7 +28842,8 @@ export const createInterestCategoryInterest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4720, __c295, 0) as any as S.Schema<CreateInterestCategoryInterestRequest>,
   output: __S(4736, __c296, 0) as any as S.Schema<CreateInterestCategoryInterestResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28828,7 +28860,8 @@ export const createLandingPage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4752, __c297, 0) as any as S.Schema<CreateLandingPageRequest>,
   output: __S(4785, __c299, 1) as any as S.Schema<CreateLandingPageResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28845,7 +28878,8 @@ export const createList: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4801, __c300, 1) as any as S.Schema<CreateListRequest>,
   output: __S(4835, __c302, 3) as any as S.Schema<CreateListResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28862,7 +28896,8 @@ export const createListInterestCategory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4848, __c303, 0) as any as S.Schema<CreateListInterestCategoryRequest>,
   output: __S(4864, __c304, 0) as any as S.Schema<CreateListInterestCategoryResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28879,7 +28914,8 @@ export const createListMemberEvent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4880, __c305, 0) as any as S.Schema<CreateListMemberEventRequest>,
   output: __S(1632, __c102, 0) as any as S.Schema<CreateListMemberEventResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28896,7 +28932,8 @@ export const createListMemberNote: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4912, __c307, 0) as any as S.Schema<CreateListMemberNoteRequest>,
   output: __S(4928, __c308, 0) as any as S.Schema<CreateListMemberNoteResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28913,7 +28950,8 @@ export const createListWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4944, __c309, 0) as any as S.Schema<CreateListWebhookRequest>,
   output: __S(4962, __c310, 2) as any as S.Schema<CreateListWebhookResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28930,7 +28968,8 @@ export const createOrUpdateStoreProduct: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4992, __c312, 0) as any as S.Schema<CreateOrUpdateStoreProductRequest>,
   output: __S(1184, __c74, 0) as any as S.Schema<CreateOrUpdateStoreProductResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28947,7 +28986,8 @@ export const createResend: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5008, __c313, 0) as any as S.Schema<CreateResendRequest>,
   output: __S(4579, __c286, 3) as any as S.Schema<CreateResendResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28964,7 +29004,8 @@ export const createSegment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5105, __c319, 1) as any as S.Schema<CreateSegmentRequest>,
   output: __S(5121, __c320, 1) as any as S.Schema<CreateSegmentResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28981,7 +29022,8 @@ export const createSegmentMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5136, __c321, 0) as any as S.Schema<CreateSegmentMemberRequest>,
   output: __S(5152, __c322, 0) as any as S.Schema<CreateSegmentMemberResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28998,7 +29040,8 @@ export const createSmsCampaign: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5168, __c323, 0) as any as S.Schema<CreateSmsCampaignRequest>,
   output: __S(5185, __c324, 1) as any as S.Schema<CreateSmsCampaignResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29015,7 +29058,8 @@ export const createSurvey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5200, __c325, 0) as any as S.Schema<CreateSurveyRequest>,
   output: __S(1632, __c102, 0) as any as S.Schema<CreateSurveyResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29032,7 +29076,8 @@ export const createTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5232, __c327, 0) as any as S.Schema<CreateTemplateRequest>,
   output: __S(5248, __c328, 0) as any as S.Schema<CreateTemplateResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29049,7 +29094,8 @@ export const createTemplateFolder: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5264, __c329, 0) as any as S.Schema<CreateTemplateFolderRequest>,
   output: __S(4176, __c261, 0) as any as S.Schema<CreateTemplateFolderResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29066,7 +29112,8 @@ export const createVerifiedDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5280, __c330, 0) as any as S.Schema<CreateVerifiedDomainRequest>,
   output: __S(5296, __c331, 0) as any as S.Schema<CreateVerifiedDomainResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29083,7 +29130,8 @@ export const deleteBatchWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5312, __c332, 0) as any as S.Schema<DeleteBatchWebhookRequest>,
   output: __S(1632, __c102, 0) as any as S.Schema<DeleteBatchWebhookResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29100,7 +29148,8 @@ export const deleteCampaign: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5328, __c333, 0) as any as S.Schema<DeleteCampaignRequest>,
   output: __S(1632, __c102, 0) as any as S.Schema<DeleteCampaignResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29117,7 +29166,8 @@ export const deleteCampaignFolder: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5344, __c334, 0) as any as S.Schema<DeleteCampaignFolderRequest>,
   output: __S(1632, __c102, 0) as any as S.Schema<DeleteCampaignFolderResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29134,7 +29184,8 @@ export const deleteCartLineItem: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5392, __c337, 0) as any as S.Schema<DeleteCartLineItemRequest>,
   output: __S(1632, __c102, 0) as any as S.Schema<DeleteCartLineItemResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29151,7 +29202,8 @@ export const deleteConnectedSite: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5408, __c338, 0) as any as S.Schema<DeleteConnectedSiteRequest>,
   output: __S(1632, __c102, 0) as any as S.Schema<DeleteConnectedSiteResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29168,7 +29220,8 @@ export const deleteDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5424, __c339, 0) as any as S.Schema<DeleteDomainRequest>,
   output: __S(1632, __c102, 0) as any as S.Schema<DeleteDomainResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29185,7 +29238,8 @@ export const deleteFeedbackMessage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5440, __c340, 0) as any as S.Schema<DeleteFeedbackMessageRequest>,
   output: __S(1632, __c102, 0) as any as S.Schema<DeleteFeedbackMessageResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29202,7 +29256,8 @@ export const deleteFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5456, __c341, 0) as any as S.Schema<DeleteFileRequest>,
   output: __S(1632, __c102, 0) as any as S.Schema<DeleteFileResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29219,7 +29274,8 @@ export const deleteFolder: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5472, __c342, 0) as any as S.Schema<DeleteFolderRequest>,
   output: __S(1632, __c102, 0) as any as S.Schema<DeleteFolderResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29236,7 +29292,8 @@ export const deleteInterestCategory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5488, __c343, 0) as any as S.Schema<DeleteInterestCategoryRequest>,
   output: __S(1632, __c102, 0) as any as S.Schema<DeleteInterestCategoryResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29253,7 +29310,8 @@ export const deleteInterestCategoryInterest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5504, __c344, 0) as any as S.Schema<DeleteInterestCategoryInterestRequest>,
   output: __S(1632, __c102, 0) as any as S.Schema<DeleteInterestCategoryInterestResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29270,7 +29328,8 @@ export const deleteList: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5520, __c345, 0) as any as S.Schema<DeleteListRequest>,
   output: __S(1632, __c102, 0) as any as S.Schema<DeleteListResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29287,7 +29346,8 @@ export const deleteListMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5536, __c346, 0) as any as S.Schema<DeleteListMemberRequest>,
   output: __S(1632, __c102, 0) as any as S.Schema<DeleteListMemberResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29304,7 +29364,8 @@ export const deleteListMemberNote: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5584, __c349, 0) as any as S.Schema<DeleteListMemberNoteRequest>,
   output: __S(1632, __c102, 0) as any as S.Schema<DeleteListMemberNoteResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29321,7 +29382,8 @@ export const deleteListMemberPermanent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5600, __c350, 0) as any as S.Schema<DeleteListMemberPermanentRequest>,
   output: __S(1632, __c102, 0) as any as S.Schema<DeleteListMemberPermanentResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29338,7 +29400,8 @@ export const deleteListMergeField: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5616, __c351, 0) as any as S.Schema<DeleteListMergeFieldRequest>,
   output: __S(1632, __c102, 0) as any as S.Schema<DeleteListMergeFieldResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29355,7 +29418,8 @@ export const deleteListWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5632, __c352, 0) as any as S.Schema<DeleteListWebhookRequest>,
   output: __S(1632, __c102, 0) as any as S.Schema<DeleteListWebhookResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29372,7 +29436,8 @@ export const deleteOrder: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5648, __c353, 0) as any as S.Schema<DeleteOrderRequest>,
   output: __S(1632, __c102, 0) as any as S.Schema<DeleteOrderResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29389,7 +29454,8 @@ export const deleteOrderLineItem: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5664, __c354, 0) as any as S.Schema<DeleteOrderLineItemRequest>,
   output: __S(1632, __c102, 0) as any as S.Schema<DeleteOrderLineItemResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29406,7 +29472,8 @@ export const deletePage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5680, __c355, 0) as any as S.Schema<DeletePageRequest>,
   output: __S(1632, __c102, 0) as any as S.Schema<DeletePageResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29423,7 +29490,8 @@ export const deleteProductImage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5696, __c356, 0) as any as S.Schema<DeleteProductImageRequest>,
   output: __S(1632, __c102, 0) as any as S.Schema<DeleteProductImageResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29440,7 +29508,8 @@ export const deleteProductVariant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5712, __c357, 0) as any as S.Schema<DeleteProductVariantRequest>,
   output: __S(1632, __c102, 0) as any as S.Schema<DeleteProductVariantResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29457,7 +29526,8 @@ export const deletePromoCode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5728, __c358, 0) as any as S.Schema<DeletePromoCodeRequest>,
   output: __S(1632, __c102, 0) as any as S.Schema<DeletePromoCodeResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29474,7 +29544,8 @@ export const deletePromoRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5760, __c360, 0) as any as S.Schema<DeletePromoRuleRequest>,
   output: __S(1632, __c102, 0) as any as S.Schema<DeletePromoRuleResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29491,7 +29562,8 @@ export const deleteRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5776, __c361, 0) as any as S.Schema<DeleteRequestRequest>,
   output: __S(1632, __c102, 0) as any as S.Schema<DeleteRequestResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29508,7 +29580,8 @@ export const deleteSegment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5792, __c362, 0) as any as S.Schema<DeleteSegmentRequest>,
   output: __S(1632, __c102, 0) as any as S.Schema<DeleteSegmentResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29525,7 +29598,8 @@ export const deleteSmsCampaign: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5808, __c363, 0) as any as S.Schema<DeleteSmsCampaignRequest>,
   output: __S(1632, __c102, 0) as any as S.Schema<DeleteSmsCampaignResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29542,7 +29616,8 @@ export const deleteStore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5824, __c364, 0) as any as S.Schema<DeleteStoreRequest>,
   output: __S(5840, __c365, 0) as any as S.Schema<DeleteStoreResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29559,7 +29634,8 @@ export const deleteStoreCart: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5856, __c366, 0) as any as S.Schema<DeleteStoreCartRequest>,
   output: __S(1632, __c102, 0) as any as S.Schema<DeleteStoreCartResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29576,7 +29652,8 @@ export const deleteStoreCustomer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5872, __c367, 0) as any as S.Schema<DeleteStoreCustomerRequest>,
   output: __S(1632, __c102, 0) as any as S.Schema<DeleteStoreCustomerResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29593,7 +29670,8 @@ export const deleteStoreProduct: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5888, __c368, 0) as any as S.Schema<DeleteStoreProductRequest>,
   output: __S(1632, __c102, 0) as any as S.Schema<DeleteStoreProductResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29610,7 +29688,8 @@ export const deleteSurvey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5904, __c369, 0) as any as S.Schema<DeleteSurveyRequest>,
   output: __S(1632, __c102, 0) as any as S.Schema<DeleteSurveyResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29627,7 +29706,8 @@ export const deleteTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5920, __c370, 0) as any as S.Schema<DeleteTemplateRequest>,
   output: __S(1632, __c102, 0) as any as S.Schema<DeleteTemplateResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29644,7 +29724,8 @@ export const deleteTemplateFolder: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5968, __c373, 0) as any as S.Schema<DeleteTemplateFolderRequest>,
   output: __S(1632, __c102, 0) as any as S.Schema<DeleteTemplateFolderResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29661,7 +29742,8 @@ export const deleteWorkflowEmail: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5984, __c374, 0) as any as S.Schema<DeleteWorkflowEmailRequest>,
   output: __S(1632, __c102, 0) as any as S.Schema<DeleteWorkflowEmailResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29678,7 +29760,8 @@ export const disablePixel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6000, __c375, 0) as any as S.Schema<DisablePixelRequest>,
   output: __S(1632, __c102, 0) as any as S.Schema<DisablePixelResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29695,7 +29778,8 @@ export const enablePixel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6016, __c376, 0) as any as S.Schema<EnablePixelRequest>,
   output: __S(1632, __c102, 0) as any as S.Schema<EnablePixelResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29712,7 +29796,8 @@ export const forgetContact: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6032, __c377, 0) as any as S.Schema<ForgetContactRequest>,
   output: __S(1632, __c102, 0) as any as S.Schema<ForgetContactResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29729,7 +29814,8 @@ export const getAccountExports: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6048, __c378, 0) as any as S.Schema<GetAccountExportsRequest>,
   output: __S(3056, __c191, 0) as any as S.Schema<GetAccountExportsResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29746,7 +29832,8 @@ export const getAd: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6064, __c379, 0) as any as S.Schema<GetAdRequest>,
   output: __S(6086, __c380, 6) as any as S.Schema<GetAdResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29763,7 +29850,8 @@ export const getAll: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6112, __c382, 0) as any as S.Schema<GetAllRequest>,
   output: __S(6114, __c382, 2) as any as S.Schema<GetAllResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29782,7 +29870,8 @@ export const getAllCampaignReports: API.PaginatedOperationMethod<
   () => ({
     input: __S(6128, __c383, 0) as any as S.Schema<GetAllCampaignReportsRequest>,
     output: __S(6129, __c383, 1) as any as S.Schema<GetAllCampaignReportsResponse>,
-    errors: [MailchimpApiError, UnknownMailchimpError],
+    errors: [],
+    serviceErrors: MailchimpServiceErrors,
     protocol: MailchimpProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -29809,7 +29898,8 @@ export const getAllCartLineItems: API.PaginatedOperationMethod<
   () => ({
     input: __S(6176, __c386, 0) as any as S.Schema<GetAllCartLineItemsRequest>,
     output: __S(6177, __c386, 1) as any as S.Schema<GetAllCartLineItemsResponse>,
-    errors: [MailchimpApiError, UnknownMailchimpError],
+    errors: [],
+    serviceErrors: MailchimpServiceErrors,
     protocol: MailchimpProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -29836,7 +29926,8 @@ export const getAllFacebookAds: API.PaginatedOperationMethod<
   () => ({
     input: __S(6224, __c389, 0) as any as S.Schema<GetAllFacebookAdsRequest>,
     output: __S(6226, __c389, 2) as any as S.Schema<GetAllFacebookAdsResponse>,
-    errors: [MailchimpApiError, UnknownMailchimpError],
+    errors: [],
+    serviceErrors: MailchimpServiceErrors,
     protocol: MailchimpProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -29863,7 +29954,8 @@ export const getAllLists: API.PaginatedOperationMethod<
   () => ({
     input: __S(6240, __c390, 0) as any as S.Schema<GetAllListsRequest>,
     output: __S(6243, __c390, 3) as any as S.Schema<GetAllListsResponse>,
-    errors: [MailchimpApiError, UnknownMailchimpError],
+    errors: [],
+    serviceErrors: MailchimpServiceErrors,
     protocol: MailchimpProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -29890,7 +29982,8 @@ export const getAllOrderLineItems: API.PaginatedOperationMethod<
   () => ({
     input: __S(6256, __c391, 0) as any as S.Schema<GetAllOrderLineItemsRequest>,
     output: __S(6257, __c391, 1) as any as S.Schema<GetAllOrderLineItemsResponse>,
-    errors: [MailchimpApiError, UnknownMailchimpError],
+    errors: [],
+    serviceErrors: MailchimpServiceErrors,
     protocol: MailchimpProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -29917,7 +30010,8 @@ export const getAllStoreCustomers: API.PaginatedOperationMethod<
   () => ({
     input: __S(6272, __c392, 0) as any as S.Schema<GetAllStoreCustomersRequest>,
     output: __S(6274, __c392, 2) as any as S.Schema<GetAllStoreCustomersResponse>,
-    errors: [MailchimpApiError, UnknownMailchimpError],
+    errors: [],
+    serviceErrors: MailchimpServiceErrors,
     protocol: MailchimpProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -29944,7 +30038,8 @@ export const getAllStoreProducts: API.PaginatedOperationMethod<
   () => ({
     input: __S(6288, __c393, 0) as any as S.Schema<GetAllStoreProductsRequest>,
     output: __S(6290, __c393, 2) as any as S.Schema<GetAllStoreProductsResponse>,
-    errors: [MailchimpApiError, UnknownMailchimpError],
+    errors: [],
+    serviceErrors: MailchimpServiceErrors,
     protocol: MailchimpProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -29969,7 +30064,8 @@ export const getAllSurveysForList: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6304, __c394, 0) as any as S.Schema<GetAllSurveysForListRequest>,
   output: __S(1632, __c102, 0) as any as S.Schema<GetAllSurveysForListResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29986,7 +30082,8 @@ export const getAudienceContactId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6320, __c395, 0) as any as S.Schema<GetAudienceContactIdRequest>,
   output: __S(3284, __c205, 4) as any as S.Schema<GetAudienceContactIdResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30003,7 +30100,8 @@ export const getAudienceId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6336, __c396, 0) as any as S.Schema<GetAudienceIdRequest>,
   output: __S(6353, __c397, 1) as any as S.Schema<GetAudienceIdResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30020,7 +30118,8 @@ export const getAuthorizedApp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6368, __c398, 0) as any as S.Schema<GetAuthorizedAppRequest>,
   output: __S(6384, __c399, 0) as any as S.Schema<GetAuthorizedAppResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30039,7 +30138,8 @@ export const getAuthorizedApps: API.PaginatedOperationMethod<
   () => ({
     input: __S(6400, __c400, 0) as any as S.Schema<GetAuthorizedAppsRequest>,
     output: __S(6402, __c400, 2) as any as S.Schema<GetAuthorizedAppsResponse>,
-    errors: [MailchimpApiError, UnknownMailchimpError],
+    errors: [],
+    serviceErrors: MailchimpServiceErrors,
     protocol: MailchimpProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -30064,7 +30164,8 @@ export const getAutomation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c9, 0) as any as S.Schema<GetAutomationRequest>,
   output: __S(3475, __c217, 3) as any as S.Schema<GetAutomationResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30083,7 +30184,8 @@ export const getAutomations: API.PaginatedOperationMethod<
   () => ({
     input: __S(160, __c10, 0) as any as S.Schema<GetAutomationsRequest>,
     output: __S(162, __c10, 2) as any as S.Schema<GetAutomationsResponse>,
-    errors: [MailchimpApiError, UnknownMailchimpError],
+    errors: [],
+    serviceErrors: MailchimpServiceErrors,
     protocol: MailchimpProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -30108,7 +30210,8 @@ export const getBatch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c11, 0) as any as S.Schema<GetBatchRequest>,
   output: __S(192, __c12, 0) as any as S.Schema<GetBatchResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30127,7 +30230,8 @@ export const getBatches: API.PaginatedOperationMethod<
   () => ({
     input: __S(208, __c13, 0) as any as S.Schema<GetBatchesRequest>,
     output: __S(210, __c13, 2) as any as S.Schema<GetBatchesResponse>,
-    errors: [MailchimpApiError, UnknownMailchimpError],
+    errors: [],
+    serviceErrors: MailchimpServiceErrors,
     protocol: MailchimpProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -30152,7 +30256,8 @@ export const getBatchWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c14, 0) as any as S.Schema<GetBatchWebhookRequest>,
   output: __S(3696, __c231, 0) as any as S.Schema<GetBatchWebhookResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30171,7 +30276,8 @@ export const getBatchWebhooks: API.PaginatedOperationMethod<
   () => ({
     input: __S(240, __c15, 0) as any as S.Schema<GetBatchWebhooksRequest>,
     output: __S(242, __c15, 2) as any as S.Schema<GetBatchWebhooksResponse>,
-    errors: [MailchimpApiError, UnknownMailchimpError],
+    errors: [],
+    serviceErrors: MailchimpServiceErrors,
     protocol: MailchimpProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -30196,7 +30302,8 @@ export const getCampaign: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c16, 0) as any as S.Schema<GetCampaignRequest>,
   output: __S(3896, __c243, 8) as any as S.Schema<GetCampaignResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30213,7 +30320,8 @@ export const getCampaignAbuseReport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(272, __c17, 0) as any as S.Schema<GetCampaignAbuseReportRequest>,
   output: __S(288, __c18, 0) as any as S.Schema<GetCampaignAbuseReportResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30230,7 +30338,8 @@ export const getCampaignAbuseReports: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(304, __c19, 0) as any as S.Schema<GetCampaignAbuseReportsRequest>,
   output: __S(306, __c19, 2) as any as S.Schema<GetCampaignAbuseReportsResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30247,7 +30356,8 @@ export const getCampaignAdvice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c20, 0) as any as S.Schema<GetCampaignAdviceRequest>,
   output: __S(323, __c20, 3) as any as S.Schema<GetCampaignAdviceResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30266,7 +30376,8 @@ export const getCampaignClickDetails: API.PaginatedOperationMethod<
   () => ({
     input: __S(432, __c27, 0) as any as S.Schema<GetCampaignClickDetailsRequest>,
     output: __S(434, __c27, 2) as any as S.Schema<GetCampaignClickDetailsResponse>,
-    errors: [MailchimpApiError, UnknownMailchimpError],
+    errors: [],
+    serviceErrors: MailchimpServiceErrors,
     protocol: MailchimpProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -30291,7 +30402,8 @@ export const getCampaignClickDetailsForLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(464, __c29, 0) as any as S.Schema<GetCampaignClickDetailsForLinkRequest>,
   output: __S(451, __c28, 3) as any as S.Schema<GetCampaignClickDetailsForLinkResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30308,7 +30420,8 @@ export const getCampaignContent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c30, 0) as any as S.Schema<GetCampaignContentRequest>,
   output: __S(498, __c31, 2) as any as S.Schema<GetCampaignContentResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30325,7 +30438,8 @@ export const getCampaignFolder: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c32, 0) as any as S.Schema<GetCampaignFolderRequest>,
   output: __S(4176, __c261, 0) as any as S.Schema<GetCampaignFolderResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30344,7 +30458,8 @@ export const getCampaignFolders: API.PaginatedOperationMethod<
   () => ({
     input: __S(528, __c33, 0) as any as S.Schema<GetCampaignFoldersRequest>,
     output: __S(545, __c34, 1) as any as S.Schema<GetCampaignFoldersResponse>,
-    errors: [MailchimpApiError, UnknownMailchimpError],
+    errors: [],
+    serviceErrors: MailchimpServiceErrors,
     protocol: MailchimpProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -30371,7 +30486,8 @@ export const getCampaignOpenDetails: API.PaginatedOperationMethod<
   () => ({
     input: __S(560, __c35, 0) as any as S.Schema<GetCampaignOpenDetailsRequest>,
     output: __S(562, __c35, 2) as any as S.Schema<GetCampaignOpenDetailsResponse>,
-    errors: [MailchimpApiError, UnknownMailchimpError],
+    errors: [],
+    serviceErrors: MailchimpServiceErrors,
     protocol: MailchimpProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -30396,7 +30512,8 @@ export const getCampaignRecipient: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(592, __c37, 0) as any as S.Schema<GetCampaignRecipientRequest>,
   output: __S(608, __c38, 0) as any as S.Schema<GetCampaignRecipientResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30415,7 +30532,8 @@ export const getCampaignRecipients: API.PaginatedOperationMethod<
   () => ({
     input: __S(624, __c39, 0) as any as S.Schema<GetCampaignRecipientsRequest>,
     output: __S(626, __c39, 2) as any as S.Schema<GetCampaignRecipientsResponse>,
-    errors: [MailchimpApiError, UnknownMailchimpError],
+    errors: [],
+    serviceErrors: MailchimpServiceErrors,
     protocol: MailchimpProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -30440,7 +30558,8 @@ export const getCampaignReport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c40, 0) as any as S.Schema<GetCampaignReportRequest>,
   output: __S(6159, __c384, 15) as any as S.Schema<GetCampaignReportResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30459,7 +30578,8 @@ export const getCampaigns: API.PaginatedOperationMethod<
   () => ({
     input: __S(656, __c41, 0) as any as S.Schema<GetCampaignsRequest>,
     output: __S(658, __c41, 2) as any as S.Schema<GetCampaignsResponse>,
-    errors: [MailchimpApiError, UnknownMailchimpError],
+    errors: [],
+    serviceErrors: MailchimpServiceErrors,
     protocol: MailchimpProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -30484,7 +30604,8 @@ export const getCartLineItem: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(688, __c43, 0) as any as S.Schema<GetCartLineItemRequest>,
   output: __S(32, __c2, 0) as any as S.Schema<GetCartLineItemResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30503,7 +30624,8 @@ export const getChimpChatter: API.PaginatedOperationMethod<
   () => ({
     input: __S(704, __c44, 0) as any as S.Schema<GetChimpChatterRequest>,
     output: __S(707, __c44, 3) as any as S.Schema<GetChimpChatterResponse>,
-    errors: [MailchimpApiError, UnknownMailchimpError],
+    errors: [],
+    serviceErrors: MailchimpServiceErrors,
     protocol: MailchimpProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -30528,7 +30650,8 @@ export const getConnectedSite: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(720, __c45, 0) as any as S.Schema<GetConnectedSiteRequest>,
   output: __S(4384, __c274, 0) as any as S.Schema<GetConnectedSiteResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30547,7 +30670,8 @@ export const getConnectedSites: API.PaginatedOperationMethod<
   () => ({
     input: __S(736, __c46, 0) as any as S.Schema<GetConnectedSitesRequest>,
     output: __S(738, __c46, 2) as any as S.Schema<GetConnectedSitesResponse>,
-    errors: [MailchimpApiError, UnknownMailchimpError],
+    errors: [],
+    serviceErrors: MailchimpServiceErrors,
     protocol: MailchimpProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -30572,7 +30696,8 @@ export const getDefaultContentForTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(752, __c47, 0) as any as S.Schema<GetDefaultContentForTemplateRequest>,
   output: __S(753, __c47, 1) as any as S.Schema<GetDefaultContentForTemplateResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30589,7 +30714,8 @@ export const getDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c48, 0) as any as S.Schema<GetDomainRequest>,
   output: __S(5296, __c331, 0) as any as S.Schema<GetDomainResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30606,7 +30732,8 @@ export const getDomainPerformanceForCampaign: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(784, __c49, 0) as any as S.Schema<GetDomainPerformanceForCampaignRequest>,
   output: __S(787, __c49, 3) as any as S.Schema<GetDomainPerformanceForCampaignResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30625,7 +30752,8 @@ export const getEcommerceProductActivityForCampaign: API.PaginatedOperationMetho
   () => ({
     input: __S(800, __c50, 0) as any as S.Schema<GetEcommerceProductActivityForCampaignRequest>,
     output: __S(818, __c51, 2) as any as S.Schema<GetEcommerceProductActivityForCampaignResponse>,
-    errors: [MailchimpApiError, UnknownMailchimpError],
+    errors: [],
+    serviceErrors: MailchimpServiceErrors,
     protocol: MailchimpProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -30650,7 +30778,8 @@ export const getEepurlActivityForCampaign: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c52, 0) as any as S.Schema<GetEepurlActivityForCampaignRequest>,
   output: __S(841, __c52, 9) as any as S.Schema<GetEepurlActivityForCampaignResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30669,7 +30798,8 @@ export const getEmailActivityForCampaign: API.PaginatedOperationMethod<
   () => ({
     input: __S(848, __c53, 0) as any as S.Schema<GetEmailActivityForCampaignRequest>,
     output: __S(850, __c53, 2) as any as S.Schema<GetEmailActivityForCampaignResponse>,
-    errors: [MailchimpApiError, UnknownMailchimpError],
+    errors: [],
+    serviceErrors: MailchimpServiceErrors,
     protocol: MailchimpProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -30694,7 +30824,8 @@ export const getEmailActivityForSubscriber: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(944, __c59, 0) as any as S.Schema<GetEmailActivityForSubscriberRequest>,
   output: __S(866, __c54, 2) as any as S.Schema<GetEmailActivityForSubscriberResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30713,7 +30844,8 @@ export const getFacebookAdProductActivityReport: API.PaginatedOperationMethod<
   () => ({
     input: __S(960, __c60, 0) as any as S.Schema<GetFacebookAdProductActivityReportRequest>,
     output: __S(818, __c51, 2) as any as S.Schema<GetFacebookAdProductActivityReportResponse>,
-    errors: [MailchimpApiError, UnknownMailchimpError],
+    errors: [],
+    serviceErrors: MailchimpServiceErrors,
     protocol: MailchimpProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -30738,7 +30870,8 @@ export const getFacebookAdReport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(976, __c61, 0) as any as S.Schema<GetFacebookAdReportRequest>,
   output: __S(1002, __c62, 10) as any as S.Schema<GetFacebookAdReportResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30757,7 +30890,8 @@ export const getFacebookAdsReportAll: API.PaginatedOperationMethod<
   () => ({
     input: __S(1008, __c63, 0) as any as S.Schema<GetFacebookAdsReportAllRequest>,
     output: __S(1010, __c63, 2) as any as S.Schema<GetFacebookAdsReportAllResponse>,
-    errors: [MailchimpApiError, UnknownMailchimpError],
+    errors: [],
+    serviceErrors: MailchimpServiceErrors,
     protocol: MailchimpProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -30782,7 +30916,8 @@ export const getFeedback: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c64, 0) as any as S.Schema<GetFeedbackRequest>,
   output: __S(1027, __c64, 3) as any as S.Schema<GetFeedbackResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30799,7 +30934,8 @@ export const getFeedbackMessage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1040, __c65, 0) as any as S.Schema<GetFeedbackMessageRequest>,
   output: __S(64, __c4, 0) as any as S.Schema<GetFeedbackMessageResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30816,7 +30952,8 @@ export const getFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c66, 0) as any as S.Schema<GetFileRequest>,
   output: __S(1072, __c67, 0) as any as S.Schema<GetFileResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30833,7 +30970,8 @@ export const getFolder: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c68, 0) as any as S.Schema<GetFolderRequest>,
   output: __S(4704, __c294, 0) as any as S.Schema<GetFolderResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30850,7 +30988,8 @@ export const getInterestCategory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1104, __c69, 0) as any as S.Schema<GetInterestCategoryRequest>,
   output: __S(4864, __c304, 0) as any as S.Schema<GetInterestCategoryResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30867,7 +31006,8 @@ export const getInterestCategoryInterest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c70, 0) as any as S.Schema<GetInterestCategoryInterestRequest>,
   output: __S(4736, __c296, 0) as any as S.Schema<GetInterestCategoryInterestResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30884,7 +31024,8 @@ export const getLandingPageReport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1200, __c75, 0) as any as S.Schema<GetLandingPageReportRequest>,
   output: __S(1223, __c76, 7) as any as S.Schema<GetLandingPageReportResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30903,7 +31044,8 @@ export const getLandingPageReportsAll: API.PaginatedOperationMethod<
   () => ({
     input: __S(1232, __c77, 0) as any as S.Schema<GetLandingPageReportsAllRequest>,
     output: __S(1234, __c77, 2) as any as S.Schema<GetLandingPageReportsAllResponse>,
-    errors: [MailchimpApiError, UnknownMailchimpError],
+    errors: [],
+    serviceErrors: MailchimpServiceErrors,
     protocol: MailchimpProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -30928,7 +31070,8 @@ export const getList: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c78, 0) as any as S.Schema<GetListRequest>,
   output: __S(4835, __c302, 3) as any as S.Schema<GetListResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30945,7 +31088,8 @@ export const getListAbuseReportDetails: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1264, __c79, 0) as any as S.Schema<GetListAbuseReportDetailsRequest>,
   output: __S(1280, __c80, 0) as any as S.Schema<GetListAbuseReportDetailsResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30964,7 +31108,8 @@ export const getListAbuseReports: API.PaginatedOperationMethod<
   () => ({
     input: __S(1296, __c81, 0) as any as S.Schema<GetListAbuseReportsRequest>,
     output: __S(1298, __c81, 2) as any as S.Schema<GetListAbuseReportsResponse>,
-    errors: [MailchimpApiError, UnknownMailchimpError],
+    errors: [],
+    serviceErrors: MailchimpServiceErrors,
     protocol: MailchimpProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -30989,7 +31134,8 @@ export const getListClients: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1312, __c82, 0) as any as S.Schema<GetListClientsRequest>,
   output: __S(1315, __c82, 3) as any as S.Schema<GetListClientsResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31008,7 +31154,8 @@ export const getListGrowthHistory: API.PaginatedOperationMethod<
   () => ({
     input: __S(1328, __c83, 0) as any as S.Schema<GetListGrowthHistoryRequest>,
     output: __S(1330, __c83, 2) as any as S.Schema<GetListGrowthHistoryResponse>,
-    errors: [MailchimpApiError, UnknownMailchimpError],
+    errors: [],
+    serviceErrors: MailchimpServiceErrors,
     protocol: MailchimpProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -31033,7 +31180,8 @@ export const getListGrowthHistoryByMonth: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1360, __c85, 0) as any as S.Schema<GetListGrowthHistoryByMonthRequest>,
   output: __S(1344, __c84, 0) as any as S.Schema<GetListGrowthHistoryByMonthResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31052,7 +31200,8 @@ export const getListInterestCategories: API.PaginatedOperationMethod<
   () => ({
     input: __S(1376, __c86, 0) as any as S.Schema<GetListInterestCategoriesRequest>,
     output: __S(1378, __c86, 2) as any as S.Schema<GetListInterestCategoriesResponse>,
-    errors: [MailchimpApiError, UnknownMailchimpError],
+    errors: [],
+    serviceErrors: MailchimpServiceErrors,
     protocol: MailchimpProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -31077,7 +31226,8 @@ export const getListLocations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1392, __c87, 0) as any as S.Schema<GetListLocationsRequest>,
   output: __S(1395, __c87, 3) as any as S.Schema<GetListLocationsResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31094,7 +31244,8 @@ export const getListMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c90, 0) as any as S.Schema<GetListMemberRequest>,
   output: __S(2501, __c156, 5) as any as S.Schema<GetListMemberResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31111,7 +31262,8 @@ export const getListMemberActivity: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1456, __c91, 0) as any as S.Schema<GetListMemberActivityRequest>,
   output: __S(1459, __c91, 3) as any as S.Schema<GetListMemberActivityResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31130,7 +31282,8 @@ export const getListMemberActivityFeed: API.PaginatedOperationMethod<
   () => ({
     input: __S(1472, __c92, 0) as any as S.Schema<GetListMemberActivityFeedRequest>,
     output: __S(1473, __c92, 1) as any as S.Schema<GetListMemberActivityFeedResponse>,
-    errors: [MailchimpApiError, UnknownMailchimpError],
+    errors: [],
+    serviceErrors: MailchimpServiceErrors,
     protocol: MailchimpProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -31152,7 +31305,8 @@ export const getListMemberEvents: API.PaginatedOperationMethod<
   () => ({
     input: __S(1488, __c93, 0) as any as S.Schema<GetListMemberEventsRequest>,
     output: __S(1491, __c93, 3) as any as S.Schema<GetListMemberEventsResponse>,
-    errors: [MailchimpApiError, UnknownMailchimpError],
+    errors: [],
+    serviceErrors: MailchimpServiceErrors,
     protocol: MailchimpProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -31177,7 +31331,8 @@ export const getListMemberGoals: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1504, __c94, 0) as any as S.Schema<GetListMemberGoalsRequest>,
   output: __S(1507, __c94, 3) as any as S.Schema<GetListMemberGoalsResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31194,7 +31349,8 @@ export const getListMemberNote: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1520, __c95, 0) as any as S.Schema<GetListMemberNoteRequest>,
   output: __S(4928, __c308, 0) as any as S.Schema<GetListMemberNoteResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31213,7 +31369,8 @@ export const getListMemberNotes: API.PaginatedOperationMethod<
   () => ({
     input: __S(1536, __c96, 0) as any as S.Schema<GetListMemberNotesRequest>,
     output: __S(1538, __c96, 2) as any as S.Schema<GetListMemberNotesResponse>,
-    errors: [MailchimpApiError, UnknownMailchimpError],
+    errors: [],
+    serviceErrors: MailchimpServiceErrors,
     protocol: MailchimpProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -31240,7 +31397,8 @@ export const getListMembersInfo: API.PaginatedOperationMethod<
   () => ({
     input: __S(1552, __c97, 0) as any as S.Schema<GetListMembersInfoRequest>,
     output: __S(1553, __c97, 1) as any as S.Schema<GetListMembersInfoResponse>,
-    errors: [MailchimpApiError, UnknownMailchimpError],
+    errors: [],
+    serviceErrors: MailchimpServiceErrors,
     protocol: MailchimpProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -31267,7 +31425,8 @@ export const getListMemberTags: API.PaginatedOperationMethod<
   () => ({
     input: __S(1584, __c99, 0) as any as S.Schema<GetListMemberTagsRequest>,
     output: __S(1587, __c99, 3) as any as S.Schema<GetListMemberTagsResponse>,
-    errors: [MailchimpApiError, UnknownMailchimpError],
+    errors: [],
+    serviceErrors: MailchimpServiceErrors,
     protocol: MailchimpProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -31292,7 +31451,8 @@ export const getListMergeField: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1600, __c100, 0) as any as S.Schema<GetListMergeFieldRequest>,
   output: __S(4673, __c292, 1) as any as S.Schema<GetListMergeFieldResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31311,7 +31471,8 @@ export const getListMergeFields: API.PaginatedOperationMethod<
   () => ({
     input: __S(1648, __c103, 0) as any as S.Schema<GetListMergeFieldsRequest>,
     output: __S(1650, __c103, 2) as any as S.Schema<GetListMergeFieldsResponse>,
-    errors: [MailchimpApiError, UnknownMailchimpError],
+    errors: [],
+    serviceErrors: MailchimpServiceErrors,
     protocol: MailchimpProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -31338,7 +31499,8 @@ export const getListRecentActivity: API.PaginatedOperationMethod<
   () => ({
     input: __S(1664, __c104, 0) as any as S.Schema<GetListRecentActivityRequest>,
     output: __S(1667, __c104, 3) as any as S.Schema<GetListRecentActivityResponse>,
-    errors: [MailchimpApiError, UnknownMailchimpError],
+    errors: [],
+    serviceErrors: MailchimpServiceErrors,
     protocol: MailchimpProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -31363,7 +31525,8 @@ export const getListSignupForms: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1680, __c105, 0) as any as S.Schema<GetListSignupFormsRequest>,
   output: __S(1682, __c105, 2) as any as S.Schema<GetListSignupFormsResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31380,7 +31543,8 @@ export const getListWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1712, __c107, 0) as any as S.Schema<GetListWebhookRequest>,
   output: __S(4962, __c310, 2) as any as S.Schema<GetListWebhookResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31397,7 +31561,8 @@ export const getListWebhooks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1728, __c108, 0) as any as S.Schema<GetListWebhooksRequest>,
   output: __S(1730, __c108, 2) as any as S.Schema<GetListWebhooksResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31416,7 +31581,8 @@ export const getLocationsForCampaign: API.PaginatedOperationMethod<
   () => ({
     input: __S(1744, __c109, 0) as any as S.Schema<GetLocationsForCampaignRequest>,
     output: __S(1747, __c109, 3) as any as S.Schema<GetLocationsForCampaignResponse>,
-    errors: [MailchimpApiError, UnknownMailchimpError],
+    errors: [],
+    serviceErrors: MailchimpServiceErrors,
     protocol: MailchimpProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -31441,7 +31607,8 @@ export const getOrder: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1760, __c110, 0) as any as S.Schema<GetOrderRequest>,
   output: __S(900, __c56, 4) as any as S.Schema<GetOrderResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31458,7 +31625,8 @@ export const getOrderLineItem: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1776, __c111, 0) as any as S.Schema<GetOrderLineItemRequest>,
   output: __S(5072, __c317, 0) as any as S.Schema<GetOrderLineItemResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31475,7 +31643,8 @@ export const getPage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1792, __c112, 0) as any as S.Schema<GetPageRequest>,
   output: __S(4785, __c299, 1) as any as S.Schema<GetPageResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31492,7 +31661,8 @@ export const getPageContent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1808, __c113, 0) as any as S.Schema<GetPageContentRequest>,
   output: __S(1809, __c113, 1) as any as S.Schema<GetPageContentResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31509,7 +31679,8 @@ export const getPing: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1840, __c115, 0) as any as S.Schema<GetPingRequest>,
   output: __S(1841, __c115, 1) as any as S.Schema<GetPingResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31526,7 +31697,8 @@ export const getProductImage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1856, __c116, 0) as any as S.Schema<GetProductImageRequest>,
   output: __S(5376, __c336, 0) as any as S.Schema<GetProductImageResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31545,7 +31717,8 @@ export const getProductImages: API.PaginatedOperationMethod<
   () => ({
     input: __S(1872, __c117, 0) as any as S.Schema<GetProductImagesRequest>,
     output: __S(1873, __c117, 1) as any as S.Schema<GetProductImagesResponse>,
-    errors: [MailchimpApiError, UnknownMailchimpError],
+    errors: [],
+    serviceErrors: MailchimpServiceErrors,
     protocol: MailchimpProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -31570,7 +31743,8 @@ export const getProductVariant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1888, __c118, 0) as any as S.Schema<GetProductVariantRequest>,
   output: __S(5568, __c348, 0) as any as S.Schema<GetProductVariantResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31589,7 +31763,8 @@ export const getProductVariants: API.PaginatedOperationMethod<
   () => ({
     input: __S(1904, __c119, 0) as any as S.Schema<GetProductVariantsRequest>,
     output: __S(1905, __c119, 1) as any as S.Schema<GetProductVariantsResponse>,
-    errors: [MailchimpApiError, UnknownMailchimpError],
+    errors: [],
+    serviceErrors: MailchimpServiceErrors,
     protocol: MailchimpProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -31614,7 +31789,8 @@ export const getPromoCode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1920, __c120, 0) as any as S.Schema<GetPromoCodeRequest>,
   output: __S(5952, __c372, 0) as any as S.Schema<GetPromoCodeResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31633,7 +31809,8 @@ export const getPromoCodes: API.PaginatedOperationMethod<
   () => ({
     input: __S(1936, __c121, 0) as any as S.Schema<GetPromoCodesRequest>,
     output: __S(1938, __c121, 2) as any as S.Schema<GetPromoCodesResponse>,
-    errors: [MailchimpApiError, UnknownMailchimpError],
+    errors: [],
+    serviceErrors: MailchimpServiceErrors,
     protocol: MailchimpProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -31658,7 +31835,8 @@ export const getPromoRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1952, __c122, 0) as any as S.Schema<GetPromoRuleRequest>,
   output: __S(6208, __c388, 0) as any as S.Schema<GetPromoRuleResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31675,7 +31853,8 @@ export const getRemovedWorkflowEmailSubscriber: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1968, __c123, 0) as any as S.Schema<GetRemovedWorkflowEmailSubscriberRequest>,
   output: __S(1984, __c124, 0) as any as S.Schema<GetRemovedWorkflowEmailSubscriberResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31692,7 +31871,8 @@ export const getRoot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2000, __c125, 0) as any as S.Schema<GetRootRequest>,
   output: __S(2003, __c125, 3) as any as S.Schema<GetRootResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31709,7 +31889,8 @@ export const getSegment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2064, __c129, 0) as any as S.Schema<GetSegmentRequest>,
   output: __S(5121, __c320, 1) as any as S.Schema<GetSegmentResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31728,7 +31909,8 @@ export const getSegmentMembersList: API.PaginatedOperationMethod<
   () => ({
     input: __S(2080, __c130, 0) as any as S.Schema<GetSegmentMembersListRequest>,
     output: __S(2082, __c130, 2) as any as S.Schema<GetSegmentMembersListResponse>,
-    errors: [MailchimpApiError, UnknownMailchimpError],
+    errors: [],
+    serviceErrors: MailchimpServiceErrors,
     protocol: MailchimpProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -31753,7 +31935,8 @@ export const getSendChecklist: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2096, __c131, 0) as any as S.Schema<GetSendChecklistRequest>,
   output: __S(2099, __c131, 3) as any as S.Schema<GetSendChecklistResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31770,7 +31953,8 @@ export const getSmsCampaign: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2112, __c132, 0) as any as S.Schema<GetSmsCampaignRequest>,
   output: __S(5185, __c324, 1) as any as S.Schema<GetSmsCampaignResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31787,7 +31971,8 @@ export const getSmsCampaignContent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2128, __c133, 0) as any as S.Schema<GetSmsCampaignContentRequest>,
   output: __S(2148, __c134, 4) as any as S.Schema<GetSmsCampaignContentResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31806,7 +31991,8 @@ export const getSmsCampaigns: API.PaginatedOperationMethod<
   () => ({
     input: __S(2160, __c135, 0) as any as S.Schema<GetSmsCampaignsRequest>,
     output: __S(2162, __c135, 2) as any as S.Schema<GetSmsCampaignsResponse>,
-    errors: [MailchimpApiError, UnknownMailchimpError],
+    errors: [],
+    serviceErrors: MailchimpServiceErrors,
     protocol: MailchimpProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -31831,7 +32017,8 @@ export const getStore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2176, __c136, 0) as any as S.Schema<GetStoreRequest>,
   output: __S(100, __c6, 4) as any as S.Schema<GetStoreResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31848,7 +32035,8 @@ export const getStoreCart: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2192, __c137, 0) as any as S.Schema<GetStoreCartRequest>,
   output: __S(400, __c25, 0) as any as S.Schema<GetStoreCartResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31867,7 +32055,8 @@ export const getStoreCarts: API.PaginatedOperationMethod<
   () => ({
     input: __S(2208, __c138, 0) as any as S.Schema<GetStoreCartsRequest>,
     output: __S(2210, __c138, 2) as any as S.Schema<GetStoreCartsResponse>,
-    errors: [MailchimpApiError, UnknownMailchimpError],
+    errors: [],
+    serviceErrors: MailchimpServiceErrors,
     protocol: MailchimpProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -31892,7 +32081,8 @@ export const getStoreCustomer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2224, __c139, 0) as any as S.Schema<GetStoreCustomerRequest>,
   output: __S(369, __c23, 1) as any as S.Schema<GetStoreCustomerResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31911,7 +32101,8 @@ export const getStoreOrders: API.PaginatedOperationMethod<
   () => ({
     input: __S(2256, __c141, 0) as any as S.Schema<GetStoreOrdersRequest>,
     output: __S(2257, __c141, 1) as any as S.Schema<GetStoreOrdersResponse>,
-    errors: [MailchimpApiError, UnknownMailchimpError],
+    errors: [],
+    serviceErrors: MailchimpServiceErrors,
     protocol: MailchimpProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -31936,7 +32127,8 @@ export const getStoreProduct: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2288, __c143, 0) as any as S.Schema<GetStoreProductRequest>,
   output: __S(1184, __c74, 0) as any as S.Schema<GetStoreProductResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31953,7 +32145,8 @@ export const getSubReportsForCampaign: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2304, __c144, 0) as any as S.Schema<GetSubReportsForCampaignRequest>,
   output: __S(2305, __c144, 1) as any as S.Schema<GetSubReportsForCampaignResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31970,7 +32163,8 @@ export const getSubscriberInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2320, __c145, 0) as any as S.Schema<GetSubscriberInfoRequest>,
   output: __S(2336, __c146, 0) as any as S.Schema<GetSubscriberInfoResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31987,7 +32181,8 @@ export const getSubscriberInfoForOpenedCampaign: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2352, __c147, 0) as any as S.Schema<GetSubscriberInfoForOpenedCampaignRequest>,
   output: __S(578, __c36, 2) as any as S.Schema<GetSubscriberInfoForOpenedCampaignResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32006,7 +32201,8 @@ export const getSubscribersInfo: API.PaginatedOperationMethod<
   () => ({
     input: __S(2368, __c148, 0) as any as S.Schema<GetSubscribersInfoRequest>,
     output: __S(2370, __c148, 2) as any as S.Schema<GetSubscribersInfoResponse>,
-    errors: [MailchimpApiError, UnknownMailchimpError],
+    errors: [],
+    serviceErrors: MailchimpServiceErrors,
     protocol: MailchimpProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -32031,7 +32227,8 @@ export const getSurvey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2384, __c149, 0) as any as S.Schema<GetSurveyRequest>,
   output: __S(1632, __c102, 0) as any as S.Schema<GetSurveyResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32048,7 +32245,8 @@ export const getSurveyQuestionAnswers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2400, __c150, 0) as any as S.Schema<GetSurveyQuestionAnswersRequest>,
   output: __S(2403, __c150, 3) as any as S.Schema<GetSurveyQuestionAnswersResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32065,7 +32263,8 @@ export const getSurveyQuestionReport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2432, __c152, 0) as any as S.Schema<GetSurveyQuestionReportRequest>,
   output: __S(2452, __c153, 4) as any as S.Schema<GetSurveyQuestionReportResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32082,7 +32281,8 @@ export const getSurveyQuestionReportsAll: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2464, __c154, 0) as any as S.Schema<GetSurveyQuestionReportsAllRequest>,
   output: __S(2466, __c154, 2) as any as S.Schema<GetSurveyQuestionReportsAllResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32099,7 +32299,8 @@ export const getSurveyReport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2624, __c164, 0) as any as S.Schema<GetSurveyReportRequest>,
   output: __S(2640, __c165, 0) as any as S.Schema<GetSurveyReportResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32118,7 +32319,8 @@ export const getSurveyReportsAll: API.PaginatedOperationMethod<
   () => ({
     input: __S(2656, __c166, 0) as any as S.Schema<GetSurveyReportsAllRequest>,
     output: __S(2658, __c166, 2) as any as S.Schema<GetSurveyReportsAllResponse>,
-    errors: [MailchimpApiError, UnknownMailchimpError],
+    errors: [],
+    serviceErrors: MailchimpServiceErrors,
     protocol: MailchimpProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -32143,7 +32345,8 @@ export const getSurveyResponse: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2672, __c167, 0) as any as S.Schema<GetSurveyResponseRequest>,
   output: __S(2675, __c167, 3) as any as S.Schema<GetSurveyResponseResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32160,7 +32363,8 @@ export const getSurveyResponsesAll: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2688, __c168, 0) as any as S.Schema<GetSurveyResponsesAllRequest>,
   output: __S(2691, __c168, 3) as any as S.Schema<GetSurveyResponsesAllResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32177,7 +32381,8 @@ export const getTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2704, __c169, 0) as any as S.Schema<GetTemplateRequest>,
   output: __S(5248, __c328, 0) as any as S.Schema<GetTemplateResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32194,7 +32399,8 @@ export const getTemplateFolder: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2720, __c170, 0) as any as S.Schema<GetTemplateFolderRequest>,
   output: __S(4176, __c261, 0) as any as S.Schema<GetTemplateFolderResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32213,7 +32419,8 @@ export const getTemplateFolders: API.PaginatedOperationMethod<
   () => ({
     input: __S(2736, __c171, 0) as any as S.Schema<GetTemplateFoldersRequest>,
     output: __S(545, __c34, 1) as any as S.Schema<GetTemplateFoldersResponse>,
-    errors: [MailchimpApiError, UnknownMailchimpError],
+    errors: [],
+    serviceErrors: MailchimpServiceErrors,
     protocol: MailchimpProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -32240,7 +32447,8 @@ export const getTemplates: API.PaginatedOperationMethod<
   () => ({
     input: __S(2752, __c172, 0) as any as S.Schema<GetTemplatesRequest>,
     output: __S(2754, __c172, 2) as any as S.Schema<GetTemplatesResponse>,
-    errors: [MailchimpApiError, UnknownMailchimpError],
+    errors: [],
+    serviceErrors: MailchimpServiceErrors,
     protocol: MailchimpProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -32267,7 +32475,8 @@ export const getUnsubscribedListForCampaign: API.PaginatedOperationMethod<
   () => ({
     input: __S(2768, __c173, 0) as any as S.Schema<GetUnsubscribedListForCampaignRequest>,
     output: __S(2770, __c173, 2) as any as S.Schema<GetUnsubscribedListForCampaignResponse>,
-    errors: [MailchimpApiError, UnknownMailchimpError],
+    errors: [],
+    serviceErrors: MailchimpServiceErrors,
     protocol: MailchimpProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -32292,7 +32501,8 @@ export const getUnsubscribedListMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2800, __c175, 0) as any as S.Schema<GetUnsubscribedListMemberRequest>,
   output: __S(2784, __c174, 0) as any as S.Schema<GetUnsubscribedListMemberResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32309,7 +32519,8 @@ export const getVerifiedDomainsAll: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2832, __c177, 0) as any as S.Schema<GetVerifiedDomainsAllRequest>,
   output: __S(2834, __c177, 2) as any as S.Schema<GetVerifiedDomainsAllResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32326,7 +32537,8 @@ export const getWorkflowEmail: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2848, __c178, 0) as any as S.Schema<GetWorkflowEmailRequest>,
   output: __S(2866, __c179, 2) as any as S.Schema<GetWorkflowEmailResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32343,7 +32555,8 @@ export const getWorkflowEmailSubscriber: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2880, __c180, 0) as any as S.Schema<GetWorkflowEmailSubscriberRequest>,
   output: __S(1424, __c89, 0) as any as S.Schema<GetWorkflowEmailSubscriberResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32360,7 +32573,8 @@ export const getWorkflowEmailSubscriberQueue: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2896, __c181, 0) as any as S.Schema<GetWorkflowEmailSubscriberQueueRequest>,
   output: __S(2899, __c181, 3) as any as S.Schema<GetWorkflowEmailSubscriberQueueResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32379,7 +32593,8 @@ export const listAccountExports: API.PaginatedOperationMethod<
   () => ({
     input: __S(2912, __c182, 0) as any as S.Schema<ListAccountExportsRequest>,
     output: __S(2914, __c182, 2) as any as S.Schema<ListAccountExportsResponse>,
-    errors: [MailchimpApiError, UnknownMailchimpError],
+    errors: [],
+    serviceErrors: MailchimpServiceErrors,
     protocol: MailchimpProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -32404,7 +32619,8 @@ export const listAllWorkflowEmails: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2928, __c183, 0) as any as S.Schema<ListAllWorkflowEmailsRequest>,
   output: __S(2930, __c183, 2) as any as S.Schema<ListAllWorkflowEmailsResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32421,7 +32637,8 @@ export const listAudienceContactList: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2944, __c184, 0) as any as S.Schema<ListAudienceContactListRequest>,
   output: __S(2946, __c184, 2) as any as S.Schema<ListAudienceContactListResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32440,7 +32657,8 @@ export const listAudiences: API.PaginatedOperationMethod<
   () => ({
     input: __S(2960, __c185, 0) as any as S.Schema<ListAudiencesRequest>,
     output: __S(2962, __c185, 2) as any as S.Schema<ListAudiencesResponse>,
-    errors: [MailchimpApiError, UnknownMailchimpError],
+    errors: [],
+    serviceErrors: MailchimpServiceErrors,
     protocol: MailchimpProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -32467,7 +32685,8 @@ export const listFiles: API.PaginatedOperationMethod<
   () => ({
     input: __S(2976, __c186, 0) as any as S.Schema<ListFilesRequest>,
     output: __S(2993, __c187, 1) as any as S.Schema<ListFilesResponse>,
-    errors: [MailchimpApiError, UnknownMailchimpError],
+    errors: [],
+    serviceErrors: MailchimpServiceErrors,
     protocol: MailchimpProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -32494,7 +32713,8 @@ export const listFolderFiles: API.PaginatedOperationMethod<
   () => ({
     input: __S(3008, __c188, 0) as any as S.Schema<ListFolderFilesRequest>,
     output: __S(2993, __c187, 1) as any as S.Schema<ListFolderFilesResponse>,
-    errors: [MailchimpApiError, UnknownMailchimpError],
+    errors: [],
+    serviceErrors: MailchimpServiceErrors,
     protocol: MailchimpProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -32521,7 +32741,8 @@ export const listFolders: API.PaginatedOperationMethod<
   () => ({
     input: __S(3072, __c192, 0) as any as S.Schema<ListFoldersRequest>,
     output: __S(3074, __c192, 2) as any as S.Schema<ListFoldersResponse>,
-    errors: [MailchimpApiError, UnknownMailchimpError],
+    errors: [],
+    serviceErrors: MailchimpServiceErrors,
     protocol: MailchimpProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -32548,7 +32769,8 @@ export const listInterestCategoryInterests: API.PaginatedOperationMethod<
   () => ({
     input: __S(3088, __c193, 0) as any as S.Schema<ListInterestCategoryInterestsRequest>,
     output: __S(3090, __c193, 2) as any as S.Schema<ListInterestCategoryInterestsResponse>,
-    errors: [MailchimpApiError, UnknownMailchimpError],
+    errors: [],
+    serviceErrors: MailchimpServiceErrors,
     protocol: MailchimpProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -32575,7 +32797,8 @@ export const listOrders: API.PaginatedOperationMethod<
   () => ({
     input: __S(3104, __c194, 0) as any as S.Schema<ListOrdersRequest>,
     output: __S(3105, __c194, 1) as any as S.Schema<ListOrdersResponse>,
-    errors: [MailchimpApiError, UnknownMailchimpError],
+    errors: [],
+    serviceErrors: MailchimpServiceErrors,
     protocol: MailchimpProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -32602,7 +32825,8 @@ export const listPromoRules: API.PaginatedOperationMethod<
   () => ({
     input: __S(3120, __c195, 0) as any as S.Schema<ListPromoRulesRequest>,
     output: __S(3122, __c195, 2) as any as S.Schema<ListPromoRulesResponse>,
-    errors: [MailchimpApiError, UnknownMailchimpError],
+    errors: [],
+    serviceErrors: MailchimpServiceErrors,
     protocol: MailchimpProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -32629,7 +32853,8 @@ export const listSegments: API.PaginatedOperationMethod<
   () => ({
     input: __S(3136, __c196, 0) as any as S.Schema<ListSegmentsRequest>,
     output: __S(3138, __c196, 2) as any as S.Schema<ListSegmentsResponse>,
-    errors: [MailchimpApiError, UnknownMailchimpError],
+    errors: [],
+    serviceErrors: MailchimpServiceErrors,
     protocol: MailchimpProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -32656,7 +32881,8 @@ export const listStores: API.PaginatedOperationMethod<
   () => ({
     input: __S(3152, __c197, 0) as any as S.Schema<ListStoresRequest>,
     output: __S(3154, __c197, 2) as any as S.Schema<ListStoresResponse>,
-    errors: [MailchimpApiError, UnknownMailchimpError],
+    errors: [],
+    serviceErrors: MailchimpServiceErrors,
     protocol: MailchimpProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -32681,7 +32907,8 @@ export const listWorkflowEmailSubscribersRemoved: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3168, __c198, 0) as any as S.Schema<ListWorkflowEmailSubscribersRemovedRequest>,
   output: __S(3170, __c198, 2) as any as S.Schema<ListWorkflowEmailSubscribersRemovedResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32698,7 +32925,8 @@ export const patchAudienceContact: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3185, __c199, 1) as any as S.Schema<PatchAudienceContactRequest>,
   output: __S(3284, __c205, 4) as any as S.Schema<PatchAudienceContactResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32715,7 +32943,8 @@ export const pauseAllEmails: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3200, __c200, 0) as any as S.Schema<PauseAllEmailsRequest>,
   output: __S(1632, __c102, 0) as any as S.Schema<PauseAllEmailsResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32732,7 +32961,8 @@ export const pauseCampaign: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3216, __c201, 0) as any as S.Schema<PauseCampaignRequest>,
   output: __S(1632, __c102, 0) as any as S.Schema<PauseCampaignResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32749,7 +32979,8 @@ export const pauseWorkflowEmail: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3296, __c206, 0) as any as S.Schema<PauseWorkflowEmailRequest>,
   output: __S(1632, __c102, 0) as any as S.Schema<PauseWorkflowEmailResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32766,7 +32997,8 @@ export const publishPage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3312, __c207, 0) as any as S.Schema<PublishPageRequest>,
   output: __S(1632, __c102, 0) as any as S.Schema<PublishPageResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32783,7 +33015,8 @@ export const publishSurvey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3328, __c208, 0) as any as S.Schema<PublishSurveyRequest>,
   output: __S(1632, __c102, 0) as any as S.Schema<PublishSurveyResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32800,7 +33033,8 @@ export const removeSegmentMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3344, __c209, 0) as any as S.Schema<RemoveSegmentMemberRequest>,
   output: __S(1632, __c102, 0) as any as S.Schema<RemoveSegmentMemberResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32817,7 +33051,8 @@ export const removeWorkflowEmailSubscriber: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3360, __c210, 0) as any as S.Schema<RemoveWorkflowEmailSubscriberRequest>,
   output: __S(1984, __c124, 0) as any as S.Schema<RemoveWorkflowEmailSubscriberResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32834,7 +33069,8 @@ export const replicateCampaign: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3376, __c211, 0) as any as S.Schema<ReplicateCampaignRequest>,
   output: __S(4579, __c286, 3) as any as S.Schema<ReplicateCampaignResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32851,7 +33087,8 @@ export const replicateSurvey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3392, __c212, 0) as any as S.Schema<ReplicateSurveyRequest>,
   output: __S(1632, __c102, 0) as any as S.Schema<ReplicateSurveyResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32868,7 +33105,8 @@ export const resumeCampaign: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3408, __c213, 0) as any as S.Schema<ResumeCampaignRequest>,
   output: __S(1632, __c102, 0) as any as S.Schema<ResumeCampaignResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32885,7 +33123,8 @@ export const scheduleCampaign: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3425, __c214, 1) as any as S.Schema<ScheduleCampaignRequest>,
   output: __S(1632, __c102, 0) as any as S.Schema<ScheduleCampaignResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32902,7 +33141,8 @@ export const scheduleSmsCampaign: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3440, __c215, 0) as any as S.Schema<ScheduleSmsCampaignRequest>,
   output: __S(1632, __c102, 0) as any as S.Schema<ScheduleSmsCampaignResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32919,7 +33159,8 @@ export const searchCampaigns: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3520, __c220, 0) as any as S.Schema<SearchCampaignsRequest>,
   output: __S(3523, __c220, 3) as any as S.Schema<SearchCampaignsResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32936,7 +33177,8 @@ export const searchMembers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3536, __c221, 0) as any as S.Schema<SearchMembersRequest>,
   output: __S(3538, __c221, 2) as any as S.Schema<SearchMembersResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32953,7 +33195,8 @@ export const sendCampaign: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3552, __c222, 0) as any as S.Schema<SendCampaignRequest>,
   output: __S(1632, __c102, 0) as any as S.Schema<SendCampaignResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32970,7 +33213,8 @@ export const sendSmsCampaign: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3568, __c223, 0) as any as S.Schema<SendSmsCampaignRequest>,
   output: __S(1632, __c102, 0) as any as S.Schema<SendSmsCampaignResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32987,7 +33231,8 @@ export const sendTestEmail: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3584, __c224, 0) as any as S.Schema<SendTestEmailRequest>,
   output: __S(1632, __c102, 0) as any as S.Schema<SendTestEmailResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33004,7 +33249,8 @@ export const setCampaignContent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3604, __c225, 4) as any as S.Schema<SetCampaignContentRequest>,
   output: __S(498, __c31, 2) as any as S.Schema<SetCampaignContentResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33021,7 +33267,8 @@ export const setListMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3616, __c226, 0) as any as S.Schema<SetListMemberRequest>,
   output: __S(2501, __c156, 5) as any as S.Schema<SetListMemberResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33038,7 +33285,8 @@ export const setOrder: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3635, __c227, 3) as any as S.Schema<SetOrderRequest>,
   output: __S(900, __c56, 4) as any as S.Schema<SetOrderResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33055,7 +33303,8 @@ export const setSmsCampaignContent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3650, __c228, 2) as any as S.Schema<SetSmsCampaignContentRequest>,
   output: __S(2148, __c134, 4) as any as S.Schema<SetSmsCampaignContentResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33072,7 +33321,8 @@ export const setStoreCustomer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3664, __c229, 0) as any as S.Schema<SetStoreCustomerRequest>,
   output: __S(369, __c23, 1) as any as S.Schema<SetStoreCustomerResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33089,7 +33339,8 @@ export const startAllEmails: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3712, __c232, 0) as any as S.Schema<StartAllEmailsRequest>,
   output: __S(1632, __c102, 0) as any as S.Schema<StartAllEmailsResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33106,7 +33357,8 @@ export const startBatch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3730, __c233, 2) as any as S.Schema<StartBatchRequest>,
   output: __S(192, __c12, 0) as any as S.Schema<StartBatchResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33123,7 +33375,8 @@ export const startWorkflowEmail: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3744, __c234, 0) as any as S.Schema<StartWorkflowEmailRequest>,
   output: __S(1632, __c102, 0) as any as S.Schema<StartWorkflowEmailResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33140,7 +33393,8 @@ export const submitDomainVerification: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3760, __c235, 0) as any as S.Schema<SubmitDomainVerificationRequest>,
   output: __S(5296, __c331, 0) as any as S.Schema<SubmitDomainVerificationResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33157,7 +33411,8 @@ export const tagSearch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3776, __c236, 0) as any as S.Schema<TagSearchRequest>,
   output: __S(3777, __c236, 1) as any as S.Schema<TagSearchResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33174,7 +33429,8 @@ export const triggerCustomerJourneyStep: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3792, __c237, 0) as any as S.Schema<TriggerCustomerJourneyStepRequest>,
   output: __S(5840, __c365, 0) as any as S.Schema<TriggerCustomerJourneyStepResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33191,7 +33447,8 @@ export const unpublishPage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3808, __c238, 0) as any as S.Schema<UnpublishPageRequest>,
   output: __S(1632, __c102, 0) as any as S.Schema<UnpublishPageResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33208,7 +33465,8 @@ export const unpublishSurvey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3824, __c239, 0) as any as S.Schema<UnpublishSurveyRequest>,
   output: __S(1632, __c102, 0) as any as S.Schema<UnpublishSurveyResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33225,7 +33483,8 @@ export const unscheduleCampaign: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3840, __c240, 0) as any as S.Schema<UnscheduleCampaignRequest>,
   output: __S(1632, __c102, 0) as any as S.Schema<UnscheduleCampaignResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33242,7 +33501,8 @@ export const updateBatchWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3856, __c241, 0) as any as S.Schema<UpdateBatchWebhookRequest>,
   output: __S(3696, __c231, 0) as any as S.Schema<UpdateBatchWebhookResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33259,7 +33519,8 @@ export const updateCampaign: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4003, __c250, 3) as any as S.Schema<UpdateCampaignRequest>,
   output: __S(3896, __c243, 8) as any as S.Schema<UpdateCampaignResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33276,7 +33537,8 @@ export const updateCampaignFolder: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4016, __c251, 0) as any as S.Schema<UpdateCampaignFolderRequest>,
   output: __S(4176, __c261, 0) as any as S.Schema<UpdateCampaignFolderResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33293,7 +33555,8 @@ export const updateCartLineItem: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4032, __c252, 0) as any as S.Schema<UpdateCartLineItemRequest>,
   output: __S(32, __c2, 0) as any as S.Schema<UpdateCartLineItemResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33310,7 +33573,8 @@ export const updateFeedbackMessage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4048, __c253, 0) as any as S.Schema<UpdateFeedbackMessageRequest>,
   output: __S(64, __c4, 0) as any as S.Schema<UpdateFeedbackMessageResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33327,7 +33591,8 @@ export const updateFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4064, __c254, 0) as any as S.Schema<UpdateFileRequest>,
   output: __S(1072, __c67, 0) as any as S.Schema<UpdateFileResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33344,7 +33609,8 @@ export const updateFolder: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4080, __c255, 0) as any as S.Schema<UpdateFolderRequest>,
   output: __S(4704, __c294, 0) as any as S.Schema<UpdateFolderResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33361,7 +33627,8 @@ export const updateInterestCategory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4096, __c256, 0) as any as S.Schema<UpdateInterestCategoryRequest>,
   output: __S(4864, __c304, 0) as any as S.Schema<UpdateInterestCategoryResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33378,7 +33645,8 @@ export const updateInterestCategoryInterest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4112, __c257, 0) as any as S.Schema<UpdateInterestCategoryInterestRequest>,
   output: __S(4736, __c296, 0) as any as S.Schema<UpdateInterestCategoryInterestResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33395,7 +33663,8 @@ export const updateList: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4129, __c258, 1) as any as S.Schema<UpdateListRequest>,
   output: __S(4835, __c302, 3) as any as S.Schema<UpdateListResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33412,7 +33681,8 @@ export const updateListMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4144, __c259, 0) as any as S.Schema<UpdateListMemberRequest>,
   output: __S(2501, __c156, 5) as any as S.Schema<UpdateListMemberResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33429,7 +33699,8 @@ export const updateListMemberNote: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4192, __c262, 0) as any as S.Schema<UpdateListMemberNoteRequest>,
   output: __S(4928, __c308, 0) as any as S.Schema<UpdateListMemberNoteResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33446,7 +33717,8 @@ export const updateListMemberTags: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4210, __c263, 2) as any as S.Schema<UpdateListMemberTagsRequest>,
   output: __S(1632, __c102, 0) as any as S.Schema<UpdateListMemberTagsResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33463,7 +33735,8 @@ export const updateListMergeField: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4225, __c264, 1) as any as S.Schema<UpdateListMergeFieldRequest>,
   output: __S(4673, __c292, 1) as any as S.Schema<UpdateListMergeFieldResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33480,7 +33753,8 @@ export const updateListSignupForm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4247, __c265, 7) as any as S.Schema<UpdateListSignupFormRequest>,
   output: __S(1703, __c106, 7) as any as S.Schema<UpdateListSignupFormResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33497,7 +33771,8 @@ export const updateListWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4256, __c266, 0) as any as S.Schema<UpdateListWebhookRequest>,
   output: __S(4962, __c310, 2) as any as S.Schema<UpdateListWebhookResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33514,7 +33789,8 @@ export const updateOrder: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4274, __c267, 2) as any as S.Schema<UpdateOrderRequest>,
   output: __S(900, __c56, 4) as any as S.Schema<UpdateOrderResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33531,7 +33807,8 @@ export const updateOrderLineItem: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4304, __c269, 0) as any as S.Schema<UpdateOrderLineItemRequest>,
   output: __S(5072, __c317, 0) as any as S.Schema<UpdateOrderLineItemResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33548,7 +33825,8 @@ export const updatePage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4320, __c270, 0) as any as S.Schema<UpdatePageRequest>,
   output: __S(4785, __c299, 1) as any as S.Schema<UpdatePageResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33565,7 +33843,8 @@ export const updateProductImage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4336, __c271, 0) as any as S.Schema<UpdateProductImageRequest>,
   output: __S(5376, __c336, 0) as any as S.Schema<UpdateProductImageResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33582,7 +33861,8 @@ export const updateProductVariant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4352, __c272, 0) as any as S.Schema<UpdateProductVariantRequest>,
   output: __S(5568, __c348, 0) as any as S.Schema<UpdateProductVariantResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33599,7 +33879,8 @@ export const updatePromoCode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4400, __c275, 0) as any as S.Schema<UpdatePromoCodeRequest>,
   output: __S(5952, __c372, 0) as any as S.Schema<UpdatePromoCodeResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33616,7 +33897,8 @@ export const updatePromoRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4416, __c276, 0) as any as S.Schema<UpdatePromoRuleRequest>,
   output: __S(6208, __c388, 0) as any as S.Schema<UpdatePromoRuleResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33633,7 +33915,8 @@ export const updateSegment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4434, __c277, 2) as any as S.Schema<UpdateSegmentRequest>,
   output: __S(5121, __c320, 1) as any as S.Schema<UpdateSegmentResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33650,7 +33933,8 @@ export const updateSmsCampaign: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4448, __c278, 0) as any as S.Schema<UpdateSmsCampaignRequest>,
   output: __S(5185, __c324, 1) as any as S.Schema<UpdateSmsCampaignResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33667,7 +33951,8 @@ export const updateStore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4464, __c279, 0) as any as S.Schema<UpdateStoreRequest>,
   output: __S(100, __c6, 4) as any as S.Schema<UpdateStoreResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33684,7 +33969,8 @@ export const updateStoreCart: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4482, __c280, 2) as any as S.Schema<UpdateStoreCartRequest>,
   output: __S(400, __c25, 0) as any as S.Schema<UpdateStoreCartResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33701,7 +33987,8 @@ export const updateStoreCustomer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4496, __c281, 0) as any as S.Schema<UpdateStoreCustomerRequest>,
   output: __S(369, __c23, 1) as any as S.Schema<UpdateStoreCustomerResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33718,7 +34005,8 @@ export const updateStoreProduct: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4516, __c282, 4) as any as S.Schema<UpdateStoreProductRequest>,
   output: __S(1184, __c74, 0) as any as S.Schema<UpdateStoreProductResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33735,7 +34023,8 @@ export const updateSurvey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4528, __c283, 0) as any as S.Schema<UpdateSurveyRequest>,
   output: __S(1632, __c102, 0) as any as S.Schema<UpdateSurveyResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33752,7 +34041,8 @@ export const updateTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4544, __c284, 0) as any as S.Schema<UpdateTemplateRequest>,
   output: __S(5248, __c328, 0) as any as S.Schema<UpdateTemplateResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33769,7 +34059,8 @@ export const updateTemplateFolder: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4592, __c287, 0) as any as S.Schema<UpdateTemplateFolderRequest>,
   output: __S(4176, __c261, 0) as any as S.Schema<UpdateTemplateFolderResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33786,7 +34077,8 @@ export const updateWorkflowEmail: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4610, __c288, 2) as any as S.Schema<UpdateWorkflowEmailRequest>,
   output: __S(2866, __c179, 2) as any as S.Schema<UpdateWorkflowEmailResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33803,7 +34095,8 @@ export const uploadFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4624, __c289, 0) as any as S.Schema<UploadFileRequest>,
   output: __S(1072, __c67, 0) as any as S.Schema<UploadFileResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33820,7 +34113,8 @@ export const verifyScriptInstallation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4640, __c290, 0) as any as S.Schema<VerifyScriptInstallationRequest>,
   output: __S(1632, __c102, 0) as any as S.Schema<VerifyScriptInstallationResponse>,
-  errors: [MailchimpApiError, UnknownMailchimpError],
+  errors: [],
+  serviceErrors: MailchimpServiceErrors,
   protocol: MailchimpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

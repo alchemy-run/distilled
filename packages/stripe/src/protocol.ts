@@ -1,24 +1,26 @@
 import * as API from "@distilled.cloud/core/api";
-import {
-  ConfigError,
-  HTTP_STATUS_MAP,
-  InternalServerError,
-  type DefaultErrors as CoreDefaultErrors,
-  BadRequest,
-  Conflict,
-  Forbidden,
-  Locked,
-  NotFound,
-  UnprocessableEntity,
-  type InvalidInput,
-} from "@distilled.cloud/core/errors";
+import { InternalServerError, type InvalidInput } from "@distilled.cloud/core/errors";
+import type {
+  DeclaredError,
+  DeclaredErrorClass,
+  DecodeArgs,
+  EncodeArgs,
+  ErrorOf,
+  Operation,
+  Protocol,
+  ProtocolOf,
+} from "@distilled.cloud/core/protocol";
 import {
   buildRequest,
   mapKeys,
   mapsVerbatim,
   matchTypedError,
 } from "@distilled.cloud/core/protocol-http";
-import { checkSuccess, unwrapRedactedDeep } from "@distilled.cloud/core/protocol-rest";
+import {
+  checkSuccess,
+  declaredStatusClass,
+  unwrapRedactedDeep,
+} from "@distilled.cloud/core/protocol-rest";
 import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
 import { SdkError } from "@distilled.cloud/core/sdk-error";
 import * as Send from "@distilled.cloud/core/send";
@@ -60,20 +62,18 @@ import * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import type * as HttpClientResponse from "effect/http/HttpClientResponse";
-import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import type * as AST from "effect/SchemaAST";
 import { API_VERSION, ApiVersion } from "./api-version.ts";
-import { Credentials, type Config } from "./credentials.ts";
+import { Credentials, type Config, type CredentialsError } from "./credentials.ts";
 import {
   ApiError,
   CardError,
-  ExternalDependencyFailed,
   IdempotencyError,
   InvalidRequestError,
-  PaymentError,
   STRIPE_HTTP_STATUS_MAP,
   StripeParseError,
+  type StripeServiceError,
   UnknownStripeError,
 } from "./errors.ts";
 
@@ -92,40 +92,32 @@ const stripeHeaders = (creds: Config, apiVersion: string): Record<string, string
 // =============================================================================
 
 /**
- * Error channel shared by every generated Stripe operation. Generated
- * service files annotate operations with `API.OperationMethod<I, O,
- * StripeOpError, StripeOpContext>` explicitly so the compiler never infers
- * these back out of the schema generics.
+ * What every generated Stripe operation fails with besides its own errors:
+ * the service's errors, the protocol's, and what resolving the credentials
+ * fails with. Generated service files annotate operations with
+ * `API.OperationMethod<I, O, StripeOpError, StripeOpContext>` explicitly so
+ * the compiler never infers these back out of the schema generics.
  */
-export type StripeOpError =
-  | CardError
-  | IdempotencyError
-  | InvalidRequestError
-  | ApiError
-  | PaymentError
-  | ExternalDependencyFailed
-  | UnknownStripeError
-  | StripeParseError
-  | BadRequest
-  | Forbidden
-  | NotFound
-  | Conflict
-  | UnprocessableEntity
-  | Locked
-  | CoreDefaultErrors
-  | ConfigError
-  | HttpClientError.HttpClientError
-  | InvalidInput
-  | SdkError;
+export type StripeOpError = StripeServiceError | ErrorOf<typeof StripeProtocol>;
 
 /** Context (requirements) shared by every generated Stripe operation. */
 export type StripeOpContext = Credentials | HttpClient.HttpClient;
 
-// Bridge: Protocol.decode is typed as Effect<unknown> (no error channel), but
-// Stripe failures are real typed errors that an operation re-surfaces via its
-// `errors: [...]` list / StripeOpError annotation. Fail with the instance and
-// erase the error type here; the generated annotations reintroduce it.
-const fail = (e: unknown): Effect.Effect<never> => Effect.fail(e) as Effect.Effect<never>;
+/**
+ * An instance of `cls`, a class of the service's errors, built from the
+ * operation's own list: `undefined` when `cls` is `undefined` or the
+ * operation does not list it (every generated operation lists
+ * `StripeServiceErrors`).
+ */
+const declaredError = <Props>(
+  errors: ReadonlyArray<DeclaredErrorClass>,
+  cls: (new (props: Props) => unknown) | undefined,
+  props: Props,
+): DeclaredError | undefined => {
+  const known: unknown = cls;
+  const Declared = errors.find((declared) => declared === known);
+  return Declared === undefined ? undefined : new Declared(props);
+};
 
 // =============================================================================
 // Request building
@@ -154,19 +146,19 @@ const requestFor = (
   });
 
 /**
- * The calling fiber's credentials, then `f` on them. The protocol layer is
- * memoized per process by `API.make`, so credentials (and the
+ * The calling fiber's credentials, then `f` on them. The protocol is one
+ * module-level value shared by every operation, so credentials (and the
  * {@link ApiVersion} override) are resolved from the calling fiber's context on every
- * request. The requirement is erased at this boundary and reintroduced for
- * callers by the generated `StripeOpContext` annotations.
+ * request. What resolving them fails with ({@link CredentialsError}) reaches
+ * every operation through the protocol.
  */
-const withCredentials = <B>(
+const withCredentials = <B, E>(
   context: Context.Context<any>,
-  f: (creds: Config) => Effect.Effect<B, any, any>,
-): Effect.Effect<B, any, any> =>
-  API.withValue(Context.get(context, Credentials) as Effect.Effect<Config, any, any>, f);
+  f: (creds: Config) => Effect.Effect<B, E>,
+): Effect.Effect<B, CredentialsError | E, Credentials> =>
+  API.withValue(Context.get(context, Credentials), f);
 
-const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAst: AST.AST }) =>
+const encode = ({ input, inputAst }: EncodeArgs) =>
   Effect.withFiber((fiber) => {
     const context = fiber.context as Context.Context<any>;
     return withCredentials(context, (creds) => requestFor(creds, context, input, inputAst));
@@ -178,12 +170,11 @@ const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAs
 
 const str = (v: unknown): string | undefined => (typeof v === "string" ? v : undefined);
 
-// Structural views of the status maps for numeric lookup (the const objects'
-// per-status class types don't unify without widening the constructor).
+// A structural view of Stripe's own status map for numeric lookup (the const
+// object's per-status class types don't unify without widening the
+// constructor).
 const stripeStatusMap: Readonly<Record<number, (new (args: any) => unknown) | undefined>> =
   STRIPE_HTTP_STATUS_MAP;
-const coreStatusMap: Readonly<Record<number, (new (args: any) => unknown) | undefined>> =
-  HTTP_STATUS_MAP;
 
 /** Stripe's `{ error: { type, message, ... } }` object, when present. */
 const stripeErrorEnvelope = (errorBody: unknown): Record<string, unknown> | undefined => {
@@ -208,13 +199,18 @@ const stripeErrorMessage = (errorBody: unknown): string | undefined => {
  * 1. Per-operation matcher classes (`matchTypedError`) -- see decode
  * 2. The `error.type` field (card_error, idempotency_error,
  *    invalid_request_error, api_error)
- * 3. HTTP status code (402/424 Stripe-specific, then the core status map)
+ * 3. HTTP status code (402/424 Stripe-specific, then core's class for the
+ *    status)
+ *
+ * Steps 2 and 3 build a class of the service's errors, taken from `errors`
+ * (the classes the operation lists).
  */
 const matchStripeError = (
+  errors: ReadonlyArray<DeclaredErrorClass>,
   status: number,
   errorBody: unknown,
   headers: Record<string, string | undefined>,
-): unknown => {
+): DeclaredError | InternalServerError | UnknownStripeError => {
   const err = stripeErrorEnvelope(errorBody);
   // v0 parity: an unparseable envelope (no `error.type` string) is an
   // UnknownStripeError carrying the raw body.
@@ -238,47 +234,55 @@ const matchStripeError = (
   };
 
   // Match by Stripe error type first for richer error info.
-  switch (err.type) {
-    case "card_error":
-      return new CardError({
-        ...common,
-        decline_code: str(err.decline_code),
-        charge: str(err.charge),
-        param: str(err.param),
-        advice_code: str(err.advice_code),
-        network_advice_code: str(err.network_advice_code),
-        network_decline_code: str(err.network_decline_code),
-        payment_method_type: str(err.payment_method_type),
-      });
-    case "idempotency_error":
-      return new IdempotencyError(common);
-    case "invalid_request_error":
-      return new InvalidRequestError({ ...common, param: str(err.param), status });
-    case "api_error":
-      return new ApiError({ ...common, param: str(err.param) });
-  }
+  const byType = ((): DeclaredError | undefined => {
+    switch (err.type) {
+      case "card_error":
+        return declaredError(errors, CardError, {
+          ...common,
+          decline_code: str(err.decline_code),
+          charge: str(err.charge),
+          param: str(err.param),
+          advice_code: str(err.advice_code),
+          network_advice_code: str(err.network_advice_code),
+          network_decline_code: str(err.network_decline_code),
+          payment_method_type: str(err.payment_method_type),
+        });
+      case "idempotency_error":
+        return declaredError(errors, IdempotencyError, common);
+      case "invalid_request_error":
+        return declaredError(errors, InvalidRequestError, {
+          ...common,
+          param: str(err.param),
+          status,
+        });
+      case "api_error":
+        return declaredError(errors, ApiError, { ...common, param: str(err.param) });
+      default:
+        return undefined;
+    }
+  })();
+  if (byType !== undefined) return byType;
 
   // Fall back to Stripe-specific HTTP status codes (402, 424).
-  const StripeErrorClass = stripeStatusMap[status];
-  if (StripeErrorClass) {
-    return new StripeErrorClass({
-      message: common.message,
-      code: common.code,
-      ...(str(err.decline_code) !== undefined ? { decline_code: str(err.decline_code) } : {}),
-      ...(str(err.charge) !== undefined ? { charge: str(err.charge) } : {}),
-      ...(str(err.param) !== undefined ? { param: str(err.param) } : {}),
-      ...(common.doc_url !== undefined ? { doc_url: common.doc_url } : {}),
-      ...(common.request_log_url !== undefined ? { request_log_url: common.request_log_url } : {}),
-    });
-  }
+  const byStripeStatus = declaredError(errors, stripeStatusMap[status], {
+    message: common.message,
+    code: common.code,
+    ...(str(err.decline_code) !== undefined ? { decline_code: str(err.decline_code) } : {}),
+    ...(str(err.charge) !== undefined ? { charge: str(err.charge) } : {}),
+    ...(str(err.param) !== undefined ? { param: str(err.param) } : {}),
+    ...(common.doc_url !== undefined ? { doc_url: common.doc_url } : {}),
+    ...(common.request_log_url !== undefined ? { request_log_url: common.request_log_url } : {}),
+  });
+  if (byStripeStatus !== undefined) return byStripeStatus;
 
-  // Fall back to standard HTTP status errors (400, 401, 403, 404, ...).
-  const CoreErrorClass = coreStatusMap[status];
+  // Fall back to standard HTTP status errors (400, 401, 403, 404, ...):
+  // core's class for the status, which the service declares.
+  const CoreErrorClass = declaredStatusClass(status, errors);
   if (CoreErrorClass) {
     return new CoreErrorClass({
       message: common.message ?? "",
       retryAfter: parseRetryAfterForStatus(status, headers),
-    } as any);
+    });
   }
 
   // Unmapped 5xx (e.g. proxy statuses) -> retryable server error (v1
@@ -300,15 +304,25 @@ const matchStripeError = (
   });
 };
 
+/** What reading a response fails with: a declared error, or one of the protocol's. */
+type DecodeError =
+  | DeclaredError
+  | InternalServerError
+  | UnknownStripeError
+  | StripeParseError
+  | HttpClientError.HttpClientError;
+
 const decodeResponse = (
   context: Context.Context<any>,
   response: HttpClientResponse.HttpClientResponse,
   outputAst: AST.AST,
-  errorClasses: ReadonlyArray<unknown>,
-): Effect.Effect<unknown> =>
+  errorClasses: ReadonlyArray<DeclaredErrorClass>,
+): Effect.Effect<unknown, DecodeError> =>
   Effect.matchEffect(response.text, {
-    onFailure: fail,
-    onSuccess: (read): Effect.Effect<unknown> => {
+    // A body read that fails (reset or abort mid-body) fails the call with
+    // its `HttpClientError`.
+    onFailure: (error) => Effect.fail(error),
+    onSuccess: (read): Effect.Effect<unknown, DecodeError> => {
       // Read as text and parse tolerantly -- error pages can be non-JSON.
       const text = read ?? "";
       let json: unknown;
@@ -332,12 +346,12 @@ const decodeResponse = (
           body: nonJson ? text : json,
           headers,
         });
-        if (typed !== undefined) return fail(typed);
+        if (typed !== undefined) return Effect.fail(typed);
         // Its own frames would point into this decoder; the failure frame
         // names the operation at the caller's line instead.
         const saved = Telemetry.suppressStack();
         try {
-          return fail(matchStripeError(status, errorBody, headers));
+          return Effect.fail(matchStripeError(errorClasses, status, errorBody, headers));
         } finally {
           Telemetry.restoreStack(saved);
         }
@@ -354,11 +368,13 @@ const decodeResponse = (
         body: nonJson ? text : json,
         nonJson,
       });
-      return checked.ok ? Effect.succeed(checked.value) : fail(new StripeParseError(checked.error));
+      return checked.ok
+        ? Effect.succeed(checked.value)
+        : Effect.fail(new StripeParseError(checked.error));
     },
   });
 
-const call = (op: API.PreparedOperation, input: unknown): Effect.Effect<unknown> =>
+const call = (op: Operation, input: unknown) =>
   Effect.withFiber((fiber) => {
     const context = fiber.context as Context.Context<any>;
     return withCredentials(context, (creds) => {
@@ -369,17 +385,15 @@ const call = (op: API.PreparedOperation, input: unknown): Effect.Effect<unknown>
         ),
       );
     });
-  }) as Effect.Effect<unknown>;
+  });
 
-export const StripeProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer.succeed(
-  API.Protocol,
-  /*@__PURE__*/ API.Protocol.of({
-    // Erase encode's Credentials requirement (see comment above).
-    encode: (args) => encode(args) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
-    decode: ({ response, outputAst, errors }) =>
-      Effect.withFiber((fiber) =>
-        decodeResponse(fiber.context as Context.Context<any>, response, outputAst, errors),
-      ),
-    call,
-  }),
-);
+const stripeProtocolMethods = {
+  encode,
+  decode: ({ response, outputAst, errors }: DecodeArgs) =>
+    Effect.withFiber((fiber) =>
+      decodeResponse(fiber.context as Context.Context<any>, response, outputAst, errors),
+    ),
+  call,
+} satisfies Protocol<unknown, unknown>;
+
+export const StripeProtocol: ProtocolOf<typeof stripeProtocolMethods> = stripeProtocolMethods;

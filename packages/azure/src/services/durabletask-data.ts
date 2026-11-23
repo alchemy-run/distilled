@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import { AzureDataPlaneProtocol } from "../data-plane-protocol.ts";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -448,7 +448,8 @@ export const AddHistoryEvents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3, __c0, 3) as any as S.Schema<AddHistoryEventsRequest>,
   output: __S(4, __c0, 4) as any as S.Schema<AddHistoryEventsResponse>,
-  errors: [DurableTaskAccessDenied, UnknownAzureError],
+  errors: [DurableTaskAccessDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -468,7 +469,8 @@ export const CreateOrchestration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c3, 0) as any as S.Schema<CreateOrchestrationRequest>,
   output: __S(49, __c3, 1) as any as S.Schema<CreateOrchestrationResponse>,
-  errors: [OrchestrationAlreadyExists, DurableTaskAccessDenied, UnknownAzureError],
+  errors: [OrchestrationAlreadyExists, DurableTaskAccessDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -485,7 +487,8 @@ export const GetOrchestration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c5, 0) as any as S.Schema<GetOrchestrationRequest>,
   output: __S(96, __c6, 0) as any as S.Schema<GetOrchestrationResponse>,
-  errors: [OrchestrationNotFound, DurableTaskAccessDenied, UnknownAzureError],
+  errors: [OrchestrationNotFound, DurableTaskAccessDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -505,7 +508,8 @@ export const GetOrchestrationHistory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c7, 0) as any as S.Schema<GetOrchestrationHistoryRequest>,
   output: __S(124, __c7, 12) as any as S.Schema<GetOrchestrationHistoryResponse>,
-  errors: [OrchestrationNotFound, DurableTaskAccessDenied, UnknownAzureError],
+  errors: [OrchestrationNotFound, DurableTaskAccessDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -525,7 +529,8 @@ export const GetOrchestrationPayloads: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c9, 0) as any as S.Schema<GetOrchestrationPayloadsRequest>,
   output: __S(145, __c9, 1) as any as S.Schema<GetOrchestrationPayloadsResponse>,
-  errors: [OrchestrationNotFound, DurableTaskAccessDenied, UnknownAzureError],
+  errors: [OrchestrationNotFound, DurableTaskAccessDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -545,7 +550,8 @@ export const PurgeOrchestration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c10, 0) as any as S.Schema<PurgeOrchestrationRequest>,
   output: __S(161, __c10, 1) as any as S.Schema<PurgeOrchestrationResponse>,
-  errors: [OrchestrationNotFound, DurableTaskAccessDenied, UnknownAzureError],
+  errors: [OrchestrationNotFound, DurableTaskAccessDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -562,7 +568,8 @@ export const QueryOrchestrations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(181, __c11, 5) as any as S.Schema<QueryOrchestrationsRequest>,
   output: __S(184, __c11, 8) as any as S.Schema<QueryOrchestrationsResponse>,
-  errors: [DurableTaskAccessDenied, UnknownAzureError],
+  errors: [DurableTaskAccessDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

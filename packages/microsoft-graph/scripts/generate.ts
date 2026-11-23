@@ -76,7 +76,7 @@ const graphSpec: SdkSpec = {
   operationDecl: {
     contextType: "MicrosoftGraphOpContext",
     commonErrorType: "MicrosoftGraphOpError",
-    commonErrorClasses: ["UnknownMicrosoftGraphError"],
+    serviceErrors: "MicrosoftGraphServiceErrors",
     protocol: "MicrosoftGraphProtocol",
     retry: "Retry.Retry",
   },

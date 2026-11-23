@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import { AzureDataPlaneProtocol } from "../data-plane-protocol.ts";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -403,8 +403,8 @@ export const CreateDocument: API.OperationMethod<
     CosmosTooManyRequests,
     CosmosRequestEntityTooLarge,
     CosmosRbacPermissionDenied,
-    UnknownAzureError,
   ],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -431,8 +431,8 @@ export const DeleteDocument: API.OperationMethod<
     CosmosPreconditionFailed,
     CosmosTooManyRequests,
     CosmosRbacPermissionDenied,
-    UnknownAzureError,
   ],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -453,7 +453,8 @@ export const GetDocument: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c8, 0) as any as S.Schema<GetDocumentRequest>,
   output: __S(24, __c6, 0) as any as S.Schema<GetDocumentResponse>,
-  errors: [CosmosNotFound, CosmosTooManyRequests, CosmosRbacPermissionDenied, UnknownAzureError],
+  errors: [CosmosNotFound, CosmosTooManyRequests, CosmosRbacPermissionDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -474,7 +475,8 @@ export const ListDocuments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(36, __c9, 0) as any as S.Schema<ListDocumentsRequest>,
   output: __S(40, __c10, 0) as any as S.Schema<ListDocumentsResponse>,
-  errors: [CosmosNotFound, CosmosTooManyRequests, CosmosRbacPermissionDenied, UnknownAzureError],
+  errors: [CosmosNotFound, CosmosTooManyRequests, CosmosRbacPermissionDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -505,8 +507,8 @@ export const PatchDocument: API.OperationMethod<
     CosmosTooManyRequests,
     CosmosRequestEntityTooLarge,
     CosmosRbacPermissionDenied,
-    UnknownAzureError,
   ],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -527,7 +529,8 @@ export const QueryDocuments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6, __c1, 2) as any as S.Schema<QueryDocumentsRequest>,
   output: __S(40, __c10, 0) as any as S.Schema<QueryDocumentsResponse>,
-  errors: [CosmosNotFound, CosmosTooManyRequests, CosmosRbacPermissionDenied, UnknownAzureError],
+  errors: [CosmosNotFound, CosmosTooManyRequests, CosmosRbacPermissionDenied],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -558,8 +561,8 @@ export const ReplaceDocument: API.OperationMethod<
     CosmosTooManyRequests,
     CosmosRequestEntityTooLarge,
     CosmosRbacPermissionDenied,
-    UnknownAzureError,
   ],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -590,8 +593,8 @@ export const UpsertDocument: API.OperationMethod<
     CosmosTooManyRequests,
     CosmosRequestEntityTooLarge,
     CosmosRbacPermissionDenied,
-    UnknownAzureError,
   ],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

@@ -33,7 +33,6 @@ const program = Effect.gen(function* () {
 const Live = Layer.mergeAll(
   FetchHttpClient.layer,
   Tinybird.CredentialsFromEnv,
-  Tinybird.TinybirdProtocol,
 );
 
 program.pipe(Effect.provide(Live), Effect.runPromise).then(console.log);

@@ -1,15 +1,19 @@
-import * as API from "@distilled.cloud/core/api";
-import {
-  type ConfigError,
-  HTTP_STATUS_MAP,
-  InternalServerError,
-  InvalidInput,
-  type API_ERRORS,
-} from "@distilled.cloud/core/errors";
+import { InternalServerError, InvalidInput } from "@distilled.cloud/core/errors";
+import type {
+  DeclaredErrorClass,
+  DecodeArgs,
+  EncodeArgs,
+  ErrorOf,
+  Protocol,
+  ProtocolOf,
+} from "@distilled.cloud/core/protocol";
 import { buildRequest, mapKeys } from "@distilled.cloud/core/protocol-http";
-import { unwrapRedactedDeep, validateSuccess } from "@distilled.cloud/core/protocol-rest";
+import {
+  declaredStatusClass,
+  unwrapRedactedDeep,
+  validateSuccess,
+} from "@distilled.cloud/core/protocol-rest";
 import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
-import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * MicrosoftGraphProtocol -- hand-written.
  *
@@ -32,44 +36,37 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
  *               2. a mapped `details[].code` (the specific cause behind a
  *                  generic `Request_BadRequest`)
  *               3. `GRAPH_ERROR_CODE_MAP` on `error.code`
- *               4. core `HTTP_STATUS_MAP` by status (Retry-After honored)
- *               5. unmapped 5xx -> retryable `InternalServerError`
+ *               4. core's class for the status (Retry-After honored)
+ *               5. any other 5xx -> retryable `InternalServerError`
  *               6. `UnknownMicrosoftGraphError` catch-all
+ *             The classes of steps 1 to 4 are the service's errors
+ *             (`MicrosoftGraphServiceErrors`): the protocol builds one only
+ *             from the classes the operation lists.
  */
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
-import type * as HttpClientResponse from "effect/http/HttpClientResponse";
-import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import type * as AST from "effect/SchemaAST";
-import { Credentials, type Config, type CredentialsError } from "./credentials.ts";
+import { Credentials } from "./credentials.ts";
 import {
   GRAPH_ERROR_CODE_MAP,
   matchGraphErrorMessage,
-  type MicrosoftGraphApiError,
   MicrosoftGraphParseError,
+  type MicrosoftGraphServiceError,
   UnknownMicrosoftGraphError,
 } from "./errors.ts";
 
 /**
- * Error channel shared by every generated Microsoft Graph operation.
- * Generated service files annotate operations with `API.OperationMethod<I,
- * O, MicrosoftGraphOpError, MicrosoftGraphOpContext>` explicitly so the
- * compiler never infers these back out of the schema generics. Errors are
- * client-level: generated operations carry no per-op unions.
+ * What every generated Microsoft Graph operation fails with besides its own
+ * errors: the service's errors, the protocol's, and what resolving the
+ * credentials fails with. Generated service files annotate operations with
+ * `API.OperationMethod<I, O, MicrosoftGraphOpError,
+ * MicrosoftGraphOpContext>` explicitly so the compiler never infers these
+ * back out of the schema generics.
  */
 export type MicrosoftGraphOpError =
-  | InstanceType<(typeof API_ERRORS)[number]>
-  | MicrosoftGraphApiError
-  | UnknownMicrosoftGraphError
-  | MicrosoftGraphParseError
-  | ConfigError
-  | CredentialsError
-  | HttpClientError.HttpClientError
-  | InvalidInput
-  | SdkError;
+  | MicrosoftGraphServiceError
+  | ErrorOf<typeof MicrosoftGraphProtocol>;
 
 /** Context (requirements) shared by every generated Microsoft Graph operation. */
 export type MicrosoftGraphOpContext = Credentials | HttpClient.HttpClient;
@@ -77,11 +74,28 @@ export type MicrosoftGraphOpContext = Credentials | HttpClient.HttpClient;
 /** Input member a paginated operation reads its `@odata.nextLink` from. */
 const NEXT_LINK = "nextLink";
 
-// Bridge: Protocol.decode is typed as Effect<unknown> (no error channel),
-// but Graph failures are real typed errors surfaced through
-// MicrosoftGraphOpError. Fail with the instance and erase the type here;
-// the generated operation annotations reintroduce it for callers.
-const fail = (e: unknown): Effect.Effect<never> => Effect.fail(e) as Effect.Effect<never>;
+/**
+ * The class a Graph error code maps to. Only the map's own keys count: a
+ * code named like a member of `Object.prototype` (`constructor`, `toString`)
+ * maps to nothing.
+ */
+const classForCode = (code: string | undefined) =>
+  code !== undefined && Object.hasOwn(GRAPH_ERROR_CODE_MAP, code)
+    ? GRAPH_ERROR_CODE_MAP[code]
+    : undefined;
+
+/**
+ * `cls`, a class of the service's errors, as the operation declares it:
+ * `undefined` when `cls` is `undefined` or the operation does not list it
+ * (every generated operation lists `MicrosoftGraphServiceErrors`).
+ */
+const declaredClass = (
+  errors: ReadonlyArray<DeclaredErrorClass>,
+  cls: (new (props: any) => unknown) | undefined,
+): DeclaredErrorClass | undefined => {
+  const known: unknown = cls;
+  return known === undefined ? undefined : errors.find((declared) => declared === known);
+};
 
 // ---------------------------------------------------------------------------
 // Error-body parsing
@@ -133,15 +147,13 @@ const sameOrigin = (link: string, baseUrl: string): boolean => {
   }
 };
 
-// The protocol layer is memoized per process by `API.make`, so the build
+// The protocol is one module-level value shared by every operation, so it
 // must not capture credentials -- `encode` resolves Credentials from the
-// calling fiber's context on every request instead. Its error channel is
-// erased at this boundary (Protocol effects carry none) and reintroduced for
-// callers by the generated MicrosoftGraphOpError annotations.
-const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAst: AST.AST }) =>
+// calling fiber's context on every request.
+const encode = ({ input, inputAst }: EncodeArgs) =>
   Effect.gen(function* () {
     const resolveCredentials = yield* Credentials;
-    const creds = yield* resolveCredentials as Effect.Effect<Config>;
+    const creds = yield* resolveCredentials;
     const raw = (input ?? {}) as Record<string, unknown>;
     const nextLink = typeof raw[NEXT_LINK] === "string" ? (raw[NEXT_LINK] as string) : undefined;
     const fields: Record<string, unknown> = { ...raw };
@@ -157,7 +169,7 @@ const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAs
     });
     if (nextLink === undefined) return request;
     if (!sameOrigin(nextLink, creds.apiBaseUrl)) {
-      return yield* fail(
+      return yield* Effect.fail(
         new InvalidInput({
           member: NEXT_LINK,
           message: `${NEXT_LINK} must be a page link on ${creds.apiBaseUrl}; the token is only sent there`,
@@ -171,18 +183,12 @@ const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAs
 // Decode
 // ---------------------------------------------------------------------------
 
-const decode = ({
-  response,
-  outputAst,
-}: {
-  readonly response: HttpClientResponse.HttpClientResponse;
-  readonly outputAst: AST.AST;
-  readonly errors: ReadonlyArray<unknown>;
-}) =>
+const decode = ({ response, outputAst, errors }: DecodeArgs) =>
   Effect.gen(function* () {
     // Read as text and parse tolerantly -- `$count` answers in text/plain and
-    // gateway error pages are HTML.
-    const text = (yield* response.text.pipe(Effect.catch(fail))) ?? "";
+    // gateway error pages are HTML. A body read that fails (reset or abort
+    // mid-body) fails the call with its `HttpClientError`.
+    const text = (yield* response.text) ?? "";
     let json: unknown;
     let nonJson = false;
     if (text.trim().length > 0) {
@@ -198,46 +204,40 @@ const decode = ({
     if (status >= 400) {
       const body = nonJson ? text : json;
       const graph = nonJson ? undefined : parseGraphError(json);
-      const make = (Cls: new (props: any) => unknown, code?: string, message?: string) =>
-        fail(new Cls({ code, message, target: graph?.target }));
+      const make = (Cls: DeclaredErrorClass, code?: string, message?: string) =>
+        Effect.fail(new Cls({ code, message, target: graph?.target }));
 
       if (graph !== undefined) {
         // 1. Generic code + message.
-        const ByMessage = matchGraphErrorMessage(graph);
+        const ByMessage = declaredClass(errors, matchGraphErrorMessage(graph));
         if (ByMessage) return yield* make(ByMessage, graph.code, graph.message);
 
         // 2. The specific cause behind a generic code.
-        const detail = graph.details?.find(
-          (d) => d.code !== undefined && GRAPH_ERROR_CODE_MAP[d.code] !== undefined,
-        );
-        if (detail !== undefined) {
-          return yield* make(
-            GRAPH_ERROR_CODE_MAP[detail.code!]!,
-            detail.code,
-            detail.message ?? graph.message,
-          );
+        for (const detail of graph.details ?? []) {
+          const ByDetail = declaredClass(errors, classForCode(detail.code));
+          if (ByDetail) return yield* make(ByDetail, detail.code, detail.message ?? graph.message);
         }
 
         // 3. The error code.
-        const ByCode = graph.code !== undefined ? GRAPH_ERROR_CODE_MAP[graph.code] : undefined;
+        const ByCode = declaredClass(errors, classForCode(graph.code));
         if (ByCode) return yield* make(ByCode, graph.code, graph.message);
       }
 
-      // 4. Standard HTTP status errors (Retry-After honored on retryable
-      //    statuses).
-      const StatusErrorClass = HTTP_STATUS_MAP[status as keyof typeof HTTP_STATUS_MAP];
+      // 4. Core's class for the status, which the service declares
+      //    (Retry-After honored on retryable statuses).
+      const StatusErrorClass = declaredStatusClass(status, errors);
       if (StatusErrorClass) {
-        return yield* fail(
+        return yield* Effect.fail(
           new StatusErrorClass({
             message: graph?.message ?? (nonJson && text.trim() ? text.trim() : ""),
             retryAfter: parseRetryAfterForStatus(status, headers),
-          } as any),
+          }),
         );
       }
 
-      // 5. Unmapped 5xx -> retryable server error.
+      // 5. Any other 5xx -> retryable server error.
       if (status >= 500) {
-        return yield* fail(
+        return yield* Effect.fail(
           new InternalServerError({
             message: graph?.message ?? `HTTP ${status}`,
             retryAfter: parseRetryAfterForStatus(status, headers),
@@ -246,7 +246,7 @@ const decode = ({
       }
 
       // 6. Unknown Graph error.
-      return yield* fail(
+      return yield* Effect.fail(
         new UnknownMicrosoftGraphError({
           status,
           code: graph?.code,
@@ -269,15 +269,13 @@ const decode = ({
       outputAst,
       { value: mapKeys(outputAst, body, "decode"), body: nonJson ? text : json, nonJson },
       (info) => new MicrosoftGraphParseError(info),
-    ).pipe(Effect.catch(fail));
+    );
   });
 
-export const MicrosoftGraphProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer.succeed(
-  API.Protocol,
-  /*@__PURE__*/ API.Protocol.of({
-    // Erase encode's Credentials requirement (resolved on the calling
-    // fiber; see the note above `encode`).
-    encode: (args) => encode(args) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
-    decode,
-  }),
-);
+const microsoftGraphProtocolMethods = {
+  encode,
+  decode,
+} satisfies Protocol<unknown, unknown>;
+
+export const MicrosoftGraphProtocol: ProtocolOf<typeof microsoftGraphProtocolMethods> =
+  microsoftGraphProtocolMethods;

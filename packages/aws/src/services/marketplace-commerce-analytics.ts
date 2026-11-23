@@ -5,6 +5,7 @@ import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -185,6 +186,7 @@ export const generateDataSet: API.OperationMethod<
   input: __S(0, __c0, 0) as any as S.Schema<GenerateDataSetRequest>,
   output: __S(3, __c1, 1) as any as S.Schema<GenerateDataSetResult>,
   errors: [MarketplaceCommerceAnalyticsException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GenerateDataSet",
@@ -212,6 +214,7 @@ export const startSupportDataExport: API.OperationMethod<
   input: __S(4, __c2, 0) as any as S.Schema<StartSupportDataExportRequest>,
   output: __S(3, __c1, 1) as any as S.Schema<StartSupportDataExportResult>,
   errors: [MarketplaceCommerceAnalyticsException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSupportDataExport",

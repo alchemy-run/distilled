@@ -4,7 +4,7 @@ import * as Effect from "effect/Effect";
 import * as Redacted from "effect/Redacted";
 import { describe, expect, test } from "vitest";
 import { isTransientError } from "../../src/category.ts";
-import { InternalError, ParseError } from "../../src/errors.ts";
+import { AwsServiceErrors, InternalError, ParseError } from "../../src/errors.ts";
 import { ValidationException, getContactInformation } from "../../src/services/account.ts";
 import { getCredentialsForIdentity } from "../../src/services/cognito-identity.ts";
 import { listTables } from "../../src/services/dynamodb.ts";
@@ -22,6 +22,7 @@ const parseCreateFunction = makeResponseParser({
   input: createFunction.input,
   output: createFunction.output,
   errors: [InvalidParameterValueException, LambdaInternalKmsError],
+  serviceErrors: AwsServiceErrors,
 });
 
 const invalidParameterResponse = (message: string) => ({
@@ -38,6 +39,7 @@ const parsePutObject = makeResponseParser({
   input: putObject.input,
   output: putObject.output,
   errors: [SlowDown],
+  serviceErrors: AwsServiceErrors,
 });
 
 const unstructuredBodies = [
@@ -136,6 +138,7 @@ describe("Lambda synthetic error parsing", () => {
       input: updateFunctionCode.input,
       output: createFunction.output,
       errors: [InvalidParameterValueException],
+      serviceErrors: AwsServiceErrors,
     });
     const error = await Effect.runPromise(
       parseUpdateFunctionCode(invalidParameterResponse(internalKmsMessage)).pipe(Effect.flip),
@@ -221,6 +224,7 @@ describe("a response that does not decode keeps sensitive members redacted", () 
     input: getSecretValue.input,
     output: getSecretValue.output,
     errors: [],
+    serviceErrors: AwsServiceErrors,
   });
 
   // VersionStages is a list in the model.
@@ -268,6 +272,7 @@ describe("a response that does not decode keeps sensitive members redacted", () 
       input: getCredentialsForIdentity.input,
       output: getCredentialsForIdentity.output,
       errors: [],
+      serviceErrors: AwsServiceErrors,
     });
     const output = (await Effect.runPromise(
       parse(ok(JSON.stringify({ IdentityId: "id", Credentials: [{ SecretKey: SECRET }] }))),
@@ -282,6 +287,7 @@ describe("a response that does not decode keeps sensitive members redacted", () 
       input: listTables.input,
       output: listTables.output,
       errors: [],
+      serviceErrors: AwsServiceErrors,
     });
     const error = await Effect.runPromise(
       parse(ok("not json")).pipe(Effect.provide(ResponseValidation.strict), Effect.flip),
@@ -294,6 +300,7 @@ describe("a response that does not decode keeps sensitive members redacted", () 
     input: getContactInformation.input,
     output: getContactInformation.output,
     errors: [ValidationException],
+    serviceErrors: AwsServiceErrors,
   });
 
   const failed = (status: number, body: string) => ({
@@ -312,7 +319,7 @@ describe("a response that does not decode keeps sensitive members redacted", () 
     );
     expect(error).toMatchObject({ _tag: "ValidationException", reason: 1 });
     expect(error).not.toHaveProperty("Unmodeled");
-    expect(Redacted.isRedacted((error as Record<string, unknown>).message)).toBe(true);
+    expect(Redacted.isRedacted((error as unknown as Record<string, unknown>).message)).toBe(true);
     expect(JSON.stringify(error)).not.toContain(SECRET);
   });
 
@@ -342,6 +349,7 @@ describe("REST-JSON structure payload", () => {
     input: createOAuth2Token.input,
     output: createOAuth2Token.output,
     errors: [],
+    serviceErrors: AwsServiceErrors,
   });
 
   test("the body is the payload member, decoded in every mode", async () => {

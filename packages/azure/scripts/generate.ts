@@ -117,7 +117,7 @@ const azureSpec: SdkSpec = {
   operationDecl: {
     contextType: "AzureOpContext",
     commonErrorType: "AzureOpError",
-    commonErrorClasses: ["UnknownAzureError"],
+    serviceErrors: "AzureServiceErrors",
     protocol: "AzureProtocol",
     retry: "Retry.Retry",
     // A data-plane operation (its http trait names a `host`) uses the

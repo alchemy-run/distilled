@@ -5,19 +5,17 @@ import * as Exit from "effect/Exit";
 import * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
 import type * as HttpClientRequest from "effect/http/HttpClientRequest";
-import type * as HttpClientResponse from "effect/http/HttpClientResponse";
-import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import { pipeArguments } from "effect/Pipeable";
 import * as Ref from "effect/Ref";
 import * as S from "effect/Schema";
 import type * as AST from "effect/SchemaAST";
-import * as Scope from "effect/Scope";
 import * as Stream from "effect/Stream";
 import { SingleShotGen } from "effect/Utils";
 import { getAnn, getProps, rawResponseRootSymbol } from "./annotations.ts";
 import { isThrottling } from "./category.ts";
 import * as Pagination from "./pagination.ts";
+import type { Operation, Protocol } from "./protocol.ts";
 import { takeLastRequest } from "./retry-state.ts";
 import {
   type Backoff,
@@ -77,61 +75,6 @@ export interface ProtocolOperationConfig {
 }
 
 /**
- * The Protocol service knows how to turn a value into an HTTP request using
- * only the input schema's trait annotations, and how to turn a response back
- * into an output value using the output schema's trait annotations.
- *
- * Swap implementations by providing a different `Layer<Protocol>`.
- */
-export class Protocol
-  extends /*@__PURE__*/ Context.Service<
-    Protocol,
-    {
-      readonly encode: (args: {
-        readonly input: unknown;
-        readonly inputAst: AST.AST;
-        /** The operation's config (memoized per operation -- see {@link ProtocolOperationConfig}). */
-        readonly config: ProtocolOperationConfig;
-      }) => Effect.Effect<HttpClientRequest.HttpClientRequest>;
-      readonly decode: (args: {
-        readonly response: HttpClientResponse.HttpClientResponse;
-        readonly outputAst: AST.AST;
-        /**
-         * The operation's declared error classes (from `OperationConfig.errors`).
-         * Protocols use these to surface wire failures as the operation's typed
-         * errors -- e.g. by consulting matcher metadata stamped on the class.
-         */
-        readonly errors: ReadonlyArray<ApiErrorClass>;
-        /** The operation's config (memoized per operation -- see {@link ProtocolOperationConfig}). */
-        readonly config: ProtocolOperationConfig;
-      }) => Effect.Effect<unknown>;
-      /**
-       * Optional whole-call implementation. When present, `API.make` runs a
-       * call as `call(operation, input)` instead of encode -> HttpClient ->
-       * decode, so a protocol can read the context once, build the request
-       * synchronously and decode the response without intermediate effects.
-       * It must read the `HttpClient` from the calling fiber's context and
-       * produce the same request, result and errors as encode/decode.
-       */
-      readonly call?: (operation: PreparedOperation, input: unknown) => Effect.Effect<unknown>;
-      /**
-       * Server streaming (see {@link makeStreaming}): each response message
-       * as it arrives, decoded as one element of the output's `items`.
-       * Ending the stream early cancels the call. Protocols that can't
-       * stream leave it out; one that streams only some operations fails
-       * the others with {@link cannotStream}.
-       */
-      readonly stream?: (
-        operation: PreparedOperation,
-        input: unknown,
-      ) => Stream.Stream<unknown, unknown>;
-    }
-  >()("Protocol") {}
-
-/** The service a protocol layer provides. */
-export type ProtocolShape = (typeof Protocol)["Service"];
-
-/**
  * One operation as a protocol's {@link Protocol.call} sees it. Built once per
  * operation on its first call; the same object is passed on every call.
  */
@@ -153,14 +96,15 @@ export interface PreparedOperation {
  * successful `Exit` (e.g. a `Credentials` service holding
  * `Effect.succeed(config)`), so a resolved value costs no fiber step.
  */
-export const withValue = <A, B>(
-  effect: Effect.Effect<A, any, any>,
-  f: (a: A) => Effect.Effect<B, any, any>,
-): Effect.Effect<B, any, any> =>
+export const withValue = <A, E, R, B, E2, R2>(
+  effect: Effect.Effect<A, E, R>,
+  f: (a: A) => Effect.Effect<B, E2, R2>,
+): Effect.Effect<B, E | E2, R | R2> =>
   Exit.isExit(effect)
     ? Exit.isSuccess(effect)
       ? f(effect.value as A)
-      : (effect as unknown as Effect.Effect<never, any>)
+      : // A failed Exit never produces its value.
+        (effect as Exit.Exit<never, E>)
     : Effect.flatMap(effect, f);
 
 export type ApiErrorClass = {
@@ -210,34 +154,11 @@ export interface OperationSchemas<I, O> {
 // nothing extra.
 
 /**
- * Protocol layers are built once per process and shared by every operation
- * call (keyed by layer value identity -- generated operations all reference the
- * same module-level layer const). The build runs against a process-lifetime
- * scope, and concurrent first calls are deduplicated through a private
- * MemoMap.
- *
- * Contract for protocol implementations: the layer build must not capture
- * per-call context. Anything call-dependent -- credentials, per-request
- * options -- must be resolved inside `encode`/`decode`, which execute on the
- * calling fiber and therefore see the caller's services on every request.
+ * The operation's protocol, kept on `prepared` from its first call on (the
+ * warm path reads it there).
  */
-const protocolMemoMap = /*@__PURE__*/ Layer.makeMemoMapUnsafe();
-const protocolScope = /*@__PURE__*/ Scope.makeUnsafe();
-const protocolContexts = /*@__PURE__*/ new WeakMap<
-  Layer.Layer<Protocol, any, any>,
-  Context.Context<Protocol>
->();
-
-const protocolContext = <PE, PR>(
-  layer: Layer.Layer<Protocol, PE, PR>,
-): Effect.Effect<Context.Context<Protocol>, PE, PR> => {
-  const cached = protocolContexts.get(layer);
-  if (cached) return Effect.succeed(cached);
-  return Effect.map(Layer.buildWithMemoMap(layer, protocolMemoMap, protocolScope), (ctx) => {
-    protocolContexts.set(layer, ctx);
-    return ctx;
-  });
-};
+const protocolOf = (prepared: Prepared): Effect.Effect<Protocol<any, any>> =>
+  Effect.succeed((prepared.service = prepared.cfg.protocol));
 
 export interface OperationConfig<
   I extends S.Top,
@@ -245,17 +166,26 @@ export interface OperationConfig<
   PE,
   PR,
   E extends readonly ApiErrorClass[] = readonly ApiErrorClass[],
+  SE extends readonly ApiErrorClass[] = readonly ApiErrorClass[],
 > {
   input?: I;
   output?: O;
+  /** The errors declared on the operation: only this operation returns them. */
   errors?: E;
   /**
-   * The protocol layer that knows how to encode/decode this operation's wire
-   * format. Built once per process and shared across all operations that
-   * reference the same layer value -- it must resolve call-dependent services
-   * (credentials etc.) inside encode/decode, not at build time.
+   * The errors declared on the operation's service: the same list on every
+   * operation of the service. The protocol matches a failed response
+   * against the operation's classes, then these.
    */
-  protocol: Layer.Layer<Protocol, PE, PR>;
+  serviceErrors?: SE;
+  /**
+   * What encodes and decodes this operation's wire format: a protocol
+   * (core/protocol), an object whose type states the errors the protocol
+   * declares (`PE`) and what its methods read (`PR`), so the operation's
+   * type gets them from the protocol. It resolves call-dependent services
+   * (credentials etc.) inside encode/decode, on the calling fiber.
+   */
+  protocol: Protocol<PE, PR>;
   /**
    * SDK-specific retry service tag (see `core/retry`). When provided and the
    * caller's context carries a policy under this tag, every call is retried
@@ -486,10 +416,10 @@ interface OperationState {
   readonly strategy?: Pagination.PaginationStrategy;
 }
 
-interface Prepared extends PreparedOperation {
+interface Prepared extends Operation {
   readonly cfg: OperationConfig<any, any, any, any, any>;
-  /** The built protocol service, once its layer has been built. */
-  service?: ProtocolShape;
+  /** The operation's protocol, from its first call on (see {@link protocolOf}). */
+  service?: Protocol<any, any>;
   /** The operation span's facts, from the telemetry traits; built on the first traced call. */
   info?: Telemetry.OperationInfo;
   /** Input members marked `T.IdempotencyToken()`, with their format; read on the first call. */
@@ -563,7 +493,13 @@ const prepare = (state: OperationState): Prepared => {
     config: cfg,
     inputAst: cfg.input!.ast,
     outputAst: cfg.output!.ast,
-    errors: cfg.errors ?? [],
+    // What the protocol matches a failed response against: the operation's
+    // declared classes, then its service's. The protocol receives them as
+    // `DeclaredErrorClass` (core/protocol).
+    errors:
+      cfg.serviceErrors === undefined
+        ? (cfg.errors ?? [])
+        : [...(cfg.errors ?? []), ...cfg.serviceErrors],
     compiled: undefined,
     service: undefined,
   });
@@ -600,8 +536,8 @@ export const describeOperation = (op: unknown): Telemetry.OperationInfo =>
  * operation's protocol (`Protocol.encode`) and not sent: no retry, no span,
  * no response. It fails as the call would before sending (bad input,
  * credentials, endpoint), or with {@link SdkError} when the operation can't
- * be loaded; the Protocol seam does not type those failures, so the error is
- * `unknown`. Presigning builds on it.
+ * be loaded; the operation's type does not tell those failures from a
+ * response's, so the error is `unknown`. Presigning builds on it.
  */
 export const encodeRequest = <I, O, E, R>(
   op: OperationMethod<I, O, E, R>,
@@ -612,16 +548,14 @@ export const encodeRequest = <I, O, E, R>(
     if (state === undefined) return Effect.fail(new SdkError({ message: "not an operation" }));
     const prepared = prepareOr(state);
     if (prepared instanceof SdkError) return Effect.fail(prepared);
-    const encode = (service: ProtocolShape) =>
+    const encode = (service: Protocol<any, any>) =>
       service.encode({
         input: withIdempotencyTokens(prepared, input),
         inputAst: prepared.inputAst,
         config: prepared.cfg,
       });
     if (prepared.service !== undefined) return encode(prepared.service);
-    return Effect.flatMap(protocolContext(prepared.cfg.protocol), (protocolCtx) =>
-      encode((prepared.service = Context.get(protocolCtx, Protocol))),
-    );
+    return Effect.flatMap(protocolOf(prepared), encode);
   });
 
 const defineState = (op: unknown, state: OperationState): OperationState => {
@@ -631,7 +565,7 @@ const defineState = (op: unknown, state: OperationState): OperationState => {
 
 const runWith = (
   p: Prepared,
-  protocol: ProtocolShape,
+  protocol: Protocol<any, any>,
   input: unknown,
 ): Effect.Effect<any, any, any> => {
   if (protocol.call !== undefined) return protocol.call(p, input);
@@ -652,7 +586,7 @@ const callUntraced = (
   input: unknown,
   debug: Telemetry.DebugHooks | undefined,
 ): Effect.Effect<any, any, any> => {
-  // Warm path: the operation is prepared and its protocol built, so the call
+  // Warm path: the operation is prepared and has its protocol, so the call
   // is whatever the protocol returns, with no wrapper effects around it.
   const p = state.prepared;
   if (p?.service !== undefined) {
@@ -666,14 +600,11 @@ const callUntraced = (
     // `call` runs once per call.
     return Effect.flatMap(
       debug === undefined
-        ? protocolContext(prepared.cfg.protocol)
-        : debug.phase("distilled.setup", protocolContext(prepared.cfg.protocol), {
+        ? protocolOf(prepared)
+        : debug.phase("distilled.setup", protocolOf(prepared), {
             "distilled.setup.first_call": true,
           }),
-      (protocolCtx) => {
-        const service = (prepared.service = Context.get(protocolCtx, Protocol));
-        return applyRetry(runWith(prepared, service, callInput), prepared.cfg, debug);
-      },
+      (service) => applyRetry(runWith(prepared, service, callInput), prepared.cfg, debug),
     );
   });
 };
@@ -777,12 +708,13 @@ export function make<
   PE,
   PR,
   const E extends readonly ApiErrorClass[] = readonly [],
+  const SE extends readonly ApiErrorClass[] = readonly [],
 >(
-  configFn: () => OperationConfig<I, O, PE, PR, E>,
+  configFn: () => OperationConfig<I, O, PE, PR, E, SE>,
 ): OperationMethod<
   S.Schema.Type<I>,
   S.Schema.Type<O>,
-  InstanceType<E[number]> | PE | HttpClientError.HttpClientError,
+  InstanceType<E[number]> | InstanceType<SE[number]> | PE | HttpClientError.HttpClientError,
   PR | HttpClient.HttpClient
 > {
   return makeOperation({ configFn }, OperationProto);
@@ -847,7 +779,8 @@ export interface PaginatedOperationConfig<
   PE,
   PR,
   E extends readonly ApiErrorClass[] = readonly ApiErrorClass[],
-> extends OperationConfig<I, O, PE, PR, E> {
+  SE extends readonly ApiErrorClass[] = readonly ApiErrorClass[],
+> extends OperationConfig<I, O, PE, PR, E, SE> {
   /** How to advance between pages (mirrors the `smithy.api#paginated` trait). */
   pagination: Pagination.PaginatedTrait;
 }
@@ -924,13 +857,14 @@ export function makePaginated<
   PE,
   PR,
   const E extends readonly ApiErrorClass[] = readonly [],
+  const SE extends readonly ApiErrorClass[] = readonly [],
 >(
-  configFn: () => PaginatedOperationConfig<I, O, PE, PR, E>,
+  configFn: () => PaginatedOperationConfig<I, O, PE, PR, E, SE>,
   strategy?: Pagination.PaginationStrategy,
 ): PaginatedOperationMethod<
   S.Schema.Type<I>,
   S.Schema.Type<O>,
-  InstanceType<E[number]> | PE | HttpClientError.HttpClientError,
+  InstanceType<E[number]> | InstanceType<SE[number]> | PE | HttpClientError.HttpClientError,
   PR | HttpClient.HttpClient
 > {
   return makeOperation(strategy ? { configFn, strategy } : { configFn }, PaginatedOperationProto);
@@ -971,7 +905,9 @@ export type StreamingOperationMethod<I, O, E, R, Item = StreamedItem<O>> = Effec
   OperationSchemas<I, O>;
 
 /** The `.stream()` of an operation its protocol can't stream: fails with {@link SdkError}. */
-export const cannotStream = (operation: PreparedOperation): Stream.Stream<never, SdkError> =>
+export const cannotStream = (
+  operation: Pick<PreparedOperation, "config">,
+): Stream.Stream<never, SdkError> =>
   Stream.fail(
     new SdkError({
       message: `${operation.config.operationName ?? "this operation"}: its protocol can't stream`,
@@ -988,13 +924,11 @@ const streamCall =
         if (prepared instanceof SdkError) return Effect.succeed(Stream.fail(prepared));
         const fixed = prepared.cfg.streamInput;
         const sent = fixed === undefined ? input : { ...(input as object), ...fixed };
-        const run = (service: ProtocolShape) =>
+        const run = (service: Protocol<any, any>) =>
           service.stream === undefined ? cannotStream(prepared) : service.stream(prepared, sent);
         return prepared.service !== undefined
           ? Effect.succeed(run(prepared.service))
-          : Effect.map(protocolContext(prepared.cfg.protocol), (ctx) =>
-              run((prepared.service = Context.get(ctx, Protocol))),
-            );
+          : Effect.map(protocolOf(prepared), run);
       }),
     );
 
@@ -1029,7 +963,7 @@ const StreamingOperationProto: object = /*@__PURE__*/ Object.create(OperationPro
 /**
  * Like {@link make}, for a server-streaming RPC whose output is `{ items }`:
  * calling it collects the stream, and `.stream(input)` emits each message as
- * the protocol receives it (see {@link ProtocolShape.stream}).
+ * the protocol receives it (see {@link Protocol.stream}).
  *
  * An operation that streams only when its input asks keeps its own output:
  * its config sets `items` (one frame) and `streamInput` (what `.stream()`
@@ -1041,12 +975,13 @@ export function makeStreaming<
   PE,
   PR,
   const E extends readonly ApiErrorClass[] = readonly [],
+  const SE extends readonly ApiErrorClass[] = readonly [],
 >(
-  configFn: () => OperationConfig<I, O, PE, PR, E>,
+  configFn: () => OperationConfig<I, O, PE, PR, E, SE>,
 ): StreamingOperationMethod<
   S.Schema.Type<I>,
   S.Schema.Type<O>,
-  InstanceType<E[number]> | PE | HttpClientError.HttpClientError,
+  InstanceType<E[number]> | InstanceType<SE[number]> | PE | HttpClientError.HttpClientError,
   PR | HttpClient.HttpClient
 > {
   return makeOperation({ configFn }, StreamingOperationProto);

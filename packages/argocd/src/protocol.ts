@@ -1,12 +1,10 @@
-import type * as API from "@distilled.cloud/core/api";
-import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
-import type { SdkError } from "@distilled.cloud/core/sdk-error";
+import type { ErrorOf } from "@distilled.cloud/core/protocol";
+import { restProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
 /**
  * ArgocdProtocol -- hand-written.
  *
  * Argo CD speaks plain bearer-authenticated JSON REST (no response envelope),
- * so the whole protocol is one `makeRestProtocol` call from
+ * so the whole protocol is one `restProtocol` call from
  * `core/protocol-rest`:
  *
  *   request:  credentials -> `Authorization: Bearer <token>` + instance origin
@@ -20,34 +18,26 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
  */
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config } from "./credentials.ts";
-import { UnknownArgocdError, ArgocdParseError } from "./errors.ts";
+import { Credentials } from "./credentials.ts";
+import { UnknownArgocdError, ArgocdParseError, type ArgocdServiceError } from "./errors.ts";
 
 /**
- * Error channel shared by every generated Argo CD operation. Generated
- * service files annotate operations with `API.OperationMethod<I, O,
- * ArgocdOpError, ArgocdOpContext>` explicitly so the compiler never infers
- * these back out of the schema generics.
+ * What every generated Argo CD operation fails with besides its own errors:
+ * the service's errors, the protocol's, and what resolving the credentials
+ * fails with. Generated service files annotate operations with
+ * `API.OperationMethod<I, O, ArgocdOpError, ArgocdOpContext>` explicitly so
+ * the compiler never infers these back out of the schema generics.
  */
-export type ArgocdOpError =
-  | InstanceType<(typeof API_ERRORS)[number]>
-  | UnknownArgocdError
-  | ConfigError
-  | HttpClientError.HttpClientError
-  | ArgocdParseError
-  | InvalidInput
-  | SdkError;
+export type ArgocdOpError = ArgocdServiceError | ErrorOf<typeof ArgocdProtocol>;
 
 /** Context (requirements) shared by every generated Argo CD operation. */
 export type ArgocdOpContext = Credentials | HttpClient.HttpClient;
 
-export const ArgocdProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
+export const ArgocdProtocol = /*@__PURE__*/ restProtocol({
   // The Credentials service holds an effect -- resolving it here (per
   // request, on the calling fiber) picks up context-provided credentials.
-  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
+  credentials: /*@__PURE__*/ Effect.flatten(Credentials),
   baseUrl: (creds) => creds.apiBaseUrl,
   headers: (creds) => ({
     Authorization: `Bearer ${Redacted.value(creds.token)}`,

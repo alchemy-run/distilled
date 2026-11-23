@@ -1,8 +1,5 @@
-import type * as API from "@distilled.cloud/core/api";
-import type { ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { HTTP_STATUS_MAP } from "@distilled.cloud/core/errors";
-import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
-import type { SdkError } from "@distilled.cloud/core/sdk-error";
+import type { ErrorOf } from "@distilled.cloud/core/protocol";
+import { restProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
 /**
  * TinybirdProtocol -- the shared bearer-REST protocol instantiated for
  * Tinybird.
@@ -19,36 +16,33 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
  */
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config } from "./credentials.ts";
-import { TinybirdParseError, UnknownTinybirdError, type DefaultErrors } from "./errors.ts";
+import { Credentials } from "./credentials.ts";
+import { TinybirdParseError, UnknownTinybirdError, type TinybirdServiceError } from "./errors.ts";
 
 /**
- * Error channel shared by every generated Tinybird operation. Generated
- * service files annotate operations with `API.OperationMethod<I, O,
- * TinybirdOpError, TinybirdOpContext>` explicitly.
+ * What every generated Tinybird operation fails with besides its own errors:
+ * the errors declared on the service, and the errors declared on the protocol.
+ * Nobody lists the protocol's: its type carries what its code fails with (a
+ * response that does not match its schema, a failed response nothing declares,
+ * core's REST errors, and what resolving the credentials fails with).
+ * Generated service files annotate operations with `API.OperationMethod<I, O,
+ * TinybirdOpError, TinybirdOpContext>` explicitly so the compiler never infers
+ * these back out of the schema generics.
  */
-export type TinybirdOpError =
-  | DefaultErrors
-  | ConfigError
-  | HttpClientError.HttpClientError
-  | InvalidInput
-  | SdkError;
+export type TinybirdOpError = TinybirdServiceError | ErrorOf<typeof TinybirdProtocol>;
 
 /** Context (requirements) shared by every generated Tinybird operation. */
 export type TinybirdOpContext = Credentials | HttpClient.HttpClient;
 
-export const TinybirdProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
+export const TinybirdProtocol = /*@__PURE__*/ restProtocol({
   // Resolved on the calling fiber per request, so a rotated token is
   // picked up without rebuilding the layer.
-  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
+  credentials: /*@__PURE__*/ Effect.flatten(Credentials),
   baseUrl: (creds) => creds.apiBaseUrl.replace(/\/+$/, ""),
   headers: (creds) => ({
     Authorization: `Bearer ${Redacted.value(creds.token)}`,
   }),
-  statusMap: HTTP_STATUS_MAP,
   unknownError: (info) => new UnknownTinybirdError(unknownErrorProps(info)),
   parseError: ({ body, cause }) => new TinybirdParseError({ body, cause }),
 });

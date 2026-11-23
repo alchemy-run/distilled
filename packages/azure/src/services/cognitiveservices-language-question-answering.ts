@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import { AzureDataPlaneProtocol } from "../data-plane-protocol.ts";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -225,7 +225,8 @@ export const GetQuestionAnsweringAnswers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7, __c0, 7) as any as S.Schema<GetQuestionAnsweringAnswersRequest>,
   output: __S(14, __c0, 14) as any as S.Schema<AnswersResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -242,7 +243,8 @@ export const GetQuestionAnsweringAnswersFromText: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(34, __c2, 2) as any as S.Schema<GetQuestionAnsweringAnswersFromTextRequest>,
   output: __S(37, __c2, 5) as any as S.Schema<AnswersFromTextResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

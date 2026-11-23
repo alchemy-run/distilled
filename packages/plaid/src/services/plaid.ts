@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownPlaidError } from "../errors.ts";
+import { PlaidServiceErrors } from "../errors.ts";
 import { PlaidProtocol, type PlaidOpError, type PlaidOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -19047,7 +19047,8 @@ export const assetReportAuditCopyCreate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c3, 0) as any as S.Schema<AssetReportAuditCopyCreateRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<AssetReportAuditCopyCreateResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19064,7 +19065,8 @@ export const assetReportAuditCopyGet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5632, __c176, 0) as any as S.Schema<AssetReportAuditCopyGetRequest>,
   output: __S(5760, __c180, 0) as any as S.Schema<AssetReportGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19081,7 +19083,8 @@ export const assetReportAuditCopyPdfGet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10112, __c316, 0) as any as S.Schema<AssetReportAuditCopyPdfGetRequest>,
   output: __S(10144, __c317, 0) as any as S.Schema<AssetReportAuditCopyPdfGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19098,7 +19101,8 @@ export const assetReportAuditCopyRemove: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11136, __c348, 0) as any as S.Schema<AssetReportAuditCopyRemoveRequest>,
   output: __S(11168, __c349, 0) as any as S.Schema<AssetReportAuditCopyRemoveResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19115,7 +19119,8 @@ export const assetReportFilter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11712, __c366, 0) as any as S.Schema<AssetReportFilterRequest>,
   output: __S(11744, __c367, 0) as any as S.Schema<AssetReportFilterResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19132,7 +19137,8 @@ export const betaIssuesV1Match: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12288, __c384, 0) as any as S.Schema<BetaIssuesV1MatchRequest>,
   output: __S(12289, __c384, 1) as any as S.Schema<BetaIssuesV1MatchResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19149,7 +19155,8 @@ export const cancelTransfer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13056, __c408, 0) as any as S.Schema<CancelTransferRequest>,
   output: __S(13088, __c409, 0) as any as S.Schema<TransferCancelResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19166,7 +19173,8 @@ export const cancelTransferAuthorization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13632, __c426, 0) as any as S.Schema<CancelTransferAuthorizationRequest>,
   output: __S(13088, __c409, 0) as any as S.Schema<TransferAuthorizationCancelResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19183,7 +19191,8 @@ export const cancelTransferRecurring: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14240, __c445, 0) as any as S.Schema<CancelTransferRecurringRequest>,
   output: __S(13088, __c409, 0) as any as S.Schema<TransferRecurringCancelResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19200,7 +19209,8 @@ export const cancelTransferRefund: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c5, 0) as any as S.Schema<CancelTransferRefundRequest>,
   output: __S(13088, __c409, 0) as any as S.Schema<TransferRefundCancelResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19217,7 +19227,8 @@ export const createAssetReport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(641, __c20, 1) as any as S.Schema<CreateAssetReportRequest>,
   output: __S(11744, __c367, 0) as any as S.Schema<AssetReportCreateResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19234,7 +19245,8 @@ export const createBetaPartnerCustomerV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1376, __c43, 0) as any as S.Schema<CreateBetaPartnerCustomerV1Request>,
   output: __S(1378, __c43, 2) as any as S.Schema<BetaPartnerCustomerV1CreateResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19251,7 +19263,8 @@ export const createBusinessVerification: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1922, __c60, 2) as any as S.Schema<CreateBusinessVerificationRequest>,
   output: __S(2006, __c62, 22) as any as S.Schema<BusinessVerificationCreateResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19268,7 +19281,8 @@ export const createCraCheckReport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2496, __c78, 0) as any as S.Schema<CreateCraCheckReportRequest>,
   output: __S(2752, __c86, 0) as any as S.Schema<CraCheckReportCreateResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19285,7 +19299,8 @@ export const createCraReport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3104, __c97, 0) as any as S.Schema<CreateCraReportRequest>,
   output: __S(3105, __c97, 1) as any as S.Schema<CraReportCreateResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19302,7 +19317,8 @@ export const createCraServicingSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3584, __c112, 0) as any as S.Schema<CreateCraServicingSubscriptionRequest>,
   output: __S(3616, __c113, 0) as any as S.Schema<CraServicingSubscriptionCreateResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19319,7 +19335,8 @@ export const createCreditRelay: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4096, __c128, 0) as any as S.Schema<CreateCreditRelayRequest>,
   output: __S(4097, __c128, 1) as any as S.Schema<CreditRelayCreateResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19336,7 +19353,8 @@ export const createIdentityVerification: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4545, __c142, 1) as any as S.Schema<CreateIdentityVerificationRequest>,
   output: __S(4672, __c146, 0) as any as S.Schema<IdentityVerificationCreateResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19353,7 +19371,8 @@ export const createIdentityVerificationAutofill: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5184, __c162, 0) as any as S.Schema<CreateIdentityVerificationAutofillRequest>,
   output: __S(5187, __c162, 3) as any as S.Schema<IdentityVerificationAutofillCreateResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19370,7 +19389,8 @@ export const createLinkToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6071, __c189, 23) as any as S.Schema<CreateLinkTokenRequest>,
   output: __S(6072, __c189, 24) as any as S.Schema<LinkTokenCreateResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19387,7 +19407,8 @@ export const createPartnerCustomer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6529, __c204, 1) as any as S.Schema<CreatePartnerCustomerRequest>,
   output: __S(6531, __c204, 3) as any as S.Schema<PartnerCustomerCreateResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19404,7 +19425,8 @@ export const createPaymentInitiationConsent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6915, __c216, 3) as any as S.Schema<CreatePaymentInitiationConsentRequest>,
   output: __S(6916, __c216, 4) as any as S.Schema<PaymentInitiationConsentCreateResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19421,7 +19443,8 @@ export const createPaymentInitiationPayment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7458, __c233, 2) as any as S.Schema<CreatePaymentInitiationPaymentRequest>,
   output: __S(7459, __c233, 3) as any as S.Schema<PaymentInitiationPaymentCreateResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19438,7 +19461,8 @@ export const createPaymentInitiationRecipient: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7808, __c244, 0) as any as S.Schema<CreatePaymentInitiationRecipientRequest>,
   output: __S(7809, __c244, 1) as any as S.Schema<PaymentInitiationRecipientCreateResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19455,7 +19479,8 @@ export const createProcessorApexProcessorToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8192, __c256, 0) as any as S.Schema<CreateProcessorApexProcessorTokenRequest>,
   output: __S(8224, __c257, 0) as any as S.Schema<ProcessorTokenCreateResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19472,7 +19497,8 @@ export const createProcessorStripeBankAccountToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8576, __c268, 0) as any as S.Schema<CreateProcessorStripeBankAccountTokenRequest>,
   output: __S(8577, __c268, 1) as any as S.Schema<ProcessorStripeBankAccountTokenCreateResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19489,7 +19515,8 @@ export const createProcessorToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8960, __c280, 0) as any as S.Schema<CreateProcessorTokenRequest>,
   output: __S(8224, __c257, 0) as any as S.Schema<ProcessorTokenCreateResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19506,7 +19533,8 @@ export const createProtectCashAdvanceDecision: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9345, __c292, 1) as any as S.Schema<CreateProtectCashAdvanceDecisionRequest>,
   output: __S(13088, __c409, 0) as any as S.Schema<ProtectCashAdvanceDecisionCreateResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19523,7 +19551,8 @@ export const createProtectCashAdvanceRepayment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9761, __c305, 1) as any as S.Schema<CreateProtectCashAdvanceRepaymentRequest>,
   output: __S(13088, __c409, 0) as any as S.Schema<ProtectCashAdvanceRepaymentCreateResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19540,7 +19569,8 @@ export const createProtectReport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10209, __c319, 1) as any as S.Schema<CreateProtectReportRequest>,
   output: __S(10210, __c319, 2) as any as S.Schema<ProtectReportCreateResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19557,7 +19587,8 @@ export const createSandboxProcessorToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10401, __c325, 1) as any as S.Schema<CreateSandboxProcessorTokenRequest>,
   output: __S(8224, __c257, 0) as any as S.Schema<SandboxProcessorTokenCreateResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19574,7 +19605,8 @@ export const createSandboxPublicToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10435, __c326, 3) as any as S.Schema<CreateSandboxPublicTokenRequest>,
   output: __S(10436, __c326, 4) as any as S.Schema<SandboxPublicTokenCreateResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19591,7 +19623,8 @@ export const createSandboxTransaction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10466, __c327, 2) as any as S.Schema<CreateSandboxTransactionRequest>,
   output: __S(13088, __c409, 0) as any as S.Schema<SandboxTransactionsCreateResponse>,
-  errors: [BadRequest, UnknownPlaidError],
+  errors: [BadRequest],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19608,7 +19641,8 @@ export const createSandboxTransferTestClock: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10496, __c328, 0) as any as S.Schema<CreateSandboxTransferTestClockRequest>,
   output: __S(10528, __c329, 0) as any as S.Schema<SandboxTransferTestClockCreateResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19625,7 +19659,8 @@ export const createSessionToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10593, __c331, 1) as any as S.Schema<CreateSessionTokenRequest>,
   output: __S(10595, __c331, 3) as any as S.Schema<SessionTokenCreateResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19642,7 +19677,8 @@ export const createTransactionsRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10624, __c332, 0) as any as S.Schema<CreateTransactionsRuleRequest>,
   output: __S(10625, __c332, 1) as any as S.Schema<TransactionsRulesCreateResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19659,7 +19695,8 @@ export const createTransfer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10689, __c334, 1) as any as S.Schema<CreateTransferRequest>,
   output: __S(10720, __c335, 0) as any as S.Schema<TransferCreateResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19676,7 +19713,8 @@ export const createTransferAuthorization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11010, __c344, 2) as any as S.Schema<CreateTransferAuthorizationRequest>,
   output: __S(11017, __c344, 9) as any as S.Schema<TransferAuthorizationCreateResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19693,7 +19731,8 @@ export const createTransferIntent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11104, __c347, 0) as any as S.Schema<CreateTransferIntentRequest>,
   output: __S(11106, __c347, 2) as any as S.Schema<TransferIntentCreateResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19710,7 +19749,8 @@ export const createTransferOriginator: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11200, __c350, 0) as any as S.Schema<CreateTransferOriginatorRequest>,
   output: __S(11201, __c350, 1) as any as S.Schema<TransferOriginatorCreateResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19727,7 +19767,8 @@ export const createTransferOriginatorFundingAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11233, __c351, 1) as any as S.Schema<CreateTransferOriginatorFundingAccountRequest>,
   output: __S(11234, __c351, 2) as any as S.Schema<TransferOriginatorFundingAccountCreateResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19744,7 +19785,8 @@ export const createTransferPlatformOriginator: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11265, __c352, 1) as any as S.Schema<CreateTransferPlatformOriginatorRequest>,
   output: __S(13088, __c409, 0) as any as S.Schema<TransferPlatformOriginatorCreateResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19761,7 +19803,8 @@ export const createTransferPlatformPerson: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11298, __c353, 2) as any as S.Schema<CreateTransferPlatformPersonRequest>,
   output: __S(11299, __c353, 3) as any as S.Schema<TransferPlatformPersonCreateResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19778,7 +19821,8 @@ export const createTransferQuestionnaire: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11328, __c354, 0) as any as S.Schema<CreateTransferQuestionnaireRequest>,
   output: __S(11329, __c354, 1) as any as S.Schema<TransferQuestionnaireCreateResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19795,7 +19839,8 @@ export const createTransferRecurring: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11361, __c355, 1) as any as S.Schema<CreateTransferRecurringRequest>,
   output: __S(11362, __c355, 2) as any as S.Schema<TransferRecurringCreateResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19812,7 +19857,8 @@ export const createTransferRefund: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11424, __c357, 0) as any as S.Schema<CreateTransferRefundRequest>,
   output: __S(11456, __c358, 0) as any as S.Schema<TransferRefundCreateResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19829,7 +19875,8 @@ export const createUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11488, __c359, 0) as any as S.Schema<CreateUserRequest>,
   output: __S(11489, __c359, 1) as any as S.Schema<UserCreateResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19846,7 +19893,8 @@ export const createUserThirdPartyToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11584, __c362, 0) as any as S.Schema<CreateUserThirdPartyTokenRequest>,
   output: __S(11585, __c362, 1) as any as S.Schema<UserThirdPartyTokenCreateResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19863,7 +19911,8 @@ export const createWallet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11616, __c363, 0) as any as S.Schema<CreateWalletRequest>,
   output: __S(11648, __c364, 0) as any as S.Schema<CreateWalletResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19880,7 +19929,8 @@ export const createWatchlistScreeningEntity: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11777, __c368, 1) as any as S.Schema<CreateWatchlistScreeningEntityRequest>,
   output: __S(11840, __c370, 0) as any as S.Schema<WatchlistScreeningEntityCreateResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19897,7 +19947,8 @@ export const createWatchlistScreeningEntityReview: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11904, __c372, 0) as any as S.Schema<CreateWatchlistScreeningEntityReviewRequest>,
   output: __S(11936, __c373, 0) as any as S.Schema<WatchlistScreeningEntityReviewCreateResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19914,7 +19965,8 @@ export const createWatchlistScreeningIndividual: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11969, __c374, 1) as any as S.Schema<CreateWatchlistScreeningIndividualRequest>,
   output: __S(12032, __c376, 0) as any as S.Schema<WatchlistScreeningIndividualCreateResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19935,7 +19987,8 @@ export const createWatchlistScreeningIndividualReview: API.OperationMethod<
     __c373,
     0,
   ) as any as S.Schema<WatchlistScreeningIndividualReviewCreateResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19952,7 +20005,8 @@ export const creditAuditCopyTokenCreate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12096, __c378, 0) as any as S.Schema<CreditAuditCopyTokenCreateRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<CreditAuditCopyTokenCreateResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19969,7 +20023,8 @@ export const creditAuditCopyTokenUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12128, __c379, 0) as any as S.Schema<CreditAuditCopyTokenUpdateRequest>,
   output: __S(12129, __c379, 1) as any as S.Schema<CreditAuditCopyTokenUpdateResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19986,7 +20041,8 @@ export const creditReportAuditCopyRemove: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12160, __c380, 0) as any as S.Schema<CreditReportAuditCopyRemoveRequest>,
   output: __S(11168, __c349, 0) as any as S.Schema<CreditAuditCopyTokenRemoveResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20003,7 +20059,8 @@ export const deleteCraServicingSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12192, __c381, 0) as any as S.Schema<DeleteCraServicingSubscriptionRequest>,
   output: __S(3616, __c113, 0) as any as S.Schema<CraServicingSubscriptionDeleteResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20020,7 +20077,8 @@ export const downloadStatement: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12224, __c382, 0) as any as S.Schema<DownloadStatementRequest>,
   output: __S(10144, __c317, 0) as any as S.Schema<DownloadStatementResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20037,7 +20095,8 @@ export const enableBetaPartnerCustomerV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12256, __c383, 0) as any as S.Schema<EnableBetaPartnerCustomerV1Request>,
   output: __S(12257, __c383, 1) as any as S.Schema<BetaPartnerCustomerV1EnableResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20054,7 +20113,8 @@ export const enablePartnerCustomer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12416, __c388, 0) as any as S.Schema<EnablePartnerCustomerRequest>,
   output: __S(12417, __c388, 1) as any as S.Schema<PartnerCustomerEnableResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20071,7 +20131,8 @@ export const executePaymentInitiationConsentPayment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12448, __c389, 0) as any as S.Schema<ExecutePaymentInitiationConsentPaymentRequest>,
   output: __S(12449, __c389, 1) as any as S.Schema<PaymentInitiationConsentPaymentExecuteResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20088,7 +20149,8 @@ export const executeWalletTransaction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12481, __c390, 1) as any as S.Schema<ExecuteWalletTransactionRequest>,
   output: __S(12482, __c390, 2) as any as S.Schema<WalletTransactionExecuteResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20105,7 +20167,8 @@ export const fdxNotifications: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12547, __c392, 3) as any as S.Schema<FdxNotificationsRequest>,
   output: __S(10144, __c317, 0) as any as S.Schema<FdxNotificationsResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20122,7 +20185,8 @@ export const getAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12608, __c394, 0) as any as S.Schema<GetAccountRequest>,
   output: __S(12640, __c395, 0) as any as S.Schema<AccountsGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20139,7 +20203,8 @@ export const getAccountsBalance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12865, __c402, 1) as any as S.Schema<GetAccountsBalanceRequest>,
   output: __S(12640, __c395, 0) as any as S.Schema<AccountsGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20156,7 +20221,8 @@ export const getApplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12896, __c403, 0) as any as S.Schema<GetApplicationRequest>,
   output: __S(12898, __c403, 2) as any as S.Schema<ApplicationGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20173,7 +20239,8 @@ export const getAssetReport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12928, __c404, 0) as any as S.Schema<GetAssetReportRequest>,
   output: __S(5760, __c180, 0) as any as S.Schema<AssetReportGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20190,7 +20257,8 @@ export const getAssetReportPdf: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12960, __c405, 0) as any as S.Schema<GetAssetReportPdfRequest>,
   output: __S(10144, __c317, 0) as any as S.Schema<GetAssetReportPdfResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20207,7 +20275,8 @@ export const getAuth: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12992, __c406, 0) as any as S.Schema<GetAuthRequest>,
   output: __S(12998, __c406, 6) as any as S.Schema<AuthGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20224,7 +20293,8 @@ export const getBetaCashAdvanceIncomeInsightsV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13120, __c410, 0) as any as S.Schema<GetBetaCashAdvanceIncomeInsightsV1Request>,
   output: __S(13124, __c410, 4) as any as S.Schema<BetaCashAdvanceIncomeInsightsV1GetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20241,7 +20311,8 @@ export const getBetaEwaReportV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13152, __c411, 0) as any as S.Schema<GetBetaEwaReportV1Request>,
   output: __S(13156, __c411, 4) as any as S.Schema<BetaEwaReportV1GetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20258,7 +20329,8 @@ export const getBetaIssuesV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13184, __c412, 0) as any as S.Schema<GetBetaIssuesV1Request>,
   output: __S(13185, __c412, 1) as any as S.Schema<GetBetaIssuesV1Response>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20275,7 +20347,8 @@ export const getBetaPartnerCustomerV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13216, __c413, 0) as any as S.Schema<GetBetaPartnerCustomerV1Request>,
   output: __S(13249, __c414, 1) as any as S.Schema<BetaPartnerCustomerV1GetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20292,7 +20365,8 @@ export const getBusinessVerification: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13280, __c415, 0) as any as S.Schema<GetBusinessVerificationRequest>,
   output: __S(2006, __c62, 22) as any as S.Schema<BusinessVerificationGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20309,7 +20383,8 @@ export const getCashflowReport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13312, __c416, 0) as any as S.Schema<GetCashflowReportRequest>,
   output: __S(13313, __c416, 1) as any as S.Schema<CashflowReportGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20326,7 +20401,8 @@ export const getCashflowReportInsight: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13504, __c422, 0) as any as S.Schema<GetCashflowReportInsightRequest>,
   output: __S(13511, __c422, 7) as any as S.Schema<CashflowReportInsightsGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20343,7 +20419,8 @@ export const getCashflowReportTransaction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13536, __c423, 0) as any as S.Schema<GetCashflowReportTransactionRequest>,
   output: __S(13537, __c423, 1) as any as S.Schema<CashflowReportTransactionsGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20360,7 +20437,8 @@ export const getConsentEvent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13568, __c424, 0) as any as S.Schema<GetConsentEventRequest>,
   output: __S(13573, __c424, 5) as any as S.Schema<ConsentEventsGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20377,7 +20455,8 @@ export const getConsumerReportPdf: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13600, __c425, 0) as any as S.Schema<GetConsumerReportPdfRequest>,
   output: __S(10144, __c317, 0) as any as S.Schema<GetConsumerReportPdfResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20394,7 +20473,8 @@ export const getCraCheckReportBaseReport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13664, __c427, 0) as any as S.Schema<GetCraCheckReportBaseReportRequest>,
   output: __S(13683, __c427, 19) as any as S.Schema<CraCheckReportBaseReportGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20411,7 +20491,8 @@ export const getCraCheckReportCashflowInsight: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13760, __c430, 0) as any as S.Schema<GetCraCheckReportCashflowInsightRequest>,
   output: __S(13762, __c430, 2) as any as S.Schema<CraCheckReportCashflowInsightsGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20428,7 +20509,8 @@ export const getCraCheckReportIncomeInsight: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13792, __c431, 0) as any as S.Schema<GetCraCheckReportIncomeInsightRequest>,
   output: __S(13815, __c431, 23) as any as S.Schema<CraCheckReportIncomeInsightsGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20445,7 +20527,8 @@ export const getCraCheckReportLendScore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13952, __c436, 0) as any as S.Schema<GetCraCheckReportLendScoreRequest>,
   output: __S(13955, __c436, 3) as any as S.Schema<CraCheckReportLendScoreGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20462,7 +20545,8 @@ export const getCraCheckReportNetworkInsight: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13984, __c437, 0) as any as S.Schema<GetCraCheckReportNetworkInsightRequest>,
   output: __S(13988, __c437, 4) as any as S.Schema<CraCheckReportNetworkInsightsGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20479,7 +20563,8 @@ export const getCraCheckReportPartnerInsight: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14017, __c438, 1) as any as S.Schema<GetCraCheckReportPartnerInsightRequest>,
   output: __S(14018, __c438, 2) as any as S.Schema<CraCheckReportPartnerInsightsGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20496,7 +20581,8 @@ export const getCraCheckReportPdf: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14080, __c440, 0) as any as S.Schema<GetCraCheckReportPdfRequest>,
   output: __S(10144, __c317, 0) as any as S.Schema<GetCraCheckReportPdfResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20513,7 +20599,8 @@ export const getCraCheckReportVerification: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14112, __c441, 0) as any as S.Schema<GetCraCheckReportVerificationRequest>,
   output: __S(14146, __c442, 2) as any as S.Schema<CraCheckReportVerificationGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20530,7 +20617,8 @@ export const getCraCheckReportVerificationPdf: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14176, __c443, 0) as any as S.Schema<GetCraCheckReportVerificationPdfRequest>,
   output: __S(10144, __c317, 0) as any as S.Schema<GetCraCheckReportVerificationPdfResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20547,7 +20635,8 @@ export const getCraCreditProfileReport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14208, __c444, 0) as any as S.Schema<GetCraCreditProfileReportRequest>,
   output: __S(14213, __c444, 5) as any as S.Schema<CraCreditProfileReportGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20564,7 +20653,8 @@ export const getCraPartnerInsight: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14272, __c446, 0) as any as S.Schema<GetCraPartnerInsightRequest>,
   output: __S(14274, __c446, 2) as any as S.Schema<CraPartnerInsightsGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20581,7 +20671,8 @@ export const getCraReport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14305, __c447, 1) as any as S.Schema<GetCraReportRequest>,
   output: __S(14308, __c447, 4) as any as S.Schema<CraReportGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20598,7 +20689,8 @@ export const getCraServicingSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14336, __c448, 0) as any as S.Schema<GetCraServicingSubscriptionRequest>,
   output: __S(14337, __c448, 1) as any as S.Schema<CraServicingSubscriptionGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20615,7 +20707,8 @@ export const getCreditAssetReportFreddieMac: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14400, __c450, 0) as any as S.Schema<GetCreditAssetReportFreddieMacRequest>,
   output: __S(14421, __c450, 21) as any as S.Schema<AssetReportFreddieGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20632,7 +20725,8 @@ export const getCreditBankEmployment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14464, __c452, 0) as any as S.Schema<GetCreditBankEmploymentRequest>,
   output: __S(14474, __c452, 10) as any as S.Schema<CreditBankEmploymentGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20649,7 +20743,8 @@ export const getCreditBankIncome: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14529, __c454, 1) as any as S.Schema<GetCreditBankIncomeRequest>,
   output: __S(14543, __c454, 15) as any as S.Schema<CreditBankIncomeGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20666,7 +20761,8 @@ export const getCreditBankIncomePdf: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14560, __c455, 0) as any as S.Schema<GetCreditBankIncomePdfRequest>,
   output: __S(10144, __c317, 0) as any as S.Schema<GetCreditBankIncomePdfResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20683,7 +20779,8 @@ export const getCreditBankStatementsUpload: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14592, __c456, 0) as any as S.Schema<GetCreditBankStatementsUploadRequest>,
   output: __S(14604, __c456, 12) as any as S.Schema<CreditBankStatementsUploadsGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20700,7 +20797,8 @@ export const getCreditEmployment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14688, __c459, 0) as any as S.Schema<GetCreditEmploymentRequest>,
   output: __S(14694, __c459, 6) as any as S.Schema<CreditEmploymentGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20717,7 +20815,8 @@ export const getCreditFreddieMacReport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14720, __c460, 0) as any as S.Schema<GetCreditFreddieMacReportRequest>,
   output: __S(14746, __c460, 26) as any as S.Schema<CreditFreddieMacReportsGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20734,7 +20833,8 @@ export const getCreditPayrollIncome: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c6, 0) as any as S.Schema<GetCreditPayrollIncomeRequest>,
   output: __S(230, __c7, 6) as any as S.Schema<CreditPayrollIncomeGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20751,7 +20851,8 @@ export const getCreditPayrollIncomeRiskSignal: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c8, 0) as any as S.Schema<GetCreditPayrollIncomeRiskSignalRequest>,
   output: __S(271, __c8, 15) as any as S.Schema<CreditPayrollIncomeRiskSignalsGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20768,7 +20869,8 @@ export const getCreditRelay: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c9, 0) as any as S.Schema<GetCreditRelayRequest>,
   output: __S(5760, __c180, 0) as any as S.Schema<AssetReportGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20785,7 +20887,8 @@ export const getCreditRelayPdf: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c10, 0) as any as S.Schema<GetCreditRelayPdfRequest>,
   output: __S(10144, __c317, 0) as any as S.Schema<GetCreditRelayPdfResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20802,7 +20905,8 @@ export const getCreditSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c11, 0) as any as S.Schema<GetCreditSessionRequest>,
   output: __S(364, __c11, 12) as any as S.Schema<CreditSessionsGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20819,7 +20923,8 @@ export const getDashboardUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c13, 0) as any as S.Schema<GetDashboardUserRequest>,
   output: __S(417, __c13, 1) as any as S.Schema<DashboardUserGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20836,7 +20941,8 @@ export const getFdxConsent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c14, 0) as any as S.Schema<GetFdxConsentRequest>,
   output: __S(483, __c15, 3) as any as S.Schema<FDXConsentGrant>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20853,7 +20959,8 @@ export const getFdxConsentsRevocation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c16, 0) as any as S.Schema<GetFdxConsentsRevocationRequest>,
   output: __S(515, __c16, 3) as any as S.Schema<FDXConsentRevocations>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20870,7 +20977,8 @@ export const getIdentity: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c17, 0) as any as S.Schema<GetIdentityRequest>,
   output: __S(546, __c17, 2) as any as S.Schema<IdentityGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20887,7 +20995,8 @@ export const getIdentityDocumentsUpload: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c19, 0) as any as S.Schema<GetIdentityDocumentsUploadRequest>,
   output: __S(618, __c19, 10) as any as S.Schema<IdentityDocumentsUploadsGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20904,7 +21013,8 @@ export const getIdentityVerification: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c21, 0) as any as S.Schema<GetIdentityVerificationRequest>,
   output: __S(4672, __c146, 0) as any as S.Schema<IdentityVerificationGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20921,7 +21031,8 @@ export const getInstitution: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(705, __c22, 1) as any as S.Schema<GetInstitutionRequest>,
   output: __S(706, __c22, 2) as any as S.Schema<InstitutionsGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20938,7 +21049,8 @@ export const getInvestmentsAuth: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c25, 0) as any as S.Schema<GetInvestmentsAuthRequest>,
   output: __S(801, __c25, 1) as any as S.Schema<InvestmentsAuthGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20955,7 +21067,8 @@ export const getInvestmentsHolding: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c32, 0) as any as S.Schema<GetInvestmentsHoldingRequest>,
   output: __S(1025, __c32, 1) as any as S.Schema<InvestmentsHoldingsGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20972,7 +21085,8 @@ export const getInvestmentsTransaction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c33, 0) as any as S.Schema<GetInvestmentsTransactionRequest>,
   output: __S(1057, __c33, 1) as any as S.Schema<InvestmentsTransactionsGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20989,7 +21103,8 @@ export const getIssue: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c35, 0) as any as S.Schema<GetIssueRequest>,
   output: __S(1121, __c35, 1) as any as S.Schema<IssuesGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21006,7 +21121,8 @@ export const getItem: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c37, 0) as any as S.Schema<GetItemRequest>,
   output: __S(1189, __c37, 5) as any as S.Schema<ItemGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21023,7 +21139,8 @@ export const getLiability: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c38, 0) as any as S.Schema<GetLiabilityRequest>,
   output: __S(1217, __c38, 1) as any as S.Schema<LiabilitiesGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21040,7 +21157,8 @@ export const getLinkToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1280, __c40, 0) as any as S.Schema<GetLinkTokenRequest>,
   output: __S(1307, __c40, 27) as any as S.Schema<LinkTokenGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21057,7 +21175,8 @@ export const getNetworkStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1312, __c41, 0) as any as S.Schema<GetNetworkStatusRequest>,
   output: __S(1314, __c41, 2) as any as S.Schema<NetworkStatusGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21074,7 +21193,8 @@ export const getPartnerCustomer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1504, __c47, 0) as any as S.Schema<GetPartnerCustomerRequest>,
   output: __S(1506, __c47, 2) as any as S.Schema<PartnerCustomerGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21091,7 +21211,8 @@ export const getPartnerCustomerOauthInstitution: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1537, __c48, 1) as any as S.Schema<GetPartnerCustomerOauthInstitutionRequest>,
   output: __S(1541, __c48, 5) as any as S.Schema<PartnerCustomerOAuthInstitutionsGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21108,7 +21229,8 @@ export const getPaymentInitiationConsent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1568, __c49, 0) as any as S.Schema<GetPaymentInitiationConsentRequest>,
   output: __S(1569, __c49, 1) as any as S.Schema<GetPaymentInitiationConsentResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21125,7 +21247,8 @@ export const getPaymentInitiationPayment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1632, __c51, 0) as any as S.Schema<GetPaymentInitiationPaymentRequest>,
   output: __S(1633, __c51, 1) as any as S.Schema<GetPaymentInitiationPaymentResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21142,7 +21265,8 @@ export const getPaymentInitiationRecipient: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1728, __c54, 0) as any as S.Schema<GetPaymentInitiationRecipientRequest>,
   output: __S(1729, __c54, 1) as any as S.Schema<GetPaymentInitiationRecipientResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21159,7 +21283,8 @@ export const getProcessorAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1760, __c55, 0) as any as S.Schema<GetProcessorAccountRequest>,
   output: __S(1761, __c55, 1) as any as S.Schema<ProcessorAccountGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21176,7 +21301,8 @@ export const getProcessorAuth: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1792, __c56, 0) as any as S.Schema<GetProcessorAuthRequest>,
   output: __S(1794, __c56, 2) as any as S.Schema<ProcessorAuthGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21193,7 +21319,8 @@ export const getProcessorBalance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1825, __c57, 1) as any as S.Schema<GetProcessorBalanceRequest>,
   output: __S(1826, __c57, 2) as any as S.Schema<ProcessorBalanceGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21210,7 +21337,8 @@ export const getProcessorIdentity: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1856, __c58, 0) as any as S.Schema<GetProcessorIdentityRequest>,
   output: __S(1857, __c58, 1) as any as S.Schema<ProcessorIdentityGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21227,7 +21355,8 @@ export const getProcessorInvestmentsAuth: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1888, __c59, 0) as any as S.Schema<GetProcessorInvestmentsAuthRequest>,
   output: __S(1889, __c59, 1) as any as S.Schema<ProcessorInvestmentsAuthGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21244,7 +21373,8 @@ export const getProcessorInvestmentsHolding: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2048, __c64, 0) as any as S.Schema<GetProcessorInvestmentsHoldingRequest>,
   output: __S(2049, __c64, 1) as any as S.Schema<ProcessorInvestmentsHoldingsGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21261,7 +21391,8 @@ export const getProcessorInvestmentsTransaction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2080, __c65, 0) as any as S.Schema<GetProcessorInvestmentsTransactionRequest>,
   output: __S(2081, __c65, 1) as any as S.Schema<ProcessorInvestmentsTransactionsGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21278,7 +21409,8 @@ export const getProcessorLiability: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2112, __c66, 0) as any as S.Schema<GetProcessorLiabilityRequest>,
   output: __S(2113, __c66, 1) as any as S.Schema<ProcessorLiabilitiesGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21295,7 +21427,8 @@ export const getProcessorTokenPermissions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2144, __c67, 0) as any as S.Schema<GetProcessorTokenPermissionsRequest>,
   output: __S(2145, __c67, 1) as any as S.Schema<ProcessorTokenPermissionsGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21312,7 +21445,8 @@ export const getProcessorTransaction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2177, __c68, 1) as any as S.Schema<GetProcessorTransactionRequest>,
   output: __S(2178, __c68, 2) as any as S.Schema<ProcessorTransactionsGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21329,7 +21463,8 @@ export const getProcessorTransactionsRecurring: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2272, __c71, 0) as any as S.Schema<GetProcessorTransactionsRecurringRequest>,
   output: __S(2307, __c72, 3) as any as S.Schema<ProcessorTransactionsRecurringGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21346,7 +21481,8 @@ export const getProfileNetworkStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2368, __c74, 0) as any as S.Schema<GetProfileNetworkStatusRequest>,
   output: __S(2369, __c74, 1) as any as S.Schema<ProfileNetworkStatusGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21363,7 +21499,8 @@ export const getProtectUserInsight: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2400, __c75, 0) as any as S.Schema<GetProtectUserInsightRequest>,
   output: __S(2405, __c75, 5) as any as S.Schema<ProtectUserInsightsGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21380,7 +21517,8 @@ export const getRecipient: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2432, __c76, 0) as any as S.Schema<GetRecipientRequest>,
   output: __S(2433, __c76, 1) as any as S.Schema<GetRecipientResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21397,7 +21535,8 @@ export const getRecipients: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2464, __c77, 0) as any as S.Schema<GetRecipientsRequest>,
   output: __S(2467, __c77, 3) as any as S.Schema<GetRecipientsResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21414,7 +21553,8 @@ export const getSandboxTransferTestClock: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2784, __c87, 0) as any as S.Schema<GetSandboxTransferTestClockRequest>,
   output: __S(10528, __c329, 0) as any as S.Schema<SandboxTransferTestClockGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21431,7 +21571,8 @@ export const getTransaction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2817, __c88, 1) as any as S.Schema<GetTransactionRequest>,
   output: __S(2818, __c88, 2) as any as S.Schema<TransactionsGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21448,7 +21589,8 @@ export const getTransactionsRecurring: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2848, __c89, 0) as any as S.Schema<GetTransactionsRecurringRequest>,
   output: __S(2307, __c72, 3) as any as S.Schema<TransactionsRecurringGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21465,7 +21607,8 @@ export const getTransactionsUserInsight: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2880, __c90, 0) as any as S.Schema<GetTransactionsUserInsightRequest>,
   output: __S(2895, __c90, 15) as any as S.Schema<TransactionsUserInsightsGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21482,7 +21625,8 @@ export const getTransfer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2912, __c91, 0) as any as S.Schema<GetTransferRequest>,
   output: __S(10720, __c335, 0) as any as S.Schema<TransferGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21499,7 +21643,8 @@ export const getTransferCapability: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2944, __c92, 0) as any as S.Schema<GetTransferCapabilityRequest>,
   output: __S(2948, __c92, 4) as any as S.Schema<TransferCapabilitiesGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21516,7 +21661,8 @@ export const getTransferConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2976, __c93, 0) as any as S.Schema<GetTransferConfigurationRequest>,
   output: __S(2977, __c93, 1) as any as S.Schema<TransferConfigurationGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21533,7 +21679,8 @@ export const getTransferIntent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3008, __c94, 0) as any as S.Schema<GetTransferIntentRequest>,
   output: __S(3011, __c94, 3) as any as S.Schema<TransferIntentGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21550,7 +21697,8 @@ export const getTransferLedger: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3040, __c95, 0) as any as S.Schema<GetTransferLedgerRequest>,
   output: __S(3042, __c95, 2) as any as S.Schema<TransferLedgerGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21567,7 +21715,8 @@ export const getTransferMetrics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3072, __c96, 0) as any as S.Schema<GetTransferMetricsRequest>,
   output: __S(3076, __c96, 4) as any as S.Schema<TransferMetricsGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21584,7 +21733,8 @@ export const getTransferOriginator: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3168, __c99, 0) as any as S.Schema<GetTransferOriginatorRequest>,
   output: __S(3172, __c99, 4) as any as S.Schema<TransferOriginatorGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21601,7 +21751,8 @@ export const getTransferRecurring: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3200, __c100, 0) as any as S.Schema<GetTransferRecurringRequest>,
   output: __S(3201, __c100, 1) as any as S.Schema<TransferRecurringGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21618,7 +21769,8 @@ export const getTransferRefund: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3232, __c101, 0) as any as S.Schema<GetTransferRefundRequest>,
   output: __S(11456, __c358, 0) as any as S.Schema<TransferRefundGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21635,7 +21787,8 @@ export const getTransferSweep: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3264, __c102, 0) as any as S.Schema<GetTransferSweepRequest>,
   output: __S(3328, __c104, 0) as any as S.Schema<TransferSweepGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21652,7 +21805,8 @@ export const getUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3360, __c105, 0) as any as S.Schema<GetUserRequest>,
   output: __S(3361, __c105, 1) as any as S.Schema<UserGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21669,7 +21823,8 @@ export const getUserAccountSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3392, __c106, 0) as any as S.Schema<GetUserAccountSessionRequest>,
   output: __S(3401, __c106, 9) as any as S.Schema<UserAccountSessionGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21686,7 +21841,8 @@ export const getUserItem: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3424, __c107, 0) as any as S.Schema<GetUserItemRequest>,
   output: __S(3426, __c107, 2) as any as S.Schema<UserItemsGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21703,7 +21859,8 @@ export const getUserTransferLimit: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3456, __c108, 0) as any as S.Schema<GetUserTransferLimitRequest>,
   output: __S(3459, __c108, 3) as any as S.Schema<UserTransferLimitsGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21720,7 +21877,8 @@ export const getWallet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3488, __c109, 0) as any as S.Schema<GetWalletRequest>,
   output: __S(11648, __c364, 0) as any as S.Schema<GetWalletResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21737,7 +21895,8 @@ export const getWalletTransaction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3520, __c110, 0) as any as S.Schema<GetWalletTransactionRequest>,
   output: __S(3521, __c110, 1) as any as S.Schema<GetWalletTransactionResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21754,7 +21913,8 @@ export const getWatchlistScreeningEntity: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3680, __c115, 0) as any as S.Schema<GetWatchlistScreeningEntityRequest>,
   output: __S(11840, __c370, 0) as any as S.Schema<WatchlistScreeningEntityGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21771,7 +21931,8 @@ export const getWatchlistScreeningEntityProgram: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3712, __c116, 0) as any as S.Schema<GetWatchlistScreeningEntityProgramRequest>,
   output: __S(3744, __c117, 0) as any as S.Schema<WatchlistScreeningEntityProgramGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21788,7 +21949,8 @@ export const getWatchlistScreeningIndividual: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3776, __c118, 0) as any as S.Schema<GetWatchlistScreeningIndividualRequest>,
   output: __S(12032, __c376, 0) as any as S.Schema<WatchlistScreeningIndividualGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21805,7 +21967,8 @@ export const getWatchlistScreeningIndividualProgram: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3808, __c119, 0) as any as S.Schema<GetWatchlistScreeningIndividualProgramRequest>,
   output: __S(3744, __c117, 0) as any as S.Schema<WatchlistScreeningIndividualProgramGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21822,7 +21985,8 @@ export const getWebhookVerificationKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3840, __c120, 0) as any as S.Schema<GetWebhookVerificationKeyRequest>,
   output: __S(3842, __c120, 2) as any as S.Schema<WebhookVerificationKeyGetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21839,7 +22003,8 @@ export const identityMatch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3872, __c121, 0) as any as S.Schema<IdentityMatchRequest>,
   output: __S(3874, __c121, 2) as any as S.Schema<IdentityMatchResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21856,7 +22021,8 @@ export const importItem: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3970, __c124, 2) as any as S.Schema<ImportItemRequest>,
   output: __S(3971, __c124, 3) as any as S.Schema<ItemImportResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21873,7 +22039,8 @@ export const institutionsGetById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4001, __c125, 1) as any as S.Schema<InstitutionsGetByIdRequest>,
   output: __S(4002, __c125, 2) as any as S.Schema<InstitutionsGetByIdResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21890,7 +22057,8 @@ export const invalidateItemAccessToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4032, __c126, 0) as any as S.Schema<InvalidateItemAccessTokenRequest>,
   output: __S(4033, __c126, 1) as any as S.Schema<ItemAccessTokenInvalidateResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21907,7 +22075,8 @@ export const itemPublicTokenExchange: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4064, __c127, 0) as any as S.Schema<ItemPublicTokenExchangeRequest>,
   output: __S(4065, __c127, 1) as any as S.Schema<ItemPublicTokenExchangeResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21924,7 +22093,8 @@ export const linkOauthCorrelationIdExchange: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4128, __c129, 0) as any as S.Schema<LinkOauthCorrelationIdExchangeRequest>,
   output: __S(4129, __c129, 1) as any as S.Schema<LinkOAuthCorrelationIdExchangeResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21941,7 +22111,8 @@ export const listBankTransferEvent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4160, __c130, 0) as any as S.Schema<ListBankTransferEventRequest>,
   output: __S(4196, __c131, 4) as any as S.Schema<BankTransferEventListResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21958,7 +22129,8 @@ export const listBetaIssuesV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4224, __c132, 0) as any as S.Schema<ListBetaIssuesV1Request>,
   output: __S(4225, __c132, 1) as any as S.Schema<BetaIssuesV1ListResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21975,7 +22147,8 @@ export const listBetaWebhookEvents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4256, __c133, 0) as any as S.Schema<ListBetaWebhookEventsRequest>,
   output: __S(4259, __c133, 3) as any as S.Schema<BetaWebhookEventsListResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21992,7 +22165,8 @@ export const listCraServicingSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4288, __c134, 0) as any as S.Schema<ListCraServicingSubscriptionRequest>,
   output: __S(4290, __c134, 2) as any as S.Schema<CraServicingSubscriptionListResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22009,7 +22183,8 @@ export const listDashboardUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4320, __c135, 0) as any as S.Schema<ListDashboardUserRequest>,
   output: __S(4323, __c135, 3) as any as S.Schema<DashboardUserListResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22026,7 +22201,8 @@ export const listFdxConsents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4352, __c136, 0) as any as S.Schema<ListFdxConsentsRequest>,
   output: __S(4354, __c136, 2) as any as S.Schema<GetConsentsResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22043,7 +22219,8 @@ export const listIdentityMatch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4384, __c137, 0) as any as S.Schema<ListIdentityMatchRequest>,
   output: __S(4389, __c137, 5) as any as S.Schema<IdentityMatchListResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22060,7 +22237,8 @@ export const listIdentityVerification: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4416, __c138, 0) as any as S.Schema<ListIdentityVerificationRequest>,
   output: __S(4419, __c138, 3) as any as S.Schema<IdentityVerificationListResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22077,7 +22255,8 @@ export const listItemActivity: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4448, __c139, 0) as any as S.Schema<ListItemActivityRequest>,
   output: __S(4453, __c139, 5) as any as S.Schema<ItemActivityListResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22094,7 +22273,8 @@ export const listItemApplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4832, __c151, 0) as any as S.Schema<ListItemApplicationRequest>,
   output: __S(4837, __c151, 5) as any as S.Schema<ItemApplicationListResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22111,7 +22291,8 @@ export const listPaymentInitiationPayment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4864, __c152, 0) as any as S.Schema<ListPaymentInitiationPaymentRequest>,
   output: __S(4867, __c152, 3) as any as S.Schema<PaymentInitiationPaymentListResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22128,7 +22309,8 @@ export const listPaymentInitiationRecipient: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4896, __c153, 0) as any as S.Schema<ListPaymentInitiationRecipientRequest>,
   output: __S(4899, __c153, 3) as any as S.Schema<PaymentInitiationRecipientListResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22145,7 +22327,8 @@ export const listSandboxTransferTestClock: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4928, __c154, 0) as any as S.Schema<ListSandboxTransferTestClockRequest>,
   output: __S(4930, __c154, 2) as any as S.Schema<SandboxTransferTestClockListResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22162,7 +22345,8 @@ export const listStatements: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4960, __c155, 0) as any as S.Schema<ListStatementsRequest>,
   output: __S(4965, __c155, 5) as any as S.Schema<StatementsListResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22179,7 +22363,8 @@ export const listTransactionsRules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4992, __c156, 0) as any as S.Schema<ListTransactionsRulesRequest>,
   output: __S(4994, __c156, 2) as any as S.Schema<TransactionsRulesListResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22196,7 +22381,8 @@ export const listTransfer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5024, __c157, 0) as any as S.Schema<ListTransferRequest>,
   output: __S(5026, __c157, 2) as any as S.Schema<TransferListResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22213,7 +22399,8 @@ export const listTransferEvent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5056, __c158, 0) as any as S.Schema<ListTransferEventRequest>,
   output: __S(5090, __c159, 2) as any as S.Schema<TransferEventListResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22230,7 +22417,8 @@ export const listTransferLedgerEvent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5120, __c160, 0) as any as S.Schema<ListTransferLedgerEventRequest>,
   output: __S(5123, __c160, 3) as any as S.Schema<TransferLedgerEventListResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22247,7 +22435,8 @@ export const listTransferOriginator: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5152, __c161, 0) as any as S.Schema<ListTransferOriginatorRequest>,
   output: __S(5155, __c161, 3) as any as S.Schema<TransferOriginatorListResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22264,7 +22453,8 @@ export const listTransferRecurring: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5216, __c163, 0) as any as S.Schema<ListTransferRecurringRequest>,
   output: __S(5218, __c163, 2) as any as S.Schema<TransferRecurringListResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22281,7 +22471,8 @@ export const listTransferRepayment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5248, __c164, 0) as any as S.Schema<ListTransferRepaymentRequest>,
   output: __S(5251, __c164, 3) as any as S.Schema<TransferRepaymentListResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22298,7 +22489,8 @@ export const listTransferRepaymentReturn: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5280, __c165, 0) as any as S.Schema<ListTransferRepaymentReturnRequest>,
   output: __S(5283, __c165, 3) as any as S.Schema<TransferRepaymentReturnListResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22315,7 +22507,8 @@ export const listTransferSweep: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5312, __c166, 0) as any as S.Schema<ListTransferSweepRequest>,
   output: __S(5314, __c166, 2) as any as S.Schema<TransferSweepListResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22332,7 +22525,8 @@ export const listWallet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5344, __c167, 0) as any as S.Schema<ListWalletRequest>,
   output: __S(5347, __c167, 3) as any as S.Schema<WalletListResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22349,7 +22543,8 @@ export const listWalletTransaction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5377, __c168, 1) as any as S.Schema<ListWalletTransactionRequest>,
   output: __S(5380, __c168, 4) as any as S.Schema<WalletTransactionListResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22366,7 +22561,8 @@ export const listWatchlistScreeningEntity: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5408, __c169, 0) as any as S.Schema<ListWatchlistScreeningEntityRequest>,
   output: __S(5442, __c170, 2) as any as S.Schema<WatchlistScreeningEntityListResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22383,7 +22579,8 @@ export const listWatchlistScreeningEntityHistory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5472, __c171, 0) as any as S.Schema<ListWatchlistScreeningEntityHistoryRequest>,
   output: __S(5442, __c170, 2) as any as S.Schema<WatchlistScreeningEntityHistoryListResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22400,7 +22597,8 @@ export const listWatchlistScreeningEntityHit: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5504, __c172, 0) as any as S.Schema<ListWatchlistScreeningEntityHitRequest>,
   output: __S(5518, __c172, 14) as any as S.Schema<WatchlistScreeningEntityHitListResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22417,7 +22615,8 @@ export const listWatchlistScreeningEntityProgram: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5568, __c174, 0) as any as S.Schema<ListWatchlistScreeningEntityProgramRequest>,
   output: __S(5569, __c174, 1) as any as S.Schema<WatchlistScreeningEntityProgramListResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22434,7 +22633,8 @@ export const listWatchlistScreeningEntityReview: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6144, __c192, 0) as any as S.Schema<ListWatchlistScreeningEntityReviewRequest>,
   output: __S(6145, __c192, 1) as any as S.Schema<WatchlistScreeningEntityReviewListResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22451,7 +22651,8 @@ export const listWatchlistScreeningIndividual: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6208, __c194, 0) as any as S.Schema<ListWatchlistScreeningIndividualRequest>,
   output: __S(6242, __c195, 2) as any as S.Schema<WatchlistScreeningIndividualListResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22468,7 +22669,8 @@ export const listWatchlistScreeningIndividualHistory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6272, __c196, 0) as any as S.Schema<ListWatchlistScreeningIndividualHistoryRequest>,
   output: __S(6242, __c195, 2) as any as S.Schema<WatchlistScreeningIndividualHistoryListResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22485,7 +22687,8 @@ export const listWatchlistScreeningIndividualHit: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6304, __c197, 0) as any as S.Schema<ListWatchlistScreeningIndividualHitRequest>,
   output: __S(6312, __c197, 8) as any as S.Schema<WatchlistScreeningIndividualHitListResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22502,7 +22705,8 @@ export const listWatchlistScreeningIndividualProgram: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6336, __c198, 0) as any as S.Schema<ListWatchlistScreeningIndividualProgramRequest>,
   output: __S(6337, __c198, 1) as any as S.Schema<WatchlistScreeningIndividualProgramListResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22519,7 +22723,8 @@ export const listWatchlistScreeningIndividualReview: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6368, __c199, 0) as any as S.Schema<ListWatchlistScreeningIndividualReviewRequest>,
   output: __S(6369, __c199, 1) as any as S.Schema<WatchlistScreeningIndividualReviewListResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22536,7 +22741,8 @@ export const oauthIntrospect: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6400, __c200, 0) as any as S.Schema<OauthIntrospectRequest>,
   output: __S(6401, __c200, 1) as any as S.Schema<OAuthIntrospectResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22553,7 +22759,8 @@ export const oauthToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6432, __c201, 0) as any as S.Schema<OauthTokenRequest>,
   output: __S(6433, __c201, 1) as any as S.Schema<OAuthTokenResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22570,7 +22777,8 @@ export const paymentInitiationPaymentReverse: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6464, __c202, 0) as any as S.Schema<PaymentInitiationPaymentReverseRequest>,
   output: __S(6465, __c202, 1) as any as S.Schema<PaymentInitiationPaymentReverseResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22587,7 +22795,8 @@ export const processorIdentityMatch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6496, __c203, 0) as any as S.Schema<ProcessorIdentityMatchRequest>,
   output: __S(6497, __c203, 1) as any as S.Schema<ProcessorIdentityMatchResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22604,7 +22813,8 @@ export const processorSignalDecisionReport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6560, __c205, 0) as any as S.Schema<ProcessorSignalDecisionReportRequest>,
   output: __S(13088, __c409, 0) as any as S.Schema<ProcessorSignalDecisionReportResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22621,7 +22831,8 @@ export const processorSignalEvaluate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6592, __c206, 0) as any as S.Schema<ProcessorSignalEvaluateRequest>,
   output: __S(6593, __c206, 1) as any as S.Schema<ProcessorSignalEvaluateResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22638,7 +22849,8 @@ export const processorSignalPrepare: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6656, __c208, 0) as any as S.Schema<ProcessorSignalPrepareRequest>,
   output: __S(13088, __c409, 0) as any as S.Schema<ProcessorSignalPrepareResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22655,7 +22867,8 @@ export const processorSignalReturnReport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6688, __c209, 0) as any as S.Schema<ProcessorSignalReturnReportRequest>,
   output: __S(13088, __c409, 0) as any as S.Schema<ProcessorSignalReturnReportResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22672,7 +22885,8 @@ export const protectCompute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6723, __c210, 3) as any as S.Schema<ProtectComputeRequest>,
   output: __S(6725, __c210, 5) as any as S.Schema<ProtectComputeResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22689,7 +22903,8 @@ export const refreshAssetReport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6753, __c211, 1) as any as S.Schema<RefreshAssetReportRequest>,
   output: __S(6754, __c211, 2) as any as S.Schema<AssetReportRefreshResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22706,7 +22921,8 @@ export const refreshCashflowReport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6784, __c212, 0) as any as S.Schema<RefreshCashflowReportRequest>,
   output: __S(13088, __c409, 0) as any as S.Schema<CashflowReportRefreshResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22723,7 +22939,8 @@ export const refreshCreditPayrollIncome: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6817, __c213, 1) as any as S.Schema<RefreshCreditPayrollIncomeRequest>,
   output: __S(6818, __c213, 2) as any as S.Schema<CreditPayrollIncomeRefreshResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22740,7 +22957,8 @@ export const refreshCreditRelay: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6848, __c214, 0) as any as S.Schema<RefreshCreditRelayRequest>,
   output: __S(6849, __c214, 1) as any as S.Schema<CreditRelayRefreshResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22757,7 +22975,8 @@ export const refreshIdentity: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6880, __c215, 0) as any as S.Schema<RefreshIdentityRequest>,
   output: __S(13088, __c409, 0) as any as S.Schema<IdentityRefreshResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22774,7 +22993,8 @@ export const refreshInvestment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7072, __c221, 0) as any as S.Schema<RefreshInvestmentRequest>,
   output: __S(13088, __c409, 0) as any as S.Schema<InvestmentsRefreshResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22791,7 +23011,8 @@ export const refreshProcessorTransaction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7104, __c222, 0) as any as S.Schema<RefreshProcessorTransactionRequest>,
   output: __S(13088, __c409, 0) as any as S.Schema<ProcessorTransactionsRefreshResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22808,7 +23029,8 @@ export const refreshStatement: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7136, __c223, 0) as any as S.Schema<RefreshStatementRequest>,
   output: __S(13088, __c409, 0) as any as S.Schema<StatementsRefreshResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22825,7 +23047,8 @@ export const refreshTransaction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7168, __c224, 0) as any as S.Schema<RefreshTransactionRequest>,
   output: __S(13088, __c409, 0) as any as S.Schema<TransactionsRefreshResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22842,7 +23065,8 @@ export const refreshUserFinancialData: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7200, __c225, 0) as any as S.Schema<RefreshUserFinancialDataRequest>,
   output: __S(7234, __c226, 2) as any as S.Schema<UserFinancialDataRefreshResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22859,7 +23083,8 @@ export const refreshUserTransaction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7264, __c227, 0) as any as S.Schema<RefreshUserTransactionRequest>,
   output: __S(7234, __c226, 2) as any as S.Schema<UserTransactionsRefreshResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22876,7 +23101,8 @@ export const registerCraLoan: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7299, __c228, 3) as any as S.Schema<RegisterCraLoanRequest>,
   output: __S(13088, __c409, 0) as any as S.Schema<CraLoansRegisterResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22893,7 +23119,8 @@ export const registerCraLoansApplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7362, __c230, 2) as any as S.Schema<RegisterCraLoansApplicationRequest>,
   output: __S(13088, __c409, 0) as any as S.Schema<CraLoansApplicationsRegisterResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22910,7 +23137,8 @@ export const removeAssetReport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7392, __c231, 0) as any as S.Schema<RemoveAssetReportRequest>,
   output: __S(11168, __c349, 0) as any as S.Schema<AssetReportRemoveResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22927,7 +23155,8 @@ export const removeCreditRelay: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7424, __c232, 0) as any as S.Schema<RemoveCreditRelayRequest>,
   output: __S(11168, __c349, 0) as any as S.Schema<CreditRelayRemoveResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22944,7 +23173,8 @@ export const removeItem: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7488, __c234, 0) as any as S.Schema<RemoveItemRequest>,
   output: __S(13088, __c409, 0) as any as S.Schema<ItemRemoveResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22961,7 +23191,8 @@ export const removePartnerCustomer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7520, __c235, 0) as any as S.Schema<RemovePartnerCustomerRequest>,
   output: __S(2752, __c86, 0) as any as S.Schema<PartnerCustomerRemoveResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22978,7 +23209,8 @@ export const removeTransactionsRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7552, __c236, 0) as any as S.Schema<RemoveTransactionsRuleRequest>,
   output: __S(13088, __c409, 0) as any as S.Schema<TransactionsRulesRemoveResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22995,7 +23227,8 @@ export const removeUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7584, __c237, 0) as any as S.Schema<RemoveUserRequest>,
   output: __S(13088, __c409, 0) as any as S.Schema<UserRemoveResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23012,7 +23245,8 @@ export const removeUserIdentity: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7616, __c238, 0) as any as S.Schema<RemoveUserIdentityRequest>,
   output: __S(13088, __c409, 0) as any as S.Schema<UserIdentityRemoveResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23029,7 +23263,8 @@ export const removeUserItem: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7648, __c239, 0) as any as S.Schema<RemoveUserItemRequest>,
   output: __S(13088, __c409, 0) as any as S.Schema<UserItemsRemoveResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23046,7 +23281,8 @@ export const removeUserThirdPartyToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7680, __c240, 0) as any as S.Schema<RemoveUserThirdPartyTokenRequest>,
   output: __S(11168, __c349, 0) as any as S.Schema<UserThirdPartyTokenRemoveResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23063,7 +23299,8 @@ export const retryIdentityVerification: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7714, __c241, 2) as any as S.Schema<RetryIdentityVerificationRequest>,
   output: __S(4672, __c146, 0) as any as S.Schema<IdentityVerificationRetryResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23080,7 +23317,8 @@ export const revokeFdxConsent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7744, __c242, 0) as any as S.Schema<RevokeFdxConsentRequest>,
   output: __S(10144, __c317, 0) as any as S.Schema<RevokeFdxConsentResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23097,7 +23335,8 @@ export const revokeOauth: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7776, __c243, 0) as any as S.Schema<RevokeOauthRequest>,
   output: __S(13088, __c409, 0) as any as S.Schema<OAuthRevokeResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23114,7 +23353,8 @@ export const revokePaymentInitiationConsent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7840, __c245, 0) as any as S.Schema<RevokePaymentInitiationConsentRequest>,
   output: __S(2752, __c86, 0) as any as S.Schema<PaymentInitiationConsentRevokeResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23131,7 +23371,8 @@ export const sandboxCraServicingSimulate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7873, __c246, 1) as any as S.Schema<SandboxCraServicingSimulateRequest>,
   output: __S(7874, __c246, 2) as any as S.Schema<SandboxCraServicingSimulateResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23148,7 +23389,8 @@ export const sandboxFdxConsentSeed: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7904, __c247, 0) as any as S.Schema<SandboxFdxConsentSeedRequest>,
   output: __S(7905, __c247, 1) as any as S.Schema<SandboxFdxConsentSeedResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23165,7 +23407,8 @@ export const sandboxIncomeFireWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7936, __c248, 0) as any as S.Schema<SandboxIncomeFireWebhookRequest>,
   output: __S(13088, __c409, 0) as any as S.Schema<SandboxIncomeFireWebhookResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23182,7 +23425,8 @@ export const sandboxItemApplicationSeed: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7968, __c249, 0) as any as S.Schema<SandboxItemApplicationSeedRequest>,
   output: __S(7969, __c249, 1) as any as S.Schema<SandboxItemApplicationSeedResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23199,7 +23443,8 @@ export const sandboxItemFireWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8001, __c250, 1) as any as S.Schema<SandboxItemFireWebhookRequest>,
   output: __S(8032, __c251, 0) as any as S.Schema<SandboxItemFireWebhookResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23216,7 +23461,8 @@ export const sandboxItemResetLogin: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8064, __c252, 0) as any as S.Schema<SandboxItemResetLoginRequest>,
   output: __S(8065, __c252, 1) as any as S.Schema<SandboxItemResetLoginResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23233,7 +23479,8 @@ export const sandboxItemSetVerificationStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8096, __c253, 0) as any as S.Schema<SandboxItemSetVerificationStatusRequest>,
   output: __S(13088, __c409, 0) as any as S.Schema<SandboxItemSetVerificationStatusResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23250,7 +23497,8 @@ export const sandboxOauthSelectAccounts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8128, __c254, 0) as any as S.Schema<SandboxOauthSelectAccountsRequest>,
   output: __S(8129, __c254, 1) as any as S.Schema<SandboxOauthSelectAccountsResponse2>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23267,7 +23515,8 @@ export const sandboxPaymentSimulate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8160, __c255, 0) as any as S.Schema<SandboxPaymentSimulateRequest>,
   output: __S(8161, __c255, 1) as any as S.Schema<SandboxPaymentSimulateResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23284,7 +23533,8 @@ export const sandboxTransferFireWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8256, __c258, 0) as any as S.Schema<SandboxTransferFireWebhookRequest>,
   output: __S(13088, __c409, 0) as any as S.Schema<SandboxTransferFireWebhookResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23301,7 +23551,8 @@ export const sandboxTransferLedgerDepositSimulate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8288, __c259, 0) as any as S.Schema<SandboxTransferLedgerDepositSimulateRequest>,
   output: __S(13088, __c409, 0) as any as S.Schema<SandboxTransferLedgerDepositSimulateResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23318,7 +23569,8 @@ export const sandboxTransferLedgerSimulateAvailable: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8320, __c260, 0) as any as S.Schema<SandboxTransferLedgerSimulateAvailableRequest>,
   output: __S(13088, __c409, 0) as any as S.Schema<SandboxTransferLedgerSimulateAvailableResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23335,7 +23587,8 @@ export const sandboxTransferLedgerWithdrawSimulate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8352, __c261, 0) as any as S.Schema<SandboxTransferLedgerWithdrawSimulateRequest>,
   output: __S(13088, __c409, 0) as any as S.Schema<SandboxTransferLedgerWithdrawSimulateResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23352,7 +23605,8 @@ export const sandboxTransferRefundSimulate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8384, __c262, 0) as any as S.Schema<SandboxTransferRefundSimulateRequest>,
   output: __S(13088, __c409, 0) as any as S.Schema<SandboxTransferRefundSimulateResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23369,7 +23623,8 @@ export const sandboxTransferSimulate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8416, __c263, 0) as any as S.Schema<SandboxTransferSimulateRequest>,
   output: __S(13088, __c409, 0) as any as S.Schema<SandboxTransferSimulateResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23386,7 +23641,8 @@ export const sandboxTransferSweepSimulate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8448, __c264, 0) as any as S.Schema<SandboxTransferSweepSimulateRequest>,
   output: __S(8449, __c264, 1) as any as S.Schema<SandboxTransferSweepSimulateResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23403,7 +23659,8 @@ export const sandboxTransferTestClockAdvance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8480, __c265, 0) as any as S.Schema<SandboxTransferTestClockAdvanceRequest>,
   output: __S(13088, __c409, 0) as any as S.Schema<SandboxTransferTestClockAdvanceResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23420,7 +23677,8 @@ export const sandboxUserFireWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8512, __c266, 0) as any as S.Schema<SandboxUserFireWebhookRequest>,
   output: __S(8032, __c251, 0) as any as S.Schema<SandboxUserFireWebhookResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23437,7 +23695,8 @@ export const sandboxUserResetLogin: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8544, __c267, 0) as any as S.Schema<SandboxUserResetLoginRequest>,
   output: __S(13088, __c409, 0) as any as S.Schema<SandboxUserResetLoginResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23454,7 +23713,8 @@ export const searchInstitution: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8610, __c269, 2) as any as S.Schema<SearchInstitutionRequest>,
   output: __S(8611, __c269, 3) as any as S.Schema<InstitutionsSearchResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23471,7 +23731,8 @@ export const searchIssue: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8640, __c270, 0) as any as S.Schema<SearchIssueRequest>,
   output: __S(8642, __c270, 2) as any as S.Schema<IssuesSearchResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23488,7 +23749,8 @@ export const sendUserAccountSessionEvent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8673, __c271, 1) as any as S.Schema<SendUserAccountSessionEventRequest>,
   output: __S(13088, __c409, 0) as any as S.Schema<UserAccountSessionEventSendResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23505,7 +23767,8 @@ export const setProcessorTokenPermissions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8704, __c272, 0) as any as S.Schema<SetProcessorTokenPermissionsRequest>,
   output: __S(13088, __c409, 0) as any as S.Schema<ProcessorTokenPermissionsSetResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23522,7 +23785,8 @@ export const signalDecisionReport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8736, __c273, 0) as any as S.Schema<SignalDecisionReportRequest>,
   output: __S(13088, __c409, 0) as any as S.Schema<SignalDecisionReportResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23539,7 +23803,8 @@ export const signalEvaluate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8768, __c274, 0) as any as S.Schema<SignalEvaluateRequest>,
   output: __S(8770, __c274, 2) as any as S.Schema<SignalEvaluateResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23556,7 +23821,8 @@ export const signalPrepare: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8800, __c275, 0) as any as S.Schema<SignalPrepareRequest>,
   output: __S(13088, __c409, 0) as any as S.Schema<SignalPrepareResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23573,7 +23839,8 @@ export const signalReturnReport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8832, __c276, 0) as any as S.Schema<SignalReturnReportRequest>,
   output: __S(13088, __c409, 0) as any as S.Schema<SignalReturnReportResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23590,7 +23857,8 @@ export const signalSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8864, __c277, 0) as any as S.Schema<SignalScheduleRequest>,
   output: __S(8867, __c277, 3) as any as S.Schema<SignalScheduleResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23607,7 +23875,8 @@ export const submitTransferDiligence: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8899, __c278, 3) as any as S.Schema<SubmitTransferDiligenceRequest>,
   output: __S(13088, __c409, 0) as any as S.Schema<TransferDiligenceSubmitResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23624,7 +23893,8 @@ export const submitTransferPlatformRequirement: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8994, __c281, 2) as any as S.Schema<SubmitTransferPlatformRequirementRequest>,
   output: __S(13088, __c409, 0) as any as S.Schema<TransferPlatformRequirementSubmitResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23641,7 +23911,8 @@ export const subscribeBetaIssuesV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9024, __c282, 0) as any as S.Schema<SubscribeBetaIssuesV1Request>,
   output: __S(13088, __c409, 0) as any as S.Schema<BetaIssuesV1SubscribeResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23658,7 +23929,8 @@ export const subscribeIssue: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9056, __c283, 0) as any as S.Schema<SubscribeIssueRequest>,
   output: __S(13088, __c409, 0) as any as S.Schema<IssuesSubscribeResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23675,7 +23947,8 @@ export const syncBankTransferEvent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9088, __c284, 0) as any as S.Schema<SyncBankTransferEventRequest>,
   output: __S(4196, __c131, 4) as any as S.Schema<BankTransferEventSyncResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23692,7 +23965,8 @@ export const syncProcessorTransaction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9120, __c285, 0) as any as S.Schema<SyncProcessorTransactionRequest>,
   output: __S(9121, __c285, 1) as any as S.Schema<ProcessorTransactionsSyncResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23709,7 +23983,8 @@ export const syncTransaction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9184, __c287, 0) as any as S.Schema<SyncTransactionRequest>,
   output: __S(9185, __c287, 1) as any as S.Schema<TransactionsSyncResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23726,7 +24001,8 @@ export const terminateItemProduct: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9216, __c288, 0) as any as S.Schema<TerminateItemProductRequest>,
   output: __S(13088, __c409, 0) as any as S.Schema<ItemProductsTerminateResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23743,7 +24019,8 @@ export const terminateUserProduct: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9248, __c289, 0) as any as S.Schema<TerminateUserProductRequest>,
   output: __S(13088, __c409, 0) as any as S.Schema<UserProductsTerminateResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23760,7 +24037,8 @@ export const transactionsEnrich: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9284, __c290, 4) as any as S.Schema<TransactionsEnrichRequest>,
   output: __S(9290, __c290, 10) as any as S.Schema<TransactionsEnrichResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23777,7 +24055,8 @@ export const transferEventSync: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9312, __c291, 0) as any as S.Schema<TransferEventSyncRequest>,
   output: __S(5090, __c159, 2) as any as S.Schema<TransferEventSyncResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23794,7 +24073,8 @@ export const transferLedgerDeposit: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9440, __c295, 0) as any as S.Schema<TransferLedgerDepositRequest>,
   output: __S(3328, __c104, 0) as any as S.Schema<TransferLedgerDepositResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23811,7 +24091,8 @@ export const transferLedgerDistribute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9472, __c296, 0) as any as S.Schema<TransferLedgerDistributeRequest>,
   output: __S(13088, __c409, 0) as any as S.Schema<TransferLedgerDistributeResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23828,7 +24109,8 @@ export const transferLedgerWithdraw: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9504, __c297, 0) as any as S.Schema<TransferLedgerWithdrawRequest>,
   output: __S(3328, __c104, 0) as any as S.Schema<TransferLedgerWithdrawResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23845,7 +24127,8 @@ export const transferMigrateAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9536, __c298, 0) as any as S.Schema<TransferMigrateAccountRequest>,
   output: __S(9537, __c298, 1) as any as S.Schema<TransferMigrateAccountResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23862,7 +24145,8 @@ export const transferReturnRecover: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9568, __c299, 0) as any as S.Schema<TransferReturnRecoverRequest>,
   output: __S(13088, __c409, 0) as any as S.Schema<TransferReturnRecoverResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23879,7 +24163,8 @@ export const unlinkItemApplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9600, __c300, 0) as any as S.Schema<UnlinkItemApplicationRequest>,
   output: __S(13088, __c409, 0) as any as S.Schema<ItemApplicationUnlinkResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23896,7 +24181,8 @@ export const unregisterCraLoan: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9634, __c301, 2) as any as S.Schema<UnregisterCraLoanRequest>,
   output: __S(13088, __c409, 0) as any as S.Schema<CraLoanUnregisterResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23913,7 +24199,8 @@ export const unsubscribeBetaIssuesV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9664, __c302, 0) as any as S.Schema<UnsubscribeBetaIssuesV1Request>,
   output: __S(13088, __c409, 0) as any as S.Schema<BetaIssuesV1UnsubscribeResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23930,7 +24217,8 @@ export const updateBetaPartnerCustomerV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9696, __c303, 0) as any as S.Schema<UpdateBetaPartnerCustomerV1Request>,
   output: __S(13249, __c414, 1) as any as S.Schema<BetaPartnerCustomerV1UpdateResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23947,7 +24235,8 @@ export const updateCraLoan: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9733, __c304, 5) as any as S.Schema<UpdateCraLoanRequest>,
   output: __S(13088, __c409, 0) as any as S.Schema<CraLoansUpdateResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23964,7 +24253,8 @@ export const updateCraServicingSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9792, __c306, 0) as any as S.Schema<UpdateCraServicingSubscriptionRequest>,
   output: __S(3616, __c113, 0) as any as S.Schema<CraServicingSubscriptionUpdateResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23981,7 +24271,8 @@ export const updateCreditPayrollIncomeParsingConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9824, __c307, 0) as any as S.Schema<UpdateCreditPayrollIncomeParsingConfigRequest>,
   output: __S(13088, __c409, 0) as any as S.Schema<CreditPayrollIncomeParsingConfigUpdateResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23998,7 +24289,8 @@ export const updateItemApplicationScope: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9857, __c308, 1) as any as S.Schema<UpdateItemApplicationScopeRequest>,
   output: __S(13088, __c409, 0) as any as S.Schema<ItemApplicationScopesUpdateResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24015,7 +24307,8 @@ export const updateItemWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9888, __c309, 0) as any as S.Schema<UpdateItemWebhookRequest>,
   output: __S(9889, __c309, 1) as any as S.Schema<ItemWebhookUpdateResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24032,7 +24325,8 @@ export const updateProcessorTokenWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9920, __c310, 0) as any as S.Schema<UpdateProcessorTokenWebhookRequest>,
   output: __S(13088, __c409, 0) as any as S.Schema<ProcessorTokenWebhookUpdateResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24049,7 +24343,8 @@ export const updateSandboxCraCashflowUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9952, __c311, 0) as any as S.Schema<UpdateSandboxCraCashflowUpdateRequest>,
   output: __S(13088, __c409, 0) as any as S.Schema<SandboxCraCashflowUpdatesUpdateResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24066,7 +24361,8 @@ export const updateTransferOriginatorFundingAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9984, __c312, 0) as any as S.Schema<UpdateTransferOriginatorFundingAccountRequest>,
   output: __S(13088, __c409, 0) as any as S.Schema<TransferOriginatorFundingAccountUpdateResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24083,7 +24379,8 @@ export const updateUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10016, __c313, 0) as any as S.Schema<UpdateUserRequest>,
   output: __S(13088, __c409, 0) as any as S.Schema<UserUpdateResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24100,7 +24397,8 @@ export const updateWatchlistScreeningEntity: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10049, __c314, 1) as any as S.Schema<UpdateWatchlistScreeningEntityRequest>,
   output: __S(11840, __c370, 0) as any as S.Schema<WatchlistScreeningEntityUpdateResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24117,7 +24415,8 @@ export const updateWatchlistScreeningIndividual: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10081, __c315, 1) as any as S.Schema<UpdateWatchlistScreeningIndividualRequest>,
   output: __S(12032, __c376, 0) as any as S.Schema<WatchlistScreeningIndividualUpdateResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24134,7 +24433,8 @@ export const uploadProtectCashAdvanceFeedback: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10272, __c321, 0) as any as S.Schema<UploadProtectCashAdvanceFeedbackRequest>,
   output: __S(10273, __c321, 1) as any as S.Schema<ProtectCashAdvanceFeedbackUploadResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24151,7 +24451,8 @@ export const uploadTransferDiligenceDocument: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10304, __c322, 0) as any as S.Schema<UploadTransferDiligenceDocumentRequest>,
   output: __S(13088, __c409, 0) as any as S.Schema<TransferDiligenceDocumentUploadResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24168,7 +24469,8 @@ export const userItemsAssociate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10336, __c323, 0) as any as S.Schema<UserItemsAssociateRequest>,
   output: __S(13088, __c409, 0) as any as S.Schema<UserItemsAssociateResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24185,7 +24487,8 @@ export const verifyAuth: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10370, __c324, 2) as any as S.Schema<VerifyAuthRequest>,
   output: __S(10371, __c324, 3) as any as S.Schema<AuthVerifyResponse>,
-  errors: [UnknownPlaidError],
+  errors: [],
+  serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

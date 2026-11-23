@@ -5,6 +5,7 @@ import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -202,6 +203,7 @@ export const getDeployments: API.OperationMethod<
   input: __S(0, __c0, 0) as any as S.Schema<GetDeploymentsRequest>,
   output: __S(6, __c0, 6) as any as S.Schema<GetDeploymentsResult>,
   errors: [InternalServiceException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeployments",
@@ -222,6 +224,7 @@ export const getDeviceRegistration: API.OperationMethod<
   input: __S(16, __c1, 0) as any as S.Schema<GetDeviceRegistrationRequest>,
   output: __S(17, __c1, 1) as any as S.Schema<GetDeviceRegistrationResult>,
   errors: [InternalServiceException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeviceRegistration",
@@ -242,6 +245,7 @@ export const sendHeartbeat: API.OperationMethod<
   input: __S(39, __c2, 7) as any as S.Schema<SendHeartbeatRequest>,
   output: __S(40, __c2, 8) as any as S.Schema<SendHeartbeatResponse>,
   errors: [InternalServiceException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendHeartbeat",

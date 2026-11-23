@@ -30,9 +30,7 @@
  * const program = Unifi.getSiteOverviewPage({});
  *
  * program.pipe(
- *   Effect.provide(
- *     Layer.mergeAll(FetchHttpClient.layer, Unifi.CredentialsFromEnv, Unifi.UniFiNetworkProtocol),
- *   ),
+ *   Effect.provide(Layer.mergeAll(FetchHttpClient.layer, Unifi.CredentialsFromEnv)),
  *   Effect.runPromise,
  * );
  * ```

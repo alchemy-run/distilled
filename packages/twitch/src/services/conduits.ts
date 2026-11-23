@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownTwitchError } from "../errors.ts";
+import { TwitchServiceErrors } from "../errors.ts";
 import { paginateCursor } from "../pagination.ts";
 import { TwitchProtocol, type TwitchOpError, type TwitchOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
@@ -183,7 +183,8 @@ export const createConduits: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateConduitsRequest>,
   output: __S(10, __c1, 2) as any as S.Schema<CreateConduitsResponse>,
-  errors: [UnknownTwitchError],
+  errors: [],
+  serviceErrors: TwitchServiceErrors,
   protocol: TwitchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -200,7 +201,8 @@ export const deleteConduit: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c2, 0) as any as S.Schema<DeleteConduitRequest>,
   output: __S(17, __c2, 1) as any as S.Schema<DeleteConduitResponse>,
-  errors: [UnknownTwitchError],
+  errors: [],
+  serviceErrors: TwitchServiceErrors,
   protocol: TwitchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -217,7 +219,8 @@ export const getConduits: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c3, 0) as any as S.Schema<GetConduitsRequest>,
   output: __S(10, __c1, 2) as any as S.Schema<GetConduitsResponse>,
-  errors: [UnknownTwitchError],
+  errors: [],
+  serviceErrors: TwitchServiceErrors,
   protocol: TwitchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -236,7 +239,8 @@ export const getConduitShards: API.PaginatedOperationMethod<
   () => ({
     input: __S(32, __c4, 0) as any as S.Schema<GetConduitShardsRequest>,
     output: __S(34, __c4, 2) as any as S.Schema<GetConduitShardsResponse>,
-    errors: [UnknownTwitchError],
+    errors: [],
+    serviceErrors: TwitchServiceErrors,
     protocol: TwitchProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -261,7 +265,8 @@ export const updateConduits: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c6, 0) as any as S.Schema<UpdateConduitsRequest>,
   output: __S(10, __c1, 2) as any as S.Schema<UpdateConduitsResponse>,
-  errors: [UnknownTwitchError],
+  errors: [],
+  serviceErrors: TwitchServiceErrors,
   protocol: TwitchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -278,7 +283,8 @@ export const updateConduitShards: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(59, __c7, 3) as any as S.Schema<UpdateConduitShardsRequest>,
   output: __S(62, __c7, 6) as any as S.Schema<UpdateConduitShardsResponse>,
-  errors: [UnknownTwitchError],
+  errors: [],
+  serviceErrors: TwitchServiceErrors,
   protocol: TwitchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

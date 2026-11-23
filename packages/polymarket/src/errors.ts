@@ -37,17 +37,23 @@ import type {
   NotFound as CoreNotFound,
   UnprocessableEntity as CoreUnprocessableEntity,
 } from "@distilled.cloud/core/errors";
-import { UnknownErrorFields } from "@distilled.cloud/core/errors";
+import { API_ERRORS, UnknownErrorFields } from "@distilled.cloud/core/errors";
 import * as Schema from "@distilled.cloud/core/schema-lite-typed";
+import { applyErrorMatchers } from "@distilled.cloud/core/trait";
 
 /**
  * HTTP 413 -- the Perps gateway refused a request body over its size cap
- * (`payload_too_large`). Split the batch into smaller requests.
+ * (`payload_too_large`). Split the batch into smaller requests. Core has no
+ * class for the status, so the package adds one, matched by its status like
+ * an operation's own errors.
  */
 export class PayloadTooLarge
-  extends /*@__PURE__*/ Schema.TaggedError<PayloadTooLarge>()("PayloadTooLarge", {
-    message: Schema.String,
-  }).pipe(Category.withBadRequestError) {}
+  extends /*@__PURE__*/ applyErrorMatchers(
+    /*@__PURE__*/ Schema.TaggedError<PayloadTooLarge>()("PayloadTooLarge", {
+      message: Schema.String,
+    }).pipe(Category.withBadRequestError),
+    [{ status: 413 }],
+  ) {}
 
 /**
  * Unknown Polymarket error -- returned when a failed response's HTTP status
@@ -83,3 +89,11 @@ export type DefaultErrors =
   | CoreConflict
   | CoreUnprocessableEntity
   | ClientErrors;
+
+/**
+ * The errors declared on the Polymarket services: any operation can return
+ * them, and every generated operation lists them as its `serviceErrors`.
+ * Each of core's status classes, and {@link PayloadTooLarge} for 413.
+ */
+export const PolymarketServiceErrors = [...API_ERRORS, PayloadTooLarge] as const;
+export type PolymarketServiceError = InstanceType<(typeof PolymarketServiceErrors)[number]>;

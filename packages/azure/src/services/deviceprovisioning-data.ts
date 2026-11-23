@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import { AzureDataPlaneProtocol } from "../data-plane-protocol.ts";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -729,7 +729,8 @@ export const DeleteDeviceRegistrationState: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<DeleteDeviceRegistrationStateRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<DeleteDeviceRegistrationStateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -746,7 +747,8 @@ export const DeleteEnrollmentGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c2, 0) as any as S.Schema<DeleteEnrollmentGroupRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<DeleteEnrollmentGroupResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -763,7 +765,8 @@ export const DeleteIndividualEnrollment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c14, 0) as any as S.Schema<DeleteIndividualEnrollmentRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<DeleteIndividualEnrollmentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -780,7 +783,8 @@ export const DeviceRegistrationStateQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(120, __c15, 0) as any as S.Schema<DeviceRegistrationStateQueryRequest>,
   output: __S(122, __c15, 2) as any as S.Schema<DeviceRegistrationStateQueryResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -797,7 +801,8 @@ export const EnrollmentGroupCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c18, 0) as any as S.Schema<EnrollmentGroupCreateOrUpdateRequest>,
   output: __S(192, __c24, 0) as any as S.Schema<EnrollmentGroup>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -814,7 +819,8 @@ export const EnrollmentGroupQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(200, __c25, 0) as any as S.Schema<EnrollmentGroupQueryRequest>,
   output: __S(202, __c25, 2) as any as S.Schema<EnrollmentGroupQueryResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -831,7 +837,8 @@ export const EnrollmentGroupRunBulkOperation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(210, __c26, 2) as any as S.Schema<EnrollmentGroupRunBulkOperationRequest>,
   output: __S(213, __c26, 5) as any as S.Schema<BulkEnrollmentGroupOperationResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -848,7 +855,8 @@ export const GetDeviceRegistrationState: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(216, __c27, 0) as any as S.Schema<GetDeviceRegistrationStateRequest>,
   output: __S(128, __c16, 0) as any as S.Schema<DeviceRegistrationState>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -865,7 +873,8 @@ export const GetEnrollmentGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c28, 0) as any as S.Schema<GetEnrollmentGroupRequest>,
   output: __S(192, __c24, 0) as any as S.Schema<EnrollmentGroup>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -882,7 +891,8 @@ export const GetEnrollmentGroupAttestationMechanism: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(232, __c29, 0) as any as S.Schema<GetEnrollmentGroupAttestationMechanismRequest>,
   output: __S(173, __c21, 5) as any as S.Schema<AttestationMechanism>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -899,7 +909,8 @@ export const GetIndividualEnrollment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c3, 0) as any as S.Schema<GetIndividualEnrollmentRequest>,
   output: __S(32, __c4, 0) as any as S.Schema<IndividualEnrollment>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -916,7 +927,8 @@ export const GetIndividualEnrollmentAttestationMechanism: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c5, 0) as any as S.Schema<GetIndividualEnrollmentAttestationMechanismRequest>,
   output: __S(173, __c21, 5) as any as S.Schema<AttestationMechanism>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -933,7 +945,8 @@ export const IndividualEnrollmentCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c6, 0) as any as S.Schema<IndividualEnrollmentCreateOrUpdateRequest>,
   output: __S(32, __c4, 0) as any as S.Schema<IndividualEnrollment>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -950,7 +963,8 @@ export const IndividualEnrollmentQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56, __c7, 0) as any as S.Schema<IndividualEnrollmentQueryRequest>,
   output: __S(58, __c7, 2) as any as S.Schema<IndividualEnrollmentQueryResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -967,7 +981,8 @@ export const IndividualEnrollmentRunBulkOperation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(66, __c8, 2) as any as S.Schema<IndividualEnrollmentRunBulkOperationRequest>,
   output: __S(69, __c8, 5) as any as S.Schema<BulkEnrollmentOperationResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -988,7 +1003,8 @@ export const LookupRuntimeRegistrationDeviceRegistrationStatus: API.OperationMet
     0,
   ) as any as S.Schema<LookupRuntimeRegistrationDeviceRegistrationStatusRequest>,
   output: __S(83, __c10, 3) as any as S.Schema<DeviceRegistrationResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1005,7 +1021,8 @@ export const LookupRuntimeRegistrationOperationStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(88, __c11, 0) as any as S.Schema<LookupRuntimeRegistrationOperationStatusRequest>,
   output: __S(96, __c12, 0) as any as S.Schema<RegistrationOperationStatus>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1026,7 +1043,8 @@ export const RuntimeRegistrationRegisterDeviceAndIssueCertificate: API.Operation
     0,
   ) as any as S.Schema<RuntimeRegistrationRegisterDeviceAndIssueCertificateRequest>,
   output: __S(96, __c12, 0) as any as S.Schema<RegistrationOperationStatus>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
