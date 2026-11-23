@@ -4307,7 +4307,7 @@ export interface DatasetPurgeImpactCollection {
 export interface DatasetPurgeImpactSchema {
   charts: DatasetPurgeImpactCollection;
   dashboards: DatasetPurgeImpactCollection;
-  impact_token: string | Redacted.Redacted<string>;
+  impact_token: string;
 }
 export interface GetDatasetRelatedRequest {
   column_name: string;
@@ -7433,7 +7433,7 @@ export interface PurgeDashboardResponse {
 }
 export interface PurgeDatasetRequest {
   uuid: string;
-  confirmed_impact_token: string | Redacted.Redacted<string>;
+  confirmed_impact_token: string;
 }
 export interface PurgeDatasetResponse {
   message?: string | undefined;
@@ -17234,7 +17234,7 @@ function __c4(j: number): any {
         S.Struct({
           charts: __S(66, __c4, 2),
           dashboards: __S(66, __c4, 2),
-          impact_token: S.String.pipe(T.SensitiveValue({})),
+          impact_token: S.String,
         }),
       ).annotate({ identifier: "DatasetPurgeImpactSchema" });
   }
@@ -23069,7 +23069,7 @@ function __c263(j: number): any {
       return S.suspend(() =>
         S.Struct({
           uuid: S.String.pipe(T.Label()),
-          confirmed_impact_token: S.String.pipe(T.SensitiveValue({})),
+          confirmed_impact_token: S.String,
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/dataset/{uuid}/purge", code: 200 })),
       ).annotate({ identifier: "PurgeDatasetRequest" });
   }
