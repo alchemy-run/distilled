@@ -35,7 +35,7 @@ export interface PostNodesByNodeVncshellRequest {
 }
 export interface PostNodesByNodeVncshellResult {
   cert: string;
-  password?: string | undefined;
+  password?: string | Redacted.Redacted<string> | undefined;
   port: number;
   ticket: string | Redacted.Redacted<string>;
   upid: string;
@@ -77,7 +77,7 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           cert: S.String,
-          password: S.optional(S.String),
+          password: S.optional(S.String.pipe(T.SensitiveValue({}))),
           port: S.Number,
           ticket: S.String.pipe(T.SensitiveValue({})),
           upid: S.String,

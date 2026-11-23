@@ -1,0 +1,13 @@
+{
+  "description": "The dataset purge-impact report returns `impact_token`, and the purge request echoes it back as `confirmed_impact_token` (\"Report the charts and dashboards that depend on an archived dataset, with an impact token that must be echoed back on the purge request\"). It confirms that the caller saw the current impact before an irreversible delete; it is not a credential. The converter marks members whose name ends in `token` sensitive; this removes the mark on both.",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/org.apache.superset.api#DatasetPurgeImpactSchema/members/impact_token/traits/smithy.api#sensitive"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/org.apache.superset.api#PostApiV1DatasetUuidPurgeRequest/members/confirmed_impact_token/traits/smithy.api#sensitive"
+    }
+  ]
+}

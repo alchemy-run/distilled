@@ -1,0 +1,9 @@
+{
+  "description": "calculateTax returns `taxCalculationToken`, \"the opaque, encrypted, and signed token that represents the complete canonical calculation. Required in /payments\" (Checkout API v72 spec). It is a signed copy of the calculation that the merchant passes back unchanged, and grants no access on its own. The converter marks every member whose name ends in `token` sensitive; this removes the mark so the value stays a plain string.",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.adyen.checkout#CalculateTaxResponse/members/taxCalculationToken/traits/smithy.api#sensitive"
+    }
+  ]
+}

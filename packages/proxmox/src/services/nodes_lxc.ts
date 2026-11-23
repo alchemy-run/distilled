@@ -676,7 +676,7 @@ export interface PostNodesByNodeLxcRequest {
   onboot?: boolean | 0 | 1 | undefined;
   ostemplate: string;
   ostype?: PostNodesByNodeLxcRequestOstype | (string & {}) | undefined;
-  password?: string | undefined;
+  password?: string | Redacted.Redacted<string> | undefined;
   pool?: string | undefined;
   protection?: boolean | 0 | 1 | undefined;
   restore?: boolean | 0 | 1 | undefined;
@@ -1870,7 +1870,7 @@ export interface PostNodesByNodeLxcByVmidSpiceproxyRequest {
 }
 export interface PostNodesByNodeLxcByVmidSpiceproxyResult {
   host: string;
-  password: string;
+  password: string | Redacted.Redacted<string>;
   proxy: string;
   "tls-port": number;
   type: string;
@@ -1938,7 +1938,7 @@ export interface PostNodesByNodeLxcByVmidVncproxyRequest {
 }
 export interface PostNodesByNodeLxcByVmidVncproxyResult {
   cert: string;
-  password?: string | undefined;
+  password?: string | Redacted.Redacted<string> | undefined;
   port: number;
   ticket: string | Redacted.Redacted<string>;
   upid: string;
@@ -4271,7 +4271,7 @@ function __c33(j: number): any {
             onboot: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
             ostemplate: S.String,
             ostype: S.optional(S.String),
-            password: S.optional(S.String),
+            password: S.optional(S.String.pipe(T.SensitiveValue({}))),
             pool: S.optional(S.String),
             protection: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
             restore: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
@@ -4551,7 +4551,7 @@ function __c46(j: number): any {
       return S.suspend(() =>
         S.Struct({
           host: S.String,
-          password: S.String,
+          password: S.String.pipe(T.SensitiveValue({})),
           proxy: S.String,
           "tls-port": S.Number,
           type: S.String,
@@ -4716,7 +4716,7 @@ function __c56(j: number): any {
       return S.suspend(() =>
         S.Struct({
           cert: S.String,
-          password: S.optional(S.String),
+          password: S.optional(S.String.pipe(T.SensitiveValue({}))),
           port: S.Number,
           ticket: S.String.pipe(T.SensitiveValue({})),
           upid: S.String,

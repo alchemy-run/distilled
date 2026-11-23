@@ -386,7 +386,7 @@ export interface GetNodesByNodeQemuByVmidConfigResult {
   bootdisk?: string | undefined;
   cdrom?: string | undefined;
   cicustom?: string | undefined;
-  cipassword?: string | undefined;
+  cipassword?: string | Redacted.Redacted<string> | undefined;
   citype?: GetNodesByNodeQemuByVmidConfigResultCitype | undefined;
   ciupgrade?: boolean | 0 | 1 | undefined;
   ciuser?: string | undefined;
@@ -969,7 +969,7 @@ export interface PostNodesByNodeQemuRequest {
   bwlimit?: number | undefined;
   cdrom?: string | undefined;
   cicustom?: string | undefined;
-  cipassword?: string | undefined;
+  cipassword?: string | Redacted.Redacted<string> | undefined;
   citype?: PostNodesByNodeQemuRequestCitype | (string & {}) | undefined;
   ciupgrade?: boolean | 0 | 1 | undefined;
   ciuser?: string | undefined;
@@ -1141,7 +1141,7 @@ export type PostNodesByNodeQemuByVmidAgentPingResponse = PostNodesByNodeQemuByVm
 export interface PostNodesByNodeQemuByVmidAgentSetUserPasswordRequest {
   crypted?: boolean | 0 | 1 | undefined;
   node: string;
-  password: string;
+  password: string | Redacted.Redacted<string>;
   username: string;
   vmid: number;
 }
@@ -1279,7 +1279,7 @@ export interface PostNodesByNodeQemuByVmidConfigRequest {
   bootdisk?: string | undefined;
   cdrom?: string | undefined;
   cicustom?: string | undefined;
-  cipassword?: string | undefined;
+  cipassword?: string | Redacted.Redacted<string> | undefined;
   citype?: PostNodesByNodeQemuByVmidConfigRequestCitype | (string & {}) | undefined;
   ciupgrade?: boolean | 0 | 1 | undefined;
   ciuser?: string | undefined;
@@ -2133,7 +2133,7 @@ export interface PostNodesByNodeQemuByVmidSpiceproxyRequest {
 }
 export interface PostNodesByNodeQemuByVmidSpiceproxyResult {
   host: string;
-  password: string;
+  password: string | Redacted.Redacted<string>;
   proxy: string;
   "tls-port": number;
   type: string;
@@ -2296,7 +2296,7 @@ export interface PostNodesByNodeQemuByVmidVncproxyRequest {
 }
 export interface PostNodesByNodeQemuByVmidVncproxyResult {
   cert: string;
-  password?: string | undefined;
+  password?: string | Redacted.Redacted<string> | undefined;
   port: number;
   ticket: string | Redacted.Redacted<string>;
   upid: string;
@@ -2385,7 +2385,7 @@ export interface PutNodesByNodeQemuByVmidConfigRequest {
   bootdisk?: string | undefined;
   cdrom?: string | undefined;
   cicustom?: string | undefined;
-  cipassword?: string | undefined;
+  cipassword?: string | Redacted.Redacted<string> | undefined;
   citype?: PutNodesByNodeQemuByVmidConfigRequestCitype | (string & {}) | undefined;
   ciupgrade?: boolean | 0 | 1 | undefined;
   ciuser?: string | undefined;
@@ -4934,7 +4934,7 @@ function __c27(j: number): any {
             bootdisk: S.optional(S.String),
             cdrom: S.optional(S.String),
             cicustom: S.optional(S.String),
-            cipassword: S.optional(S.String),
+            cipassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
             citype: S.optional(S.String),
             ciupgrade: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
             ciuser: S.optional(S.String),
@@ -5709,7 +5709,7 @@ function __c56(j: number): any {
             bwlimit: S.optional(S.Number),
             cdrom: S.optional(S.String),
             cicustom: S.optional(S.String),
-            cipassword: S.optional(S.String),
+            cipassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
             citype: S.optional(S.String),
             ciupgrade: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
             ciuser: S.optional(S.String),
@@ -5944,7 +5944,7 @@ function __c66(j: number): any {
         S.Struct({
           crypted: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
           node: S.String.pipe(T.Label()),
-          password: S.String,
+          password: S.String.pipe(T.SensitiveValue({})),
           username: S.String,
           vmid: S.Number.pipe(T.Label()),
         }).pipe(
@@ -6060,7 +6060,7 @@ function __c72(j: number): any {
             bootdisk: S.optional(S.String),
             cdrom: S.optional(S.String),
             cicustom: S.optional(S.String),
-            cipassword: S.optional(S.String),
+            cipassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
             citype: S.optional(S.String),
             ciupgrade: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
             ciuser: S.optional(S.String),
@@ -6458,7 +6458,7 @@ function __c88(j: number): any {
       return S.suspend(() =>
         S.Struct({
           host: S.String,
-          password: S.String,
+          password: S.String.pipe(T.SensitiveValue({})),
           proxy: S.String,
           "tls-port": S.Number,
           type: S.String,
@@ -6667,7 +6667,7 @@ function __c101(j: number): any {
       return S.suspend(() =>
         S.Struct({
           cert: S.String,
-          password: S.optional(S.String),
+          password: S.optional(S.String.pipe(T.SensitiveValue({}))),
           port: S.Number,
           ticket: S.String.pipe(T.SensitiveValue({})),
           upid: S.String,
@@ -6712,7 +6712,7 @@ function __c103(j: number): any {
             bootdisk: S.optional(S.String),
             cdrom: S.optional(S.String),
             cicustom: S.optional(S.String),
-            cipassword: S.optional(S.String),
+            cipassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
             citype: S.optional(S.String),
             ciupgrade: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
             ciuser: S.optional(S.String),

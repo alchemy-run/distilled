@@ -38,7 +38,7 @@ export interface DeleteAccessRolesByRoleidRequest {
 export type DeleteAccessRolesByRoleidResponse = null;
 export interface DeleteAccessTfaByUseridByIdRequest {
   id: string;
-  password?: string | undefined;
+  password?: string | Redacted.Redacted<string> | undefined;
   userid: string;
 }
 export type DeleteAccessTfaByUseridByIdResponse = null;
@@ -341,7 +341,7 @@ export interface PostAccessDomainsRequest {
   "groups-overwrite"?: boolean | 0 | 1 | undefined;
   "issuer-url"?: string | undefined;
   mode?: PostAccessDomainsRequestMode | (string & {}) | undefined;
-  password?: string | undefined;
+  password?: string | Redacted.Redacted<string> | undefined;
   port?: number | undefined;
   prompt?: string | undefined;
   "query-userinfo"?: boolean | 0 | 1 | undefined;
@@ -389,7 +389,7 @@ export interface PostAccessOpenidLoginRequest {
 }
 export type PostAccessOpenidLoginResultCap = { [key: string]: unknown | undefined };
 export interface PostAccessOpenidLoginResult {
-  CSRFPreventionToken: string;
+  CSRFPreventionToken: string | Redacted.Redacted<string>;
   cap: PostAccessOpenidLoginResultCap;
   clustername?: string | undefined;
   ticket: string | Redacted.Redacted<string>;
@@ -405,7 +405,7 @@ export type PostAccessTfaByUseridRequestType = "totp" | "u2f" | "webauthn" | "re
 export interface PostAccessTfaByUseridRequest {
   challenge?: string | undefined;
   description?: string | undefined;
-  password?: string | undefined;
+  password?: string | Redacted.Redacted<string> | undefined;
   totp?: string | undefined;
   type: PostAccessTfaByUseridRequestType | (string & {});
   userid: string;
@@ -420,8 +420,8 @@ export interface PostAccessTfaByUseridResult {
 export type PostAccessTfaByUseridResponse = PostAccessTfaByUseridResult;
 export interface PostAccessTicketRequest {
   "new-format"?: boolean | 0 | 1 | undefined;
-  otp?: string | undefined;
-  password: string;
+  otp?: string | Redacted.Redacted<string> | undefined;
+  password: string | Redacted.Redacted<string>;
   path?: string | undefined;
   privs?: string | undefined;
   realm?: string | undefined;
@@ -429,7 +429,7 @@ export interface PostAccessTicketRequest {
   username: string;
 }
 export interface PostAccessTicketResult {
-  CSRFPreventionToken?: string | undefined;
+  CSRFPreventionToken?: string | Redacted.Redacted<string> | undefined;
   clustername?: string | undefined;
   ticket?: string | Redacted.Redacted<string> | undefined;
   username: string;
@@ -444,7 +444,7 @@ export interface PostAccessUsersRequest {
   groups?: string | undefined;
   keys?: string | undefined;
   lastname?: string | undefined;
-  password?: string | undefined;
+  password?: string | Redacted.Redacted<string> | undefined;
   userid: string;
 }
 export type PostAccessUsersResponse = null;
@@ -512,7 +512,7 @@ export interface PutAccessDomainsByRealmRequest {
   "groups-overwrite"?: boolean | 0 | 1 | undefined;
   "issuer-url"?: string | undefined;
   mode?: PutAccessDomainsByRealmRequestMode | (string & {}) | undefined;
-  password?: string | undefined;
+  password?: string | Redacted.Redacted<string> | undefined;
   port?: number | undefined;
   prompt?: string | undefined;
   "query-userinfo"?: boolean | 0 | 1 | undefined;
@@ -536,8 +536,8 @@ export interface PutAccessGroupsByGroupidRequest {
 }
 export type PutAccessGroupsByGroupidResponse = null;
 export interface PutAccessPasswordRequest {
-  "confirmation-password"?: string | undefined;
-  password: string;
+  "confirmation-password"?: string | Redacted.Redacted<string> | undefined;
+  password: string | Redacted.Redacted<string>;
   userid: string;
 }
 export type PutAccessPasswordResponse = null;
@@ -551,7 +551,7 @@ export interface PutAccessTfaByUseridByIdRequest {
   description?: string | undefined;
   enable?: boolean | 0 | 1 | undefined;
   id: string;
-  password?: string | undefined;
+  password?: string | Redacted.Redacted<string> | undefined;
   userid: string;
 }
 export type PutAccessTfaByUseridByIdResponse = null;
@@ -1816,7 +1816,7 @@ function __c25(j: number): any {
           "groups-overwrite": S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
           "issuer-url": S.optional(S.String),
           mode: S.optional(S.String),
-          password: S.optional(S.String),
+          password: S.optional(S.String.pipe(T.SensitiveValue({}))),
           port: S.optional(S.Number),
           prompt: S.optional(S.String),
           "query-userinfo": S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
@@ -1897,7 +1897,7 @@ function __c30(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          CSRFPreventionToken: S.String,
+          CSRFPreventionToken: S.String.pipe(T.SensitiveValue({})),
           cap: __S(32, __c8, 0),
           clustername: S.optional(S.String),
           ticket: S.String.pipe(T.SensitiveValue({})),
@@ -1916,7 +1916,7 @@ function __c31(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          password: S.optional(S.String.pipe(T.Query())),
+          password: S.optional(S.String.pipe(T.Query(), T.SensitiveValue({}))),
           userid: S.String.pipe(T.Label()),
         }).pipe(T.Http({ method: "DELETE", uri: "/access/tfa/{userid}/{id}", code: 200 })),
       ).annotate({ identifier: "DeleteAccessTfaByUseridByIdRequest" });
@@ -1940,7 +1940,7 @@ function __c33(j: number): any {
         S.Struct({
           challenge: S.optional(S.String),
           description: S.optional(S.String),
-          password: S.optional(S.String),
+          password: S.optional(S.String.pipe(T.SensitiveValue({}))),
           totp: S.optional(S.String),
           type: S.String,
           userid: S.String.pipe(T.Label()),
@@ -1967,8 +1967,8 @@ function __c34(j: number): any {
       return S.suspend(() =>
         S.Struct({
           "new-format": S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
-          otp: S.optional(S.String),
-          password: S.String,
+          otp: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          password: S.String.pipe(T.SensitiveValue({})),
           path: S.optional(S.String),
           privs: S.optional(S.String),
           realm: S.optional(S.String),
@@ -1979,7 +1979,7 @@ function __c34(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          CSRFPreventionToken: S.optional(S.String),
+          CSRFPreventionToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           clustername: S.optional(S.String),
           ticket: S.optional(S.String.pipe(T.SensitiveValue({}))),
           username: S.String,
@@ -2004,7 +2004,7 @@ function __c35(j: number): any {
           groups: S.optional(S.String),
           keys: S.optional(S.String),
           lastname: S.optional(S.String),
-          password: S.optional(S.String),
+          password: S.optional(S.String.pipe(T.SensitiveValue({}))),
           userid: S.String,
         }).pipe(T.Http({ method: "POST", uri: "/access/users", code: 200 })),
       ).annotate({ identifier: "PostAccessUsersRequest" });
@@ -2100,7 +2100,7 @@ function __c39(j: number): any {
           "groups-overwrite": S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
           "issuer-url": S.optional(S.String),
           mode: S.optional(S.String),
-          password: S.optional(S.String),
+          password: S.optional(S.String.pipe(T.SensitiveValue({}))),
           port: S.optional(S.Number),
           prompt: S.optional(S.String),
           "query-userinfo": S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
@@ -2136,8 +2136,8 @@ function __c41(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          "confirmation-password": S.optional(S.String),
-          password: S.String,
+          "confirmation-password": S.optional(S.String.pipe(T.SensitiveValue({}))),
+          password: S.String.pipe(T.SensitiveValue({})),
           userid: S.String,
         }).pipe(T.Http({ method: "PUT", uri: "/access/password", code: 200 })),
       ).annotate({ identifier: "PutAccessPasswordRequest" });
@@ -2173,7 +2173,7 @@ function __c44(j: number): any {
           description: S.optional(S.String),
           enable: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
           id: S.String.pipe(T.Label()),
-          password: S.optional(S.String),
+          password: S.optional(S.String.pipe(T.SensitiveValue({}))),
           userid: S.String.pipe(T.Label()),
         }).pipe(T.Http({ method: "PUT", uri: "/access/tfa/{userid}/{id}", code: 200 })),
       ).annotate({ identifier: "PutAccessTfaByUseridByIdRequest" });
