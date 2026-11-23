@@ -41,6 +41,22 @@ export class BadRequest
   declare readonly body?: Error400Body | string;
 }
 
+export class Forbidden
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
+      code: S.Number,
+      message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+    }).pipe(C.withAuthError),
+    [{ status: 403 }],
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
+
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
@@ -57,6 +73,20 @@ export class NotFound
   declare readonly body?: Error400Body | string;
 }
 
+export interface DeleteConnectorRequest {
+  /** Host ID to proxy the request to */
+  id: string;
+  /** Path of the console API to call, from the console's `/proxy/` root. Example: `proxy/network/integration/v1/sites`. It may span several segments. */
+  path: string;
+}
+export type DeleteConnectorResponse = unknown;
+export interface GetConnectorRequest {
+  /** Host ID to proxy the request to */
+  id: string;
+  /** Path of the console API to call, from the console's `/proxy/` root. Example: `proxy/network/integration/v1/sites`. It may span several segments. */
+  path: string;
+}
+export type GetConnectorResponse = unknown;
 export interface GetHostRequest {
   /** Unique identifier of the host */
   id: string;
@@ -653,6 +683,30 @@ export interface ListSitesResponse {
   /** Pagination token for fetching the next set of results */
   nextToken?: string | undefined;
 }
+export interface PatchConnectorRequest {
+  /** Host ID to proxy the request to */
+  id: string;
+  body?: unknown | undefined;
+  /** Path of the console API to call, from the console's `/proxy/` root. Example: `proxy/network/integration/v1/sites`. It may span several segments. */
+  path: string;
+}
+export type PatchConnectorResponse = unknown;
+export interface PostConnectorRequest {
+  /** Host ID to proxy the request to */
+  id: string;
+  body?: unknown | undefined;
+  /** Path of the console API to call, from the console's `/proxy/` root. Example: `proxy/network/integration/v1/sites`. It may span several segments. */
+  path: string;
+}
+export type PostConnectorResponse = unknown;
+export interface PutConnectorRequest {
+  /** Host ID to proxy the request to */
+  id: string;
+  body?: unknown | undefined;
+  /** Path of the console API to call, from the console's `/proxy/` root. Example: `proxy/network/integration/v1/sites`. It may span several segments. */
+  path: string;
+}
+export type PutConnectorResponse = unknown;
 export interface QueryISPMetricsRequestSitesItem {
   beginTimestamp?: string | undefined;
   hostId: string;
@@ -705,6 +759,42 @@ export interface Error400Body {
   /** Request trace identifier */
   traceId?: string | undefined;
 }
+export type DeleteConnectorError = BadRequest | Forbidden | UniFiOpError;
+/** Connector - DELETE Forward DELETE requests to UniFi applications using RESTful HTTP methods. <br/><br/>**Request Flow**: The request is proxied through `api.ui.com` cloud endpoint to the remote console at `http://127.0.0.1/proxy/[path]` with DELETE method. <br/><br/>**Requirements**: <br/>- Console firmware version must >= 5.0.3<br/>- For non-organization API keys: Limited to API key owner's consoles only (cannot access other admins' consoles)<br/>- For organization API keys: Can access any console within the organization<br/><br/>**Rate Limit**: <br/>- Each console is limited to 100 requests per minute<br/><br/>**Limits**: <br/>- Request timeout: each proxied request must complete within 25 seconds; otherwise it is terminated and a timeout error is returned<br/>- Response body size: the upstream response body is limited to 10 MB; larger responses are not supported<br/><br/>**API Documentation**: <br/>- Network API: [https://developer.ui.com/network](https://developer.ui.com/network)<br/>- Protect API: [https://developer.ui.com/protect](https://developer.ui.com/protect)<br/>- InnerSpace API: [https://developer.ui.com/innerspace](https://developer.ui.com/innerspace)<br/><br/>**Response**: On success, the upstream API response is passed through directly. On error, a standardized error schema is returned. */
+export const deleteConnector: API.OperationMethod<
+  DeleteConnectorRequest,
+  DeleteConnectorResponse,
+  DeleteConnectorError,
+  UniFiCloudOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(256, __c8, 0) as any as S.Schema<DeleteConnectorRequest>,
+  output: __S(288, __c9, 0) as any as S.Schema<DeleteConnectorResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: UniFiServiceErrors,
+  protocol: UniFiCloudProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteConnector",
+}));
+
+export type GetConnectorError = BadRequest | Forbidden | UniFiOpError;
+/** Connector - GET Forward GET requests to UniFi applications using RESTful HTTP methods. <br/><br/>**Request Flow**: The request is proxied through `api.ui.com` cloud endpoint to the remote console at `http://127.0.0.1/proxy/[path]` with GET method. <br/><br/>**Requirements**: <br/>- Console firmware version must >= 5.0.3<br/>- For non-organization API keys: Limited to API key owner's consoles only (cannot access other admins' consoles)<br/>- For organization API keys: Can access any console within the organization<br/><br/>**Rate Limit**: <br/>- Each console is limited to 100 requests per minute<br/><br/>**Limits**: <br/>- Request timeout: each proxied request must complete within 25 seconds; otherwise it is terminated and a timeout error is returned<br/>- Response body size: the upstream response body is limited to 10 MB; larger responses are not supported<br/><br/>**API Documentation**: <br/>- Network API: [https://developer.ui.com/network](https://developer.ui.com/network)<br/>- Protect API: [https://developer.ui.com/protect](https://developer.ui.com/protect)<br/>- InnerSpace API: [https://developer.ui.com/innerspace](https://developer.ui.com/innerspace)<br/><br/>**Examples**: <br/>- Network: `GET /v1/connector/consoles/{id}/network/integration/v1/sites` retrieves network sites<br/>- Protect: `GET /v1/connector/consoles/{id}/protect/integration/v1/meta/info` retrieves protect application info<br/><br/>**Response**: On success, the upstream API response is passed through directly. On error, a standardized error schema is returned. */
+export const getConnector: API.OperationMethod<
+  GetConnectorRequest,
+  GetConnectorResponse,
+  GetConnectorError,
+  UniFiCloudOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(320, __c10, 0) as any as S.Schema<GetConnectorRequest>,
+  output: __S(288, __c9, 0) as any as S.Schema<GetConnectorResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: UniFiServiceErrors,
+  protocol: UniFiCloudProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConnector",
+}));
+
 export type GetHostError = NotFound | UniFiOpError;
 /** Get Host by ID Retrieves detailed information about a specific host by ID. <br/><br/>**Note**: The structure of the `userData` and `reportedState` fields may vary depending on the UniFi OS or Network Server version. The example provided is based on UniFi OS 4.1.13. */
 export const getHost: API.OperationMethod<
@@ -713,8 +803,8 @@ export const getHost: API.OperationMethod<
   GetHostError,
   UniFiCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c2, 0) as any as S.Schema<GetHostRequest>,
-  output: __S(65, __c2, 1) as any as S.Schema<GetHostResponse>,
+  input: __S(352, __c11, 0) as any as S.Schema<GetHostRequest>,
+  output: __S(353, __c11, 1) as any as S.Schema<GetHostResponse>,
   errors: [NotFound],
   serviceErrors: UniFiServiceErrors,
   protocol: UniFiCloudProtocol,
@@ -731,8 +821,8 @@ export const getISPMetrics: API.OperationMethod<
   GetISPMetricsError,
   UniFiCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c4, 0) as any as S.Schema<GetISPMetricsRequest>,
-  output: __S(129, __c4, 1) as any as S.Schema<GetISPMetricsResponse>,
+  input: __S(416, __c13, 0) as any as S.Schema<GetISPMetricsRequest>,
+  output: __S(417, __c13, 1) as any as S.Schema<GetISPMetricsResponse>,
   errors: [BadRequest],
   serviceErrors: UniFiServiceErrors,
   protocol: UniFiCloudProtocol,
@@ -749,8 +839,8 @@ export const getSDWanConfig: API.OperationMethod<
   GetSDWanConfigError,
   UniFiCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c6, 0) as any as S.Schema<GetSDWanConfigRequest>,
-  output: __S(200, __c6, 8) as any as S.Schema<GetSDWanConfigResponse>,
+  input: __S(480, __c15, 0) as any as S.Schema<GetSDWanConfigRequest>,
+  output: __S(488, __c15, 8) as any as S.Schema<GetSDWanConfigResponse>,
   errors: [NotFound],
   serviceErrors: UniFiServiceErrors,
   protocol: UniFiCloudProtocol,
@@ -767,8 +857,8 @@ export const getSDWanConfigStatus: API.OperationMethod<
   GetSDWanConfigStatusError,
   UniFiCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c8, 0) as any as S.Schema<GetSDWanConfigStatusRequest>,
-  output: __S(273, __c8, 17) as any as S.Schema<GetSDWanConfigStatusResponse>,
+  input: __S(544, __c17, 0) as any as S.Schema<GetSDWanConfigStatusRequest>,
+  output: __S(561, __c17, 17) as any as S.Schema<GetSDWanConfigStatusResponse>,
   errors: [NotFound],
   serviceErrors: UniFiServiceErrors,
   protocol: UniFiCloudProtocol,
@@ -786,8 +876,8 @@ export const listDevices: API.PaginatedOperationMethod<
   UniFiCloudOpContext,
   ListDevicesResponseDataItem
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<ListDevicesRequest>,
-  output: __S(293, __c9, 5) as any as S.Schema<ListDevicesResponse>,
+  input: __S(576, __c18, 0) as any as S.Schema<ListDevicesRequest>,
+  output: __S(581, __c18, 5) as any as S.Schema<ListDevicesResponse>,
   errors: [BadRequest],
   serviceErrors: UniFiServiceErrors,
   protocol: UniFiCloudProtocol,
@@ -811,8 +901,8 @@ export const listHosts: API.PaginatedOperationMethod<
   UniFiCloudOpContext,
   GetHostResponseData
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<ListHostsRequest>,
-  output: __S(322, __c10, 2) as any as S.Schema<ListHostsResponse>,
+  input: __S(32, __c1, 0) as any as S.Schema<ListHostsRequest>,
+  output: __S(34, __c1, 2) as any as S.Schema<ListHostsResponse>,
   errors: [],
   serviceErrors: UniFiServiceErrors,
   protocol: UniFiCloudProtocol,
@@ -835,8 +925,8 @@ export const listSDWanConfigs: API.OperationMethod<
   ListSDWanConfigsError,
   UniFiCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c11, 0) as any as S.Schema<ListSDWanConfigsRequest>,
-  output: __S(355, __c11, 3) as any as S.Schema<ListSDWanConfigsResponse>,
+  input: __S(64, __c2, 0) as any as S.Schema<ListSDWanConfigsRequest>,
+  output: __S(67, __c2, 3) as any as S.Schema<ListSDWanConfigsResponse>,
   errors: [],
   serviceErrors: UniFiServiceErrors,
   protocol: UniFiCloudProtocol,
@@ -854,8 +944,8 @@ export const listSites: API.PaginatedOperationMethod<
   UniFiCloudOpContext,
   ListSitesResponseDataItem
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<ListSitesRequest>,
-  output: __S(387, __c12, 3) as any as S.Schema<ListSitesResponse>,
+  input: __S(96, __c3, 0) as any as S.Schema<ListSitesRequest>,
+  output: __S(99, __c3, 3) as any as S.Schema<ListSitesResponse>,
   errors: [],
   serviceErrors: UniFiServiceErrors,
   protocol: UniFiCloudProtocol,
@@ -870,6 +960,60 @@ export const listSites: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
+export type PatchConnectorError = BadRequest | Forbidden | UniFiOpError;
+/** Connector - PATCH Forward PATCH requests to UniFi applications using RESTful HTTP methods. <br/><br/>**Request Flow**: The request is proxied through `api.ui.com` cloud endpoint to the remote console at `http://127.0.0.1/proxy/[path]` with PATCH method. <br/><br/>**Requirements**: <br/>- Console firmware version must >= 5.0.3<br/>- For non-organization API keys: Limited to API key owner's consoles only (cannot access other admins' consoles)<br/>- For organization API keys: Can access any console within the organization<br/><br/>**Rate Limit**: <br/>- Each console is limited to 100 requests per minute<br/><br/>**Limits**: <br/>- Request timeout: each proxied request must complete within 25 seconds; otherwise it is terminated and a timeout error is returned<br/>- Response body size: the upstream response body is limited to 10 MB; larger responses are not supported<br/><br/>**API Documentation**: <br/>- Network API: [https://developer.ui.com/network](https://developer.ui.com/network)<br/>- Protect API: [https://developer.ui.com/protect](https://developer.ui.com/protect)<br/>- InnerSpace API: [https://developer.ui.com/innerspace](https://developer.ui.com/innerspace)<br/><br/>**Response**: On success, the upstream API response is passed through directly. On error, a standardized error schema is returned. */
+export const patchConnector: API.OperationMethod<
+  PatchConnectorRequest,
+  PatchConnectorResponse,
+  PatchConnectorError,
+  UniFiCloudOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(128, __c4, 0) as any as S.Schema<PatchConnectorRequest>,
+  output: __S(288, __c9, 0) as any as S.Schema<PatchConnectorResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: UniFiServiceErrors,
+  protocol: UniFiCloudProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchConnector",
+}));
+
+export type PostConnectorError = BadRequest | Forbidden | UniFiOpError;
+/** Connector - POST Forward POST requests to UniFi applications using RESTful HTTP methods. <br/><br/>**Request Flow**: The request is proxied through `api.ui.com` cloud endpoint to the remote console at `http://127.0.0.1/proxy/[path]` with POST method. <br/><br/>**Requirements**: <br/>- Console firmware version must >= 5.0.3<br/>- For non-organization API keys: Limited to API key owner's consoles only (cannot access other admins' consoles)<br/>- For organization API keys: Can access any console within the organization<br/><br/>**Rate Limit**: <br/>- Each console is limited to 100 requests per minute<br/><br/>**Limits**: <br/>- Request timeout: each proxied request must complete within 25 seconds; otherwise it is terminated and a timeout error is returned<br/>- Response body size: the upstream response body is limited to 10 MB; larger responses are not supported<br/><br/>**API Documentation**: <br/>- Network API: [https://developer.ui.com/network](https://developer.ui.com/network)<br/>- Protect API: [https://developer.ui.com/protect](https://developer.ui.com/protect)<br/>- InnerSpace API: [https://developer.ui.com/innerspace](https://developer.ui.com/innerspace)<br/><br/>**Response**: On success, the upstream API response is passed through directly. On error, a standardized error schema is returned. */
+export const postConnector: API.OperationMethod<
+  PostConnectorRequest,
+  PostConnectorResponse,
+  PostConnectorError,
+  UniFiCloudOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(160, __c5, 0) as any as S.Schema<PostConnectorRequest>,
+  output: __S(288, __c9, 0) as any as S.Schema<PostConnectorResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: UniFiServiceErrors,
+  protocol: UniFiCloudProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostConnector",
+}));
+
+export type PutConnectorError = BadRequest | Forbidden | UniFiOpError;
+/** Connector - PUT Forward PUT requests to UniFi applications using RESTful HTTP methods. <br/><br/>**Request Flow**: The request is proxied through `api.ui.com` cloud endpoint to the remote console at `http://127.0.0.1/proxy/[path]` with PUT method. <br/><br/>**Requirements**: <br/>- Console firmware version must >= 5.0.3<br/>- For non-organization API keys: Limited to API key owner's consoles only (cannot access other admins' consoles)<br/>- For organization API keys: Can access any console within the organization<br/><br/>**Rate Limit**: <br/>- Each console is limited to 100 requests per minute<br/><br/>**Limits**: <br/>- Request timeout: each proxied request must complete within 25 seconds; otherwise it is terminated and a timeout error is returned<br/>- Response body size: the upstream response body is limited to 10 MB; larger responses are not supported<br/><br/>**API Documentation**: <br/>- Network API: [https://developer.ui.com/network](https://developer.ui.com/network)<br/>- Protect API: [https://developer.ui.com/protect](https://developer.ui.com/protect)<br/>- InnerSpace API: [https://developer.ui.com/innerspace](https://developer.ui.com/innerspace)<br/><br/>**Response**: On success, the upstream API response is passed through directly. On error, a standardized error schema is returned. */
+export const putConnector: API.OperationMethod<
+  PutConnectorRequest,
+  PutConnectorResponse,
+  PutConnectorError,
+  UniFiCloudOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(192, __c6, 0) as any as S.Schema<PutConnectorRequest>,
+  output: __S(288, __c9, 0) as any as S.Schema<PutConnectorResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: UniFiServiceErrors,
+  protocol: UniFiCloudProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutConnector",
+}));
+
 export type QueryISPMetricsError = BadRequest | UniFiOpError;
 /** Query ISP Metrics Retrieves ISP metrics data based on specific query parameters. 5-minute interval metrics are available for at least 24 hours, and 1-hour interval metrics are available for at least 30 days. <br/><br/>**Note:** If the UI account lacks access to all requested sites, a 502 error is returned. If partial access is granted, the response will include `status: partialSuccess`. */
 export const queryISPMetrics: API.OperationMethod<
@@ -878,8 +1022,8 @@ export const queryISPMetrics: API.OperationMethod<
   QueryISPMetricsError,
   UniFiCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(34, __c1, 2) as any as S.Schema<QueryISPMetricsRequest>,
-  output: __S(36, __c1, 4) as any as S.Schema<QueryISPMetricsResponse>,
+  input: __S(226, __c7, 2) as any as S.Schema<QueryISPMetricsRequest>,
+  output: __S(228, __c7, 4) as any as S.Schema<QueryISPMetricsResponse>,
   errors: [BadRequest],
   serviceErrors: UniFiServiceErrors,
   protocol: UniFiCloudProtocol,
@@ -907,6 +1051,125 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          pageSize: S.optional(S.String.pipe(T.Query())),
+          nextToken: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/hosts", code: 200 })),
+      ).annotate({ identifier: "ListHostsRequest" });
+    case 1:
+      return S.Array(__S(384, __c12, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.Unknown),
+          data: __S(33, __c1, 1),
+          httpStatusCode: S.optional(S.Number),
+          traceId: S.optional(S.String),
+          nextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListHostsResponse" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/sd-wan-configs", code: 200 })),
+      ).annotate({ identifier: "ListSDWanConfigsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "ListSDWanConfigsResponseDataItem" });
+    case 2:
+      return S.Array(__S(65, __c2, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          data: S.optional(__S(66, __c2, 2)),
+          httpStatusCode: S.optional(S.Number),
+          traceId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListSDWanConfigsResponse" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          pageSize: S.optional(S.String.pipe(T.Query())),
+          nextToken: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/sites", code: 200 })),
+      ).annotate({ identifier: "ListSitesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          siteId: S.optional(S.String),
+          hostId: S.optional(S.String),
+          meta: S.optional(S.Unknown),
+          statistics: S.optional(S.Unknown),
+          permission: S.optional(S.String),
+          isOwner: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "ListSitesResponseDataItem" });
+    case 2:
+      return S.Array(/*@__PURE__*/ S.NullOr(__S(97, __c3, 1)));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.Unknown),
+          data: __S(98, __c3, 2),
+          httpStatusCode: S.optional(S.Number),
+          traceId: S.optional(S.String),
+          nextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListSitesResponse" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+          body: S.optional(S.Unknown.pipe(T.HttpBody())),
+          path: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "PATCH", uri: "/v1/connector/consoles/{id}/{path+}", code: 200 })),
+      ).annotate({ identifier: "PatchConnectorRequest" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+          body: S.optional(S.Unknown.pipe(T.HttpBody())),
+          path: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "POST", uri: "/v1/connector/consoles/{id}/{path+}", code: 200 })),
+      ).annotate({ identifier: "PostConnectorRequest" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+          body: S.optional(S.Unknown.pipe(T.HttpBody())),
+          path: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "PUT", uri: "/v1/connector/consoles/{id}/{path+}", code: 200 })),
+      ).annotate({ identifier: "PutConnectorRequest" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           beginTimestamp: S.optional(S.String),
           hostId: S.String,
           endTimestamp: S.optional(S.String),
@@ -914,18 +1177,18 @@ function __c1(j: number): any {
         }),
       ).annotate({ identifier: "QueryISPMetricsRequestSitesItem" });
     case 1:
-      return S.Array(/*@__PURE__*/ S.NullOr(__S(32, __c1, 0)));
+      return S.Array(/*@__PURE__*/ S.NullOr(__S(224, __c7, 0)));
     case 2:
       return S.suspend(() =>
         S.Struct({
           type: S.String.pipe(T.Label()),
-          sites: S.optional(__S(33, __c1, 1)),
+          sites: S.optional(__S(225, __c7, 1)),
         }).pipe(T.Http({ method: "POST", uri: "/v1/isp-metrics/{type}/query", code: 200 })),
       ).annotate({ identifier: "QueryISPMetricsRequest" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          metrics: S.optional(__S(165, __c5, 5)),
+          metrics: S.optional(__S(453, __c14, 5)),
           message: S.optional(S.NullOr(S.String)),
           status: S.optional(S.NullOr(S.String)),
         }),
@@ -933,14 +1196,46 @@ function __c1(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(S.NullOr(__S(35, __c1, 3))),
+          data: S.optional(S.NullOr(__S(227, __c7, 3))),
           httpStatusCode: S.optional(S.Number),
           traceId: S.optional(S.String),
         }),
       ).annotate({ identifier: "QueryISPMetricsResponse" });
   }
 }
-function __c2(j: number): any {
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+          path: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "DELETE", uri: "/v1/connector/consoles/{id}/{path+}", code: 200 }),
+        ),
+      ).annotate({ identifier: "DeleteConnectorRequest" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
+        identifier: "DeleteConnectorResponse",
+      });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+          path: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/connector/consoles/{id}/{path+}", code: 200 })),
+      ).annotate({ identifier: "GetConnectorRequest" });
+  }
+}
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -951,14 +1246,14 @@ function __c2(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(96, __c3, 0)),
+          data: S.optional(__S(384, __c12, 0)),
           httpStatusCode: S.optional(S.Number),
           traceId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetHostResponse" });
   }
 }
-function __c3(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -978,7 +1273,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "GetHostResponseData" });
   }
 }
-function __c4(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -992,14 +1287,14 @@ function __c4(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(165, __c5, 5)),
+          data: S.optional(__S(453, __c14, 5)),
           httpStatusCode: S.optional(S.Number),
           traceId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetISPMetricsResponse" });
   }
 }
-function __c5(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1018,33 +1313,33 @@ function __c5(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          wan: S.optional(__S(160, __c5, 0)),
+          wan: S.optional(__S(448, __c14, 0)),
         }),
       ).annotate({ identifier: "GetISPMetricsResponseDataItemPeriodsItemData" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(161, __c5, 1)),
+          data: S.optional(__S(449, __c14, 1)),
           metricTime: S.optional(S.String),
           version: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetISPMetricsResponseDataItemPeriodsItem" });
     case 3:
-      return S.Array(/*@__PURE__*/ S.NullOr(__S(162, __c5, 2)));
+      return S.Array(/*@__PURE__*/ S.NullOr(__S(450, __c14, 2)));
     case 4:
       return S.suspend(() =>
         S.Struct({
           metricType: S.optional(S.String),
-          periods: S.optional(__S(163, __c5, 3)),
+          periods: S.optional(__S(451, __c14, 3)),
           hostId: S.optional(S.String),
           siteId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetISPMetricsResponseDataItem" });
     case 5:
-      return S.Array(/*@__PURE__*/ S.NullOr(__S(164, __c5, 4)));
+      return S.Array(/*@__PURE__*/ S.NullOr(__S(452, __c14, 4)));
   }
 }
-function __c6(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1068,7 +1363,7 @@ function __c6(j: number): any {
           spokesAutoScaleAndNatRange: S.optional(S.NullOr(S.String)),
           spokesIsolate: S.optional(S.Boolean),
           spokeStandardSettingsEnabled: S.optional(S.Boolean),
-          spokeStandardSettingsValues: S.optional(S.NullOr(__S(193, __c6, 1))),
+          spokeStandardSettingsValues: S.optional(S.NullOr(__S(481, __c15, 1))),
           spokeToHubRouting: S.optional(S.NullOr(S.Unknown)),
         }),
       ).annotate({ identifier: "GetSDWanConfigResponseDataSettings" });
@@ -1078,29 +1373,29 @@ function __c6(j: number): any {
           id: S.optional(S.String),
           hostId: S.optional(S.String),
           siteId: S.optional(S.String),
-          networkIds: S.optional(__S(224, __c7, 0)),
-          routes: S.optional(__S(224, __c7, 0)),
+          networkIds: S.optional(__S(512, __c16, 0)),
+          routes: S.optional(__S(512, __c16, 0)),
           primaryWan: S.optional(S.String),
           wanFailover: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "GetSDWanConfigResponseDataHubsItem" });
     case 4:
-      return S.Array(__S(195, __c6, 3));
+      return S.Array(__S(483, __c15, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           hostId: S.optional(S.String),
           siteId: S.optional(S.String),
-          networkIds: S.optional(__S(224, __c7, 0)),
-          routes: S.optional(__S(224, __c7, 0)),
+          networkIds: S.optional(__S(512, __c16, 0)),
+          routes: S.optional(__S(512, __c16, 0)),
           primaryWan: S.optional(S.String),
           wanFailover: S.optional(S.Boolean),
-          hubsPriority: S.optional(__S(224, __c7, 0)),
+          hubsPriority: S.optional(__S(512, __c16, 0)),
         }),
       ).annotate({ identifier: "GetSDWanConfigResponseDataSpokesItem" });
     case 6:
-      return S.Array(__S(197, __c6, 5));
+      return S.Array(__S(485, __c15, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -1108,28 +1403,28 @@ function __c6(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.Unknown),
           variant: S.optional(S.Unknown),
-          settings: S.optional(__S(194, __c6, 2)),
-          hubs: S.optional(__S(196, __c6, 4)),
-          spokes: S.optional(__S(198, __c6, 6)),
+          settings: S.optional(__S(482, __c15, 2)),
+          hubs: S.optional(__S(484, __c15, 4)),
+          spokes: S.optional(__S(486, __c15, 6)),
         }),
       ).annotate({ identifier: "GetSDWanConfigResponseData" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(S.NullOr(__S(199, __c6, 7))),
+          data: S.optional(S.NullOr(__S(487, __c15, 7))),
           httpStatusCode: S.optional(S.Number),
           traceId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetSDWanConfigResponse" });
   }
 }
-function __c7(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c8(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1140,13 +1435,13 @@ function __c8(j: number): any {
     case 1:
       return S.Record(S.String, S.Unknown);
     case 2:
-      return S.Array(__S(257, __c8, 1));
+      return S.Array(__S(545, __c17, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           ip: S.optional(S.String),
           latency: S.optional(S.NullOr(S.Number)),
-          internetIssues: S.optional(__S(258, __c8, 2)),
+          internetIssues: S.optional(__S(546, __c17, 2)),
           wanId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetSDWanConfigStatusResponseDataHubsItemPrimaryWanStatus" });
@@ -1155,22 +1450,22 @@ function __c8(j: number): any {
         S.Struct({
           networkId: S.optional(S.String),
           name: S.optional(S.String),
-          errors: S.optional(__S(258, __c8, 2)),
-          warnings: S.optional(__S(258, __c8, 2)),
+          errors: S.optional(__S(546, __c17, 2)),
+          warnings: S.optional(__S(546, __c17, 2)),
         }),
       ).annotate({ identifier: "GetSDWanConfigStatusResponseDataHubsItemNetworksItem" });
     case 5:
-      return S.Array(__S(260, __c8, 4));
+      return S.Array(__S(548, __c17, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           routeValue: S.optional(S.String),
-          errors: S.optional(__S(258, __c8, 2)),
-          warnings: S.optional(__S(258, __c8, 2)),
+          errors: S.optional(__S(546, __c17, 2)),
+          warnings: S.optional(__S(546, __c17, 2)),
         }),
       ).annotate({ identifier: "GetSDWanConfigStatusResponseDataHubsItemRoutesItem" });
     case 7:
-      return S.Array(__S(262, __c8, 6));
+      return S.Array(__S(550, __c17, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -1178,18 +1473,18 @@ function __c8(j: number): any {
           hostId: S.optional(S.String),
           siteId: S.optional(S.String),
           name: S.optional(S.String),
-          primaryWanStatus: S.optional(__S(259, __c8, 3)),
-          secondaryWanStatus: S.optional(__S(259, __c8, 3)),
-          errors: S.optional(__S(258, __c8, 2)),
-          warnings: S.optional(__S(258, __c8, 2)),
+          primaryWanStatus: S.optional(__S(547, __c17, 3)),
+          secondaryWanStatus: S.optional(__S(547, __c17, 3)),
+          errors: S.optional(__S(546, __c17, 2)),
+          warnings: S.optional(__S(546, __c17, 2)),
           numberOfTunnelsUsedByOtherFeatures: S.optional(S.Number),
-          networks: S.optional(__S(261, __c8, 5)),
-          routes: S.optional(__S(263, __c8, 7)),
+          networks: S.optional(__S(549, __c17, 5)),
+          routes: S.optional(__S(551, __c17, 7)),
           applyStatus: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "GetSDWanConfigStatusResponseDataHubsItem" });
     case 9:
-      return S.Array(__S(264, __c8, 8));
+      return S.Array(__S(552, __c17, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
@@ -1201,16 +1496,16 @@ function __c8(j: number): any {
         identifier: "GetSDWanConfigStatusResponseDataSpokesItemConnectionsItemTunnelsItem",
       });
     case 11:
-      return S.Array(__S(266, __c8, 10));
+      return S.Array(__S(554, __c17, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
           hubId: S.optional(S.String),
-          tunnels: S.optional(__S(267, __c8, 11)),
+          tunnels: S.optional(__S(555, __c17, 11)),
         }),
       ).annotate({ identifier: "GetSDWanConfigStatusResponseDataSpokesItemConnectionsItem" });
     case 13:
-      return S.Array(__S(268, __c8, 12));
+      return S.Array(__S(556, __c17, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
@@ -1218,49 +1513,49 @@ function __c8(j: number): any {
           hostId: S.optional(S.String),
           siteId: S.optional(S.String),
           name: S.optional(S.String),
-          primaryWanStatus: S.optional(__S(259, __c8, 3)),
-          secondaryWanStatus: S.optional(__S(259, __c8, 3)),
-          errors: S.optional(__S(258, __c8, 2)),
-          warnings: S.optional(__S(258, __c8, 2)),
+          primaryWanStatus: S.optional(__S(547, __c17, 3)),
+          secondaryWanStatus: S.optional(__S(547, __c17, 3)),
+          errors: S.optional(__S(546, __c17, 2)),
+          warnings: S.optional(__S(546, __c17, 2)),
           numberOfTunnelsUsedByOtherFeatures: S.optional(S.Number),
-          networks: S.optional(__S(261, __c8, 5)),
-          routes: S.optional(__S(263, __c8, 7)),
-          connections: S.optional(__S(269, __c8, 13)),
+          networks: S.optional(__S(549, __c17, 5)),
+          routes: S.optional(__S(551, __c17, 7)),
+          connections: S.optional(__S(557, __c17, 13)),
           applyStatus: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "GetSDWanConfigStatusResponseDataSpokesItem" });
     case 15:
-      return S.Array(__S(270, __c8, 14));
+      return S.Array(__S(558, __c17, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           fingerprint: S.optional(S.String),
           updatedAt: S.optional(S.Number),
-          hubs: S.optional(__S(265, __c8, 9)),
-          spokes: S.optional(__S(271, __c8, 15)),
+          hubs: S.optional(__S(553, __c17, 9)),
+          spokes: S.optional(__S(559, __c17, 15)),
           lastGeneratedAt: S.optional(S.Number),
           generateStatus: S.optional(S.Unknown),
-          errors: S.optional(__S(258, __c8, 2)),
-          warnings: S.optional(__S(258, __c8, 2)),
+          errors: S.optional(__S(546, __c17, 2)),
+          warnings: S.optional(__S(546, __c17, 2)),
         }),
       ).annotate({ identifier: "GetSDWanConfigStatusResponseData" });
     case 17:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(S.NullOr(__S(272, __c8, 16))),
+          data: S.optional(S.NullOr(__S(560, __c17, 16))),
           httpStatusCode: S.optional(S.Number),
           traceId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetSDWanConfigStatusResponse" });
   }
 }
-function __c9(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          hostIds__: S.optional(__S(224, __c7, 0).pipe(T.Query("hostIds[]"))),
+          hostIds__: S.optional(__S(512, __c16, 0).pipe(T.Query("hostIds[]"))),
           time: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.String.pipe(T.Query())),
           nextToken: S.optional(S.String.pipe(T.Query())),
@@ -1289,111 +1584,28 @@ function __c9(j: number): any {
         }),
       ).annotate({ identifier: "ListDevicesResponseDataItemDevicesItem" });
     case 2:
-      return S.Array(/*@__PURE__*/ S.NullOr(__S(289, __c9, 1)));
+      return S.Array(/*@__PURE__*/ S.NullOr(__S(577, __c18, 1)));
     case 3:
       return S.suspend(() =>
         S.Struct({
           hostId: S.optional(S.String),
           hostName: S.optional(S.String),
-          devices: S.optional(__S(290, __c9, 2)),
+          devices: S.optional(__S(578, __c18, 2)),
           updatedAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListDevicesResponseDataItem" });
     case 4:
-      return S.Array(/*@__PURE__*/ S.NullOr(__S(291, __c9, 3)));
+      return S.Array(/*@__PURE__*/ S.NullOr(__S(579, __c18, 3)));
     case 5:
       return S.suspend(() =>
         S.Struct({
           code: S.optional(S.Unknown),
-          data: __S(292, __c9, 4),
+          data: __S(580, __c18, 4),
           httpStatusCode: S.optional(S.Number),
           traceId: S.optional(S.String),
           nextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListDevicesResponse" });
-  }
-}
-function __c10(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          pageSize: S.optional(S.String.pipe(T.Query())),
-          nextToken: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/v1/hosts", code: 200 })),
-      ).annotate({ identifier: "ListHostsRequest" });
-    case 1:
-      return S.Array(__S(96, __c3, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          code: S.optional(S.Unknown),
-          data: __S(321, __c10, 1),
-          httpStatusCode: S.optional(S.Number),
-          traceId: S.optional(S.String),
-          nextToken: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ListHostsResponse" });
-  }
-}
-function __c11(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/sd-wan-configs", code: 200 })),
-      ).annotate({ identifier: "ListSDWanConfigsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          type: S.optional(S.Unknown),
-        }),
-      ).annotate({ identifier: "ListSDWanConfigsResponseDataItem" });
-    case 2:
-      return S.Array(__S(353, __c11, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          data: S.optional(__S(354, __c11, 2)),
-          httpStatusCode: S.optional(S.Number),
-          traceId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ListSDWanConfigsResponse" });
-  }
-}
-function __c12(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          pageSize: S.optional(S.String.pipe(T.Query())),
-          nextToken: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/v1/sites", code: 200 })),
-      ).annotate({ identifier: "ListSitesRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          siteId: S.optional(S.String),
-          hostId: S.optional(S.String),
-          meta: S.optional(S.Unknown),
-          statistics: S.optional(S.Unknown),
-          permission: S.optional(S.String),
-          isOwner: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "ListSitesResponseDataItem" });
-    case 2:
-      return S.Array(/*@__PURE__*/ S.NullOr(__S(385, __c12, 1)));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          code: S.optional(S.Unknown),
-          data: __S(386, __c12, 2),
-          httpStatusCode: S.optional(S.Number),
-          traceId: S.optional(S.String),
-          nextToken: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ListSitesResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

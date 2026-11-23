@@ -1,0 +1,187 @@
+{
+  "description": "Make the five `/v1/connector/consoles/{id}/*path` operations (ConnectorGet/Post/Put/Patch/Delete) callable. The route ends in `*path`, a wildcard that is not an OpenAPI path template, so the converter drops the required `path` parameter and the call would send the literal `*path`. The route becomes the greedy label `{path+}` (core keeps the `/` between its segments, as S3 does for `{Key+}`) and `path` becomes a required label member. The connector passes the console's response through as it is (\"the upstream API response is passed through directly\"), and console APIs answer with arrays too (Protect `GET /v1/cameras` returns an array), so the request and response bodies become any JSON value in place of an object. Source: the route, its `path` parameter (`in: path`, `required`, example `/proxy/network/integration/v1/sites`) and its description in the published Site Manager 1.0.0 OpenAPI document; the array response in the published Protect 7.4.102 OpenAPI document.",
+  "patches": [
+    {
+      "op": "test",
+      "path": "/shapes/com.ui.sitemanager#ConnectorGet/traits/smithy.api#http/uri",
+      "value": "/v1/connector/consoles/{id}/*path"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.ui.sitemanager#ConnectorGet/traits/smithy.api#http/uri",
+      "value": "/v1/connector/consoles/{id}/{path+}"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.ui.sitemanager#ConnectorGetRequest/members/path",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpLabel": {},
+          "smithy.api#required": {},
+          "smithy.api#documentation": "Path of the console API to call, from the console's `/proxy/` root. Example: `proxy/network/integration/v1/sites`. It may span several segments."
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.ui.sitemanager#ConnectorGetResponse/members/body/target",
+      "value": "smithy.api#Document"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.ui.sitemanager#ConnectorGetResponseBodyMap"
+    },
+    {
+      "op": "test",
+      "path": "/shapes/com.ui.sitemanager#ConnectorPost/traits/smithy.api#http/uri",
+      "value": "/v1/connector/consoles/{id}/*path"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.ui.sitemanager#ConnectorPost/traits/smithy.api#http/uri",
+      "value": "/v1/connector/consoles/{id}/{path+}"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.ui.sitemanager#ConnectorPostRequest/members/path",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpLabel": {},
+          "smithy.api#required": {},
+          "smithy.api#documentation": "Path of the console API to call, from the console's `/proxy/` root. Example: `proxy/network/integration/v1/sites`. It may span several segments."
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.ui.sitemanager#ConnectorPostResponse/members/body/target",
+      "value": "smithy.api#Document"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.ui.sitemanager#ConnectorPostResponseBodyMap"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.ui.sitemanager#ConnectorPostRequest/members/body/target",
+      "value": "smithy.api#Document"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.ui.sitemanager#ConnectorPostRequestBodyMap"
+    },
+    {
+      "op": "test",
+      "path": "/shapes/com.ui.sitemanager#ConnectorPut/traits/smithy.api#http/uri",
+      "value": "/v1/connector/consoles/{id}/*path"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.ui.sitemanager#ConnectorPut/traits/smithy.api#http/uri",
+      "value": "/v1/connector/consoles/{id}/{path+}"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.ui.sitemanager#ConnectorPutRequest/members/path",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpLabel": {},
+          "smithy.api#required": {},
+          "smithy.api#documentation": "Path of the console API to call, from the console's `/proxy/` root. Example: `proxy/network/integration/v1/sites`. It may span several segments."
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.ui.sitemanager#ConnectorPutResponse/members/body/target",
+      "value": "smithy.api#Document"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.ui.sitemanager#ConnectorPutResponseBodyMap"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.ui.sitemanager#ConnectorPutRequest/members/body/target",
+      "value": "smithy.api#Document"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.ui.sitemanager#ConnectorPutRequestBodyMap"
+    },
+    {
+      "op": "test",
+      "path": "/shapes/com.ui.sitemanager#ConnectorPatch/traits/smithy.api#http/uri",
+      "value": "/v1/connector/consoles/{id}/*path"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.ui.sitemanager#ConnectorPatch/traits/smithy.api#http/uri",
+      "value": "/v1/connector/consoles/{id}/{path+}"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.ui.sitemanager#ConnectorPatchRequest/members/path",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpLabel": {},
+          "smithy.api#required": {},
+          "smithy.api#documentation": "Path of the console API to call, from the console's `/proxy/` root. Example: `proxy/network/integration/v1/sites`. It may span several segments."
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.ui.sitemanager#ConnectorPatchResponse/members/body/target",
+      "value": "smithy.api#Document"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.ui.sitemanager#ConnectorPatchResponseBodyMap"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.ui.sitemanager#ConnectorPatchRequest/members/body/target",
+      "value": "smithy.api#Document"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.ui.sitemanager#ConnectorPatchRequestBodyMap"
+    },
+    {
+      "op": "test",
+      "path": "/shapes/com.ui.sitemanager#ConnectorDelete/traits/smithy.api#http/uri",
+      "value": "/v1/connector/consoles/{id}/*path"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.ui.sitemanager#ConnectorDelete/traits/smithy.api#http/uri",
+      "value": "/v1/connector/consoles/{id}/{path+}"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.ui.sitemanager#ConnectorDeleteRequest/members/path",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpLabel": {},
+          "smithy.api#required": {},
+          "smithy.api#documentation": "Path of the console API to call, from the console's `/proxy/` root. Example: `proxy/network/integration/v1/sites`. It may span several segments."
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.ui.sitemanager#ConnectorDeleteResponse/members/body/target",
+      "value": "smithy.api#Document"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.ui.sitemanager#ConnectorDeleteResponseBodyMap"
+    }
+  ]
+}
